@@ -184,7 +184,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         StudentAttributes.updateOptionsBuilder(null, s.email)
                                 .withName("new-name")
                                 .build()));
-        assertEquals(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, ae.getMessage());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
 
         ______TS("null email case");
         ae = assertThrows(AssertionError.class,
@@ -192,7 +192,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         StudentAttributes.updateOptionsBuilder(s.course, null)
                                 .withName("new-name")
                                 .build()));
-        assertEquals(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, ae.getMessage());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
 
         ______TS("duplicate email case");
         StudentAttributes duplicate = createNewStudent();

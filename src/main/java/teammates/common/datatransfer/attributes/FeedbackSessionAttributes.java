@@ -13,7 +13,6 @@ import java.util.Set;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
@@ -836,8 +835,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<EmailChange> updatingInstructorRespondentOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackSessionName, String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackSessionName);
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
 
             this.feedbackSessionName = feedbackSessionName;
             this.courseId = courseId;
@@ -907,62 +906,62 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             private UpdateOptions updateOptions;
 
             private Builder(UpdateOptions updateOptions) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, updateOptions);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, updateOptions);
 
                 this.updateOptions = updateOptions;
             }
 
             private Builder(String feedbackSessionName, String courseId) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackSessionName);
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
 
                 updateOptions = new UpdateOptions(feedbackSessionName, courseId);
             }
 
             public Builder withInstructions(String instruction) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, instruction);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instruction);
 
                 updateOptions.instructionsOption = UpdateOption.of(instruction);
                 return this;
             }
 
             public Builder withStartTime(Instant startTime) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, startTime);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, startTime);
 
                 updateOptions.startTimeOption = UpdateOption.of(startTime);
                 return this;
             }
 
             public Builder withEndTime(Instant gender) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, gender);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gender);
 
                 updateOptions.endTimeOption = UpdateOption.of(gender);
                 return this;
             }
 
             public Builder withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, sessionVisibleFromTime);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, sessionVisibleFromTime);
 
                 updateOptions.sessionVisibleFromTimeOption = UpdateOption.of(sessionVisibleFromTime);
                 return this;
             }
 
             public Builder withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, resultsVisibleFromTime);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, resultsVisibleFromTime);
 
                 updateOptions.resultsVisibleFromTimeOption = UpdateOption.of(resultsVisibleFromTime);
                 return this;
             }
 
             public Builder withTimeZone(ZoneId timeZone) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, timeZone);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, timeZone);
 
                 updateOptions.timeZoneOption = UpdateOption.of(timeZone);
                 return this;
             }
 
             public Builder withGracePeriod(Duration gracePeriod) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, gracePeriod);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gracePeriod);
 
                 updateOptions.gracePeriodOption = UpdateOption.of(gracePeriod);
                 return this;
@@ -999,44 +998,44 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             }
 
             public Builder withAddingStudentRespondent(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.addingStudentRespondentOption = UpdateOption.of(email);
                 return this;
             }
 
             public Builder withRemovingStudentRespondent(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.removingStudentRespondentOption = UpdateOption.of(email);
                 return this;
             }
 
             public Builder withAddingInstructorRespondent(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.addingInstructorRespondentOption = UpdateOption.of(email);
                 return this;
             }
 
             public Builder withRemovingInstructorRespondent(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.removingInstructorRespondentOption = UpdateOption.of(email);
                 return this;
             }
 
             public Builder withUpdatingStudentRespondent(String oldEmail, String newEmail) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, oldEmail);
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, newEmail);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, oldEmail);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newEmail);
 
                 updateOptions.updatingStudentRespondentOption = UpdateOption.of(new EmailChange(oldEmail, newEmail));
                 return this;
             }
 
             public Builder withUpdatingInstructorRespondent(String oldEmail, String newEmail) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, oldEmail);
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, newEmail);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, oldEmail);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newEmail);
 
                 updateOptions.updatingInstructorRespondentOption = UpdateOption.of(new EmailChange(oldEmail, newEmail));
                 return this;

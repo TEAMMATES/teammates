@@ -221,7 +221,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         private UpdateOption<FeedbackResponseDetails> responseDetailsUpdateOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackResponseId) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackResponseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseId);
 
             this.feedbackResponseId = feedbackResponseId;
         }
@@ -253,35 +253,35 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             }
 
             public Builder withGiver(String giver) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giver);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giver);
 
                 updateOptions.giverOption = UpdateOption.of(giver);
                 return this;
             }
 
             public Builder withGiverSection(String giverSection) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giverSection);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverSection);
 
                 updateOptions.giverSectionOption = UpdateOption.of(giverSection);
                 return this;
             }
 
             public Builder withRecipient(String recipient) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, recipient);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipient);
 
                 updateOptions.recipientOption = UpdateOption.of(recipient);
                 return this;
             }
 
             public Builder withRecipientSection(String recipientSection) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, recipientSection);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipientSection);
 
                 updateOptions.recipientSectionOption = UpdateOption.of(recipientSection);
                 return this;
             }
 
             public Builder withResponseDetails(FeedbackResponseDetails responseDetails) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, responseDetails);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, responseDetails);
 
                 updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails);
                 return this;

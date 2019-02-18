@@ -200,7 +200,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         private UpdateOption<Boolean> isInstructorOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, googleId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
 
             this.googleId = googleId;
         }

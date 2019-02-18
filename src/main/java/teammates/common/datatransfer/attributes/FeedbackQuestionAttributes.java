@@ -756,7 +756,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         private UpdateOption<List<FeedbackParticipantType>> showRecipientNameToOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackQuestionId) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackQuestionId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackQuestionId);
 
             this.feedbackQuestionId = feedbackQuestionId;
         }
@@ -793,7 +793,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withQuestionDetails(
                     FeedbackQuestionDetails questionDetails) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, questionDetails);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, questionDetails);
 
                 updateOptions.questionDetailsOption = UpdateOption.of(questionDetails);
                 return this;
@@ -801,6 +801,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withQuestionDescription(String questionDescription) {
                 // questionDescription can be null
+                
                 updateOptions.questionDescriptionOption = UpdateOption.of(questionDescription);
                 return this;
             }
@@ -811,7 +812,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             }
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withGiverType(FeedbackParticipantType giverType) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giverType);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverType);
 
                 updateOptions.giverTypeOption = UpdateOption.of(giverType);
                 return this;
@@ -819,7 +820,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withRecipientType(
                     FeedbackParticipantType recipientType) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, recipientType);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipientType);
 
                 updateOptions.recipientTypeOption = UpdateOption.of(recipientType);
                 return this;
@@ -833,8 +834,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withShowResponsesTo(
                     List<FeedbackParticipantType> showResponsesTo) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showResponsesTo);
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, (Object[]) showResponsesTo.toArray());
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showResponsesTo);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, (Object[]) showResponsesTo.toArray());
 
                 updateOptions.showResponsesToOption = UpdateOption.of(new ArrayList<>(showResponsesTo));
                 return this;
@@ -842,8 +843,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withShowGiveNameTo(
                     List<FeedbackParticipantType> showGiveNameTo) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showGiveNameTo);
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, (Object[]) showGiveNameTo.toArray());
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showGiveNameTo);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, (Object[]) showGiveNameTo.toArray());
 
                 updateOptions.showGiverNameToOption = UpdateOption.of(new ArrayList<>(showGiveNameTo));
                 return this;
@@ -851,9 +852,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withShowRecipientNameTo(
                     List<FeedbackParticipantType> showRecipientNameTo) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showRecipientNameTo);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showRecipientNameTo);
                 Assumption.assertNotNull(
-                        Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, (Object[]) showRecipientNameTo.toArray());
+                        Const.StatusCodes.NULL_PARAMETER, (Object[]) showRecipientNameTo.toArray());
 
                 updateOptions.showRecipientNameToOption = UpdateOption.of(new ArrayList<>(showRecipientNameTo));
                 return this;

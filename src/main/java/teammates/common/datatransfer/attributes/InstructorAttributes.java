@@ -357,8 +357,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         private UpdateOptionsWithEmail(String courseId, String email) {
             super();
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
             this.courseId = courseId;
             this.email = email;
@@ -384,8 +384,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         public static class Builder extends UpdateOptions.Builder<UpdateOptionsWithEmail, UpdateOptionsWithEmail.Builder> {
 
             private Builder(String courseId, String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions = new UpdateOptionsWithEmail(courseId, email);
                 thisBuilder = this;
@@ -412,8 +412,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         private UpdateOptionsWithGoogleId(String courseId, String googleId) {
             super();
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, googleId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
 
             this.courseId = courseId;
             this.googleId = googleId;
@@ -447,7 +447,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             }
 
             public Builder withEmail(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.emailOption = UpdateOption.of(email);
                 return this;
@@ -487,28 +487,28 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             protected B thisBuilder;
 
             public B withName(String name) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, name);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
 
                 updateOptions.nameOption = UpdateOption.of(name);
                 return thisBuilder;
             }
 
             public B withRole(String role) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, role);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, role);
 
                 updateOptions.roleOption = UpdateOption.of(role);
                 return thisBuilder;
             }
 
             public B withDisplayedName(String displayedName) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, displayedName);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, displayedName);
 
                 updateOptions.displayedNameOption = UpdateOption.of(displayedName);
                 return thisBuilder;
             }
 
             public B withPrivileges(InstructorPrivileges instructorPrivileges) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, instructorPrivileges);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instructorPrivileges);
 
                 updateOptions.instructorPrivilegesOption = UpdateOption.of(instructorPrivileges);
                 return thisBuilder;

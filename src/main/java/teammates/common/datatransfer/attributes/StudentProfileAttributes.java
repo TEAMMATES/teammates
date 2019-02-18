@@ -260,7 +260,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         private UpdateOption<String> pictureKeyOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, googleId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
 
             this.googleId = googleId;
         }
@@ -293,49 +293,49 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             }
 
             public Builder withShortName(String shortName) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, shortName);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, shortName);
 
                 updateOptions.shortNameOption = UpdateOption.of(shortName);
                 return this;
             }
 
             public Builder withEmail(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.emailOption = UpdateOption.of(email);
                 return this;
             }
 
             public Builder withInstitute(String institute) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, institute);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, institute);
 
                 updateOptions.instituteOption = UpdateOption.of(institute);
                 return this;
             }
 
             public Builder withNationality(String nationality) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, nationality);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, nationality);
 
                 updateOptions.nationalityOption = UpdateOption.of(nationality);
                 return this;
             }
 
             public Builder withGender(Gender gender) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, gender);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gender);
 
                 updateOptions.genderOption = UpdateOption.of(gender);
                 return this;
             }
 
             public Builder withMoreInfo(String moreInfo) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, moreInfo);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, moreInfo);
 
                 updateOptions.moreInfoOption = UpdateOption.of(moreInfo);
                 return this;
             }
 
             public Builder withPictureKey(String pictureKey) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, pictureKey);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, pictureKey);
 
                 updateOptions.pictureKeyOption = UpdateOption.of(pictureKey);
                 return this;

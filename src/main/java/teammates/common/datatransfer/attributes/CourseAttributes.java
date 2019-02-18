@@ -10,7 +10,6 @@ import java.util.List;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Course;
@@ -228,7 +227,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
 
             this.courseId = courseId;
         }
@@ -258,14 +257,14 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             }
 
             public Builder withName(String name) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, name);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
 
                 updateOptions.nameOption = UpdateOption.of(name);
                 return this;
             }
 
             public Builder withTimezone(ZoneId timezone) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, timezone);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, timezone);
 
                 updateOptions.timeZoneOption = UpdateOption.of(timezone);
                 return this;

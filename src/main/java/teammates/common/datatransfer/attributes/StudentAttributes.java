@@ -12,7 +12,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
@@ -448,8 +447,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         private UpdateOption<String> sectionNameOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String email) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
             this.courseId = courseId;
             this.email = email;
@@ -489,28 +488,28 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             }
 
             public Builder withNewEmail(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.newEmailOption = UpdateOption.of(email);
                 return this;
             }
 
             public Builder withName(String name) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, name);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
 
                 updateOptions.nameOption = UpdateOption.of(name);
                 return this;
             }
 
             public Builder withLastName(String name) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, name);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
 
                 updateOptions.lastNameOption = UpdateOption.of(name);
                 return this;
             }
 
             public Builder withComment(String comment) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, comment);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, comment);
 
                 updateOptions.commentOption = UpdateOption.of(comment);
                 return this;
@@ -523,14 +522,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             }
 
             public Builder withTeamName(String teamName) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, teamName);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, teamName);
 
                 updateOptions.teamNameOption = UpdateOption.of(teamName);
                 return this;
             }
 
             public Builder withSectionName(String sectionName) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, sectionName);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, sectionName);
 
                 updateOptions.sectionNameOption = UpdateOption.of(sectionName);
                 return this;

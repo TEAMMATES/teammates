@@ -14,7 +14,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -363,7 +362,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         private UpdateOption<String> receiverSectionOption = UpdateOption.empty();
 
         private UpdateOptions(long feedbackResponseCommentId) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackResponseCommentId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseCommentId);
 
             this.feedbackResponseCommentId = feedbackResponseCommentId;
         }
@@ -397,56 +396,56 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             }
 
             public Builder withFeedbackResponseId(String feedbackResponseId) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackResponseId);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseId);
 
                 updateOptions.feedbackResponseIdOption = UpdateOption.of(feedbackResponseId);
                 return this;
             }
 
             public Builder withCommentText(String commentText) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, commentText);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, commentText);
 
                 updateOptions.commentTextOption = UpdateOption.of(commentText);
                 return this;
             }
 
             public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showCommentTo);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showCommentTo);
 
                 updateOptions.showCommentToOption = UpdateOption.of(showCommentTo);
                 return this;
             }
 
             public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showGiverNameTo);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showGiverNameTo);
 
                 updateOptions.showGiverNameToOption = UpdateOption.of(showGiverNameTo);
                 return this;
             }
 
             public Builder withLastEditorEmail(String lastEditorEmail) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, lastEditorEmail);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, lastEditorEmail);
 
                 updateOptions.lastEditorEmailOption = UpdateOption.of(lastEditorEmail);
                 return this;
             }
 
             public Builder withLastEditorAt(Instant lastEditedAt) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, lastEditedAt);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, lastEditedAt);
 
                 updateOptions.lastEditedAtOption = UpdateOption.of(lastEditedAt);
                 return this;
             }
 
             public Builder withGiverSection(String giverSection) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giverSection);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverSection);
 
                 updateOptions.giverSectionOption = UpdateOption.of(giverSection);
                 return this;
             }
 
             public Builder withReceiverSection(String receiverSection) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, receiverSection);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, receiverSection);
 
                 updateOptions.receiverSectionOption = UpdateOption.of(receiverSection);
                 return this;
