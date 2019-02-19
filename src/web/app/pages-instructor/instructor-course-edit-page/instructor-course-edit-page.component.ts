@@ -12,6 +12,7 @@ import { CourseEditFormModel } from './course-edit-form/course-edit-form-model';
 import {
   DefaultPrivileges, Privileges, SectionLevelPrivileges, SessionLevelPrivileges,
 } from './instructor-privileges-model';
+import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
 
 interface Course {
@@ -1060,35 +1061,25 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Opens a modal to confirm resending an invitation email to an instructor.
    */
-  onSubmitResendEmail(resendEmailModal: NgbModal, index: number): void {
-    this.modalService.open(resendEmailModal);
+  resendReminderHandler(index: number): void {
+    const modalRef: NgbModalRef = this.modalService.open(ResendReminderModalComponent);
 
     const instructorToResend: InstructorAttributes = this.instructorList[index];
-    const modalId: string = 'resend-email-modal';
-    const courseId: string = this.courseEditFormModel.courseId;
+    modalRef.componentInstance.instructorname = instructorToResend.name;
+    modalRef.componentInstance.courseId = this.courseEditFormModel.courseId;
 
-    const modal: (HTMLElement | null) = document.getElementById(modalId);
-    if (modal != null) {
-      modal.innerText = `Do you wish to re-send the invitation email to instructor ${instructorToResend.name} `
-          + `from course ${courseId}?`;
-    }
-  }
+    modalRef.result.then(() => {
+      const paramsMap: { [key: string]: string } = {
+        courseid: this.courseEditFormModel.courseId,
+        instructoremail: instructorToResend.email,
+      };
 
-  /**
-   * Re-sends an invitation email to an instructor in the course.
-   */
-  resendReminderEmail(index: number): void {
-    const instructorToResend: InstructorAttributes = this.instructorList[index];
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseEditFormModel.courseId,
-      instructoremail: instructorToResend.email,
-    };
-
-    this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+      this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
+          .subscribe((resp: MessageOutput) => {
+            this.statusMessageService.showSuccessMessage(resp.message);
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(resp.error.message);
+          });
+    });
   }
 }

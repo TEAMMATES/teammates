@@ -6,6 +6,7 @@ import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.mo
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { CourseEditFormModule } from './course-edit-form/course-edit-form.module';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
+import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
 
 /**
@@ -23,12 +24,14 @@ import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privi
   ],
   declarations: [
     InstructorCourseEditPageComponent,
+    ResendReminderModalComponent,
     ViewPrivilegesModalComponent,
   ],
   exports: [
     InstructorCourseEditPageComponent,
   ],
   entryComponents: [
+    ResendReminderModalComponent,
     ViewPrivilegesModalComponent,
   ],
 })
