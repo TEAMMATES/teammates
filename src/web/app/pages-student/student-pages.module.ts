@@ -18,6 +18,7 @@ import { StudentCourseDetailsPageComponent } from './student-course-details-page
 import { StudentHomePageComponent } from './student-home-page/student-home-page.component';
 import { StudentProfilePageComponent } from './student-profile-page/student-profile-page.component';
 
+import { TeammatesCommonModule } from '../components/teammates-common/teammates-common.module';
 import { Pipes } from '../pipes/pipes.module';
 import { GenderFormatPipe } from './student-profile-page/student-profile-gender.pipe';
 
@@ -82,6 +83,7 @@ const routes: Routes = [
     StudentHelpPageModule,
     SessionResultPageModule,
     SessionSubmissionPageModule,
+    TeammatesCommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
   ],
