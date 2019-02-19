@@ -1,4 +1,4 @@
-package teammates.common.util;
+package teammates.common.datatransfer;
 
 /**
  * Shows more information for different types of details for each section.

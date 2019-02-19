@@ -16,8 +16,10 @@ import java.time.zone.ZoneRulesProvider;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
 
-/** A helper class to hold time-related functions (e.g., converting dates to strings etc.).
- * Time zone is assumed as UTC unless specifically mentioned.
+/**
+ * A helper class to hold time-related functions (e.g., converting dates to strings etc.).
+ *
+ * <p>Time zone is assumed as UTC unless specifically mentioned.
  */
 public final class TimeHelper {
 

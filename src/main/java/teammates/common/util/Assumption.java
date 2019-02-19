@@ -124,6 +124,9 @@ public final class Assumption {
         }
     }
 
+    /**
+     * Asserts that the POST parameter is not null.
+     */
     // TODO remove this after all controller classes have been migrated
     // Reason 1: Not all HTTP requests are POST, but null parameters for any HTTP request are equally undesirable
     // Reason 2: This is applicable only at controller level

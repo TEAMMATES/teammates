@@ -92,7 +92,7 @@ public class PostCourseEnrollSaveAction extends Action {
     @SuppressWarnings("unchecked")
     private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
 
-        ArrayList<StudentAttributes>[] lists = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
+        List<StudentAttributes>[] lists = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
         for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
             lists[i] = new ArrayList<>();
         }

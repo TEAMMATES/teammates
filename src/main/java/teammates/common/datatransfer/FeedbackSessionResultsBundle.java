@@ -252,10 +252,10 @@ public class FeedbackSessionResultsBundle {
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                         Map<String, FeedbackQuestionAttributes> questions, CourseRoster roster) {
-        this(feedbackSession, new ArrayList<FeedbackResponseAttributes>(), questions, new HashMap<String, String>(),
-                new HashMap<String, String>(), new HashMap<String, String>(), new HashMap<String, Set<String>>(),
-                new HashMap<String, boolean[]>(), new FeedbackSessionResponseStatus(), roster,
-                new HashMap<String, List<FeedbackResponseCommentAttributes>>());
+        this(feedbackSession, new ArrayList<>(), questions, new HashMap<>(),
+                new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                new HashMap<>(), new FeedbackSessionResponseStatus(), roster,
+                new HashMap<>());
     }
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
@@ -1199,7 +1199,7 @@ public class FeedbackSessionResultsBundle {
         // sorts the questions by its natural ordering, which is by question number
         sortedQuestions.sort(null);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
-            sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
+            sortedMap.put(question, new ArrayList<>());
         }
 
         for (FeedbackResponseAttributes response : responses) {
@@ -1226,7 +1226,7 @@ public class FeedbackSessionResultsBundle {
         // sorts the questions by its natural ordering, which is by question number
         sortedQuestions.sort(null);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
-            sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
+            sortedMap.put(question, new ArrayList<>());
         }
 
         for (FeedbackResponseAttributes response : responses) {

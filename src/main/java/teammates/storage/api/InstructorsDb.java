@@ -53,12 +53,12 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     public void putDocuments(List<InstructorAttributes> instructorParams) {
         List<SearchDocument> instructorDocuments = new ArrayList<>();
         for (InstructorAttributes instructor : instructorParams) {
-            if (instructor.key == null) {
-                instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
-            }
+            InstructorAttributes inst = instructor.key == null
+                    ? getInstructorForEmail(instructor.courseId, instructor.email)
+                    : instructor;
             // defensive coding for legacy data
-            if (instructor.key != null) {
-                instructorDocuments.add(new InstructorSearchDocument(instructor));
+            if (inst.key != null) {
+                instructorDocuments.add(new InstructorSearchDocument(inst));
             }
         }
         putDocuments(Const.SearchIndex.INSTRUCTOR, instructorDocuments);
