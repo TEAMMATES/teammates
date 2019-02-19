@@ -37,11 +37,7 @@ public class SaveCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         CourseSaveRequest courseSaveRequest = getAndValidateRequestBody(CourseSaveRequest.class);
-
-        String courseName = courseSaveRequest.getCourseName();
         String courseTimeZone = courseSaveRequest.getTimeZone();
 
         FieldValidator validator = new FieldValidator();
@@ -50,8 +46,9 @@ public class SaveCourseAction extends Action {
             return new JsonResult(timeZoneErrorMessage, HttpStatus.SC_BAD_REQUEST);
         }
 
-        courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        courseName = getNonNullRequestParamValue(Const.ParamsNames.COURSE_NAME);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseName = courseSaveRequest.getCourseName();
+
         try {
             logic.updateCourseCascade(
                     CourseAttributes.updateOptionsBuilder(courseId)

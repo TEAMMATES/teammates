@@ -209,7 +209,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       return;
     }
     this.courseService.archiveCourse(courseId, {
-      archiveStatus: 'true',
+      archiveStatus: true,
     }).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
