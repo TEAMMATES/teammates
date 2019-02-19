@@ -573,15 +573,51 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testUpdateOptionsBuilder_withNullDescriptionInput_shouldUpdateAttributeCorrectly() {
+        FeedbackQuestionAttributes.UpdateOptions updateOptions =
+                FeedbackQuestionAttributes.updateOptionsBuilder("questionId")
+                        .withQuestionDescription(null)
+                        .build();
+
+        FeedbackQuestionAttributes questionAttributes =
+                FeedbackQuestionAttributes.builder()
+                        .withCourseId("courseId")
+                        .withFeedbackSessionName("session")
+                        .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                        .withRecipientType(FeedbackParticipantType.SELF)
+                        .withNumOfEntitiesToGiveFeedbackTo(3)
+                        .withQuestionNumber(1)
+                        .withQuestionType(FeedbackQuestionType.TEXT)
+                        .withQuestionMetaData(new FeedbackTextQuestionDetails("question text"))
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withShowRecipientNameTo(new ArrayList<>())
+                        .withShowResponseTo(new ArrayList<>())
+                        .build();
+
+        questionAttributes.update(updateOptions);
+
+        assertNull(questionAttributes.getQuestionDescription());
+        assertEquals("courseId", questionAttributes.getCourseId());
+        assertEquals("session", questionAttributes.getFeedbackSessionName());
+        assertEquals(FeedbackQuestionType.TEXT, questionAttributes.getQuestionType());
+        assertEquals("question text", questionAttributes.getQuestionDetails().getQuestionText());
+        assertEquals(1, questionAttributes.getQuestionNumber());
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, questionAttributes.getGiverType());
+        assertEquals(FeedbackParticipantType.SELF, questionAttributes.getRecipientType());
+        assertEquals(3, questionAttributes.getNumberOfEntitiesToGiveFeedbackTo());
+        assertEquals(Lists.newArrayList(), questionAttributes.getShowResponsesTo());
+        assertEquals(Lists.newArrayList(), questionAttributes.getShowGiverNameTo());
+        assertEquals(Lists.newArrayList(), questionAttributes.getShowRecipientNameTo());
+
+    }
+
+    @Test
     public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
         assertThrows(AssertionError.class, () ->
                 FeedbackQuestionAttributes.updateOptionsBuilder(null));
         assertThrows(AssertionError.class, () ->
                 FeedbackQuestionAttributes.updateOptionsBuilder("id")
                         .withQuestionDetails(null));
-        assertThrows(AssertionError.class, () ->
-                FeedbackQuestionAttributes.updateOptionsBuilder("id")
-                        .withQuestionDescription(null));
         assertThrows(AssertionError.class, () ->
                 FeedbackQuestionAttributes.updateOptionsBuilder("id")
                         .withGiverType(null));

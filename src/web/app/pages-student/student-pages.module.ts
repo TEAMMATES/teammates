@@ -19,8 +19,6 @@ import { StudentHomePageModule } from './student-home-page/student-home-page.mod
 import { StudentProfilePageComponent } from './student-profile-page/student-profile-page.component';
 import { StudentProfilePageModule } from './student-profile-page/student-profile-page.module';
 
-import { Pipes } from '../pipes/pipes.module';
-
 const routes: Routes = [
   {
     path: 'home',
@@ -77,7 +75,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PageNotFoundModule,
-    Pipes,
     StudentHomePageModule,
     StudentProfilePageModule,
     StudentCourseDetailsPageModule,
