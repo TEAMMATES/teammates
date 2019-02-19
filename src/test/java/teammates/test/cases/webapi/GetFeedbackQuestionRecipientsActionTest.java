@@ -1,7 +1,6 @@
 package teammates.test.cases.webapi;
 
 import org.apache.http.HttpStatus;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
