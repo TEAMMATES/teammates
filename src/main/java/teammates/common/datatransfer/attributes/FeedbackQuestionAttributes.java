@@ -628,10 +628,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     private static FeedbackQuestionDetails deserializeFeedbackTextQuestionDetails(String questionDetailsInJson) {
         try {
-            // Due to legacy data in the data store before
-            // `recommendedLength` attribute added to `FeedbackTextQuestionDetails`,
-            // there exists both `FeedbackTextQuestionDetails` with and without recommendedLength in data store,
-            // and the corresponding Json string could either be a Json or plain text.
+            // There are `FeedbackTextQuestion` with plain text, Json without `recommendedLength`, and complete Json
+            // in data store. Gson cannot parse the plain text case, so we need to handle it separately.
             return JsonUtils.fromJson(questionDetailsInJson, FeedbackQuestionType.TEXT.getQuestionDetailsClass());
         } catch (JsonParseException e) {
             return new FeedbackTextQuestionDetails(questionDetailsInJson);
