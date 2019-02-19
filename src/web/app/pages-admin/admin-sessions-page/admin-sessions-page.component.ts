@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
-import { SessionsService } from '../../../services/sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
@@ -46,7 +46,7 @@ export class AdminSessionsPageComponent implements OnInit {
 
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
-              private sessionsService: SessionsService,
+              private feedbackSessionsService: FeedbackSessionsService,
               private httpRequestService: HttpRequestService) {}
 
   ngOnInit(): void {
@@ -126,21 +126,22 @@ export class AdminSessionsPageComponent implements OnInit {
     this.endTimeString = endTime.format(displayFormat);
     this.timezoneString = this.timezone;
 
-    this.sessionsService.getOngoingSessions(startTime, endTime).subscribe((resp: OngoingSessions) => {
-      this.totalOngoingSessions = resp.totalOngoingSessions;
-      this.totalOpenSessions = resp.totalOpenSessions;
-      this.totalClosedSessions = resp.totalClosedSessions;
-      this.totalAwaitingSessions = resp.totalAwaitingSessions;
-      this.totalInstitutes = resp.totalInstitutes;
-      this.sessions = resp.sessions;
+    this.feedbackSessionsService.getOngoingSessions(startTime.toDate().getTime(), endTime.toDate().getTime())
+        .subscribe((resp: OngoingSessions) => {
+          this.totalOngoingSessions = resp.totalOngoingSessions;
+          this.totalOpenSessions = resp.totalOpenSessions;
+          this.totalClosedSessions = resp.totalClosedSessions;
+          this.totalAwaitingSessions = resp.totalAwaitingSessions;
+          this.totalInstitutes = resp.totalInstitutes;
+          this.sessions = resp.sessions;
 
-      this.institutionPanelsStatus = {};
-      for (const institution of Object.keys(resp.sessions)) {
-        this.institutionPanelsStatus[institution] = true;
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+          this.institutionPanelsStatus = {};
+          for (const institution of Object.keys(resp.sessions)) {
+            this.institutionPanelsStatus[institution] = true;
+          }
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
   /**
