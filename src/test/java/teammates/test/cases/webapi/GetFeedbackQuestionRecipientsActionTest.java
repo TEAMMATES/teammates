@@ -29,9 +29,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     private InstructorAttributes instructor1OfCourse2;
 
     @Override
-    @BeforeMethod
-    public void beforeTestMethodSetup() {
-        DataBundle testData = loadDataBundle("/FeedbackQuestionRecipientsTest.json");
+    public void prepareTestData() {
+        DataBundle testData = loadDataBundle("/GetFeedbackQuestionRecipientsActionTest.json");
         removeAndRestoreDataBundle(testData);
         firstSessionInCourse1 = testData.feedbackSessions.get("session1InCourse1");
         secondSessionInCourse1 = testData.feedbackSessions.get("session2InCourse1");
@@ -53,7 +52,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
     @Override
     protected void testExecute() throws Exception {
-        // Method is required to implement. This comment is used to pass lint
+        // See independent test cases
     }
 
     @Test
