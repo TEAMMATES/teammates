@@ -45,7 +45,6 @@ public class Instructor extends BaseEntity {
     @Unindex
     private String role;
 
-    @Unindex
     private Boolean isDisplayedToStudents;
 
     @Unindex

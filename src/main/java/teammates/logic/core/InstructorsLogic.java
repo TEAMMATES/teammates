@@ -184,6 +184,19 @@ public final class InstructorsLogic {
         }
     }
 
+    public void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
+                                                      boolean isEditedInstructorDisplayed)
+            throws InvalidParametersException {
+        List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
+        boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
+        boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
+
+        if (isNoInstructorMadeVisible || (instructorsDisplayed.size() == 1
+                && isEditedInstructorChangedToNonVisible)) {
+            throw new InvalidParametersException("At least one instructor must be displayed to students");
+        }
+    }
+
     /**
      * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
      *
@@ -196,8 +209,21 @@ public final class InstructorsLogic {
     public InstructorAttributes updateInstructorByGoogleIdCascade(
             InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+
         InstructorAttributes originalInstructor =
                 instructorsDb.getInstructorForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
+
+        if (originalInstructor == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + updateOptions);
+        }
+
+        InstructorAttributes newInstructor = originalInstructor.getCopy();
+        newInstructor.update(updateOptions);
+
+        boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+                newInstructor.isDisplayedToStudents());
+
         InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(updateOptions);
 
         if (!originalInstructor.email.equals(updatedInstructor.email)) {
@@ -258,6 +284,20 @@ public final class InstructorsLogic {
     public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", updateOptions);
+
+        InstructorAttributes originalInstructor =
+                instructorsDb.getInstructorForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
+
+        if (originalInstructor == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + updateOptions);
+        }
+
+        InstructorAttributes newInstructor = originalInstructor.getCopy();
+        newInstructor.update(updateOptions);
+
+        boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+                newInstructor.isDisplayedToStudents());
 
         return instructorsDb.updateInstructorByEmail(updateOptions);
     }
