@@ -2,7 +2,6 @@ package teammates.ui.webapi.action;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.output.EmailRestoreResponseData;
 
@@ -11,8 +10,6 @@ import teammates.ui.webapi.output.EmailRestoreResponseData;
  * Action specifically created for confirming email and sending recovery link.
  */
 public class LinkRecoveryAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     protected AuthType getMinAuthLevel() {

@@ -1,9 +1,7 @@
 package teammates.ui.webapi.output;
 
-import teammates.ui.webapi.action.LinkRecoveryAction;
-
 /**
- * The output format of {@link LinkRecoveryAction}.
+ * The output format for link recovery request.
  */
 public class EmailRestoreResponseData extends ApiOutput {
     private final boolean status;
@@ -14,7 +12,7 @@ public class EmailRestoreResponseData extends ApiOutput {
         this.message = message;
     }
 
-    public boolean status() {
+    public boolean getStatus() {
         return this.status;
     }
 
