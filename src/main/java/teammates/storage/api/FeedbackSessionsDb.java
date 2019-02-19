@@ -5,6 +5,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -85,7 +86,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public List<FeedbackSessionAttributes> getFeedbackSeesionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
 
-        List<FeedbackSessionAttributes> lst = new LinkedList<>();
+        List<FeedbackSession> lst = new LinkedList<>();
 
         List<FeedbackSession> startEntities = load()
                 .filter("startTime >=", rangeStart)
@@ -109,11 +110,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         resultsVisibleEntities.removeAll(startEntities);
         resultsVisibleEntities.removeAll(endEntities);
 
-        lst.addAll(makeAttributes(startEntities));
-        lst.addAll(makeAttributes(endTimeEntities));
-        lst.addAll(makeAttributes(resultsVisibleEntities));
+        lst.addAll(startEntities);
+        lst.addAll(endTimeEntities);
+        lst.addAll(resultsVisibleEntities);
 
-        return lst;
+        return makeAttributes(lst).stream()
+                .sorted(Comparator.comparing(FeedbackSessionAttributes::getStartTime))
+                .filter(fs -> !fs.isSessionDeleted())
+                .collect(Collectors.toList());
     }
 
     /**

@@ -288,7 +288,9 @@ public class EmailGenerator {
                     submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
                 } else if (session.isClosed()) {
                     submitUrlHtml = "(Feedback session is closed)";
-                } else if (session.isPublished()) {
+                }
+
+                if (session.isPublished()) {
                     String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getFeedbackSessionName())

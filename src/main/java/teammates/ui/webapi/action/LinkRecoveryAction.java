@@ -34,20 +34,16 @@ public class LinkRecoveryAction extends Action {
         if (hasStudentsWithRestoreEmail) {
 
             EmailWrapper email = new EmailGenerator().generateLinkRecoveryEmail(requestedEmail);
-
-            if (email != null) {
-                try {
+             try {
                     emailSender.sendEmail(email);
+                    return new JsonResult(new EmailRestoreResponse(EmailResponseResult.SUCCESS,
+                            "The recovery links for your feedback sessions have been sent to the specified email."));
                 } catch (EmailSendingException e) {
                     log.severe("Link recovery email failed to send.: "
                             + TeammatesException.toStringWithStackTrace(e));
                     return new JsonResult(new EmailRestoreResponse(EmailResponseResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND,
                             "Link recovery email failed to send"));
                 }
-            }
-
-            return new JsonResult(new EmailRestoreResponse(EmailResponseResult.SUCCESS,
-                    "The recovery links for your feedback sessions have been sent to the specified email."));
         } else {
             return new JsonResult(new EmailRestoreResponse(EmailResponseResult.FAIL,
                     "No response found with given email."));
