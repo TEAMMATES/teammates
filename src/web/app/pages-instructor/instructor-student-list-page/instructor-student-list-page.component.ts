@@ -12,7 +12,7 @@ interface Course {
   name: string;
   isArchived: boolean;
   isInstructorAllowedToModify: boolean;
-  isChecked: boolean | undefined;
+  isChecked?: boolean;
 }
 
 interface StudentDetails {
@@ -22,7 +22,7 @@ interface StudentDetails {
   team: string;
   section: string;
   courseId: string;
-  isChecked: boolean | undefined;
+  isChecked?: boolean;
 }
 
 interface TeamDetails {
@@ -30,7 +30,7 @@ interface TeamDetails {
   students: StudentDetails[];
   section: string;
   courseId: string;
-  isChecked: boolean | undefined;
+  isChecked?: boolean;
 }
 
 interface SectionDetails {
@@ -39,7 +39,7 @@ interface SectionDetails {
   isAllowedToViewStudents: boolean;
   isAllowedToEditStudents: boolean;
   courseId: string;
-  isChecked: boolean | undefined;
+  isChecked?: boolean;
 }
 
 interface CourseDetails {
@@ -47,7 +47,7 @@ interface CourseDetails {
   name: string;
   createdAt: string;
   sections: SectionDetails[];
-  isChecked: boolean | undefined;
+  isChecked?: boolean;
 }
 
 interface GetCourseResponse {
@@ -147,45 +147,31 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   get isAllPresentCoursesChecked(): boolean {
-    if (this.allPresentCourses.length === 0) {
-      return false;
-    }
-    return this.allPresentCourses.length === this.allCheckedCourses.length;
+    return !!this.allPresentCourses.length && this.allPresentCourses.length === this.allCheckedCourses.length;
   }
 
   get isAllPresentCourseDetailsChecked(): boolean {
-    if (this.allPresentCourseDetails.length === 0) {
-      return false;
-    }
-    return this.allPresentCourseDetails.length === this.allCheckedCourseDetails.length;
+    return !!this.allPresentCourseDetails.length
+        && this.allPresentCourseDetails.length === this.allCheckedCourseDetails.length;
   }
 
   get isAllPresentSectionDetailsChecked(): boolean {
-    if (this.allPresentSectionDetails.length === 0) {
-      return false;
-    }
-    return this.allPresentSectionDetails.length === this.allCheckedSectionDetails.length;
+    return !!this.allPresentSectionDetails.length
+        && this.allPresentSectionDetails.length === this.allCheckedSectionDetails.length;
   }
 
   get isAllPresentTeamDetailsChecked(): boolean {
-    if (this.allPresentTeamDetails.length === 0) {
-      return false;
-    }
-    return this.allPresentTeamDetails.length === this.allCheckedTeamDetails.length;
+    return !!this.allPresentTeamDetails.length
+        && this.allPresentTeamDetails.length === this.allCheckedTeamDetails.length;
   }
 
   get isAllPresentStudentDetailsChecked(): boolean {
-    if (this.allPresentStudentDetails.length === 0) {
-      return false;
-    }
-    return this.allPresentStudentDetails.length === this.allCheckedStudentDetails.length;
+    return !!this.allPresentStudentDetails.length
+        && this.allPresentStudentDetails.length === this.allCheckedStudentDetails.length;
   }
 
   get isAnyPresentCoursesChecked(): boolean {
-    if (this.allPresentCourses.length === 0) {
-      return false;
-    }
-    return this.allCheckedCourses.length > 0;
+    return !!this.allPresentCourses.length && this.allCheckedCourses.length > 0;
   }
 
   courseStudentListSectionDataMap: { [key: string]: StudentListSectionData[] } = {};
@@ -227,9 +213,6 @@ export class InstructorStudentListPageComponent implements OnInit {
             this.statusMessageService.showWarningMessage('You do not have any courses yet.');
           }
 
-          if (this.isDisplayArchive === undefined) {
-            this.statusMessageService.showErrorMessage('Error retrieving indicator for showing archived courses');
-          }
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -249,7 +232,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Function to change states of all courses.
+   * Change states of all courses.
    */
   toggleAllPresentCoursesStateAtInput(defaultState: boolean): void {
     this.allPresentCourses.forEach((course: Course) => {
@@ -287,7 +270,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Function to trigger getting CourseDetails data for a course from backend.
+   * Trigger getting CourseDetails data for a course from backend.
    */
   toggleCourseStateAtInput(course: Course, designatedState?: boolean): void {
     if (course.isChecked === undefined) {
@@ -310,10 +293,10 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Function to call backend API to get CourseDetails data for a course.
+   * Get CourseDetails data for a course.
    */
   fetchCourseDetails(courseid: string): Observable<CourseDetails | null> {
-    if (this.isCourseDetailsInList(courseid)) {
+    if (this.isCourseDetailsFetched(courseid)) {
       return of(this.getCourseDetails(courseid));
     }
 
@@ -332,9 +315,9 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * If the courseDetails of a course is fetched.
+   * Return true if the courseDetails of a course is fetched.
    */
-  isCourseDetailsInList(courseId: string): boolean {
+  isCourseDetailsFetched(courseId: string): boolean {
     const filteredCourseDetailsList: CourseDetails[] =
         this.courseDetailsList.filter((courseDetails: CourseDetails) => courseDetails.id === courseId);
 
@@ -342,9 +325,9 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * If the sectionDetails is fetched.
+   * Return true if the sectionDetails is fetched.
    */
-  isSectionDetailsInList(section: SectionDetails): boolean {
+  isSectionDetailsFetched(section: SectionDetails): boolean {
     const filteredSectionDetailsList: SectionDetails[] = this.sectionDetailsList.filter(
         (sectionDetails: SectionDetails) =>
             sectionDetails.name === section.name
@@ -354,9 +337,9 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * If the teamDetails is fetched.
+   * Return true if the teamDetails is fetched.
    */
-  isTeamDetailsInList(team: TeamDetails): boolean {
+  isTeamDetailsFetched(team: TeamDetails): boolean {
     const filteredTeamDetailsList: TeamDetails[] = this.teamDetailsList.filter(
         (teamDetails: TeamDetails) =>
             team.name === teamDetails.name
@@ -367,9 +350,9 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * If the studentDetails is fetched.
+   * Return true if the studentDetails is fetched.
    */
-  isStudentDetailsInList(student: StudentDetails): boolean {
+  isStudentDetailsFetched(student: StudentDetails): boolean {
     const filteredStudentDetailsList: StudentDetails[] = this.studentDetailsList.filter(
         (studentDetails: StudentDetails) =>
             student.email === studentDetails.email
@@ -410,7 +393,7 @@ export class InstructorStudentListPageComponent implements OnInit {
 
   /*------------------------------Functions to toggle item state in state maps----------------------------------*/
   /**
-   * Function to change the state of a specific course.
+   * Change the state of a specific course.
    */
   toggleCourseState(courseDetails: CourseDetails, designatedState?: boolean): void {
     const state: boolean = designatedState === undefined
@@ -419,7 +402,7 @@ export class InstructorStudentListPageComponent implements OnInit {
 
     courseDetails.isChecked = state;
 
-    if (!this.isCourseDetailsInList(courseDetails.id)) {
+    if (!this.isCourseDetailsFetched(courseDetails.id)) {
       this.courseDetailsList.push(courseDetails);
     }
 
@@ -433,7 +416,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Function to change the state of a specific section.
+   * Change the state of a specific section.
    */
   toggleSectionState(section: SectionDetails, designatedState?: boolean): void {
     const state: boolean = designatedState === undefined
@@ -442,7 +425,7 @@ export class InstructorStudentListPageComponent implements OnInit {
 
     section.isChecked = state;
 
-    if (!this.isSectionDetailsInList(section)) {
+    if (!this.isSectionDetailsFetched(section)) {
       this.sectionDetailsList.push(section);
     }
 
@@ -452,7 +435,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Function to change the state of a specific team.
+   * Change the state of a specific team.
    */
   toggleTeamState(team: TeamDetails, designatedState?: boolean): void {
     const state: boolean = designatedState === undefined
@@ -461,7 +444,7 @@ export class InstructorStudentListPageComponent implements OnInit {
 
     team.isChecked = state;
 
-    if (!this.isTeamDetailsInList(team)) {
+    if (!this.isTeamDetailsFetched(team)) {
       this.teamDetailsList.push(team);
     }
 
@@ -471,7 +454,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Function to change the state of a specific student.
+   * Change the state of a specific student.
    */
   toggleStudentState(student: StudentDetails, designatedState?: boolean): void {
     const state: boolean = designatedState === undefined
@@ -480,38 +463,31 @@ export class InstructorStudentListPageComponent implements OnInit {
 
     student.isChecked = state;
 
-    if (!this.isStudentDetailsInList(student)) {
+    if (!this.isStudentDetailsFetched(student)) {
       this.studentDetailsList.push(student);
     }
   }
 
   /*------------------------------Functions to get item state from state maps-----------------------------------*/
   /**
-   * Function to get the list of students which need to be hidden on the StudentTable display.
+   * Get the list of students which need to be hidden on the StudentTable display.
    */
   getStudentsToHide(courseId: string): string[] {
-    const studentsToHide: string[] = this.studentDetailsList
+    return this.studentDetailsList
         .filter((student: StudentDetails) => student.courseId === courseId && !student.isChecked)
         .map((student: StudentDetails) => student.email);
-
-    return studentsToHide;
   }
 
   /*------------------------------Functions to formulate data for student list from item------------------------*/
   /**
-   * Function to formulate data for student list.
+   * Formulate data for student list.
    */
   getStudentListSectionDataForCourse(courseId: string): StudentListSectionData[] {
-    const data: StudentListSectionData[] | undefined = this.courseStudentListSectionDataMap[courseId];
-    if (data === undefined) {
-      return [];
-    }
-
-    return data;
+    return this.courseStudentListSectionDataMap[courseId] || [];
   }
 
   /**
-   * Function to formulate data for student list.
+   * Formulate data for student list.
    */
   getStudentListSectionDataFromCourseDetails(courseDetails: CourseDetails): StudentListSectionData[] {
     const sections: StudentListSectionData[] = [];
@@ -524,7 +500,7 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Function to formulate data for student list from SectionDetails.
+   * Formulate data for student list from SectionDetails.
    */
   mapSectionForStudentList(sectionDetails: SectionDetails): StudentListSectionData {
     const students: StudentListStudentData[] = [];
@@ -536,27 +512,23 @@ export class InstructorStudentListPageComponent implements OnInit {
       });
     });
 
-    const section: StudentListSectionData = {
+    return {
       students,
       sectionName: sectionDetails.name,
       isAllowedToViewStudentInSection: sectionDetails.isAllowedToViewStudents,
       isAllowedToModifyStudent: sectionDetails.isAllowedToEditStudents,
-    };
-
-    return section;
+    } as StudentListSectionData;
   }
 
   /**
-   * Function to formulate data for student list from StudentDetails.
+   * Formulate data for student list from StudentDetails.
    */
   mapStudentForStudentList(studentDetails: StudentDetails): StudentListStudentData {
-    const student: StudentListStudentData = {
+    return {
       name: studentDetails.name,
       team: studentDetails.team,
       email: studentDetails.email,
       status: studentDetails.status,
-    };
-
-    return student;
+    } as StudentListStudentData;
   }
 }

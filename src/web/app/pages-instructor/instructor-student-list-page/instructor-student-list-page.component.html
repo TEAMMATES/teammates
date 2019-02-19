@@ -133,7 +133,11 @@
            (click)="toggleCourseStateAtInput(course)">
         <strong>[{{course.id}}]:</strong> {{course.name}}
         <div class="arrow-sign">
-          <button class="btn btn-info btn-xs" (click)="enroll(course.id)"> Enroll </button>
+          <button class="btn btn-info btn-xs"
+                  routerLink="/web/instructor/courses/enroll"
+                  [queryParams]="{courseid: course.id}">
+            Enroll
+          </button>
           <i class="fas fa-chevron-down pl-3" [hidden]="!course.isChecked"></i>
           <i class="fas fa-chevron-up pl-3" [hidden]="course.isChecked"></i>
         </div>

@@ -32,7 +32,7 @@
           <img *ngIf="student.photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{student.photoUrl}}"
                [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
           <ng-template #viewPhotoBtn>
-            <a href="#" role="button" (click)="loadPhoto(student); $event.preventDefault();">View Photo</a>
+            <a [routerLink]="" role="button" (click)="loadPhoto(student); $event.preventDefault();">View Photo</a>
           </ng-template>
         </td>
         <td *ngIf="hasSection()">{{section.sectionName}}</td>
