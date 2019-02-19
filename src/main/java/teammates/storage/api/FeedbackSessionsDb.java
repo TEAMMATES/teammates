@@ -96,22 +96,17 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                 .filter("endTime >=", rangeStart)
                 .filter("endTime <", rangeEnd)
                 .list();
-
-        List<FeedbackSession> endTimeEntities = new ArrayList<>(endEntities);
-        List<FeedbackSession> startTimeEntities = new ArrayList<>(startEntities);
-
-        endTimeEntities.removeAll(startTimeEntities);
-
         List<FeedbackSession> resultsVisibleEntities = load()
                 .filter("resultsVisibleFromTime >", rangeStart)
                 .filter("resultsVisibleFromTime <=", rangeEnd)
                 .list();
 
+        endEntities.removeAll(startEntities);
         resultsVisibleEntities.removeAll(startEntities);
         resultsVisibleEntities.removeAll(endEntities);
 
         lst.addAll(startEntities);
-        lst.addAll(endTimeEntities);
+        lst.addAll(endEntities);
         lst.addAll(resultsVisibleEntities);
 
         return makeAttributes(lst).stream()
