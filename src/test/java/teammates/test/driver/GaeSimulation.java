@@ -187,10 +187,14 @@ public class GaeSimulation {
     public teammates.ui.controller.Action getLegacyActionObject(String uri, String... parameters) {
         InvocationContext ic = invokeWebRequest(uri, parameters);
         HttpServletRequest req = ic.getRequest();
-        teammates.ui.controller.Action action = new teammates.ui.controller.ActionFactory().getAction(req);
-        action.setTaskQueuer(new MockTaskQueuer());
-        action.setEmailSender(new MockEmailSender());
-        return action;
+        try {
+            teammates.ui.controller.Action action = new teammates.ui.controller.ActionFactory().getAction(req);
+            action.setTaskQueuer(new MockTaskQueuer());
+            action.setEmailSender(new MockEmailSender());
+            return action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

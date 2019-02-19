@@ -31,7 +31,6 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
         GetTimeZonesAction a = getAction();
         JsonResult r = getJsonResult(a);
 
-
         TimeZonesData output = (TimeZonesData) r.getOutput();
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());

@@ -65,7 +65,6 @@ public class AddInstructorCourseActionTest extends BaseActionTest<AddInstructorC
         result = getJsonResult(action);
         MessageOutput message = (MessageOutput) result.getOutput();
 
-
         assertEquals(HttpStatus.SC_CONFLICT, result.getStatusCode());
         assertEquals("Trying to create a Course that exists: " + courseId, message.getMessage());
 
