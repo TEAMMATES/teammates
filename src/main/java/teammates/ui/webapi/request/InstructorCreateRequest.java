@@ -1,14 +1,22 @@
 package teammates.ui.webapi.request;
 
+import javax.annotation.Nullable;
+
 /**
  * The create request for an instructor to be created.
  */
 public class InstructorCreateRequest extends BasicRequest {
+    @Nullable
     private String instructorId;
+
     private String name;
     private String email;
     private String roleName;
+
+    @Nullable
     private String displayName;
+
+    @Nullable
     private Boolean isDisplayedToStudent;
 
     public InstructorCreateRequest(String instructorId, String name, String email, String roleName, String displayName,
