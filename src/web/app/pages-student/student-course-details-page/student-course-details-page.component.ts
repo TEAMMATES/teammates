@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentAttributes {
@@ -31,7 +32,7 @@ interface TeammateProfile {
   email: string;
   institute: string;
   nationality: string;
-  gender: string;
+  gender: Gender;
   pictureKey: string;
 }
 
@@ -52,6 +53,7 @@ interface StudentCourseDetails {
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
 
+  Gender: typeof Gender = Gender; // enum
   user: string = '';
   student?: StudentAttributes;
   course?: CourseAttributes;

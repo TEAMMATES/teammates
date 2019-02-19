@@ -527,12 +527,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructoremail: editedInstructor.email,
       instructorrole: editedInstructor.role,
       instructordisplayname: editedInstructor.displayedName,
+      instructorisdisplayed: editedInstructor.isDisplayedToStudents.toString(),
     };
-
-    const instructorIsDisplayed: string = 'instructorisdisplayed';
-    if (editedInstructor.isDisplayedToStudents) {
-      paramsMap[instructorIsDisplayed] = 'true';
-    }
 
     if (instr.controls.role.value === 'Custom') {
       const tuneCoursePermissions: (FormGroup | null) = (instr.controls.tunePermissions as FormGroup)
@@ -891,7 +887,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     // Display different text depending on who is being deleted
     if (instructorToDelete.googleId === this.instructor.googleId) {
       modalContent = 'Are you sure you want to delete your instructor role from the '
-      + `course ${courseId}? You will not be able to access the course anymore.`;
+          + `course ${courseId}? You will not be able to access the course anymore.`;
     } else {
       modalContent = `Are you sure you want to delete the instructor ${instructorToDelete.name} from the course `
           + `${courseId}? He/she will not be able to access the course anymore.`;
@@ -911,6 +907,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseid: this.courseToEdit.id,
       instructorid: this.instructor.googleId,
       instructoremail: instructorToDelete.email,
+      instructorisdisplayed: instructorToDelete.isDisplayedToStudents.toString(),
     };
 
     this.httpRequestService.delete('/instructors/course/details/deleteInstructor', paramsMap)

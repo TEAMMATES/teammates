@@ -5,6 +5,7 @@ import { GenderFormatPipe } from './student-profile-gender.pipe';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentProfilePageComponent } from './student-profile-page.component';
 
 describe('StudentProfilePageComponent', () => {
@@ -21,6 +22,7 @@ describe('StudentProfilePageComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
+        TeammatesCommonModule,
       ],
     })
     .compileComponents();

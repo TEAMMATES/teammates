@@ -1,3 +1,5 @@
+import { Gender } from '../../../types/gender';
+
 /**
  * Contains a student's profile
  */
@@ -6,7 +8,7 @@ export interface StudentProfile {
   email: string;
   institute: string;
   nationality: string;
-  gender: string;
+  gender: Gender;
   moreInfo: string;
   pictureKey: string;
 }
