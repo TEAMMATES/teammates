@@ -299,37 +299,20 @@ public class TeamEvalResult {
         return factor;
     }
 
-    @SuppressWarnings("PMD.AvoidArrayLoops") // the arrays are of different types
     private static double[] intToDouble(int[] input) {
-        double[] converted = new double[input.length];
-        for (int i = 0; i < input.length; i++) {
-            converted[i] = input[i];
-        }
-        return converted;
+        return Arrays.stream(input).mapToDouble(value -> value).toArray();
     }
 
     private static double[][] intToDouble(int[][] input) {
-        double[][] converted = new double[input.length][input[0].length];
-        for (int i = 0; i < input.length; i++) {
-            converted[i] = intToDouble(input[i]);
-        }
-        return converted;
+        return Arrays.stream(input).map(value -> intToDouble(value)).toArray(double[][]::new);
     }
 
     private static int[] doubleToInt(double[] input) {
-        int[] converted = new int[input.length];
-        for (int i = 0; i < input.length; i++) {
-            converted[i] = (int) Math.round(input[i]);
-        }
-        return converted;
+        return Arrays.stream(input).mapToInt(value -> (int) Math.round(value)).toArray();
     }
 
     private static int[][] doubleToInt(double[][] input) {
-        int[][] output = new int[input.length][input.length];
-        for (int i = 0; i < input.length; i++) {
-            output[i] = doubleToInt(input[i]);
-        }
-        return output;
+        return Arrays.stream(input).map(value -> doubleToInt(value)).toArray(int[][]::new);
     }
 
     // TODO: make this private and use reflection to test

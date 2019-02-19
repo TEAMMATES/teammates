@@ -103,7 +103,10 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes assistantProf = helperInCourse1.getCopy();
         String displayedName = "Assistant Prof Smith";
         assistantProf.displayedName = displayedName;
-        instructorsDb.updateInstructorByEmail(assistantProf);
+        instructorsDb.updateInstructorByEmail(
+                InstructorAttributes.updateOptionsWithEmailBuilder(assistantProf.getCourseId(), assistantProf.getEmail())
+                        .withDisplayedName(assistantProf.getDisplayedName())
+                        .build());
         results = instructorsDb.searchInstructorsInWholeSystem(displayedName);
         verifySearchResults(results, assistantProf);
 

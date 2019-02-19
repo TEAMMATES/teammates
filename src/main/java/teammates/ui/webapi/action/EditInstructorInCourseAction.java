@@ -48,9 +48,24 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
 
         try {
             if (instructorId == null) {
-                logic.updateInstructorByEmail(instructorEmail, instructorToEdit);
+                logic.updateInstructor(
+                        InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorEmail)
+                                .withName(instructorToEdit.name)
+                                .withDisplayedName(instructorToEdit.displayedName)
+                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
+                                .withPrivileges(instructorToEdit.privileges)
+                                .withRole(instructorToEdit.role)
+                                .build());
             } else {
-                logic.updateInstructorByGoogleId(instructorId, instructorToEdit);
+                logic.updateInstructorCascade(
+                        InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorId)
+                                .withEmail(instructorToEdit.email)
+                                .withName(instructorToEdit.name)
+                                .withDisplayedName(instructorToEdit.displayedName)
+                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
+                                .withPrivileges(instructorToEdit.privileges)
+                                .withRole(instructorToEdit.role)
+                                .build());
             }
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
@@ -105,7 +120,7 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
     private InstructorAttributes extractUpdatedInstructor(String courseId, String instructorId,
                                                           String instructorName, String instructorEmail) {
         String instructorRole = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
-        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
+        boolean isDisplayedToStudents = getBooleanRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT);
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;

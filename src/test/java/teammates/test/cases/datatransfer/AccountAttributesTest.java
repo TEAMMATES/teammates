@@ -212,6 +212,28 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertNull("email should be null", copy.email);
     }
 
+    @Test
+    public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
+        AccountAttributes.UpdateOptions updateOptions =
+                AccountAttributes.updateOptionsBuilder("testGoogleId")
+                        .withIsInstructor(true)
+                        .build();
+
+        assertEquals("testGoogleId", updateOptions.getGoogleId());
+
+        AccountAttributes accountAttributes = AccountAttributes.builder().withIsInstructor(false).build();
+
+        accountAttributes.update(updateOptions);
+
+        assertTrue(accountAttributes.isInstructor());
+    }
+
+    @Test
+    public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
+        assertThrows(AssertionError.class, () ->
+                AccountAttributes.updateOptionsBuilder(null));
+    }
+
     private AccountAttributes createInvalidAccountAttributesObject() {
 
         String googleId = "invalid google id";

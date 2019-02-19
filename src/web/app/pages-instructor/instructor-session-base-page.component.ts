@@ -6,7 +6,7 @@ import { FeedbackSessionsService } from '../../services/feedback-sessions.servic
 import { HttpRequestService } from '../../services/http-request.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
-import { FeedbackQuestion, FeedbackQuestions, FeedbackSession } from '../../types/api-output';
+import { FeedbackQuestion, FeedbackQuestions, FeedbackSession, FeedbackSessionStats } from '../../types/api-output';
 import { FeedbackSessionStudentRemindRequest } from '../../types/api-request';
 import {
   CopySessionResult,
@@ -15,7 +15,6 @@ import {
   SortOrder,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import { FeedbackSessionStats } from '../feedback-session';
 import { InstructorPrivilege } from '../instructor-privilege';
 import { Intent } from '../Intent';
 
@@ -168,7 +167,7 @@ export abstract class InstructorSessionBasePageComponent {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
-    this.httpRequestService.get('/sessions/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
+    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
       model.isLoadingResponseRate = false;
       model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });

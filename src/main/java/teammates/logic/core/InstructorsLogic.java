@@ -3,7 +3,10 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -30,7 +33,9 @@ public final class InstructorsLogic {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     private InstructorsLogic() {
@@ -78,12 +83,17 @@ public final class InstructorsLogic {
         return instructorsDb.createInstructor(instructorToAdd);
     }
 
+    /**
+     * Sets the archive status of an instructor (i.e. whether the instructor
+     * decides to archive the associated course or not).
+     */
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
             throws InvalidParametersException, EntityDoesNotExistException {
-
-        InstructorAttributes instructor = instructorsDb.getInstructorForGoogleId(courseId, googleId);
-        instructor.isArchived = archiveStatus;
-        instructorsDb.updateInstructorByGoogleId(instructor);
+        instructorsDb.updateInstructorByGoogleId(
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder(courseId, googleId)
+                        .withIsArchived(archiveStatus)
+                        .build()
+        );
     }
 
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
@@ -174,59 +184,122 @@ public final class InstructorsLogic {
         }
     }
 
+    public void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
+                                                      boolean isEditedInstructorDisplayed)
+            throws InvalidParametersException {
+        List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
+        boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
+        boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
+
+        if (isNoInstructorMadeVisible || (instructorsDisplayed.size() == 1
+                && isEditedInstructorChangedToNonVisible)) {
+            throw new InvalidParametersException("At least one instructor must be displayed to students");
+        }
+    }
+
     /**
-     * Update the name and email address of an instructor with the specific Google ID.
-     * @param instructor InstructorAttributes object containing the details to be updated
+     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
+     *
+     * <p>Cascade update the comments and responses given by the instructor.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the instructor cannot be found
      */
-    public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor)
+    public InstructorAttributes updateInstructorByGoogleIdCascade(
+            InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
 
-        // TODO: either refactor this to constant or just remove it. check not null should be in db
-        Assumption.assertNotNull("Supplied parameter was null", instructor);
+        InstructorAttributes originalInstructor =
+                instructorsDb.getInstructorForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
 
-        coursesLogic.verifyCourseIsPresent(instructor.courseId);
-        verifyInstructorInDbAndCascadeEmailChange(googleId, instructor);
-        checkForUpdatingRespondents(instructor);
-
-        instructorsDb.updateInstructorByGoogleId(instructor);
-    }
-
-    private void checkForUpdatingRespondents(InstructorAttributes instructor)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        InstructorAttributes currentInstructor = getInstructorForGoogleId(instructor.courseId, instructor.googleId);
-        if (!currentInstructor.email.equals(instructor.email)) {
-            fsLogic.updateRespondentsForInstructor(currentInstructor.email, instructor.email, instructor.courseId);
+        if (originalInstructor == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + updateOptions);
         }
-    }
 
-    private void verifyInstructorInDbAndCascadeEmailChange(String googleId,
-            InstructorAttributes instructor) throws EntityDoesNotExistException {
-        InstructorAttributes instructorInDb = instructorsDb.getInstructorForGoogleId(instructor.courseId, googleId);
-        if (instructorInDb == null) {
-            throw new EntityDoesNotExistException("Instructor " + googleId
-                    + " does not belong to course " + instructor.courseId);
-        }
-        // cascade comments
-        if (!instructorInDb.email.equals(instructor.email)) {
+        InstructorAttributes newInstructor = originalInstructor.getCopy();
+        newInstructor.update(updateOptions);
+
+        boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+                newInstructor.isDisplayedToStudents());
+
+        InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(updateOptions);
+
+        if (!originalInstructor.email.equals(updatedInstructor.email)) {
+            // cascade responses
+            List<FeedbackResponseAttributes> responsesFromUser =
+                    frLogic.getFeedbackResponsesFromGiverForCourse(
+                            originalInstructor.getCourseId(), originalInstructor.getEmail());
+            for (FeedbackResponseAttributes responseFromUser : responsesFromUser) {
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.feedbackQuestionId);
+                if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                        || question.getGiverType() == FeedbackParticipantType.SELF) {
+                    try {
+                        frLogic.updateFeedbackResponseCascade(
+                                FeedbackResponseAttributes.updateOptionsBuilder(responseFromUser.getId())
+                                        .withGiver(updatedInstructor.getEmail())
+                                        .build());
+                    } catch (EntityAlreadyExistsException e) {
+                        log.severe("Fail to adjust 'from' responses when updating instructor: " + e.getMessage());
+                    }
+                }
+            }
+            List<FeedbackResponseAttributes> responsesToUser =
+                    frLogic.getFeedbackResponsesForReceiverForCourse(
+                            originalInstructor.getCourseId(), originalInstructor.getEmail());
+            for (FeedbackResponseAttributes responseToUser : responsesToUser) {
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.feedbackQuestionId);
+                if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                        || (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                        && question.getRecipientType() == FeedbackParticipantType.SELF)) {
+                    try {
+                        frLogic.updateFeedbackResponseCascade(
+                                FeedbackResponseAttributes.updateOptionsBuilder(responseToUser.getId())
+                                        .withRecipient(updatedInstructor.getEmail())
+                                        .build());
+                    } catch (EntityAlreadyExistsException e) {
+                        log.severe("Fail to adjust 'to' responses when updating instructor: " + e.getMessage());
+                    }
+                }
+            }
+            // cascade comments
             frcLogic.updateFeedbackResponseCommentsEmails(
-                    instructor.courseId, instructorInDb.email, instructor.email);
+                    updatedInstructor.courseId, originalInstructor.email, updatedInstructor.email);
+            // cascade respondents
+            fsLogic.updateRespondentsForInstructor(
+                    originalInstructor.email, updatedInstructor.email, updatedInstructor.courseId);
         }
+
+        return updatedInstructor;
     }
 
     /**
-     * Update the Google ID and name of an instructor with the specific email.
-     * @param instructor InstructorAttributes object containing the details to be updated
+     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithEmail}.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the instructor cannot be found
      */
-    public void updateInstructorByEmail(String email, InstructorAttributes instructor)
+    public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull("Supplied parameter was null", updateOptions);
 
-        Assumption.assertNotNull("Supplied parameter was null", instructor);
+        InstructorAttributes originalInstructor =
+                instructorsDb.getInstructorForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
 
-        coursesLogic.verifyCourseIsPresent(instructor.courseId);
-        verifyIsEmailOfInstructorOfCourse(email, instructor.courseId);
+        if (originalInstructor == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + updateOptions);
+        }
 
-        instructorsDb.updateInstructorByEmail(instructor);
+        InstructorAttributes newInstructor = originalInstructor.getCopy();
+        newInstructor.update(updateOptions);
+
+        boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+                newInstructor.isDisplayedToStudents());
+
+        return instructorsDb.updateInstructorByEmail(updateOptions);
     }
 
     public List<String> getInvalidityInfoForNewInstructorData(String name,
@@ -288,12 +361,15 @@ public final class InstructorsLogic {
         return instructorsWithCoOwnerPrivileges;
     }
 
+    /**
+     * Resets the associated googleId of an instructor.
+     */
     public void resetInstructorGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
-        InstructorAttributes originalInstructor = getInstructorForEmail(courseId, originalEmail);
-        originalInstructor.googleId = null;
-
         try {
-            instructorsDb.updateInstructorByEmail(originalInstructor);
+            instructorsDb.updateInstructorByEmail(
+                    InstructorAttributes.updateOptionsWithEmailBuilder(originalEmail, originalEmail)
+                            .withGoogleId(null)
+                            .build());
         } catch (InvalidParametersException e) {
             Assumption.fail("Unexpected invalid parameter.");
         }

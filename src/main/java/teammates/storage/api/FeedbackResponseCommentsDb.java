@@ -181,42 +181,45 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * Updates a feedback response comment by {@link FeedbackResponseCommentAttributes.UpdateOptions}.
+     *
+     * @return updated comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
      */
-    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes)
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
+            FeedbackResponseCommentAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+
+        FeedbackResponseComment frc = getFeedbackResponseCommentEntity(updateOptions.getFeedbackResponseCommentId());
+        if (frc == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
+        }
+
+        FeedbackResponseCommentAttributes newAttributes = makeAttributes(frc);
+        newAttributes.update(updateOptions);
 
         newAttributes.sanitizeForSaving();
-
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
-        FeedbackResponseComment frc = getEntity(newAttributes);
 
-        if (frc == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
-        }
-
+        frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
         frc.setCommentText(newAttributes.commentText);
-        frc.setGiverSection(newAttributes.giverSection);
-        frc.setReceiverSection(newAttributes.receiverSection);
         frc.setShowCommentTo(newAttributes.showCommentTo);
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setIsVisibilityFollowingFeedbackQuestion(newAttributes.isVisibilityFollowingFeedbackQuestion);
-        frc.setLastEditorEmail(newAttributes.commentGiver);
-        frc.setLastEditedAt(newAttributes.createdAt);
-        frc.setCommentGiverType(newAttributes.commentGiverType);
-        frc.setIsCommentFromFeedbackParticipant(newAttributes.isCommentFromFeedbackParticipant);
-
-        if (newAttributes.feedbackResponseId != null) {
-            frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
-        }
+        frc.setLastEditorEmail(newAttributes.lastEditorEmail);
+        frc.setLastEditedAt(newAttributes.lastEditedAt);
+        frc.setGiverSection(newAttributes.giverSection);
+        frc.setReceiverSection(newAttributes.receiverSection);
 
         saveEntity(frc, newAttributes);
 
-        return makeAttributes(frc);
+        newAttributes = makeAttributes(frc);
+        putDocument(newAttributes);
+
+        return newAttributes;
     }
 
     /*

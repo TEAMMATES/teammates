@@ -103,41 +103,42 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     /**
-     * Updates the feedback question identified by `{@code newAttributes.getId()}
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy).<br>
-     * The timestamp for {@code updatedAt} will be updated
-     * * {@code newAttributes.getId()} is non-null and
-     *  correspond to an existing feedback question. <br>
+     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     *
+     * @return updated feedback question
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback question cannot be found
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
+    public FeedbackQuestionAttributes updateFeedbackQuestion(FeedbackQuestionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
-        // TODO: Sanitize values and update tests accordingly
+        FeedbackQuestion feedbackQuestion = getFeedbackQuestionEntity(updateOptions.getFeedbackQuestionId());
+        if (feedbackQuestion == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
+        }
 
+        FeedbackQuestionAttributes newAttributes = makeAttributes(feedbackQuestion);
+        newAttributes.update(updateOptions);
+
+        newAttributes.sanitizeForSaving();
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        FeedbackQuestion fq = getEntity(newAttributes);
+        feedbackQuestion.setQuestionNumber(newAttributes.questionNumber);
+        feedbackQuestion.setQuestionText(newAttributes.questionMetaData);
+        feedbackQuestion.setQuestionDescription(newAttributes.questionDescription);
+        feedbackQuestion.setGiverType(newAttributes.giverType);
+        feedbackQuestion.setRecipientType(newAttributes.recipientType);
+        feedbackQuestion.setShowResponsesTo(newAttributes.showResponsesTo);
+        feedbackQuestion.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        feedbackQuestion.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+        feedbackQuestion.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
 
-        if (fq == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
-        }
+        saveEntity(feedbackQuestion, newAttributes);
 
-        fq.setQuestionNumber(newAttributes.questionNumber);
-        fq.setQuestionText(newAttributes.questionMetaData);
-        fq.setQuestionDescription(newAttributes.questionDescription);
-        fq.setQuestionType(newAttributes.questionType);
-        fq.setGiverType(newAttributes.giverType);
-        fq.setRecipientType(newAttributes.recipientType);
-        fq.setShowResponsesTo(newAttributes.showResponsesTo);
-        fq.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
-        fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
-
-        saveEntity(fq, newAttributes);
+        return makeAttributes(feedbackQuestion);
     }
 
     public void deleteFeedbackQuestionsForCourse(String courseId) {

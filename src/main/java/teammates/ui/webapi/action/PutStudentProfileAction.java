@@ -35,8 +35,16 @@ public class PutStudentProfileAction extends Action {
         }
 
         try {
-            StudentProfileAttributes studentProfile = extractProfileData(studentId);
-            logic.updateOrCreateStudentProfile(sanitizeProfile(studentProfile));
+            StudentProfileAttributes studentProfile = sanitizeProfile(extractProfileData(studentId));
+            logic.updateOrCreateStudentProfile(
+                    StudentProfileAttributes.updateOptionsBuilder(studentId)
+                            .withShortName(studentProfile.shortName)
+                            .withEmail(studentProfile.email)
+                            .withGender(studentProfile.gender)
+                            .withNationality(studentProfile.nationality)
+                            .withInstitute(studentProfile.institute)
+                            .withMoreInfo(studentProfile.moreInfo)
+                            .build());
             return new JsonResult(Const.StatusMessages.STUDENT_PROFILE_EDITED, HttpStatus.SC_ACCEPTED);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);

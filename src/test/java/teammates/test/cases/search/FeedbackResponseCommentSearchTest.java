@@ -1,6 +1,7 @@
 package teammates.test.cases.search;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -41,7 +42,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         FeedbackResponseCommentAttributes frc1I3Q1S2C2 = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S2C2");
 
-        ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructors = new ArrayList<>();
 
         ______TS("success: search for comments; no results found as instructor doesn't have privileges");
 
@@ -110,7 +111,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         // perform normal search
         FeedbackResponseCommentAttributes frc1I3Q1S2C2 =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S2C2");
-        ArrayList<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();
+        List<InstructorAttributes> instructors = new ArrayList<>();
         instructors.add(dataBundle.instructors.get("instructor3OfCourse2"));
         FeedbackResponseCommentSearchResultBundle bundle =
                 commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);

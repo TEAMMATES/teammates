@@ -1,6 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import teammates.storage.entity.BaseEntity;
 
@@ -72,5 +73,67 @@ public abstract class EntityAttributes<E extends BaseEntity> {
         }
 
         errors.add(error);
+    }
+
+    /**
+     * Helper class to determine whether a field should be updated or not.
+     *
+     * <p>The class behaves like {@link java.util.Optional} but allows null value.
+     */
+    protected static class UpdateOption<T> {
+
+        private static final UpdateOption<?> EMPTY = new UpdateOption<>();
+
+        private boolean isValuePresent;
+
+        private T value;
+
+        private UpdateOption() {
+            this.value = null;
+            this.isValuePresent = false;
+        }
+
+        private UpdateOption(T value) {
+            this.value = value;
+            this.isValuePresent = true;
+        }
+
+        /**
+         * Returns an {@code UpdateOption} with the specified present value.
+         */
+        public static <T> UpdateOption<T> of(T value) {
+            return new UpdateOption<>(value);
+        }
+
+        /**
+         * Returns an empty {@code UpdateOption} instance.
+         *
+         * <p>No value is present for this UpdateOption.
+         */
+        @SuppressWarnings("unchecked")
+        public static <T> UpdateOption<T> empty() {
+            return (UpdateOption<T>) EMPTY;
+        }
+
+        /**
+         * If a value is present, invoke the specified consumer with the value,
+         * otherwise do nothing.
+         *
+         * @param consumer block to be executed if a value is present
+         * @throws NullPointerException if value is present and {@code consumer} is null
+         */
+        public void ifPresent(Consumer<? super T> consumer) {
+            if (isValuePresent) {
+                consumer.accept(value);
+            }
+        }
+
+        @Override
+        public String toString() {
+            return isValuePresent
+                    ? String.format("UpdateOption[%s]", value)
+                    : "UpdateOption.empty";
+        }
+
     }
 }
