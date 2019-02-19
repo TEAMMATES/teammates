@@ -5,16 +5,16 @@
         <label class="col-sm-3 control-label bold-label text-right">Course ID:</label>
         <div class="col-sm-3">
           <input class="form-control" type="text" [(ngModel)]="newCourseId"
-                 ngbTooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
-                 [maxlength]="40" placeholder="e.g. CS3215-2013Semester1"/>
+              ngbTooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
+              [maxlength]="40" placeholder="e.g. CS3215-2013Semester1"/>
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 control-label bold-label text-right">Course Name:</label>
         <div class="col-sm-9">
           <input class="form-control" type="text" [(ngModel)]="newCourseName"
-                 ngbTooltip="Enter the name of the course, e.g. Software Engineering."
-                 [maxlength]="64" placeholder="e.g. Software Engineering"/>
+              ngbTooltip="Enter the name of the course, e.g. Software Engineering."
+              [maxlength]="64" placeholder="e.g. Software Engineering"/>
         </div>
       </div>
       <div class="form-group row">
@@ -27,8 +27,8 @@
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
             </select>
             <span class="input-group-btn">
-                <button class="btn btn-primary" (click)="onAutoDetectTimezone()">Auto Detect</button>
-              </span>
+              <button class="btn btn-primary" (click)="onAutoDetectTimezone()">Auto Detect</button>
+            </span>
           </div>
         </div>
       </div>
@@ -46,100 +46,100 @@
   <div class="table-responsive">
     <table class="table table-striped table-bordered margin-0">
       <thead>
-      <tr class="bg-primary text-white">
-        <th>Course ID</th>
-        <th>Course Name</th>
-        <th>Creation Date</th>
-        <th>Sections</th>
-        <th>Teams</th>
-        <th>Total Students</th>
-        <th>Total Unregistered</th>
-        <th class="text-center">Action(s)</th>
-      </tr>
+        <tr class="bg-primary text-white">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Creation Date</th>
+          <th>Sections</th>
+          <th>Teams</th>
+          <th>Total Students</th>
+          <th>Total Unregistered</th>
+          <th class="text-center">Action(s)</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let course of activeCourses">
-        <td>{{course.id}}</td>
-        <td>{{course.name}}</td>
-        <td container="body" [ngbTooltip]="course.createdAt | date:'EEE, dd MMM yyyy, h:mma'">
-          {{course.createdAt | date:'d MMM yyyy'}}
-        </td>
-        <td>
+        <tr *ngFor="let course of activeCourses">
+          <td>{{course.id}}</td>
+          <td>{{course.name}}</td>
+          <td container="body" [ngbTooltip]="course.createdAt | date:'EEE, dd MMM yyyy, h:mma'">
+            {{course.createdAt | date:'d MMM yyyy'}}
+          </td>
+          <td>
             <span *ngIf="!courseStats[course.id]">
               <a (click)="getCourseStats(course.id)" href="javascript:;">
                 show
               </a>
             </span>
-          <span *ngIf="courseStats[course.id]">
+            <span *ngIf="courseStats[course.id]">
               {{ courseStats[course.id].sections }}
             </span>
-        </td>
-        <td>
+          </td>
+          <td>
             <span *ngIf="!courseStats[course.id]">
               <a (click)="getCourseStats(course.id)" href="javascript:;">
                 show
               </a>
             </span>
-          <span *ngIf="courseStats[course.id]">
+            <span *ngIf="courseStats[course.id]">
               {{ courseStats[course.id].teams }}
             </span>
-        </td>
-        <td>
+          </td>
+          <td>
             <span *ngIf="!courseStats[course.id]">
               <a (click)="getCourseStats(course.id)" href="javascript:;">
                 show
               </a>
             </span>
-          <span *ngIf="courseStats[course.id]">
+            <span *ngIf="courseStats[course.id]">
               {{ courseStats[course.id].students }}
             </span>
-        </td>
-        <td>
+          </td>
+          <td>
             <span *ngIf="!courseStats[course.id]">
               <a (click)="getCourseStats(course.id)" href="javascript:;">
                 show
               </a>
             </span>
-          <span *ngIf="courseStats[course.id]">
+            <span *ngIf="courseStats[course.id]">
               {{ courseStats[course.id].unregistered }}
             </span>
-        </td>
-        <td class="text-center">
-          <button class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
-                  ngbTooltip="Enroll student into the course"
-                  routerLink="/web/instructor/courses/enroll"
-                  [queryParams]="{courseid: course.id}">
-            Enroll
-          </button>
-          <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">
-            Enroll
-          </button>
-          <button class="btn btn-light btn-sm"
-                  ngbTooltip="View, edit and send invitation emails to the students in the course"
-                  routerLink="/web/instructor/courses/details"
-                  [queryParams]="{courseid: course.id}">
-            View
-          </button>
-          <button class="btn btn-light btn-sm"
-                  ngbTooltip="Edit Course information and instructor list"
-                  routerLink="/web/instructor/courses/edit"
-                  [queryParams]="{courseid: course.id}">
-            Edit
-          </button>
-          <button class="btn btn-light btn-sm" (click)="onArchive(course.id)"
-                  ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still
-               access it from the 'Courses' tab)">
-            Archive
-          </button>
-          <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.id)"
-                  ngbTooltip="Delete the course and its corresponding students and sessions">
-            Delete
-          </button>
-          <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
-            Delete
-          </button>
-        </td>
-      </tr>
+          </td>
+          <td class="text-center">
+            <button class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
+                ngbTooltip="Enroll student into the course"
+                routerLink="/web/instructor/courses/enroll"
+                [queryParams]="{courseid: course.id}">
+              Enroll
+            </button>
+            <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">
+              Enroll
+            </button>
+            <button class="btn btn-light btn-sm"
+                ngbTooltip="View, edit and send invitation emails to the students in the course"
+                routerLink="/web/instructor/courses/details"
+                [queryParams]="{courseid: course.id}">
+              View
+            </button>
+            <button class="btn btn-light btn-sm"
+                ngbTooltip="Edit Course information and instructor list"
+                routerLink="/web/instructor/courses/edit"
+                [queryParams]="{courseid: course.id}">
+              Edit
+            </button>
+            <button class="btn btn-light btn-sm" (click)="onArchive(course.id)"
+                ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still
+                access it from the 'Courses' tab)">
+              Archive
+            </button>
+            <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.id)"
+                ngbTooltip="Delete the course and its corresponding students and sessions">
+              Delete
+            </button>
+            <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
+              Delete
+            </button>
+          </td>
+        </tr>
       </tbody>
       <tr *ngIf="!activeCourses.length">
         <td></td>
@@ -163,33 +163,33 @@
   <div class="table-responsive">
     <table class="table table-striped table-bordered margin-0">
       <thead>
-      <tr class="bg-info text-white">
-        <th>Course ID</th>
-        <th>Course Name</th>
-        <th>Creation Date</th>
-        <th class="text-center">Action(s)</th>
-      </tr>
+        <tr class="bg-info text-white">
+          <th>Course ID</th>
+          <th>Course Name</th>
+          <th>Creation Date</th>
+          <th class="text-center">Action(s)</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let course of archivedCourses">
-        <td>{{course.id}}</td>
-        <td>{{course.name}}</td>
-        <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">
-          {{course.createdAt | date:'d MMM yyyy'}}
-        </td>
-        <td class="text-center">
-          <button class="btn btn-light btn-sm" (click)="onUnarchive(course.id)">
-            Unarchive
-          </button>
-          <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.id)"
-                  ngbTooltip="Delete the course and its corresponding students and sessions">
-            Delete
-          </button>
-          <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
-            Delete
-          </button>
-        </td>
-      </tr>
+        <tr *ngFor="let course of archivedCourses">
+          <td>{{course.id}}</td>
+          <td>{{course.name}}</td>
+          <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">
+            {{course.createdAt | date:'d MMM yyyy'}}
+          </td>
+          <td class="text-center">
+            <button class="btn btn-light btn-sm" (click)="onUnarchive(course.id)">
+              Unarchive
+            </button>
+            <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.id)"
+                ngbTooltip="Delete the course and its corresponding students and sessions">
+              Delete
+            </button>
+            <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
+              Delete
+            </button>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -204,7 +204,7 @@
       <strong>Recycle Bin</strong>
       <span class="float-sm-right margin-left-10px">
         <button class="btn btn-light btn-sm" *ngIf="canDeleteAll" (click)="onDeleteAll()"
-           ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
+            ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
           <strong class="text-color-red">
             <span class="fa fa-times-circle"></span> Delete All
           </strong>
@@ -217,7 +217,7 @@
       </span>
       <span class="float-sm-right">
         <button class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="onRestoreAll()"
-           ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
+            ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
           <strong class="text-color-black">
             <span class="fa fa-check-circle"></span> Restore All
           </strong>
@@ -253,16 +253,16 @@
           </td>
           <td class="text-center">
             <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"
-               (click)="onRestore(course.id)"
-               ngbTooltip="Restore the deleted course and its corresponding students and sessions">
+                (click)="onRestore(course.id)"
+                ngbTooltip="Restore the deleted course and its corresponding students and sessions">
               Restore
             </button>
             <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
               Restore
             </button>
             <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" style="color: red"
-               (click)="onDeletePermanently(course.id)"
-               ngbTooltip="Permanently delete the course and its corresponding students and sessions">
+                (click)="onDeletePermanently(course.id)"
+                ngbTooltip="Permanently delete the course and its corresponding students and sessions">
               Delete Permanently
             </button>
             <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse" style="color: red">
