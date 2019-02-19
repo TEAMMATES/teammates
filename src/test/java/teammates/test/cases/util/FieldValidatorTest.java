@@ -256,6 +256,13 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetInvalidityInfoForTeamName_validEmail_returnSpecificErrorString() {
+        String invalidTeamName = "test@gmail.com";
+        String actual = validator.getInvalidityInfoForTeamName(invalidTeamName);
+        assertEquals(TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE, actual);
+    }
+
+    @Test
     public void testGetInvalidityInfoForSectionName_invalid_returnSpecificErrorString() {
         String invalidSectionName = "Percent Symbol % Section";
         String actual = validator.getInvalidityInfoForSectionName(invalidSectionName);
