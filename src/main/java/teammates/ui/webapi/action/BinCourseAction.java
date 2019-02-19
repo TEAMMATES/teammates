@@ -36,9 +36,7 @@ public class BinCourseAction extends Action {
 
             return new JsonResult("The course " + idOfCourseToDelete
                     + " has been deleted. You can restore it from the Recycle Bin manually.");
-        } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
-        } catch (EntityDoesNotExistException e) {
+        }  catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }
