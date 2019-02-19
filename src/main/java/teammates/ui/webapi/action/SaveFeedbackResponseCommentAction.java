@@ -22,7 +22,7 @@ import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
 /**
  * Edits a feedback response comment.
  */
-public class EditFeedbackResponseCommentAction extends Action {
+public class SaveFeedbackResponseCommentAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

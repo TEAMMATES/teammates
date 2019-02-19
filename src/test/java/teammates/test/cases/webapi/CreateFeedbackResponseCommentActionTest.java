@@ -14,9 +14,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
@@ -40,18 +38,15 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Override
     @Test
     public void testExecute() throws Exception {
-        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
-        FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
-
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         int questionNumber = 1;
-        FeedbackQuestionAttributes question = feedbackQuestionsDb.getFeedbackQuestion(
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 session.getFeedbackSessionName(), session.getCourseId(), questionNumber);
 
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
-        FeedbackResponseAttributes response = feedbackResponsesDb.getFeedbackResponse(question.getId(),
+        FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
 
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -189,17 +184,15 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
 
         int questionNumber = 1;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
-        FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
+        FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
                 .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, "")
@@ -208,7 +201,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 .build();
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
         };
 

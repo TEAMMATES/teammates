@@ -11,9 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.webapi.action.DeleteFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
@@ -46,23 +43,19 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     public void testExecute() {
         removeAndRestoreTypicalDataBundle();
 
-        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
-        FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
-        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-
         int questionNumber = 1;
-        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
+        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
 
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
-        FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
+        FeedbackResponseAttributes feedbackResponse = logic.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment = typicalBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S1C1");
 
-        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
+        feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
@@ -83,7 +76,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
+        assertNull(logic.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
 
@@ -98,7 +91,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         result = getJsonResult(action);
         output = (MessageOutput) result.getOutput();
 
-        assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
+        assertNull(logic.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
 
@@ -107,15 +100,14 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         gaeSimulation.loginAsInstructor("idOfInstructor2OfCourse1");
 
         questionNumber = 2;
-        feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
+        feedbackQuestion = logic.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
 
         giverEmail = "student2InCourse1@gmail.tmt";
         receiverEmail = "student5InCourse1@gmail.tmt";
-        feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail,
-                                                                   receiverEmail);
+        feedbackResponse = logic.getFeedbackResponse(feedbackQuestion.getId(), giverEmail, receiverEmail);
         feedbackResponseComment = typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
+        feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
@@ -127,7 +119,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         result = getJsonResult(action);
         output = (MessageOutput) result.getOutput();
 
-        assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
+        assertNull(logic.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt));
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
     }
@@ -139,19 +131,15 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     protected void testAccessControlsForCommentByInstructor() throws Exception {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-
         int questionNumber = 2;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackResponseCommentAttributes comment = typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
         FeedbackResponseAttributes response = typicalBundle.feedbackResponses.get("response1ForQ2S1C1");
 
-        FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = frDb.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = frcDb.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
         comment.feedbackResponseId = response.getId();
 
         String[] submissionParams = new String[] {
@@ -168,20 +156,15 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     public void testAccessControlsForCommentByStudent() {
-
-        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-
         int questionNumber = 3;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
         FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromStudent1");
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ3");
 
-        FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = frDb.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = frcDb.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
@@ -197,20 +180,15 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     public void testAccessControlsForCommentByTeam() {
-
-        final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-
         int questionNumber = 4;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
         FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromTeam1");
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ4");
 
-        FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = frDb.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = frcDb.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),

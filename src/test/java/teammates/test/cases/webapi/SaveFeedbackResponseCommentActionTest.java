@@ -12,18 +12,15 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.webapi.action.EditFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.action.SaveFeedbackResponseCommentAction;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
 
 /**
- * SUT: {@link EditFeedbackResponseCommentAction}.
+ * SUT: {@link SaveFeedbackResponseCommentAction}.
  */
-public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFeedbackResponseCommentAction> {
+public class SaveFeedbackResponseCommentActionTest extends BaseActionTest<SaveFeedbackResponseCommentAction> {
 
     @Override
     protected String getActionUri() {
@@ -38,23 +35,19 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
     @Override
     @Test
     public void testExecute() throws Exception {
-        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
-        FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
-        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-
         int questionNumber = 1;
-        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
+        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
 
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes feedbackResponse =
-                feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail, receiverEmail);
+                logic.getFeedbackResponse(feedbackQuestion.getId(), giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
 
-        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
+        feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
         assertNotNull("response comment not found", feedbackResponseComment);
 
@@ -73,11 +66,11 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
 
         FeedbackResponseCommentSaveRequest requestBody = new FeedbackResponseCommentSaveRequest(
                 feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
-        EditFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
+        SaveFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         FeedbackResponseCommentAttributes frc =
-                feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
+                logic.getFeedbackResponseComment(feedbackResponseComment.getId());
         assertEquals(feedbackResponseComment.commentText + " (Edited)", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
@@ -167,7 +160,7 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
         requestBody = new FeedbackResponseCommentSaveRequest(
                 feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
         action = getAction(requestBody, submissionParams);
-        EditFeedbackResponseCommentAction action0 = action;
+        SaveFeedbackResponseCommentAction action0 = action;
         assertThrows(EntityNotFoundException.class, () -> getJsonResult(action0));
 
         ______TS("Instructor is not feedback response comment giver");
@@ -183,7 +176,7 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
-        frc = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
+        frc = logic.getFeedbackResponseComment(feedbackResponseComment.getId());
         assertEquals(feedbackResponseComment.commentText + " (Edited)", frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
         assertEquals("instructor1@course1.tmt", frc.commentGiver);
@@ -208,7 +201,7 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
-        frc = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.getId());
+        frc = logic.getFeedbackResponseComment(feedbackResponseComment.getId());
         assertEquals(feedbackResponseComment.commentText + " (Edited for published session)",
                 frc.commentText);
         assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
@@ -234,33 +227,25 @@ public class EditFeedbackResponseCommentActionTest extends BaseActionTest<EditFe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         int questionNumber = 1;
-        FeedbackQuestionAttributes feedbackQuestion = fqDb.getFeedbackQuestion(
+        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
 
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
-        FeedbackResponseAttributes feedbackResponse = frDb.getFeedbackResponse(feedbackQuestion.getId(),
+        FeedbackResponseAttributes feedbackResponse = logic.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment = typicalBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q1S1C1");
 
-        feedbackResponseComment = frcDb.getFeedbackResponseComment(feedbackResponse.getId(),
+        feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "comment",
         };
         // this person is not the giver. so not accessible
         verifyInaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
