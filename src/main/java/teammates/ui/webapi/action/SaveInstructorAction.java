@@ -44,13 +44,11 @@ public class SaveInstructorAction extends UpdateInstructorPrivilegesAbstractActi
         InstructorAttributes instructorToEdit = extractUpdatedInstructor(courseId, instructorRequest);
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
-        String email = instructorRequest.getEmail();
-        String id = instructorRequest.getId();
-
         try {
-            if (id == null) {
+            if (instructorRequest.getId() == null) {
                 logic.updateInstructor(
-                        InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.courseId, email)
+                        InstructorAttributes
+                                .updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorRequest.getEmail())
                                 .withName(instructorToEdit.name)
                                 .withDisplayedName(instructorToEdit.displayedName)
                                 .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
@@ -59,7 +57,8 @@ public class SaveInstructorAction extends UpdateInstructorPrivilegesAbstractActi
                                 .build());
             } else {
                 logic.updateInstructorCascade(
-                        InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, id)
+                        InstructorAttributes
+                                .updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorRequest.getId())
                                 .withEmail(instructorToEdit.email)
                                 .withName(instructorToEdit.name)
                                 .withDisplayedName(instructorToEdit.displayedName)
@@ -120,11 +119,7 @@ public class SaveInstructorAction extends UpdateInstructorPrivilegesAbstractActi
      */
     private InstructorAttributes extractUpdatedInstructor(String courseId, InstructorCreateRequest instructorRequest) {
 
-        String instructorId = instructorRequest.getId();
-        String instructorName = instructorRequest.getName();
-        String instructorEmail = instructorRequest.getEmail();
         String instructorRole = instructorRequest.getRoleName();
-        boolean isDisplayedToStudents = instructorRequest.getIsDisplayedToStudent();
         String displayedName = instructorRequest.getDisplayName();
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
@@ -133,8 +128,9 @@ public class SaveInstructorAction extends UpdateInstructorPrivilegesAbstractActi
         displayedName = SanitizationHelper.sanitizeName(displayedName);
 
         InstructorAttributes instructorToEdit =
-                updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
-                        instructorRole, isDisplayedToStudents, displayedName);
+                updateBasicInstructorAttributes(courseId,  instructorRequest.getId(),
+                        instructorRequest.getName(), instructorRequest.getEmail(),
+                        instructorRole, instructorRequest.getIsDisplayedToStudent(), displayedName);
 
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);
