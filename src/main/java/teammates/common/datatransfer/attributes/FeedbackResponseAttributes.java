@@ -207,7 +207,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         frs.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
     }
 
-
     /**
      * Updates with {@link UpdateOptions}.
      */

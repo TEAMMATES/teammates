@@ -287,12 +287,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-            frca.showCommentTo = showCommentTo == null ? new ArrayList<FeedbackParticipantType>() : showCommentTo;
+            frca.showCommentTo = showCommentTo == null ? new ArrayList<>() : showCommentTo;
             return this;
         }
 
         public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            frca.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
+            frca.showGiverNameTo = showGiverNameTo == null ? new ArrayList<>() : showGiverNameTo;
             return this;
         }
 

@@ -3,9 +3,9 @@ package teammates.ui.template;
 import java.util.Arrays;
 import java.util.List;
 
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.SectionDetail;
 
 public class InstructorFeedbackResultsFilterPanel {
     private boolean isStatsShown;
