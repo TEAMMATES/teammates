@@ -48,6 +48,7 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
+        map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.SESSIONS_ADMIN, GET, GetOngoingSessionsAction.class);
