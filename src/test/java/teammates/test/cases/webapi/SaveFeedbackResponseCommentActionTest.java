@@ -227,8 +227,6 @@ public class SaveFeedbackResponseCommentActionTest extends BaseActionTest<SaveFe
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-
         int questionNumber = 1;
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
