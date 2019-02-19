@@ -37,16 +37,28 @@ public class ProfilesLogicTest extends BaseLogicTest {
                 .withMoreInfo("moreInfo")
                 .build();
 
-        profilesLogic.updateOrCreateStudentProfile(expectedSpa);
+        StudentProfileAttributes updateSpa = profilesLogic.updateOrCreateStudentProfile(
+                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
+                        .withShortName(expectedSpa.shortName)
+                        .withEmail(expectedSpa.email)
+                        .withInstitute(expectedSpa.institute)
+                        .withNationality(expectedSpa.nationality)
+                        .withGender(expectedSpa.gender)
+                        .withMoreInfo(expectedSpa.moreInfo)
+                        .build());
 
         StudentProfileAttributes actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
+        assertEquals(expectedSpa.toString(), updateSpa.toString());
 
         ______TS("update SP");
 
         expectedSpa.pictureKey = "non-empty";
-        profilesLogic.updateOrCreateStudentProfile(expectedSpa);
+        profilesLogic.updateOrCreateStudentProfile(
+                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
+                        .withPictureKey(expectedSpa.pictureKey)
+                        .build());
 
         actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
@@ -55,7 +67,10 @@ public class ProfilesLogicTest extends BaseLogicTest {
         ______TS("update picture");
 
         expectedSpa.pictureKey = writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png");
-        profilesLogic.updateStudentProfilePicture(expectedSpa.googleId, expectedSpa.pictureKey);
+        profilesLogic.updateOrCreateStudentProfile(
+                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
+                        .withPictureKey(expectedSpa.pictureKey)
+                        .build());
         actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
@@ -66,11 +81,10 @@ public class ProfilesLogicTest extends BaseLogicTest {
         // more tests in ProfilesDbTest
 
         profilesLogic.updateOrCreateStudentProfile(
-                StudentProfileAttributes.builder("sp.logic.test")
+                StudentProfileAttributes.updateOptionsBuilder("sp.logic.test")
                         .withShortName("Test Name")
                         .withPictureKey(writeFileToGcs("sp.logic.test", "src/test/resources/images/profile_pic_default.png"))
-                        .build()
-        );
+                        .build());
         // make sure we create an profile with picture key
         StudentProfileAttributes savedProfile = profilesLogic.getStudentProfile("sp.logic.test");
         assertNotNull(savedProfile);

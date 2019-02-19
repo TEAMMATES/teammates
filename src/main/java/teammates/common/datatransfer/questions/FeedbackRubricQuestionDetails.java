@@ -136,7 +136,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (weight != null && choice != null) {
                     if (!rowAdded) {
                         weightRows++;
-                        rubricWeightsForEachCell.add(new ArrayList<Double>());
+                        rubricWeightsForEachCell.add(new ArrayList<>());
                         rowAdded = true;
                     }
                     try {
@@ -191,7 +191,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (description != null) {
                     if (!rowAdded) {
                         descRows++;
-                        rubricDescriptions.add(new ArrayList<String>());
+                        rubricDescriptions.add(new ArrayList<>());
                         rowAdded = true;
                     }
                     rubricDescriptions.get(descRows).add(description);

@@ -3,6 +3,9 @@ package teammates.test.driver;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpStatus;
+
+import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.api.EmailSender;
 
@@ -17,8 +20,9 @@ public class MockEmailSender extends EmailSender {
     private List<EmailWrapper> sentEmails = new ArrayList<>();
 
     @Override
-    public void sendEmail(EmailWrapper email) {
+    public EmailSendingStatus sendEmail(EmailWrapper email) {
         sentEmails.add(email);
+        return new EmailSendingStatus(HttpStatus.SC_OK, null);
     }
 
     @Override

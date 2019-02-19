@@ -12,8 +12,8 @@ import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Email;
 
 import teammates.common.util.Config;
+import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 
 /**
  * Email sender service provided by Mailjet.
@@ -24,8 +24,6 @@ import teammates.common.util.Logger;
  * @see MailjetResponse
  */
 public class MailjetService extends EmailSenderService {
-
-    private static final Logger log = Logger.getLogger();
 
     /**
      * {@inheritDoc}
@@ -51,13 +49,11 @@ public class MailjetService extends EmailSenderService {
     }
 
     @Override
-    protected void sendEmailWithService(EmailWrapper wrapper) throws MailjetException, MailjetSocketTimeoutException {
+    public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws MailjetException, MailjetSocketTimeoutException {
         MailjetRequest email = parseToEmail(wrapper);
         MailjetClient mailjet = new MailjetClient(Config.MAILJET_APIKEY, Config.MAILJET_SECRETKEY);
         MailjetResponse response = mailjet.post(email);
-        if (isNotSuccessStatus(response.getStatus())) {
-            log.severe("Email failed to send: " + response.getData().toString());
-        }
+        return new EmailSendingStatus(response.getStatus(), response.getData().toString());
     }
 
 }

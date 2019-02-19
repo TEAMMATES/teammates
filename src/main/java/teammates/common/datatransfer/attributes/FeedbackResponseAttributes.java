@@ -8,6 +8,7 @@ import java.util.List;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -204,6 +205,111 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
         frs.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
+    }
+
+    /**
+     * Updates with {@link UpdateOptions}.
+     */
+    public void update(UpdateOptions updateOptions) {
+        updateOptions.giverOption.ifPresent(s -> giver = s);
+        updateOptions.giverSectionOption.ifPresent(s -> giverSection = s);
+        updateOptions.recipientOption.ifPresent(s -> recipient = s);
+        updateOptions.recipientSectionOption.ifPresent(s -> recipientSection = s);
+        updateOptions.responseDetailsUpdateOption.ifPresent(this::setResponseDetails);
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a response.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(String feedbackResponseId) {
+        return new UpdateOptions.Builder(feedbackResponseId);
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link FeedbackResponseAttributes}.
+     */
+    public static class UpdateOptions {
+        private String feedbackResponseId;
+
+        private UpdateOption<String> giverOption = UpdateOption.empty();
+        private UpdateOption<String> giverSectionOption = UpdateOption.empty();
+        private UpdateOption<String> recipientOption = UpdateOption.empty();
+        private UpdateOption<String> recipientSectionOption = UpdateOption.empty();
+        private UpdateOption<FeedbackResponseDetails> responseDetailsUpdateOption = UpdateOption.empty();
+
+        private UpdateOptions(String feedbackResponseId) {
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackResponseId);
+
+            this.feedbackResponseId = feedbackResponseId;
+        }
+
+        public String getFeedbackResponseId() {
+            return feedbackResponseId;
+        }
+
+        @Override
+        public String toString() {
+            return "FeedbackResponseAttributes.UpdateOptions ["
+                    + "feedbackResponseId = " + feedbackResponseId
+                    + ", giver = " + giverOption
+                    + ", giverSection = " + giverSectionOption
+                    + ", recipient = " + recipientOption
+                    + ", recipientSection = " + recipientSectionOption
+                    + ", responseDetails = " + JsonUtils.toJson(responseDetailsUpdateOption)
+                    + "]";
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder {
+            private UpdateOptions updateOptions;
+
+            private Builder(String feedbackResponseId) {
+                updateOptions = new UpdateOptions(feedbackResponseId);
+            }
+
+            public Builder withGiver(String giver) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giver);
+
+                updateOptions.giverOption = UpdateOption.of(giver);
+                return this;
+            }
+
+            public Builder withGiverSection(String giverSection) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giverSection);
+
+                updateOptions.giverSectionOption = UpdateOption.of(giverSection);
+                return this;
+            }
+
+            public Builder withRecipient(String recipient) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, recipient);
+
+                updateOptions.recipientOption = UpdateOption.of(recipient);
+                return this;
+            }
+
+            public Builder withRecipientSection(String recipientSection) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, recipientSection);
+
+                updateOptions.recipientSectionOption = UpdateOption.of(recipientSection);
+                return this;
+            }
+
+            public Builder withResponseDetails(FeedbackResponseDetails responseDetails) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, responseDetails);
+
+                updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails);
+                return this;
+            }
+
+            public UpdateOptions build() {
+                return updateOptions;
+            }
+
+        }
+
     }
 
 }

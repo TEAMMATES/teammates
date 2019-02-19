@@ -8,28 +8,22 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Action: creates a new instructor account with sample courses.
  */
 public class CreateAccountAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -70,13 +64,9 @@ public class CreateAccountAction extends Action {
                 .withInstructorInstitution(instructorInstitution)
                 .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
-        EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
+        EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                 instructorList.get(0).email, instructorName, joinLink);
-        try {
-            emailSender.sendEmail(email);
-        } catch (EmailSendingException e) {
-            log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
-        }
+        emailSender.sendEmail(email);
 
         JoinLink output = new JoinLink(joinLink);
         return new JsonResult(output);

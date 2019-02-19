@@ -3,26 +3,23 @@ package teammates.common.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * Contains utility methods to process exceptions.
+ */
 @SuppressWarnings("serial")
-public class TeammatesException extends Exception {
+public final class TeammatesException {
 
-    public TeammatesException() {
-        super();
-    }
+    private TeammatesException() { }
 
-    public TeammatesException(String message) {
-        super(message);
-    }
-
-    public TeammatesException(Throwable cause) {
-        super(cause);
-    }
-
-    public static String toStringWithStackTrace(Throwable e) {
+    /**
+     * Returns the throwable's printed stack trace as string.
+     */
+    public static String toStringWithStackTrace(Throwable t) {
         StringWriter sw = new StringWriter();
         try (PrintWriter pw = new PrintWriter(sw)) {
-            e.printStackTrace(pw);
+            t.printStackTrace(pw);
             return System.lineSeparator() + sw.toString();
         }
     }
+
 }

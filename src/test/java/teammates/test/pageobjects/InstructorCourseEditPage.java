@@ -382,7 +382,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public boolean isInstructorListSortedByName() {
         boolean isSorted = true;
-        List<String> instructorNames = new ArrayList<String>();
+        List<String> instructorNames = new ArrayList<>();
         List<WebElement> elements = browser.driver.findElements(By.xpath("//*[starts-with(@id, 'instructorname')]"));
         for (int i = 1; i < elements.size(); i++) {
             instructorNames.add(browser.driver.findElement(By.id("instructorname" + i)).getAttribute("value"));

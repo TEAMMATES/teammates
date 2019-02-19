@@ -1,6 +1,5 @@
 package teammates.test.cases.storage;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,9 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -20,7 +19,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.SectionDetail;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -92,7 +90,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         String newRecipientEmail = "new-email@tmt.com";
         feedbackResponse.recipient = newRecipientEmail;
-        frDb.updateFeedbackResponse(feedbackResponse);
+        frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(feedbackResponse.getId())
+                        .withRecipient(newRecipientEmail)
+                        .build());
 
         FeedbackResponseAttributes updatedFr = frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, newRecipientEmail);
 
@@ -678,27 +679,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         AssertionError ae = assertThrows(AssertionError.class, () -> frDb.updateFeedbackResponse(null));
         AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ______TS("invalid feedback response attributes");
-
-        FeedbackResponseAttributes invalidFra = getResponseAttributes("response3ForQ2S1C1");
-        invalidFra.setId(frDb.getFeedbackResponse(invalidFra.feedbackQuestionId,
-                invalidFra.giver, invalidFra.recipient).getId());
-        invalidFra.courseId = "invalid course_";
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> frDb.updateFeedbackResponse(invalidFra));
-        AssertHelper.assertContains(
-                getPopulatedErrorMessage(
-                        FieldValidator.COURSE_ID_ERROR_MESSAGE, "invalid course_",
-                        FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
-                        FieldValidator.COURSE_ID_MAX_LENGTH),
-                ipe.getLocalizedMessage());
-
         ______TS("feedback response does not exist");
 
-        FeedbackResponseAttributes nonexistantFr = getResponseAttributes("response3ForQ2S1C1");
-        nonexistantFr.setId("non-existent fr id");
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> frDb.updateFeedbackResponse(nonexistantFr));
+                () -> frDb.updateFeedbackResponse(
+                        FeedbackResponseAttributes.updateOptionsBuilder("non-existent")
+                                .withGiver("giverIdentifier")
+                                .build()));
         AssertHelper.assertContains(FeedbackResponsesDb.ERROR_UPDATE_NON_EXISTENT, ednee.getLocalizedMessage());
 
         ______TS("standard success case");
@@ -708,16 +695,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
                 modifiedResponse.giver, modifiedResponse.recipient);
 
-        Map<String, String[]> requestParameters = new HashMap<>();
-        requestParameters.put("questiontype-1", new String[] { "TEXT" });
-        requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
+        FeedbackResponseDetails frd = new FeedbackTextResponseDetails("New answer text!");
+        modifiedResponse.setResponseDetails(frd);
 
-        String[] answer = {"New answer text!"};
-        FeedbackResponseDetails frd = FeedbackResponseDetails.createResponseDetails(
-                    answer, FeedbackQuestionType.TEXT,
-                    null, requestParameters, 1, 0);
-        modifiedResponse.responseDetails = frd;
-        frDb.updateFeedbackResponse(modifiedResponse);
+        frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(modifiedResponse.getId())
+                        .withResponseDetails(frd)
+                        .build());
 
         verifyPresentInDatastore(modifiedResponse);
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
@@ -725,6 +709,24 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                                                     modifiedResponse.recipient);
         assertEquals("New answer text!", modifiedResponse.getResponseDetails().getAnswerString());
 
+        ______TS("standard success case, recreate response when recipient/giver change");
+
+        FeedbackResponseAttributes updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(modifiedResponse.getId())
+                        .withGiver("giver@email.com")
+                        .withRecipient("recipient@email.com")
+                        .build());
+
+        assertNull(frDb.getFeedbackResponse(modifiedResponse.getId()));
+        FeedbackResponseAttributes actualResponse = frDb.getFeedbackResponse(updatedResponse.getId());
+        assertNotNull(actualResponse);
+        assertEquals("giver@email.com", updatedResponse.giver);
+        assertEquals(updatedResponse.giver, actualResponse.giver);
+        assertEquals("recipient@email.com", updatedResponse.recipient);
+        assertEquals(updatedResponse.recipient, actualResponse.recipient);
+        assertEquals(modifiedResponse.courseId, updatedResponse.courseId);
+        assertEquals(modifiedResponse.feedbackSessionName, updatedResponse.feedbackSessionName);
+        assertEquals(modifiedResponse.getFeedbackQuestionType(), updatedResponse.getFeedbackQuestionType());
     }
 
     private FeedbackResponseAttributes getNewFeedbackResponseAttributes() {

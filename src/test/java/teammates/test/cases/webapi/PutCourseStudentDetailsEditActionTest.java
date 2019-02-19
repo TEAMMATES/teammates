@@ -162,9 +162,7 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
         invalidParamsOutput = (MessageOutput) result.getOutput();
 
-        assertEquals(String.format(Const.StatusMessages.STUDENT_EMAIL_TAKEN_MESSAGE, student2InCourse1.name,
-                takenStudentEmail),
-                invalidParamsOutput.getMessage());
+        assertEquals("Trying to update to an email that is already used", invalidParamsOutput.getMessage());
 
         // deleting edited student
         AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);

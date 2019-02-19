@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
+import { Gender } from '../../../types/gender';
 import { StudentProfile } from './student-profile';
 
 /**
@@ -12,6 +13,8 @@ import { StudentProfile } from './student-profile';
   styleUrls: ['./student-profile.component.scss'],
 })
 export class StudentProfileComponent implements OnInit {
+
+  Gender: typeof Gender = Gender; // enum
 
   @Input() studentProfile: StudentProfile | undefined;
   @Input() studentName: string = '';

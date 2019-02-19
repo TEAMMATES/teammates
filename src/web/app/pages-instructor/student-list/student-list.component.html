@@ -1,5 +1,9 @@
-<table class="table table-bordered table-striped m-0">
-  <thead [ngClass]="{'thead-gray': useGrayHeading, 'text-white bg-primary font-weight-bold': !useGrayHeading}">
+<div class="table-responsive">
+  <table class="table table-bordered table-striped m-0">
+    <thead
+        [ngClass]="{'thead-gray': useGrayHeading, 'text-white bg-primary font-weight-bold': !useGrayHeading}"
+        [hidden]="isHideTableHead"
+    >
     <tr>
       <th>Photo</th>
       <th *ngIf="hasSection()">
@@ -19,40 +23,41 @@
       </th>
       <th>Action(s)</th>
     </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngFor="let section of sections"> <tr *ngFor="let student of section.students; trackBy: trackByFn">
-      <td class="align-center">
-        <ng-template #popContent><img class="profile-pic" src="{{student.photoUrl}}"></ng-template>
-        <img *ngIf="student.photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{student.photoUrl}}"
-          [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
-        <ng-template #viewPhotoBtn>
-          <a href="#" role="button" (click)="loadPhoto(student); $event.preventDefault();">View Photo</a>
-        </ng-template>
-      </td>
-      <td *ngIf="hasSection()">{{section.sectionName}}</td>
-      <td>{{student.team}}</td>
-      <td>{{student.name}}</td>
-      <td class="align-center">{{student.status}}</td>
-      <td>{{student.email}}</td>
-      <td class="no-print align-center">
-        <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
-          let-routerLink="routerLink" let-queryParams="queryParams">
-          <a class="btn btn-secondary btn-sm mr-2"
-            [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
-            [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
-            [routerLink]="routerLink"
-            [queryParams]="queryParams">
-            {{name}}</a>
-        </ng-template>
-        <ng-container *ngTemplateOutlet="actionButton; context: {
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let section of sections">
+      <tr *ngFor="let student of section.students; trackBy: trackByFn" [hidden]="isStudentToHide(student.email)"s>
+        <td class="align-center">
+          <ng-template #popContent><img class="profile-pic" src="{{student.photoUrl}}"></ng-template>
+          <img *ngIf="student.photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{student.photoUrl}}"
+               [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
+          <ng-template #viewPhotoBtn>
+            <a [routerLink]="" role="button" (click)="loadPhoto(student); $event.preventDefault();">View Photo</a>
+          </ng-template>
+        </td>
+        <td *ngIf="hasSection()">{{section.sectionName}}</td>
+        <td>{{student.team}}</td>
+        <td>{{student.name}}</td>
+        <td class="align-center">{{student.status}}</td>
+        <td>{{student.email}}</td>
+        <td class="no-print align-center">
+          <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
+                       let-routerLink="routerLink" let-queryParams="queryParams">
+            <a class="btn btn-secondary btn-sm mr-2"
+               [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
+               [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
+               [routerLink]="routerLink"
+               [queryParams]="queryParams">
+              {{name}}</a>
+          </ng-template>
+          <ng-container *ngTemplateOutlet="actionButton; context: {
           isEnabled: section.isAllowedToViewStudentInSection,
           tooltip: 'View the details of the student',
           name: 'View',
           routerLink: '/web/instructor/courses/student/details',
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
-        <ng-container *ngTemplateOutlet="actionButton; context: {
+          <ng-container *ngTemplateOutlet="actionButton; context: {
           isEnabled: section.isAllowedToModifyStudent,
           tooltip: 'Use this to edit the details of this student. To edit multiple students'
             + ' in one go, you can use the enroll page: '
@@ -115,7 +120,9 @@
           routerLink: '/web/instructor/students/records',
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
-      </td>
-    </tr></ng-container>
-  </tbody>
-</table>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>

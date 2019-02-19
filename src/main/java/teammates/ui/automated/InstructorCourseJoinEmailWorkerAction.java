@@ -3,7 +3,6 @@ package teammates.ui.automated;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
@@ -43,11 +42,7 @@ public class InstructorCourseJoinEmailWorkerAction extends AutomatedAction {
             email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor, course);
         }
 
-        try {
-            emailSender.sendEmail(email);
-        } catch (Exception e) {
-            Assumption.fail("Unexpected error while sending email" + TeammatesException.toStringWithStackTrace(e));
-        }
+        emailSender.sendEmail(email);
     }
 
 }

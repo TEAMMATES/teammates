@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
@@ -16,14 +13,11 @@ import {
 } from '../pages-session/session-submission-page/session-submission-page.component';
 import { SessionSubmissionPageModule } from '../pages-session/session-submission-page/session-submission-page.module';
 import { StudentCourseDetailsPageComponent } from './student-course-details-page/student-course-details-page.component';
+import { StudentCourseDetailsPageModule } from './student-course-details-page/student-course-details-page.module';
 import { StudentHomePageComponent } from './student-home-page/student-home-page.component';
+import { StudentHomePageModule } from './student-home-page/student-home-page.module';
 import { StudentProfilePageComponent } from './student-profile-page/student-profile-page.component';
-
-import { Pipes } from '../pipes/pipes.module';
-import { GenderFormatPipe } from './student-profile-page/student-profile-gender.pipe';
-
-// tslint:disable-next-line:max-line-length
-import { UploadEditProfilePictureModalComponent } from './student-profile-page/upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
+import { StudentProfilePageModule } from './student-profile-page/student-profile-page.module';
 
 const routes: Routes = [
   {
@@ -80,25 +74,14 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    ImageCropperModule,
-    NgbModule,
     PageNotFoundModule,
-    Pipes,
+    StudentHomePageModule,
+    StudentProfilePageModule,
+    StudentCourseDetailsPageModule,
     StudentHelpPageModule,
     SessionResultPageModule,
     SessionSubmissionPageModule,
-    ReactiveFormsModule,
     RouterModule.forChild(routes),
-  ],
-  declarations: [
-    StudentHomePageComponent,
-    StudentProfilePageComponent,
-    StudentCourseDetailsPageComponent,
-    GenderFormatPipe,
-    UploadEditProfilePictureModalComponent,
-  ],
-  entryComponents: [
-    UploadEditProfilePictureModalComponent,
   ],
 })
 export class StudentPagesModule {}

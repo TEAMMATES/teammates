@@ -20,8 +20,11 @@ import com.googlecode.objectify.annotation.Unindex;
 @Unindex
 public class StudentProfile extends BaseEntity {
 
+    // PMD.UnusedPrivateField and Singular field as suppressed
+    // as this is used by Objectify to specify Account as @Parent entity
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @Parent
-    private Key<Account> account; // NOPMD - specifies parent as Account; used by Objectify
+    private Key<Account> account;
 
     @Id
     private String googleId;

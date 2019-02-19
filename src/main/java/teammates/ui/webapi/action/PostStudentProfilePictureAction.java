@@ -7,7 +7,9 @@ import javax.servlet.http.Part;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
@@ -45,11 +47,14 @@ public class PostStudentProfilePictureAction extends Action {
                 is.read(imageData);
             }
             String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(userInfo.id, imageData);
-            logic.updateStudentProfilePicture(userInfo.id, pictureKey);
+            logic.updateOrCreateStudentProfile(
+                    StudentProfileAttributes.updateOptionsBuilder(userInfo.id)
+                            .withPictureKey(pictureKey)
+                            .build());
             PostStudentProfileResults dataFormat =
                     new PostStudentProfileResults(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, pictureKey);
             return new JsonResult(dataFormat);
-        } catch (IllegalArgumentException | IOException e) {
+        } catch (InvalidParametersException | IllegalArgumentException | IOException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
     }
