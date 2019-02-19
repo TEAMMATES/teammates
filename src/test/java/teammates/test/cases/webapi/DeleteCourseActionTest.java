@@ -55,7 +55,7 @@ public class DeleteCourseActionTest
     }
 
     @Test
-    public void testNotMetPreconditions() throws Exception {
+    public void testExecute_notInRecycleBin_shouldPass() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
