@@ -1,8 +1,8 @@
 package teammates.ui.webapi.output;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-
 import java.time.Instant;
+
+import teammates.common.datatransfer.attributes.AccountAttributes;
 
 /**
  * Output format of account data.
