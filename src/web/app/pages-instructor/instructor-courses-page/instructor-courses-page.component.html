@@ -175,7 +175,7 @@
         <tr *ngFor="let course of archivedCourses">
           <td>{{course.id}}</td>
           <td>{{course.name}}</td>
-          <td ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">
+          <td container="body" ngbTooltip="{{course.createdAt | date:'EEE, dd MMM yyyy, h:mma'}}">
             {{course.createdAt | date:'d MMM yyyy'}}
           </td>
           <td class="text-center">
