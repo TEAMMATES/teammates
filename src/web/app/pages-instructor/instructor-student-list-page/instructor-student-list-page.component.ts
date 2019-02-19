@@ -194,13 +194,6 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Navigate to the instructor enroll page for course.
-   */
-  enroll(courseid: string): void {
-    this.router.navigate(['/web/instructor/courses/enroll'], { queryParams: { courseid } });
-  }
-
-  /**
    * Function to get initial data of the instructor's courses.
    */
   loadCourses(user: string): void {
