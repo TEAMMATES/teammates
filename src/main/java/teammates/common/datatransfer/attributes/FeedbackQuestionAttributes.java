@@ -868,6 +868,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             }
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withQuestionDescription(String questionDescription) {
+                // questionDescription can be null
                 updateOptions.questionDescriptionOption = UpdateOption.of(questionDescription);
                 return this;
             }
