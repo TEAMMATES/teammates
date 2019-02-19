@@ -46,8 +46,8 @@ public class DeleteInstructorInCourseAction extends Action {
     }
 
     /**
-     * Returns true if there is a joined instructor (other than the instructor to delete)
-     * with the privilege of modifying instructors.
+     * Returns true if there is at least one joined instructor (other than the instructor to delete)
+     * with the privilege of modifying instructors and at least one instructor visible to the students.
      *
      * @param courseId                Id of the course
      * @param instructorToDeleteEmail Email of the instructor who is being deleted
@@ -55,20 +55,31 @@ public class DeleteInstructorInCourseAction extends Action {
     private boolean hasAlternativeInstructor(String courseId, String instructorToDeleteEmail) {
 
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        boolean isAlternativeInstructorWithModifyInstructorPermissionPresent = false;
+        boolean isAlternativeVisibleInstructorPresent = false;
 
         for (InstructorAttributes instr : instructors) {
 
-            boolean isAlternativeInstructor =
+            isAlternativeInstructorWithModifyInstructorPermissionPresent =
                     instr.isRegistered()
                             && !instr.getEmail().equals(instructorToDeleteEmail)
                             && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
 
-            if (isAlternativeInstructor) {
-                return true;
+            if (isAlternativeInstructorWithModifyInstructorPermissionPresent) {
+                break;
             }
         }
 
-        return false;
-    }
+        for (InstructorAttributes instr : instructors) {
 
+            isAlternativeVisibleInstructorPresent = instr.isDisplayedToStudents()
+                    && !instr.getEmail().equals(instructorToDeleteEmail);
+
+            if (isAlternativeVisibleInstructorPresent) {
+                break;
+            }
+        }
+
+        return isAlternativeInstructorWithModifyInstructorPermissionPresent && isAlternativeVisibleInstructorPresent;
+    }
 }

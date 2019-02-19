@@ -58,6 +58,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testIsEmailOfInstructorOfCourse();
         testVerifyInstructorExists();
         testVerifyIsEmailOfInstructorOfCourse();
+        testVerifyAtLeastOneInstructorIsDisplayed();
         testIsNewInstructor();
         testAddInstructor();
         testGetCoOwnersForCourse();
@@ -394,6 +395,37 @@ public class InstructorsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
+    private void testVerifyAtLeastOneInstructorIsDisplayed() throws Exception {
+
+        ______TS("success: at least one instructor is displayed to students");
+
+        String courseId = "idOfTypicalCourse1";
+        String courseIdWithNoInstructorsDisplayed = "idOfTestingInstructorsDisplayedCourse";
+
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, true,
+                true);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, true,
+                false);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, false,
+                false);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
+                false, false);
+
+        ______TS("failure: No instructors displayed to students");
+
+        InvalidParametersException ive = assertThrows(InvalidParametersException.class,
+                () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
+                        true, false));
+        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
+
+        ______TS("failure: null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(null,
+                        true, true));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
+    }
+
     private void testIsNewInstructor() {
 
         ______TS("success: instructor with only 1 sample course");
@@ -474,6 +506,9 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         String courseId = "idOfTypicalCourse1";
         String googleId = "idOfInstructor2OfCourse1";
+        String googleIdOfNonVisibleInstructor = "idOfInstructorNotDisplayed2";
+        String courseIdWithNoInstructorsDisplayed = "idOfTestingInstructorsDisplayedCourse";
+        String googleIdOfVisibleInstructor = "idOfInstructorNotDisplayed1";
 
         InstructorAttributes instructorToBeUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
         instructorToBeUpdated.name = "New Name";
@@ -490,6 +525,27 @@ public class InstructorsLogicTest extends BaseLogicTest {
         InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
         verifySameInstructor(instructorToBeUpdated, instructorUpdated);
         verifySameInstructor(instructorToBeUpdated, updatedInstructor);
+
+        ______TS("case: on editing non visible instructor with only one other instructor displayed");
+
+        InstructorAttributes nonVisibleInstructorToBeUpdated = instructorsLogic.getInstructorForGoogleId(
+                courseIdWithNoInstructorsDisplayed, googleIdOfNonVisibleInstructor);
+        nonVisibleInstructorToBeUpdated.name = "New Name";
+        nonVisibleInstructorToBeUpdated.email = "new-email@course1.tmt";
+
+        InstructorAttributes nonVisibleUpdatedInstructor = instructorsLogic.updateInstructorByGoogleIdCascade(
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                nonVisibleInstructorToBeUpdated.courseId, nonVisibleInstructorToBeUpdated.googleId)
+                        .withName(nonVisibleInstructorToBeUpdated.name)
+                        .withEmail(nonVisibleInstructorToBeUpdated.email)
+                        .build());
+
+        InstructorAttributes nonVisibleInstructorUpdated = instructorsLogic
+                .getInstructorForGoogleId(courseIdWithNoInstructorsDisplayed, googleIdOfNonVisibleInstructor);
+
+        verifySameInstructor(nonVisibleInstructorToBeUpdated, nonVisibleInstructorUpdated);
+        verifySameInstructor(nonVisibleInstructorToBeUpdated, nonVisibleUpdatedInstructor);
 
         ______TS("failure: instructor doesn't exist");
 
@@ -519,6 +575,20 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> instructorsLogic.updateInstructorByGoogleIdCascade(anotherUpdateOptions));
         assertEquals("Trying to update non-existent Entity: " + anotherUpdateOptions, ednee.getMessage());
+
+        ______TS("Changing visible instructor to non-visible when no other instructors are displayed");
+
+        InstructorAttributes.UpdateOptionsWithGoogleId visibleInstructorUpdateOptions =
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                courseIdWithNoInstructorsDisplayed, googleIdOfVisibleInstructor)
+                        .withIsDisplayedToStudents(false)
+                        .build();
+
+        InvalidParametersException ive = assertThrows(InvalidParametersException.class,
+                () -> instructorsLogic.updateInstructorByGoogleIdCascade(visibleInstructorUpdateOptions));
+
+        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
     }
 
     private void testUpdateInstructorByEmail() throws Exception {

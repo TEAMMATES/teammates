@@ -1,5 +1,6 @@
 package teammates.test.cases.webapi;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,16 +73,21 @@ public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGet
         InstructorAttributes instructorNotYetJoinCourse1 = typicalBundle.instructors.get("instructorNotYetJoinCourse1");
 
         List<InstructorDetails> expectedInstructorDetailsList = new LinkedList<>();
-        expectedInstructorDetailsList.add(
-                new InstructorDetails(instructor1OfCourse1.getName(), instructor1OfCourse1.getEmail()));
-        expectedInstructorDetailsList.add(
-                new InstructorDetails(instructor2OfCourse1.getName(), instructor2OfCourse1.getEmail()));
-        expectedInstructorDetailsList.add(
-                new InstructorDetails(instructor3OfCourse1.getName(), instructor3OfCourse1.getEmail()));
-        expectedInstructorDetailsList.add(
-                new InstructorDetails(helperOfCourse1.getName(), helperOfCourse1.getEmail()));
-        expectedInstructorDetailsList.add(
-                new InstructorDetails(instructorNotYetJoinCourse1.getName(), instructorNotYetJoinCourse1.getEmail()));
+        List<InstructorAttributes> instructors = new ArrayList<>();
+
+        instructors.add(instructor1OfCourse1);
+        instructors.add(instructor2OfCourse1);
+        instructors.add(instructor3OfCourse1);
+        instructors.add(helperOfCourse1);
+        instructors.add(instructorNotYetJoinCourse1);
+
+        instructors.forEach(
+                instructor -> {
+                    if (instructor.isDisplayedToStudents()) {
+                        expectedInstructorDetailsList.add(
+                                new InstructorDetails(instructor.getDisplayedName(), instructor.getEmail()));
+                    }
+                });
 
         AssertHelper.assertSameContentIgnoreOrder(expectedInstructorDetailsList, output.getInstructorDetails());
 

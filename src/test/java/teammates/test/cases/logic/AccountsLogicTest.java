@@ -110,7 +110,7 @@ public class AccountsLogicTest extends BaseLogicTest {
             ______TS(aa.toString());
         }
 
-        assertEquals(14, accountsLogic.getInstructorAccounts().size());
+        assertEquals(16, accountsLogic.getInstructorAccounts().size());
 
         ______TS("test downgradeInstructorToStudentCascade");
 
