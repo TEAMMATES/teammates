@@ -1002,8 +1002,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
-        public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
-        public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE = "/page/instructorStudentRecordsAjaxPage";
 
         public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE =
@@ -1109,8 +1107,6 @@ public final class Const {
                 "/jsp/instructorFeedbackResultsByRecipientQuestionGiver.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp";
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
-        public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
-        public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
 
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
