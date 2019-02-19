@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Holds {@link HttpServletRequest}-related helper functions.
+ */
 public final class HttpRequestHelper {
 
     private HttpRequestHelper() {

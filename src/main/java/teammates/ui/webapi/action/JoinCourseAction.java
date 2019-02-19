@@ -5,21 +5,16 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 
 /**
  * Action: joins a course for a student/instructor.
  */
 public class JoinCourseAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -86,11 +81,7 @@ public class JoinCourseAction extends Action {
         CourseAttributes course = logic.getCourse(courseId);
         EmailWrapper email = emailGenerator.generateUserCourseRegisteredEmail(
                 userName, userEmail, userInfo.id, isInstructor, course);
-        try {
-            emailSender.sendEmail(email);
-        } catch (EmailSendingException e) {
-            log.severe("User course register email failed to send: " + TeammatesException.toStringWithStackTrace(e));
-        }
+        emailSender.sendEmail(email);
     }
 
 }

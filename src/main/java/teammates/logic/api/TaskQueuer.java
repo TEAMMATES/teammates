@@ -192,6 +192,9 @@ public class TaskQueuer {
                 TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
     }
 
+    /**
+     * Schedules adjustments to be done for the respondents of a feedback session.
+     */
     public void scheduleUpdateRespondentForSession(
             String courseId, String feedbackSessionName, String email, boolean isInstructor, boolean isToBeRemoved) {
         Map<String, String> paramMap = new HashMap<>();
