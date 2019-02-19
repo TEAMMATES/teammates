@@ -41,7 +41,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         ______TS("Typical case with new course id");
 
-        if (CoursesLogic.inst().isCoursePresent("new-course")) {
+        if (logic.isCoursePresent("new-course")) {
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
 

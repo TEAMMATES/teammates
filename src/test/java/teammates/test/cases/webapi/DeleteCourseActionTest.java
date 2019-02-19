@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.CoursesLogic;
 import teammates.ui.webapi.action.DeleteCourseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
@@ -43,7 +42,7 @@ public class DeleteCourseActionTest
 
         loginAsInstructor(instructorId);
         logic.moveCourseToRecycleBin(courseId);
-        assertEquals(courseId, CoursesLogic.inst().getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
+        assertEquals(courseId, logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
 
         DeleteCourseAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);

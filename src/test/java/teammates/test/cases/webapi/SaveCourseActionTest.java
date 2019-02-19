@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SaveCourseAction;
@@ -37,7 +36,7 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor.googleId;
         String courseId = instructor.courseId;
-        String courseName = CoursesLogic.inst().getCourse(courseId).getName();
+        String courseName = logic.getCourse(courseId).getName();
         String courseTimeZone = "UTC";
         String statusMessage = "";
         String[] submissionParams;
@@ -143,7 +142,7 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
 
         ______TS("Failure case: invalid time zone");
 
-        courseName = CoursesLogic.inst().getCourse(courseId).getName();
+        courseName = logic.getCourse(courseId).getName();
         courseTimeZone = "InvalidTimeZone";
         courseSaveRequest.setCourseName(courseName);
         courseSaveRequest.setTimeZone(courseTimeZone);

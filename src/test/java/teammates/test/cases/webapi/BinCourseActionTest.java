@@ -42,7 +42,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         ______TS("Typical case, 2 courses");
 
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
+        logic.createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
@@ -56,7 +56,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the Recycle Bin manually.",
                 msg.getMessage());
 
-        List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        List<CourseAttributes> courseList = logic.getCoursesForInstructor(instructorId);
         assertEquals(1, courseList.size());
         assertEquals("icdct.tpa.id1", courseList.get(0).getId());
 
@@ -77,14 +77,14 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the Recycle Bin manually.",
                 msg.getMessage());
 
-        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        courseList = logic.getCoursesForInstructor(instructorId);
         assertEquals(0, courseList.size());
     }
 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        CoursesLogic.inst().createCourseAndInstructor(
+        logic.createCourseAndInstructor(
                 typicalBundle.instructors.get("instructor1OfCourse1").googleId,
                 "icdat.owncourse", "New course", "UTC");
 
@@ -105,7 +105,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         CoursesLogic.inst().deleteCourseCascade("icdat.owncourse");
 
         /* Test access for admin in masquerade mode */
-        CoursesLogic.inst().createCourseAndInstructor(
+        logic.createCourseAndInstructor(
                 typicalBundle.instructors.get("instructor1OfCourse1").googleId,
                 "icdat.owncourse", "New course", "UTC");
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
