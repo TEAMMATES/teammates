@@ -72,11 +72,8 @@ public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
      */
     private InstructorAttributes extractCompleteInstructor(String courseId) {
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
-        String instructorName = instructorRequest.getName();
-        String instructorEmail = instructorRequest.getEmail();
-        String instructorRole = instructorRequest.getRoleName();
 
-        boolean isDisplayedToStudents = instructorRequest.getIsDisplayedToStudent();
+        String instructorRole = instructorRequest.getRoleName();
         String displayedName = instructorRequest.getDisplayName();
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
@@ -84,8 +81,9 @@ public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
         instructorRole = SanitizationHelper.sanitizeName(instructorRole);
         displayedName = SanitizationHelper.sanitizeName(displayedName);
 
-        InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId, instructorName,
-                instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
+        InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId,
+                instructorRequest.getName(), instructorRequest.getEmail(), instructorRole,
+                instructorRequest.getIsDisplayedToStudent(), displayedName);
 
         if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToAdd);
