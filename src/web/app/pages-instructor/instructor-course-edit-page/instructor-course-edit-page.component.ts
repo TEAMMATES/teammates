@@ -9,6 +9,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CourseEditFormModel } from './course-edit-form/course-edit-form-model';
+import { DeleteInstructorModalComponent } from './delete-instructor-modal/delete-instructor-modal.component';
 import {
   DefaultPrivileges, Privileges, SectionLevelPrivileges, SessionLevelPrivileges,
 } from './instructor-privileges-model';
@@ -834,65 +835,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   /**
-   * Opens a modal to confirm deleting an instructor.
-   */
-  onSubmitDeleteInstructor(deleteInstructorModal: NgbModal, index: number): void {
-    this.modalService.open(deleteInstructorModal);
-
-    const instructorToDelete: InstructorAttributes = this.instructorList[index];
-    const modalId: string = 'delete-instr-modal';
-    const courseId: string = this.courseEditFormModel.courseId;
-    let modalContent: string = '';
-
-    const modal: (HTMLElement | null) = document.getElementById(modalId);
-
-    // Display different text depending on who is being deleted
-    if (instructorToDelete.googleId === this.instructor.googleId) {
-      modalContent = 'Are you sure you want to delete your instructor role from the '
-      + `course ${courseId}? You will not be able to access the course anymore.`;
-    } else {
-      modalContent = `Are you sure you want to delete the instructor ${instructorToDelete.name} from the course `
-          + `${courseId}? He/she will not be able to access the course anymore.`;
-    }
-
-    if (modal != null) {
-      modal.innerText = modalContent;
-    }
-  }
-
-  /**
-   * Deletes an instructor from the given course.
-   */
-  deleteInstructor(index: number): void {
-    const instructorToDelete: InstructorAttributes = this.instructorList[index];
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseEditFormModel.courseId,
-      instructorid: this.instructor.googleId,
-      instructoremail: instructorToDelete.email,
-    };
-
-    this.httpRequestService.delete('/instructors/course/details/deleteInstructor', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          if (instructorToDelete.googleId === this.instructor.googleId) {
-            this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
-          } else {
-            this.removeFromInstructorList(index);
-            this.statusMessageService.showSuccessMessage(resp.message);
-          }
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
-  }
-
-  /**
-   * Removes a deleted instructor from the stored instructor lists.
-   */
-  private removeFromInstructorList(index: number): void {
-    this.instructorList.splice(index, 1);
-    (this.formEditInstructors.controls.formInstructors as FormArray).removeAt(index);
-  }
-
-  /**
    * Adds an additional panel to modify custom section privileges for a given instructor.
    */
   addTuneSectionGroupPermissionsPanel(instr: FormGroup, index: number): void {
@@ -1080,6 +1022,47 @@ export class InstructorCourseEditPageComponent implements OnInit {
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(resp.error.message);
           });
-    });
+    }, () => {});
+  }
+
+  /**
+   * Opens a modal to confirm deleting an instructor.
+   */
+  deleteInstructorHandler(index: number): void {
+    const modalRef: NgbModalRef = this.modalService.open(DeleteInstructorModalComponent);
+
+    const instructorToDelete: InstructorAttributes = this.instructorList[index];
+    modalRef.componentInstance.courseId = this.courseEditFormModel.courseId;
+    modalRef.componentInstance.idToDelete = instructorToDelete.googleId;
+    modalRef.componentInstance.nameToDelete = instructorToDelete.name;
+    modalRef.componentInstance.currentId = this.instructor.googleId;
+
+    modalRef.result.then(() => {
+      const paramsMap: { [key: string]: string } = {
+        courseid: this.courseEditFormModel.courseId,
+        instructorid: this.instructor.googleId,
+        instructoremail: instructorToDelete.email,
+      };
+
+      this.httpRequestService.delete('/instructors/course/details/deleteInstructor', paramsMap)
+          .subscribe((resp: MessageOutput) => {
+            if (instructorToDelete.googleId === this.instructor.googleId) {
+              this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
+            } else {
+              this.removeFromInstructorList(index);
+              this.statusMessageService.showSuccessMessage(resp.message);
+            }
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(resp.error.message);
+          });
+    }, () => {});
+  }
+
+  /**
+   * Removes a deleted instructor from the stored instructor lists.
+   */
+  private removeFromInstructorList(index: number): void {
+    this.instructorList.splice(index, 1);
+    (this.formEditInstructors.controls.formInstructors as FormArray).removeAt(index);
   }
 }

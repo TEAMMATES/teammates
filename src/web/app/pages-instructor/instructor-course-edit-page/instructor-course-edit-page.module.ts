@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { CourseEditFormModule } from './course-edit-form/course-edit-form.module';
+import { DeleteInstructorModalComponent } from './delete-instructor-modal/delete-instructor-modal.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
 import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
@@ -23,6 +24,7 @@ import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privi
     CourseEditFormModule,
   ],
   declarations: [
+    DeleteInstructorModalComponent,
     InstructorCourseEditPageComponent,
     ResendReminderModalComponent,
     ViewPrivilegesModalComponent,
@@ -31,6 +33,7 @@ import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privi
     InstructorCourseEditPageComponent,
   ],
   entryComponents: [
+    DeleteInstructorModalComponent,
     ResendReminderModalComponent,
     ViewPrivilegesModalComponent,
   ],
