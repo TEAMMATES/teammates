@@ -1,5 +1,7 @@
 package teammates.ui.webapi.action;
 
+import java.time.ZoneId;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -8,6 +10,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 
 /**
  * Action: Save edited course details.
@@ -33,12 +36,22 @@ public class SaveCourseEditDetailsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String courseName = getNonNullRequestParamValue(Const.ParamsNames.COURSE_NAME);
         String courseTimeZone = getNonNullRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
 
+        FieldValidator validator = new FieldValidator();
+        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
+        if (!timeZoneErrorMessage.isEmpty()) {
+            return new JsonResult(timeZoneErrorMessage, HttpStatus.SC_BAD_REQUEST);
+        }
+
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseName = getNonNullRequestParamValue(Const.ParamsNames.COURSE_NAME);
         try {
-            logic.updateCourse(courseId, courseName, courseTimeZone);
+            logic.updateCourseCascade(
+                    CourseAttributes.updateOptionsBuilder(courseId)
+                            .withName(courseName)
+                            .withTimezone(ZoneId.of(courseTimeZone))
+                            .build());
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException edee) {

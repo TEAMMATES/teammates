@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -230,6 +231,27 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     /**
+     * Updates with {@link UpdateOptions}.
+     */
+    public void update(UpdateOptions updateOptions) {
+        updateOptions.feedbackResponseIdOption.ifPresent(s -> feedbackResponseId = s);
+        updateOptions.commentTextOption.ifPresent(s -> commentText = s);
+        updateOptions.showCommentToOption.ifPresent(s -> showCommentTo = s);
+        updateOptions.showGiverNameToOption.ifPresent(s -> showGiverNameTo = s);
+        updateOptions.lastEditorEmailOption.ifPresent(s -> lastEditorEmail = s);
+        updateOptions.lastEditedAtOption.ifPresent(s -> lastEditedAt = s);
+        updateOptions.giverSectionOption.ifPresent(s -> giverSection = s);
+        updateOptions.receiverSectionOption.ifPresent(s -> receiverSection = s);
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a comment.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(long feedbackResponseCommentId) {
+        return new UpdateOptions.Builder(feedbackResponseCommentId);
+    }
+
+    /**
      * A Builder for {@link FeedbackResponseCommentAttributes}.
      */
     public static class Builder {
@@ -265,12 +287,12 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-            frca.showCommentTo = showCommentTo == null ? new ArrayList<FeedbackParticipantType>() : showCommentTo;
+            frca.showCommentTo = showCommentTo == null ? new ArrayList<>() : showCommentTo;
             return this;
         }
 
         public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            frca.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
+            frca.showGiverNameTo = showGiverNameTo == null ? new ArrayList<>() : showGiverNameTo;
             return this;
         }
 
@@ -340,5 +362,118 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 Objects.requireNonNull(object, REQUIRED_FIELD_CANNOT_BE_NULL);
             }
         }
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link FeedbackResponseCommentAttributes}.
+     */
+    public static class UpdateOptions {
+        private long feedbackResponseCommentId;
+
+        private UpdateOption<String> feedbackResponseIdOption = UpdateOption.empty();
+        private UpdateOption<String> commentTextOption = UpdateOption.empty();
+        private UpdateOption<List<FeedbackParticipantType>> showCommentToOption = UpdateOption.empty();
+        private UpdateOption<List<FeedbackParticipantType>> showGiverNameToOption = UpdateOption.empty();
+        private UpdateOption<String> lastEditorEmailOption = UpdateOption.empty();
+        private UpdateOption<Instant> lastEditedAtOption = UpdateOption.empty();
+        private UpdateOption<String> giverSectionOption = UpdateOption.empty();
+        private UpdateOption<String> receiverSectionOption = UpdateOption.empty();
+
+        private UpdateOptions(long feedbackResponseCommentId) {
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackResponseCommentId);
+
+            this.feedbackResponseCommentId = feedbackResponseCommentId;
+        }
+
+        public long getFeedbackResponseCommentId() {
+            return feedbackResponseCommentId;
+        }
+
+        @Override
+        public String toString() {
+            return "FeedbackResponseCommentAttributes.UpdateOptions ["
+                    + "feedbackResponseCommentId = " + feedbackResponseCommentId
+                    + ", commentText = " + commentTextOption
+                    + ", showCommentTo = " + showCommentToOption
+                    + ", showGiverNameTo = " + showGiverNameToOption
+                    + ", lastEditorEmail = " + lastEditorEmailOption
+                    + ", giverSection = " + giverSectionOption
+                    + ", receiverSection = " + receiverSectionOption
+                    + "]";
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder {
+
+            private UpdateOptions updateOptions;
+
+            private Builder(Long feedbackResponseCommentId) {
+                updateOptions = new UpdateOptions(feedbackResponseCommentId);
+            }
+
+            public Builder withFeedbackResponseId(String feedbackResponseId) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackResponseId);
+
+                updateOptions.feedbackResponseIdOption = UpdateOption.of(feedbackResponseId);
+                return this;
+            }
+
+            public Builder withCommentText(String commentText) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, commentText);
+
+                updateOptions.commentTextOption = UpdateOption.of(commentText);
+                return this;
+            }
+
+            public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showCommentTo);
+
+                updateOptions.showCommentToOption = UpdateOption.of(showCommentTo);
+                return this;
+            }
+
+            public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showGiverNameTo);
+
+                updateOptions.showGiverNameToOption = UpdateOption.of(showGiverNameTo);
+                return this;
+            }
+
+            public Builder withLastEditorEmail(String lastEditorEmail) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, lastEditorEmail);
+
+                updateOptions.lastEditorEmailOption = UpdateOption.of(lastEditorEmail);
+                return this;
+            }
+
+            public Builder withLastEditorAt(Instant lastEditedAt) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, lastEditedAt);
+
+                updateOptions.lastEditedAtOption = UpdateOption.of(lastEditedAt);
+                return this;
+            }
+
+            public Builder withGiverSection(String giverSection) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giverSection);
+
+                updateOptions.giverSectionOption = UpdateOption.of(giverSection);
+                return this;
+            }
+
+            public Builder withReceiverSection(String receiverSection) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, receiverSection);
+
+                updateOptions.receiverSectionOption = UpdateOption.of(receiverSection);
+                return this;
+            }
+
+            public UpdateOptions build() {
+                return updateOptions;
+            }
+
+        }
+
     }
 }

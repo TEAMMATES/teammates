@@ -98,6 +98,51 @@ public class DeleteInstructorInCourseActionTest extends BaseActionTest<DeleteIns
                 + "Deleting the last instructor from the course is not allowed.", msg.getMessage());
 
         assertTrue(instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorToDelete.googleId, courseId));
+
+        ______TS("Masquerade mode: delete instructor failed due to last instructor being displayed in course");
+
+        instructorToDelete = typicalBundle.instructors.get("instructorNotDisplayedToStudent1");
+        instructorEmailToDelete = instructorToDelete.email;
+        courseId = instructorToDelete.courseId;
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete,
+        };
+
+        a = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
+        r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        msg = (MessageOutput) r.getOutput();
+
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+                + "Deleting the last instructor from the course is not allowed.", msg.getMessage());
+
+        assertTrue(instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorToDelete.googleId, courseId));
+
+        ______TS("Masquerade mode: delete instructor success as at least one more instructor there that is being displayed");
+
+        instructorToDelete = typicalBundle.instructors.get("instructorNotDisplayedToStudent2");
+        instructorEmailToDelete = instructorToDelete.email;
+        courseId = instructorToDelete.courseId;
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmailToDelete,
+        };
+
+        a = getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
+        r = getJsonResult(a);
+
+        instructorsLogic.deleteInstructorCascade(courseId, instructorEmailToDelete);
+        verifyAbsentInDatastore(instructorToDelete);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        msg = (MessageOutput) r.getOutput();
+
+        assertEquals("The instructor has been deleted from the course.", msg.getMessage());
+        assertFalse(instructorsLogic.isGoogleIdOfInstructorOfCourse(loginInstructor.googleId, courseId));
     }
 
     @Override

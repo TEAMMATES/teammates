@@ -94,7 +94,7 @@ public class FeedbackSession extends BaseEntity {
         this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, deletedTime, startTime, endTime,
                 sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
                 sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
-                isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
+                isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<>(), new HashSet<>());
     }
 
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
@@ -124,8 +124,8 @@ public class FeedbackSession extends BaseEntity {
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
-        this.respondingInstructorList = instructorList == null ? new HashSet<String>() : instructorList;
-        this.respondingStudentList = studentList == null ? new HashSet<String>() : studentList;
+        this.respondingInstructorList = instructorList == null ? new HashSet<>() : instructorList;
+        this.respondingStudentList = studentList == null ? new HashSet<>() : studentList;
     }
 
     public String getFeedbackSessionName() {

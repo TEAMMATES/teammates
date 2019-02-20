@@ -397,7 +397,7 @@ public final class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null", cd);
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
+        cdd.sections = getSectionsForCourse(cd, cdd);
 
         return cdd;
     }
@@ -616,24 +616,25 @@ public final class CoursesLogic {
     }
 
     /**
-     * Updates the course details.
-     * @param courseId Id of the course to update
-     * @param courseName new name of the course
-     * @param courseTimeZone new time zone of the course
+     * Updates a course by {@link CourseAttributes.UpdateOptions}.
+     *
+     * <p>If the {@code timezone} of the course is changed, cascade the change to its corresponding feedback sessions.
+     *
+     * @return updated course
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the course cannot be found
      */
-    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+    public CourseAttributes updateCourseCascade(CourseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes newCourse = validateAndCreateCourseAttributes(courseId, courseName, courseTimeZone);
-        CourseAttributes oldCourse = coursesDb.getCourse(newCourse.getId());
+        CourseAttributes oldCourse = coursesDb.getCourse(updateOptions.getCourseId());
+        CourseAttributes updatedCourse = coursesDb.updateCourse(updateOptions);
 
-        if (oldCourse == null) {
-            throw new EntityDoesNotExistException("Trying to update a course that does not exist.");
+        if (!updatedCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
+            feedbackSessionsLogic
+                    .updateFeedbackSessionsTimeZoneForCourse(updatedCourse.getId(), updatedCourse.getTimeZone());
         }
 
-        coursesDb.updateCourse(newCourse);
-        if (!newCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
-            feedbackSessionsLogic.updateFeedbackSessionsTimeZoneForCourse(newCourse.getId(), newCourse.getTimeZone());
-        }
+        return updatedCourse;
     }
 
     /**
@@ -684,7 +685,7 @@ public final class CoursesLogic {
      * Restores all courses from Recycle Bin.
      */
     public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
         List<String> softDeletedCourseIdList = instructorList.stream()

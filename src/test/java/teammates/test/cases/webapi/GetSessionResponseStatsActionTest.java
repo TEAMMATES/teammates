@@ -8,8 +8,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetSessionResponseStatsAction;
-import teammates.ui.webapi.action.GetSessionResponseStatsAction.FeedbackSessionStats;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.FeedbackSessionStatsData;
 
 /**
  * SUT: {@link GetSessionResponseStatsAction}.
@@ -18,7 +18,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.SESSIONS_STATS;
+        return Const.ResourceURIs.SESSION_STATS;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        FeedbackSessionStats output = (FeedbackSessionStats) r.getOutput();
+        FeedbackSessionStatsData output = (FeedbackSessionStatsData) r.getOutput();
         assertEquals(10, output.getExpectedTotal());
         assertEquals(5, output.getSubmittedTotal());
 
@@ -69,7 +69,6 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
     protected void testAccessControl() {
         ______TS("accessible for admin");
         verifyAccessibleForAdmin();
-
 
         ______TS("accessible for authenticated instructor");
         FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");

@@ -33,7 +33,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
     @Override
     @Test
     protected void testExecute() {
-        InstructorAttributes instructorToEdit = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructorToEdit = typicalBundle.instructors.get("instructorNotDisplayedToStudent1");
         String instructorId = instructorToEdit.googleId;
         String courseId = instructorToEdit.courseId;
 
@@ -49,6 +49,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "true",
 
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -90,6 +91,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
@@ -104,6 +106,35 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
         String expectedErrorMessage = new FieldValidator().getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
+        ______TS("Failure case: after editing instructor, no instructors are displayed");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
+                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorToEdit.email,
+
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "false",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+
+        msg = (MessageOutput) r.getOutput();
+        String expectedMessage = "At least one instructor must be displayed to students";
+        assertEquals(expectedMessage, msg.getMessage());
+
         ______TS("Masquerade mode: edit instructor successfully");
 
         loginAsAdmin();
@@ -116,6 +147,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "true",
 
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,

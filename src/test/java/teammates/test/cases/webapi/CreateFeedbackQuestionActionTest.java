@@ -185,7 +185,6 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
             a.execute();
         });
 
-
         ______TS("Typical case");
 
         FeedbackQuestionCreateRequest createRequest =

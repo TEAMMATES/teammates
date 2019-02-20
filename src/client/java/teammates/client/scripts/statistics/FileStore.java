@@ -148,7 +148,6 @@ public class FileStore {
         }
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive
     private static <T> T parseEncryptedJsonFile(String fileName, CheckedFunction<JsonReader, T> parser) throws Exception {
         SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");

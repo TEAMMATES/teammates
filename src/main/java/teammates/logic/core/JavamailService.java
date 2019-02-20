@@ -8,10 +8,12 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.http.HttpStatus;
+
+import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 
 /**
@@ -27,7 +29,7 @@ public class JavamailService extends EmailSenderService {
      * {@inheritDoc}
      */
     @Override
-    public MimeMessage parseToEmail(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
+    public MimeMessage parseToEmail(EmailWrapper wrapper) throws MessagingException, IOException {
         Session session = Session.getDefaultInstance(new Properties(), null);
         MimeMessage email = new MimeMessage(session);
         if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
@@ -46,9 +48,10 @@ public class JavamailService extends EmailSenderService {
     }
 
     @Override
-    protected void sendEmailWithService(EmailWrapper wrapper) throws AddressException, MessagingException, IOException {
+    public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws MessagingException, IOException {
         MimeMessage email = parseToEmail(wrapper);
         Transport.send(email);
+        return new EmailSendingStatus(HttpStatus.SC_OK, null);
     }
 
 }

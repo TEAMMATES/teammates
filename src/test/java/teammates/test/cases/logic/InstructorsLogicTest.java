@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -16,6 +18,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
@@ -29,8 +34,15 @@ public class InstructorsLogicTest extends BaseLogicTest {
     private static InstructorsDb instructorsDb = new InstructorsDb();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
 
-    @BeforeClass
-    public void classSetup() {
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    public void refreshTestData() {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreTypicalDataBundle();
         instructorsLogic.deleteInstructorCascade("FSQTT.idOfTypicalCourse1", "instructor3@course1.tmt");
     }
 
@@ -46,10 +58,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testIsEmailOfInstructorOfCourse();
         testVerifyInstructorExists();
         testVerifyIsEmailOfInstructorOfCourse();
+        testVerifyAtLeastOneInstructorIsDisplayed();
         testIsNewInstructor();
         testAddInstructor();
         testGetCoOwnersForCourse();
-        testUpdateInstructorByGoogleId();
+        testUpdateInstructorByGoogleIdCascade();
         testUpdateInstructorByEmail();
         testDeleteInstructor();
         testDeleteInstructorsForGoogleId();
@@ -382,6 +395,37 @@ public class InstructorsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
+    private void testVerifyAtLeastOneInstructorIsDisplayed() throws Exception {
+
+        ______TS("success: at least one instructor is displayed to students");
+
+        String courseId = "idOfTypicalCourse1";
+        String courseIdWithNoInstructorsDisplayed = "idOfTestingInstructorsDisplayedCourse";
+
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, true,
+                true);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, true,
+                false);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseId, false,
+                false);
+        instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
+                false, false);
+
+        ______TS("failure: No instructors displayed to students");
+
+        InvalidParametersException ive = assertThrows(InvalidParametersException.class,
+                () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
+                        true, false));
+        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
+
+        ______TS("failure: null parameter");
+
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(null,
+                        true, true));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
+    }
+
     private void testIsNewInstructor() {
 
         ______TS("success: instructor with only 1 sample course");
@@ -411,45 +455,140 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testUpdateInstructorByGoogleId() throws Exception {
+    @Test
+    public void testUpdateInstructorByGoogleIdCascade_shouldDoCascadeUpdateToCommentsAndResponses() throws Exception {
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+        FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+        InstructorAttributes instructorToBeUpdated = dataBundle.instructors.get("instructor1OfCourse1");
+
+        instructorsLogic.updateInstructorByGoogleIdCascade(
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                instructorToBeUpdated.courseId, instructorToBeUpdated.googleId)
+                        .withEmail("new@email.tmt")
+                        .build());
+
+        // responses are updated
+        assertTrue(frLogic.getFeedbackResponsesFromGiverForCourse(
+                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getEmail()).isEmpty());
+        assertTrue(frLogic.getFeedbackResponsesForReceiverForCourse(
+                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getEmail()).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesFromGiverForCourse(
+                instructorToBeUpdated.getCourseId(), "new@email.tmt").isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesForReceiverForCourse(
+                instructorToBeUpdated.getCourseId(), "new@email.tmt").isEmpty());
+
+        // comment giver are updated
+        assertTrue(frcLogic.getFeedbackResponseCommentsForGiver(
+                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getEmail()).isEmpty());
+        List<FeedbackResponseCommentAttributes> commentsGivenByTheInstructor =
+                frcLogic.getFeedbackResponseCommentsForGiver(instructorToBeUpdated.getCourseId(), "new@email.tmt");
+        assertFalse(commentsGivenByTheInstructor.isEmpty());
+
+        // last editor is updated
+        assertTrue(commentsGivenByTheInstructor.stream().anyMatch(c -> "new@email.tmt".equals(c.lastEditorEmail)));
+        assertFalse(commentsGivenByTheInstructor.stream()
+                .anyMatch(c -> instructorToBeUpdated.getEmail().equals(c.lastEditorEmail)));
+
+        // respondents in session is updated
+        List<FeedbackSessionAttributes> sessionsInCourse =
+                fsLogic.getFeedbackSessionsForCourse(instructorToBeUpdated.getCourseId());
+        assertTrue(sessionsInCourse.stream()
+                .anyMatch(s -> s.getRespondingInstructorList().contains("new@email.tmt")));
+        assertFalse(sessionsInCourse.stream()
+                .anyMatch(s -> s.getRespondingInstructorList().contains(instructorToBeUpdated.getEmail())));
+    }
+
+    private void testUpdateInstructorByGoogleIdCascade() throws Exception {
 
         ______TS("typical case: update an instructor");
 
         String courseId = "idOfTypicalCourse1";
         String googleId = "idOfInstructor2OfCourse1";
+        String googleIdOfNonVisibleInstructor = "idOfInstructorNotDisplayed2";
+        String courseIdWithNoInstructorsDisplayed = "idOfTestingInstructorsDisplayedCourse";
+        String googleIdOfVisibleInstructor = "idOfInstructorNotDisplayed1";
 
         InstructorAttributes instructorToBeUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
         instructorToBeUpdated.name = "New Name";
         instructorToBeUpdated.email = "new-email@course1.tmt";
 
-        instructorsLogic.updateInstructorByGoogleId(googleId, instructorToBeUpdated);
+        InstructorAttributes updatedInstructor = instructorsLogic.updateInstructorByGoogleIdCascade(
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                instructorToBeUpdated.courseId, instructorToBeUpdated.googleId)
+                        .withName(instructorToBeUpdated.name)
+                        .withEmail(instructorToBeUpdated.email)
+                        .build());
 
         InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
         verifySameInstructor(instructorToBeUpdated, instructorUpdated);
+        verifySameInstructor(instructorToBeUpdated, updatedInstructor);
+
+        ______TS("case: on editing non visible instructor with only one other instructor displayed");
+
+        InstructorAttributes nonVisibleInstructorToBeUpdated = instructorsLogic.getInstructorForGoogleId(
+                courseIdWithNoInstructorsDisplayed, googleIdOfNonVisibleInstructor);
+        nonVisibleInstructorToBeUpdated.name = "New Name";
+        nonVisibleInstructorToBeUpdated.email = "new-email@course1.tmt";
+
+        InstructorAttributes nonVisibleUpdatedInstructor = instructorsLogic.updateInstructorByGoogleIdCascade(
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                nonVisibleInstructorToBeUpdated.courseId, nonVisibleInstructorToBeUpdated.googleId)
+                        .withName(nonVisibleInstructorToBeUpdated.name)
+                        .withEmail(nonVisibleInstructorToBeUpdated.email)
+                        .build());
+
+        InstructorAttributes nonVisibleInstructorUpdated = instructorsLogic
+                .getInstructorForGoogleId(courseIdWithNoInstructorsDisplayed, googleIdOfNonVisibleInstructor);
+
+        verifySameInstructor(nonVisibleInstructorToBeUpdated, nonVisibleInstructorUpdated);
+        verifySameInstructor(nonVisibleInstructorToBeUpdated, nonVisibleUpdatedInstructor);
 
         ______TS("failure: instructor doesn't exist");
 
         instructorsLogic.deleteInstructorCascade(courseId, instructorUpdated.email);
 
+        InstructorAttributes.UpdateOptionsWithGoogleId updateOptions =
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                instructorToBeUpdated.courseId, instructorToBeUpdated.googleId)
+                        .withName("New Name")
+                        .build();
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> instructorsLogic.updateInstructorByGoogleId(googleId, instructorUpdated));
-        assertEquals("Instructor " + googleId + " does not belong to course " + courseId, ednee.getMessage());
+                () -> instructorsLogic.updateInstructorByGoogleIdCascade(updateOptions));
+        assertEquals("Trying to update non-existent Entity: " + updateOptions, ednee.getMessage());
 
         ______TS("failure: course doesn't exist");
 
         courseId = "random-course";
         instructorToBeUpdated.courseId = courseId;
 
+        InstructorAttributes.UpdateOptionsWithGoogleId anotherUpdateOptions =
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                instructorToBeUpdated.courseId, instructorToBeUpdated.googleId)
+                        .withName("New Name")
+                        .build();
         ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> instructorsLogic.updateInstructorByGoogleId(googleId, instructorToBeUpdated));
-        assertEquals("Course does not exist: " + courseId, ednee.getMessage());
+                () -> instructorsLogic.updateInstructorByGoogleIdCascade(anotherUpdateOptions));
+        assertEquals("Trying to update non-existent Entity: " + anotherUpdateOptions, ednee.getMessage());
 
-        ______TS("failure: null parameter");
+        ______TS("Changing visible instructor to non-visible when no other instructors are displayed");
 
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.updateInstructorByGoogleId(googleId, null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
+        InstructorAttributes.UpdateOptionsWithGoogleId visibleInstructorUpdateOptions =
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(
+                                courseIdWithNoInstructorsDisplayed, googleIdOfVisibleInstructor)
+                        .withIsDisplayedToStudents(false)
+                        .build();
 
+        InvalidParametersException ive = assertThrows(InvalidParametersException.class,
+                () -> instructorsLogic.updateInstructorByGoogleIdCascade(visibleInstructorUpdateOptions));
+
+        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
     }
 
     private void testUpdateInstructorByEmail() throws Exception {
@@ -466,33 +605,52 @@ public class InstructorsLogicTest extends BaseLogicTest {
         instructorToBeUpdated.googleId = newGoogleId;
         instructorToBeUpdated.name = newName;
 
-        instructorsLogic.updateInstructorByEmail(email, instructorToBeUpdated);
+        InstructorAttributes updatedInstructor = instructorsLogic.updateInstructorByEmail(
+                InstructorAttributes
+                        .updateOptionsWithEmailBuilder(
+                                instructorToBeUpdated.courseId, instructorToBeUpdated.email)
+                        .withName(instructorToBeUpdated.name)
+                        .withGoogleId(instructorToBeUpdated.googleId)
+                        .build());
 
         InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForEmail(courseId, email);
         verifySameInstructor(instructorToBeUpdated, instructorUpdated);
+        verifySameInstructor(instructorToBeUpdated, updatedInstructor);
 
         ______TS("failure: instructor doesn't belong to course");
 
         instructorsLogic.deleteInstructorCascade(courseId, instructorToBeUpdated.email);
 
+        InstructorAttributes.UpdateOptionsWithEmail updateOptions =
+                InstructorAttributes
+                        .updateOptionsWithEmailBuilder(
+                                instructorToBeUpdated.courseId, instructorToBeUpdated.email)
+                        .withName("New Name")
+                        .build();
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> instructorsLogic.updateInstructorByEmail(email, instructorToBeUpdated));
-        assertEquals("Instructor " + email + " does not belong to course " + courseId, ednee.getMessage());
+                () -> instructorsLogic.updateInstructorByEmail(updateOptions));
+        assertEquals("Trying to update non-existent Entity: " + updateOptions, ednee.getMessage());
 
         ______TS("failure: course doesn't exist");
 
         courseId = "random-course";
         instructorToBeUpdated.courseId = courseId;
 
+        InstructorAttributes.UpdateOptionsWithEmail anotherUpdateOptions =
+                InstructorAttributes
+                        .updateOptionsWithEmailBuilder(
+                                instructorToBeUpdated.courseId, instructorToBeUpdated.email)
+                        .withName("New Name")
+                        .build();
         ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> instructorsLogic.updateInstructorByEmail(email, instructorToBeUpdated));
-        assertEquals("Course does not exist: " + courseId, ednee.getMessage());
+                () -> instructorsLogic.updateInstructorByEmail(anotherUpdateOptions));
+        assertEquals("Trying to update non-existent Entity: " + anotherUpdateOptions, ednee.getMessage());
 
         ______TS("failure: null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.updateInstructorByEmail(email, null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
+                () -> instructorsLogic.updateInstructorByEmail(null));
+        assertEquals("Supplied parameter was null", ae.getMessage());
 
     }
 

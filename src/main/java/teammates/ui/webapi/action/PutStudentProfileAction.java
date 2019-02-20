@@ -35,8 +35,16 @@ public class PutStudentProfileAction extends Action {
         }
 
         try {
-            StudentProfileAttributes studentProfile = extractProfileData(studentId);
-            logic.updateOrCreateStudentProfile(sanitizeProfile(studentProfile));
+            StudentProfileAttributes studentProfile = sanitizeProfile(extractProfileData(studentId));
+            logic.updateOrCreateStudentProfile(
+                    StudentProfileAttributes.updateOptionsBuilder(studentId)
+                            .withShortName(studentProfile.shortName)
+                            .withEmail(studentProfile.email)
+                            .withGender(studentProfile.gender)
+                            .withNationality(studentProfile.nationality)
+                            .withInstitute(studentProfile.institute)
+                            .withMoreInfo(studentProfile.moreInfo)
+                            .build());
             return new JsonResult(Const.StatusMessages.STUDENT_PROFILE_EDITED, HttpStatus.SC_ACCEPTED);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
@@ -54,7 +62,8 @@ public class PutStudentProfileAction extends Action {
         if ("".equals(editedProfile.nationality)) {
             editedProfile.nationality = getRequestParamValue("existingNationality");
         }
-        editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
+        editedProfile.gender = StudentProfileAttributes.Gender.getGenderEnumValue(
+                                                                getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
 
@@ -66,7 +75,6 @@ public class PutStudentProfileAction extends Action {
     private StudentProfileAttributes sanitizeProfile(StudentProfileAttributes studentProfile) {
         studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
         studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
-        studentProfile.gender = StringHelper.trimIfNotNull(studentProfile.gender);
         studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
         studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
         studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);

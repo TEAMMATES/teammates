@@ -110,34 +110,7 @@ public class AccountsLogicTest extends BaseLogicTest {
             ______TS(aa.toString());
         }
 
-        assertEquals(14, accountsLogic.getInstructorAccounts().size());
-
-        ______TS("test updateAccount");
-
-        AccountAttributes expectedAccount = AccountAttributes.builder()
-                .withGoogleId("idOfInstructor1OfCourse1")
-                .withName("name")
-                .withEmail("test2@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(true)
-                .build();
-
-        accountsLogic.updateAccount(expectedAccount);
-        AccountAttributes actualAccount = accountsLogic.getAccount(expectedAccount.googleId);
-        expectedAccount.createdAt = actualAccount.createdAt;
-        assertEquals(expectedAccount.toString(), actualAccount.toString());
-
-        expectedAccount = AccountAttributes.builder()
-                .withGoogleId("id-does-not-exist")
-                .withName("name")
-                .withEmail("test2@email.com")
-                .withInstitute("dev")
-                .withIsInstructor(true)
-                .build();
-        AccountAttributes finalAccount = expectedAccount;
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.updateAccount(finalAccount));
-        AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ednee.getMessage());
+        assertEquals(16, accountsLogic.getInstructorAccounts().size());
 
         ______TS("test downgradeInstructorToStudentCascade");
 
@@ -147,8 +120,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsLogic.downgradeInstructorToStudentCascade("student1InCourse1");
         assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
 
-        accountsLogic.downgradeInstructorToStudentCascade("id-does-not-exist");
-        assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
+        assertThrows(EntityDoesNotExistException.class, () -> {
+            accountsLogic.downgradeInstructorToStudentCascade("id-does-not-exist");
+        });
 
         ______TS("test makeAccountInstructor");
 
@@ -156,9 +130,9 @@ public class AccountsLogicTest extends BaseLogicTest {
         assertTrue(accountsLogic.isAccountAnInstructor("student2InCourse1"));
         accountsLogic.downgradeInstructorToStudentCascade("student2InCourse1");
 
-        accountsLogic.makeAccountInstructor("id-does-not-exist");
-        assertFalse(accountsLogic.isAccountPresent("id-does-not-exist"));
-
+        assertThrows(EntityDoesNotExistException.class, () -> {
+            accountsLogic.makeAccountInstructor("id-does-not-exist");
+        });
     }
 
     @Test
@@ -278,7 +252,11 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         // make the student 'unregistered' again
         studentData.googleId = "";
-        studentsLogic.updateStudentCascade(studentData.email, studentData);
+        studentsLogic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(studentData.course, studentData.email)
+                        .withGoogleId(studentData.googleId)
+                        .build()
+        );
         assertEquals("",
                 logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
@@ -424,7 +402,10 @@ public class AccountsLogicTest extends BaseLogicTest {
         StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(account.googleId)
                 .withShortName("Test")
                 .build();
-        profilesLogic.updateOrCreateStudentProfile(studentProfile);
+        profilesLogic.updateOrCreateStudentProfile(
+                StudentProfileAttributes.updateOptionsBuilder(account.googleId)
+                        .withShortName(studentProfile.shortName)
+                        .build());
 
         // Make instructor account id a student too.
         StudentAttributes student = StudentAttributes
