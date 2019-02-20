@@ -868,8 +868,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             }
 
             public FeedbackQuestionAttributes.UpdateOptions.Builder withQuestionDescription(String questionDescription) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, questionDescription);
-
+                // questionDescription can be null
                 updateOptions.questionDescriptionOption = UpdateOption.of(questionDescription);
                 return this;
             }

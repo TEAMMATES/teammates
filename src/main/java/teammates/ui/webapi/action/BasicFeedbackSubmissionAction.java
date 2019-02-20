@@ -46,7 +46,6 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
-
     /**
      * Gets the student involved in the submission process.
      */

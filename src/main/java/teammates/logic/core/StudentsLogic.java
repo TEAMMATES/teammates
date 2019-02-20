@@ -222,8 +222,8 @@ public final class StudentsLogic {
         }
 
         List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
-        ArrayList<StudentAttributes> returnList = new ArrayList<>();
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
+        List<StudentAttributes> returnList = new ArrayList<>();
+        List<StudentEnrollDetails> enrollmentList = new ArrayList<>();
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSectionsAndTeams(studentList, courseId);

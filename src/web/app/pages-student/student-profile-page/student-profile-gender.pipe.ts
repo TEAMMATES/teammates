@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Gender } from '../../../types/gender';
 
 /**
  * Pipe to handle the display of gender options in the student profile page.
@@ -6,18 +7,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'genderFormat',
 })
+
 export class GenderFormatPipe implements PipeTransform {
 
   /**
-   * Transforms the list of genders as display options for the student profile page.
+   * Transforms {@code gender} to a gender display option for the student profile page.
    */
-  transform(gender: String): string {
+  transform(gender: Gender): string {
     switch (gender) {
-      case 'male':
+      case Gender.MALE:
         return 'Male';
-      case 'female':
+      case Gender.FEMALE:
         return 'Female';
-      case 'other':
+      case Gender.OTHER:
         return 'Not Specified';
       default:
         return 'Unknown';

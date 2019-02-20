@@ -15,7 +15,7 @@ apply plugin: "cz.habarta.typescript-generator"
 
 def appengineVersion = "1.9.+"
 def checkstyleVersion = "8.16"
-def pmdVersion = "6.6.0"
+def pmdVersion = "6.11.0"
 def spotbugsVersion = "3.1.10"
 def jacocoVersion = "0.8.1"
 
@@ -434,7 +434,7 @@ checkstyle {
 pmd {
     toolVersion = pmdVersion
     consoleOutput = true
-    ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmdMain.xml")
+    ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmd-6.11.0.xml", "static-analysis/teammates-pmdMain.xml")
     ruleSets = []
 }
 
