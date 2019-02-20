@@ -115,7 +115,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals("multiple words text", fqaMulti.questionDetails.getQuestionText());
         assertEquals(0, ((FeedbackTextQuestionDetails) fqaMulti.questionDetails).getRecommendedLength());
 
-
         ______TS("json text: should deserialize as json");
         String jsonQuestionText = "{\n"
                 + "  \"recommendedLength\": 70,\n"
@@ -641,7 +640,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                         .withNumOfEntitiesToGiveFeedbackTo(3)
                         .withQuestionNumber(1)
                         .withQuestionType(FeedbackQuestionType.TEXT)
-                        .withQuestionMetaData(new FeedbackTextQuestionDetails("question text"))
+                        .withQuestionDetails(new FeedbackTextQuestionDetails("question text"))
                         .withShowGiverNameTo(new ArrayList<>())
                         .withShowRecipientNameTo(new ArrayList<>())
                         .withShowResponseTo(new ArrayList<>())
