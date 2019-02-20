@@ -1,8 +1,5 @@
 package teammates.ui.webapi.action;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -13,12 +10,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
 
 /**
  * Get the recipients of a feedback question.
  *
- * @see FeedbackQuestionRecipients for output format
+ * @see FeedbackQuestionRecipientsData for output format
  */
 public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmissionAction {
 
@@ -83,52 +80,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
-
-        return new JsonResult(new FeedbackQuestionRecipients(recipient));
+        return new JsonResult(new FeedbackQuestionRecipientsData(recipient));
     }
 
-    /**
-     * Output format for {@link GetFeedbackQuestionRecipientsAction}.
-     */
-    public static class FeedbackQuestionRecipients extends ApiOutput {
-
-        private List<FeedbackQuestionRecipient> recipients;
-
-        public FeedbackQuestionRecipients(Map<String, String> recipients) {
-            this.recipients = new ArrayList<>();
-
-            recipients.forEach((identifier, name) -> {
-                this.recipients.add(new FeedbackQuestionRecipient(name, identifier));
-            });
-
-            // sort by name
-            this.recipients.sort(Comparator.comparing(FeedbackQuestionRecipient::getName));
-        }
-
-        public List<FeedbackQuestionRecipient> getRecipients() {
-            return recipients;
-        }
-    }
-
-    /**
-     * Output format that represents a recipient.
-     */
-    public static class FeedbackQuestionRecipient {
-
-        private String name;
-        private String identifier;
-
-        public FeedbackQuestionRecipient(String name, String identifier) {
-            this.name = name;
-            this.identifier = identifier;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getIdentifier() {
-            return identifier;
-        }
-    }
 }
