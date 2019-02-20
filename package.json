@@ -5,7 +5,7 @@
     "start": "ng serve",
     "build": "npm run mv -- src/main/webapp/WEB-INF src/main/temp/WEB-INF && npm-run-all \"ng -- build --prod {@}\" \"mv -- src/main/temp/WEB-INF src/main/webapp/WEB-INF\" -c --",
     "analyze": "webpack-bundle-analyzer src/main/webapp/stats.json",
-    "test": "ng test --watch",
+    "test": "jest",
     "coverage": "rimraf coverage && ng test --coverage",
     "lint:ts": "ng lint --tslint-config static-analysis/teammates-tslint.yml",
     "lint:json": "jsonlint-cli src/web/**/*.json src/main/resources/*.json src/test/resources/data/*.json",
@@ -53,6 +53,7 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
     "jest": "^23.6.0",
+    "jest-preset-angular": "^6.0.2",
     "jsonlint-cli": "^1.0.1",
     "lintspaces-cli": "^0.6.1",
     "move-cli": "^1.2.0",
@@ -65,5 +66,9 @@
     "tslint-config-airbnb": "~5.11.1",
     "typescript": "~3.1.6",
     "webpack-bundle-analyzer": "^3.0.3"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupTestFrameworkScriptFile": "<rootDir>/src/web/setupJest.ts"
   }
 }
