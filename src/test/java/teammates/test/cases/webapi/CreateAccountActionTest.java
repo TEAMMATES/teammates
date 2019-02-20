@@ -35,9 +35,14 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
     @Override
     @Test
     protected void testExecute() throws Exception {
+        loginAsAdmin();
         String name = "JamesBond";
         String email = "jamesbond89@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
+
+        ______TS("Not enough parameters");
+
+        verifyHttpParameterFailure();
 
         ______TS("Normal case");
 

@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetAccountAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.AccountDetailsData;
+import teammates.ui.webapi.output.MessageOutput;
 
 
 /**
@@ -53,6 +54,19 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         assertEquals(response.getAccountInfo().getEmail(), instructor1OfCourse1.getEmail());
         assertEquals(response.getAccountInfo().getInstitute(), instructor1OfCourse1.getInstitute());
         assertTrue(response.getAccountInfo().isInstructor);
+
+        ______TS("Failure: invalid account not found");
+
+        String[] invalidParams = {
+                Const.ParamsNames.INSTRUCTOR_ID, "invalid-google-id",
+        };
+
+        a = getAction(invalidParams);
+        r = getJsonResult(a);
+        MessageOutput output = (MessageOutput) r.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+        assertEquals("Account does not exist.", output.getMessage());
     }
 
     @Override

@@ -3,7 +3,7 @@ package teammates.ui.webapi.request;
 import teammates.common.util.FieldValidator;
 
 /**
- * The basic request of creating new account.
+ * The request of creating new account.
  */
 public class AccountCreateRequest extends BasicRequest {
 
@@ -19,18 +19,15 @@ public class AccountCreateRequest extends BasicRequest {
     }
 
     public void setInstructorName(String name) {
-        this.instructorName = name;
+        this.instructorName = name.trim();
     }
 
     public void setInstructorInstitution(String institution) {
-        this.instructorInstitution = institution;
+        this.instructorInstitution = institution.trim();
     }
 
     @Override
     public void validate() {
-        this.instructorName = this.instructorName.trim();
-        this.instructorInstitution = this.instructorInstitution.trim();
-
         FieldValidator validator = new FieldValidator();
         assertTrue(validator.getInvalidityInfoForPersonName(this.instructorName).isEmpty(), "validate name");
         assertTrue(validator.getInvalidityInfoForInstituteName(this.instructorInstitution).isEmpty(),

@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.DowngradeAccountAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -48,6 +49,15 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         assertEquals("Instructor account is successfully downgraded to student.", response.getMessage());
+
+        ______TS("Failure: Downgrades an invalid account");
+
+        String[] invalidParams = {
+                Const.ParamsNames.INSTRUCTOR_ID, "invalid-google-id",
+        };
+
+        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getAction(invalidParams)));
+
     }
 
     @Override

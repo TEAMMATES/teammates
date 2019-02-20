@@ -1,5 +1,7 @@
 package teammates.ui.webapi.action;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -28,6 +30,9 @@ public class GetAccountAction extends Action {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         AccountAttributes accountInfo = logic.getAccount(googleId);
+        if (accountInfo == null) {
+            return new JsonResult("Account does not exist.", HttpStatus.SC_NOT_FOUND);
+        }
 
         AccountDetailsData output = new AccountDetailsData(accountInfo);
         return new JsonResult(output);
