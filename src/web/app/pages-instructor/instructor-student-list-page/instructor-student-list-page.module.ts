@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { StudentListModule } from '../student-list/student-list.module';
 import { InstructorStudentListPageComponent } from './instructor-student-list-page.component';
 
 /**
@@ -14,6 +17,9 @@ import { InstructorStudentListPageComponent } from './instructor-student-list-pa
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    RouterModule,
+    StudentListModule,
   ],
 })
 export class InstructorStudentListPageModule { }

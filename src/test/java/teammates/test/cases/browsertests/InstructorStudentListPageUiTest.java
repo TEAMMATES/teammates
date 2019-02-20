@@ -25,7 +25,7 @@ import teammates.test.pageobjects.InstructorStudentListPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_STUDENT_LIST_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_LIST_PAGE}.
  */
 @Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
@@ -64,7 +64,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
         String instructorId = instructorWith2Courses.googleId;
 
-        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         ______TS("content: search no match");
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
@@ -94,7 +94,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
         instructorId = instructorWith2Courses.googleId;
 
-        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
@@ -124,7 +124,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         instructorId = testData.instructors.get("instructorOfCourse1").googleId;
 
-        viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
@@ -134,7 +134,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         instructorId = testData.accounts.get("instructorWithoutCourses").googleId;
 
-        viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
@@ -143,7 +143,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         instructorId = testData.accounts.get("instructor1OfTestingSanitizationCourse").googleId;
 
-        viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageTestingSanitization.html");
@@ -164,7 +164,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         }
 
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
-        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
 
@@ -193,7 +193,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
     private void testLinks() {
 
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
-        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
 
@@ -244,7 +244,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
         String instructorId = instructorWith2Courses.googleId;
 
-        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         ______TS("action: delete");
 
@@ -272,7 +272,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
     private void testDisplayArchive() throws Exception {
         String instructorId = testData.instructors.get("instructorOfCourse4").googleId;
-        AppUrl viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
+        AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
         viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("action: display archive");
