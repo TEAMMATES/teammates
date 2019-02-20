@@ -145,7 +145,7 @@ public class FieldValidator {
     public static final String INVALID_NAME_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
     public static final String TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE =
-            "The field " + TEAM_NAME_FIELD_NAME + " is not acceptable to TEAMMATES as it appears to be a valid email";
+            "The field " + TEAM_NAME_FIELD_NAME + " is not acceptable to TEAMMATES as team name can't be a valid email";
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
