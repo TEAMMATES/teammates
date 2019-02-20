@@ -128,7 +128,7 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
         displayedName = SanitizationHelper.sanitizeName(displayedName);
 
         InstructorAttributes instructorToEdit =
-                updateBasicInstructorAttributes(courseId,  instructorRequest.getId(),
+                updateBasicInstructorAttributes(courseId, instructorRequest.getId(),
                         instructorRequest.getName(), instructorRequest.getEmail(),
                         instructorRole, instructorRequest.getIsDisplayedToStudent(), displayedName);
 

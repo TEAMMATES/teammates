@@ -115,11 +115,11 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
-        a = getAction(submissionParams);
-        r = getJsonResult(a);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        updateInstructorAction = getAction(submissionParams);
+        actionOutput = getJsonResult(updateInstructorAction);
+        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) actionOutput.getOutput();
         String expectedMessage = "At least one instructor must be displayed to students";
         assertEquals(expectedMessage, msg.getMessage());
 
@@ -136,7 +136,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
-
 
         updateInstructorAction = getAction(reqBody, submissionParams);
         actionOutput = getJsonResult(updateInstructorAction);
