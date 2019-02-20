@@ -98,24 +98,13 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorToEdit.email,
-
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT, "false",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true",
         };
 
-        updateInstructorAction = getAction(submissionParams);
+        reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.name,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                null, false);
+
+        updateInstructorAction = getAction(reqBody, submissionParams);
         actionOutput = getJsonResult(updateInstructorAction);
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
