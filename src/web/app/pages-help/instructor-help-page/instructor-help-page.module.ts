@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StudentProfileModule } from '../../pages-instructor/student-profile/student-profile.module';
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
@@ -35,6 +36,7 @@ import { ExampleBoxComponent } from './example-box/example-box.component';
     FormsModule,
     NgbModule,
     RouterModule,
+    StudentProfileModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
