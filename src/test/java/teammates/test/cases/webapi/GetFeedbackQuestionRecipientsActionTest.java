@@ -261,7 +261,6 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     }
 
     private FeedbackQuestionRecipientsData getRecipients(String[] params) {
-        verifyCanAccess(params); // Make sure not violates access control
         GetFeedbackQuestionRecipientsAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
