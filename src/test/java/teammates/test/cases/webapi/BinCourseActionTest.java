@@ -38,14 +38,15 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         ______TS("Not enough parameters");
 
-        verifyHttpParameterFailure();
-
-        ______TS("Typical case, 2 courses");
-
-        logic.createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
+
+        verifyHttpParameterFailure();
+
+        ______TS("Typical case, 2 courses. Expect 1 to be binned and 1 to stay.");
+
+        logic.createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
 
         BinCourseAction binCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(binCourseAction);
@@ -59,6 +60,8 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         List<CourseAttributes> courseList = logic.getCoursesForInstructor(instructorId);
         assertEquals(1, courseList.size());
         assertEquals("icdct.tpa.id1", courseList.get(0).getId());
+
+        assertNotNull(logic.getCourse(instructor1OfCourse1.courseId).deletedAt);
 
         ______TS("Masquerade mode, delete last course");
 
@@ -77,8 +80,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the Recycle Bin manually.",
                 msg.getMessage());
 
-        courseList = logic.getCoursesForInstructor(instructorId);
-        assertEquals(0, courseList.size());
+        assertNotNull(logic.getCourse("icdct.tpa.id1").deletedAt);
     }
 
     @Override

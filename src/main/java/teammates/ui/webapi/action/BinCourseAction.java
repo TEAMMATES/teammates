@@ -22,9 +22,9 @@ public class BinCourseAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.id),
-                logic.getCourse(idOfCourseToDelete), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+        String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
+                logic.getCourse(idOfCourseToBin), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
     }
 
     @Override
