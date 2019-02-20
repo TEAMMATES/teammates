@@ -101,7 +101,7 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_EDIT_DETAILS_SAVE, PUT, SaveCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_DELETE, DELETE, DeleteCourseAction.class);
-        map(ResourceURIs.INSTRUCTORS, PUT, SaveInstructorAction.class);
+        map(ResourceURIs.INSTRUCTORS, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTORS, POST, CreateInstructorAction.class);
         map(ResourceURIs.COURSE_DELETE_INSTRUCTOR, DELETE, DeleteInstructorInCourseAction.class);
         map(ResourceURIs.COURSE_SEND_REMINDER_EMAILS, POST, SendReminderEmailAction.class);

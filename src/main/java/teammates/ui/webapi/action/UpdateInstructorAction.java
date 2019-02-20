@@ -16,7 +16,7 @@ import teammates.ui.webapi.request.InstructorCreateRequest;
 /**
  * Edits an instructor in a course.
  */
-public class SaveInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
+public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
 
     @Override
     protected AuthType getMinAuthLevel() {

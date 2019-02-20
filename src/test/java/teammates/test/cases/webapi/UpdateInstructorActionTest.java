@@ -11,14 +11,14 @@ import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SaveInstructorAction;
+import teammates.ui.webapi.action.UpdateInstructorAction;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
- * SUT: {@link SaveInstructorAction}.
+ * SUT: {@link UpdateInstructorAction}.
  */
-public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorAction> {
+public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorAction> {
 
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
@@ -54,8 +54,8 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 newInstructorEmail, instructorToEdit.role,
                 instructorToEdit.displayedName, instructorToEdit.isDisplayedToStudents);
 
-        SaveInstructorAction saveInstructorAction = getAction(reqBody, submissionParams);
-        JsonResult actionOutput = getJsonResult(saveInstructorAction);
+        UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
+        JsonResult actionOutput = getJsonResult(updateInstructorAction);
 
         MessageOutput test = (MessageOutput) actionOutput.getOutput();
         System.out.println(test.getMessage());
@@ -85,8 +85,8 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
-        saveInstructorAction = getAction(reqBody, submissionParams);
-        actionOutput = getJsonResult(saveInstructorAction);
+        updateInstructorAction = getAction(reqBody, submissionParams);
+        actionOutput = getJsonResult(updateInstructorAction);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
@@ -138,8 +138,8 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
 
-        saveInstructorAction = getAction(reqBody, submissionParams);
-        actionOutput = getJsonResult(saveInstructorAction);
+        updateInstructorAction = getAction(reqBody, submissionParams);
+        actionOutput = getJsonResult(updateInstructorAction);
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
@@ -162,7 +162,7 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
         assertThrows(NullHttpParameterException.class, () -> {
-            SaveInstructorAction illegalAction = getAction(newReqBody, emptySubmissionParams);
+            UpdateInstructorAction illegalAction = getAction(newReqBody, emptySubmissionParams);
             getJsonResult(illegalAction);
         });
 
@@ -176,7 +176,7 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            SaveInstructorAction illegalAction = getAction(nullNameReq, newSubmissionParams);
+            UpdateInstructorAction illegalAction = getAction(nullNameReq, newSubmissionParams);
             getJsonResult(illegalAction);
         });
 
@@ -187,7 +187,7 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            SaveInstructorAction illegalAction = getAction(nullEmailReq, newSubmissionParams);
+            UpdateInstructorAction illegalAction = getAction(nullEmailReq, newSubmissionParams);
             getJsonResult(illegalAction);
         });
     }
