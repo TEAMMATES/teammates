@@ -11,6 +11,7 @@ import { AuthInfo, MessageOutput, Nationalities } from '../../../types/api-outpu
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
+import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentProfile {
@@ -18,7 +19,7 @@ interface StudentProfile {
   email: string;
   institute: string;
   nationality: string;
-  gender: string;
+  gender: Gender;
   moreInfo: string;
   pictureKey: string;
 }
@@ -39,13 +40,13 @@ interface StudentDetails {
 })
 export class StudentProfilePageComponent implements OnInit {
 
+  Gender: typeof Gender = Gender; // enum
   user: string = '';
   id: string = '';
   student?: StudentDetails;
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
-  genders: string[] = ['male', 'female', 'other'];
 
   private backendUrl: string = environment.backendUrl;
 

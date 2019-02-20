@@ -173,6 +173,12 @@
       "name": "Unregistered Course",
       "timeZone": "UTC"
     },
+    "testingInstructorsDisplayedCourse": {
+      "createdAt": "2012-04-01T23:58:00Z",
+      "id": "idOfTestingInstructorsDisplayedCourse",
+      "name": "Testing<script> alert('hi!'); </script>",
+      "timeZone": "UTC"
+    },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingSanitizationCourse",
@@ -525,6 +531,54 @@
       "isArchived": true,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorNotDisplayedToStudent1": {
+      "googleId": "idOfInstructorNotDisplayed1",
+      "courseId": "idOfTestingInstructorsDisplayedCourse",
+      "name": "name1",
+      "email": "instructorNotDisplayed@NotDisplayed.tmt",
+      "isArchived": true,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorNotDisplayedToStudent2": {
+      "googleId": "idOfInstructorNotDisplayed2",
+      "courseId": "idOfTestingInstructorsDisplayedCourse",
+      "name": "name2",
+      "email": "secondInstructorNotDisplayed@NotDisplayed.tmt",
+      "isArchived": true,
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {

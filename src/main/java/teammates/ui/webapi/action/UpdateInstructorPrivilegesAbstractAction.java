@@ -191,7 +191,7 @@ public abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
         // and mark that this section is special
         String sectionGroupParamName = Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionGroupIndex;
         if (specialSectionsInSectionGroups.get(sectionGroupParamName) == null) {
-            specialSectionsInSectionGroups.put(sectionGroupParamName, new ArrayList<String>());
+            specialSectionsInSectionGroups.put(sectionGroupParamName, new ArrayList<>());
         }
         specialSectionsInSectionGroups.get(sectionGroupParamName).add(sectionToMark);
         isSectionSpecialMappings.put(sectionToMark, true);

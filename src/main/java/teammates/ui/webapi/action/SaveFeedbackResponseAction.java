@@ -64,7 +64,6 @@ public class SaveFeedbackResponseAction extends BasicFeedbackSubmissionAction {
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-
         FeedbackResponseSaveRequest saveRequest = getAndValidateRequestBody(FeedbackResponseSaveRequest.class);
         if (!recipientsOfTheQuestion.containsKey(saveRequest.getRecipientIdentifier())) {
             throw new UnauthorizedAccessException("The recipient is not a valid recipient of the question");

@@ -173,7 +173,7 @@ public final class FeedbackQuestionsLogic {
                     "${courseId}", courseId,
                     "${feedbackSessionName}", feedbackSessionName);
 
-            Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
+            Type listType = new TypeToken<List<FeedbackQuestionAttributes>>(){}.getType();
             // obtained a Json String but deserialized everything
             return JsonUtils.fromJson(jsonString, listType);
         }
