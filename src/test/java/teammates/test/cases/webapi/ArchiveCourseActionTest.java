@@ -35,6 +35,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Not enough parameters");
         verifyHttpParameterFailure();
+        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId);
 
         ______TS("Typical case: archive a course");
 
@@ -62,8 +63,9 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         result = getJsonResult(archiveAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertTrue(theInstructor.isArchived);
 
-        ______TS("Typical case: unarchive a course, redirect to Courses page");
+        ______TS("Typical case: unarchive a course");
 
         courseArchiveRequest.setArchiveStatus(false);
 
@@ -76,7 +78,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertFalse(theInstructor.isArchived);
 
-        ______TS("Rare case: unarchive an active course, redirect to Courses page");
+        ______TS("Rare case: unarchive an active course");
 
         courseArchiveRequest.setArchiveStatus(false);
 
@@ -84,8 +86,9 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         result = getJsonResult(unarchiveAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertFalse(theInstructor.isArchived);
 
-        ______TS("Masquerade mode: archive course, redirect to Courses page");
+        ______TS("Masquerade mode: archive course");
 
         loginAsAdmin();
         courseArchiveRequest.setArchiveStatus(true);
@@ -94,6 +97,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         result = getJsonResult(archiveAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertTrue(theInstructor.isArchived);
     }
 
     @Override
