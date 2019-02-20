@@ -7,12 +7,46 @@ import { TimezoneService } from '../../../../services/timezone.service';
 import { MessageOutput } from '../../../../types/api-output';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
+/**
+ * Contains properties and methods that are used in the template
+ */
+interface AddCourseFormComponentInterface {
+  timezones: string[];
+  timezone: string;
+  newCourseId: string;
+  newCourseName: string;
+
+  onAutoDetectTimezone(): void;
+  onSubmit(): void;
+}
+
+/**
+ * An example component to be shown in the help page
+ */
+@Component({
+  selector: 'tm-example-add-course-form',
+  templateUrl: './add-course-form.component.html',
+  styleUrls: ['./add-course-form.component.scss']
+})
+export class ExampleAddCourseFormComponent implements AddCourseFormComponentInterface {
+  timezones: string[] = ['UTC', 'Other options ommitted...'];
+  timezone: string = 'UTC';
+  newCourseId: string = '';
+  newCourseName: string = '';
+
+  onAutoDetectTimezone(): void { }
+  onSubmit(): void { }
+}
+
+/**
+ * The actual component
+ */
 @Component({
   selector: 'tm-add-course-form',
   templateUrl: './add-course-form.component.html',
   styleUrls: ['./add-course-form.component.scss']
 })
-export class AddCourseFormComponent implements OnInit {
+export class AddCourseFormComponent implements OnInit, AddCourseFormComponentInterface {
 
   user: string = '';
 

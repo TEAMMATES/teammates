@@ -21,6 +21,10 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
+import {
+  ExampleAddCourseFormComponent
+} from '../../pages-instructor/instructor-courses-page/add-course-form/add-course-form.component';
+import { ExampleBoxComponent } from './example-box/example-box.component';
 
 /**
  * Module for instructor help page.
@@ -39,6 +43,8 @@ import {
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpCoursesSectionComponent,
     InstructorHelpGettingStartedComponent,
+    ExampleAddCourseFormComponent,
+    ExampleBoxComponent,
   ],
   exports: [
     InstructorHelpPageComponent,
