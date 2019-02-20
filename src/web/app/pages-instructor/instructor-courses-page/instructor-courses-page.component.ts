@@ -184,9 +184,6 @@ export class InstructorCoursesPageComponent implements OnInit {
           'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
-    this.newCourseId = '';
-    this.newCourseName = '';
-    this.timezone = moment.tz.guess();
 
     this.courseService.createCourse({
       courseName: this.newCourseId,
@@ -198,6 +195,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+
+    this.newCourseId = '';
+    this.newCourseName = '';
+    this.timezone = moment.tz.guess();
   }
 
   /**
@@ -226,12 +227,9 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      archive: 'false',
-      user: this.user,
-    };
-    this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
+    this.courseService.archiveCourse(courseId, {
+      archiveStatus: false,
+    }).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
