@@ -49,7 +49,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         String googleId = "valid.fresh.id";
         String courseId = "valid.course.Id";
-        String name = "valid.name";
+        String name = null;
         String email = "valid@email.tmt";
         String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;

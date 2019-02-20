@@ -54,15 +54,15 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 newInstructorEmail, instructorToEdit.role,
                 instructorToEdit.displayedName, instructorToEdit.isDisplayedToStudents);
 
-        SaveInstructorAction a = getAction(reqBody, submissionParams);
-        JsonResult r = getJsonResult(a);
+        SaveInstructorAction saveInstructorAction = getAction(reqBody, submissionParams);
+        JsonResult actionOutput = getJsonResult(saveInstructorAction);
 
-        MessageOutput test = (MessageOutput) r.getOutput();
+        MessageOutput test = (MessageOutput) actionOutput.getOutput();
         System.out.println(test.getMessage());
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) r.getOutput();
+        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
         assertEquals("The changes to the instructor " + newInstructorName + " has been updated.",
                 msg.getMessage());
 
@@ -85,12 +85,12 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
-        a = getAction(reqBody, submissionParams);
-        r = getJsonResult(a);
+        saveInstructorAction = getAction(reqBody, submissionParams);
+        actionOutput = getJsonResult(saveInstructorAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) actionOutput.getOutput();
         String expectedErrorMessage = new FieldValidator().getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
@@ -138,12 +138,12 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
 
-        a = getAction(reqBody, submissionParams);
-        r = getJsonResult(a);
+        saveInstructorAction = getAction(reqBody, submissionParams);
+        actionOutput = getJsonResult(saveInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) actionOutput.getOutput();
         assertEquals("The changes to the instructor " + newInstructorName + " has been updated.",
                 msg.getMessage());
 
@@ -156,63 +156,58 @@ public class SaveInstructorActionTest extends BaseActionTest<SaveInstructorActio
 
         ______TS("Unsuccessful case: test null course id parameter");
 
-        submissionParams = new String[0];
-        reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+        final String[] emptySubmissionParams = new String[0];
+        final InstructorCreateRequest newReqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
-        try {
-            a = getAction(reqBody, submissionParams);
-            getJsonResult(a);
-        } catch (NullHttpParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER,
-                    Const.ParamsNames.COURSE_ID), e.getMessage());
-        }
+        assertThrows(NullHttpParameterException.class, () -> {
+            SaveInstructorAction illegalAction = getAction(newReqBody, emptySubmissionParams);
+            getJsonResult(illegalAction);
+        });
 
         ______TS("Unsuccessful case: test null instructor name parameter");
 
-        submissionParams = new String[] {
+        final String[] newSubmissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        reqBody = new InstructorCreateRequest(instructorId, null,
+        final InstructorCreateRequest nullNameReq = new InstructorCreateRequest(instructorId, null,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
-        try {
-            a = getAction(reqBody, submissionParams);
-            getJsonResult(a);
-        } catch (InvalidHttpRequestBodyException e) {
-            assertEquals(String.format(Const.StatusCodes.INVALID_REQUEST_BODY,
-                    Const.ParamsNames.NAME), e.getMessage());
-        }
+        assertThrows(InvalidHttpRequestBodyException.class, () -> {
+            SaveInstructorAction illegalAction = getAction(nullNameReq, newSubmissionParams);
+            getJsonResult(illegalAction);
+        });
 
         ______TS("Unsuccessful case: test null instructor email parameter");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
-        reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+        final InstructorCreateRequest nullEmailReq = new InstructorCreateRequest(instructorId, newInstructorName,
                 null, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
-        try {
-            a = getAction(reqBody, submissionParams);
-            getJsonResult(a);
-        } catch (InvalidHttpRequestBodyException e) {
-            assertEquals(String.format(Const.StatusCodes.INVALID_REQUEST_BODY,
-                    Const.ParamsNames.EMAIL), e.getMessage());
-        }
+        assertThrows(InvalidHttpRequestBodyException.class, () -> {
+            SaveInstructorAction illegalAction = getAction(nullEmailReq, newSubmissionParams);
+            getJsonResult(illegalAction);
+        });
     }
 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
+
+        ______TS("only instructors of the same course can access");
+
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+
+        ______TS("instructors of other courses cannot access");
+
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
     }
 }

@@ -5,6 +5,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetInstructorAction;
 import teammates.ui.webapi.action.Intent;
@@ -43,19 +45,55 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName());
 
-        ______TS("typical success case");
+        ______TS("Typical Success Case");
         String[] params = {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        GetInstructorAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        GetInstructorAction getInstructorAction = getAction(params);
+        JsonResult actionOutput = getJsonResult(getInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        InstructorData response = (InstructorData) r.getOutput();
+        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        InstructorData response = (InstructorData) actionOutput.getOutput();
         assertEquals(instructor1OfCourse1.name, response.getName());
+
+        ______TS("Course ID given but Course is non existent");
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            String[] invalidCourseParams = new String[] {
+                    Const.ParamsNames.COURSE_ID, "1234A",
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                    Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+            };
+
+            getAction(new GetInstructorAction(), invalidCourseParams).execute();
+        });
+
+        ______TS("Intent is specified as STUDENT_SUBMISSION");
+
+        assertThrows(InvalidHttpParameterException.class, () -> {
+            String[] invalidIntentParams = new String[] {
+                    Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                    Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+            };
+
+            getAction(new GetInstructorAction(), invalidIntentParams).execute();
+        });
+
+        ______TS("Intent is specified as something new");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            String[] invalidIntentParams = new String[] {
+                    Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                    Const.ParamsNames.INTENT, "RANDOM INTENT",
+            };
+
+            getAction(new GetInstructorAction(), invalidIntentParams).execute();
+        });
     }
 
     @Test
@@ -76,6 +114,22 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        ______TS("instructors of other courses cannot access");
+
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        ______TS("feedback session does not exist");
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            String[] invalidFeedbackSessionParams = new String[] {
+                    Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME, "TEST_SESSION",
+                    Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+            };
+
+            verifyAccessibleForInstructorsOfTheSameCourse(invalidFeedbackSessionParams);
+        });
     }
 
 }

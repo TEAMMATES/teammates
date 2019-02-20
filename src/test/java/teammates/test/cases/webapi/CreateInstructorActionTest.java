@@ -54,12 +54,12 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
-        CreateInstructorAction a = getAction(reqBody, submissionParams);
-        JsonResult r = getJsonResult(a);
+        CreateInstructorAction createInstructorAction = getAction(reqBody, submissionParams);
+        JsonResult actionOutput = getJsonResult(createInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) r.getOutput();
+        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
         assertEquals("The instructor " + newInstructorName + " has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to "
                 + newInstructorEmail + " in a few minutes.", msg.getMessage());
@@ -70,27 +70,26 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals(newInstructorName, instructorAdded.name);
         assertEquals(newInstructorEmail, instructorAdded.email);
 
-        verifySpecifiedTasksAdded(a, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(createInstructorAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
-        TaskWrapper taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
-        Map<String, String[]> paramMap = taskAdded.getParamMap();
+        TaskWrapper taskAdded = createInstructorAction.getTaskQueuer().getTasksAdded().get(0);
 
-        assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(courseId, taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
         assertEquals(instructorAdded.email, reqBody.getEmail());
         assertEquals(instructorId, reqBody.getId());
 
         ______TS("Error: try to add an existing instructor");
 
-        a = getAction(reqBody, submissionParams);
-        r = getJsonResult(a);
+        createInstructorAction = getAction(reqBody, submissionParams);
+        actionOutput = getJsonResult(createInstructorAction);
 
-        assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
+        assertEquals(HttpStatus.SC_CONFLICT, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) actionOutput.getOutput();
         assertEquals("An instructor with the same email address already exists in the course.",
                 msg.getMessage());
 
-        verifyNoTasksAdded(a);
+        verifyNoTasksAdded(createInstructorAction);
 
         ______TS("Error: try to add an instructor with invalid email");
 
@@ -99,18 +98,18 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
-        a = getAction(reqBody, submissionParams);
-        r = getJsonResult(a);
+        createInstructorAction = getAction(reqBody, submissionParams);
+        actionOutput = getJsonResult(createInstructorAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) actionOutput.getOutput();
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                 FieldValidator.EMAIL_MAX_LENGTH),
                 msg.getMessage());
 
-        verifyNoTasksAdded(a);
+        verifyNoTasksAdded(createInstructorAction);
 
         ______TS("Masquerade mode: add an instructor");
 
@@ -124,12 +123,12 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
-        a = getAction(reqBody, submissionParams);
-        r = getJsonResult(a);
+        createInstructorAction = getAction(reqBody, submissionParams);
+        actionOutput = getJsonResult(createInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) actionOutput.getOutput();
         assertEquals("The instructor " + newInstructorName + " has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to "
                 + newInstructorEmail + " in a few minutes.", msg.getMessage());
@@ -140,10 +139,10 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals(newInstructorName, instructorAdded.name);
         assertEquals(newInstructorEmail, instructorAdded.email);
 
-        verifySpecifiedTasksAdded(a, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(createInstructorAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
-        taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
-        paramMap = taskAdded.getParamMap();
+        taskAdded = createInstructorAction.getTaskQueuer().getTasksAdded().get(0);
+        Map<String, String[]> paramMap = taskAdded.getParamMap();
 
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
         assertEquals(instructorAdded.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL)[0]);
@@ -156,8 +155,14 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
         };
 
+        ______TS("only instructors of the same course can access");
+
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
+
+        ______TS("instructors of other courses cannot access");
+
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
 
         // remove the newly added instructor
         InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");
