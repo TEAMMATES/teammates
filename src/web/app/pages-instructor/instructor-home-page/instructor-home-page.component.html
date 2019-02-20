@@ -115,8 +115,8 @@
         This action can be reverted by going to the "Courses" tab and restoring the desired course(s).
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">OK</button>
+        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+        <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
       </div>
     </ng-template>
     <ng-template #courseArchiveModal let-modal>
@@ -131,8 +131,8 @@
         This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">OK</button>
+        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+        <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
       </div>
     </ng-template>
 
