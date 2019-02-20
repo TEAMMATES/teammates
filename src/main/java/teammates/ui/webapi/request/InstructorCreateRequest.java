@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
  */
 public class InstructorCreateRequest extends BasicRequest {
     @Nullable
-    private String instructorId;
+    private String id;
 
     private String name;
     private String email;
@@ -19,9 +19,9 @@ public class InstructorCreateRequest extends BasicRequest {
     @Nullable
     private Boolean isDisplayedToStudent;
 
-    public InstructorCreateRequest(String instructorId, String name, String email, String roleName, String displayName,
+    public InstructorCreateRequest(String id, String name, String email, String roleName, String displayName,
                                    Boolean isDisplayedToStudent) {
-        this.instructorId = instructorId;
+        this.id = id;
         this.name = name;
         this.email = email;
         this.roleName = roleName;
@@ -37,7 +37,7 @@ public class InstructorCreateRequest extends BasicRequest {
     }
 
     public String getId() {
-        return this.instructorId;
+        return this.id;
     }
 
     public String getName() {

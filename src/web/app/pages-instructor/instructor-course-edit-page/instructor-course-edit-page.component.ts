@@ -526,7 +526,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     };
 
     const reqBody: InstructorCreateRequest = {
-      instructorId: editedInstructor.googleId,
+      id: editedInstructor.googleId,
       name: editedInstructor.name,
       email: editedInstructor.email,
       roleName: editedInstructor.role,
@@ -764,14 +764,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseid: this.courseToEdit.id,
     };
 
-    const canDisplay: boolean = addedInstructor.isDisplayedToStudents != null;
     const reqBody: InstructorCreateRequest = {
-      instructorId: addedInstructor.googleId,
+      id: addedInstructor.googleId,
       name: addedInstructor.name,
       email: addedInstructor.email,
       roleName: addedInstructor.role,
       displayName: addedInstructor.displayedName,
-      isDisplayedToStudent: canDisplay,
+      isDisplayedToStudent: addedInstructor.isDisplayedToStudents != null,
     };
 
     if (formAddInstructor.controls.role.value === 'Custom') {
