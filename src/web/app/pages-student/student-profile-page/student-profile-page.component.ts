@@ -11,27 +11,16 @@ import { AuthInfo, MessageOutput, Nationalities } from '../../../types/api-outpu
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Gender } from '../../../types/gender';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentProfileUpdateRequest } from '../../../types/api-request';
+import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-interface StudentProfile {
-  shortName: string;
-  email: string;
-  institute: string;
-  nationality: string;
-  gender: Gender;
-  moreInfo: string;
-  pictureKey: string;
-}
 
 interface StudentDetails {
   studentProfile: StudentProfileUpdateRequest;
   name: string;
   requestId: string;
 }
-
 
 /**
  * Student profile page.

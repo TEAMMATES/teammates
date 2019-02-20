@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-import { Gender } from '../../../types/gender';
-=======
 import { StudentProfileUpdateRequest } from '../../../types/api-request';
->>>>>>> update frontend to use DTO request
+import { Gender } from '../../../types/gender';
 
 /**
  * Contains a student's profile
