@@ -47,8 +47,8 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
-        BinCourseAction deleteAction = getAction(submissionParams);
-        JsonResult result = getJsonResult(deleteAction);
+        BinCourseAction binCourseAction = getAction(submissionParams);
+        JsonResult result = getJsonResult(binCourseAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
@@ -68,8 +68,8 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
                 Const.ParamsNames.COURSE_ID, "icdct.tpa.id1",
         };
 
-        deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        result = getJsonResult(deleteAction);
+        binCourseAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        result = getJsonResult(binCourseAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 

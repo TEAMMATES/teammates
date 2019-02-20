@@ -36,7 +36,6 @@ public class DeleteCourseActionTest
         ______TS("Typical case, delete a soft-deleted course in Recycle Bin");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
@@ -59,17 +58,15 @@ public class DeleteCourseActionTest
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
 
-        ______TS("Error case, delete a course not in Recycle Bin");
+        ______TS("delete a course not in Recycle Bin");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
         loginAsInstructor(instructorId);
 
         DeleteCourseAction action = getAction(submissionParams);
-        action.checkSpecificAccessControl();
         JsonResult result = getJsonResult(action);
         MessageOutput message = (MessageOutput) result.getOutput();
 

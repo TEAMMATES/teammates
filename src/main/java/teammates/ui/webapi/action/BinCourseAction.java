@@ -7,7 +7,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Soft delete a course.
+ * Move a course to the recycle bin.
  */
 public class BinCourseAction extends Action {
 
