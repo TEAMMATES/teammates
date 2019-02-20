@@ -79,62 +79,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(1, response.getSessions().size());
     }
 
-    @Test
-    public void testExecute_notEnoughParameters_shouldFail() {
-        loginAsAdmin();
-
-        ______TS("Not enough parameters");
-
-        verifyHttpParameterFailure();
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "10",
-        };
-        verifyHttpParameterFailure(params);
-
-        params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "10",
-        };
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    public void textExecute_boundaryValues_shouldFail() {
-        ______TS("Value too high");
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, "2" + Long.MAX_VALUE,
-                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, "3123" + Long.MAX_VALUE,
-        };
-
-        verifyHttpParameterFailure(params);
-
-        ______TS("Verify border values");
-
-        params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, String.valueOf(Long.MIN_VALUE),
-                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, String.valueOf(Long.MAX_VALUE),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    public void testExecute_appropriateBoundaryValues_shouldSucceed() {
-        Instant minValuePlus30 = Instant.ofEpochMilli(Long.MIN_VALUE).plus(30, ChronoUnit.DAYS);
-        Instant maxValueMinus30 = Instant.ofEpochMilli(Long.MAX_VALUE).minus(30, ChronoUnit.DAYS);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, String.valueOf(minValuePlus30.toEpochMilli()),
-                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, String.valueOf(maxValueMinus30.toEpochMilli()),
-        };
-
-        GetOngoingSessionsAction getOngoingSessionsAction = getAction(params);
-        JsonResult r = getJsonResult(getOngoingSessionsAction);
-
-        verifyNoExistingSession(r);
-    }
-
     @Override
     @Test
     protected void testAccessControl() {
