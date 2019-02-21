@@ -350,6 +350,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
+    protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
+
+        ______TS("course students can access");
+
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student1InCourse1.googleId);
+        verifyCanAccess(submissionParams);
+    }
+
     protected void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
 
         ______TS("other course instructor cannot access");
