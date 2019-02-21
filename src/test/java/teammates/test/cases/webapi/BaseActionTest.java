@@ -264,6 +264,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
+    protected void verifyInaccessibleForSpecificInstructor(InstructorAttributes instructor, String... params) {
+        ______TS("A specific instructor cannot access the resource.");
+
+        loginAsInstructor(instructor.googleId);
+        verifyCannotAccess(params);
+    }
+
     protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
 
         ______TS("admin can access");
@@ -341,6 +348,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
         verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
 
+    }
+
+    protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
+
+        ______TS("course students can access");
+
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student1InCourse1.googleId);
+        verifyCanAccess(submissionParams);
     }
 
     protected void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
