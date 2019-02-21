@@ -528,6 +528,11 @@ public final class Const {
                 "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
+
+        // Text Question
+        public static final int TEXT_MIN_RECOMMENDED_LENGTH = 0;
+        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be"
+                + " a non-negative integer";
     }
 
     public static class FeedbackQuestionTypeNames {
