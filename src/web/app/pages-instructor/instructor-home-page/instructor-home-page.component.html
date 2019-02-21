@@ -42,7 +42,7 @@
           <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
         </div>
         <div class="col-sm-6">
-          <div class="float-right">
+          <div class="float-right" *ngIf="courseTabModel.hasPopulated; else errorLoadingFeedbackSessions">
             <span ngbDropdown class="padding-right-10px">
               <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu>
@@ -103,6 +103,9 @@
       </div>
     </div>
 
+    <ng-template #errorLoadingFeedbackSessions>
+      Error loading feedback sessions. Click here to retry.
+    </ng-template>
     <ng-template #courseDeleteModal let-modal>
       <div class="modal-header bg-warning">
         <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Confirm moving course to Recycle Bin </h5>

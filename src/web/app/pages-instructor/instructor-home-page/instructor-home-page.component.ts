@@ -187,10 +187,10 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           model.sessionsTableRowModels.push(m);
           this.updateInstructorPrivilege(m);
         });
+        model.hasPopulated = true;
+        model.isTabExpanded = !model.isTabExpanded;
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
-      model.hasPopulated = true;
     }
-    model.isTabExpanded = !model.isTabExpanded;
   }
 
   /**
