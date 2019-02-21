@@ -22,32 +22,6 @@ import teammates.ui.webapi.output.ApiOutput;
  */
 public class GetCourseEditDetailsAction extends Action {
 
-    static final Map<String, InstructorPrivileges> INSTRUCTOR_PRIVILEGES = new HashMap<>();
-
-    static {
-        InstructorPrivileges coOwnerPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorPrivileges managerPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorPrivileges observerPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
-        InstructorPrivileges tutorPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
-        InstructorPrivileges customPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-
-        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                coOwnerPrivileges);
-        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
-                managerPrivileges);
-        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
-                observerPrivileges);
-        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
-                tutorPrivileges);
-        INSTRUCTOR_PRIVILEGES.put(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
-                customPrivileges);
-    }
-
     @Override
     protected AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -128,7 +102,6 @@ public class GetCourseEditDetailsAction extends Action {
         int instructorToShowIndex;
         List<String> sectionNames;
         List<String> feedbackNames;
-        Map<String, InstructorPrivileges> defaultPrivileges;
 
         public CourseEditDetails(CourseAttributes courseToEdit, List<InstructorAttributes> instructorList,
                                  InstructorAttributes instructor, int instructorToShowIndex,
@@ -139,7 +112,6 @@ public class GetCourseEditDetailsAction extends Action {
             this.instructorToShowIndex = instructorToShowIndex;
             this.sectionNames = sectionNames;
             this.feedbackNames = feedbackNames;
-            this.defaultPrivileges = INSTRUCTOR_PRIVILEGES;
         }
 
         public CourseAttributes getCourseToEdit() {
@@ -164,10 +136,6 @@ public class GetCourseEditDetailsAction extends Action {
 
         public List<String> getFeedbackNames() {
             return feedbackNames;
-        }
-
-        public Map<String, InstructorPrivileges> getDefaultPrivileges() {
-            return defaultPrivileges;
         }
     }
 

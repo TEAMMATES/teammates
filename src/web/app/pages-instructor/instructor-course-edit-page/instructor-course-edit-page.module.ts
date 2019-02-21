@@ -9,6 +9,7 @@ import { DeleteInstructorModalComponent } from './delete-instructor-modal/delete
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
 import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
+import { InstructorEditFormComponent } from './instructor-edit-form/instructor-edit-form.component';
 
 /**
  * Module for instructor course edit page.
@@ -26,6 +27,7 @@ import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privi
   declarations: [
     DeleteInstructorModalComponent,
     InstructorCourseEditPageComponent,
+    InstructorEditFormComponent,
     ResendReminderModalComponent,
     ViewPrivilegesModalComponent,
   ],

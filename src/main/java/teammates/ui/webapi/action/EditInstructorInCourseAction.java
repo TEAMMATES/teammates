@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.webapi.output.InstructorData;
 
 /**
  * Edits an instructor in a course.
@@ -47,8 +48,9 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
         try {
+            InstructorAttributes instructor;
             if (instructorId == null) {
-                logic.updateInstructor(
+                instructor = logic.updateInstructor(
                         InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorEmail)
                                 .withName(instructorToEdit.name)
                                 .withDisplayedName(instructorToEdit.displayedName)
@@ -57,7 +59,7 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
                                 .withRole(instructorToEdit.role)
                                 .build());
             } else {
-                logic.updateInstructorCascade(
+                instructor = logic.updateInstructorCascade(
                         InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorId)
                                 .withEmail(instructorToEdit.email)
                                 .withName(instructorToEdit.name)
@@ -67,14 +69,12 @@ public class EditInstructorInCourseAction extends UpdateInstructorPrivilegesAbst
                                 .withRole(instructorToEdit.role)
                                 .build());
             }
+            return new JsonResult(new InstructorData(instructor));
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
-
-        return new JsonResult("The changes to the instructor " + instructorName + " has been updated.",
-                HttpStatus.SC_OK);
     }
 
     /**

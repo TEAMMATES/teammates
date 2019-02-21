@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,11 +7,11 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { Instructor } from '../../Instructor';
 import { CourseEditFormModel } from './course-edit-form/course-edit-form-model';
 import { DeleteInstructorModalComponent } from './delete-instructor-modal/delete-instructor-modal.component';
-import {
-  DefaultPrivileges, Privileges, SectionLevelPrivileges, SessionLevelPrivileges,
-} from './instructor-privileges-model';
+import { InstructorEditFormModel } from "./instructor-edit-form/instructor-edit-form-model";
+import { CourseLevelPrivileges, DefaultPrivileges, Privileges, Role, } from './instructor-privileges-model';
 import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
 
@@ -23,54 +22,13 @@ interface Course {
   timeZone: string;
 }
 
-/**
- * Possible instructor roles.
- */
-enum Role {
-  /**
-   * Co-owner instructor role.
-   */
-  COOWNER = 'Co-owner',
-
-  /**
-   * Manager instructor role.
-   */
-  MANAGER = 'Manager',
-
-  /**
-   * Observer instructor role.
-   */
-  OBSERVER = 'Observer',
-
-  /**
-   * Tutor instructor role.
-   */
-  TUTOR = 'Tutor',
-
-  /**
-   * Custom instructor role.
-   */
-  CUSTOM = 'Custom',
-}
-
-interface InstructorAttributes {
-  googleId: string;
-  name: string;
-  email: string;
-  role: Role;
-  isDisplayedToStudents: boolean;
-  displayedName: string;
-  privileges: Privileges;
-}
-
 interface CourseEditDetails {
   courseToEdit: Course;
-  instructorList: InstructorAttributes[];
-  instructor: InstructorAttributes;
+  instructorList: Instructor[];
+  instructor: Instructor;
   instructorToShowIndex: number;
   sectionNames: string[];
   feedbackNames: string[];
-  defaultPrivileges: DefaultPrivileges;
 }
 
 /**
@@ -82,8 +40,6 @@ interface CourseEditDetails {
   styleUrls: ['./instructor-course-edit-page.component.scss'],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
-
-  user: string = '';
 
   // enums
   Role: typeof Role = Role;
@@ -98,25 +54,23 @@ export class InstructorCourseEditPageComponent implements OnInit {
     isSaving: false,
   };
 
-  formEditInstructors!: FormGroup;
-  formInstructors!: FormArray;
+  // to get the original question model
+  instructorFormModels: Map<string, Instructor> = new Map();
 
-  instructorList: InstructorAttributes[] = [];
-  instructor!: InstructorAttributes;
+  instructorEditFormModels: InstructorEditFormModel[] = [];
+
+  user: string = '';
+  instructor!: Instructor;
   instructorToShowIndex: number = -1;
   sectionNames: string[] = [];
   feedbackNames: string[] = [];
   defaultPrivileges!: DefaultPrivileges;
-
-  isAddingInstructor: boolean = false;
-  formAddInstructor!: FormGroup;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private navigationService: NavigationService,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
-              private fb: FormBuilder,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -137,15 +91,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = { courseid };
     this.httpRequestService.get('/instructors/course/details', paramMap)
         .subscribe((resp: CourseEditDetails) => {
-          this.courseEditFormModel = this.getCourseEditFormModel(resp.courseToEdit);
-          this.instructorList = resp.instructorList;
           this.instructor = resp.instructor;
           this.instructorToShowIndex = resp.instructorToShowIndex;
           this.sectionNames = resp.sectionNames;
           this.feedbackNames = resp.feedbackNames;
-          this.defaultPrivileges = resp.defaultPrivileges;
 
-          this.initEditInstructorsForm();
+          this.courseEditFormModel = this.getCourseEditFormModel(resp.courseToEdit);
+
+          resp.instructorList.forEach((instructor: Instructor) => {
+            this.instructorEditFormModels.push(this.getInstructorEditFormModel(instructor));
+            this.instructorFormModels.set(instructor.googleId, instructor);
+          });
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -154,8 +110,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Gets the {@code courseEditFormModel} with {@link Course} entity.
    */
-  getCourseEditFormModel(course: Course): CourseEditFormModel {
-    const model: CourseEditFormModel = {
+  private getCourseEditFormModel(course: Course): CourseEditFormModel {
+    return {
       courseId: course.id,
       courseName: course.name,
       timeZone: course.timeZone,
@@ -163,8 +119,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isEditable: false,
       isSaving: false,
     };
-
-    return model;
   }
 
   /**
@@ -209,329 +163,70 @@ export class InstructorCourseEditPageComponent implements OnInit {
    ******************************************************************************/
 
   /**
-   * Gets the placeholder content for displayed name when it is not displayed to students.
+   * Converts an instructor to an instructor edit form model.
    */
-  getPlaceholderForDisplayedName(isDisplayed: boolean): string {
-    return isDisplayed ? 'E.g.Co-lecturer, Teaching Assistant'
-        : '(This instructor will NOT be displayed to students)';
+  private getInstructorEditFormModel(instructor: Instructor): InstructorEditFormModel {
+    return {
+      googleId: instructor.googleId,
+      name: instructor.name,
+      email: instructor.email,
+      role: instructor.role,
+      isDisplayedToStudents: instructor.isDisplayedToStudents,
+      displayedName: instructor.displayedName,
+      privileges: instructor.privileges,
+
+      isEditable: false,
+      isSaving: false,
+    };
   }
 
   /**
-   * Initialises the details panels with data from the backend for all instructors.
+   * Tracks the instructor edit form by instructor google id.
    */
-  private initEditInstructorsForm(): void {
-    this.formEditInstructors = this.fb.group({ formInstructors: [] });
-
-    const control: FormArray = this.fb.array([]);
-    this.instructorList.forEach((instructor: InstructorAttributes, index: number) => {
-      const defaultPrivileges: Privileges = instructor.privileges;
-      const instructorEmail: string = instructor.email ? instructor.email : '';
-      const instructorDisplayedName: string = instructor.isDisplayedToStudents ? instructor.displayedName : '';
-
-      const instructorForm: FormGroup = this.fb.group({
-        googleId: [{ value: instructor.googleId, disabled: true }],
-        name: [{ value: instructor.name, disabled: true }],
-        email: [{ value: instructorEmail, disabled: true }],
-        isDisplayedToStudents: [{ value: instructor.isDisplayedToStudents, disabled: true }],
-        displayedName: [{ value: instructorDisplayedName, disabled: true }],
-        role: [{ value: instructor.role }],
-        privileges: [{ value: defaultPrivileges }],
-        tunePermissions: this.fb.group({
-          permissionsForCourse: this.fb.group(instructor.privileges.courseLevel),
-          tuneSectionGroupPermissions: this.fb.array([]),
-        }),
-      });
-
-      // Listen for specific course value changes
-      const courseLevel: FormGroup = (instructorForm.controls.tunePermissions as FormGroup)
-          .controls.permissionsForCourse as FormGroup;
-
-      courseLevel.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToView: boolean) => {
-        if (!isAbleToView) {
-          courseLevel.controls.canmodifysessioncommentinsection.setValue(false);
-        }
-      });
-
-      courseLevel.controls.canmodifysessioncommentinsection.valueChanges.subscribe((isAbleToModify: boolean) => {
-        if (isAbleToModify) {
-          courseLevel.controls.canviewsessioninsection.setValue(true);
-        }
-      });
-
-      (instructorForm.controls.tunePermissions as FormGroup).controls.tuneSectionGroupPermissions =
-          this.initSectionGroupPermissions(instructor);
-
-      // Listen for changes to custom privileges
-      const roleControl: (AbstractControl | null) = instructorForm.get('role');
-      const permissionsControl: (FormGroup | null) = instructorForm.get('tunePermissions') as FormGroup;
-
-      if (roleControl != null && permissionsControl != null) {
-        roleControl.valueChanges.subscribe((selectedRole: string) => {
-          const panelId: string = `tune-permissions-${index}`;
-          const panel: (HTMLElement | null) = document.getElementById(panelId);
-
-          if (selectedRole === 'Custom' && panel != null) {
-            panel.style.display = 'block';
-            permissionsControl.controls.permissionsForCourse.reset(this.instructorList[index].privileges.courseLevel);
-            permissionsControl.controls.tuneSectionGroupPermissions =
-                this.initSectionGroupPermissions(this.instructorList[index]);
-          } else if (panel != null) {
-            panel.style.display = 'none';
-          }
-        });
-      }
-
-      control.push(instructorForm);
-    });
-
-    this.formEditInstructors.controls.formInstructors = control;
-  }
-
-  /**
-   * Initialises section permissions for section group panels.
-   */
-  private initSectionGroupPermissions(instructor: InstructorAttributes): FormArray {
-    const tuneSectionGroupPermissions: FormArray = this.fb.array([]);
-
-    // Initialise section level privileges for each section group
-    Object.keys(instructor.privileges.sectionLevel).forEach((sectionName: string) => {
-      const sectionPrivileges: { [key: string]: SectionLevelPrivileges } = instructor.privileges.sectionLevel;
-      const sectionPrivilegesForSection: SectionLevelPrivileges = sectionPrivileges[sectionName];
-      const specialSectionPermissions: FormGroup = this.fb.group({
-        permissionsForSection: this.fb.group(sectionPrivilegesForSection),
-        permissionsForSessions: this.fb.group({}),
-      });
-
-      specialSectionPermissions.addControl(sectionName, this.fb.control(true));
-
-      // Initialise remaining controls for non-special sections
-      this.sectionNames.forEach((section: string) => {
-        if (section !== sectionName) {
-          specialSectionPermissions.addControl(section, this.fb.control(false));
-        }
-      });
-
-      // Listen for specific section value changes
-      const sectionLevel: FormGroup = specialSectionPermissions.controls.permissionsForSection as FormGroup;
-
-      sectionLevel.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToView: boolean) => {
-        if (!isAbleToView) {
-          sectionLevel.controls.canmodifysessioncommentinsection.setValue(false);
-        }
-      });
-
-      sectionLevel.controls.canmodifysessioncommentinsection.valueChanges.subscribe((isAbleToModify: boolean) => {
-        if (isAbleToModify) {
-          sectionLevel.controls.canviewsessioninsection.setValue(true);
-        }
-      });
-
-      // Initialise session level privileges for each section
-      const sessionPrivilegesForSection: { [session: string]: SessionLevelPrivileges } =
-          instructor.privileges.sessionLevel[sectionName];
-
-      this.feedbackNames.forEach((feedback: string) => {
-        let sessionPrivileges: FormGroup;
-        if (sessionPrivilegesForSection != null && sessionPrivilegesForSection[feedback] != null) {
-          sessionPrivileges = this.fb.group(sessionPrivilegesForSection[feedback]);
-        } else {
-          sessionPrivileges = this.fb.group({
-            cansubmitsessioninsection: false,
-            canviewsessioninsection: false,
-            canmodifysessioncommentinsection: false,
-          });
-        }
-
-        // Listen for specific session value changes
-        sessionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
-          if (!isAbleToSubmit) {
-            sessionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
-          }
-        });
-
-        sessionPrivileges.controls.canmodifysessioncommentinsection.valueChanges
-            .subscribe((isAbleToModify: boolean) => {
-              if (isAbleToModify) {
-                sessionPrivileges.controls.canviewsessioninsection.setValue(true);
-              }
-            });
-
-        (specialSectionPermissions.controls.permissionsForSessions as FormGroup)
-            .addControl(feedback, sessionPrivileges);
-      });
-
-      tuneSectionGroupPermissions.push(specialSectionPermissions);
-    });
-
-    return tuneSectionGroupPermissions;
-  }
-
-  /**
-   * Checks if the current instructor has a valid google id.
-   */
-  hasGoogleId(index: number): boolean {
-    const googleId: string = this.instructorList[index].googleId;
-    return googleId != null && googleId !== '';
-  }
-
-  /**
-   * Enables/disables editing the displayed instructor name if it is/is not displayed to other students.
-   */
-  onChangeIsDisplayedToStudents(evt: any, instr: FormGroup, index: number): void {
-    const displayedNameControl: (AbstractControl | null) = instr.controls.displayedName;
-    const nameDisplayId: string = `name-display-${index}`;
-    const displayedNameField: (HTMLInputElement | null) = document.getElementById(nameDisplayId) as HTMLInputElement;
-
-    const isDisplayedToStudents: boolean = evt.target.checked;
-    if (displayedNameControl != null) {
-      if (isDisplayedToStudents) {
-        displayedNameControl.enable();
-        displayedNameControl.setValue('Instructor');
-        displayedNameField.placeholder = this.getPlaceholderForDisplayedName(true);
-      } else {
-        displayedNameControl.disable();
-        displayedNameControl.setValue('');
-        displayedNameField.placeholder = this.getPlaceholderForDisplayedName(false);
-      }
-    }
-  }
-
-  /**
-   * Toggles the edit instructor panel for a given instructor.
-   * Instructor email cannot be edited when editing a yet-to-join instructor.
-   */
-  toggleIsEditingInstructor(control: FormGroup, index: number): void {
-    const editBtnId: string = `btn-edit-${index}`;
-    const cancelBtnId: string = `btn-cancel-${index}`;
-    const saveBtnId: string = `btn-save-${index}`;
-
-    const editBtn: (HTMLElement | null) = document.getElementById(editBtnId);
-    const cancelBtn: (HTMLElement | null) = document.getElementById(cancelBtnId);
-    const saveBtn: (HTMLElement | null) = document.getElementById(saveBtnId);
-
-    let isEditBtnVisible: boolean = true;
-    if (editBtn != null) {
-      isEditBtnVisible = editBtn.style.display === 'inline-block';
-    }
-
-    const viewRoleId: string = `role-view-${index}`;
-    const editRoleId: string = `role-edit-${index}`;
-
-    const viewRole: (HTMLElement | null) = document.getElementById(viewRoleId);
-    const editRole: (HTMLElement | null) = document.getElementById(editRoleId);
-
-    const idControl: (AbstractControl | null) = control.controls.googleId;
-    const roleControl: (AbstractControl | null) = control.controls.role;
-    const displayNameControl: (AbstractControl | null) = control.controls.displayedName;
-    const nameDisplayId: string = `name-display-${index}`;
-    const displayedNameField: (HTMLInputElement | null) = document.getElementById(nameDisplayId) as HTMLInputElement;
-
-    const permissionsPanelId: string = `tune-permissions-${index}`;
-    const permissionsPanel: (HTMLElement | null) = document.getElementById(permissionsPanelId);
-
-    if (editBtn != null && cancelBtn != null && saveBtn != null && viewRole != null && editRole != null
-        && idControl != null && roleControl != null && displayNameControl != null && displayedNameField != null
-        && permissionsPanel != null) {
-
-      // If the instructor is currently being edited
-      if (isEditBtnVisible) {
-        editBtn.style.display = 'none';
-        cancelBtn.style.display = 'inline-block';
-        saveBtn.style.display = 'inline-block';
-
-        viewRole.style.display = 'none';
-        editRole.style.display = 'block';
-
-        // Enable all form control elements except for the google id and possibly the displayed name
-        control.enable();
-        idControl.disable();
-        roleControl.setValue(this.instructorList[index].role);
-
-        if (this.instructorList[index].role === 'Custom') {
-          permissionsPanel.style.display = 'block';
-        }
-
-        if (!this.instructorList[index].isDisplayedToStudents) {
-          displayNameControl.disable();
-        }
-
-      } else {
-        editBtn.style.display = 'inline-block';
-        cancelBtn.style.display = 'none';
-        saveBtn.style.display = 'none';
-
-        viewRole.style.display = 'inline-block';
-        editRole.style.display = 'none';
-
-        control.disable();
-        control.reset(this.instructorList[index]);
-        permissionsPanel.style.display = 'none';
-
-        if (!this.instructorList[index].isDisplayedToStudents) {
-          displayNameControl.setValue('');
-          displayedNameField.placeholder = this.getPlaceholderForDisplayedName(false);
-        }
-      }
-    }
-
-    // Disable editing email for yet-to-join instructor
-    const email: string = 'email';
-    const emailControl: (AbstractControl | null) = control.get(email);
-    if (emailControl != null && !this.hasGoogleId(index)) {
-      emailControl.disable();
-    }
+  trackInstructorEditFormByFn(_: any, item: InstructorEditFormModel): any {
+    return item.googleId;
   }
 
   /**
    * Saves the updated instructor details.
    */
-  onSubmitEditInstructor(instr: FormGroup, index: number): void {
-
-    // Make a copy of the edited instructor
-    const editedInstructor: InstructorAttributes =  {
-      googleId: instr.controls.googleId.value,
-      name: instr.controls.name.value,
-      email: instr.controls.email.value,
-      role: instr.controls.role.value,
-      isDisplayedToStudents: instr.controls.isDisplayedToStudents.value,
-      displayedName: instr.controls.displayedName.value,
-      privileges: this.defaultPrivileges[instr.controls.role.value],
-    };
+  editInstructorHandler(instructorEditFormModel: InstructorEditFormModel, index: number): void {
+    instructorEditFormModel.isSaving = true;
 
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseEditFormModel.courseId,
-      instructorid: editedInstructor.googleId,
-      instructorname: editedInstructor.name,
-      instructoremail: editedInstructor.email,
-      instructorrole: editedInstructor.role,
-      instructordisplayname: editedInstructor.displayedName,
+      instructorid: instructorEditFormModel.googleId,
+      instructorname: instructorEditFormModel.name,
+      instructoremail: instructorEditFormModel.email,
+      instructorrole: instructorEditFormModel.role,
+      instructordisplayname: instructorEditFormModel.displayedName,
     };
 
     const instructorIsDisplayed: string = 'instructorisdisplayed';
-    if (editedInstructor.isDisplayedToStudents) {
+    if (instructorEditFormModel.isDisplayedToStudents) {
       paramsMap[instructorIsDisplayed] = 'true';
     }
 
-    if (instr.controls.role.value === 'Custom') {
-      const tuneCoursePermissions: (FormGroup | null) = (instr.controls.tunePermissions as FormGroup)
-          .controls.permissionsForCourse as FormGroup;
+    if (instructorEditFormModel.role == Role.CUSTOM) {
+
+      const courseLevelPrivileges: CourseLevelPrivileges = instructorEditFormModel.privileges.courseLevel;
 
       // Append custom course level privileges
-      Object.keys(tuneCoursePermissions.controls).forEach((permission: string) => {
-        if (tuneCoursePermissions.controls[permission].value) {
+      Object.keys(courseLevelPrivileges).forEach((permission: string) => {
+        if (courseLevelPrivileges[permission]) {
           paramsMap[permission] = 'true';
         }
       });
-      editedInstructor.privileges.courseLevel = tuneCoursePermissions.value;
 
-      // Append custom section level privileges
-      const tuneSectionGroupPermissions: (FormArray | null) = (instr.controls.tunePermissions as FormGroup)
-          .controls.tuneSectionGroupPermissions as FormArray;
+      /**
+       // Append custom section level privileges
+       const tuneSectionGroupPermissions: (FormArray | null) = (instr.controls.tunePermissions as FormGroup)
+       .controls.tuneSectionGroupPermissions as FormArray;
 
-      const newSectionLevelPrivileges: { [key: string]: SectionLevelPrivileges } = {};
-      const newSessionLevelPrivileges: { [section: string]: { [session: string]: SessionLevelPrivileges } } = {};
+       const newSectionLevelPrivileges: { [key: string]: SectionLevelPrivileges } = {};
+       const newSessionLevelPrivileges: { [section: string]: { [session: string]: SessionLevelPrivileges } } = {};
 
-      tuneSectionGroupPermissions.controls.forEach((sectionGroupPermissions: AbstractControl, panelIdx: number) => {
+       tuneSectionGroupPermissions.controls.forEach((sectionGroupPermissions: AbstractControl, panelIdx: number) => {
         const specialSections: string[] = [];
 
         // Mark section as special if it has been checked in a section group
@@ -591,75 +286,44 @@ export class InstructorCourseEditPageComponent implements OnInit {
         });
       });
 
-      editedInstructor.privileges.sectionLevel = newSectionLevelPrivileges;
-      editedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
+       editedInstructor.privileges.sectionLevel = newSectionLevelPrivileges;
+       editedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
+       }*/
     }
 
     this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
-          this.updateInstructorDetails(index, editedInstructor);
-          this.toggleIsEditingInstructor(instr, index);
+        .subscribe((updatedInstructor: Instructor) => {
+          this.instructorEditFormModels[index] = this.getInstructorEditFormModel(updatedInstructor);
+          this.instructorEditFormModels[index].isSaving = false;
+          this.instructorFormModels.set(updatedInstructor.googleId, updatedInstructor);
+
+          if (updatedInstructor.googleId == this.instructor.googleId) {
+            this.instructor = updatedInstructor;
+          }
+
+          this.statusMessageService
+              .showSuccessMessage(`The changes to the instructor ${instructorEditFormModel.name} has been updated.`);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
   }
 
-  /**
-   * Updates the stored instructor and instructor list entities.
-   */
-  updateInstructorDetails(index: number, instr: InstructorAttributes): void {
-    const newPrivileges: Privileges = instr.privileges;
+  /******************************************************************************
+   * ADD INSTRUCTOR RELATED FUNCTIONS
+   *****************************************************************************
 
-    // Update the stored instructor
-    if (this.instructorList.length === 1) {
-      // If there is only one instructor, the instructor can modify instructors by default
-      newPrivileges.courseLevel.canmodifyinstructor = true;
-      this.instructor = instr;
-    }
-
-    // Update elements for privileges if needed
-    if (this.instructor.googleId === instr.googleId) {
-      this.updateElementsForPrivileges();
-    }
-
-    // Update the stored instructor list
-    this.instructorList[index] = instr;
-  }
-
-  /**
-   * Updates elements and buttons related to the current instructor's privileges.
-   */
-  private updateElementsForPrivileges(): void {
-    const courseBtns: HTMLCollectionOf<Element> = document.getElementsByClassName('btn-course');
-    for (const courseBtn of courseBtns as any) {
-      (courseBtn as HTMLInputElement).disabled = !this.instructor.privileges.courseLevel.canmodifycourse;
-    }
-
-    const instrBtns: HTMLCollectionOf<Element> = document.getElementsByClassName('btn-instr');
-    for (const instrBtn of instrBtns as any) {
-      (instrBtn as HTMLInputElement).disabled = !this.instructor.privileges.courseLevel.canmodifyinstructor;
-    }
-  }
-
-  /**
+   /**
    * Toggles the add instructor form.
-   */
   toggleIsAddingInstructor(): void {
-    this.isAddingInstructor = !this.isAddingInstructor;
+      this.isAddingInstructor = !this.isAddingInstructor;
 
     if (this.isAddingInstructor) {
       this.initAddInstructorForm();
     }
   }
 
-  /******************************************************************************
-   * ADD INSTRUCTOR RELATED FUNCTIONS
-   ******************************************************************************/
-
   /**
    * Initialises a new form for adding an instructor to the current course.
-   */
   private initAddInstructorForm(): void {
     this.formAddInstructor = this.fb.group({
       googleId: [''],
@@ -706,7 +370,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   /**
    * Adds a new instructor to the current course.
-   */
   onSubmitAddInstructor(formAddInstructor: FormGroup): void {
     // Create a copy of the added instructor
     const addedInstructor: InstructorAttributes = {
@@ -828,7 +491,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   /**
    * Updates the stored instructor list and forms.
-   */
   private addToInstructorList(instructor: InstructorAttributes): void {
     this.instructorList.push(instructor);
     this.initEditInstructorsForm();
@@ -836,7 +498,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   /**
    * Adds an additional panel to modify custom section privileges for a given instructor.
-   */
   addTuneSectionGroupPermissionsPanel(instr: FormGroup, index: number): void {
     const instructor: InstructorAttributes = this.instructorList[index];
     const newSection: FormGroup = this.fb.group({
@@ -894,7 +555,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   /**
    * Adds a default tune section group permission panel.
-   */
   addEmptyTuneSectionGroupPermissionsPanel(instr: FormGroup): void {
     const newSection: FormGroup = this.fb.group({
       permissionsForSection: this.fb.group({
@@ -951,14 +611,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   /**
    * Removes a panel to modify custom section privileges for a given instructor.
-   */
   removeTuneSectionGroupPermissionsPanel(instr: FormGroup, index: number): void {
     ((instr.controls.tunePermissions as FormGroup).controls.tuneSectionGroupPermissions as FormArray).removeAt(index);
   }
 
   /**
    * Hides session level permissions for a section panel.
-   */
   hideSessionLevelPermissions(panelIdx: number, sectionIdx: number): void {
     const table: (HTMLElement | null) = document.getElementById(`tune-session-permissions-${panelIdx}-${sectionIdx}`);
     const hideLink: (HTMLElement | null) = document.getElementById(`hide-link-${panelIdx}-${sectionIdx}`);
@@ -973,7 +631,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   /**
    * Shows session level permissions for a section panel.
-   */
   showSessionLevelPermissions(panelIdx: number, sectionIdx: number): void {
     const table: (HTMLElement | null) = document.getElementById(`tune-session-permissions-${panelIdx}-${sectionIdx}`);
     const hideLink: (HTMLElement | null) = document.getElementById(`hide-link-${panelIdx}-${sectionIdx}`);
@@ -984,14 +641,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
       hideLink.style.display = 'block';
       showLink.style.display = 'none';
     }
-  }
+  }*/
 
   /******************************************************************************
    * MODAL RELATED FUNCTIONS
    ******************************************************************************/
 
   /**
-   * Opens a modal to show the privileges for a given instructor.
+   * Opens a modal to show the privileges for a given role and its associated privileges.
    */
   viewPrivilegesHandler(role: Role, privileges: Privileges): void {
     const modalRef: NgbModalRef = this.modalService.open(ViewPrivilegesModalComponent);
@@ -1006,7 +663,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   resendReminderHandler(index: number): void {
     const modalRef: NgbModalRef = this.modalService.open(ResendReminderModalComponent);
 
-    const instructorToResend: InstructorAttributes = this.instructorList[index];
+    const instructorToResend: InstructorEditFormModel = this.instructorEditFormModels[index];
     modalRef.componentInstance.instructorname = instructorToResend.name;
     modalRef.componentInstance.courseId = this.courseEditFormModel.courseId;
 
@@ -1031,7 +688,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   deleteInstructorHandler(index: number): void {
     const modalRef: NgbModalRef = this.modalService.open(DeleteInstructorModalComponent);
 
-    const instructorToDelete: InstructorAttributes = this.instructorList[index];
+    const instructorToDelete: InstructorEditFormModel = this.instructorEditFormModels[index];
     modalRef.componentInstance.courseId = this.courseEditFormModel.courseId;
     modalRef.componentInstance.idToDelete = instructorToDelete.googleId;
     modalRef.componentInstance.nameToDelete = instructorToDelete.name;
@@ -1049,20 +706,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
             if (instructorToDelete.googleId === this.instructor.googleId) {
               this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
             } else {
-              this.removeFromInstructorList(index);
+              this.instructorEditFormModels.splice(index, 1);
               this.statusMessageService.showSuccessMessage(resp.message);
             }
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(resp.error.message);
           });
     }, () => {});
-  }
-
-  /**
-   * Removes a deleted instructor from the stored instructor lists.
-   */
-  private removeFromInstructorList(index: number): void {
-    this.instructorList.splice(index, 1);
-    (this.formEditInstructors.controls.formInstructors as FormArray).removeAt(index);
   }
 }

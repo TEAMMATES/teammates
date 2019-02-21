@@ -1,0 +1,293 @@
+<div class="card bg-light top-padded">
+  <div class="card-header bg-primary text-white">
+    <strong>Instructor {{ modelNumber + 1 }}:</strong>
+    <span class="float-sm-right">
+      <button class="btn btn-light btn-sm btn-left btn-instr" ngbTooltip="Send invitation email to the instructor"
+              *ngIf="model.googleId == null" [disabled]="!canModifyInstructor" (click)="resendReminderHandler()">
+        <i class="fa fa-envelope" aria-hidden="true"></i>
+        Resend Invite
+      </button>
+      <button class="btn btn-light btn-sm btn-left btn-instr" ngbTooltip="Edit instructor details"
+              [disabled]="!canModifyInstructor" (click)="triggerModelChange('isEditable', true)" *ngIf="!model.isEditable">
+        <i class="fa fa-pen" aria-hidden="true"></i>
+        Edit
+      </button>
+      <button class="btn btn-light btn-sm btn-left" *ngIf="model.isEditable"
+              ngbTooltip="Cancel editing instructor details" (click)="triggerModelChange('isEditable', false)">
+        <i class="fa fa-times" aria-hidden="true"></i>
+        Cancel
+      </button>
+      <button class="btn btn-light btn-sm btn-instr" ngbTooltip="Delete the instructor from the course"
+              [disabled]="!canModifyInstructor" (click)="deleteInstructorHandler()">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        Delete
+      </button>
+    </span>
+  </div>
+  <div class="card-body">
+    <div class="form-row form-group">
+      <label class="col-sm-3 control-label">
+        Google ID:
+      </label>
+      <div class="col-sm-9" *ngIf="model.googleId != null">
+        <input class="form-control immutable" maxlength="254" tabindex="3" [ngModel]="model.googleId" disabled>
+      </div>
+      <span class="text-warning" *ngIf="model.googleId == null">
+        Not available. Instructor is yet to join this course.
+      </span>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-sm-3 control-label">
+        Name:
+      </label>
+      <div class="col-sm-9">
+        <input class="form-control" ngbTooltip="Enter the name of the instructor." maxlength="100" tabindex="4"
+        [disabled]="!model.isEditable" [ngModel]="model.name" (ngModelChange)="triggerModelChange('name', $event)">
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-sm-3 control-label">
+        Email:
+      </label>
+      <div class="col-sm-9">
+        <input class="form-control" ngbTooltip="Enter the email of the instructor." maxlength="254" tabindex="5"
+               [disabled]="!model.isEditable || model.googleId == null" [ngModel]="model.email" (ngModelChange)="triggerModelChange('email', $event)">
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-sm-3 control-label">
+        <input checked="" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+               type="checkbox" [disabled]="!model.isEditable" [ngModel]="model.isDisplayedToStudents" (ngModelChange)="onChangeIsDisplayedToStudents($event)">
+        Display to students as:
+      </label>
+      <div class="col-sm-9">
+        <input class="form-control" ngbTooltip="Specify the role of this instructor in this course as shown to the students"
+               type="text" [disabled]="!model.isEditable || !model.isDisplayedToStudents" placeholder="{{ displayedNamePlaceholder }}"
+               [ngModel]="model.displayedName" (ngModelChange)="triggerModelChange('displayedName', $event)">
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-sm-3 control-label">
+        Access Level:
+      </label>
+      <div class="col-sm-9">
+        <span class="form-control-static" *ngIf="!model.isEditable">
+          {{ model.role }}
+          <a class="view-role-details" href="javascript:;" *ngIf="model.role !== Role.CUSTOM"
+             (click)="viewPrivilegesHandler(model.role, model.privileges)">
+            View Details
+          </a>
+        </span>
+        <div *ngIf="model.isEditable">
+          <div>
+            <input type="radio" [value]="Role.COOWNER" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
+            Co-owner: Can do everything
+            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.COOWNER, DefaultPrivileges.COOWNER.value)">
+              View Details
+            </a>
+          </div>
+          <div>
+            <input type="radio" [value]="Role.MANAGER" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
+            Manager: Can do everything except for deleting/restoring the course
+            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.MANAGER, DefaultPrivileges.MANAGER.value)">
+              View Details
+            </a>
+          </div>
+          <div>
+            <input type="radio" [value]="Role.OBSERVER" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
+            Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
+            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.OBSERVER, DefaultPrivileges.OBSERVER.value)">
+              View Details
+            </a>
+          </div>
+          <div>
+            <input type="radio" [value]="Role.TUTOR" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
+            Tutor: Can view student details, give/view comments, submit/view responses for sessions
+            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.TUTOR, DefaultPrivileges.TUTOR.value)">
+              View Details
+            </a>
+          </div>
+          <input type="radio" value="Custom" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
+          Custom: No access by default. Any access needs to be granted explicitly.
+        </div>
+      </div>
+    </div>
+    <div *ngIf="model.isEditable && model.role == Role.CUSTOM">
+      <div class="col-xs-12">
+        <div class="card bg-light top-padded">
+          <div class="card-header bg-light-blue">
+            <strong>
+              In general, this instructor can
+            </strong>
+          </div>
+          <div class="card-body">
+            <div class="col-sm-3">
+              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifycourse"
+                     (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifycourse', $event)">
+              Edit/Delete/Restore Course
+            </div>
+            <div class="col-sm-3">
+              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifyinstructor"
+                     (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifyinstructor', $event)">
+              Add/Edit/Delete Instructors
+            </div>
+            <div class="col-sm-3">
+              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifysession"
+                     (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifysession', $event)">
+              Create/Edit/Delete/Restore Sessions
+            </div>
+            <div class="col-sm-3">
+              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifystudent"
+                     (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifystudent', $event)">
+              Enroll/Edit/Delete Students
+            </div>
+            <br>
+            <br>
+            <div class="col-sm-6 border-right-gray">
+              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canviewstudentinsection"
+                     (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canviewstudentinsection', $event)">
+              View Students' Details
+              <br>
+            </div>
+            <div class="col-sm-5 col-sm-offset-1">
+              <input type="checkbox" [ngModel]="model.privileges.courseLevel.cansubmitsessioninsection"
+                     (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('cansubmitsessioninsection', $event)">
+              Sessions: Submit Responses and Add Comments
+              <br>
+              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canviewsessioninsection"
+                     (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canviewsessioninsection', $event)">
+              Sessions: View Responses and Comments
+              <br>
+              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifysessioncommentinsection"
+                     (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifysessioncommentinsection', $event)">
+              Sessions: Edit/Delete Responses/Comments by Others
+              <br>
+            </div>
+          </div>
+        </div>
+        <!--
+        <div formArrayName="tuneSectionGroupPermissions">
+          <ng-container *ngFor="let sectionGroupPermissions of instr.controls.tunePermissions.get('tuneSectionGroupPermissions').controls; let j=index">
+            <div class="card bg-light top-padded" [formGroup]="sectionGroupPermissions">
+              <div class="card-header bg-light-blue">
+                <div class="row">
+                  <div class="col-sm-2">
+                    <p>
+                      <strong>
+                        But in section(s)
+                      </strong>
+                    </p>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="col-sm-12">
+                      <div class="col-sm-4" *ngFor="let section of this.sectionNames">
+                        <input [formControlName]="section" type="checkbox">
+                        {{ section }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <a class="float-sm-right" href="javascript:;" (click)="removeTuneSectionGroupPermissionsPanel(instr, j)">
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <p>
+                      <strong>
+                        the instructor can only,
+                      </strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <br>
+                <ng-container formGroupName="permissionsForSection">
+                  <div class="col-sm-6 border-right-gray">
+                    <input formControlName="canviewstudentinsection" type="checkbox">
+                    View Students' Details
+                    <br>
+                    <br>
+                  </div>
+                  <div class="col-sm-5 col-sm-offset-1">
+                    <input formControlName="cansubmitsessioninsection" type="checkbox">
+                    Sessions: Submit Responses and Add Comments
+                    <br>
+                    <input formControlName="canviewsessioninsection" type="checkbox">
+                    Sessions: View Responses and Comments
+                    <br>
+                    <input formControlName="canmodifysessioncommentinsection" type="checkbox">
+                    Sessions: Edit/Delete Responses/Comments by Others
+                    <br>
+                    <br>
+                  </div>
+                </ng-container>
+                <a id="hide-link-{{ i }}-{{ j }}" class="small col-sm-5"
+                   style="display:block;" href="javascript:;"
+                   (click)="hideSessionLevelPermissions(i, j)">
+                  Hide session-level permissions
+                </a>
+                <a id="show-link-{{ i }}-{{ j }}" class="small col-sm-5"
+                   style="display:none;" href="javascript:;"
+                   (click)="showSessionLevelPermissions(i, j)">
+                  Give different permissions for sessions in this section
+                </a>
+                <div id="tune-session-permissions-{{ i }}-{{ j }}" style="display:block;"
+                     class="row" formGroupName="permissionsForSessions">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <td>
+                        Session Name
+                      </td>
+                      <td>
+                        Submit Responses and Add Comments
+                      </td>
+                      <td>
+                        View Responses and Comments
+                      </td>
+                      <td>
+                        Edit/Delete Responses/Comments by Others
+                      </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let feedback of this.feedbackNames" [formGroupName]="feedback">
+                      <td>
+                        {{ feedback }}
+                      </td>
+                      <td class="align-center">
+                        <input formControlName="cansubmitsessioninsection" type="checkbox">
+                      </td>
+                      <td class="align-center">
+                        <input formControlName="canviewsessioninsection" type="checkbox">
+                      </td>
+                      <td class="align-center">
+                        <input formControlName="canmodifysessioncommentinsection" type="checkbox">
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>-->
+      </div>
+    </div><!--
+    <a class="small" href="javascript:;"
+       *ngIf="instr.controls.role.enabled && instr.controls.role.value == 'Custom'
+             && instr.controls.tunePermissions.controls['tuneSectionGroupPermissions'].length !== this.sectionNames.length"
+       (click)="addTuneSectionGroupPermissionsPanel(instr, i)">
+      Give different permissions for a specific section
+    </a>-->
+    <div class="align-center">
+      <button class="btn btn-primary" tabindex="6" *ngIf="model.isEditable" type="submit" [disabled]="model.isSaving" (click)="editInstructorHandler()">
+        <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save changes
+      </button>
+    </div>
+  </div>
+</div>
