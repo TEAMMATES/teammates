@@ -40,4 +40,17 @@ describe('StudentHomePageComponent', () => {
   it('should snap', () => {
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should snap with populated fields', () => {
+    let studentCourse = {
+      course: {
+        id: 'CS2103',
+        name: 'Software Engineering',
+      },
+      feedbackSessions: [],
+    };
+    component.courses = [studentCourse];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 });
