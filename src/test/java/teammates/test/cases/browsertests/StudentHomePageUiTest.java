@@ -15,7 +15,7 @@ import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 /**
- * SUT: {@link Const.ActionURIs#STUDENT_HOME_PAGE}.
+ * SUT: {@link Const.WebPageURIs#STUDENT_HOME_PAGE}.
  */
 public class StudentHomePageUiTest extends BaseE2ETestCase {
     private StudentHomePage studentHome;

@@ -12,7 +12,7 @@ import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE}.
+ * SUT: {@link Const.LegacyURIs#INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE}.
  */
 public class InstructorEditStudentFeedbackPageUiTest extends BaseE2ETestCase {
 

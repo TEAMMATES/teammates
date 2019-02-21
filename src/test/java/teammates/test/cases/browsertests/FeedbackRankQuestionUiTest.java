@@ -17,7 +17,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for rank questions.
  * TODO: Backend validation. Blocked by #8646
  */

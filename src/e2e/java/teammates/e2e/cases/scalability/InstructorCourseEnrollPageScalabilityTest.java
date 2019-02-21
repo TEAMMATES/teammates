@@ -13,9 +13,9 @@ import teammates.e2e.util.StudentEnrollmentGenerator;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
  *
- * <p>Run {@link InstructorCourseEnrollPageScaleTestDataGenerator} before running the tests.
+ * <p>Run {@link InstructorCourseEnrollPageDataGenerator} before running the tests.
  */
 public class InstructorCourseEnrollPageScalabilityTest extends BaseE2ETestCase {
 

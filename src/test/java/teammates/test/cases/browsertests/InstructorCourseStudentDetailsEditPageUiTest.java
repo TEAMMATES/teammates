@@ -13,7 +13,7 @@ import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE}.
  */
 public class InstructorCourseStudentDetailsEditPageUiTest extends BaseE2ETestCase {
     private InstructorCourseStudentDetailsEditPage editPage;

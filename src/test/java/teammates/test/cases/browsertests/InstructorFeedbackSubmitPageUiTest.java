@@ -15,7 +15,7 @@ import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE}.
+ * SUT: {@link Const.LegacyURIs#INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE}.
  */
 public class InstructorFeedbackSubmitPageUiTest extends BaseE2ETestCase {
     private FeedbackSubmitPage submitPage;

@@ -9,7 +9,7 @@ import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_COPY}.
+ * SUT: {@link Const.LegacyURIs#INSTRUCTOR_FEEDBACK_EDIT_COPY}.
  */
 public class InstructorFeedbackEditCopyUiTest extends BaseE2ETestCase {
     private String instructorId;

@@ -12,7 +12,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE}.
  *
- * <p>Run {@link InstructorFeedbackResultsPageScaleTestDataGenerator} before running the tests.
+ * <p>Run {@link InstructorFeedbackResultsPageDataGenerator} before running the tests.
  */
 public class InstructorFeedbackResultsPageScalabilityTest extends BaseE2ETestCase {
 
