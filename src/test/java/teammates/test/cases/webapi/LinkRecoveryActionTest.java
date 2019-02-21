@@ -92,7 +92,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         verifyNumberOfEmailsSent(a, 1);
 
         EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
-        assertEquals(EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject(), emailSent.getSubject());
+        assertEquals(EmailType.FEEDBACK_ACCESS_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse1.getEmail(), emailSent.getRecipient());
         assertEquals(Templates.populateTemplate(
                 Templates.EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE,
@@ -117,7 +117,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         verifyNumberOfEmailsSent(a, 1);
 
         emailSent = a.getEmailSender().getEmailsSent().get(0);
-        assertEquals(EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject(), emailSent.getSubject());
+        assertEquals(EmailType.FEEDBACK_ACCESS_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse3.getEmail(), emailSent.getRecipient());
 
         String registrationKey = logic.getStudentForEmail(student1InCourse3.getCourse(),

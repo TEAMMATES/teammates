@@ -216,8 +216,9 @@ public class EmailGenerator {
     }
 
     /**
-     * Generates recovery email for students containing links to sessions registered under
-     * {@code destinationEmail} in the past 30 days. If no links are found, generates relevant email template.
+     * Generate for the student an recovery email listing all feedback session links under
+     * {@code destinationEmail} in the past 180 days. If no links are found, generate an email stating
+     * no feedback session links found.
      */
     public EmailWrapper generateLinkRecoveryEmail(String destinationEmail) {
         return generateLinkRecoveryEmailForStudent(destinationEmail);
@@ -262,7 +263,7 @@ public class EmailGenerator {
     private EmailWrapper generateLinkRecoveryEmailForStudent(String userEmail) {
         Instant endTime = Instant.now();
         Instant startTime = endTime.minus(Duration.ofDays(180));
-        String subject = EmailType.FEEDBACK_ACCESS_LINKS_RESENT.getSubject();
+        String subject = EmailType.FEEDBACK_ACCESS_LINKS_RECOVERY.getSubject();
         StringBuilder linksFragmentValue = new StringBuilder(5000);
         String teammateHomePageLink = Config.APP_URL;
         String emailBody;

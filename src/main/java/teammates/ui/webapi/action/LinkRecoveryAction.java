@@ -27,15 +27,13 @@ public class LinkRecoveryAction extends Action {
         boolean hasStudentsWithRestoreEmail = !logic.getAllStudentForEmail(requestedEmail).isEmpty();
 
         if (hasStudentsWithRestoreEmail) {
-
             EmailWrapper email = new EmailGenerator().generateLinkRecoveryEmail(requestedEmail);
             emailSender.sendEmail(email);
             return new JsonResult(new EmailRestoreResponseData(true,
                     "The recovery links for your feedback sessions have been sent to the specified email."));
-
         } else {
             return new JsonResult(new EmailRestoreResponseData(false,
-                    "No response found with given email."));
+                    "No student is registered under email: " + requestedEmail));
         }
     }
 }
