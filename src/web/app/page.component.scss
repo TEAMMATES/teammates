@@ -41,7 +41,8 @@ footer a {
 .dropdown-item {
   color: rgba(255, 255, 255, .5);
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: inherit;
     color: rgba(255, 255, 255, .75);
   }
