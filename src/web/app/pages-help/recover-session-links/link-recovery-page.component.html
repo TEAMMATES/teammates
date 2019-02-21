@@ -16,10 +16,9 @@
         </label>
         <input class="form-control" type="email" formControlName="email" maxlength="254" email="true">
       </div>
-
       <div class="form-row form-group top-padded">
         <ngx-recaptcha2 #captchaElem
-                        [siteKey]="siteKey"
+                        [siteKey]="captchaSiteKey"
                         (success)="handleSuccess($event)"
                         [useGlobalDomain]="false"
                         [size]="size"

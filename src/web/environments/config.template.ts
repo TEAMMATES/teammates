@@ -16,4 +16,9 @@ export const config: any = {
    * The support email shown to the user in various pages of the web application.
    */
   supportEmail: 'teammates@comp.nus.edu.sg',
+
+  /**
+   * The public site key for the reCAPTCHA on the recover session links page.
+   */
+  captchaSiteKey: '',
 };

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
+import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
@@ -23,7 +24,7 @@ export class LinkRecoveryPageComponent implements OnInit {
   lang: string = 'en';
 
   formLinkRecovery!: FormGroup;
-  readonly siteKey: string = '6LeZSZEUAAAAAO-xCzi314NoCgJILEH9qzFuer3P';
+  readonly captchaSiteKey: string = environment.captchaSiteKey;
 
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
 
