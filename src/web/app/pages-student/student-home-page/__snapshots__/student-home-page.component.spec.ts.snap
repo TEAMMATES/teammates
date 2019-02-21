@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentHomePageComponent should snap 1`] = `
+<tm-student-home-page
+  courses={[Function Array]}
+  hasEventualConsistencyMsg="false"
+  httpRequestService={[Function HttpRequestService]}
+  recentlyJoinedCourseId=""
+  route={[Function ActivatedRoute]}
+  sessionsInfoMap={[Function Map]}
+  statusMessageService={[Function StatusMessageService]}
+  studentFeedbackSessionStatusAwaiting={[Function String]}
+  studentFeedbackSessionStatusClosed={[Function String]}
+  studentFeedbackSessionStatusNotPublished={[Function String]}
+  studentFeedbackSessionStatusPending={[Function String]}
+  studentFeedbackSessionStatusPublished={[Function String]}
+  studentFeedbackSessionStatusSubmitted={[Function String]}
+  user="undefined"
+>
+  
+</tm-student-home-page>
+`;
