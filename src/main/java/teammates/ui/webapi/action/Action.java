@@ -15,6 +15,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
@@ -184,7 +185,7 @@ public abstract class Action {
      */
     protected Optional<StudentAttributes> getUnregisteredStudent() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (key != null) {
+        if (!StringHelper.isEmpty(key)) {
             StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(key);
             if (studentAttributes == null) {
                 throw new UnauthorizedAccessException("RegKey is not valid.");
