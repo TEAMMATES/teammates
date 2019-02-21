@@ -14,12 +14,14 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Url;
 import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
+import teammates.e2e.pageobjects.AppPageNew;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
+import teammates.e2e.pageobjects.HomePageNew;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 
@@ -175,6 +177,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * Navigates to the application's home page (as defined in test.properties)
      * and gives the {@link HomePage} instance based on it.
      */
+    protected HomePageNew getHomePageNew() {
+        return AppPageNew.getNewPageInstance(browser, createUrl(""), HomePageNew.class);
+    }
+
+    // TODO: outdated method to be removed after migration
     protected HomePage getHomePage() {
         return AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
     }
