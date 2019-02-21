@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Instructor } from '../../../Instructor';
-import { DefaultPrivileges, Privileges, Role } from '../instructor-privileges-model';
+import {CourseLevelPrivileges, DefaultPrivileges, Privileges, Role} from '../instructor-privileges-model';
 import { InstructorEditFormMode, InstructorEditFormModel } from './instructor-edit-form-model';
 
 /**
@@ -33,7 +33,9 @@ export class InstructorEditFormComponent implements OnInit {
     role: Role.COOWNER,
     isDisplayedToStudents: false,
     displayedName: '',
-    privileges: DefaultPrivileges.COOWNER.value,
+    courseLevel: DefaultPrivileges.COOWNER.value.courseLevel,
+    sectionLevel: DefaultPrivileges.COOWNER.value.sectionLevel,
+    sessionLevel: DefaultPrivileges.COOWNER.value.sessionLevel,
 
     isEditable: false,
     isSaving: false,
@@ -95,24 +97,24 @@ export class InstructorEditFormComponent implements OnInit {
   }
 
   /**
-   * Triggers the change of the model course level privileges.
+   * Triggers the change of a model course level privilege.
    */
-  triggerModelChangeForCourseLevelPrivileges(privilege: string, data: any): void {
-    const currentPrivileges: Privileges = this.model.privileges;
-    currentPrivileges.courseLevel[privilege] = data;
+  triggerModelChangeForCourseLevelPrivileges(privilege: string, hasPrivilege: boolean): void {
+    const coursePrivileges: CourseLevelPrivileges = this.model.courseLevel;
+    coursePrivileges[privilege] = hasPrivilege;
 
-    // listen for specific value changes
-    if (currentPrivileges.courseLevel.canviewsessioninsection) {
-      currentPrivileges.courseLevel.canmodifysessioncommentinsection = false;
+    // check for specific value changes
+    if (privilege == 'canviewsessioninsection' && !hasPrivilege) {
+      coursePrivileges.canmodifysessioncommentinsection = false;
     }
 
-    if (currentPrivileges.courseLevel.canmodifysessioncommentinsection) {
-      currentPrivileges.courseLevel.canviewsessioninsection = true;
+    if (privilege == 'canmodifysessioncommentinsection' && hasPrivilege) {
+      coursePrivileges.canviewsessioninsection = true;
     }
 
     this.formModelChange.emit({
       ...this.model,
-      privileges: currentPrivileges,
+      courseLevel: coursePrivileges,
     });
   }
 

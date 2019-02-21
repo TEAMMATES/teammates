@@ -173,7 +173,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: instructor.role,
       isDisplayedToStudents: instructor.isDisplayedToStudents,
       displayedName: instructor.displayedName,
-      privileges: instructor.privileges,
+      courseLevel: instructor.privileges.courseLevel,
+      sectionLevel: instructor.privileges.sectionLevel,
+      sessionLevel: instructor.privileges.sessionLevel,
 
       isEditable: false,
       isSaving: false,
@@ -193,7 +195,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   editInstructorHandler(instructorEditFormModel: InstructorEditFormModel, index: number): void {
     instructorEditFormModel.isSaving = true;
 
-    const paramsMap: { [key: string]: string } = {
+    let paramsMap: { [key: string]: string } = {
       courseid: this.courseEditFormModel.courseId,
       instructorid: instructorEditFormModel.googleId,
       instructorname: instructorEditFormModel.name,
@@ -209,14 +211,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     if (instructorEditFormModel.role == Role.CUSTOM) {
 
-      const courseLevelPrivileges: CourseLevelPrivileges = instructorEditFormModel.privileges.courseLevel;
-
-      // Append custom course level privileges
-      Object.keys(courseLevelPrivileges).forEach((permission: string) => {
-        if (courseLevelPrivileges[permission]) {
-          paramsMap[permission] = 'true';
-        }
-      });
+      paramsMap = this.addCourseLevelParams(instructorEditFormModel, paramsMap);
 
       /**
        // Append custom section level privileges
@@ -306,6 +301,20 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
+  }
+
+  private addCourseLevelParams(instructorEditFormModel: InstructorEditFormModel,
+                               paramsMap: { [key: string]: string }): { [key: string]: string } {
+    const courseLevelPrivileges: CourseLevelPrivileges = instructorEditFormModel.courseLevel;
+
+    // Append custom course level privileges
+    Object.keys(courseLevelPrivileges).forEach((permission: string) => {
+      if (courseLevelPrivileges[permission]) {
+        paramsMap[permission] = 'true';
+      }
+    });
+
+    return paramsMap;
   }
 
   /******************************************************************************

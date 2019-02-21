@@ -122,43 +122,43 @@
           </div>
           <div class="card-body">
             <div class="col-sm-3">
-              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifycourse"
+              <input type="checkbox" [ngModel]="model.courseLevel.canmodifycourse"
                      (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifycourse', $event)">
               Edit/Delete/Restore Course
             </div>
             <div class="col-sm-3">
-              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifyinstructor"
+              <input type="checkbox" [ngModel]="model.courseLevel.canmodifyinstructor"
                      (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifyinstructor', $event)">
               Add/Edit/Delete Instructors
             </div>
             <div class="col-sm-3">
-              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifysession"
+              <input type="checkbox" [ngModel]="model.courseLevel.canmodifysession"
                      (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifysession', $event)">
               Create/Edit/Delete/Restore Sessions
             </div>
             <div class="col-sm-3">
-              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifystudent"
+              <input type="checkbox" [ngModel]="model.courseLevel.canmodifystudent"
                      (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifystudent', $event)">
               Enroll/Edit/Delete Students
             </div>
             <br>
             <br>
             <div class="col-sm-6 border-right-gray">
-              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canviewstudentinsection"
+              <input type="checkbox" [ngModel]="model.courseLevel.canviewstudentinsection"
                      (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canviewstudentinsection', $event)">
               View Students' Details
               <br>
             </div>
             <div class="col-sm-5 col-sm-offset-1">
-              <input type="checkbox" [ngModel]="model.privileges.courseLevel.cansubmitsessioninsection"
+              <input type="checkbox" [ngModel]="model.courseLevel.cansubmitsessioninsection"
                      (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('cansubmitsessioninsection', $event)">
               Sessions: Submit Responses and Add Comments
               <br>
-              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canviewsessioninsection"
+              <input type="checkbox" [ngModel]="model.courseLevel.canviewsessioninsection"
                      (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canviewsessioninsection', $event)">
               Sessions: View Responses and Comments
               <br>
-              <input type="checkbox" [ngModel]="model.privileges.courseLevel.canmodifysessioncommentinsection"
+              <input type="checkbox" [ngModel]="model.courseLevel.canmodifysessioncommentinsection"
                      (ngModelChange)="triggerModelChangeForCourseLevelPrivileges('canmodifysessioncommentinsection', $event)">
               Sessions: Edit/Delete Responses/Comments by Others
               <br>
