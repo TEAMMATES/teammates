@@ -13,14 +13,14 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SaveFeedbackResponseCommentAction;
+import teammates.ui.webapi.action.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
 
 /**
- * SUT: {@link SaveFeedbackResponseCommentAction}.
+ * SUT: {@link UpdateFeedbackResponseCommentAction}.
  */
-public class SaveFeedbackResponseCommentActionTest extends BaseActionTest<SaveFeedbackResponseCommentAction> {
+public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<UpdateFeedbackResponseCommentAction> {
 
     @Override
     protected String getActionUri() {
@@ -66,7 +66,7 @@ public class SaveFeedbackResponseCommentActionTest extends BaseActionTest<SaveFe
 
         FeedbackResponseCommentSaveRequest requestBody = new FeedbackResponseCommentSaveRequest(
                 feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
-        SaveFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
+        UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
         FeedbackResponseCommentAttributes frc =
@@ -160,7 +160,7 @@ public class SaveFeedbackResponseCommentActionTest extends BaseActionTest<SaveFe
         requestBody = new FeedbackResponseCommentSaveRequest(
                 feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
         action = getAction(requestBody, submissionParams);
-        SaveFeedbackResponseCommentAction action0 = action;
+        UpdateFeedbackResponseCommentAction action0 = action;
         assertThrows(EntityNotFoundException.class, () -> getJsonResult(action0));
 
         ______TS("Instructor is not feedback response comment giver");
