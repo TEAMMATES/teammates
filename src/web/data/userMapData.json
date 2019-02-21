@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "End of June 2018",
+  "lastUpdated": "End of August 2018",
   "institutes": {
     "Argentina": [
       "Southworks",
@@ -18,6 +18,7 @@
       "Australian National University",
       "Avondale College of Higher Education",
       "Bond University",
+      "Brighton Secondary School",
       "Canterbury Primary",
       "Carey Baptist College",
       "Charles Sturt University",
@@ -32,6 +33,7 @@
       "Holmesglen Institute",
       "Holy Eucharist School",
       "James Cook University",
+      "Killara High School",
       "King's Baptist Grammar School",
       "King's Own Institute",
       "Koonung Secondary",
@@ -50,7 +52,7 @@
       "Narangba Valley SHS",
       "Photography Studies College",
       "Queensland University of Technology",
-      "RMIT University",
+      "RMIT University (RMIT)",
       "Southern Cross University",
       "St Catherine's Catholic College",
       "St Ives High School",
@@ -107,6 +109,7 @@
       "Faculdade de Tecnologia de Ourinhos",
       "Ghent University",
       "GTI Duffel",
+      "GTI Mortsel",
       "Guldensporencollege",
       "Hasselt University",
       "Heilig-Hart Heverlee",
@@ -148,6 +151,7 @@
       "University of Botswana"
     ],
     "Brazil": [
+      "AEDB",
       "Associação Educacional Dom Bosco",
       "Centro Universitário Ritter dos Reis",
       "English Plus",
@@ -168,6 +172,7 @@
       "UFMG",
       "UFRN",
       "Unicesumar",
+      "UNIFEV - Centro Universitário de Votuporanga - SP",
       "Unificados AEDB 2016",
       "UniFOA",
       "Universidade Anhembi Morumbi",
@@ -195,6 +200,7 @@
       "Argyle Secondary School",
       "Aussie Pet Mobile Groomer Training",
       "Balmoral Drive Senior Public School",
+      "Bow Valley College",
       "British Columbia Institute of Technology",
       "Brock University",
       "Burnaby North Secondary School",
@@ -229,7 +235,7 @@
       "Georgian College",
       "Hamilton District Christian High",
       "Heritage College",
-      "Humber college",
+      "Humber College",
       "John Abbott College",
       "Kelowna Secondary School",
       "Kwantlen Polytechnic University",
@@ -302,6 +308,7 @@
     ],
     "Chile": [
       "Pontificia Universidad Católica de Chile",
+      "Pontificia Universidad Católica de Valparaíso",
       "Universidad Adolfo Ibañez",
       "Universidad de Chile",
       "Universidad de Los Andes",
@@ -360,7 +367,8 @@
       "VIA University College"
     ],
     "Ecuador": [
-      "Escuela Superior Politecnica Del Litoral"
+      "Escuela Superior Politecnica Del Litoral",
+      "UEES University"
     ],
     "Egypt": [
       "Al-Hoda International School",
@@ -480,7 +488,7 @@
       "The Chinese University of Hong Kong",
       "The Hong Kong Polytechnic University",
       "The ISF Academy",
-      "University of Hong Kong (HKU)",
+      "The University of Hong Kong (HKU)",
       "YOT Chan Wong Shuk Fong Memorial Secondary School"
     ],
     "Hungary": [
@@ -512,6 +520,7 @@
       "IIT Madras",
       "IMT Ghaziabad",
       "Indian Institute of Technology",
+      "Institute of Technology, Gopeshwar",
       "Jadavpur University",
       "JK Lakshmipat University",
       "JUIT",
@@ -531,10 +540,12 @@
       "Pearl Academy",
       "Rajalakshmi School of Business",
       "Swami Ram Ahimalayan University",
+      "Symbiosis International University",
       "Tech Mahindra",
       "Thapar Institute of Engineering & Technology",
       "Thiagarajar College of Engineering",
       "USICT, New Delhi",
+      "VALTECH",
       "VIT University Vellore"
     ],
     "Indonesia": [
@@ -602,6 +613,7 @@
       "AdRoll",
       "International University of Japan (IUJ)",
       "Kyushu University",
+      "Ritsumeikan Asia Pacific University",
       "Showa Women's University"
     ],
     "Kazakhstan": [
@@ -610,6 +622,7 @@
       "NIS Almaty Ph.M"
     ],
     "Kenya": [
+      "ALX",
       "Meru University",
       "Spire"
     ],
@@ -640,10 +653,12 @@
       "Help University",
       "International Islamic University  Malaysia",
       "International University of Malaya-Wales",
+      "KDU Penang UC Sdn Bhd",
       "KDU University College",
       "Kolej PolyTech Mara",
       "Monash University Malaysia",
       "Sekolah Menengah Kebangsaan Bukit Jalor",
+      "Sunway College",
       "Sunway University",
       "Taylor's University",
       "Tunku Abdul Rahman University",
@@ -693,6 +708,7 @@
       "Universidad de Celaya",
       "Universidad de las Américas Puebla",
       "Universidad de Monterrey",
+      "Universidad Panamericana",
       "Universidad Tecmilenio",
       "Unosquare"
     ],
@@ -701,6 +717,9 @@
     ],
     "Morocco": [
       "George Washington Academy"
+    ],
+    "Nederland": [
+      "MHC Dommel"
     ],
     "Netherlands": [
       "Amsterdam University College",
@@ -732,6 +751,7 @@
       "HPE",
       "ICT Institute",
       "Inholland University of Applied Sciences",
+      "Innovation Lab",
       "Johannes Fontanus College",
       "Juridische Hogeschool Avans&Fontys",
       "Kaj Munk College",
@@ -811,6 +831,9 @@
     "Palestine": [
       "Arab American University"
     ],
+    "Panama": [
+      "Universidad Tecnológica de Panamá"
+    ],
     "Paraguay": [
       "Universidad San Carlos"
     ],
@@ -825,11 +848,14 @@
       "aGreatLife",
       "Asian Institute of Management",
       "Ateneo de Manila University",
+      "ATENEO DE NAGA UNIVERSITY",
       "Ateneo School of Medicine & Public Health",
       "Batangas State University",
       "Corazon Locsin Montelibano Memorial Regional Hospital",
       "De La Salle College of Medicine",
       "De La Salle Health Sciences Institute",
+      "De La Salle Lipa",
+      "De La Salle Santiago Zobel School",
       "De La Salle University",
       "De La Salle University – Dasmariñas",
       "dr. filemon c. aguilar information technology",
@@ -890,6 +916,7 @@
       "Tomsk State University"
     ],
     "Rwanda": [
+      "University of Central Arkansas (UCA)",
       "University of Rwanda"
     ],
     "Saudi Arabia": [
@@ -918,6 +945,7 @@
       "Essec",
       "Experimental Systems and Technologies Lab",
       "Fellowship of Christian Athletes Singapore",
+      "Greenwood Primary School",
       "Halogen Foundation Singapore",
       "Hwa Chong Institution",
       "Institute of Technical Education",
@@ -986,6 +1014,7 @@
     "South Korea": [
       "Brigham Young University-Hawaii",
       "Chungnam National University",
+      "Handong Global University",
       "Harvard University",
       "Korea University",
       "Korea University Business School",
@@ -1047,12 +1076,14 @@
       "La Cote International School",
       "Medtronic",
       "Pädagogische Hochschule St. Gallen",
+      "Swiss Hotel Management School (SHMS)",
       "University of Geneva"
     ],
     "Taiwan": [
       "China Institute of Technology and Science",
       "Ching Cheng High School",
       "Chung-Yuan Christian University",
+      "Kainan University",
       "National Central University",
       "National Kaohsiung First University of Science and Technology",
       "National Taiwan Normal University",
@@ -1097,6 +1128,7 @@
       "Hult International Business School",
       "Institute of Management Technology Dubai",
       "Khalifa University",
+      "Murdoch University",
       "The Petroleum Institute",
       "University of Wollongong in Dubai",
       "Zayed University"
@@ -1105,6 +1137,7 @@
       "Sumy State University"
     ],
     "United Kingdom": [
+      "Aston University",
       "Barking Abbey School",
       "Bournemouth University",
       "Brighton And Sussex University Hospitals",
@@ -1135,6 +1168,7 @@
       "Middlesex University",
       "Mill Chase Academy",
       "Newcastle University",
+      "Nord Anglia Education",
       "Northumbria University",
       "Nottingham Trent University",
       "Oxford Brookes",
@@ -1158,6 +1192,7 @@
       "The Open University",
       "The Royal Veterinary College",
       "The University of Manchester",
+      "The University of Sheffield",
       "UCLU Malaysian Society",
       "University College London",
       "University of Bath",
@@ -1181,7 +1216,6 @@
       "University of Northampton",
       "University of Portsmouth",
       "University of Salford",
-      "University of Sheffield",
       "University of Southampton",
       "University of St Andrews",
       "University of Suffolk",
@@ -1230,6 +1264,8 @@
       "Bay State College",
       "Baylor University",
       "Bearden High School",
+      "Beaufort County Early College High School",
+      "Becker College",
       "Bedford North Lawrence High School",
       "Bellarmine Preparatory School",
       "Bellevue School District",
@@ -1240,6 +1276,8 @@
       "Benedictine University",
       "Benjamin Bosse High School",
       "Benjamin Stoddert Middle School",
+      "Bennington College",
+      "Bentley University",
       "Bessemer City High School",
       "Bethany High School",
       "Bettendorf High School",
@@ -1278,6 +1316,7 @@
       "BYU-Idaho",
       "C/3-13IN Basic Training",
       "Cabrini University",
+      "Cal Poly Pomona",
       "Caledonia Middle School",
       "California Baptist University",
       "California College San Diego",
@@ -1334,6 +1373,7 @@
       "Christ the King School",
       "Christian Brothers High School",
       "Christopher Newport University",
+      "Cisco College",
       "City University of New York",
       "Clackamas Educational Service District",
       "Claremont Colleges",
@@ -1389,6 +1429,7 @@
       "Des Moines University",
       "Discovery High School",
       "Division Ave High School",
+      "Doherty High School",
       "Dominican University",
       "Dominican University of California",
       "Donald H Eichhorn Middle School",
@@ -1466,6 +1507,7 @@
       "Gannon University",
       "Gardner-Webb University",
       "Garinger High School",
+      "Garrett-Evangelical Theological Seminary",
       "Gaston College",
       "GC Hawley Middle School",
       "George Mason University",
@@ -1483,6 +1525,7 @@
       "Goreville High School",
       "Graland Country Day School",
       "Granada Middle School",
+      "Grand Canyon University",
       "Grand Valley State University",
       "Grandview High School",
       "Greensboro Day School",
@@ -1532,6 +1575,7 @@
       "Indiana University Bloomington",
       "Indiana University of Pennsylvania",
       "Indiana University South Bend",
+      "Intensive English Institute",
       "International Council of Malaysian Scholars and Associates (ICMS)",
       "Iowa City West High School",
       "Iowa State University",
@@ -1608,6 +1652,7 @@
       "Louisiana State University",
       "Loveland High School",
       "Lower Columbia College",
+      "Loyola Marymount University",
       "Luther College",
       "Mabelle B. Avery",
       "Macomb Community College",
@@ -1677,6 +1722,7 @@
       "Mount St. Mary's College",
       "Mount Zion High School",
       "Mountain Home Public School",
+      "Mountain View High School",
       "Muhlenberg College",
       "Myrtle Grove Middle School",
       "N2N Services",
@@ -1712,6 +1758,7 @@
       "North Dakota State University",
       "North Montgomery High School",
       "North Park University",
+      "North Seattle College",
       "Northeastern University",
       "Northern Arizona University",
       "Northern Illinois University",
@@ -1888,6 +1935,7 @@
       "Superior Central",
       "Sutton Elementary School",
       "Syracuse University",
+      "Tamalpais High School",
       "TAMC 6B2",
       "Tarleton State University",
       "Tarrant County College",
@@ -1907,6 +1955,7 @@
       "The Bromfield School",
       "The Bush School",
       "The College of Mount Saint Vincent",
+      "The College of New Jersey",
       "The College of Wooster",
       "The George Washington University",
       "The Hun School of Princeton",
@@ -1930,6 +1979,7 @@
       "Tribeca Flashpoint Academy",
       "Truman State University",
       "Tufts University",
+      "U.S. Army",
       "UC San Diego",
       "UM Flint",
       "UNC Pembroke",
@@ -2011,14 +2061,14 @@
       "University of Nebraska",
       "University of Nebraska at Kearney",
       "University of Nebraska-Lincoln",
-      "University of Nevada",
+      "University of Nevada, Reno",
       "University of New Hampshire",
       "University of New Mexico",
       "University of North Carolina",
-      "University of North Carolina - Wilmington",
       "University of North Carolina at Chapel Hill",
       "University of North Carolina at Charlotte",
       "University of North Carolina at Greensboro",
+      "University of North Carolina at Wilmington",
       "University of North Florida",
       "University of North Georgia",
       "University of North Texas",
@@ -2075,6 +2125,7 @@
       "US Army Engineer School",
       "US Army Warrant Officer Advanced Course",
       "UT Tyler",
+      "Utah State University",
       "Utah Valley University",
       "Valley Academy of Arts and Sciences",
       "Valley View Junior High School",
@@ -2121,6 +2172,7 @@
       "Whatcom Community College",
       "Wheatland Center School",
       "Wheatland High School",
+      "Wheaton College",
       "Wheelock College",
       "White House Heritage High School",
       "Whitworth University",
@@ -2129,6 +2181,7 @@
       "William & Mary",
       "William A Hough High School",
       "William Carey University",
+      "William Mulholland Middle School",
       "William Penn University",
       "William Woods University",
       "Wilmington University",
