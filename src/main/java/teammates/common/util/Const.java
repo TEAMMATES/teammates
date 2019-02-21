@@ -530,9 +530,7 @@ public final class Const {
                 + " must be valid numbers with precision up to 2 decimal places.";
 
         // Text Question
-        public static final int TEXT_MIN_RECOMMENDED_LENGTH = 0;
-        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be"
-                + " a non-negative integer";
+        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
     }
 
     public static class FeedbackQuestionTypeNames {

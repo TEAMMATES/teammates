@@ -288,9 +288,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setQuestionDetails(textQuestionDetails);
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            getJsonResult(a);
-        });
+        assertThrows(InvalidHttpRequestBodyException.class, () -> getJsonResult(a));
 
         // question is not updated
         assertEquals(typicalQuestion.getQuestionDescription(),

@@ -179,7 +179,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
-        if (recommendedLength < Const.FeedbackQuestion.TEXT_MIN_RECOMMENDED_LENGTH) {
+        if (recommendedLength < 0) {
             errors.add(Const.FeedbackQuestion.TEXT_ERROR_INVALID_RECOMMENDED_LENGTH);
         }
         return errors;
