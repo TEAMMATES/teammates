@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetAccountAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.AccountDetailsData;
+import teammates.ui.webapi.output.AccountData;
 import teammates.ui.webapi.output.MessageOutput;
 
 
@@ -47,13 +47,13 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        AccountDetailsData response = (AccountDetailsData) r.getOutput();
+        AccountData response = (AccountData) r.getOutput();
 
-        assertEquals(response.getAccountInfo().getGoogleId(), instructor1OfCourse1.getGoogleId());
-        assertEquals(response.getAccountInfo().getName(), instructor1OfCourse1.getName());
-        assertEquals(response.getAccountInfo().getEmail(), instructor1OfCourse1.getEmail());
-        assertEquals(response.getAccountInfo().getInstitute(), instructor1OfCourse1.getInstitute());
-        assertTrue(response.getAccountInfo().isInstructor);
+        assertEquals(response.getGoogleId(), instructor1OfCourse1.getGoogleId());
+        assertEquals(response.getName(), instructor1OfCourse1.getName());
+        assertEquals(response.getEmail(), instructor1OfCourse1.getEmail());
+        assertEquals(response.getInstitute(), instructor1OfCourse1.getInstitute());
+        assertTrue(response.isInstructor());
 
         ______TS("Failure: invalid account not found");
 

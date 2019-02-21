@@ -41,11 +41,10 @@ public class CreateAccountAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
-        String instructorName = createRequest.getInstructorName();
-
+        String instructorName = createRequest.getInstructorName().trim();
+        String instructorEmail = createRequest.getInstructorEmail().trim();
         String courseId = null;
 
         try {
@@ -54,7 +53,7 @@ public class CreateAccountAction extends Action {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 
-        String instructorInstitution = createRequest.getInstructorInstitution();
+        String instructorInstitution = createRequest.getInstructorInstitution().trim();
 
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)

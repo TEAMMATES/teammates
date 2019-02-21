@@ -86,13 +86,8 @@ export class StudentProfilePageComponent implements OnInit {
     this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
       if (auth.user) {
         this.id = auth.user.id;
-        const paramMap: { [key: string]: string } = {
-          user: this.user,
-          googleid: auth.user.id,
-        };
-
         // retrieve profile once we have the student's googleId
-        this.studentProfileService.getStudentProfile(paramMap).subscribe((response: StudentDetails) => {
+        this.studentProfileService.getStudentProfile(this.user, auth.user.id).subscribe((response: StudentDetails) => {
           if (response) {
             this.student = response;
             this.name = response.name;
@@ -133,12 +128,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Submits the form data to edit the student profile details.
    */
   submitEditForm(): void {
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-      googleid: this.id,
-    };
-
-    this.studentProfileService.updateStudentProfile(paramsMap, {
+    this.studentProfileService.updateStudentProfile(this.user, this.id, {
       shortName: this.editForm.controls.studentshortname.value,
       email: this.editForm.controls.studentprofileemail.value,
       institute: this.editForm.controls.studentprofileinstitute.value,

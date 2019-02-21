@@ -5,7 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.AccountDetailsData;
+import teammates.ui.webapi.output.AccountData;
 
 /**
  * Gets account's information.
@@ -34,7 +34,7 @@ public class GetAccountAction extends Action {
             return new JsonResult("Account does not exist.", HttpStatus.SC_NOT_FOUND);
         }
 
-        AccountDetailsData output = new AccountDetailsData(accountInfo);
+        AccountData output = new AccountData(accountInfo);
         return new JsonResult(output);
     }
 

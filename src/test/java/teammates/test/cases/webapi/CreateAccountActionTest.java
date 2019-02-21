@@ -39,23 +39,14 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String name = "JamesBond";
         String email = "jamesbond89@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
-
-        ______TS("Not enough parameters");
-
-        verifyHttpParameterFailure();
-
         ______TS("Normal case");
 
         String nameWithSpaces = "   " + name + "   ";
         String emailWithSpaces = "   " + email + "   ";
         String instituteWithSpaces = "   " + institute + "   ";
 
-        String[] paramWithSpace = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
-        };
-
-        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces);
-        CreateAccountAction a = getAction(req, paramWithSpace);
+        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces, emailWithSpaces);
+        CreateAccountAction a = getAction(req);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -82,12 +73,9 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         String invalidName = "James%20Bond99";
 
-        String[] paramInvalid = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
-        };
-        req = buildCreateRequest(invalidName, institute);
+        req = buildCreateRequest(invalidName, institute, emailWithSpaces);
 
-        CreateAccountAction finalA = getAction(req, paramInvalid);
+        CreateAccountAction finalA = getAction(req);
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             getJsonResult(finalA);
         });
@@ -150,11 +138,12 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
     }
 
-    private AccountCreateRequest buildCreateRequest(String name, String institution) {
+    private AccountCreateRequest buildCreateRequest(String name, String institution, String email) {
         AccountCreateRequest req = new AccountCreateRequest();
 
         req.setInstructorName(name);
         req.setInstructorInstitution(institution);
+        req.setInstructorEmail(email);
 
         return req;
     }

@@ -12,7 +12,7 @@ import teammates.ui.webapi.request.StudentProfileUpdateRequest;
 /**
  * Update a student's profile.
  */
-public class PutStudentProfileAction extends Action {
+public class UpdateStudentProfileAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

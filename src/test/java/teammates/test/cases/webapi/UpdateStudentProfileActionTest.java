@@ -11,14 +11,14 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.PutStudentProfileAction;
+import teammates.ui.webapi.action.UpdateStudentProfileAction;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.StudentProfileUpdateRequest;
 
 /**
- * SUT: {@link PutStudentProfileAction}.
+ * SUT: {@link UpdateStudentProfileAction}.
  */
-public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfileAction> {
+public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudentProfileAction> {
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.STUDENT_PROFILE;
@@ -53,7 +53,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         String[] submissionParams = createValidParam(student.googleId);
         StudentProfileUpdateRequest req = createInvalidUpdateRequest();
 
-        PutStudentProfileAction action = getAction(req, submissionParams);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
@@ -122,7 +122,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
 
         ______TS(caseDescription);
 
-        PutStudentProfileAction action = getAction(req, submissionParams);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
@@ -136,7 +136,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
 
         ______TS(caseDescription);
 
-        PutStudentProfileAction action = getAction(req, submissionParams);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_FORBIDDEN, result.getStatusCode());
@@ -150,7 +150,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         String[] submissionParams = createValidParamsForMasqueradeMode(student.googleId);
         StudentProfileUpdateRequest req = createValidRequestForProfile();
 
-        PutStudentProfileAction action = getAction(req, submissionParams);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);

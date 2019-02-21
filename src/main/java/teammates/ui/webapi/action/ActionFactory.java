@@ -92,7 +92,7 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_STUDENT_DETAILS, GET, GetCourseStudentDetailsAction.class);
         map(ResourceURIs.STUDENT_COURSE, GET, StudentGetCourseDetailsAction.class);
         map(ResourceURIs.STUDENT_PROFILE, GET, GetStudentProfileAction.class);
-        map(ResourceURIs.STUDENT_PROFILE, PUT, PutStudentProfileAction.class);
+        map(ResourceURIs.STUDENT_PROFILE, PUT, UpdateStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, GET, GetStudentProfilePictureAction.class);
         map(ResourceURIs.STUDENT_COURSES, GET, GetStudentCoursesAction.class);
         map(ResourceURIs.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, GET, SearchStudentsAndFeedbackSessionDataAction.class);
@@ -111,7 +111,7 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS, DELETE,
                 DeleteInstructorCourseAllStudentsAction.class);
-        map(ResourceURIs.STUDENTS_CSV, GET, GetInstructorCourseAllStudentsInCsvAction.class);
+        map(ResourceURIs.STUDENTS_CSV, GET, GetStudentsAsCsvAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND, POST, RemindInstructorCourseStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_STUDENTS, GET, GetCourseStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_STUDENTS_COURSES, GET, InstructorGetCoursesAction.class);

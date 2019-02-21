@@ -7,8 +7,13 @@ import teammates.common.util.FieldValidator;
  */
 public class AccountCreateRequest extends BasicRequest {
 
+    private String instructorEmail;
     private String instructorName;
     private String instructorInstitution;
+
+    public String getInstructorEmail() {
+        return instructorEmail;
+    }
 
     public String getInstructorName() {
         return this.instructorName;
@@ -19,18 +24,23 @@ public class AccountCreateRequest extends BasicRequest {
     }
 
     public void setInstructorName(String name) {
-        this.instructorName = name.trim();
+        this.instructorName = name;
     }
 
     public void setInstructorInstitution(String institution) {
-        this.instructorInstitution = institution.trim();
+        this.instructorInstitution = institution;
+    }
+
+    public void setInstructorEmail(String instructorEmail) {
+        this.instructorEmail = instructorEmail;
     }
 
     @Override
     public void validate() {
         FieldValidator validator = new FieldValidator();
-        assertTrue(validator.getInvalidityInfoForPersonName(this.instructorName).isEmpty(), "validate name");
-        assertTrue(validator.getInvalidityInfoForInstituteName(this.instructorInstitution).isEmpty(),
+        assertTrue(validator.getInvalidityInfoForPersonName(this.instructorName.trim()).isEmpty(), "validate name");
+        assertTrue(validator.getInvalidityInfoForInstituteName(this.instructorInstitution.trim()).isEmpty(),
                 "validate institute");
+        assertTrue(validator.getInvalidityInfoForEmail(this.instructorEmail.trim()).isEmpty(), "validate email");
     }
 }

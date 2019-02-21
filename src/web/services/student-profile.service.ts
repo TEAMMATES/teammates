@@ -21,15 +21,23 @@ export class StudentProfileService {
   /**
    * Updates a student profile by calling API.
    */
-  updateStudentProfile(paramsMap: {[key: string]: string}, requestBody: StudentProfileUpdateRequest)
+  updateStudentProfile(user: string, googleId: string, requestBody: StudentProfileUpdateRequest)
       : Observable<MessageOutput> {
+    const paramsMap: { [key: string]: string } = {
+      user,
+      googleid: googleId,
+    };
     return this.httpRequestService.put('/student/profile', paramsMap, requestBody);
   }
 
   /**
    * Gets a student profile by calling API.
    */
-  getStudentProfile(paramsMap: {[key: string]: string}): Observable<StudentDetails> {
+  getStudentProfile(user: string, googleId: string): Observable<StudentDetails> {
+    const paramsMap: { [key: string]: string } = {
+      user,
+      googleid: googleId,
+    };
     return this.httpRequestService.get('/student/profile', paramsMap);
   }
 }
