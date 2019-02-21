@@ -11,14 +11,14 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SaveCourseAction;
+import teammates.ui.webapi.action.UpdateCourseAction;
 import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.CourseSaveRequest;
+import teammates.ui.webapi.request.CourseUpdateRequest;
 
 /**
- * SUT: {@link SaveCourseAction}.
+ * SUT: {@link UpdateCourseAction}.
  */
-public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
+public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
     @Override
     protected String getActionUri() {
@@ -53,16 +53,16 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
-        CourseSaveRequest courseSaveRequest = new CourseSaveRequest();
-        courseSaveRequest.setCourseName(courseName);
-        courseSaveRequest.setTimeZone(courseTimeZone);
+        CourseUpdateRequest courseUpdateRequest = new CourseUpdateRequest();
+        courseUpdateRequest.setCourseName(courseName);
+        courseUpdateRequest.setTimeZone(courseTimeZone);
 
         // verify time zone will be changed
         String oldCourseTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone().getId();
         assertNotEquals(courseTimeZone, oldCourseTimeZone);
         verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
 
-        SaveCourseAction courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
+        UpdateCourseAction courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
         JsonResult r = getJsonResult(courseEditSaveAction);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -77,10 +77,10 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
 
         String courseNameWithValidCharacters = courseName + " valid";
 
-        courseSaveRequest.setCourseName(courseNameWithValidCharacters);
-        courseSaveRequest.setTimeZone(courseTimeZone);
+        courseUpdateRequest.setCourseName(courseNameWithValidCharacters);
+        courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
+        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -92,10 +92,10 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
         ______TS("Failure case: edit course name with empty string");
 
         courseName = "";
-        courseSaveRequest.setCourseName(courseName);
-        courseSaveRequest.setTimeZone(courseTimeZone);
+        courseUpdateRequest.setCourseName(courseName);
+        courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
+        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
@@ -109,10 +109,10 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
         ______TS("Failure case: edit course name with non-alphanumeric start character");
 
         courseName = "@#$@#$";
-        courseSaveRequest.setCourseName(courseName);
-        courseSaveRequest.setTimeZone(courseTimeZone);
+        courseUpdateRequest.setCourseName(courseName);
+        courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
+        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
@@ -126,10 +126,10 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
         ______TS("Failure case: edit course name with name containing | and %");
 
         courseName = "normal|name%";
-        courseSaveRequest.setCourseName(courseName);
-        courseSaveRequest.setTimeZone(courseTimeZone);
+        courseUpdateRequest.setCourseName(courseName);
+        courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
+        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
@@ -144,10 +144,10 @@ public class SaveCourseActionTest extends BaseActionTest<SaveCourseAction> {
 
         courseName = logic.getCourse(courseId).getName();
         courseTimeZone = "InvalidTimeZone";
-        courseSaveRequest.setCourseName(courseName);
-        courseSaveRequest.setTimeZone(courseTimeZone);
+        courseUpdateRequest.setCourseName(courseName);
+        courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseSaveRequest, submissionParams);
+        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());

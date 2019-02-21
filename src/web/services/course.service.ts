@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MessageOutput } from '../types/api-output';
-import { CourseArchiveRequest, CourseCreateRequest, CourseSaveRequest } from '../types/api-request';
+import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -26,7 +26,7 @@ export class CourseService {
   /**
    * Updates a course by calling API.
    */
-  updateCourse(courseid: string, request: CourseSaveRequest): Observable<MessageOutput> {
+  updateCourse(courseid: string, request: CourseUpdateRequest): Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = { courseid };
     return this.httpRequestService.put('/course', paramMap, request);
   }

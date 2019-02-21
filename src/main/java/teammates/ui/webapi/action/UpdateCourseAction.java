@@ -11,12 +11,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.ui.webapi.request.CourseSaveRequest;
+import teammates.ui.webapi.request.CourseUpdateRequest;
 
 /**
- * Save a course.
+ * Updates a course.
  */
-public class SaveCourseAction extends Action {
+public class UpdateCourseAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -37,8 +37,8 @@ public class SaveCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-        CourseSaveRequest courseSaveRequest = getAndValidateRequestBody(CourseSaveRequest.class);
-        String courseTimeZone = courseSaveRequest.getTimeZone();
+        CourseUpdateRequest courseUpdateRequest = getAndValidateRequestBody(CourseUpdateRequest.class);
+        String courseTimeZone = courseUpdateRequest.getTimeZone();
 
         FieldValidator validator = new FieldValidator();
         String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
@@ -47,7 +47,7 @@ public class SaveCourseAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String courseName = courseSaveRequest.getCourseName();
+        String courseName = courseUpdateRequest.getCourseName();
 
         try {
             logic.updateCourseCascade(

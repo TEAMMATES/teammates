@@ -44,7 +44,7 @@ public class ActionFactory {
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
-        map(ResourceURIs.COURSE, PUT, SaveCourseAction.class);
+        map(ResourceURIs.COURSE, PUT, UpdateCourseAction.class);
         map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class);
         map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
