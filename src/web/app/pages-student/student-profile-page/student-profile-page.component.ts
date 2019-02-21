@@ -25,6 +25,9 @@ interface StudentProfile {
   pictureKey: string;
 }
 
+/**
+ * Represents detailed data for student profile.
+ */
 export interface StudentDetails {
   studentProfile: StudentProfile;
   name: string;

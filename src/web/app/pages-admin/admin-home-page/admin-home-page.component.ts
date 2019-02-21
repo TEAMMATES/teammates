@@ -80,7 +80,8 @@ export class AdminHomePageComponent {
     instructor.status = 'ADDING';
     const instructorEmail: string = instructor.email;
 
-    this.accountService.createAccount(instructorEmail, {
+    this.accountService.createAccount({
+      instructorEmail,
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
     }).subscribe((resp: JoinLink) => {
