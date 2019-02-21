@@ -1,4 +1,3 @@
-import { StudentProfileUpdateRequest } from '../../../types/api-request';
 import { Gender } from '../../../types/gender';
 
 /**
@@ -12,13 +11,4 @@ export interface StudentProfile {
   gender: Gender;
   moreInfo: string;
   pictureKey: string;
-}
-
-/**
- * Contains a student's details.
- */
-export interface StudentDetails {
-  studentProfile: StudentProfileUpdateRequest;
-  name: string;
-  requestId: string;
 }

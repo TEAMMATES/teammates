@@ -12,12 +12,21 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
-import { StudentProfileUpdateRequest } from '../../../types/api-request';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface StudentDetails {
-  studentProfile: StudentProfileUpdateRequest;
+interface StudentProfile {
+  shortName: string;
+  email: string;
+  institute: string;
+  nationality: string;
+  gender: Gender;
+  moreInfo: string;
+  pictureKey: string;
+}
+
+export interface StudentDetails {
+  studentProfile: StudentProfile;
   name: string;
   requestId: string;
 }
@@ -105,7 +114,7 @@ export class StudentProfilePageComponent implements OnInit {
   /**
    * Initializes the edit form with the student profile fields fetched from the backend.
    */
-  initStudentProfileForm(profile: StudentProfileUpdateRequest): void {
+  initStudentProfileForm(profile: StudentProfile): void {
     this.editForm = new FormGroup({
       studentshortname: new FormControl(profile.shortName),
       studentprofileemail: new FormControl(profile.email),
