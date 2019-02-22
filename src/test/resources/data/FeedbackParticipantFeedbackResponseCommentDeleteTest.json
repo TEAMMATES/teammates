@@ -191,7 +191,6 @@
         "questionText": "What do you like best about the class' product?"
       },
       "questionNumber": 1,
-      "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -213,7 +212,6 @@
         "questionText": "Rate 3 students' products"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
@@ -244,7 +242,6 @@
         "otherEnabled": false
       },
       "questionNumber": 3,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -281,7 +278,6 @@
         "otherEnabled": false
       },
       "questionNumber": 4,
-      "questionType": "MCQ",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
