@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.ui.webapi.action.JsonResult;
@@ -44,10 +45,6 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
         ______TS("Not enough parameters");
 
-        verifyHttpParameterFailure();
-
-        ______TS("Typical case: edit course name with same name");
-
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
@@ -56,17 +53,24 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
+        verifyHttpParameterFailure();
+        verifyHttpParameterFailure(submissionParams);
+        UpdateCourseAction updateCourseActionWithoutParam = getAction(courseUpdateRequest);
+        assertThrows(NullHttpParameterException.class, () -> getJsonResult(updateCourseActionWithoutParam));
+
+        ______TS("Typical case: edit course name with same name");
+
         // verify time zone will be changed
         String oldCourseTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone().getId();
         assertNotEquals(courseTimeZone, oldCourseTimeZone);
         verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
 
-        UpdateCourseAction courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
-        JsonResult r = getJsonResult(courseEditSaveAction);
+        UpdateCourseAction updateCourseAction = getAction(courseUpdateRequest, submissionParams);
+        JsonResult result = getJsonResult(updateCourseAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) r.getOutput();
+        MessageOutput msg = (MessageOutput) result.getOutput();
         assertEquals("Updated course [" + courseId + "] details: Name: " + courseName
                 + ", Time zone: " + courseTimeZone, msg.getMessage());
 
@@ -79,12 +83,12 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseNameWithValidCharacters);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
-        r = getJsonResult(courseEditSaveAction);
+        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
+        result = getJsonResult(updateCourseAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) result.getOutput();
         assertEquals("Updated course [" + courseId + "] details: Name: " + courseNameWithValidCharacters
                 + ", Time zone: " + courseTimeZone, msg.getMessage());
 
@@ -97,12 +101,12 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
-        r = getJsonResult(courseEditSaveAction);
+        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
+        result = getJsonResult(updateCourseAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) result.getOutput();
         statusMessage = getPopulatedEmptyStringErrorMessage(
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                 FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
@@ -115,12 +119,12 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
-        r = getJsonResult(courseEditSaveAction);
+        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
+        result = getJsonResult(updateCourseAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) result.getOutput();
         statusMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                 courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                 FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
@@ -133,12 +137,12 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
-        r = getJsonResult(courseEditSaveAction);
+        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
+        result = getJsonResult(updateCourseAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) result.getOutput();
         statusMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                 courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                 FieldValidator.REASON_CONTAINS_INVALID_CHAR);
@@ -158,12 +162,12 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         assertNotEquals(courseTimeZone, oldCourseTimeZone);
         verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
 
-        courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
-        r = getJsonResult(courseEditSaveAction);
+        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
+        result = getJsonResult(updateCourseAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        msg = (MessageOutput) result.getOutput();
         statusMessage = getPopulatedErrorMessage(FieldValidator.TIME_ZONE_ERROR_MESSAGE,
                 courseTimeZone, FieldValidator.TIME_ZONE_FIELD_NAME,
                 FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);

@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.ArchiveCourseAction;
@@ -33,12 +34,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         loginAsInstructor(instructorId);
 
-        ______TS("Not enough parameters");
-        verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId);
-
-        ______TS("Typical case: archive a course");
-
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
@@ -46,8 +41,16 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         CourseArchiveRequest courseArchiveRequest = new CourseArchiveRequest();
         courseArchiveRequest.setArchiveStatus(true);
 
-        ArchiveCourseAction archiveAction = getAction(courseArchiveRequest, submissionParams);
-        JsonResult result = getJsonResult(archiveAction);
+        ______TS("Not enough parameters");
+        verifyHttpParameterFailure();
+        verifyHttpParameterFailure(submissionParams);
+        ArchiveCourseAction archiveCourseActionWithoutParam = getAction(courseArchiveRequest);
+        assertThrows(NullHttpParameterException.class, () -> getJsonResult(archiveCourseActionWithoutParam));
+
+        ______TS("Typical case: archive a course");
+
+        ArchiveCourseAction archiveCourseAction = getAction(courseArchiveRequest, submissionParams);
+        JsonResult result = getJsonResult(archiveCourseAction);
 
         InstructorAttributes theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
@@ -59,8 +62,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         courseArchiveRequest.setArchiveStatus(true);
 
-        archiveAction = getAction(courseArchiveRequest, submissionParams);
-        result = getJsonResult(archiveAction);
+        archiveCourseAction = getAction(courseArchiveRequest, submissionParams);
+        result = getJsonResult(archiveCourseAction);
 
         theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
@@ -99,8 +102,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         loginAsAdmin();
         courseArchiveRequest.setArchiveStatus(true);
 
-        archiveAction = getAction(courseArchiveRequest, addUserIdToParams(instructorId, submissionParams));
-        result = getJsonResult(archiveAction);
+        archiveCourseAction = getAction(courseArchiveRequest, addUserIdToParams(instructorId, submissionParams));
+        result = getJsonResult(archiveCourseAction);
 
         theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());

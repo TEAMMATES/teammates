@@ -30,6 +30,12 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
     @Test
     public void testExecute() throws Exception {
 
+        ______TS("Not enough parameters");
+
+        verifyHttpParameterFailure();
+
+        ______TS("Typical case with new course id");
+
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -38,8 +44,6 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setCourseName("New Course");
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId("new-course");
-
-        ______TS("Typical case with new course id");
 
         if (logic.isCoursePresent("new-course")) {
             CoursesLogic.inst().deleteCourseCascade("new-course");

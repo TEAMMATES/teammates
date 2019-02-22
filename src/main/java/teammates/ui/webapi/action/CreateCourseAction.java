@@ -26,7 +26,6 @@ public class CreateCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
 
         String newCourseId = courseCreateRequest.getCourseId();

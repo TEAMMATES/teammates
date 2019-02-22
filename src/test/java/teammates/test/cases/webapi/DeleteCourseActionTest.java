@@ -29,6 +29,10 @@ public class DeleteCourseActionTest
     @Test
     public void testExecute() throws Exception {
 
+        ______TS("Not enough parameters");
+
+        verifyHttpParameterFailure();
+
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -43,8 +47,8 @@ public class DeleteCourseActionTest
         logic.moveCourseToRecycleBin(courseId);
         assertEquals(courseId, logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
 
-        DeleteCourseAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
+        DeleteCourseAction deleteCourseAction = getAction(submissionParams);
+        JsonResult result = getJsonResult(deleteCourseAction);
         MessageOutput message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
@@ -66,8 +70,8 @@ public class DeleteCourseActionTest
 
         loginAsInstructor(instructorId);
 
-        DeleteCourseAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
+        DeleteCourseAction deleteCourseAction = getAction(submissionParams);
+        JsonResult result = getJsonResult(deleteCourseAction);
         MessageOutput message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

@@ -38,13 +38,13 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         ______TS("Not enough parameters");
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-        };
-
         verifyHttpParameterFailure();
 
         ______TS("Typical case, 2 courses. Expect 1 to be binned and 1 to stay.");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+        };
 
         logic.createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
 
