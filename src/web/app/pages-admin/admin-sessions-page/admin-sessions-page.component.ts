@@ -27,7 +27,7 @@ export class AdminSessionsPageComponent implements OnInit {
   totalClosedSessions: number = 0;
   totalAwaitingSessions: number = 0;
   totalInstitutes: number = 0;
-  sessions: { [key: string]: OngoingSession[] } = {};
+  sessions: { [key: string]: OngoingSessionModel[] } = {};
 
   // Tracks the whether the panel of an institute has been opened
   institutionPanelsStatus: { [key: string]: boolean } = {};
@@ -133,7 +133,13 @@ export class AdminSessionsPageComponent implements OnInit {
           this.totalClosedSessions = resp.totalClosedSessions;
           this.totalAwaitingSessions = resp.totalAwaitingSessions;
           this.totalInstitutes = resp.totalInstitutes;
-          this.sessions = resp.sessions;
+          Object.keys(resp.sessions).forEach((key: string) => {
+            this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
+              return {
+                ongoingSession,
+              };
+            });
+          });
 
           this.institutionPanelsStatus = {};
           for (const institution of Object.keys(resp.sessions)) {
@@ -157,13 +163,10 @@ export class AdminSessionsPageComponent implements OnInit {
       fsname: feedbackSessionName,
     };
     this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
-      const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSession) =>
-          session.courseId === courseId && session.feedbackSessionName === feedbackSessionName,
-      ).map((session: OngoingSession) => {
-        return {
-          ongoingSession: session,
-        };
-      });
+      const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
+          session.ongoingSession.courseId === courseId
+          && session.ongoingSession.feedbackSessionName === feedbackSessionName,
+      );
       if (sessions.length) {
         sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
       }
