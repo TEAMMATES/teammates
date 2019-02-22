@@ -1,8 +1,5 @@
 package teammates.ui.webapi.action;
 
-import org.apache.http.HttpStatus;
-
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
