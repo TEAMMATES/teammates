@@ -15,8 +15,6 @@ public class InstructorCreateRequest extends BasicRequest {
 
     @Nullable
     private String displayName;
-
-    @Nullable
     private Boolean isDisplayedToStudent;
 
     public InstructorCreateRequest(String id, String name, String email, String roleName, String displayName,
@@ -34,6 +32,7 @@ public class InstructorCreateRequest extends BasicRequest {
         assertTrue(name != null, "name cannot be null");
         assertTrue(email != null, "email cannot be null");
         assertTrue(roleName != null, "role name cannot be null");
+        assertTrue(isDisplayedToStudent != null, "displayed to student boolean cannot be null");
     }
 
     public String getId() {
