@@ -56,10 +56,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
-
-        MessageOutput test = (MessageOutput) actionOutput.getOutput();
-        System.out.println(test.getMessage());
-
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         MessageOutput msg = (MessageOutput) actionOutput.getOutput();
