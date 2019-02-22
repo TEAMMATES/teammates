@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Instructor } from '../../../Instructor';
 import {
   CourseLevelPrivileges, DefaultPrivileges, Role, SectionLevelPrivileges, SessionLevelPrivileges,
 } from '../instructor-privileges-model';
@@ -61,9 +60,6 @@ export class InstructorEditFormComponent implements OnInit {
   @Input()
   sessionNames: string[] = [];
 
-  @Input()
-  courseInstructors: Instructor[] = [];
-
   // event emission
   @Output()
   formModelChange: EventEmitter<InstructorEditFormModel> = new EventEmitter();
@@ -82,6 +78,9 @@ export class InstructorEditFormComponent implements OnInit {
 
   @Output()
   addInstructorEvent: EventEmitter<InstructorEditFormModel> = new EventEmitter();
+
+  @Output()
+  cancelEditEvent: EventEmitter<InstructorEditFormMode> = new EventEmitter();
 
   constructor() { }
 
@@ -167,6 +166,13 @@ export class InstructorEditFormComponent implements OnInit {
   addInstructorHandler(): void {
     this.triggerModelChange('isEditable', false);
     this.addInstructorEvent.emit(this.model);
+  }
+
+  /**
+   * Handles cancel edit button click event.
+   */
+  cancelEditHandler(): void {
+    this.cancelEditEvent.emit(this.formMode);
   }
 
   /**

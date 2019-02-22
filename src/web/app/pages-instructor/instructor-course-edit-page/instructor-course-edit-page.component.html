@@ -22,7 +22,8 @@
                            (resendReminderEvent)="resendReminderHandler(i)"
                            (viewPrivilegesEvent)="viewPrivilegesHandler($event.role, $event.courseLevel)"
                            (editInstructorEvent)="editInstructorHandler($event, i)"
-                           (deleteInstructorEvent)="deleteInstructorHandler(i)"></tm-instructor-edit-form>
+                           (deleteInstructorEvent)="deleteInstructorHandler(i)"
+                           (cancelEditEvent)="cancelEditHandler($event, i)"></tm-instructor-edit-form>
 </div>
 
 <div class="top-padded bottom-padded align-center" *ngIf="this.instructor != null">
@@ -40,5 +41,6 @@
                            [sectionNames]="this.sectionNames"
                            [sessionNames]="this.feedbackNames"
                            (viewPrivilegesEvent)="viewPrivilegesHandler($event.role, $event.courseLevel)"
-                           (addInstructorEvent)="addInstructorHandler($event)"></tm-instructor-edit-form>
+                           (addInstructorEvent)="addInstructorHandler($event)"
+                           (cancelEditEvent)="cancelEditHandler($event, i)"></tm-instructor-edit-form>
 </div>

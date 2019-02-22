@@ -75,8 +75,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   };
 
   // to get the original question model
-  instructorFormModels: Map<string, Instructor> = new Map();
-
+  instructorFormModels: Instructor[] = [];
   instructorEditFormModels: InstructorEditFormModel[] = [];
 
   user: string = '';
@@ -115,7 +114,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
           resp.instructorList.forEach((instructor: Instructor) => {
             this.instructorEditFormModels.push(this.getInstructorEditFormModel(instructor));
-            this.instructorFormModels.set(instructor.email, instructor);
+            this.instructorFormModels.push(instructor);
           });
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
@@ -273,8 +272,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
         .subscribe((updatedInstructor: Instructor) => {
+          this.instructorFormModels[instructorIndex] = updatedInstructor;
           this.instructorEditFormModels[instructorIndex] = this.getInstructorEditFormModel(updatedInstructor);
-          this.instructorFormModels.set(updatedInstructor.email, updatedInstructor);
 
           if (updatedInstructor.googleId == this.instructor.googleId) {
             this.instructor = updatedInstructor;
@@ -431,7 +430,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .subscribe((addedInstructor: Instructor) => {
           this.resetInstructorAddFormModel();
           this.instructorEditFormModels.push(this.getInstructorEditFormModel(addedInstructor));
-          this.instructorFormModels.set(addedInstructor.email, addedInstructor);
+          this.instructorFormModels.push(addedInstructor);
 
           this.statusMessageService.showSuccessMessage(`The instructor ${addedInstructor.name} has been added ` +
               `successfully. An email containing how to 'join' this course will be sent to ${addedInstructor.email}` +
@@ -458,6 +457,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isEditable: false,
       isSaving: false,
     };
+  }
+
+  /**
+   * Handles the cancel edit button click event.
+   */
+  cancelEditHandler(formMode: InstructorEditFormMode, index: number): void {
+    if (formMode == InstructorEditFormMode.ADD) {
+      this.resetInstructorAddFormModel();
+    } else {
+      const instructor: Instructor = this.instructorFormModels[index];
+      this.instructorEditFormModels[index] = this.getInstructorEditFormModel(instructor);
+    }
   }
 
   /**
@@ -520,6 +531,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
               this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
             } else {
               this.instructorEditFormModels.splice(index, 1);
+              this.instructorFormModels.splice(index, 1);
               this.statusMessageService.showSuccessMessage(resp.message);
             }
           }, (resp: ErrorMessageOutput) => {

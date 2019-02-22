@@ -15,7 +15,7 @@
         Edit
       </button>
       <button class="btn btn-light btn-sm btn-left" *ngIf="model.isEditable"
-              ngbTooltip="{{ cancelEditTooltip }}" (click)="triggerModelChange('isEditable', false)">
+              ngbTooltip="{{ cancelEditTooltip }}" (click)="cancelEditHandler()">
         <i class="fa fa-times" aria-hidden="true"></i>
         Cancel
       </button>
