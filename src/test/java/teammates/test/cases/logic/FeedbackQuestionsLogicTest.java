@@ -403,7 +403,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         FeedbackQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
 
         assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, copiedQuestion.numberOfEntitiesToGiveFeedbackTo);
-        assertEquals(question1.questionType, copiedQuestion.questionType);
+        assertEquals(question1.getQuestionType(), copiedQuestion.getQuestionType());
         assertEquals(question1.giverType, copiedQuestion.giverType);
         assertEquals(question1.recipientType, copiedQuestion.recipientType);
         assertEquals(question1Details.getQuestionText(), copiedQuestionDetails.getQuestionText());
