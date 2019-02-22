@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Instructor } from '../../../Instructor';
 import {
-  CourseLevelPrivileges, DefaultPrivileges, Privileges, Role, SectionLevelPrivileges, SessionLevelPrivileges,
+  CourseLevelPrivileges, DefaultPrivileges, Role, SectionLevelPrivileges, SessionLevelPrivileges,
 } from '../instructor-privileges-model';
 import { InstructorEditFormMode, InstructorEditFormModel } from './instructor-edit-form-model';
 import {
@@ -24,6 +24,7 @@ export class InstructorEditFormComponent implements OnInit {
 
   DefaultPrivileges: typeof DefaultPrivileges = DefaultPrivileges;
 
+  cancelEditTooltip: string = '';
   displayedNamePlaceholder: string = '';
 
   @Input()
@@ -44,6 +45,9 @@ export class InstructorEditFormComponent implements OnInit {
     isEditable: false,
     isSaving: false,
   };
+
+  @Input()
+  formMode: InstructorEditFormMode = InstructorEditFormMode.EDIT;
 
   @Input()
   modelNumber: number = 1;
@@ -77,7 +81,7 @@ export class InstructorEditFormComponent implements OnInit {
   editInstructorEvent: EventEmitter<InstructorEditFormModel> = new EventEmitter<InstructorEditFormModel>();
 
   @Output()
-  addNewInstructorEvent: EventEmitter<void> = new EventEmitter<void>();
+  addInstructorEvent: EventEmitter<InstructorEditFormModel> = new EventEmitter();
 
   constructor() { }
 
@@ -85,6 +89,9 @@ export class InstructorEditFormComponent implements OnInit {
     //initialise variables and constants
     this.displayedNamePlaceholder = this.model.isDisplayedToStudents ? 'E.g.Co-lecturer, Teaching Assistant'
         : '(This instructor will NOT be displayed to students)';
+
+    this.cancelEditTooltip = this.formMode == InstructorEditFormMode.ADD ? 'Cancel adding an instructor'
+        : 'Cancel editing instructor details';
   }
 
   /**
@@ -136,8 +143,8 @@ export class InstructorEditFormComponent implements OnInit {
   /**
    * Handles view instructor privileges link click event.
    */
-  viewPrivilegesHandler(role: string, privileges: Privileges): void {
-    this.viewPrivilegesEvent.emit({role: role, privileges: privileges});
+  viewPrivilegesHandler(role: string, courseLevel: CourseLevelPrivileges): void {
+    this.viewPrivilegesEvent.emit({role: role, courseLevel: courseLevel});
   }
 
   /**
@@ -152,6 +159,14 @@ export class InstructorEditFormComponent implements OnInit {
    */
   editInstructorHandler(): void {
     this.editInstructorEvent.emit(this.model);
+  }
+
+  /**
+   * Handles add instructor button click event.
+   */
+  addInstructorHandler(): void {
+    this.triggerModelChange('isEditable', false);
+    this.addInstructorEvent.emit(this.model);
   }
 
   /**

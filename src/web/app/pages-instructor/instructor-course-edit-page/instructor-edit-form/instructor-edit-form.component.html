@@ -3,29 +3,32 @@
     <strong>Instructor {{ modelNumber + 1 }}:</strong>
     <span class="float-sm-right">
       <button class="btn btn-light btn-sm btn-left btn-instr" ngbTooltip="Send invitation email to the instructor"
-              *ngIf="model.googleId == null" [disabled]="!canModifyInstructor" (click)="resendReminderHandler()">
+              *ngIf="formMode == InstructorEditFormMode.EDIT && model.googleId == null"
+              [disabled]="!canModifyInstructor" (click)="resendReminderHandler()">
         <i class="fa fa-envelope" aria-hidden="true"></i>
         Resend Invite
       </button>
       <button class="btn btn-light btn-sm btn-left btn-instr" ngbTooltip="Edit instructor details"
-              [disabled]="!canModifyInstructor" (click)="triggerModelChange('isEditable', true)" *ngIf="!model.isEditable">
+              [disabled]="!canModifyInstructor" (click)="triggerModelChange('isEditable', true)"
+              *ngIf="formMode == InstructorEditFormMode.EDIT && !model.isEditable">
         <i class="fa fa-pen" aria-hidden="true"></i>
         Edit
       </button>
       <button class="btn btn-light btn-sm btn-left" *ngIf="model.isEditable"
-              ngbTooltip="Cancel editing instructor details" (click)="triggerModelChange('isEditable', false)">
+              ngbTooltip="{{ cancelEditTooltip }}" (click)="triggerModelChange('isEditable', false)">
         <i class="fa fa-times" aria-hidden="true"></i>
         Cancel
       </button>
       <button class="btn btn-light btn-sm btn-instr" ngbTooltip="Delete the instructor from the course"
-              [disabled]="!canModifyInstructor" (click)="deleteInstructorHandler()">
+              [disabled]="!canModifyInstructor" (click)="deleteInstructorHandler()"
+              *ngIf="formMode == InstructorEditFormMode.EDIT">
         <i class="fa fa-trash" aria-hidden="true"></i>
         Delete
       </button>
     </span>
   </div>
   <div class="card-body">
-    <div class="form-row form-group">
+    <div class="form-row form-group" *ngIf="formMode == InstructorEditFormMode.EDIT">
       <label class="col-sm-3 control-label">
         Google ID:
       </label>
@@ -51,7 +54,8 @@
       </label>
       <div class="col-sm-9">
         <input class="form-control" ngbTooltip="Enter the email of the instructor." maxlength="254" tabindex="5"
-               [disabled]="!model.isEditable || model.googleId == null" [ngModel]="model.email" (ngModelChange)="triggerModelChange('email', $event)">
+               [disabled]="!model.isEditable || (formMode == InstructorEditFormMode.EDIT && model.googleId == null)"
+               [ngModel]="model.email" (ngModelChange)="triggerModelChange('email', $event)">
       </div>
     </div>
     <div class="form-row form-group">
@@ -74,7 +78,7 @@
         <span class="form-control-static" *ngIf="!model.isEditable">
           {{ model.role }}
           <a class="view-role-details" href="javascript:;" *ngIf="model.role !== Role.CUSTOM"
-             (click)="viewPrivilegesHandler(model.role, model.privileges)">
+             (click)="viewPrivilegesHandler(model.role, model.courseLevel)">
             View Details
           </a>
         </span>
@@ -82,28 +86,28 @@
           <div>
             <input type="radio" [value]="Role.COOWNER" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
             Co-owner: Can do everything
-            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.COOWNER, DefaultPrivileges.COOWNER.value)">
+            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.COOWNER, DefaultPrivileges.COOWNER.value.courseLevel)">
               View Details
             </a>
           </div>
           <div>
             <input type="radio" [value]="Role.MANAGER" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
             Manager: Can do everything except for deleting/restoring the course
-            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.MANAGER, DefaultPrivileges.MANAGER.value)">
+            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.MANAGER, DefaultPrivileges.MANAGER.value.courseLevel)">
               View Details
             </a>
           </div>
           <div>
             <input type="radio" [value]="Role.OBSERVER" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
             Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
-            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.OBSERVER, DefaultPrivileges.OBSERVER.value)">
+            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.OBSERVER, DefaultPrivileges.OBSERVER.value.courseLevel)">
               View Details
             </a>
           </div>
           <div>
             <input type="radio" [value]="Role.TUTOR" [ngModel]="model.role" (ngModelChange)="triggerModelChange('role', $event)">
             Tutor: Can view student details, give/view comments, submit/view responses for sessions
-            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.TUTOR, DefaultPrivileges.TUTOR.value)">
+            <a class="view-role-details" href="javascript:;" (click)="viewPrivilegesHandler(Role.TUTOR, DefaultPrivileges.TUTOR.value.courseLevel)">
               View Details
             </a>
           </div>
@@ -179,8 +183,13 @@
     </a>
     <div class="form-group">
       <div class="align-center">
-        <button class="btn btn-primary" tabindex="6" *ngIf="model.isEditable" type="submit" [disabled]="model.isSaving" (click)="editInstructorHandler()">
+        <button class="btn btn-primary" tabindex="6" *ngIf="formMode == InstructorEditFormMode.EDIT && model.isEditable"
+                type="submit" [disabled]="model.isSaving" (click)="editInstructorHandler()">
           <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save changes
+        </button>
+        <button class="btn btn-primary" tabindex="6" *ngIf="formMode == InstructorEditFormMode.ADD && model.isEditable"
+                type="submit" [disabled]="model.isSaving" (click)="addInstructorHandler()">
+          <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Add Instructor
         </button>
       </div>
     </div>
