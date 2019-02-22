@@ -11,6 +11,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.EditInstructorInCourseAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
@@ -61,9 +62,14 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) r.getOutput();
-        assertEquals("The changes to the instructor " + newInstructorName + " has been updated.",
-                msg.getMessage());
+        InstructorData instructor = (InstructorData) r.getOutput();
+        assertEquals(courseId, instructor.getCourseId());
+        assertEquals(instructorId, instructor.getGoogleId());
+        assertEquals(newInstructorName, instructor.getName());
+        assertEquals(newInstructorEmail, instructor.getEmail());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructor.getRole());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                instructor.getDisplayedName());
 
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.name);
@@ -100,7 +106,7 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        MessageOutput msg = (MessageOutput) r.getOutput();
         String expectedErrorMessage = new FieldValidator().getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
@@ -134,9 +140,14 @@ public class EditInstructorInCourseActionTest extends BaseActionTest<EditInstruc
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
-        assertEquals("The changes to the instructor " + newInstructorName + " has been updated.",
-                msg.getMessage());
+        instructor = (InstructorData) r.getOutput();
+        assertEquals(courseId, instructor.getCourseId());
+        assertEquals(instructorId, instructor.getGoogleId());
+        assertEquals(newInstructorName, instructor.getName());
+        assertEquals(newInstructorEmail, instructor.getEmail());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructor.getRole());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                instructor.getDisplayedName());
 
         editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorEmail, editedInstructor.email);

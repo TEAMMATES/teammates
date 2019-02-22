@@ -12,6 +12,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.CreateInstructorInCourseAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
@@ -67,10 +68,13 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) r.getOutput();
-        assertEquals("The instructor " + newInstructorName + " has been added successfully. "
-                + "An email containing how to 'join' this course will be sent to "
-                + newInstructorEmail + " in a few minutes.", msg.getMessage());
+        InstructorData newInstructor = (InstructorData) r.getOutput();
+        assertEquals(courseId, newInstructor.getCourseId());
+        assertEquals(newInstructorName, newInstructor.getName());
+        assertEquals(newInstructorEmail, newInstructor.getEmail());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, newInstructor.getRole());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                newInstructor.getDisplayedName());
 
         assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
 
@@ -94,7 +98,7 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
 
         assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
+        MessageOutput msg = (MessageOutput) r.getOutput();
         assertEquals("An instructor with the same email address already exists in the course.",
                 msg.getMessage());
 
@@ -151,10 +155,13 @@ public class CreateInstructorInCourseActionTest extends BaseActionTest<CreateIns
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        msg = (MessageOutput) r.getOutput();
-        assertEquals("The instructor " + newInstructorName + " has been added successfully. "
-                + "An email containing how to 'join' this course will be sent to "
-                + newInstructorEmail + " in a few minutes.", msg.getMessage());
+        newInstructor = (InstructorData) r.getOutput();
+        assertEquals(courseId, newInstructor.getCourseId());
+        assertEquals(newInstructorName, newInstructor.getName());
+        assertEquals(newInstructorEmail, newInstructor.getEmail());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, newInstructor.getRole());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                newInstructor.getDisplayedName());
 
         assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
 

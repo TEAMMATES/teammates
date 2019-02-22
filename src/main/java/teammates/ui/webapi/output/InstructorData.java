@@ -8,9 +8,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
  */
 public class InstructorData extends ApiOutput {
     private String googleId;
-    public String courseId;
-    public String name;
-    public String email;
+    private String courseId;
+    private String name;
+    private String email;
     private String role;
     private String displayedName;
     private boolean isDisplayedToStudents;
