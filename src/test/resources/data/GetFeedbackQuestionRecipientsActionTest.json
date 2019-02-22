@@ -970,7 +970,10 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "What is the best selling point of your product?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -989,7 +992,10 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Rate 1 other student's product",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -1010,7 +1016,10 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "My comments on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -1038,7 +1047,10 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Instructor comments on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Instructor comments on the class"
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -1066,7 +1078,11 @@
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "{\"recommendedLength\":100,\"questionText\":\"New format Text question\",\"questionType\":\"TEXT\"}",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -1085,7 +1101,10 @@
     "team.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Give feedback to 2 other teams.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -1104,7 +1123,18 @@
     "own.team.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think your team should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\",\"Friendliness of teammates\"]}",
+      "questionDetails": {
+        "areDuplicatesAllowed": true,
+        "questionText": "Rank the areas of improvement you think your team should make progress in.",
+        "questionType": "RANK_OPTIONS",
+        "options": [
+          "Quality of work",
+          "Quality of progress reports",
+          "Time management",
+          "Teamwork and communication",
+          "Friendliness of teammates"
+        ]
+      },
       "questionNumber": 2,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -1123,7 +1153,10 @@
     "team.members.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Give feedback to 1 of your team mates",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 1 of your team mates"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -1142,7 +1175,10 @@
     "team.members.include.self.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}",
+      "questionDetails": {
+        "questionText": "How much has each team member including yourself, contributed to the project?",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 4,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -1161,7 +1197,10 @@
     "graceperiod.session.feedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Give feedback to 2 other teams.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -1180,7 +1219,10 @@
     "graceperiod.session.feedback2": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Give feedback to yourself.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to yourself."
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -1199,7 +1241,10 @@
     "graceperiod.session.feedbackFromTeamToSelf": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Give feedback as a team to own team.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback as a team to own team."
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -1218,7 +1263,10 @@
     "closed.session.feedback": {
       "feedbackSessionName": "Closed Session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Give feedback to yourself.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to yourself."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -1237,7 +1285,10 @@
     "qn1InSession4InCourse1": {
       "feedbackSessionName": "non visible session",
       "courseId": "idOfTypicalCourse1",
-      "questionMetaData": "Give feedback to 4 other students",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 4 other students"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -1256,7 +1307,10 @@
     "qn1InSessionInArchivedCourse": {
       "feedbackSessionName": "session without student questions",
       "courseId": "idOfArchivedCourse",
-      "questionMetaData": "Give feedback to students",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to students"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -1275,7 +1329,10 @@
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
-      "questionMetaData": "Please rate the following teams",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Please rate the following teams"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -1290,7 +1347,10 @@
     "qn2InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
-      "questionMetaData": "Please rate your fellow instructors",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Please rate your fellow instructors"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -1309,7 +1369,10 @@
     "qn1InSession2InCourse2": {
       "feedbackSessionName": "Not answerable feedback session",
       "courseId": "idOfTypicalCourse2",
-      "questionMetaData": "This is a session for myself",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This is a session for myself"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -1322,7 +1385,10 @@
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "idOfTestingSanitizationCourse",
-      "questionMetaData": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",

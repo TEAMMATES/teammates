@@ -4,8 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonParseException;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -26,13 +25,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     public String feedbackSessionName;
     public String courseId;
-    /**
-     * Contains the JSON formatted string that holds the information of the question details.
-     *
-     * <p>Don't use directly unless for storing/loading from data store.<br>
-     * To get the question text use {@code getQuestionDetails().questionText}
-     */
-    public String questionMetaData;
+    public FeedbackQuestionDetails questionDetails;
     public String questionDescription;
     public int questionNumber;
     public FeedbackQuestionType questionType;
@@ -58,7 +51,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return builder()
                 .withFeedbackSessionName(fq.getFeedbackSessionName())
                 .withCourseId(fq.getCourseId())
-                .withQuestionMetaData(fq.getQuestionMetaData())
+                .withQuestionDetails(deserializeFeedbackQuestionDetails(fq.getQuestionMetaData(), fq.getQuestionType()))
                 .withQuestionDescription(fq.getQuestionDescription())
                 .withQuestionNumber(fq.getQuestionNumber())
                 .withQuestionType(fq.getQuestionType())
@@ -95,7 +88,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     @Override
     public FeedbackQuestion toEntity() {
         return new FeedbackQuestion(feedbackSessionName, courseId,
-                                    questionMetaData, questionDescription, questionNumber, questionType, giverType,
+                                    getSerializedQuestionDetails(), questionDescription,
+                                    questionNumber, questionType, giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
@@ -104,7 +98,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return builder()
                 .withFeedbackSessionName(getFeedbackSessionName())
                 .withCourseId(getCourseId())
-                .withQuestionMetaData(getQuestionMetaData())
+                .withQuestionDetails(getQuestionDetails())
                 .withQuestionDescription(getQuestionDescription())
                 .withQuestionNumber(getQuestionNumber())
                 .withQuestionType(getQuestionType())
@@ -125,7 +119,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return "FeedbackQuestionAttributes [feedbackSessionName="
                + feedbackSessionName + ", courseId=" + courseId
                + ", questionText="
-               + questionMetaData + ", questionDescription=" + questionDescription
+               + getSerializedQuestionDetails() + ", questionDescription=" + questionDescription
                + ", questionNumber=" + questionNumber
                + ", questionType=" + questionType + ", giverType=" + giverType
                + ", recipientType=" + recipientType
@@ -137,7 +131,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public String getIdentificationString() {
-        return this.questionNumber + ". " + this.questionMetaData + "/"
+        return this.questionNumber + ". " + getSerializedQuestionDetails() + "/"
                + this.feedbackSessionName + "/" + this.courseId;
     }
 
@@ -325,7 +319,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         result = prime * result + questionNumber;
 
-        result = prime * result + (questionMetaData == null ? 0 : questionMetaData.hashCode());
+        result = prime * result + (questionDetails == null ? 0 : questionDetails.hashCode());
 
         result = prime * result + (questionDescription == null ? 0 : questionDescription.hashCode());
 
@@ -386,11 +380,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return false;
         }
 
-        if (questionMetaData == null) {
-            if (other.questionMetaData != null) {
+        if (questionDetails == null) {
+            if (other.questionDetails != null) {
                 return false;
             }
-        } else if (!questionMetaData.equals(other.questionMetaData)) {
+        } else if (!questionDetails.equals(other.questionDetails)) {
             return false;
         }
 
@@ -442,8 +436,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         newAttributes.feedbackSessionName = this.feedbackSessionName;
         newAttributes.courseId = this.courseId;
 
-        if (newAttributes.questionMetaData == null) {
-            newAttributes.questionMetaData = this.questionMetaData;
+        if (newAttributes.questionDetails == null) {
+            newAttributes.questionDetails = getQuestionDetails();
         }
 
         if (newAttributes.questionDescription == null) {
@@ -528,42 +522,16 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         this.questionDescription = SanitizationHelper.sanitizeForRichText(this.questionDescription);
     }
 
-    private boolean isValidJsonString(String jsonString) {
-        try {
-            new JSONObject(jsonString);
-        } catch (JSONException e) {
-            return false;
-        }
-        return true;
+    public void setQuestionDetails(FeedbackQuestionDetails newQuestionDetails) {
+        this.questionDetails = newQuestionDetails.getDeepCopy();
     }
 
-    /**
-     * Converts the given Feedback*QuestionDetails object to JSON for storing.
-     */
-    public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        questionMetaData = JsonUtils.toJson(questionDetails, getFeedbackQuestionDetailsClass());
-    }
-
-    /**
-     * Retrieves the Feedback*QuestionDetails object for this question.
-     *
-     * @return The Feedback*QuestionDetails object representing the question's details
-     */
     public FeedbackQuestionDetails getQuestionDetails() {
-        // For old Text questions, the questionText simply contains the question, not a JSON
-        if (questionType == FeedbackQuestionType.TEXT && !isValidJsonString(questionMetaData)) {
-            return new FeedbackTextQuestionDetails(questionMetaData);
-        }
-        return JsonUtils.fromJson(questionMetaData, getFeedbackQuestionDetailsClass());
+        return questionDetails.getDeepCopy();
     }
 
-    /**
-     * This method gets the appropriate class type for the Feedback*QuestionDetails object for this question.
-     *
-     * @return The Feedback*QuestionDetails class type appropriate for this question.
-     */
-    private Class<? extends FeedbackQuestionDetails> getFeedbackQuestionDetailsClass() {
-        return questionType.getQuestionDetailsClass();
+    public String getSerializedQuestionDetails() {
+        return questionDetails.getJsonString();
     }
 
     public String getFeedbackQuestionId() {
@@ -576,10 +544,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     public String getCourseId() {
         return courseId;
-    }
-
-    public String getQuestionMetaData() {
-        return questionMetaData;
     }
 
     public String getQuestionDescription() {
@@ -654,13 +618,30 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
 
+    private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(String questionDetailsInJson,
+                                                                              FeedbackQuestionType questionType) {
+        if (questionType == FeedbackQuestionType.TEXT) {
+            return deserializeFeedbackTextQuestionDetails(questionDetailsInJson);
+        }
+        return JsonUtils.fromJson(questionDetailsInJson, questionType.getQuestionDetailsClass());
+    }
+
+    private static FeedbackQuestionDetails deserializeFeedbackTextQuestionDetails(String questionDetailsInJson) {
+        try {
+            // There are `FeedbackTextQuestion` with plain text, Json without `recommendedLength`, and complete Json
+            // in data store. Gson cannot parse the plain text case, so we need to handle it separately.
+            return JsonUtils.fromJson(questionDetailsInJson, FeedbackQuestionType.TEXT.getQuestionDetailsClass());
+        } catch (JsonParseException e) {
+            return new FeedbackTextQuestionDetails(questionDetailsInJson);
+        }
+    }
+
     /**
      * Updates with {@link UpdateOptions}.
      */
     public void update(FeedbackQuestionAttributes.UpdateOptions updateOptions) {
         updateOptions.questionNumberOption.ifPresent(s -> questionNumber = s);
-        updateOptions.questionDetailsOption.ifPresent(
-                s -> questionMetaData = JsonUtils.toJson(s, getFeedbackQuestionDetailsClass()));
+        updateOptions.questionDetailsOption.ifPresent(s -> questionDetails = s.getDeepCopy());
         updateOptions.questionDescriptionOption.ifPresent(s -> questionDescription = s);
         updateOptions.giverTypeOption.ifPresent(s -> giverType = s);
         updateOptions.recipientTypeOption.ifPresent(s -> recipientType = s);
@@ -704,14 +685,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return this;
         }
 
-        public Builder withQuestionMetaData(String questionMetaData) {
-            if (questionMetaData != null) {
-                feedbackQuestionAttributes.questionMetaData = questionMetaData;
-            }
-            return this;
-        }
-
-        public Builder withQuestionMetaData(FeedbackQuestionDetails questionDetails) {
+        public Builder withQuestionDetails(FeedbackQuestionDetails questionDetails) {
             if (questionDetails != null) {
                 feedbackQuestionAttributes.setQuestionDetails(questionDetails);
             }
