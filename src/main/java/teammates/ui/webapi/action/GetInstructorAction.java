@@ -1,5 +1,7 @@
 package teammates.ui.webapi.action;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -52,8 +54,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
 
             if (instructorAttributes == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Instructor could not be found for "
-                        + "this course"));
+                return new JsonResult("Instructor could not be found for this course", HttpStatus.SC_NOT_FOUND);
             }
             return new JsonResult(new InstructorData(instructorAttributes));
         case FULL_DETAIL:

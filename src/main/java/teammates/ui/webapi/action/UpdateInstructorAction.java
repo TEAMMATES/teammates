@@ -73,7 +73,7 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult("The changes to the instructor " + instructorRequest.getName()
+        return new JsonResult("The instructor " + instructorRequest.getName()
                 + " has been updated.", HttpStatus.SC_OK);
     }
 

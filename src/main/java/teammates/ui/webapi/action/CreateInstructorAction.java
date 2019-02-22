@@ -72,27 +72,16 @@ public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
      */
     private InstructorAttributes extractCompleteInstructor(String courseId) {
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
-
-        String instructorRole = instructorRequest.getRoleName();
-        String displayedName = instructorRequest.getDisplayName();
-        if (displayedName == null || displayedName.isEmpty()) {
-            displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-        }
-        instructorRole = SanitizationHelper.sanitizeName(instructorRole);
-        displayedName = SanitizationHelper.sanitizeName(displayedName);
-
         InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId,
-                instructorRequest.getName(), instructorRequest.getEmail(), instructorRole,
-                instructorRequest.getIsDisplayedToStudent(), displayedName);
+                instructorRequest.getName(), instructorRequest.getEmail(), instructorRequest.getRoleName(),
+                instructorRequest.getIsDisplayedToStudent(), instructorRequest.getDisplayName());
 
-        if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
+        if (instructorToAdd.getRole().equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToAdd);
         }
 
         updateInstructorWithSectionLevelPrivileges(courseId, instructorToAdd);
-
         instructorToAdd.privileges.validatePrivileges();
-
         return instructorToAdd;
     }
 
@@ -112,10 +101,17 @@ public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
     private InstructorAttributes createInstructorWithBasicAttributes(String courseId, String instructorName,
                                                                      String instructorEmail, String instructorRole,
                                                                      boolean isDisplayedToStudents, String displayedName) {
+
         String instrName = SanitizationHelper.sanitizeName(instructorName);
         String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
         String instrRole = SanitizationHelper.sanitizeName(instructorRole);
-        String instrDisplayedName = SanitizationHelper.sanitizeName(displayedName);
+
+        String instrDisplayedName = displayedName;
+        if (displayedName == null || displayedName.isEmpty()) {
+            instrDisplayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+        }
+
+        instrDisplayedName = SanitizationHelper.sanitizeName(instrDisplayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
 
         return InstructorAttributes.builder(null, courseId, instrName, instrEmail)
