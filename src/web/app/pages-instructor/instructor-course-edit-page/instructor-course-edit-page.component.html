@@ -1,5 +1,9 @@
-<tm-course-edit-form [(model)]="courseEditFormModel" (editCourseEvent)="editCourseHandler()"
-                     (deleteCourseEvent)="deleteCourseHandler()"></tm-course-edit-form>
+<div *ngIf="this.instructor != null">
+  <tm-course-edit-form [(model)]="courseEditFormModel"
+                       [canModifyCourse]="this.instructor.privileges.courseLevel.canmodifycourse"
+                       (editCourseEvent)="editCourseHandler()"
+                       (deleteCourseEvent)="deleteCourseHandler()"></tm-course-edit-form>
+</div>
 
 <div class="right top-padded">
   <a class="small" href="/web/instructor/help#course-instructor-access" rel="noopener noreferrer" target="_blank">
@@ -11,10 +15,10 @@
 <div *ngFor="let instructorEditFormModel of instructorEditFormModels; let i = index;">
   <tm-instructor-edit-form [(formModel)]="instructorEditFormModel"
                            [formMode]="InstructorEditFormMode.EDIT"
-                           [(modelNumber)]="i"
-                           [(canModifyInstructor)]="this.instructor.privileges.courseLevel.canmodifyinstructor"
-                           [(sectionNames)]="this.sectionNames"
-                           [(sessionNames)]="this.feedbackNames"
+                           [modelNumber]="i"
+                           [canModifyInstructor]="this.instructor.privileges.courseLevel.canmodifyinstructor"
+                           [sectionNames]="this.sectionNames"
+                           [sessionNames]="this.feedbackNames"
                            (resendReminderEvent)="resendReminderHandler(i)"
                            (viewPrivilegesEvent)="viewPrivilegesHandler($event.role, $event.courseLevel)"
                            (editInstructorEvent)="editInstructorHandler($event, i)"
@@ -32,9 +36,9 @@
 <div *ngIf="this.instructorAddFormModel.isEditable" class="top-padded-sm bottom-padded">
   <tm-instructor-edit-form [(formModel)]="this.instructorAddFormModel"
                            [formMode]="InstructorEditFormMode.ADD"
-                           [(modelNumber)]="this.instructorEditFormModels.length"
-                           [(sectionNames)]="this.sectionNames"
-                           [(sessionNames)]="this.feedbackNames"
+                           [modelNumber]="this.instructorEditFormModels.length"
+                           [sectionNames]="this.sectionNames"
+                           [sessionNames]="this.feedbackNames"
                            (viewPrivilegesEvent)="viewPrivilegesHandler($event.role, $event.courseLevel)"
                            (addInstructorEvent)="addInstructorHandler($event)"></tm-instructor-edit-form>
 </div>

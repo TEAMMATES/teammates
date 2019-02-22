@@ -26,6 +26,9 @@ export class CourseEditFormComponent implements OnInit {
     isSaving: false,
   };
 
+  @Input()
+  canModifyCourse: boolean = false;
+
   @Output()
   modelChange: EventEmitter<CourseEditFormModel> = new EventEmitter();
 

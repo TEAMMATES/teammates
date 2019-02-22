@@ -2,13 +2,13 @@
   <div class="card-header bg-primary text-white">
     <strong>Course:</strong>
     <span class="float-sm-right">
-      <button class="btn btn-light btn-sm btn-left btn-course" ngbTooltip="Edit course name"
+      <button class="btn btn-light btn-sm btn-left btn-course" ngbTooltip="Edit course name" [disabled]="!canModifyCourse"
               *ngIf="!model.isEditable" (click)="triggerModelChange('isEditable', true)">
         <i class="fa fa-pen" aria-hidden="true"></i>
         Edit
       </button>
       <button class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
-              (click)="deleteHandler()">
+              [disabled]="!canModifyCourse" (click)="deleteHandler()">
         <i class="fa fa-trash" aria-hidden="true"></i>
         Delete
       </button>
@@ -47,9 +47,9 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="model.isEditable">
       <div class=" col-sm-12 align-center">
-        <button class="btn btn-primary" type="submit" [disabled]="model.isSaving || !model.isEditable" (click)="submitFormHandler()">
+        <button class="btn btn-primary" type="submit" [disabled]="model.isSaving" (click)="submitFormHandler()">
           <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save Changes
         </button>
       </div>
