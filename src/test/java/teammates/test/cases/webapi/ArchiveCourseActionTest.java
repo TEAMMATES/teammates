@@ -62,6 +62,9 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         archiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(archiveAction);
 
+        theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
+                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
+
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(theInstructor.isArchived);
 
@@ -85,6 +88,9 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         unarchiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(unarchiveAction);
 
+        theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
+                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
+
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertFalse(theInstructor.isArchived);
 
@@ -95,6 +101,9 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         archiveAction = getAction(courseArchiveRequest, addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(archiveAction);
+
+        theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
+                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(theInstructor.isArchived);

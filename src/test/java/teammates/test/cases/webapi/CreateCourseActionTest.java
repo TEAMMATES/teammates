@@ -50,6 +50,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertTrue(logic.isCoursePresent("new-course"));
 
         ______TS("Typical case with existing course id");
 

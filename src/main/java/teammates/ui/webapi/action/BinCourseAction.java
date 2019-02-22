@@ -29,11 +29,11 @@ public class BinCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            logic.moveCourseToRecycleBin(idOfCourseToDelete);
+            logic.moveCourseToRecycleBin(idOfCourseToBin);
 
-            return new JsonResult("The course " + idOfCourseToDelete
+            return new JsonResult("The course " + idOfCourseToBin
                     + " has been deleted. You can restore it from the Recycle Bin manually.");
         } catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);

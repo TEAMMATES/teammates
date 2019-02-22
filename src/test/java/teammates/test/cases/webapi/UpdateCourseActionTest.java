@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.UpdateCourseAction;
 import teammates.ui.webapi.output.MessageOutput;
@@ -89,6 +88,9 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         assertEquals("Updated course [" + courseId + "] details: Name: " + courseNameWithValidCharacters
                 + ", Time zone: " + courseTimeZone, msg.getMessage());
 
+        verifySessionsInCourseHaveTimeZone(courseId, courseTimeZone);
+        assertEquals(logic.getCourse(courseId).getName(), courseNameWithValidCharacters);
+
         ______TS("Failure case: edit course name with empty string");
 
         courseName = "";
@@ -105,6 +107,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                 FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(statusMessage, msg.getMessage());
+        assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: edit course name with non-alphanumeric start character");
 
@@ -122,6 +125,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
                 courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                 FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
         assertEquals(statusMessage, msg.getMessage());
+        assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: edit course name with name containing | and %");
 
@@ -139,13 +143,20 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
                 courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                 FieldValidator.REASON_CONTAINS_INVALID_CHAR);
         assertEquals(statusMessage, msg.getMessage());
+        assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: invalid time zone");
+
+        // verify time zone did not change
+        oldCourseTimeZone = courseTimeZone;
 
         courseName = logic.getCourse(courseId).getName();
         courseTimeZone = "InvalidTimeZone";
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
+
+        assertNotEquals(courseTimeZone, oldCourseTimeZone);
+        verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
 
         courseEditSaveAction = getAction(courseUpdateRequest, submissionParams);
         r = getJsonResult(courseEditSaveAction);
@@ -157,10 +168,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
                 courseTimeZone, FieldValidator.TIME_ZONE_FIELD_NAME,
                 FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
         assertEquals(statusMessage, msg.getMessage());
+        verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
     }
 
     private void verifySessionsInCourseHaveTimeZone(String courseId, String courseTimeZone) {
-        List<FeedbackSessionAttributes> sessions = FeedbackSessionsLogic.inst().getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes session : sessions) {
             assertEquals(courseTimeZone, session.getTimeZone().getId());
         }

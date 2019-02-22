@@ -49,7 +49,7 @@ public class DeleteCourseActionTest
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been permanently deleted.", message.getMessage());
-
+        assertThrows(NullPointerException.class, () -> logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class DeleteCourseActionTest
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been permanently deleted.", message.getMessage());
-
+        assertThrows(NullPointerException.class, () -> logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1));
     }
 
     @Override
