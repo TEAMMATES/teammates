@@ -184,3 +184,13 @@ export interface Privileges {
   // Maps a section name to a map mapping the session name and session privileges
   sessionLevel: { [section: string]: { [session: string]: SessionLevelPrivileges } };
 }
+
+/**
+ * The default instructor section level privileges
+ */
+export const defaultSectionLevelPrivileges: SectionLevelPrivileges = {
+  canviewstudentinsection: true,
+  canviewsessioninsection: true,
+  cansubmitsessioninsection: true,
+  canmodifysessioncommentinsection: true,
+};

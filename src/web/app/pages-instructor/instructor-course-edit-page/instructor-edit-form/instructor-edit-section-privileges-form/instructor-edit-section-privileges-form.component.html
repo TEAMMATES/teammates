@@ -1,0 +1,109 @@
+<div class="card bg-light top-padded">
+  <div class="card-header bg-light-blue">
+    <div class="row">
+      <div class="col-sm-2">
+        <p>
+          <strong>
+            But in section(s)
+          </strong>
+        </p>
+      </div>
+      <div class="col-sm-9">
+        <div class="col-sm-12">
+          <div class="col-sm-4" *ngFor="let section of model.sections | keyvalue">
+            <input type="checkbox" [ngModel]="section.value"
+                   (ngModelChange)="triggerModelChangeForSections(section.key, $event)">
+            {{ section.key }}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-1">
+        <a class="float-sm-right" href="javascript:;" (click)="deleteSectionPrivilegesFormHandler()">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-12">
+        <p>
+          <strong>
+            the instructor can only,
+          </strong>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <br>
+    <div class="col-sm-6 border-right-gray">
+      <input type="checkbox" [ngModel]="model.sectionLevel.canviewstudentinsection"
+             (ngModelChange)="triggerModelChangeForSectionLevelPrivileges('canviewstudentinsection', $event)">
+      View Students' Details
+      <br>
+      <br>
+    </div>
+    <div class="col-sm-5 col-sm-offset-1">
+      <input type="checkbox" [ngModel]="model.sectionLevel.cansubmitsessioninsection"
+             (ngModelChange)="triggerModelChangeForSectionLevelPrivileges('cansubmitsessioninsection', $event)">
+      Sessions: Submit Responses and Add Comments
+      <br>
+      <input type="checkbox" [ngModel]="model.sectionLevel.canviewsessioninsection"
+             (ngModelChange)="triggerModelChangeForSectionLevelPrivileges('canviewsessioninsection', $event)">
+      Sessions: View Responses and Comments
+      <br>
+      <input type="checkbox" [ngModel]="model.sectionLevel.canmodifysessioncommentinsection"
+             (ngModelChange)="triggerModelChangeForSectionLevelPrivileges('canmodifysessioncommentinsection', $event)">
+      Sessions: Edit/Delete Responses/Comments by Others
+      <br>
+      <br>
+    </div>
+    <a class="small col-sm-5" href="javascript:;" *ngIf="model.isSessionPrivilegesVisible"
+       (click)="triggerModelChange('isSessionPrivilegesVisible', false)">
+      Hide session-level permissions
+    </a>
+    <a class="small col-sm-5" href="javascript:;" *ngIf="!model.isSessionPrivilegesVisible"
+       (click)="triggerModelChange('isSessionPrivilegesVisible', true)">
+      Give different permissions for sessions in this section
+    </a>
+    <div class="row" *ngIf="model.isSessionPrivilegesVisible" style="display:block;">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <td>
+            Session Name
+          </td>
+          <td>
+            Submit Responses and Add Comments
+          </td>
+          <td>
+            View Responses and Comments
+          </td>
+          <td>
+            Edit/Delete Responses/Comments by Others
+          </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let instructorEditSessionPrivilegesFormModel of model.instructorEditSessionPrivilegesFormModels; let k=index; trackBy: trackInstructorEditSessionPrivilegesFormByFn">
+          <td>
+            {{ instructorEditSessionPrivilegesFormModel.sessionName }}
+          </td>
+          <td class="align-center">
+            <input type="checkbox" [ngModel]="instructorEditSessionPrivilegesFormModel.sessionLevel.cansubmitsessioninsection"
+                   (ngModelChange)="triggerModelChangeForSessionLevelPrivileges('cansubmitsessioninsection', $event, k)">
+          </td>
+          <td class="align-center">
+            <input type="checkbox" [ngModel]="instructorEditSessionPrivilegesFormModel.sessionLevel.canviewsessioninsection"
+                   (ngModelChange)="triggerModelChangeForSessionLevelPrivileges('canviewsessioninsection', $event, k)">
+          </td>
+          <td class="align-center">
+            <input type="checkbox" [ngModel]="instructorEditSessionPrivilegesFormModel.sessionLevel.canmodifysessioncommentinsection"
+                   (ngModelChange)="triggerModelChangeForSessionLevelPrivileges('canmodifysessioncommentinsection', $event, k)">
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

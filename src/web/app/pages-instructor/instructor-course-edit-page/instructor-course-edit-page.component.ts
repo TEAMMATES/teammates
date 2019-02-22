@@ -11,14 +11,19 @@ import { Instructor } from '../../Instructor';
 import { CourseEditFormModel } from './course-edit-form/course-edit-form-model';
 import { DeleteInstructorModalComponent } from './delete-instructor-modal/delete-instructor-modal.component';
 import { InstructorEditFormModel } from "./instructor-edit-form/instructor-edit-form-model";
-import { CourseLevelPrivileges, DefaultPrivileges, Privileges, Role, } from './instructor-privileges-model';
+import {
+  CourseLevelPrivileges, Privileges, Role, SectionLevelPrivileges, SessionLevelPrivileges,
+} from './instructor-privileges-model';
 import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
+import {
+  InstructorEditSectionPrivilegesFormModel,
+  InstructorEditSessionPrivilegesFormModel
+} from "./instructor-edit-form/instructor-edit-section-privileges-form/instructor-edit-section-privileges-form-model";
 
 interface Course {
   id: string;
   name: string;
-  creationDate: string;
   timeZone: string;
 }
 
@@ -64,7 +69,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   instructorToShowIndex: number = -1;
   sectionNames: string[] = [];
   feedbackNames: string[] = [];
-  defaultPrivileges!: DefaultPrivileges;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -174,12 +178,74 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isDisplayedToStudents: instructor.isDisplayedToStudents,
       displayedName: instructor.displayedName,
       courseLevel: instructor.privileges.courseLevel,
-      sectionLevel: instructor.privileges.sectionLevel,
-      sessionLevel: instructor.privileges.sessionLevel,
+      instructorEditSectionPrivilegesFormModels:
+          this.getInstructorEditSectionPrivilegesFormModels(instructor.privileges),
 
       isEditable: false,
       isSaving: false,
     };
+  }
+
+  /**
+   * Converts an instructor's privileges to a section privilege form model.
+   */
+  private getInstructorEditSectionPrivilegesFormModels(privileges: Privileges): InstructorEditSectionPrivilegesFormModel[] {
+    let instructorEditSectionPrivilegesFormModels: InstructorEditSectionPrivilegesFormModel[] = [];
+
+    Object.keys(privileges.sectionLevel).forEach((section: string) => {
+      const instructorEditSectionPrivilegesFormModel: InstructorEditSectionPrivilegesFormModel = {
+        sections: this.getSectionMap(section),
+        sectionLevel: privileges.sectionLevel[section],
+        instructorEditSessionPrivilegesFormModels:
+            this.getInstructorEditSessionPrivilegesFormModels(privileges, section),
+
+        isSessionPrivilegesVisible: true,
+      };
+      instructorEditSectionPrivilegesFormModels.push(instructorEditSectionPrivilegesFormModel);
+    });
+
+    return instructorEditSectionPrivilegesFormModels;
+  }
+
+  /**
+   * Gets a section map where only the input section is marked as having special privileges.
+   */
+  private getSectionMap(section: string): { [section: string]: boolean } {
+    let sectionMap: { [section: string]: boolean } = {};
+
+    this.sectionNames.forEach((sectionName: string) => {
+      if (sectionName == section) {
+        sectionMap[sectionName] = true;
+      } else {
+        sectionMap[sectionName] = false;
+      }
+    });
+    return sectionMap;
+  }
+
+  /**
+   * Converts an instructor's privileges to a session privilege form model.
+   */
+  private getInstructorEditSessionPrivilegesFormModels(privileges: Privileges,
+                                                      section: string): InstructorEditSessionPrivilegesFormModel[] {
+    let instructorEditSessionPrivilegesFormModels: InstructorEditSessionPrivilegesFormModel[] = [];
+
+    this.feedbackNames.forEach((session: string) => {
+      let sessionLevelPrivileges: SessionLevelPrivileges = privileges.sessionLevel[section][session];
+
+      // Use section level privileges by default if there are no special session permissions
+      if (sessionLevelPrivileges == null) {
+        sessionLevelPrivileges = privileges.sectionLevel[section];
+      }
+
+      const instructorEditSessionPrivilegesFormModel: InstructorEditSessionPrivilegesFormModel = {
+        sessionName: session,
+        sessionLevel: sessionLevelPrivileges,
+      };
+      instructorEditSessionPrivilegesFormModels.push(instructorEditSessionPrivilegesFormModel);
+    });
+
+    return instructorEditSessionPrivilegesFormModels;
   }
 
   /**
@@ -192,7 +258,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Saves the updated instructor details.
    */
-  editInstructorHandler(instructorEditFormModel: InstructorEditFormModel, index: number): void {
+  editInstructorHandler(instructorEditFormModel: InstructorEditFormModel, instructorIndex: number): void {
     instructorEditFormModel.isSaving = true;
 
     let paramsMap: { [key: string]: string } = {
@@ -210,86 +276,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }
 
     if (instructorEditFormModel.role == Role.CUSTOM) {
-
       paramsMap = this.addCourseLevelParams(instructorEditFormModel, paramsMap);
-
-      /**
-       // Append custom section level privileges
-       const tuneSectionGroupPermissions: (FormArray | null) = (instr.controls.tunePermissions as FormGroup)
-       .controls.tuneSectionGroupPermissions as FormArray;
-
-       const newSectionLevelPrivileges: { [key: string]: SectionLevelPrivileges } = {};
-       const newSessionLevelPrivileges: { [section: string]: { [session: string]: SessionLevelPrivileges } } = {};
-
-       tuneSectionGroupPermissions.controls.forEach((sectionGroupPermissions: AbstractControl, panelIdx: number) => {
-        const specialSections: string[] = [];
-
-        // Mark section as special if it has been checked in a section group
-        this.sectionNames.forEach((section: string, sectionIdx: number) => {
-          if ((sectionGroupPermissions as FormGroup).controls[section].value) {
-            paramsMap[`issectiongroup${sectionIdx}set`] = 'true';
-            paramsMap[`sectiongroup${panelIdx}section${sectionIdx}`] = section;
-            specialSections.push(section);
-          }
-        });
-
-        // Include section permissions for a section group
-        const permissionsInSection: (FormGroup | null) = (sectionGroupPermissions as FormGroup)
-            .controls.permissionsForSection as FormGroup;
-        Object.keys(permissionsInSection.controls).forEach((permission: string) => {
-          if (permissionsInSection.controls[permission].value) {
-            paramsMap[`${permission}sectiongroup${panelIdx}`] = 'true';
-          }
-        });
-
-        // Save new section level privileges
-        specialSections.forEach((section: string) => {
-          newSectionLevelPrivileges[section] = permissionsInSection.value;
-        });
-
-        // Append custom session level privileges
-        const permissionsForSessions: (FormGroup | null) = (sectionGroupPermissions as FormGroup)
-            .controls.permissionsForSessions as FormGroup;
-        const specialSessionsAndSessionPermissions: { [session: string]: SessionLevelPrivileges } = {};
-
-        // Mark session as special if a session has different permissions from the section permissions
-        const sectionLevelSessionPrivileges: SessionLevelPrivileges = {
-          canviewsessioninsection: permissionsInSection.controls.canviewsessioninsection.value,
-          cansubmitsessioninsection: permissionsInSection.controls.cansubmitsessioninsection.value,
-          canmodifysessioncommentinsection: permissionsInSection.controls.canmodifysessioncommentinsection.value,
-        };
-
-        this.feedbackNames.forEach((feedback: string) => {
-          const permissionsForSession: (FormGroup | null) = permissionsForSessions.controls[feedback] as FormGroup;
-          if (permissionsForSession.value !== sectionLevelSessionPrivileges) {
-            Object.keys(permissionsForSession.controls).forEach((permission: string) => {
-              if (permissionsForSession.controls[permission].value) {
-                paramsMap[`${permission}sectiongroup${panelIdx}feedback${feedback}`] = 'true';
-              }
-            });
-            specialSessionsAndSessionPermissions[feedback] = permissionsForSession.value;
-          }
-        });
-
-        if (Object.keys(specialSessionsAndSessionPermissions).length > 0) {
-          paramsMap[`issectiongroup${panelIdx}sessionsset`] = 'true';
-        }
-
-        // Save new section level privileges
-        specialSections.forEach((section: string) => {
-          newSessionLevelPrivileges[section] = specialSessionsAndSessionPermissions;
-        });
-      });
-
-       editedInstructor.privileges.sectionLevel = newSectionLevelPrivileges;
-       editedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
-       }*/
+      paramsMap = this.addSectionAndSessionLevelParams(instructorEditFormModel, paramsMap);
     }
 
     this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
         .subscribe((updatedInstructor: Instructor) => {
-          this.instructorEditFormModels[index] = this.getInstructorEditFormModel(updatedInstructor);
-          this.instructorEditFormModels[index].isSaving = false;
+          console.log('updated: ');
+          console.log(updatedInstructor);
+          this.instructorEditFormModels[instructorIndex] = this.getInstructorEditFormModel(updatedInstructor);
+          this.instructorEditFormModels[instructorIndex].isSaving = false;
           this.instructorFormModels.set(updatedInstructor.googleId, updatedInstructor);
 
           if (updatedInstructor.googleId == this.instructor.googleId) {
@@ -303,6 +299,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
         });
   }
 
+  /**
+   * Adds course level permissions to be saved to the parameters map.
+   */
   private addCourseLevelParams(instructorEditFormModel: InstructorEditFormModel,
                                paramsMap: { [key: string]: string }): { [key: string]: string } {
     const courseLevelPrivileges: CourseLevelPrivileges = instructorEditFormModel.courseLevel;
@@ -315,6 +314,98 @@ export class InstructorCourseEditPageComponent implements OnInit {
     });
 
     return paramsMap;
+  }
+
+  /**
+   * Adds section and session level permissions to be saved to the parameters map.
+   */
+  private addSectionAndSessionLevelParams(instructorEditFormModel: InstructorEditFormModel,
+                                          paramsMap: { [key: string]: string }): { [key: string]: string } {
+
+    instructorEditFormModel.instructorEditSectionPrivilegesFormModels.forEach(
+        (instructorEditSectionPrivilegesFormModel: InstructorEditSectionPrivilegesFormModel,
+         sectionGroupIdx: number) => {
+
+          let hasSpecialPrivileges: boolean =
+              this.checkSpecialPrivileges(instructorEditFormModel, instructorEditSectionPrivilegesFormModel);
+
+          // Skip models without any special privileges
+          if (!hasSpecialPrivileges) {
+            return;
+          }
+
+          paramsMap[`issectiongroup${sectionGroupIdx}sessionsset`] = 'true';
+
+          // Mark section as special if it has been checked in a section group
+          Object.keys(instructorEditSectionPrivilegesFormModel.sections)
+              .forEach((section: string, sectionIdx: number) => {
+                if (instructorEditSectionPrivilegesFormModel.sections[section]) {
+                  paramsMap[`issectiongroup${sectionIdx}set`] = 'true';
+                  paramsMap[`sectiongroup${sectionGroupIdx}section${sectionIdx}`] = section;
+                }
+              });
+
+          // Include section permissions for a section group
+          Object.keys(instructorEditSectionPrivilegesFormModel.sectionLevel).forEach((permission: string) => {
+            if (instructorEditSectionPrivilegesFormModel.sectionLevel[permission]) {
+              paramsMap[`${permission}sectiongroup${sectionGroupIdx}`] = 'true';
+            }
+          });
+
+          // Append custom session level privileges
+          const instructorEditSessionPrivilegesFormModels: InstructorEditSessionPrivilegesFormModel[] =
+              instructorEditSectionPrivilegesFormModel.instructorEditSessionPrivilegesFormModels;
+
+          instructorEditSessionPrivilegesFormModels.forEach(
+              (instructorEditSessionPrivilegesFormModel: InstructorEditSessionPrivilegesFormModel) => {
+                const sessionName: string = instructorEditSessionPrivilegesFormModel.sessionName;
+
+                Object.keys(instructorEditSessionPrivilegesFormModel.sessionLevel)
+                    .forEach((permission: string) => {
+                      if (instructorEditSessionPrivilegesFormModel.sessionLevel[permission]) {
+                        paramsMap[`${permission}sectiongroup${sectionGroupIdx}feedback${sessionName}`] = 'true';
+                      }
+                    });
+              });
+        });
+
+    return paramsMap;
+  }
+
+  /**
+   * Checks if an instructor edit section privilege card has special privileges to be saved.
+   */
+  private checkSpecialPrivileges(instructorEditFormModel: InstructorEditFormModel,
+                                 instructorEditSectionPrivilegesFormModel: InstructorEditSectionPrivilegesFormModel): boolean {
+
+    let hasSpecialSectionPrivileges: boolean = false;
+    let hasSpecialSessionPrivileges: boolean = false;
+
+    const courseLevelAsSectionLevel: SectionLevelPrivileges = {
+      canviewstudentinsection: instructorEditFormModel.courseLevel.canviewstudentinsection,
+      canviewsessioninsection: instructorEditFormModel.courseLevel.canviewsessioninsection,
+      cansubmitsessioninsection: instructorEditFormModel.courseLevel.cansubmitsessioninsection,
+      canmodifysessioncommentinsection: instructorEditFormModel.courseLevel.canmodifysessioncommentinsection,
+    };
+
+    if (instructorEditSectionPrivilegesFormModel.sectionLevel != courseLevelAsSectionLevel) {
+      hasSpecialSectionPrivileges = true;
+    }
+
+    const sectionLevelAsSessionLevel: SessionLevelPrivileges = {
+      canviewsessioninsection: instructorEditSectionPrivilegesFormModel.sectionLevel.canviewsessioninsection,
+      cansubmitsessioninsection: instructorEditSectionPrivilegesFormModel.sectionLevel.cansubmitsessioninsection,
+      canmodifysessioncommentinsection: instructorEditSectionPrivilegesFormModel.sectionLevel.canmodifysessioncommentinsection,
+    };
+
+    instructorEditSectionPrivilegesFormModel.instructorEditSessionPrivilegesFormModels.forEach(
+        (instructorEditSessionPrivilegesFormModel: InstructorEditSessionPrivilegesFormModel) => {
+          if (instructorEditSessionPrivilegesFormModel.sessionLevel != sectionLevelAsSessionLevel) {
+            hasSpecialSessionPrivileges = true;
+          }
+        });
+
+    return hasSpecialSectionPrivileges || hasSpecialSessionPrivileges;
   }
 
   /******************************************************************************
@@ -504,153 +595,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.instructorList.push(instructor);
     this.initEditInstructorsForm();
   }
-
-  /**
-   * Adds an additional panel to modify custom section privileges for a given instructor.
-  addTuneSectionGroupPermissionsPanel(instr: FormGroup, index: number): void {
-    const instructor: InstructorAttributes = this.instructorList[index];
-    const newSection: FormGroup = this.fb.group({
-      permissionsForSection: this.fb.group({
-        canviewstudentinsection: instructor.privileges.courseLevel.canviewstudentinsection,
-        cansubmitsessioninsection: instructor.privileges.courseLevel.cansubmitsessioninsection,
-        canviewsessioninsection: instructor.privileges.courseLevel.canviewsessioninsection,
-        canmodifysessioncommentinsection: instructor.privileges.courseLevel.canmodifysessioncommentinsection,
-      }),
-      permissionsForSessions: this.fb.group({}),
-    });
-
-    this.sectionNames.forEach((sectionName: string) => {
-      newSection.addControl(sectionName, this.fb.control(false));
-    });
-
-    const sectionPrivileges: FormGroup = newSection.controls.permissionsForSection as FormGroup;
-    sectionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
-      if (!isAbleToSubmit) {
-        sectionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
-      }
-    });
-
-    sectionPrivileges.controls.canmodifysessioncommentinsection.valueChanges.subscribe((isAbleToModify: boolean) => {
-      if (isAbleToModify) {
-        sectionPrivileges.controls.canviewsessioninsection.setValue(true);
-      }
-    });
-
-    this.feedbackNames.forEach((feedback: string) => {
-      const defaultSessionPrivileges: FormGroup = this.fb.group({
-        canviewsessioninsection: false,
-        cansubmitsessioninsection: false,
-        canmodifysessioncommentinsection: false,
-      });
-
-      defaultSessionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
-        if (!isAbleToSubmit) {
-          defaultSessionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
-        }
-      });
-
-      defaultSessionPrivileges.controls.canmodifysessioncommentinsection.valueChanges
-          .subscribe((isAbleToModify: boolean) => {
-            if (isAbleToModify) {
-              defaultSessionPrivileges.controls.canviewsessioninsection.setValue(true);
-            }
-          });
-
-      (newSection.controls.permissionsForSessions as FormGroup).addControl(feedback, defaultSessionPrivileges);
-    });
-
-    ((instr.controls.tunePermissions as FormGroup).controls.tuneSectionGroupPermissions as FormArray).push(newSection);
-  }
-
-  /**
-   * Adds a default tune section group permission panel.
-  addEmptyTuneSectionGroupPermissionsPanel(instr: FormGroup): void {
-    const newSection: FormGroup = this.fb.group({
-      permissionsForSection: this.fb.group({
-        canviewstudentinsection: false,
-        cansubmitsessioninsection: false,
-        canviewsessioninsection: false,
-        canmodifysessioncommentinsection: false,
-      }),
-      permissionsForSessions: this.fb.group({}),
-    });
-
-    this.sectionNames.forEach((sectionName: string) => {
-      newSection.addControl(sectionName, this.fb.control(false));
-    });
-
-    const sectionPrivileges: FormGroup = newSection.controls.permissionsForSection as FormGroup;
-    sectionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
-      if (!isAbleToSubmit) {
-        sectionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
-      }
-    });
-
-    sectionPrivileges.controls.canmodifysessioncommentinsection.valueChanges.subscribe((isAbleToModify: boolean) => {
-      if (isAbleToModify) {
-        sectionPrivileges.controls.canviewsessioninsection.setValue(true);
-      }
-    });
-
-    this.feedbackNames.forEach((feedback: string) => {
-      const defaultSessionPrivileges: FormGroup = this.fb.group({
-        canviewsessioninsection: false,
-        cansubmitsessioninsection: false,
-        canmodifysessioncommentinsection: false,
-      });
-
-      defaultSessionPrivileges.controls.canviewsessioninsection.valueChanges.subscribe((isAbleToSubmit: boolean) => {
-        if (!isAbleToSubmit) {
-          defaultSessionPrivileges.controls.canmodifysessioncommentinsection.setValue(false);
-        }
-      });
-
-      defaultSessionPrivileges.controls.canmodifysessioncommentinsection.valueChanges
-          .subscribe((isAbleToModify: boolean) => {
-            if (isAbleToModify) {
-              defaultSessionPrivileges.controls.canviewsessioninsection.setValue(true);
-            }
-          });
-
-      (newSection.controls.permissionsForSessions as FormGroup).addControl(feedback, defaultSessionPrivileges);
-    });
-
-    ((instr.controls.tunePermissions as FormGroup).controls.tuneSectionGroupPermissions as FormArray).push(newSection);
-  }
-
-  /**
-   * Removes a panel to modify custom section privileges for a given instructor.
-  removeTuneSectionGroupPermissionsPanel(instr: FormGroup, index: number): void {
-    ((instr.controls.tunePermissions as FormGroup).controls.tuneSectionGroupPermissions as FormArray).removeAt(index);
-  }
-
-  /**
-   * Hides session level permissions for a section panel.
-  hideSessionLevelPermissions(panelIdx: number, sectionIdx: number): void {
-    const table: (HTMLElement | null) = document.getElementById(`tune-session-permissions-${panelIdx}-${sectionIdx}`);
-    const hideLink: (HTMLElement | null) = document.getElementById(`hide-link-${panelIdx}-${sectionIdx}`);
-    const showLink: (HTMLElement | null) = document.getElementById(`show-link-${panelIdx}-${sectionIdx}`);
-
-    if (table != null && hideLink != null && showLink != null) {
-      table.style.display = 'none';
-      hideLink.style.display = 'none';
-      showLink.style.display = 'block';
-    }
-  }
-
-  /**
-   * Shows session level permissions for a section panel.
-  showSessionLevelPermissions(panelIdx: number, sectionIdx: number): void {
-    const table: (HTMLElement | null) = document.getElementById(`tune-session-permissions-${panelIdx}-${sectionIdx}`);
-    const hideLink: (HTMLElement | null) = document.getElementById(`hide-link-${panelIdx}-${sectionIdx}`);
-    const showLink: (HTMLElement | null) = document.getElementById(`show-link-${panelIdx}-${sectionIdx}`);
-
-    if (table != null && hideLink != null && showLink != null) {
-      table.style.display = 'block';
-      hideLink.style.display = 'block';
-      showLink.style.display = 'none';
-    }
-  }*/
 
   /******************************************************************************
    * MODAL RELATED FUNCTIONS

@@ -9,13 +9,15 @@
 </div>
 
 <div *ngFor="let instructorEditFormModel of instructorEditFormModels; let i = index; trackBy: trackInstructorEditFormByFn">
-  <tm-instructor-edit-form (resendReminderEvent)="resendReminderHandler(i)"
-                           (viewPrivilegesEvent)="viewPrivilegesHandler($event.role, $event.privileges)"
-                           (editInstructorEvent)="editInstructorHandler($event, i)"
-                           (deleteInstructorEvent)="deleteInstructorHandler(i)"
+  <tm-instructor-edit-form [(formModel)]="instructorEditFormModel"
                            [(modelNumber)]="i"
                            [(canModifyInstructor)]="instructor.privileges.courseLevel.canmodifyinstructor"
-                           [(formModel)]="instructorEditFormModel"></tm-instructor-edit-form>
+                           [(sectionNames)]="this.sectionNames"
+                           [(sessionNames)]="this.feedbackNames"
+                           (resendReminderEvent)="resendReminderHandler(i)"
+                           (viewPrivilegesEvent)="viewPrivilegesHandler($event.role, $event.privileges)"
+                           (editInstructorEvent)="editInstructorHandler($event, i)"
+                           (deleteInstructorEvent)="deleteInstructorHandler(i)"></tm-instructor-edit-form>
 </div>
 
 <!--

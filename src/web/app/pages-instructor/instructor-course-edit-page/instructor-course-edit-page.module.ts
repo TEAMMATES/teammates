@@ -10,6 +10,7 @@ import { InstructorCourseEditPageComponent } from './instructor-course-edit-page
 import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
 import { InstructorEditFormComponent } from './instructor-edit-form/instructor-edit-form.component';
+import { InstructorEditSectionPrivilegesFormComponent } from './instructor-edit-form/instructor-edit-section-privileges-form/instructor-edit-section-privileges-form.component';
 
 /**
  * Module for instructor course edit page.
@@ -28,6 +29,7 @@ import { InstructorEditFormComponent } from './instructor-edit-form/instructor-e
     DeleteInstructorModalComponent,
     InstructorCourseEditPageComponent,
     InstructorEditFormComponent,
+    InstructorEditSectionPrivilegesFormComponent,
     ResendReminderModalComponent,
     ViewPrivilegesModalComponent,
   ],
