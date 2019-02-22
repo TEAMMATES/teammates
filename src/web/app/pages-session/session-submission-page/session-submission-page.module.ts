@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import {
-  QuestionTypesSessionSubmissionModule,
-} from '../../components/question-types/question-types-session-submission/question-types-session-submission.module';
+  QuestionSubmissionFormModule,
+} from '../../components/question-submission-form/question-submission-form.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import {
   FeedbackSessionClosedModalComponent,
@@ -32,7 +32,7 @@ import { SessionSubmissionPageComponent } from './session-submission-page.compon
     CommonModule,
     FormsModule,
     NgbModule,
-    QuestionTypesSessionSubmissionModule,
+    QuestionSubmissionFormModule,
   ],
   declarations: [
     SavingCompleteModalComponent,

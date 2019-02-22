@@ -23,7 +23,7 @@ import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
-} from '../../components/question-types/question-types-session-submission/question-submission-form-model';
+} from '../../components/question-submission-form/question-submission-form-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Instructor } from '../../Instructor';
 import { Intent } from '../../Intent';
