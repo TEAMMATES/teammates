@@ -43,6 +43,7 @@ public class ActionFactory {
         map(ResourceURIs.ACCOUNTS_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
+        map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
         map(ResourceURIs.COURSE, PUT, ArchiveCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
@@ -85,7 +86,6 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES, POST, AddInstructorCourseAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE, PUT, RestoreInstructorSoftDeletedCourseAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE_ALL, PUT, RestoreAllInstructorSoftDeletedCoursesAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE, DELETE, DeleteInstructorSoftDeletedCourseAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL, DELETE,
@@ -102,7 +102,6 @@ public class ActionFactory {
         map(ResourceURIs.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, GET, SearchStudentsAndFeedbackSessionDataAction.class);
         map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS_EDIT, PUT, PutCourseStudentDetailsEditAction.class);
-
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_EDIT_DETAILS_SAVE, PUT, SaveCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_DELETE, DELETE, DeleteCourseAction.class);

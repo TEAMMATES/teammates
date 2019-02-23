@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 /**
  * Action: Restores a soft-deleted course from Recycle Bin.
  */
-public class RestoreInstructorSoftDeletedCourseAction extends Action {
+public class RestoreCourseAction extends Action {
 
     private String idOfCourseToRestore;
 

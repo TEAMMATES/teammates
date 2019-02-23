@@ -7,23 +7,23 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.RestoreInstructorSoftDeletedCourseAction;
+import teammates.ui.webapi.action.RestoreCourseAction;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link RestoreInstructorSoftDeletedCourseAction}.
+ * SUT: {@link RestoreCourseAction}.
  */
-public class RestoreInstructorSoftDeletedCourseActionTest
-        extends BaseActionTest<RestoreInstructorSoftDeletedCourseAction> {
+public class RestoreCourseActionTest
+        extends BaseActionTest<RestoreCourseAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.INSTRUCTOR_COURSES_RESTORE;
+        return Const.ResourceURIs.BIN_COURSE;
     }
 
     @Override
     protected String getRequestMethod() {
-        return PUT;
+        return DELETE;
     }
 
     @Override
@@ -37,7 +37,6 @@ public class RestoreInstructorSoftDeletedCourseActionTest
         ______TS("Typical case, restore a soft-deleted course from Recycle Bin");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
@@ -45,7 +44,7 @@ public class RestoreInstructorSoftDeletedCourseActionTest
         CoursesLogic.inst().moveCourseToRecycleBin(courseId);
         assertEquals(courseId, CoursesLogic.inst().getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
 
-        RestoreInstructorSoftDeletedCourseAction action = getAction(submissionParams);
+        RestoreCourseAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         MessageOutput message = (MessageOutput) result.getOutput();
 
