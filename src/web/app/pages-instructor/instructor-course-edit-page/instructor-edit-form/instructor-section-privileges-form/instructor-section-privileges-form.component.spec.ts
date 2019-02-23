@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AjaxLoadingModule } from '../../../components/ajax-loading/ajax-loading.module';
-import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
-import { CourseEditFormComponent } from './course-edit-form.component';
+import { AjaxLoadingModule } from '../../../../components/ajax-loading/ajax-loading.module';
+import { TeammatesCommonModule } from '../../../../components/teammates-common/teammates-common.module';
+import { InstructorSectionPrivilegesFormFormComponent } from './instructor-section-privileges-form.component';
 
-describe('CourseEditFormComponent', () => {
-  let component: CourseEditFormComponent;
-  let fixture: ComponentFixture<CourseEditFormComponent>;
+describe('InstructorSectionPrivilegesFormFormComponent', () => {
+  let component: InstructorSectionPrivilegesFormFormComponent;
+  let fixture: ComponentFixture<InstructorSectionPrivilegesFormFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CourseEditFormComponent],
+      declarations: [InstructorSectionPrivilegesFormFormComponent],
       imports: [
         AjaxLoadingModule,
         FormsModule,
@@ -21,14 +20,13 @@ describe('CourseEditFormComponent', () => {
         ReactiveFormsModule,
         TeammatesCommonModule,
         CommonModule,
-        HttpClientTestingModule,
       ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CourseEditFormComponent);
+    fixture = TestBed.createComponent(InstructorSectionPrivilegesFormFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

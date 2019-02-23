@@ -1,7 +1,7 @@
-import { CourseLevelPrivileges, Role, } from '../instructor-privileges-model';
+import { CourseLevelPrivileges, Role } from '../instructor-privileges-model';
 import {
-  InstructorEditSectionPrivilegesFormModel,
-} from './instructor-edit-section-privileges-form/instructor-edit-section-privileges-form-model';
+  InstructorSectionPrivilegesFormFormModel,
+} from './instructor-section-privileges-form/instructor-section-privileges-form-model';
 
 /**
  * The mode of operation for the instructor edit form.
@@ -29,7 +29,7 @@ export interface InstructorEditFormModel {
   isDisplayedToStudents: boolean;
   displayedName: string;
   courseLevel: CourseLevelPrivileges;
-  instructorEditSectionPrivilegesFormModels: InstructorEditSectionPrivilegesFormModel[];
+  instructorSectionPrivilegesFormModels: InstructorSectionPrivilegesFormFormModel[];
 
   isEditable: boolean;
   isSaving: boolean;

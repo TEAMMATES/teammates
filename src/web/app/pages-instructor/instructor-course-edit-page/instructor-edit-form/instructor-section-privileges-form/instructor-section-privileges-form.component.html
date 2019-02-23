@@ -85,20 +85,20 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let instructorEditSessionPrivilegesFormModel of model.instructorEditSessionPrivilegesFormModels; let k=index; trackBy: trackInstructorEditSessionPrivilegesFormByFn">
+        <tr *ngFor="let instructorSessionPrivilegesFormFormModel of model.instructorSessionPrivilegesFormFormModels; let k=index; trackBy: trackInstructorSessionPrivilegesFormFormByFn">
           <td>
-            {{ instructorEditSessionPrivilegesFormModel.sessionName }}
+            {{ instructorSessionPrivilegesFormFormModel.sessionName }}
           </td>
           <td class="align-center">
-            <input type="checkbox" [ngModel]="instructorEditSessionPrivilegesFormModel.sessionLevel.cansubmitsessioninsection"
+            <input type="checkbox" [ngModel]="instructorSessionPrivilegesFormFormModel.sessionLevel.cansubmitsessioninsection"
                    (ngModelChange)="triggerModelChangeForSessionLevelPrivileges('cansubmitsessioninsection', $event, k)">
           </td>
           <td class="align-center">
-            <input type="checkbox" [ngModel]="instructorEditSessionPrivilegesFormModel.sessionLevel.canviewsessioninsection"
+            <input type="checkbox" [ngModel]="instructorSessionPrivilegesFormFormModel.sessionLevel.canviewsessioninsection"
                    (ngModelChange)="triggerModelChangeForSessionLevelPrivileges('canviewsessioninsection', $event, k)">
           </td>
           <td class="align-center">
-            <input type="checkbox" [ngModel]="instructorEditSessionPrivilegesFormModel.sessionLevel.canmodifysessioncommentinsection"
+            <input type="checkbox" [ngModel]="instructorSessionPrivilegesFormFormModel.sessionLevel.canmodifysessioncommentinsection"
                    (ngModelChange)="triggerModelChangeForSessionLevelPrivileges('canmodifysessioncommentinsection', $event, k)">
           </td>
         </tr>

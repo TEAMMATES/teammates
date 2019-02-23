@@ -1,45 +1,46 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {
-  InstructorEditSectionPrivilegesFormModel,
-  InstructorEditSessionPrivilegesFormModel
-} from './instructor-edit-section-privileges-form-model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   defaultSectionLevelPrivileges,
-  SectionLevelPrivileges, SessionLevelPrivileges,
+  SectionLevelPrivileges,
+  SessionLevelPrivileges,
 } from '../../instructor-privileges-model';
+import {
+  InstructorSectionPrivilegesFormFormModel,
+  InstructorSessionPrivilegesFormFormModel,
+} from './instructor-section-privileges-form-model';
 
 /**
  * Form to edit instructor section and session level privileges.
  */
 @Component({
   selector: 'tm-instructor-edit-section-privileges-form',
-  templateUrl: './instructor-edit-section-privileges-form.component.html',
-  styleUrls: ['./instructor-edit-section-privileges-form.component.scss']
+  templateUrl: './instructor-section-privileges-form.component.html',
+  styleUrls: ['./instructor-section-privileges-form.component.scss'],
 })
-export class InstructorEditSectionPrivilegesFormComponent implements OnInit {
+export class InstructorSectionPrivilegesFormFormComponent implements OnInit {
 
   @Input()
-  set formModel(model: InstructorEditSectionPrivilegesFormModel) {
+  set formModel(model: InstructorSectionPrivilegesFormFormModel) {
     this.model = model;
   }
 
-  model: InstructorEditSectionPrivilegesFormModel = {
+  model: InstructorSectionPrivilegesFormFormModel = {
     sections: {},
     sectionLevel: defaultSectionLevelPrivileges,
-    instructorEditSessionPrivilegesFormModels: [],
+    instructorSessionPrivilegesFormFormModels: [],
 
     isSessionPrivilegesVisible: false,
   };
 
   @Input()
-  sectionNames: string[] = []
+  sectionNames: string[] = [];
 
   @Input()
   sessionNames: string[] = [];
 
-  //event emission
+  // event emission
   @Output()
-  formModelChange: EventEmitter<InstructorEditSectionPrivilegesFormModel> = new EventEmitter();
+  formModelChange: EventEmitter<InstructorSectionPrivilegesFormFormModel> = new EventEmitter();
 
   @Output()
   deleteSectionPrivilegesFormEvent: EventEmitter<void> = new EventEmitter<void>();
@@ -77,11 +78,11 @@ export class InstructorEditSectionPrivilegesFormComponent implements OnInit {
     sectionPrivileges[privilege] = hasPrivilege;
 
     // check for specific value changes
-    if (privilege == 'canviewsessioninsection' && !hasPrivilege) {
+    if (privilege === 'canviewsessioninsection' && !hasPrivilege) {
       sectionPrivileges.canmodifysessioncommentinsection = false;
     }
 
-    if (privilege == 'canmodifysessioncommentinsection' && hasPrivilege) {
+    if (privilege === 'canmodifysessioncommentinsection' && hasPrivilege) {
       sectionPrivileges.canviewsessioninsection = true;
     }
     this.triggerModelChange('sectionLevel', sectionPrivileges);
@@ -91,29 +92,29 @@ export class InstructorEditSectionPrivilegesFormComponent implements OnInit {
    * Triggers the change of a model session level privilege.
    */
   triggerModelChangeForSessionLevelPrivileges(privilege: string, hasPrivilege: boolean, index: number): void {
-    const allSessionPrivileges: InstructorEditSessionPrivilegesFormModel[] =
-        this.model.instructorEditSessionPrivilegesFormModels;
+    const allSessionPrivileges: InstructorSessionPrivilegesFormFormModel[] =
+        this.model.instructorSessionPrivilegesFormFormModels;
     const sessionPrivileges: SessionLevelPrivileges = allSessionPrivileges[index].sessionLevel;
 
     sessionPrivileges[privilege] = hasPrivilege;
 
     // check for specific value changes
-    if (privilege == 'canviewsessioninsection' && !hasPrivilege) {
+    if (privilege === 'canviewsessioninsection' && !hasPrivilege) {
       sessionPrivileges.canmodifysessioncommentinsection = false;
     }
 
-    if (privilege == 'canmodifysessioncommentinsection' && hasPrivilege) {
+    if (privilege === 'canmodifysessioncommentinsection' && hasPrivilege) {
       sessionPrivileges.canviewsessioninsection = true;
     }
 
     allSessionPrivileges[index].sessionLevel = sessionPrivileges;
-    this.triggerModelChange('instructorEditSessionPrivilegesFormModels', allSessionPrivileges);
+    this.triggerModelChange('instructorSessionPrivilegesFormFormModels', allSessionPrivileges);
   }
 
   /**
    * Tracks the instructor edit session privileges form by the session name.
    */
-  trackInstructorEditSessionPrivilegesFormByFn(_: any, item: InstructorEditSessionPrivilegesFormModel): any {
+  trackInstructorSessionPrivilegesFormFormByFn(_: any, item: InstructorSessionPrivilegesFormFormModel): any {
     return item.sessionName;
   }
 

@@ -4,8 +4,8 @@ import {
 } from '../instructor-privileges-model';
 import { InstructorEditFormMode, InstructorEditFormModel } from './instructor-edit-form-model';
 import {
-  InstructorEditSectionPrivilegesFormModel, InstructorEditSessionPrivilegesFormModel,
-} from "./instructor-edit-section-privileges-form/instructor-edit-section-privileges-form-model";
+  InstructorSectionPrivilegesFormFormModel, InstructorSessionPrivilegesFormFormModel,
+} from './instructor-section-privileges-form/instructor-section-privileges-form-model';
 
 /**
  * Form to add/edit instructors in a course.
@@ -13,7 +13,7 @@ import {
 @Component({
   selector: 'tm-instructor-edit-form',
   templateUrl: './instructor-edit-form.component.html',
-  styleUrls: ['./instructor-edit-form.component.scss']
+  styleUrls: ['./instructor-edit-form.component.scss'],
 })
 export class InstructorEditFormComponent implements OnInit {
 
@@ -39,7 +39,7 @@ export class InstructorEditFormComponent implements OnInit {
     isDisplayedToStudents: false,
     displayedName: '',
     courseLevel: DefaultPrivileges.COOWNER.value.courseLevel,
-    instructorEditSectionPrivilegesFormModels: [],
+    instructorSectionPrivilegesFormModels: [],
 
     isEditable: false,
     isSaving: false,
@@ -85,11 +85,11 @@ export class InstructorEditFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    //initialise variables and constants
+    // initialise variables and constants
     this.displayedNamePlaceholder = this.model.isDisplayedToStudents ? 'E.g.Co-lecturer, Teaching Assistant'
         : '(This instructor will NOT be displayed to students)';
 
-    this.cancelEditTooltip = this.formMode == InstructorEditFormMode.ADD ? 'Cancel adding an instructor'
+    this.cancelEditTooltip = this.formMode === InstructorEditFormMode.ADD ? 'Cancel adding an instructor'
         : 'Cancel editing instructor details';
   }
 
@@ -121,11 +121,11 @@ export class InstructorEditFormComponent implements OnInit {
     coursePrivileges[privilege] = hasPrivilege;
 
     // check for specific value changes
-    if (privilege == 'canviewsessioninsection' && !hasPrivilege) {
+    if (privilege === 'canviewsessioninsection' && !hasPrivilege) {
       coursePrivileges.canmodifysessioncommentinsection = false;
     }
 
-    if (privilege == 'canmodifysessioncommentinsection' && hasPrivilege) {
+    if (privilege === 'canmodifysessioncommentinsection' && hasPrivilege) {
       coursePrivileges.canviewsessioninsection = true;
     }
 
@@ -143,7 +143,7 @@ export class InstructorEditFormComponent implements OnInit {
    * Handles view instructor privileges link click event.
    */
   viewPrivilegesHandler(role: string, courseLevel: CourseLevelPrivileges): void {
-    this.viewPrivilegesEvent.emit({role: role, courseLevel: courseLevel});
+    this.viewPrivilegesEvent.emit({ role, courseLevel });
   }
 
   /**
@@ -194,7 +194,7 @@ export class InstructorEditFormComponent implements OnInit {
   /**
    * Tracks the instructor edit form by instructor google id.
    */
-  trackInstructorEditSectionPrivilegesFormByFn(_: any, item: InstructorEditSectionPrivilegesFormModel): any {
+  trackInstructorSectionPrivilegesFormFormByFn(_: any, item: InstructorSectionPrivilegesFormFormModel): any {
     return item.sections;
   }
 
@@ -202,19 +202,19 @@ export class InstructorEditFormComponent implements OnInit {
    * Handles delete section privileges button click event.
    */
   deleteSectionPrivilegesFormHandler(index: number): void {
-    const sectionPrivileges: InstructorEditSectionPrivilegesFormModel[] =
-        this.model.instructorEditSectionPrivilegesFormModels;
+    const sectionPrivileges: InstructorSectionPrivilegesFormFormModel[] =
+        this.model.instructorSectionPrivilegesFormModels;
 
     sectionPrivileges.splice(index, 1);
-    this.triggerModelChange('instructorEditSectionPrivilegesFormModels', sectionPrivileges);
+    this.triggerModelChange('instructorSectionPrivilegesFormModels', sectionPrivileges);
   }
 
   /**
    * Adds a new instructor edit section privileges model.
    */
   addEditSectionPrivilegesModel(): void {
-    const sectionPrivileges: InstructorEditSectionPrivilegesFormModel[] =
-        this.model.instructorEditSectionPrivilegesFormModels;
+    const sectionPrivileges: InstructorSectionPrivilegesFormFormModel[] =
+        this.model.instructorSectionPrivilegesFormModels;
 
     const courseLevelAsSectionLevel: SectionLevelPrivileges = {
       canviewstudentinsection: this.model.courseLevel.canviewstudentinsection,
@@ -228,24 +228,24 @@ export class InstructorEditFormComponent implements OnInit {
       defaultUncheckedSectionsMap[section] = false;
     });
 
-    const instructorEditSectionPrivilegesFormModel: InstructorEditSectionPrivilegesFormModel = {
+    const instructorSectionPrivilegesFormModel: InstructorSectionPrivilegesFormFormModel = {
       sections: defaultUncheckedSectionsMap,
       sectionLevel: courseLevelAsSectionLevel,
-      instructorEditSessionPrivilegesFormModels: this.getInstructorEditSessionPrivilegesFormModels(),
+      instructorSessionPrivilegesFormFormModels: this.getInstructorSessionPrivilegesFormFormModels(),
 
       isSessionPrivilegesVisible: true,
     };
 
-    sectionPrivileges.push(instructorEditSectionPrivilegesFormModel);
+    sectionPrivileges.push(instructorSectionPrivilegesFormModel);
 
-    this.triggerModelChange('instructorEditSectionPrivilegesFormModels', sectionPrivileges);
+    this.triggerModelChange('instructorSectionPrivilegesFormModels', sectionPrivileges);
   }
 
   /**
    * Converts an instructor's privileges to a session privilege form model.
    */
-  private getInstructorEditSessionPrivilegesFormModels(): InstructorEditSessionPrivilegesFormModel[] {
-    let instructorEditSessionPrivilegesFormModels: InstructorEditSessionPrivilegesFormModel[] = [];
+  private getInstructorSessionPrivilegesFormFormModels(): InstructorSessionPrivilegesFormFormModel[] {
+    const instructorSessionPrivilegesFormFormModels: InstructorSessionPrivilegesFormFormModel[] = [];
 
     this.sessionNames.forEach((session: string) => {
       const courseLevelAsSessionLevel: SessionLevelPrivileges = {
@@ -254,14 +254,14 @@ export class InstructorEditFormComponent implements OnInit {
         canmodifysessioncommentinsection: this.model.courseLevel.canmodifysessioncommentinsection,
       };
 
-      const instructorEditSessionPrivilegesFormModel: InstructorEditSessionPrivilegesFormModel = {
+      const instructorSessionPrivilegesFormFormModel: InstructorSessionPrivilegesFormFormModel = {
         sessionName: session,
         sessionLevel: courseLevelAsSessionLevel,
       };
-      instructorEditSessionPrivilegesFormModels.push(instructorEditSessionPrivilegesFormModel);
+      instructorSessionPrivilegesFormFormModels.push(instructorSessionPrivilegesFormFormModel);
     });
 
-    return instructorEditSessionPrivilegesFormModels;
+    return instructorSessionPrivilegesFormFormModels;
   }
 
 }

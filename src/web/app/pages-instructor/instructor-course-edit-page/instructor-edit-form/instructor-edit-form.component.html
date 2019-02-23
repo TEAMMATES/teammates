@@ -169,15 +169,15 @@
             </div>
           </div>
         </div>
-        <div *ngFor="let instructorEditSectionPrivilegesFormModel of model.instructorEditSectionPrivilegesFormModels; let j=index; trackBy: trackInstructorEditSectionPrivilegesFormByFn">
-          <tm-instructor-edit-section-privileges-form [(formModel)]="instructorEditSectionPrivilegesFormModel"
+        <div *ngFor="let instructorSectionPrivilegesFormModel of model.instructorSectionPrivilegesFormModels; let j=index; trackBy: trackInstructorSectionPrivilegesFormFormByFn">
+          <tm-instructor-edit-section-privileges-form [(formModel)]="instructorSectionPrivilegesFormModel"
                                                       [(sectionNames)]="this.sectionNames"
                                                       [(sessionNames)]="this.sessionNames"
                                                       (deleteSectionPrivilegesFormEvent)="deleteSectionPrivilegesFormHandler(j)"></tm-instructor-edit-section-privileges-form>
         </div>
       </div>
     </div>
-    <a class="small" href="javascript:;" *ngIf="model.isEditable && model.role == Role.CUSTOM && model.instructorEditSectionPrivilegesFormModels.length !== this.sectionNames.length"
+    <a class="small" href="javascript:;" *ngIf="model.isEditable && model.role == Role.CUSTOM && model.instructorSectionPrivilegesFormModels.length !== this.sectionNames.length"
        (click)="addEditSectionPrivilegesModel()">
       Give different permissions for a specific section
     </a>

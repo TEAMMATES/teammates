@@ -4,13 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { CourseEditFormComponent } from './course-edit-form/course-edit-form.component';
 import { DeleteInstructorModalComponent } from './delete-instructor-modal/delete-instructor-modal.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
+import { InstructorEditFormComponent } from './instructor-edit-form/instructor-edit-form.component';
+import {
+  InstructorSectionPrivilegesFormFormComponent,
+} from './instructor-edit-form/instructor-section-privileges-form/instructor-section-privileges-form.component';
 import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
-import {CourseEditFormComponent} from "./course-edit-form/course-edit-form.component";
-import {InstructorEditFormComponent} from "./instructor-edit-form/instructor-edit-form.component";
-import {InstructorEditSectionPrivilegesFormComponent} from "./instructor-edit-form/instructor-edit-section-privileges-form/instructor-edit-section-privileges-form.component";
 
 /**
  * Module for instructor course edit page.
@@ -29,7 +31,7 @@ import {InstructorEditSectionPrivilegesFormComponent} from "./instructor-edit-fo
     DeleteInstructorModalComponent,
     InstructorCourseEditPageComponent,
     InstructorEditFormComponent,
-    InstructorEditSectionPrivilegesFormComponent,
+    InstructorSectionPrivilegesFormFormComponent,
     ResendReminderModalComponent,
     ViewPrivilegesModalComponent,
   ],

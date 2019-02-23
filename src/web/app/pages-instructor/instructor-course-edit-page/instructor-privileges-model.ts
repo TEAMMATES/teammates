@@ -35,7 +35,7 @@ export class DefaultPrivileges {
   /**
    * Instructor privileges for co-owner role.
    */
-  static COOWNER = new DefaultPrivileges(Role.COOWNER, {
+  static COOWNER: DefaultPrivileges = new DefaultPrivileges(Role.COOWNER, {
     courseLevel: {
       canmodifycourse: true,
       canmodifyinstructor: true,
@@ -53,7 +53,7 @@ export class DefaultPrivileges {
   /**
    * Instructor privileges for manager role.
    */
-  static MANAGER = new DefaultPrivileges(Role.MANAGER, {
+  static MANAGER: DefaultPrivileges = new DefaultPrivileges(Role.MANAGER, {
     courseLevel: {
       canmodifycourse: false,
       canmodifyinstructor: true,
@@ -71,7 +71,7 @@ export class DefaultPrivileges {
   /**
    * Instructor privileges for observer role.
    */
-  static OBSERVER = new DefaultPrivileges(Role.OBSERVER, {
+  static OBSERVER: DefaultPrivileges = new DefaultPrivileges(Role.OBSERVER, {
     courseLevel: {
       canmodifycourse: false,
       canmodifyinstructor: false,
@@ -89,7 +89,7 @@ export class DefaultPrivileges {
   /**
    * Instructor privileges for tutor role.
    */
-  static TUTOR = new DefaultPrivileges(Role.TUTOR, {
+  static TUTOR: DefaultPrivileges = new DefaultPrivileges(Role.TUTOR, {
     courseLevel: {
       canmodifycourse: false,
       canmodifyinstructor: false,
@@ -107,7 +107,7 @@ export class DefaultPrivileges {
   /**
    * Instructor privileges for custom role.
    */
-  static CUSTOM = new DefaultPrivileges(Role.CUSTOM, {
+  static CUSTOM: DefaultPrivileges = new DefaultPrivileges(Role.CUSTOM, {
     courseLevel: {
       canmodifycourse: false,
       canmodifyinstructor: false,
@@ -125,13 +125,13 @@ export class DefaultPrivileges {
   /**
    * Constructs an instance of a default privilege.
    */
-  private constructor(private key: string, public readonly value: Privileges) {
+  constructor(private key: string, readonly value: Privileges) {
   }
 
   /**
    * Returns the 'enum' name.
    */
-  toString() {
+  toString(): string {
     return this.key;
   }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -10,16 +9,16 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { Instructor } from '../../Instructor';
 import { CourseEditFormModel } from './course-edit-form/course-edit-form-model';
 import { DeleteInstructorModalComponent } from './delete-instructor-modal/delete-instructor-modal.component';
-import {InstructorEditFormMode, InstructorEditFormModel} from "./instructor-edit-form/instructor-edit-form-model";
+import { InstructorEditFormMode, InstructorEditFormModel } from './instructor-edit-form/instructor-edit-form-model';
+import {
+  InstructorSectionPrivilegesFormFormModel,
+  InstructorSessionPrivilegesFormFormModel,
+} from './instructor-edit-form/instructor-section-privileges-form/instructor-section-privileges-form-model';
 import {
   CourseLevelPrivileges, DefaultPrivileges, Privileges, Role, SectionLevelPrivileges, SessionLevelPrivileges,
 } from './instructor-privileges-model';
 import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
-import {
-  InstructorEditSectionPrivilegesFormModel,
-  InstructorEditSessionPrivilegesFormModel
-} from "./instructor-edit-form/instructor-edit-section-privileges-form/instructor-edit-section-privileges-form-model";
 
 interface Course {
   id: string;
@@ -68,7 +67,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     isDisplayedToStudents: true,
     displayedName: 'Instructor',
     courseLevel: DefaultPrivileges.COOWNER.value.courseLevel,
-    instructorEditSectionPrivilegesFormModels: [],
+    instructorSectionPrivilegesFormModels: [],
 
     isEditable: false,
     isSaving: false,
@@ -184,8 +183,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isDisplayedToStudents: instructor.isDisplayedToStudents,
       displayedName: instructor.displayedName,
       courseLevel: instructor.privileges.courseLevel,
-      instructorEditSectionPrivilegesFormModels:
-          this.getInstructorEditSectionPrivilegesFormModels(instructor.privileges),
+      instructorSectionPrivilegesFormModels:
+          this.getInstructorSectionPrivilegesFormFormModels(instructor.privileges),
 
       isEditable: false,
       isSaving: false,
@@ -195,32 +194,33 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Converts an instructor's privileges to a section privilege form model.
    */
-  private getInstructorEditSectionPrivilegesFormModels(privileges: Privileges): InstructorEditSectionPrivilegesFormModel[] {
-    let instructorEditSectionPrivilegesFormModels: InstructorEditSectionPrivilegesFormModel[] = [];
+  private getInstructorSectionPrivilegesFormFormModels(
+      privileges: Privileges): InstructorSectionPrivilegesFormFormModel[] {
+    const instructorSectionPrivilegesFormModels: InstructorSectionPrivilegesFormFormModel[] = [];
 
     Object.keys(privileges.sectionLevel).forEach((section: string) => {
-      const instructorEditSectionPrivilegesFormModel: InstructorEditSectionPrivilegesFormModel = {
+      const instructorSectionPrivilegesFormModel: InstructorSectionPrivilegesFormFormModel = {
         sections: this.getSectionMap(section),
         sectionLevel: privileges.sectionLevel[section],
-        instructorEditSessionPrivilegesFormModels:
-            this.getInstructorEditSessionPrivilegesFormModels(privileges, section),
+        instructorSessionPrivilegesFormFormModels:
+            this.getInstructorSessionPrivilegesFormFormModels(privileges, section),
 
         isSessionPrivilegesVisible: true,
       };
-      instructorEditSectionPrivilegesFormModels.push(instructorEditSectionPrivilegesFormModel);
+      instructorSectionPrivilegesFormModels.push(instructorSectionPrivilegesFormModel);
     });
 
-    return instructorEditSectionPrivilegesFormModels;
+    return instructorSectionPrivilegesFormModels;
   }
 
   /**
    * Gets a section map where only the input section is marked as having special privileges.
    */
   private getSectionMap(section: string): { [section: string]: boolean } {
-    let sectionMap: { [section: string]: boolean } = {};
+    const sectionMap: { [section: string]: boolean } = {};
 
     this.sectionNames.forEach((sectionName: string) => {
-      if (sectionName == section) {
+      if (sectionName === section) {
         sectionMap[sectionName] = true;
       } else {
         sectionMap[sectionName] = false;
@@ -232,26 +232,26 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Converts an instructor's privileges to a session privilege form model.
    */
-  private getInstructorEditSessionPrivilegesFormModels(privileges: Privileges,
-                                                      section: string): InstructorEditSessionPrivilegesFormModel[] {
-    let instructorEditSessionPrivilegesFormModels: InstructorEditSessionPrivilegesFormModel[] = [];
+  private getInstructorSessionPrivilegesFormFormModels(privileges: Privileges,
+                                                      section: string): InstructorSessionPrivilegesFormFormModel[] {
+    const instructorSessionPrivilegesFormFormModels: InstructorSessionPrivilegesFormFormModel[] = [];
 
     this.feedbackNames.forEach((session: string) => {
       let sessionLevelPrivileges: SessionLevelPrivileges = privileges.sessionLevel[section][session];
 
       // Use section level privileges by default if there are no special session permissions
-      if (sessionLevelPrivileges == null) {
+      if (sessionLevelPrivileges === null) {
         sessionLevelPrivileges = privileges.sectionLevel[section];
       }
 
-      const instructorEditSessionPrivilegesFormModel: InstructorEditSessionPrivilegesFormModel = {
+      const instructorSessionPrivilegesFormFormModel: InstructorSessionPrivilegesFormFormModel = {
         sessionName: session,
         sessionLevel: sessionLevelPrivileges,
       };
-      instructorEditSessionPrivilegesFormModels.push(instructorEditSessionPrivilegesFormModel);
+      instructorSessionPrivilegesFormFormModels.push(instructorSessionPrivilegesFormFormModel);
     });
 
-    return instructorEditSessionPrivilegesFormModels;
+    return instructorSessionPrivilegesFormFormModels;
   }
 
   /**
@@ -275,7 +275,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.instructorFormModels[instructorIndex] = updatedInstructor;
           this.instructorEditFormModels[instructorIndex] = this.getInstructorEditFormModel(updatedInstructor);
 
-          if (updatedInstructor.googleId == this.instructor.googleId) {
+          if (updatedInstructor.googleId === this.instructor.googleId) {
             this.instructor = updatedInstructor;
           }
 
@@ -291,17 +291,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   private addAdditionalParams(instructorEditFormModel: InstructorEditFormModel,
                               paramsMap: { [key: string]: string }): { [key: string]: string } {
+    let currentMap: { [key: string]: string } = paramsMap;
+
     const instructorIsDisplayed: string = 'instructorisdisplayed';
     if (instructorEditFormModel.isDisplayedToStudents) {
-      paramsMap[instructorIsDisplayed] = 'true';
+      currentMap[instructorIsDisplayed] = 'true';
     }
 
-    if (instructorEditFormModel.role == Role.CUSTOM) {
-      paramsMap = this.addCourseLevelParams(instructorEditFormModel, paramsMap);
-      paramsMap = this.addSectionAndSessionLevelParams(instructorEditFormModel, paramsMap);
+    if (instructorEditFormModel.role === Role.CUSTOM) {
+      currentMap = this.addCourseLevelParams(instructorEditFormModel, currentMap);
+      currentMap = this.addSectionAndSessionLevelParams(instructorEditFormModel, currentMap);
     }
 
-    return paramsMap;
+    return currentMap;
   }
 
   /**
@@ -327,12 +329,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
   private addSectionAndSessionLevelParams(instructorEditFormModel: InstructorEditFormModel,
                                           paramsMap: { [key: string]: string }): { [key: string]: string } {
 
-    instructorEditFormModel.instructorEditSectionPrivilegesFormModels.forEach(
-        (instructorEditSectionPrivilegesFormModel: InstructorEditSectionPrivilegesFormModel,
+    instructorEditFormModel.instructorSectionPrivilegesFormModels.forEach(
+        (instructorSectionPrivilegesFormModel: InstructorSectionPrivilegesFormFormModel,
          sectionGroupIdx: number) => {
 
-          let hasSpecialPrivileges: boolean =
-              this.checkSpecialPrivileges(instructorEditFormModel, instructorEditSectionPrivilegesFormModel);
+          const hasSpecialPrivileges: boolean =
+              this.checkSpecialPrivileges(instructorEditFormModel, instructorSectionPrivilegesFormModel);
 
           // Skip models without any special privileges
           if (!hasSpecialPrivileges) {
@@ -342,32 +344,32 @@ export class InstructorCourseEditPageComponent implements OnInit {
           paramsMap[`issectiongroup${sectionGroupIdx}sessionsset`] = 'true';
 
           // Mark section as special if it has been checked in a section group
-          Object.keys(instructorEditSectionPrivilegesFormModel.sections)
+          Object.keys(instructorSectionPrivilegesFormModel.sections)
               .forEach((section: string, sectionIdx: number) => {
-                if (instructorEditSectionPrivilegesFormModel.sections[section]) {
+                if (instructorSectionPrivilegesFormModel.sections[section]) {
                   paramsMap[`issectiongroup${sectionIdx}set`] = 'true';
                   paramsMap[`sectiongroup${sectionGroupIdx}section${sectionIdx}`] = section;
                 }
               });
 
           // Include section permissions for a section group
-          Object.keys(instructorEditSectionPrivilegesFormModel.sectionLevel).forEach((permission: string) => {
-            if (instructorEditSectionPrivilegesFormModel.sectionLevel[permission]) {
+          Object.keys(instructorSectionPrivilegesFormModel.sectionLevel).forEach((permission: string) => {
+            if (instructorSectionPrivilegesFormModel.sectionLevel[permission]) {
               paramsMap[`${permission}sectiongroup${sectionGroupIdx}`] = 'true';
             }
           });
 
           // Append custom session level privileges
-          const instructorEditSessionPrivilegesFormModels: InstructorEditSessionPrivilegesFormModel[] =
-              instructorEditSectionPrivilegesFormModel.instructorEditSessionPrivilegesFormModels;
+          const instructorSessionPrivilegesFormFormModels: InstructorSessionPrivilegesFormFormModel[] =
+              instructorSectionPrivilegesFormModel.instructorSessionPrivilegesFormFormModels;
 
-          instructorEditSessionPrivilegesFormModels.forEach(
-              (instructorEditSessionPrivilegesFormModel: InstructorEditSessionPrivilegesFormModel) => {
-                const sessionName: string = instructorEditSessionPrivilegesFormModel.sessionName;
+          instructorSessionPrivilegesFormFormModels.forEach(
+              (instructorSessionPrivilegesFormFormModel: InstructorSessionPrivilegesFormFormModel) => {
+                const sessionName: string = instructorSessionPrivilegesFormFormModel.sessionName;
 
-                Object.keys(instructorEditSessionPrivilegesFormModel.sessionLevel)
+                Object.keys(instructorSessionPrivilegesFormFormModel.sessionLevel)
                     .forEach((permission: string) => {
-                      if (instructorEditSessionPrivilegesFormModel.sessionLevel[permission]) {
+                      if (instructorSessionPrivilegesFormFormModel.sessionLevel[permission]) {
                         paramsMap[`${permission}sectiongroup${sectionGroupIdx}feedback${sessionName}`] = 'true';
                       }
                     });
@@ -381,7 +383,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Checks if an instructor edit section privilege card has special privileges to be saved.
    */
   private checkSpecialPrivileges(instructorEditFormModel: InstructorEditFormModel,
-                                 instructorEditSectionPrivilegesFormModel: InstructorEditSectionPrivilegesFormModel): boolean {
+                                 instructorSectionPrivilegesFormModel:
+                                     InstructorSectionPrivilegesFormFormModel): boolean {
 
     let hasSpecialSectionPrivileges: boolean = false;
     let hasSpecialSessionPrivileges: boolean = false;
@@ -393,19 +396,20 @@ export class InstructorCourseEditPageComponent implements OnInit {
       canmodifysessioncommentinsection: instructorEditFormModel.courseLevel.canmodifysessioncommentinsection,
     };
 
-    if (instructorEditSectionPrivilegesFormModel.sectionLevel != courseLevelAsSectionLevel) {
+    if (instructorSectionPrivilegesFormModel.sectionLevel !== courseLevelAsSectionLevel) {
       hasSpecialSectionPrivileges = true;
     }
 
     const sectionLevelAsSessionLevel: SessionLevelPrivileges = {
-      canviewsessioninsection: instructorEditSectionPrivilegesFormModel.sectionLevel.canviewsessioninsection,
-      cansubmitsessioninsection: instructorEditSectionPrivilegesFormModel.sectionLevel.cansubmitsessioninsection,
-      canmodifysessioncommentinsection: instructorEditSectionPrivilegesFormModel.sectionLevel.canmodifysessioncommentinsection,
+      canviewsessioninsection: instructorSectionPrivilegesFormModel.sectionLevel.canviewsessioninsection,
+      cansubmitsessioninsection: instructorSectionPrivilegesFormModel.sectionLevel.cansubmitsessioninsection,
+      canmodifysessioncommentinsection: instructorSectionPrivilegesFormModel.
+          sectionLevel.canmodifysessioncommentinsection,
     };
 
-    instructorEditSectionPrivilegesFormModel.instructorEditSessionPrivilegesFormModels.forEach(
-        (instructorEditSessionPrivilegesFormModel: InstructorEditSessionPrivilegesFormModel) => {
-          if (instructorEditSessionPrivilegesFormModel.sessionLevel != sectionLevelAsSessionLevel) {
+    instructorSectionPrivilegesFormModel.instructorSessionPrivilegesFormFormModels.forEach(
+        (instructorSessionPrivilegesFormFormModel: InstructorSessionPrivilegesFormFormModel) => {
+          if (instructorSessionPrivilegesFormFormModel.sessionLevel !== sectionLevelAsSessionLevel) {
             hasSpecialSessionPrivileges = true;
           }
         });
@@ -434,7 +438,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
           this.statusMessageService.showSuccessMessage(`The instructor ${addedInstructor.name} has been added ` +
               `successfully. An email containing how to 'join' this course will be sent to ${addedInstructor.email}` +
-              " in a few minutes.");
+              ' in a few minutes.');
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -452,7 +456,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isDisplayedToStudents: true,
       displayedName: 'Instructor',
       courseLevel: DefaultPrivileges.COOWNER.value.courseLevel,
-      instructorEditSectionPrivilegesFormModels: [],
+      instructorSectionPrivilegesFormModels: [],
 
       isEditable: false,
       isSaving: false,
@@ -463,7 +467,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Handles the cancel edit button click event.
    */
   cancelEditHandler(formMode: InstructorEditFormMode, index: number): void {
-    if (formMode == InstructorEditFormMode.ADD) {
+    if (formMode === InstructorEditFormMode.ADD) {
       this.resetInstructorAddFormModel();
     } else {
       const instructor: Instructor = this.instructorFormModels[index];

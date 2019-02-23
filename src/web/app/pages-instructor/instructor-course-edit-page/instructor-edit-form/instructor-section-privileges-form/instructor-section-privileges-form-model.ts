@@ -3,10 +3,10 @@ import { SectionLevelPrivileges, SessionLevelPrivileges } from '../../instructor
 /**
  * The form model of an instructor edit section privileges form.
  */
-export interface InstructorEditSectionPrivilegesFormModel {
+export interface InstructorSectionPrivilegesFormFormModel {
   sections: { [section: string]: boolean };
   sectionLevel: SectionLevelPrivileges;
-  instructorEditSessionPrivilegesFormModels: InstructorEditSessionPrivilegesFormModel[];
+  instructorSessionPrivilegesFormFormModels: InstructorSessionPrivilegesFormFormModel[];
 
   isSessionPrivilegesVisible: boolean;
 }
@@ -14,7 +14,7 @@ export interface InstructorEditSectionPrivilegesFormModel {
 /**
  * The form model of an instructor edit session privileges form.
  */
-export interface InstructorEditSessionPrivilegesFormModel {
+export interface InstructorSessionPrivilegesFormFormModel {
   sessionName: string;
   sessionLevel: SessionLevelPrivileges;
 }
