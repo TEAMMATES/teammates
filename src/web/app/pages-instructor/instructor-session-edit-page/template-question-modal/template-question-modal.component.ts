@@ -4,7 +4,7 @@ import { FeedbackQuestionsService, TemplateQuestion } from '../../../../services
 import { FeedbackQuestion } from '../../../../types/api-output';
 import {
   QuestionEditFormModel,
-} from '../../../components/question-types/question-types-session-edit/question-edit-form-model';
+} from '../../../components/question-edit-form/question-edit-form-model';
 
 interface TemplateQuestionModel {
   description: string;
