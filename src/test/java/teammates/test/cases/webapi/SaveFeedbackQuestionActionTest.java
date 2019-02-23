@@ -269,6 +269,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
                 logic.getFeedbackQuestion(typicalQuestion.getId()).getQuestionDescription());
     }
 
+    // TODO: ADD this test case in FeedbackTextQuestionDetailsTest
     @Test
     public void testExecute_invalidRecommendedLength_shouldThrowException() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -284,6 +285,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
 
         FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
+        // set recommended length as a negative integer
         textQuestionDetails.setRecommendedLength(-1);
         saveRequest.setQuestionDetails(textQuestionDetails);
         SaveFeedbackQuestionAction a = getAction(saveRequest, param);
@@ -293,6 +295,10 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         // question is not updated
         assertEquals(typicalQuestion.getQuestionDescription(),
                 logic.getFeedbackQuestion(typicalQuestion.getId()).getQuestionDescription());
+
+        // recommended length does not change
+        assertEquals(0, ((FeedbackTextQuestionDetails) typicalQuestion.getQuestionDetails())
+                .getRecommendedLength());
     }
 
     @Test
