@@ -82,6 +82,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   instructorToShowIndex: number = -1;
   sectionNames: string[] = [];
   feedbackNames: string[] = [];
+  course!: Course;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -108,6 +109,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.instructorToShowIndex = resp.instructorToShowIndex;
           this.sectionNames = resp.sectionNames;
           this.feedbackNames = resp.feedbackNames;
+          this.course = resp.courseToEdit;
 
           this.courseEditFormModel = this.getCourseEditFormModel(resp.courseToEdit);
 
@@ -154,6 +156,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
               + `Name: ${course.name}, Time zone: ${course.timeZone}`);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
+          this.courseEditFormModel = this.getCourseEditFormModel(this.course);
         });
   }
 
@@ -267,6 +270,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructoremail: instructorEditFormModel.email,
       instructorrole: instructorEditFormModel.role,
       instructordisplayname: instructorEditFormModel.displayedName,
+      instructorisdisplayed: instructorEditFormModel.isDisplayedToStudents.toString(),
     };
     paramsMap = this.addAdditionalParams(instructorEditFormModel, paramsMap);
 
@@ -283,6 +287,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
               .showSuccessMessage(`The changes to the instructor ${instructorEditFormModel.name} has been updated.`);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
+          this.cancelEditHandler(InstructorEditFormMode.EDIT, instructorIndex);
         });
   }
 
@@ -292,11 +297,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   private addAdditionalParams(instructorEditFormModel: InstructorEditFormModel,
                               paramsMap: { [key: string]: string }): { [key: string]: string } {
     let currentMap: { [key: string]: string } = paramsMap;
-
-    const instructorIsDisplayed: string = 'instructorisdisplayed';
-    if (instructorEditFormModel.isDisplayedToStudents) {
-      currentMap[instructorIsDisplayed] = 'true';
-    }
 
     if (instructorEditFormModel.role === Role.CUSTOM) {
       currentMap = this.addCourseLevelParams(instructorEditFormModel, currentMap);
@@ -428,11 +428,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructorrole: instructorAddForm.role,
       instructordisplayname: instructorAddForm.displayedName,
     };
+
+    const instructorIsDisplayed: string = 'instructorisdisplayed';
+    if (instructorAddForm.isDisplayedToStudents) {
+      paramsMap[instructorIsDisplayed] = 'true';
+    }
+
     paramsMap = this.addAdditionalParams(instructorAddForm, paramsMap);
 
     this.httpRequestService.put('/instructors/course/details/addInstructor', paramsMap)
         .subscribe((addedInstructor: Instructor) => {
-          this.resetInstructorAddFormModel();
           this.instructorEditFormModels.push(this.getInstructorEditFormModel(addedInstructor));
           this.instructorFormModels.push(addedInstructor);
 
@@ -442,6 +447,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
+    this.resetInstructorAddFormModel();
   }
 
   /**
