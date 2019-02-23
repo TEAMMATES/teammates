@@ -53,12 +53,12 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     public void putDocuments(List<InstructorAttributes> instructorParams) {
         List<SearchDocument> instructorDocuments = new ArrayList<>();
         for (InstructorAttributes instructor : instructorParams) {
-            if (instructor.key == null) {
-                instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
-            }
+            InstructorAttributes inst = instructor.key == null
+                    ? getInstructorForEmail(instructor.courseId, instructor.email)
+                    : instructor;
             // defensive coding for legacy data
-            if (instructor.key != null) {
-                instructorDocuments.add(new InstructorSearchDocument(instructor));
+            if (inst.key != null) {
+                instructorDocuments.add(new InstructorSearchDocument(inst));
             }
         }
         putDocuments(Const.SearchIndex.INSTRUCTOR, instructorDocuments);
@@ -173,6 +173,17 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         return makeAttributes(getInstructorEntitiesForCourse(courseId));
+    }
+
+    /**
+     * Preconditions: <br>
+     *  * All parameters are non-null.
+     * @return empty list if no matching objects.
+     */
+    public List<InstructorAttributes> getInstructorsDisplayedToStudents(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        return makeAttributes(getInstructorEntitiesThatAreDisplayedInCourse(courseId));
     }
 
     /**
@@ -332,6 +343,13 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
         return load().filter("courseId in", courseIds).list();
+    }
+
+    private List<Instructor> getInstructorEntitiesThatAreDisplayedInCourse(String courseId) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("isDisplayedToStudents =", true)
+                .list();
     }
 
     private Instructor getInstructorEntityForRegistrationKey(String key) {

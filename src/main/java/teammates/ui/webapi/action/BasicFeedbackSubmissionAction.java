@@ -46,7 +46,6 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
-
     /**
      * Gets the student involved in the submission process.
      */
@@ -101,6 +100,9 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getInstructorForEmail(courseId, previewAsPerson);
         } else {
+            if (userInfo == null) {
+                throw new UnauthorizedAccessException("Instructor must login to access");
+            }
             return logic.getInstructorForGoogleId(courseId, userInfo.getId());
         }
     }

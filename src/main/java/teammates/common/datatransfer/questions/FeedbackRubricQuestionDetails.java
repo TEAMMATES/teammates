@@ -136,7 +136,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (weight != null && choice != null) {
                     if (!rowAdded) {
                         weightRows++;
-                        rubricWeightsForEachCell.add(new ArrayList<Double>());
+                        rubricWeightsForEachCell.add(new ArrayList<>());
                         rowAdded = true;
                     }
                     try {
@@ -191,7 +191,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (description != null) {
                     if (!rowAdded) {
                         descRows++;
-                        rubricDescriptions.add(new ArrayList<String>());
+                        rubricDescriptions.add(new ArrayList<>());
                         rowAdded = true;
                     }
                     rubricDescriptions.get(descRows).add(description);
@@ -804,6 +804,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 ? df.format(rubricStats[subQnIndex][choiceIndex] * 100) + "%" : STATISTICS_NO_VALUE_STRING)
                 + " (" + responseFrequency[subQnIndex][choiceIndex] + ")"
                 + (hasAssignedWeights ? " [" + dfWeight.format(weights.get(subQnIndex).get(choiceIndex)) + "]" : "");
+    }
+
+    @Override
+    public String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent) {
+        // TODO
+        return "";
     }
 
     @Override

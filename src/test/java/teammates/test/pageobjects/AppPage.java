@@ -886,7 +886,7 @@ public abstract class AppPage {
      */
     public List<String> getTextsForAllStatusMessagesToUser() {
         List<WebElement> statusMessagesToUser = statusMessage.findElements(By.tagName("div"));
-        List<String> statusMessageTexts = new ArrayList<String>();
+        List<String> statusMessageTexts = new ArrayList<>();
         for (WebElement statusMessage : statusMessagesToUser) {
             statusMessageTexts.add(statusMessage.getText());
         }

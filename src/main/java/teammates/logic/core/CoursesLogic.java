@@ -397,7 +397,7 @@ public final class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null", cd);
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
+        cdd.sections = getSectionsForCourse(cd, cdd);
 
         return cdd;
     }

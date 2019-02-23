@@ -129,7 +129,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
         ______TS("Typical case: valid profile attributes");
         assertTrue("'validProfile' indicated as invalid", validProfile.isValid());
-        assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
+        assertEquals(new ArrayList<>(), validProfile.getInvalidityInfo());
     }
 
     private void testGetInvalidityInfoForValidProfileWithEmptyValues() {
@@ -142,7 +142,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         validProfile.institute = "";
 
         assertTrue("'validProfile' indicated as invalid", validProfile.isValid());
-        assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
+        assertEquals(new ArrayList<>(), validProfile.getInvalidityInfo());
     }
 
     private void testInvalidityInfoForInvalidProfile() throws Exception {
