@@ -189,7 +189,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Remind all yet to join students in a course.
    */
   remindAllStudentsFromCourse(courseId: string): void {
-    this.courseService.sendReminderEmail(courseId).subscribe((resp: MessageOutput) => {
+    this.courseService.remindUnregisteredStudents(courseId).subscribe((resp: MessageOutput) => {
       this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
         '/web/instructor/courses/details', resp.message);
     }, (resp: ErrorMessageOutput) => {
