@@ -16,7 +16,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.STUDENTS;
+        return Const.ResourceURIs.STUDENT;
     }
 
     @Override
@@ -39,10 +39,10 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
-        DeleteStudentAction a = getAction(submissionParams);
-        JsonResult r = getJsonResult(a);
+        DeleteStudentAction deleteStudentAction = getAction(submissionParams);
+        JsonResult getOutput = getJsonResult(deleteStudentAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, getOutput.getStatusCode());
 
         ______TS("success: delete a student by id");
         loginAsAdmin();
@@ -52,10 +52,10 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
                 Const.ParamsNames.STUDENT_ID, student2InCourse1.googleId,
         };
 
-        a = getAction(submissionParams);
-        r = getJsonResult(a);
+        deleteStudentAction = getAction(submissionParams);
+        getOutput = getJsonResult(deleteStudentAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, getOutput.getStatusCode());
     }
 
     @Override
