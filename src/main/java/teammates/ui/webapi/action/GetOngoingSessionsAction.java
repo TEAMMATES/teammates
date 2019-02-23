@@ -68,8 +68,7 @@ public class GetOngoingSessionsAction extends Action {
 
         List<FeedbackSessionAttributes> allOngoingSessions;
 
-        allOngoingSessions = logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime),
-                Instant.ofEpochMilli(endTime));
+        allOngoingSessions = logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
 
         int totalOngoingSessions = allOngoingSessions.size();
         int totalOpenSessions = 0;
