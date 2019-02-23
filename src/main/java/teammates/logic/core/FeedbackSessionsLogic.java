@@ -18,6 +18,7 @@ import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -35,7 +36,6 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.SectionDetail;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -142,8 +142,8 @@ public final class FeedbackSessionsLogic {
         copiedFeedbackSession.setCourseId(newCourseId);
         copiedFeedbackSession.setTimeZone(newTimeZone);
         copiedFeedbackSession.setCreatedTime(Instant.now());
-        copiedFeedbackSession.setRespondingInstructorList(new HashSet<String>());
-        copiedFeedbackSession.setRespondingStudentList(new HashSet<String>());
+        copiedFeedbackSession.setRespondingInstructorList(new HashSet<>());
+        copiedFeedbackSession.setRespondingStudentList(new HashSet<>());
         fsDb.createEntity(copiedFeedbackSession);
 
         List<FeedbackQuestionAttributes> feedbackQuestions =
@@ -1362,7 +1362,7 @@ public final class FeedbackSessionsLogic {
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
-        ArrayList<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
+        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
 

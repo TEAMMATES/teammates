@@ -6,6 +6,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 
@@ -207,10 +208,10 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testSanitizeForSaving() {
-        String googleId = "valid.googleId";
-        String courseId = "courseId";
-        String name = "name";
-        String email = "email@google.com";
+        String googleId = "\t\tvalid.goo    gleId  \t\n";
+        String courseId = "\t\n  co      urseId";
+        String name = "\t\t\tna    me<><>";
+        String email = "\n      my'email@google.com";
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
@@ -222,6 +223,10 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         instructor.sanitizeForSaving();
         assertEquals(privileges, instructor.privileges);
+        assertEquals(SanitizationHelper.sanitizeGoogleId(googleId), instructor.googleId);
+        assertEquals(SanitizationHelper.sanitizeTitle(courseId), instructor.courseId);
+        assertEquals(SanitizationHelper.sanitizeName(name), instructor.name);
+        assertEquals(SanitizationHelper.sanitizeEmail(email), instructor.email);
 
         instructor.role = null;
         instructor.displayedName = null;

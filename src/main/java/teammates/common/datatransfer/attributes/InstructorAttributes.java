@@ -161,7 +161,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     @Override
     public void sanitizeForSaving() {
         googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        name = SanitizationHelper.sanitizeForHtml(SanitizationHelper.sanitizeName(name));
+        name = SanitizationHelper.sanitizeName(name);
         email = SanitizationHelper.sanitizeEmail(email);
         courseId = SanitizationHelper.sanitizeTitle(courseId);
 

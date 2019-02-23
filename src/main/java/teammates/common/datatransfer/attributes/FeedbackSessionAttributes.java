@@ -803,7 +803,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public Builder withRespondingInstructorList(Set<String> respondingInstructorList) {
             Set<String> respondingList = respondingInstructorList == null
-                    ? new HashSet<String>()
+                    ? new HashSet<>()
                     : respondingInstructorList;
             feedbackSessionAttributes.setRespondingInstructorList(respondingList);
             return this;
@@ -811,7 +811,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public Builder withRespondingStudentList(Set<String> respondingStudentList) {
             Set<String> respondingList = respondingStudentList == null
-                    ? new HashSet<String>()
+                    ? new HashSet<>()
                     : respondingStudentList;
             feedbackSessionAttributes.setRespondingStudentList(respondingList);
             return this;

@@ -4,8 +4,12 @@ import java.util.List;
 
 import teammates.common.util.StringHelper;
 
+/**
+ * Exception thrown when non-HTTP parameter validation fails.
+ */
 @SuppressWarnings("serial")
-public class InvalidParametersException extends TeammatesException {
+public class InvalidParametersException extends Exception {
+
     public InvalidParametersException(String message) {
         super(message);
     }

@@ -15,6 +15,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
@@ -141,6 +142,20 @@ public abstract class Action {
     }
 
     /**
+     * Returns the first value for the specified parameter expected to be present in the HTTP request as long.
+     */
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    protected long getLongRequestParamValue(String paramName) {
+        String value = getNonNullRequestParamValue(paramName);
+        try {
+            return Long.parseLong(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Expected long value for " + paramName + " parameter, but found: [" + value + "]");
+        }
+    }
+
+    /**
      * Returns the values for the specified parameter in the HTTP request, or null if such parameter is not found.
      */
     protected String[] getRequestParamValues(String paramName) {
@@ -184,7 +199,7 @@ public abstract class Action {
      */
     protected Optional<StudentAttributes> getUnregisteredStudent() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (key != null) {
+        if (!StringHelper.isEmpty(key)) {
             StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(key);
             if (studentAttributes == null) {
                 throw new UnauthorizedAccessException("RegKey is not valid.");

@@ -178,7 +178,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private void testGetFeedbackResponseCommentForResponse() {
         String responseId = "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt";
-        ArrayList<FeedbackResponseCommentAttributes> frcasExpected = new ArrayList<>();
+        List<FeedbackResponseCommentAttributes> frcasExpected = new ArrayList<>();
         frcasExpected.add(frcaData);
 
         ______TS("typical success case");
