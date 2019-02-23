@@ -67,21 +67,13 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
         assertEquals(anotherInstructorOfCourse1.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL)[0]);
 
-        ______TS("Typical case: Send email to remind a student to register for the course from course details page");
+        ______TS("Typical case: Send email to remind a student to register for the course");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
-
-        sendReminderEmailAction = getAction(submissionParams);
-        result = getJsonResult(sendReminderEmailAction);
-
-        msg = (MessageOutput) result.getOutput();
-        assertEquals("An email has been sent to " + student1InCourse1.email, msg.getMessage());
-
-        ______TS("Typical case: Send email to remind a student to register for the course from student list page");
 
         sendReminderEmailAction = getAction(submissionParams);
         result = getJsonResult(sendReminderEmailAction);
