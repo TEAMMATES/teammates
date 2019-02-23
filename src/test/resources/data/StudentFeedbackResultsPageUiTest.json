@@ -306,7 +306,10 @@
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "What is the best selling point of your product?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -329,7 +332,10 @@
     "qn2InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "Rate 3 other students' products",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 3 other students' products"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -353,7 +359,10 @@
     "qn3InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "Feedback to class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Feedback to class"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -368,7 +377,10 @@
     "qn4InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "Give feedback to 3 other teams.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 3 other teams."
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -388,7 +400,10 @@
     "qn5InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "Give feedback to your team mates",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your team mates"
+      },
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -407,7 +422,10 @@
     "qn6InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "Give feedback on how well the team worked together.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback on how well the team worked together."
+      },
       "questionNumber": 6,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -426,7 +444,10 @@
     "qn7InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "This question should be hidden.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should be hidden."
+      },
       "questionNumber": 7,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -445,7 +466,10 @@
     "qn1InSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "Give feedback to your instructors",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your instructors"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -464,7 +488,16 @@
     "qn1InMcqSession": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "UI",
+          "Algo"
+        ],
+        "questionText": "What is the best selling point of your product?",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      },
       "questionNumber": 1,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -486,7 +519,17 @@
     "qn2InMcqSession": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"numOfMcqChoices\":3,\"mcqChoices\":[\"Good\",\"OK\",\"Poor\"],\"questionText\":\"Rate 3 other students' products\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 3,
+        "mcqChoices": [
+          "Good",
+          "OK",
+          "Poor"
+        ],
+        "questionText": "Rate 3 other students' products",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      },
       "questionNumber": 2,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -510,7 +553,16 @@
     "qn3InMcqSession": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"Good\",\"Can improve\"],\"questionText\":\"Give feedback to your team mates\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "Good",
+          "Can improve"
+        ],
+        "questionText": "Give feedback to your team mates",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      },
       "questionNumber": 3,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -529,7 +581,12 @@
     "qn4InMcqSession": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Choose the best student in the course.\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "questionText": "Choose the best student in the course.",
+        "questionType": "MCQ",
+        "generateOptionsFor": "STUDENTS",
+        "otherEnabled": false
+      },
       "questionNumber": 4,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -553,7 +610,12 @@
     "qn5InMcqSession": {
       "feedbackSessionName": "MCQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Choose the best team in the course.\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "questionText": "Choose the best team in the course.",
+        "questionType": "MCQ",
+        "generateOptionsFor": "TEAMS",
+        "otherEnabled": false
+      },
       "questionNumber": 5,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -572,7 +634,15 @@
     "qn1InMsqSession": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"msqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What is the best selling point of your product?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "msqChoices": [
+          "UI",
+          "Algo"
+        ],
+        "questionText": "What is the best selling point of your product?",
+        "questionType": "MSQ",
+        "otherEnabled": false
+      },
       "questionNumber": 1,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -594,7 +664,16 @@
     "qn2InMsqSession": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"msqChoices\":[\"Good\",\"OK\",\"Poor\"],\"questionText\":\"Rate 3 other students' products\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "msqChoices": [
+          "Good",
+          "OK",
+          "Poor"
+        ],
+        "questionText": "Rate 3 other students' products",
+        "questionType": "MSQ",
+        "otherEnabled": false
+      },
       "questionNumber": 2,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -618,7 +697,15 @@
     "qn3InMsqSession": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"msqChoices\":[\"Good\",\"Can improve\"],\"questionText\":\"Give feedback to your team mates\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "msqChoices": [
+          "Good",
+          "Can improve"
+        ],
+        "questionText": "Give feedback to your team mates",
+        "questionType": "MSQ",
+        "otherEnabled": false
+      },
       "questionNumber": 3,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -637,7 +724,12 @@
     "qn4InMsqSession": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Choose the students you were impressed by in the course.\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "questionText": "Choose the students you were impressed by in the course.",
+        "questionType": "MSQ",
+        "generateOptionsFor": "STUDENTS",
+        "otherEnabled": false
+      },
       "questionNumber": 4,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -661,7 +753,12 @@
     "qn5InMsqSession": {
       "feedbackSessionName": "MSQ Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Choose the teams you were impressed by in the course.\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "questionText": "Choose the teams you were impressed by in the course.",
+        "questionType": "MSQ",
+        "generateOptionsFor": "TEAMS",
+        "otherEnabled": false
+      },
       "questionNumber": 5,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -680,7 +777,13 @@
     "qn1InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate your product?\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate your product?",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 1,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -702,7 +805,13 @@
     "qn2InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate others' product?\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate others' product?",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 2,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -726,7 +835,13 @@
     "qn3InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate your team's product?\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate your team's product?",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 3,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -745,7 +860,13 @@
     "qn4InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate the class\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": -5,
+        "questionText": "Rate the class",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 4,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -760,7 +881,13 @@
     "qn5InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate other team's products\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": -5,
+        "questionText": "Rate other team's products",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 5,
       "questionType": "NUMSCALE",
       "giverType": "TEAMS",
@@ -779,7 +906,13 @@
     "qn6InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate other team's products. Responses are visible to the entire class\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": -5,
+        "questionText": "Rate other team's products. Responses are visible to the entire class",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 6,
       "questionType": "NUMSCALE",
       "giverType": "TEAMS",
@@ -800,7 +933,13 @@
     "qn7InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate your team member's individual products, including your own\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": -5,
+        "questionText": "Rate your team member's individual products, including your own",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 7,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -819,7 +958,13 @@
     "qn8InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate every student's individual products. Responses are visible to the entire class\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": -5,
+        "questionText": "Rate every student's individual products. Responses are visible to the entire class",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 8,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -840,7 +985,13 @@
     "qn9InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate other teams' products. Responses, but not giver or recipient names, are visible to the entire class\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": -5,
+        "questionText": "Rate other teams' products. Responses, but not giver or recipient names, are visible to the entire class",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 9,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -860,7 +1011,13 @@
     "qn10InNumscaleSession": {
       "feedbackSessionName": "NUMSCALE Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"minScale\":-5,\"questionText\":\"Rate teammates, recipient hidden. \",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": -5,
+        "questionText": "Rate teammates, recipient hidden. ",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 10,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -881,7 +1038,18 @@
     "qn1InConstSumSession": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}",
+      "questionDetails": {
+        "distributeToRecipients": false,
+        "pointsPerOption": false,
+        "questionText": "How important are the following factors to you? Give points accordingly.",
+        "numOfConstSumOptions": 2,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": [
+          "Grades",
+          "Fun"
+        ]
+      },
       "questionNumber": 1,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -903,7 +1071,15 @@
     "qn2InConstSumSession": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among 3 students.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
+      "questionDetails": {
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Split points among 3 students.",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
+      },
       "questionNumber": 2,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -927,7 +1103,15 @@
     "qn3InConstSumSession": {
       "feedbackSessionName": "CONSTSUM Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among your team members by how much they contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
+      "questionDetails": {
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Split points among your team members by how much they contributed.",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
+      },
       "questionNumber": 3,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -949,7 +1133,10 @@
     "qn1InContribSession": {
       "feedbackSessionName": "CONTRIB Session",
       "courseId": "SFResultsUiT.CS2104",
-      "questionMetaData": "{\"questionText\":\"Rate the contribution by yourself and your team members.\"}",
+      "questionDetails": {
+        "questionText": "Rate the contribution by yourself and your team members.",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
