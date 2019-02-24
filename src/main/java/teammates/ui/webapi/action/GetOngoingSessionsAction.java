@@ -1,7 +1,6 @@
 package teammates.ui.webapi.action;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,7 +46,7 @@ public class GetOngoingSessionsAction extends Action {
         try {
             startTime = Long.parseLong(startTimeString);
             //test for bounds
-            Instant.ofEpochMilli(startTime).minus(30, ChronoUnit.DAYS).toEpochMilli();
+            Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
         } catch (NumberFormatException | ArithmeticException e) {
             throw new InvalidHttpParameterException("Invalid startTime parameter");
         }
@@ -57,7 +56,7 @@ public class GetOngoingSessionsAction extends Action {
         try {
             endTime = Long.parseLong(endTimeString);
             //test for bounds
-            Instant.ofEpochMilli(endTime).plus(30, ChronoUnit.DAYS).toEpochMilli();
+            Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
         } catch (NumberFormatException | ArithmeticException e) {
             throw new InvalidHttpParameterException("Invalid endTime parameter");
         }
@@ -66,9 +65,8 @@ public class GetOngoingSessionsAction extends Action {
             throw new InvalidHttpParameterException("The filter range is not valid. End time should be after start time.");
         }
 
-        List<FeedbackSessionAttributes> allOngoingSessions;
-
-        allOngoingSessions = logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
+        List<FeedbackSessionAttributes> allOngoingSessions =
+                logic.getAllOngoingSessions(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
 
         int totalOngoingSessions = allOngoingSessions.size();
         int totalOpenSessions = 0;
