@@ -19,4 +19,15 @@ public enum Intent {
      * To submit the feedback session as students.
      */
     STUDENT_SUBMISSION,
+
+    /**
+     * To view the feedback session result as instructors.
+     */
+    INSTRUCTOR_RESULT,
+
+    /**
+     * To view the feedback session result as students.
+     */
+    STUDENT_RESULT,
+
 }

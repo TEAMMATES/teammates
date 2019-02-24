@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.ui.template.InstructorFeedbackResultsResponseRow;
@@ -39,25 +40,35 @@ public abstract class FeedbackQuestionDetails {
 
     public abstract String getQuestionTypeDisplayName();
 
+    @Deprecated
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
             int totalNumRecipients, FeedbackResponseDetails existingResponseDetails, StudentAttributes student);
 
+    @Deprecated
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
                                 boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
                                 int totalNumRecipients, StudentAttributes student);
 
+    @Deprecated
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 
+    @Deprecated
     public abstract String getNewQuestionSpecificEditFormHtml();
 
+    @Deprecated
     public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
 
+    @Deprecated
     public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
                                                            FeedbackQuestionAttributes question,
                                                            String studentEmail,
                                                            FeedbackSessionResultsBundle bundle,
                                                            String view);
+
+    public abstract String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent);
 
     public abstract String getQuestionResultStatisticsCsv(List<FeedbackResponseAttributes> responses,
                                                           FeedbackQuestionAttributes question,
@@ -141,6 +152,7 @@ public abstract class FeedbackQuestionDetails {
      * Returns a HTML option for selecting question type.
      * Used in instructorFeedbackEdit.jsp for selecting the question type for a new question.
      */
+    @Deprecated
     public abstract String getQuestionTypeChoiceOption();
 
     /**
@@ -201,6 +213,7 @@ public abstract class FeedbackQuestionDetails {
     // The following function handle the display of rows between possible givers
     // and recipients who did not respond to a question in feedback sessions
 
+    @Deprecated
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
                                           FeedbackSessionResultsBundle bundle,
                                           FeedbackQuestionAttributes question) {
@@ -234,6 +247,17 @@ public abstract class FeedbackQuestionDetails {
                                     FeedbackSessionResultsBundle bundle,
                                     FeedbackQuestionAttributes question) {
         return Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
+    }
+
+    public String getJsonString() {
+        Assumption.assertNotNull(questionType);
+        return JsonUtils.toJson(this, questionType.getQuestionDetailsClass());
+    }
+
+    public FeedbackQuestionDetails getDeepCopy() {
+        Assumption.assertNotNull(questionType);
+        String serializedDetails = getJsonString();
+        return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
     }
 
     /** Checks if the question has been skipped. */
@@ -272,5 +296,26 @@ public abstract class FeedbackQuestionDetails {
         }
 
         return commentsHeader.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        // Json string contains all attributes of a `FeedbackQuestionDetails` object,
+        // so it is sufficient to use it to compare two `FeedbackQuestionDetails` objects.
+        FeedbackQuestionDetails other = (FeedbackQuestionDetails) obj;
+        return this.getJsonString().equals(other.getJsonString());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getJsonString().hashCode();
     }
 }

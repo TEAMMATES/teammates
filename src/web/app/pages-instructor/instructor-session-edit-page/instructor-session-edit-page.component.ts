@@ -28,7 +28,7 @@ import { CopySessionModalComponent } from '../../components/copy-session-modal/c
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
-} from '../../components/question-types/question-types-session-edit/question-edit-form-model';
+} from '../../components/question-edit-form/question-edit-form-model';
 import {
   DateFormat,
   SessionEditFormMode,
