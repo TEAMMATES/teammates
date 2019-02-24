@@ -75,13 +75,6 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'getting-started',
-    component: InstructorHelpGettingStartedComponent,
-    data: {
-      instructorHelpPath: '/web/front/help/instructor',
-    },
-  },
-  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',
