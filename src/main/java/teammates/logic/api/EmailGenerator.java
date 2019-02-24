@@ -270,6 +270,7 @@ public class EmailGenerator {
         String studentName = null;
 
         List<FeedbackSessionAttributes> sessions = fsLogic.getAllFeedbackSessionsWithinTimeRange(startTime, endTime);
+
         for (FeedbackSessionAttributes session : sessions) {
             CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
             StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), recoveryEmail);
@@ -279,7 +280,7 @@ public class EmailGenerator {
                 String submitUrlHtml = "(Feedback session is not yet open)";
                 String reportUrlHtml = "(Feedback session is not yet published)";
 
-                if (session.isOpened()) {
+                if (session.isOpened() || session.isClosed()) {
                     String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getFeedbackSessionName())
@@ -287,8 +288,6 @@ public class EmailGenerator {
                             .withStudentEmail(student.email)
                             .toAbsoluteString();
                     submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
-                } else if (session.isClosed()) {
-                    submitUrlHtml = "(Feedback session is closed)";
                 }
 
                 if (session.isPublished()) {
