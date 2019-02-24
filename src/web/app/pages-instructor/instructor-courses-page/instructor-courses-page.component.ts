@@ -8,6 +8,9 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
+  CoursePermanentDeletionConfirmModalComponent,
+} from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
+import {
   CoursesPermanentDeletionConfirmModalComponent,
 } from './courses-permanent-deletion-confirm-modal/courses-permanent-deletion-confirm-modal.component';
 
@@ -274,9 +277,9 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    if (confirm(`Are you sure you want to permanently delete the course: ${courseId}? `
-            + 'This operation will delete all students and sessions in this course. '
-            + 'All instructors of this course will not be able to access it hereafter as well.')) {
+    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+    modalRef.componentInstance.courseId = courseId;
+    modalRef.result.then(() => {
       const paramMap: { [key: string]: string } = {
         courseid: courseId,
         user: this.user,
@@ -288,7 +291,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(resp.error.message);
           });
-    }
+    }, () => {});
   }
 
   /**
