@@ -14,8 +14,9 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-// tslint:disable-next-line:max-line-length
-import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
+import {
+  UploadEditProfilePictureModalComponent,
+} from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 interface StudentProfile {
   shortName: string;
@@ -52,6 +53,7 @@ export class StudentProfilePageComponent implements OnInit {
   nationalities?: string[];
 
   profilePicLink!: string;
+  pictureKey!: string;
   currentTime?: number;
 
   private backendUrl: string = environment.backendUrl;
@@ -110,8 +112,9 @@ export class StudentProfilePageComponent implements OnInit {
             this.student = response;
             this.name = response.name;
 
+            this.pictureKey = this.student.studentProfile.pictureKey;
             this.profilePicLink =
-                this.getProfilePictureUrl(this.student.studentProfile.pictureKey);
+                this.getProfilePictureUrl(this.pictureKey);
 
             this.initStudentProfileForm(this.student.studentProfile);
           } else {
@@ -153,11 +156,13 @@ export class StudentProfilePageComponent implements OnInit {
     const modalRef: NgbModalRef =
         this.ngbModal.open(UploadEditProfilePictureModalComponent);
     modalRef.componentInstance.profilePicLink = this.profilePicLink;
+    modalRef.componentInstance.pictureKey = this.pictureKey;
 
     // When a new image is uploaded/edited in the modal box, update the profile pic link in the page too
     modalRef.componentInstance.imageUpdated.subscribe((pictureKey: string) => {
+      this.pictureKey = pictureKey;
       this.profilePicLink =
-          this.getProfilePictureUrl(pictureKey); // Retrieves the profile picture link again
+          this.getProfilePictureUrl(this.pictureKey); // Retrieves the profile picture link again
     });
   }
 
@@ -192,22 +197,17 @@ export class StudentProfilePageComponent implements OnInit {
    * Deletes the profile picture and the profile picture key
    */
   deleteProfilePicture(): void {
-    if (this.profilePicLink === '/assets/images/profile_picture_default.png') {
-      this.statusMessageService.showErrorMessage('You do not have a profile picture!');
-      return;
-    }
     const paramMap: { [key: string]: string } = {
       user: this.user,
       googleid: this.id,
-      'blob-key': this.profilePicLink.split('?')[1].split('&')[0].replace('blob-key=', ''),
+      'blob-key': this.pictureKey,
     };
-    this.httpRequestService.put('/students/profilePic', paramMap)
+    this.httpRequestService.delete('/students/profilePic', paramMap)
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);
-
-            this.student.studentProfile.pictureKey = '';
-            this.profilePicLink = this.getProfilePictureUrl(this.student.studentProfile.pictureKey);
+            this.pictureKey = '';
+            this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
           }
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.

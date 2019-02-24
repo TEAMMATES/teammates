@@ -25,10 +25,9 @@
         <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary" [disabled]=!isFileSelected (click)="uploadPicture()">
           Upload Picture
         </button>
-        <input type="hidden" name="user" value="zz@example.com">
       </div>
     </div>
-    <div *ngIf="profilePicLink !== '/assets/images/profile_picture_default.png'" class="col-8 border-left-gray">
+    <div *ngIf="pictureKey" class="col-8 border-left-gray">
       <div class="profile-pic-edit">
         <div class="alert alert-info">
           Adjust the cropper to crop your image to the desired area.
@@ -36,24 +35,23 @@
         <div *ngIf="isImageLoaded">
           <image-cropper
               [imageBase64]="imageToShow"
-              [maintainAspectRatio]="true"
-              [aspectRatio]="4/3"
+              [maintainAspectRatio]="false"
               (imageCropped)="imageCropped($event)"
               format="png"
               outputType="file">
           </image-cropper>
         </div>
         <div class="profile-pic-edit-toolbar">
-          <button id="profilePicEditRotateLeft" class="btn btn-primary btn-space" (click)="rotateLeft()">
+          <button class="btn btn-primary btn-space" (click)="rotateLeft()">
             <i class="fas fa-redo-alt fa-flip-horizontal"></i>
           </button>
-          <button id="profilePicEditRotateHorizontal" class="btn btn-primary btn-space" (click)="flipHorizontal()">
+          <button class="btn btn-primary btn-space" (click)="flipHorizontal()">
             <i class="fas fa-angle-double-left"></i>
           </button>
-          <button id="profilePicEditRotateVertical" class="btn btn-primary btn-space" (click)="flipVertical()">
+          <button class="btn btn-primary btn-space" (click)="flipVertical()">
             <i class="fas fa-angle-double-up"></i>
           </button>
-          <button id="profilePicEditRotateRight" class="btn btn-primary" (click)="rotateRight()">
+          <button class="btn btn-primary" (click)="rotateRight()">
             <i class="fas fa-redo-alt"></i>
           </button>
         </div>
@@ -62,11 +60,11 @@
         </label>
         <br>
       </div>
-      <button id="profileEditPictureSubmit" class="btn btn-primary" (click)="saveEditedPhoto()">
+      <button class="btn btn-primary" (click)="saveEditedPhoto()">
         Save Edited Photo
       </button>
     </div>
-    <div *ngIf="profilePicLink === '/assets/images/profile_picture_default.png'" class="col-8 border-left-gray">
+    <div *ngIf="!pictureKey" class="col-8 border-left-gray">
       <div class="alert alert-warning align-middle">
         Please upload a photo to start editing.
       </div>

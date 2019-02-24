@@ -7,10 +7,7 @@ import { HttpRequestService } from '../../../../services/http-request.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
-interface PostStudentProfileResults {
-  message: string;
-  pictureKey: string;
-}
+import { StudentProfilePictureResults } from '../../../../types/api-output';
 
 /**
  * Student profile page's modal to upload/edit photo.
@@ -31,6 +28,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
   croppedImage: any;
 
   @ViewChildren(ImageCropperComponent) imageCropper!: QueryList<ImageCropperComponent>;
+  @Input() pictureKey!: string;
   @Input() profilePicLink!: string;
   @Output() imageUpdated: EventEmitter<any> = new EventEmitter();
 
@@ -41,7 +39,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
               private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
-    if (this.profilePicLink !== '/assets/images/profile_picture_default.png') {
+    if (this.pictureKey) {
       this.getProfilePicture().subscribe((resp: any) => {
         this.blobToBase64Image(resp);
       });
@@ -77,14 +75,15 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
       user: this.user,
     };
     this.httpRequestService.post('/students/profilePic', paramsMap, this.formData)
-        .subscribe((response: PostStudentProfileResults) => {
+        .subscribe((response: StudentProfilePictureResults) => {
           this.statusMessageService.showSuccessMessage(response.message);
-          this.profilePicLink = `${this.backendUrl}/webapi/students/profilePic?blob-key=${response.pictureKey}`;
+          this.pictureKey = response.pictureKey;
+          this.profilePicLink = `${this.backendUrl}/webapi/students/profilePic?blob-key=${this.pictureKey}`;
 
           // Gets the updated picture as blob to be filled in the image cropper
           this.getProfilePicture().subscribe((resp: any) => {
             this.blobToBase64Image(resp);
-            this.imageUpdated.emit(response.pictureKey);
+            this.imageUpdated.emit(this.pictureKey);
           });
 
           // Reset upload section

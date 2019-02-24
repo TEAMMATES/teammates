@@ -111,20 +111,17 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     /**
      * Deletes the {@code pictureKey} of the profile with given {@code googleId} by setting it to an empty string.
      *
-     * <p>If there is no stored profile entity, create a new one.</p>
+     * <p>Fails silently if the {@code studentProfile} doesn't exist.</p>
      */
     public void deletePictureKey(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         StudentProfile studentProfile = getStudentProfileEntityFromDb(googleId);
 
-        if (studentProfile == null) {
-            studentProfile = new StudentProfile(googleId);
+        if (studentProfile != null) {
+            studentProfile.setPictureKey(new BlobKey(""));
+            studentProfile.setModifiedDate(Instant.now());
+            saveEntity(studentProfile);
         }
-
-        studentProfile.setPictureKey(new BlobKey(""));
-        studentProfile.setModifiedDate(Instant.now());
-
-        saveEntity(studentProfile);
     }
 
     //-------------------------------------------------------------------------------------------------------

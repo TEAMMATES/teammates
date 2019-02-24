@@ -8,13 +8,14 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.action.DeleteStudentProfilePictureAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.PutStudentProfilePictureAction;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link PutStudentProfilePictureAction}.
+ * SUT: {@link DeleteStudentProfilePictureAction}.
  */
-public class PutStudentProfilePictureActionTest extends BaseActionTest<PutStudentProfilePictureAction> {
+public class DeleteStudentProfilePictureActionTest extends BaseActionTest<DeleteStudentProfilePictureAction> {
 
     private AccountAttributes account;
     private StudentProfileAttributes studentProfileAttributes;
@@ -26,7 +27,7 @@ public class PutStudentProfilePictureActionTest extends BaseActionTest<PutStuden
 
     @Override
     protected String getRequestMethod() {
-        return PUT;
+        return DELETE;
     }
 
     @BeforeClass
@@ -49,7 +50,7 @@ public class PutStudentProfilePictureActionTest extends BaseActionTest<PutStuden
 
         String[] submissionParams = new String[] {};
 
-        PutStudentProfilePictureAction action = getAction(submissionParams);
+        DeleteStudentProfilePictureAction action = getAction(submissionParams);
         assertThrows(NullHttpParameterException.class, () -> action.execute());
     }
 
@@ -65,10 +66,12 @@ public class PutStudentProfilePictureActionTest extends BaseActionTest<PutStuden
                 Const.ParamsNames.STUDENT_ID, studentProfileAttributes.googleId,
                 Const.ParamsNames.BLOB_KEY, studentProfileAttributes.pictureKey,
         };
-        PutStudentProfilePictureAction action = getAction(submissionParams);
+        DeleteStudentProfilePictureAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
+        MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertEquals(messageOutput.getMessage(), "Your profile picture has been deleted successfully");
     }
 
     @Test

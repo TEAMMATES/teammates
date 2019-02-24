@@ -11,16 +11,20 @@
               class="profile-pic"
               (click)="onUploadEdit()">
         </div>
-        <div class="col-2 btn-group-vertical" ngbTooltip="Upload a profile picture (.jpg or .png, max size 5 MB) or delete your profile picture">
+      </div>
+      <div class="row profile-pic-row">
+        <div class="col-3 cursor-pointer">
           <button
               id="uploadEditPhoto"
               class="btn btn-primary"
+              ngbTooltip="Upload a profile picture (.jpg or .png, max size 5 MB)"
               (click)="onUploadEdit()">
             Upload/Edit Photo
           </button>
-          <button
+          <button *ngIf="this.pictureKey"
               id="deletePhoto"
               class="btn btn-danger"
+              ngbTooltip="Delete your profile picture"
               (click)="onDelete(confirmDeleteProfilePicture)">
             Delete Photo
           </button>
