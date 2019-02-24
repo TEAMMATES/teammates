@@ -1,6 +1,7 @@
 package teammates.test.cases;
 
 import java.io.IOException;
+import java.net.URLConnection;
 import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
@@ -58,7 +59,8 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static String writeFileToGcs(String googleId, String filename) throws IOException {
         byte[] image = FileHelper.readFileAsBytes(filename);
-        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image);
+        String contentType = URLConnection.guessContentTypeFromName(filename);
+        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image, contentType);
     }
 
     protected static boolean doesFileExistInGcs(BlobKey fileKey) {

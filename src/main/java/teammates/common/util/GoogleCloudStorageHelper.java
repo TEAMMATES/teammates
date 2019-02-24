@@ -53,11 +53,11 @@ public final class GoogleCloudStorageHelper {
      *
      * @return the {@link BlobKey} used as the image's identifier in Google Cloud Storage
      */
-    public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
+    public static String writeImageDataToGcs(String googleId, byte[] imageData, String contentType) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.PRODUCTION_GCS_BUCKETNAME, googleId);
         try (GcsOutputChannel outputChannel =
                 GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
-                .createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build())) {
+                .createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType(contentType).build())) {
 
             outputChannel.write(ByteBuffer.wrap(imageData));
         }

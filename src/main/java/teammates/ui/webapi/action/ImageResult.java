@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -25,10 +26,13 @@ public class ImageResult extends ActionResult {
 
     @Override
     public void send(HttpServletResponse resp) throws IOException {
-        // TODO do not hardcode PNG format
-        resp.setContentType("image/png");
+        BlobKey bk = new BlobKey(blobKey);
+        String contentType = new BlobInfoFactory().loadBlobInfo(bk).getContentType();
+
+        resp.setContentType(contentType);
+
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-        blobstoreService.serve(new BlobKey(blobKey), resp);
+        blobstoreService.serve(bk, resp);
     }
 
 }
