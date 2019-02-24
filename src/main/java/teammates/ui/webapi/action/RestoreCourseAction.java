@@ -7,7 +7,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Action: Restores a soft-deleted course from Recycle Bin.
+ * Action: Restores a course from Recycle Bin.
  */
 public class RestoreCourseAction extends Action {
 
@@ -31,7 +31,6 @@ public class RestoreCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-
         idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String statusMessage;
 
@@ -40,7 +39,7 @@ public class RestoreCourseAction extends Action {
 
             statusMessage = "The course " + idOfCourseToRestore + " has been restored.";
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
 
         return new JsonResult(statusMessage);
