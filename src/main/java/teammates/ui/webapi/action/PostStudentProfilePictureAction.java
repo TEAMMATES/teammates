@@ -37,13 +37,13 @@ public class PostStudentProfilePictureAction extends Action {
         try {
             Part image = req.getPart("studentprofilephoto");
             if (image == null) {
-                throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
+                throw new InvalidHttpRequestBodyException(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
             }
             if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
-                throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+                throw new InvalidHttpRequestBodyException(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
             }
             if (!image.getContentType().startsWith("image/")) {
-                throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
+                throw new InvalidHttpRequestBodyException(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
             }
             byte[] imageData = new byte[(int) image.getSize()];
             try (InputStream is = image.getInputStream()) {
