@@ -39,6 +39,30 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String name = "JamesBond";
         String email = "jamesbond89@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
+
+        ______TS("Not enough parameters");
+        AccountCreateRequest badRequest = buildCreateRequest(null, institute, email);
+
+        try {
+            getAction(badRequest).execute();
+        } catch (InvalidHttpRequestBodyException e) {
+            assertEquals("name cannot be null", e.getMessage());
+        }
+
+        badRequest = buildCreateRequest(name, null, email);
+        try {
+            getAction(badRequest).execute();
+        } catch (InvalidHttpRequestBodyException e) {
+            assertEquals("institute cannot be null", e.getMessage());
+        }
+
+        badRequest = buildCreateRequest(name, institute, null);
+        try {
+            getAction(badRequest).execute();
+        } catch (InvalidHttpRequestBodyException e) {
+            assertEquals("email cannot be null", e.getMessage());
+        }
+
         ______TS("Normal case");
 
         String nameWithSpaces = "   " + name + "   ";
@@ -76,9 +100,15 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         req = buildCreateRequest(invalidName, institute, emailWithSpaces);
 
         CreateAccountAction finalA = getAction(req);
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            getJsonResult(finalA);
-        });
+        try {
+            finalA.execute();
+        } catch (InvalidHttpRequestBodyException e) {
+            String expectedError =
+                    "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
+                            + "it contains invalid characters. A/An person name must start with an "
+                            + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
+            assertEquals(expectedError, e.getMessage());
+        }
 
         verifyNoEmailsSent(finalA);
     }
@@ -147,5 +177,4 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         return req;
     }
-
 }

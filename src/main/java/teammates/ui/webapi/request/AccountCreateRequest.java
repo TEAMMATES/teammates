@@ -1,6 +1,10 @@
 package teammates.ui.webapi.request;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 
 /**
  * The request of creating new account.
@@ -38,9 +42,27 @@ public class AccountCreateRequest extends BasicRequest {
     @Override
     public void validate() {
         FieldValidator validator = new FieldValidator();
-        assertTrue(validator.getInvalidityInfoForPersonName(this.instructorName.trim()).isEmpty(), "validate name");
-        assertTrue(validator.getInvalidityInfoForInstituteName(this.instructorInstitution.trim()).isEmpty(),
-                "validate institute");
-        assertTrue(validator.getInvalidityInfoForEmail(this.instructorEmail.trim()).isEmpty(), "validate email");
+        assertTrue(this.instructorEmail != null, "email cannot be null");
+        assertTrue(this.instructorName != null, "name cannot be null");
+        assertTrue(this.instructorInstitution != null, "institute cannot be null");
+
+        List<String> errors = new ArrayList<>();
+
+        String nameError = validator.getInvalidityInfoForPersonName(this.instructorName.trim());
+        if (!nameError.isEmpty()) {
+            errors.add(nameError);
+        }
+
+        String emailError = validator.getInvalidityInfoForEmail(this.instructorEmail.trim());
+        if (!emailError.isEmpty()) {
+            errors.add(emailError);
+        }
+
+        String instituteError = validator.getInvalidityInfoForInstituteName(this.instructorInstitution.trim());
+        if (!instituteError.isEmpty()) {
+            errors.add(instituteError);
+        }
+
+        assertTrue(errors.isEmpty(), StringHelper.toString(errors));
     }
 }

@@ -28,7 +28,7 @@ interface StudentProfile {
 /**
  * Represents detailed data for student profile.
  */
-export interface StudentDetails {
+interface StudentDetails {
   studentProfile: StudentProfile;
   name: string;
   requestId: string;
@@ -98,8 +98,13 @@ export class StudentProfilePageComponent implements OnInit {
     this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
       if (auth.user) {
         this.id = auth.user.id;
+        const paramMap: { [key: string]: string } = {
+          user: this.user,
+          googleid: auth.user.id,
+        };
+
         // retrieve profile once we have the student's googleId
-        this.studentProfileService.getStudentProfile(this.user, auth.user.id).subscribe((response: StudentDetails) => {
+        this.httpRequestService.get('/student/profile', paramMap).subscribe((response: StudentDetails) => {
           if (response) {
             this.student = response;
             this.name = response.name;

@@ -1,10 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountAttributes, AccountInfo, AccountService, CourseAttributes } from '../../../services/account.service';
+import { AccountService } from '../../../services/account.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
+
+/**
+ * Represents course attributes.
+ */
+interface CourseAttributes {
+  id: string;
+  name: string;
+}
+
+/**
+ * Represents account attributes.
+ */
+interface AccountAttributes {
+  googleId: string;
+  name: string;
+  email: string;
+  institute?: string;
+  isInstructor: boolean;
+}
+
+/**
+ * Represents detailed information of an account.
+ */
+interface AccountInfo {
+  accountInfo: AccountAttributes;
+  instructorCourses: CourseAttributes[];
+  studentCourses: CourseAttributes[];
+}
 
 /**
  * Admin accounts page.
@@ -39,7 +67,8 @@ export class AdminAccountsPageComponent implements OnInit {
    * Loads the account information based on the given ID.
    */
   loadAccountInfo(instructorid: string): void {
-    this.accountService.getAccount(instructorid).subscribe((resp: AccountInfo) => {
+    const paramMap: { [key: string]: string } = { instructorid };
+    this.httpRequestService.get('/accounts', paramMap).subscribe((resp: AccountInfo) => {
       this.instructorCourses = resp.instructorCourses;
       this.studentCourses = resp.studentCourses;
       this.accountInfo = resp.accountInfo;

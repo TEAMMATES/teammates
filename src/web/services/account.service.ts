@@ -5,41 +5,11 @@ import { AccountCreateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
- * Represents course attributes.
- */
-export interface CourseAttributes {
-  id: string;
-  name: string;
-}
-
-/**
- * Represents account attributes.
- */
-export interface AccountAttributes {
-  googleId: string;
-  name: string;
-  email: string;
-  institute?: string;
-  isInstructor: boolean;
-}
-
-/**
- * Represents detailed information of an account.
- */
-export interface AccountInfo {
-  accountInfo: AccountAttributes;
-  instructorCourses: CourseAttributes[];
-  studentCourses: CourseAttributes[];
-}
-
-/**
  * Handles account related logic provision
  */
-
 @Injectable({
   providedIn: 'root',
 })
-
 export class AccountService {
   constructor(private httpRequestService: HttpRequestService) {
   }
@@ -49,14 +19,6 @@ export class AccountService {
    */
   createAccount(request: AccountCreateRequest): Observable<JoinLink> {
     return this.httpRequestService.post('/account', {}, request);
-  }
-
-  /**
-   * Gets an account info by calling API.
-   */
-  getAccount(instructorid: string): Observable<AccountInfo> {
-    const paramMap: { [key: string]: string } = { instructorid };
-    return this.httpRequestService.get('/accounts', paramMap);
   }
 
   /**

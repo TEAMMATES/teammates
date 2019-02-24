@@ -363,17 +363,6 @@ public class Logic {
         return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
     }
 
-    public void verifyInputForAdminHomePage(String name, String institute, String email)
-            throws InvalidParametersException {
-
-        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(name,
-                                                                                              institute, email);
-
-        if (!invalidityInfo.isEmpty()) {
-            throw new InvalidParametersException(invalidityInfo);
-        }
-    }
-
     /**
      * Downgrades an instructor account to student account.
      *

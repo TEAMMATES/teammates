@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StudentDetails } from '../app/pages-student/student-profile-page/student-profile-page.component';
 import { MessageOutput } from '../types/api-output';
 import { StudentProfileUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
@@ -8,11 +7,9 @@ import { HttpRequestService } from './http-request.service';
 /**
  * Handles student profile related logic provision.
  */
-
 @Injectable({
   providedIn: 'root',
 })
-
 export class StudentProfileService {
 
   constructor(private httpRequestService: HttpRequestService) {
@@ -28,16 +25,5 @@ export class StudentProfileService {
       googleid: googleId,
     };
     return this.httpRequestService.put('/student/profile', paramsMap, requestBody);
-  }
-
-  /**
-   * Gets a student profile by calling API.
-   */
-  getStudentProfile(user: string, googleId: string): Observable<StudentDetails> {
-    const paramsMap: { [key: string]: string } = {
-      user,
-      googleid: googleId,
-    };
-    return this.httpRequestService.get('/student/profile', paramsMap);
   }
 }
