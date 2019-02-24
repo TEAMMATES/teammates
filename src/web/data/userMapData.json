@@ -52,7 +52,7 @@
       "Narangba Valley SHS",
       "Photography Studies College",
       "Queensland University of Technology",
-      "RMIT University (RMIT)",
+      "Royal Melbourne Institute of Technology (RMIT)",
       "Southern Cross University",
       "St Catherine's Catholic College",
       "St Ives High School",
@@ -151,8 +151,7 @@
       "University of Botswana"
     ],
     "Brazil": [
-      "AEDB",
-      "Associação Educacional Dom Bosco",
+      "Associação Educacional Dom Bosco (AEDB)",
       "Centro Universitário Ritter dos Reis",
       "English Plus",
       "ETE FMC",
@@ -368,7 +367,7 @@
     ],
     "Ecuador": [
       "Escuela Superior Politecnica Del Litoral",
-      "UEES University"
+      "Universidad de Especialidades Espíritu Santo (UEES)"
     ],
     "Egypt": [
       "Al-Hoda International School",
@@ -545,7 +544,7 @@
       "Thapar Institute of Engineering & Technology",
       "Thiagarajar College of Engineering",
       "USICT, New Delhi",
-      "VALTECH",
+      "Valtech",
       "VIT University Vellore"
     ],
     "Indonesia": [
@@ -718,9 +717,6 @@
     "Morocco": [
       "George Washington Academy"
     ],
-    "Nederland": [
-      "MHC Dommel"
-    ],
     "Netherlands": [
       "Amsterdam University College",
       "Amsterdam University of Applied Sciences",
@@ -761,7 +757,8 @@
       "Maerlant",
       "Maris College Belgisch Park",
       "mboRijnland",
-      "Mhc Bommelerwaard",
+      "MHC Bommelerwaard",
+      "MHC Dommel",
       "Mikrocentrum",
       "NHTV Breda University of Applied Sciences",
       "Open University of the Netherlands",
@@ -848,7 +845,7 @@
       "aGreatLife",
       "Asian Institute of Management",
       "Ateneo de Manila University",
-      "ATENEO DE NAGA UNIVERSITY",
+      "Ateneo De Naga University",
       "Ateneo School of Medicine & Public Health",
       "Batangas State University",
       "Corazon Locsin Montelibano Memorial Regional Hospital",
@@ -1316,7 +1313,6 @@
       "BYU-Idaho",
       "C/3-13IN Basic Training",
       "Cabrini University",
-      "Cal Poly Pomona",
       "Caledonia Middle School",
       "California Baptist University",
       "California College San Diego",
@@ -1952,6 +1948,7 @@
       "Texas Tech University",
       "Texas Woman's University",
       "Thales University",
+      "The Army University (U.S. Army)",
       "The Bromfield School",
       "The Bush School",
       "The College of Mount Saint Vincent",
@@ -1979,7 +1976,6 @@
       "Tribeca Flashpoint Academy",
       "Truman State University",
       "Tufts University",
-      "U.S. Army",
       "UC San Diego",
       "UM Flint",
       "UNC Pembroke",
@@ -2061,6 +2057,7 @@
       "University of Nebraska",
       "University of Nebraska at Kearney",
       "University of Nebraska-Lincoln",
+      "University of Nevada",
       "University of Nevada, Reno",
       "University of New Hampshire",
       "University of New Mexico",
