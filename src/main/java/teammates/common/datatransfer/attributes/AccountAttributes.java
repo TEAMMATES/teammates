@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -143,6 +145,20 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     /**
+     * Updates with {@link UpdateOptions}.
+     */
+    public void update(UpdateOptions updateOptions) {
+        updateOptions.isInstructorOption.ifPresent(s -> isInstructor = s);
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for an account.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(String googleId) {
+        return new UpdateOptions.Builder(googleId);
+    }
+
+    /**
      * A Builder class for {@link AccountAttributes}.
      */
     public static class Builder {
@@ -189,6 +205,54 @@ public class AccountAttributes extends EntityAttributes<Account> {
             accountAttributes.institute = SanitizationHelper.sanitizeTitle(accountAttributes.institute);
 
             return accountAttributes;
+        }
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link AccountAttributes}.
+     */
+    public static class UpdateOptions {
+        private String googleId;
+
+        private UpdateOption<Boolean> isInstructorOption = UpdateOption.empty();
+
+        private UpdateOptions(String googleId) {
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, googleId);
+
+            this.googleId = googleId;
+        }
+
+        public String getGoogleId() {
+            return googleId;
+        }
+
+        @Override
+        public String toString() {
+            return "AccountAttributes.UpdateOptions ["
+                    + "googleId = " + googleId
+                    + ", isInstructor = " + isInstructorOption
+                    + "]";
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder {
+            private UpdateOptions updateOptions;
+
+            private Builder(String googleId) {
+                updateOptions = new UpdateOptions(googleId);
+            }
+
+            public Builder withIsInstructor(boolean isInstructor) {
+                updateOptions.isInstructorOption = UpdateOption.of(isInstructor);
+                return this;
+            }
+
+            public UpdateOptions build() {
+                return updateOptions;
+            }
+
         }
 
     }

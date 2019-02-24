@@ -8,13 +8,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -180,7 +178,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private void testGetFeedbackResponseCommentForResponse() {
         String responseId = "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt";
-        ArrayList<FeedbackResponseCommentAttributes> frcasExpected = new ArrayList<>();
+        List<FeedbackResponseCommentAttributes> frcasExpected = new ArrayList<>();
         frcasExpected.add(frcaData);
 
         ______TS("typical success case");
@@ -209,7 +207,12 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         FeedbackResponseCommentAttributes frcaExpected =
                 frcDb.getFeedbackResponseComment(frcaTemp.courseId, frcaTemp.createdAt, frcaTemp.commentGiver);
         frcaExpected.commentText = "This is new Text";
-        frcDb.updateFeedbackResponseComment(frcaExpected);
+        FeedbackResponseCommentAttributes updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(frcaExpected.getId())
+                        .withCommentText("This is new Text")
+                        .build()
+        );
+        assertEquals(frcaExpected.commentText, updatedComment.commentText);
 
         FeedbackResponseCommentAttributes frcaActual =
                 frcDb.getFeedbackResponseComment(
@@ -224,25 +227,13 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("non-existent comment");
 
-        frcaExpected.setId(-1L);
-
+        FeedbackResponseCommentAttributes.UpdateOptions updateOptions =
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(-1L)
+                        .withCommentText("This is new Text")
+                        .build();
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> frcDb.updateFeedbackResponseComment(frcaExpected));
-        assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT + frcaExpected.toString(), ednee.getMessage());
-
-        // set responseId back
-        frcaExpected.feedbackResponseId = frId;
-
-        ______TS("invalid parameters");
-
-        frcaExpected.courseId = "";
-        frcaExpected.feedbackSessionName = "%asdt";
-        frcaExpected.commentGiver = "test-no-at-funny.com";
-        frcaExpected.commentGiverType = FeedbackParticipantType.NONE;
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> frcDb.updateFeedbackResponseComment(frcaExpected));
-        assertEquals(StringHelper.toString(frcaExpected.getInvalidityInfo()), ipe.getMessage());
+                () -> frcDb.updateFeedbackResponseComment(updateOptions));
+        assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT + updateOptions, ednee.getMessage());
     }
 
     private void testGetFeedbackResponseCommentsForSession() {

@@ -237,7 +237,10 @@
     "qn1InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "What general mistakes did the students in the class make?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What general mistakes did the students in the class make?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -259,7 +262,10 @@
     "qn2InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "What has been a highlight for you working on this project?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What has been a highlight for you working on this project?"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -282,7 +288,13 @@
     "qn3InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":1}",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 1
+      },
       "questionNumber": 3,
       "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
@@ -304,7 +316,12 @@
     "qn4InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"questionText\":\"Which team do you think has the best feature?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "questionText": "Which team do you think has the best feature?",
+        "questionType": "MCQ",
+        "generateOptionsFor": "TEAMS",
+        "otherEnabled": false
+      },
       "questionNumber": 4,
       "questionType": "MCQ",
       "giverType": "STUDENTS",
@@ -323,7 +340,10 @@
     "qn5InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "Give feedback to three other students.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to three other students."
+      },
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -344,7 +364,17 @@
     "qn6InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"msqChoices\":[\"C\",\"C++\",\"Java\",\"Python\"],\"questionText\":\"Which programming languages do you know?\",\"questionType\":\"MSQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "msqChoices": [
+          "C",
+          "C++",
+          "Java",
+          "Python"
+        ],
+        "questionText": "Which programming languages do you know?",
+        "questionType": "MSQ",
+        "otherEnabled": false
+      },
       "questionNumber": 6,
       "questionType": "MSQ",
       "giverType": "STUDENTS",
@@ -363,7 +393,16 @@
     "qn7InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"Group 1\",\"Group 2\"],\"questionText\":\"Give feedback indicating which group they are in.\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "Group 1",
+          "Group 2"
+        ],
+        "questionText": "Give feedback indicating which group they are in.",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      },
       "questionNumber": 7,
       "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
@@ -385,7 +424,10 @@
     "qn8InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "What did you learn from working with your team members?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What did you learn from working with your team members?"
+      },
       "questionNumber": 8,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -406,7 +448,18 @@
     "qn9InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"distributeToRecipients\":false,\"pointsPerOption\":false,\"questionText\":\"How important are the following factors to you? Give points accordingly.\",\"numOfConstSumOptions\":2,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[\"Grades\",\"Fun\"]}",
+      "questionDetails": {
+        "distributeToRecipients": false,
+        "pointsPerOption": false,
+        "questionText": "How important are the following factors to you? Give points accordingly.",
+        "numOfConstSumOptions": 2,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": [
+          "Grades",
+          "Fun"
+        ]
+      },
       "questionNumber": 9,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -428,7 +481,15 @@
     "qn10InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"distributeToRecipients\":true,\"pointsPerOption\":true,\"questionText\":\"Split points among your team members and yourself, according to how much you think each member has contributed.\",\"numOfConstSumOptions\":0,\"questionType\":\"CONSTSUM\",\"points\":100,\"constSumOptions\":[]}",
+      "questionDetails": {
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Split points among your team members and yourself, according to how much you think each member has contributed.",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM",
+        "points": 100,
+        "constSumOptions": []
+      },
       "questionNumber": 10,
       "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
@@ -450,7 +511,10 @@
     "qn11InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",\"questionType\":\"CONTRIB\"}",
+      "questionDetails": {
+        "questionText": "Rate the contribution of yourself and your team members towards the latest project.",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 11,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -473,7 +537,30 @@
     "qn12InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"rubricSubQuestions\":[\"This student has done a good job.\",\"This student has tried his/her best.\"],\"questionText\":\"Please choose the best choice for the following sub-questions.\",\"numOfRubricChoices\":2,\"numOfRubricSubQuestions\":2,\"questionType\":\"RUBRIC\",\"rubricChoices\":[\"Yes\",\"No\"],\"rubricDescriptions\":[[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]}",
+      "questionDetails": {
+        "rubricSubQuestions": [
+          "This student has done a good job.",
+          "This student has tried his/her best."
+        ],
+        "questionText": "Please choose the best choice for the following sub-questions.",
+        "numOfRubricChoices": 2,
+        "numOfRubricSubQuestions": 2,
+        "questionType": "RUBRIC",
+        "rubricChoices": [
+          "Yes",
+          "No"
+        ],
+        "rubricDescriptions": [
+          [
+            "",
+            ""
+          ],
+          [
+            "Most of the time",
+            "Less than half the time"
+          ]
+        ]
+      },
       "questionNumber": 12,
       "questionType": "RUBRIC",
       "giverType": "STUDENTS",
@@ -495,7 +582,11 @@
     "qn13InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the other teams, you can give the same rank multiple times.\",\"questionType\":\"RANK_RECIPIENTS\"}",
+      "questionDetails": {
+        "areDuplicatesAllowed": true,
+        "questionText": "Rank the other teams, you can give the same rank multiple times.",
+        "questionType": "RANK_RECIPIENTS"
+      },
       "questionNumber": 13,
       "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
@@ -517,7 +608,17 @@
     "qn14InSession1": {
       "feedbackSessionName": "Session with different question types",
       "courseId": "demo.course",
-      "questionMetaData": "{\"areDuplicatesAllowed\":true,\"questionText\":\"Rank the areas of improvement you think you should make progress in.\",\"questionType\":\"RANK_OPTIONS\",\"options\":[\"Quality of work\",\"Quality of progress reports\",\"Time management\",\"Teamwork and communication\"]}",
+      "questionDetails": {
+        "areDuplicatesAllowed": true,
+        "questionText": "Rank the areas of improvement you think you should make progress in.",
+        "questionType": "RANK_OPTIONS",
+        "options": [
+          "Quality of work",
+          "Quality of progress reports",
+          "Time management",
+          "Teamwork and communication"
+        ]
+      },
       "questionNumber": 14,
       "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
@@ -539,7 +640,10 @@
     "qn1InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "{\"questionText\":\"Please rate the estimated contribution of your team members and yourself.\",\"questionType\":\"CONTRIB\"}",
+      "questionDetails": {
+        "questionText": "Please rate the estimated contribution of your team members and yourself.",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -562,7 +666,10 @@
     "qn2InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "Comments about your contribution (shown to other teammates)",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Comments about your contribution (shown to other teammates)"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -590,7 +697,10 @@
     "qn3InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "Your comments about this teammate (confidential and only shown to instructor)",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Your comments about this teammate (confidential and only shown to instructor)"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -609,7 +719,10 @@
     "qn4InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "Comments about team dynamics (confidential and only shown to instructor)",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Comments about team dynamics (confidential and only shown to instructor)"
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -628,7 +741,10 @@
     "qn5InSession2": {
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "Your feedback to this teammate (shown anonymously to the teammate)",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Your feedback to this teammate (shown anonymously to the teammate)"
+      },
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -649,7 +765,10 @@
     "qn1InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "{\"questionText\":\"Please rate the estimated contribution of your team members and yourself.\",\"questionType\":\"CONTRIB\"}",
+      "questionDetails": {
+        "questionText": "Please rate the estimated contribution of your team members and yourself.",
+        "questionType": "CONTRIB"
+      },
       "questionNumber": 1,
       "questionType": "CONTRIB",
       "giverType": "STUDENTS",
@@ -672,7 +791,10 @@
     "qn2InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "Comments about your contribution (shown to other teammates)",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Comments about your contribution (shown to other teammates)"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -700,7 +822,10 @@
     "qn3InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "Your comments about this teammate (confidential and only shown to instructor)",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Your comments about this teammate (confidential and only shown to instructor)"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -719,7 +844,10 @@
     "qn4InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "Comments about team dynamics (confidential and only shown to instructor)",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Comments about team dynamics (confidential and only shown to instructor)"
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -738,7 +866,10 @@
     "qn5InSession3": {
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
-      "questionMetaData": "Your feedback to this teammate (shown anonymously to the teammate)",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Your feedback to this teammate (shown anonymously to the teammate)"
+      },
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -2919,7 +3050,7 @@
       "email": "alice@b.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "nationality": "Chinese",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "I am Alice from TEAMMATES Test Institute 1 and am here at Cambridge for exchange. My Major in TEAMMATES Test Institute 5 is Art History with Minor in Business Administration. I really look forward to a great and fruitful semester ahead!",
       "pictureKey": ""
     },
@@ -2929,7 +3060,7 @@
       "email": "danny@e.tmt",
       "institute": "TEAMMATES Test Institute 7",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "",
       "pictureKey": ""
     },
@@ -2939,7 +3070,7 @@
       "email": "emma@f.tmt",
       "institute": "TEAMMATES Test Institute 8",
       "nationality": "Indian",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "I am Emma from TEAMMATES Test Institute 8 India and am here at TEAMMATES Test Institute 5 for exchange. ",
       "pictureKey": ""
     },
@@ -2949,7 +3080,7 @@
       "email": "charlie@d.tmt",
       "institute": "TEAMMATES Test Institute 8",
       "nationality": "American",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am Charlie - an exchange student",
       "pictureKey": ""
     },
@@ -2959,7 +3090,7 @@
       "email": "gene@h.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "nationality": "Nigerian",
-      "gender": "female",
+      "gender": "FEMALE",
       "moreInfo": "",
       "pictureKey": ""
     }

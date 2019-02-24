@@ -643,6 +643,59 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
+     * Updates with {@link UpdateOptions}.
+     */
+    public void update(UpdateOptions updateOptions) {
+        updateOptions.instructionsOption.ifPresent(s -> instructions = s);
+        updateOptions.deletedTimeOption.ifPresent(s -> deletedTime = s);
+        updateOptions.startTimeOption.ifPresent(s -> startTime = s);
+        updateOptions.endTimeOption.ifPresent(s -> endTime = s);
+        updateOptions.sessionVisibleFromTimeOption.ifPresent(s -> sessionVisibleFromTime = s);
+        updateOptions.resultsVisibleFromTimeOption.ifPresent(s -> resultsVisibleFromTime = s);
+        updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
+        updateOptions.gracePeriodOption.ifPresent(s -> gracePeriod = s);
+        updateOptions.sentOpenEmailOption.ifPresent(s -> sentOpenEmail = s);
+        updateOptions.sentClosingEmailOption.ifPresent(s -> sentClosingEmail = s);
+        updateOptions.sentClosedEmailOption.ifPresent(s -> sentClosedEmail = s);
+        updateOptions.sentPublishedEmailOption.ifPresent(s -> sentPublishedEmail = s);
+        updateOptions.isClosingEmailEnabledOption.ifPresent(s -> isClosingEmailEnabled = s);
+        updateOptions.isPublishedEmailEnabledOption.ifPresent(s -> isPublishedEmailEnabled = s);
+
+        updateOptions.addingStudentRespondentOption.ifPresent(s -> respondingStudentList.add(s));
+        updateOptions.removingStudentRespondentOption.ifPresent(s -> respondingStudentList.remove(s));
+        updateOptions.addingInstructorRespondentOption.ifPresent(s -> respondingInstructorList.add(s));
+        updateOptions.removingInstructorRespondentOption.ifPresent(s -> respondingInstructorList.remove(s));
+
+        updateOptions.updatingStudentRespondentOption.ifPresent(s -> {
+            if (respondingStudentList.contains(s.getOldEmail())) {
+                respondingStudentList.remove(s.getOldEmail());
+                respondingStudentList.add(s.getNewEmail());
+            }
+        });
+
+        updateOptions.updatingInstructorRespondentOption.ifPresent(s -> {
+            if (respondingInstructorList.contains(s.getOldEmail())) {
+                respondingInstructorList.remove(s.getOldEmail());
+                respondingInstructorList.add(s.getNewEmail());
+            }
+        });
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a session.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(String feedbackSessionName, String courseId) {
+        return new UpdateOptions.Builder(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build on top of {@code updateOptions}.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(UpdateOptions updateOptions) {
+        return new UpdateOptions.Builder(updateOptions);
+    }
+
+    /**
      * A Builder for {@link FeedbackSessionAttributes}.
      */
     public static class Builder {
@@ -750,7 +803,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public Builder withRespondingInstructorList(Set<String> respondingInstructorList) {
             Set<String> respondingList = respondingInstructorList == null
-                    ? new HashSet<String>()
+                    ? new HashSet<>()
                     : respondingInstructorList;
             feedbackSessionAttributes.setRespondingInstructorList(respondingList);
             return this;
@@ -758,7 +811,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public Builder withRespondingStudentList(Set<String> respondingStudentList) {
             Set<String> respondingList = respondingStudentList == null
-                    ? new HashSet<String>()
+                    ? new HashSet<>()
                     : respondingStudentList;
             feedbackSessionAttributes.setRespondingStudentList(respondingList);
             return this;
@@ -767,5 +820,249 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         public FeedbackSessionAttributes build() {
             return feedbackSessionAttributes;
         }
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link FeedbackSessionAttributes}.
+     */
+    public static class UpdateOptions {
+        private String courseId;
+        private String feedbackSessionName;
+
+        private UpdateOption<String> instructionsOption = UpdateOption.empty();
+        private UpdateOption<Instant> deletedTimeOption = UpdateOption.empty();
+        private UpdateOption<Instant> startTimeOption = UpdateOption.empty();
+        private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
+        private UpdateOption<Instant> sessionVisibleFromTimeOption = UpdateOption.empty();
+        private UpdateOption<Instant> resultsVisibleFromTimeOption = UpdateOption.empty();
+        private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
+        private UpdateOption<Duration> gracePeriodOption = UpdateOption.empty();
+        private UpdateOption<Boolean> sentOpenEmailOption = UpdateOption.empty();
+        private UpdateOption<Boolean> sentClosingEmailOption = UpdateOption.empty();
+        private UpdateOption<Boolean> sentClosedEmailOption = UpdateOption.empty();
+        private UpdateOption<Boolean> sentPublishedEmailOption = UpdateOption.empty();
+        private UpdateOption<Boolean> isClosingEmailEnabledOption = UpdateOption.empty();
+        private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
+
+        private UpdateOption<String> addingStudentRespondentOption = UpdateOption.empty();
+        private UpdateOption<String> removingStudentRespondentOption = UpdateOption.empty();
+        private UpdateOption<String> addingInstructorRespondentOption = UpdateOption.empty();
+        private UpdateOption<String> removingInstructorRespondentOption = UpdateOption.empty();
+        private UpdateOption<EmailChange> updatingStudentRespondentOption = UpdateOption.empty();
+        private UpdateOption<EmailChange> updatingInstructorRespondentOption = UpdateOption.empty();
+
+        private UpdateOptions(String feedbackSessionName, String courseId) {
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackSessionName);
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
+
+            this.feedbackSessionName = feedbackSessionName;
+            this.courseId = courseId;
+        }
+
+        public String getCourseId() {
+            return courseId;
+        }
+
+        public String getFeedbackSessionName() {
+            return feedbackSessionName;
+        }
+
+        @Override
+        public String toString() {
+            return "StudentAttributes.UpdateOptions ["
+                    + "feedbackSessionName = " + feedbackSessionName
+                    + ", courseId = " + courseId
+                    + ", instructions = " + instructionsOption
+                    + ", startTime = " + startTimeOption
+                    + ", endTime = " + endTimeOption
+                    + ", sessionVisibleFromTime = " + sessionVisibleFromTimeOption
+                    + ", resultsVisibleFromTime = " + resultsVisibleFromTimeOption
+                    + ", timeZone = " + timeZoneOption
+                    + ", gracePeriod = " + gracePeriodOption
+                    + ", sentOpenEmail = " + sentOpenEmailOption
+                    + ", sentClosingEmail = " + sentClosingEmailOption
+                    + ", sentClosedEmail = " + sentClosedEmailOption
+                    + ", sentPublishedEmail = " + sentPublishedEmailOption
+                    + ", isClosingEmailEnabled = " + isClosingEmailEnabledOption
+                    + ", isPublishedEmailEnabled = " + isPublishedEmailEnabledOption
+                    + ", addingStudentRespondent = " + addingStudentRespondentOption
+                    + ", removingStudentRespondent = " + removingStudentRespondentOption
+                    + ", addingInstructorRespondent = " + addingInstructorRespondentOption
+                    + ", removingInstructorRespondent = " + removingInstructorRespondentOption
+                    + ", updatingStudentRespondent = " + updatingStudentRespondentOption
+                    + ", updatingInstructorRespondent = " + updatingInstructorRespondentOption
+                    + "]";
+        }
+
+        /**
+         * Represents the change of email for an(a) instructor/student.
+         */
+        private static class EmailChange {
+
+            private String oldEmail;
+            private String newEmail;
+
+            private EmailChange(String oldEmail, String newEmail) {
+                this.oldEmail = oldEmail;
+                this.newEmail = newEmail;
+            }
+
+            private String getOldEmail() {
+                return oldEmail;
+            }
+
+            private String getNewEmail() {
+                return newEmail;
+            }
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder {
+            private UpdateOptions updateOptions;
+
+            private Builder(UpdateOptions updateOptions) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, updateOptions);
+
+                this.updateOptions = updateOptions;
+            }
+
+            private Builder(String feedbackSessionName, String courseId) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackSessionName);
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
+
+                updateOptions = new UpdateOptions(feedbackSessionName, courseId);
+            }
+
+            public Builder withInstructions(String instruction) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, instruction);
+
+                updateOptions.instructionsOption = UpdateOption.of(instruction);
+                return this;
+            }
+
+            public Builder withStartTime(Instant startTime) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, startTime);
+
+                updateOptions.startTimeOption = UpdateOption.of(startTime);
+                return this;
+            }
+
+            public Builder withEndTime(Instant gender) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, gender);
+
+                updateOptions.endTimeOption = UpdateOption.of(gender);
+                return this;
+            }
+
+            public Builder withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, sessionVisibleFromTime);
+
+                updateOptions.sessionVisibleFromTimeOption = UpdateOption.of(sessionVisibleFromTime);
+                return this;
+            }
+
+            public Builder withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, resultsVisibleFromTime);
+
+                updateOptions.resultsVisibleFromTimeOption = UpdateOption.of(resultsVisibleFromTime);
+                return this;
+            }
+
+            public Builder withTimeZone(ZoneId timeZone) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, timeZone);
+
+                updateOptions.timeZoneOption = UpdateOption.of(timeZone);
+                return this;
+            }
+
+            public Builder withGracePeriod(Duration gracePeriod) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, gracePeriod);
+
+                updateOptions.gracePeriodOption = UpdateOption.of(gracePeriod);
+                return this;
+            }
+
+            public Builder withSentOpenEmail(boolean sentOpenEmail) {
+                updateOptions.sentOpenEmailOption = UpdateOption.of(sentOpenEmail);
+                return this;
+            }
+
+            public Builder withSentClosingEmail(boolean sentClosingEmail) {
+                updateOptions.sentClosingEmailOption = UpdateOption.of(sentClosingEmail);
+                return this;
+            }
+
+            public Builder withSentClosedEmail(boolean sentClosedEmail) {
+                updateOptions.sentClosedEmailOption = UpdateOption.of(sentClosedEmail);
+                return this;
+            }
+
+            public Builder withSentPublishedEmail(boolean sentPublishedEmail) {
+                updateOptions.sentPublishedEmailOption = UpdateOption.of(sentPublishedEmail);
+                return this;
+            }
+
+            public Builder withIsClosingEmailEnabled(boolean isClosingEmailEnabled) {
+                updateOptions.isClosingEmailEnabledOption = UpdateOption.of(isClosingEmailEnabled);
+                return this;
+            }
+
+            public Builder withIsPublishedEmailEnabled(boolean isPublishedEmailEnabled) {
+                updateOptions.isPublishedEmailEnabledOption = UpdateOption.of(isPublishedEmailEnabled);
+                return this;
+            }
+
+            public Builder withAddingStudentRespondent(String email) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+
+                updateOptions.addingStudentRespondentOption = UpdateOption.of(email);
+                return this;
+            }
+
+            public Builder withRemovingStudentRespondent(String email) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+
+                updateOptions.removingStudentRespondentOption = UpdateOption.of(email);
+                return this;
+            }
+
+            public Builder withAddingInstructorRespondent(String email) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+
+                updateOptions.addingInstructorRespondentOption = UpdateOption.of(email);
+                return this;
+            }
+
+            public Builder withRemovingInstructorRespondent(String email) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+
+                updateOptions.removingInstructorRespondentOption = UpdateOption.of(email);
+                return this;
+            }
+
+            public Builder withUpdatingStudentRespondent(String oldEmail, String newEmail) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, oldEmail);
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, newEmail);
+
+                updateOptions.updatingStudentRespondentOption = UpdateOption.of(new EmailChange(oldEmail, newEmail));
+                return this;
+            }
+
+            public Builder withUpdatingInstructorRespondent(String oldEmail, String newEmail) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, oldEmail);
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, newEmail);
+
+                updateOptions.updatingInstructorRespondentOption = UpdateOption.of(new EmailChange(oldEmail, newEmail));
+                return this;
+            }
+
+            public UpdateOptions build() {
+                return updateOptions;
+            }
+
+        }
+
     }
 }

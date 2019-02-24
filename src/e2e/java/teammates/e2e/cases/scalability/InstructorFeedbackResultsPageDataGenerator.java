@@ -75,9 +75,9 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    static class EmptyObject {}
+    private static class EmptyObject {}
 
-    static class Account {
+    private static class Account {
         private String email = "CFResultsScT.instr@gmail.tmt";
         private String googleId = "CFResultsScT.instr";
         private String institute = "TEAMMATES Test Institute 1";
@@ -85,13 +85,13 @@ public class InstructorFeedbackResultsPageDataGenerator {
         private String name = "Teammates Test";
     }
 
-    static class Course {
+    private static class Course {
         private String id = "CFResultsScT.CS2104";
         private String name = "Programming Language Concepts";
         private String timeZone = "UTC";
     }
 
-    static class Metadata {
+    private static class Metadata {
         private String value;
 
         Metadata(String value) {
@@ -99,7 +99,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    static class Question {
+    private static class Question {
         private String courseId = "CFResultsScT.CS2104";
         private String creatorEmail = "CFResultsScT.instr@gmail.tmt";
         private String feedbackSessionName = "Open Session";
@@ -118,7 +118,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    static class Session {
+    private static class Session {
         private String courseId = "CFResultsScT.CS2104";
         private String createdTime = "2012-04-01 11:59 PM UTC";
         private String creatorEmail = "CFResultsScT.instr@gmail.tmt";
@@ -139,7 +139,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         private double timeZone = 8.0;
     }
 
-    static class Instructor {
+    private static class Instructor {
         private String googleId = "CFResultsScT.instr";
         private String courseId = "CFResultsScT.CS2104";
         private String name = "Teammates Test";
@@ -168,7 +168,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    static class Student {
+    private static class Student {
         private String googleId = "CFResultsScT.";
         private String comments = "This is a student.";
         private String course = "CFResultsScT.CS2104";
@@ -188,7 +188,7 @@ public class InstructorFeedbackResultsPageDataGenerator {
         }
     }
 
-    static class Response {
+    private static class Response {
         private String giver;
         private String recipient;
         private String feedbackQuestionId;

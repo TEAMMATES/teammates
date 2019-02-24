@@ -140,9 +140,6 @@ public final class Const {
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
                         ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
                         ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
                         ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
@@ -528,6 +525,9 @@ public final class Const {
                 "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
+
+        // Text Question
+        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
     }
 
     public static class FeedbackQuestionTypeNames {
@@ -557,12 +557,6 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
         public static final String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
-    }
-
-    public static class GenderTypes {
-        public static final String MALE = "male";
-        public static final String FEMALE = "female";
-        public static final String OTHER = "other";
     }
 
     public static class ParamsNames {
@@ -935,19 +929,22 @@ public final class Const {
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNTS_RESET = "/accounts/reset";
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String RESPONSE_COMMENT = "/responsecomment";
         public static final String COURSE = "/course";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
+        public static final String RESULT = "/result";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
         public static final String SESSIONS_ADMIN = "/sessions/admin";
-        public static final String SESSIONS_STATS = "/sessions/stats";
         public static final String SESSION = "/session";
         public static final String SESSION_PUBLISH = "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
         public static final String SESSION_REMIND_RESULT = "/session/remind/result";
+        public static final String SESSION_STATS = "/session/stats";
+        public static final String SESSION_STUDENTS_RESPONSE = "/session/students/response";
         public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
@@ -974,6 +971,8 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
 
+        public static final String INSTRUCTOR_STUDENTS_COURSES = "/instructor/students/courses";
+        public static final String INSTRUCTOR_STUDENTS = "/instructor/students";
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
@@ -1005,8 +1004,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
-        public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
-        public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE = "/page/instructorStudentRecordsAjaxPage";
 
         public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE =
@@ -1017,14 +1014,6 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
-
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE =
-                "/page/instructorFeedbackResponseCommentDelete";
-
-        public static final String FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE =
-                "/page/feedbackParticipantFeedbackResponseCommentDelete";
 
         public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
         public static final String IMAGE_UPLOAD = "/page/imageUpload";
@@ -1053,9 +1042,6 @@ public final class Const {
      * Configurations for task queue.
      */
     public static class TaskQueue {
-
-        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME = "feedback-response-adjustment-queue";
-        public static final String FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL = "/worker/feedbackResponseAdjustment";
 
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
                 "feedback-session-published-email-queue";
@@ -1101,10 +1087,6 @@ public final class Const {
 
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
 
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD =
-                "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL =
-                "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION =
@@ -1117,8 +1099,6 @@ public final class Const {
                 "/jsp/instructorFeedbackResultsByRecipientQuestionGiver.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp";
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
-        public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
-        public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
 
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
@@ -1431,6 +1411,9 @@ public final class Const {
 
         // General Error codes
         public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
+
+        // Error message for update options
+        public static final String UPDATE_OPTIONS_NULL_INPUT = "Field to update is null";
 
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";

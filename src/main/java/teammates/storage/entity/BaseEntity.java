@@ -15,7 +15,7 @@ import com.googlecode.objectify.impl.translate.ValueTranslatorFactory;
 /**
  * Base class for all entities persisted to the Datastore.
  */
-public abstract class BaseEntity { // NOPMD
+public abstract class BaseEntity {
 
     /**
      * Translates between `java.time.Instant` in entity class and `java.util.Date` in Google Cloud Datastore.

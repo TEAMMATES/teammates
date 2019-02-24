@@ -323,6 +323,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
+    public String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent) {
+        // TODO
+        return "";
+    }
+
+    @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
@@ -551,7 +559,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<FeedbackResponseAttributes>> teamResponses = new LinkedHashMap<>();
         for (String teamName : teamNames) {
-            teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
+            teamResponses.put(teamName, new ArrayList<>());
         }
         for (FeedbackResponseAttributes response : responses) {
             String team = bundle.emailTeamNameTable.get(response.giver);

@@ -298,7 +298,10 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "questionMetaData": "What is the best selling point of your product?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -317,7 +320,10 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "questionMetaData": "Rate 1 other student's product",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -340,7 +346,10 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "questionMetaData": "My searchUI on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My searchUI on the class"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -368,7 +377,10 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "searchUI.First feedback session",
       "courseId": "searchUI.idOfTypicalCourse1",
-      "questionMetaData": "Instructor searchUI on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Instructor searchUI on the class"
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -396,7 +408,10 @@
     "qn1InSession1InTestingSanitizationCourse": {
       "feedbackSessionName": "Normal feedback session name",
       "courseId": "searchUI.idOfTestingSanitizationCourse",
-      "questionMetaData": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -630,7 +645,7 @@
       "email": "i.m.stud1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 3",
       "nationality": "",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am just a student :P",
       "pictureKey": ""
     },
@@ -640,7 +655,7 @@
       "email": "weird&'@gmail.tmt",
       "institute": "inst<script> alert('hi!'); </script>",
       "nationality": "American",
-      "gender": "other",
+      "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
       "pictureKey": ""
     }

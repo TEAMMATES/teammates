@@ -264,6 +264,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
+    protected void verifyInaccessibleForSpecificInstructor(InstructorAttributes instructor, String... params) {
+        ______TS("A specific instructor cannot access the resource.");
+
+        loginAsInstructor(instructor.googleId);
+        verifyCannotAccess(params);
+    }
+
     protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
 
         ______TS("admin can access");
@@ -283,6 +290,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
         loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
+    protected void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
+
+        ______TS("without Submit-Session-In-Sections privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
 
@@ -327,6 +344,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotAccess(submissionParams);
     }
 
+    protected void verifyInaccessibleWithoutModifySessionCommentInSectionsPrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Session-Comment-In-Sections privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
     protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
 
         ______TS("course instructor can access");
@@ -341,6 +368,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
         verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
 
+    }
+
+    protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
+
+        ______TS("course students can access");
+
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student1InCourse1.googleId);
+        verifyCanAccess(submissionParams);
     }
 
     protected void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {

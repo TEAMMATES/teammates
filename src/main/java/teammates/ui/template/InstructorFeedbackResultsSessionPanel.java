@@ -1,9 +1,9 @@
 package teammates.ui.template;
 
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.SectionDetail;
 import teammates.common.util.TimeHelper;
 
 public class InstructorFeedbackResultsSessionPanel {

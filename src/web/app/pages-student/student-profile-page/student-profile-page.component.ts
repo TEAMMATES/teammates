@@ -6,11 +6,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../../services/auth.service';
-import { AuthInfo, MessageOutput } from '../../../types/api-output';
+import { AuthInfo, MessageOutput, Nationalities } from '../../../types/api-output';
 
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
+import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentProfile {
@@ -18,7 +19,7 @@ interface StudentProfile {
   email: string;
   institute: string;
   nationality: string;
-  gender: string;
+  gender: Gender;
   moreInfo: string;
   pictureKey: string;
 }
@@ -27,10 +28,6 @@ interface StudentDetails {
   studentProfile: StudentProfile;
   name: string;
   requestId: string;
-}
-
-interface NationalityData {
-  nationalities: string[];
 }
 
 /**
@@ -43,13 +40,13 @@ interface NationalityData {
 })
 export class StudentProfilePageComponent implements OnInit {
 
+  Gender: typeof Gender = Gender; // enum
   user: string = '';
   id: string = '';
   student?: StudentDetails;
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
-  genders: string[] = ['male', 'female', 'other'];
 
   private backendUrl: string = environment.backendUrl;
 
@@ -83,7 +80,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Fetches the list of nationalities needed for the drop down box.
    */
   initNationalities(): void {
-    this.httpRequestService.get('/nationalities').subscribe((response: NationalityData) => {
+    this.httpRequestService.get('/nationalities').subscribe((response: Nationalities) => {
       this.nationalities = response.nationalities;
     });
   }
