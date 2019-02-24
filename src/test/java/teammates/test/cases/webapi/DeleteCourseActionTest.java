@@ -53,7 +53,7 @@ public class DeleteCourseActionTest
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been permanently deleted.", message.getMessage());
-        assertThrows(NullPointerException.class, () -> logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1));
+        assertNull(logic.getCourse(instructor1OfCourse1.courseId));
     }
 
     @Test
@@ -68,6 +68,7 @@ public class DeleteCourseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
+        assertNotNull(logic.getCourse(instructor1OfCourse1.courseId));
         loginAsInstructor(instructorId);
 
         DeleteCourseAction deleteCourseAction = getAction(submissionParams);
@@ -76,7 +77,7 @@ public class DeleteCourseActionTest
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been permanently deleted.", message.getMessage());
-        assertThrows(NullPointerException.class, () -> logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1));
+        assertNull(logic.getCourse(instructor1OfCourse1.courseId));
     }
 
     @Override
