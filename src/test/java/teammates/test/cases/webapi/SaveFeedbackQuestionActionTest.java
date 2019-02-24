@@ -269,6 +269,38 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
                 logic.getFeedbackQuestion(typicalQuestion.getId()).getQuestionDescription());
     }
 
+    // TODO: ADD this test case in FeedbackTextQuestionDetailsTest
+    @Test
+    public void testExecute_invalidRecommendedLength_shouldThrowException() {
+        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestionAttributes typicalQuestion =
+                logic.getFeedbackQuestion(session.getFeedbackSessionName(), session.getCourseId(), 1);
+
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+
+        String[] param = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
+        };
+
+        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
+        // set recommended length as a negative integer
+        textQuestionDetails.setRecommendedLength(-1);
+        saveRequest.setQuestionDetails(textQuestionDetails);
+        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+
+        assertThrows(InvalidHttpRequestBodyException.class, () -> getJsonResult(a));
+
+        // question is not updated
+        assertEquals(typicalQuestion.getQuestionDescription(),
+                logic.getFeedbackQuestion(typicalQuestion.getId()).getQuestionDescription());
+
+        // recommended length does not change
+        assertEquals(0, ((FeedbackTextQuestionDetails) typicalQuestion.getQuestionDetails())
+                .getRecommendedLength());
+    }
+
     @Test
     public void testExecute_invalidGiverRecipientType_shouldThrowException() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
