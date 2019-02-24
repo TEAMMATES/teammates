@@ -28,8 +28,6 @@ public class ActionFactory {
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
 
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
-        map(FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE,
-                FeedbackParticipantFeedbackResponseCommentDeleteAction.class);
         map(CREATE_IMAGE_UPLOAD_URL, CreateImageUploadUrlAction.class);
         map(IMAGE_UPLOAD, ImageUploadAction.class);
     }
