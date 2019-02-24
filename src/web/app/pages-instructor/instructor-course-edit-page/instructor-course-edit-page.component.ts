@@ -10,7 +10,7 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { MessageOutput } from '../../../types/api-output';
+import { Course, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface CourseAttributes {
@@ -366,8 +366,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.courseService.updateCourse(this.courseToEdit.id, {
       courseName: newName,
       timeZone: newTimeZone,
-    }).subscribe((resp: MessageOutput) => {
-      this.statusMessageService.showSuccessMessage(resp.message);
+    }).subscribe((course: Course) => {
+      this.statusMessageService.showSuccessMessage(`Updated course [${course.courseId}] details: `
+          + `Name: ${course.courseName}, Time zone: ${course.timeZone}`);
       this.updateCourseDetails(newName, newTimeZone);
       this.toggleIsEditingCourse();
     }, (resp: ErrorMessageOutput) => {

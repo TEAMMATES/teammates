@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.request.CourseUpdateRequest;
 
 /**
@@ -61,7 +62,6 @@ public class UpdateCourseAction extends Action {
             return new JsonResult(edee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult("Updated course [" + courseId + "] details: Name: " + courseName
-                + ", Time zone: " + courseTimeZone, HttpStatus.SC_OK);
+        return new JsonResult(new CourseData(logic.getCourse(courseId)));
     }
 }

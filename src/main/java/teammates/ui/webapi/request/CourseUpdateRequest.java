@@ -1,7 +1,7 @@
 package teammates.ui.webapi.request;
 
 /**
- * The save request for a course.
+ * The update request for a course.
  */
 public class CourseUpdateRequest extends CourseBasicRequest {
 }

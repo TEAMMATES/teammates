@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.webapi.action.CreateCourseAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.CourseCreateRequest;
 
@@ -51,7 +52,12 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         loginAsInstructor(instructorId);
         CreateCourseAction action = getAction(courseCreateRequest);
+
         JsonResult result = getJsonResult(action);
+        CourseData courseData = (CourseData) result.getOutput();
+        assertEquals(courseData.getCourseId(), "new-course");
+        assertEquals(courseData.getCourseName(), "New Course");
+        assertEquals(courseData.getTimeZone(), "UTC");
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(logic.isCoursePresent("new-course"));

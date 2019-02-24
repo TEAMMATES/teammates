@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.request.CourseCreateRequest;
 
 /**
@@ -40,10 +41,6 @@ public class CreateCourseAction extends Action {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 
-        String statusMessage = "The course has been added. Click <a href=\"/web/instructor/courses/enroll?courseid="
-                + newCourseId + "\">here</a> to add students to the course or click "
-                + "<a href=\"/web/instructor/courses/edit?courseid=" + newCourseId + "\">here</a> to add other instructors."
-                + "<br>If you don't see the course in the list below, please refresh the page after a few moments.";
-        return new JsonResult(statusMessage);
+        return new JsonResult(new CourseData(logic.getCourse(newCourseId)));
     }
 }

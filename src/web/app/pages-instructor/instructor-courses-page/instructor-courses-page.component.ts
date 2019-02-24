@@ -5,7 +5,7 @@ import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { MessageOutput } from '../../../types/api-output';
+import { Course, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface ActiveCourse {
@@ -186,12 +186,16 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
 
     this.courseService.createCourse({
-      courseName: this.newCourseId,
+      courseName: this.newCourseName,
       timeZone: this.timezone,
       courseId: this.newCourseId,
-    }).subscribe((resp: MessageOutput) => {
+    }).subscribe((course: Course) => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      this.statusMessageService.showSuccessMessage('The course has been added. '
+          + `Click <a href=\"/web/instructor/courses/enroll?courseid=${course.courseId}\">here</a> `
+          + `to add students to the course or click <a href=\"/web/instructor/courses/edit?courseid=${course.courseId}`
+          + '\">here</a> to add other instructors.'
+          + '<br>If you don\'t see the course in the list below, please refresh the page after a few moments.');
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.UpdateCourseAction;
+import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.CourseUpdateRequest;
 
@@ -70,9 +71,8 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) result.getOutput();
-        assertEquals("Updated course [" + courseId + "] details: Name: " + courseName
-                + ", Time zone: " + courseTimeZone, msg.getMessage());
+        CourseData courseData = (CourseData) result.getOutput();
+        verifyCourseData(courseData, courseId, courseName, courseTimeZone);
 
         verifySessionsInCourseHaveTimeZone(courseId, courseTimeZone);
 
@@ -88,9 +88,8 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        msg = (MessageOutput) result.getOutput();
-        assertEquals("Updated course [" + courseId + "] details: Name: " + courseNameWithValidCharacters
-                + ", Time zone: " + courseTimeZone, msg.getMessage());
+        courseData = (CourseData) result.getOutput();
+        verifyCourseData(courseData, courseId, courseNameWithValidCharacters, courseTimeZone);
 
         verifySessionsInCourseHaveTimeZone(courseId, courseTimeZone);
         assertEquals(logic.getCourse(courseId).getName(), courseNameWithValidCharacters);
@@ -106,11 +105,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        msg = (MessageOutput) result.getOutput();
+        MessageOutput message = (MessageOutput) result.getOutput();
         statusMessage = getPopulatedEmptyStringErrorMessage(
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                 FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
-        assertEquals(statusMessage, msg.getMessage());
+        assertEquals(statusMessage, message.getMessage());
         assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: edit course name with non-alphanumeric start character");
@@ -124,11 +123,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        msg = (MessageOutput) result.getOutput();
+        message = (MessageOutput) result.getOutput();
         statusMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                 courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                 FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
-        assertEquals(statusMessage, msg.getMessage());
+        assertEquals(statusMessage, message.getMessage());
         assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: edit course name with name containing | and %");
@@ -142,11 +141,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        msg = (MessageOutput) result.getOutput();
+        message = (MessageOutput) result.getOutput();
         statusMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                 courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                 FieldValidator.REASON_CONTAINS_INVALID_CHAR);
-        assertEquals(statusMessage, msg.getMessage());
+        assertEquals(statusMessage, message.getMessage());
         assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: invalid time zone");
@@ -167,11 +166,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        msg = (MessageOutput) result.getOutput();
+        message = (MessageOutput) result.getOutput();
         statusMessage = getPopulatedErrorMessage(FieldValidator.TIME_ZONE_ERROR_MESSAGE,
                 courseTimeZone, FieldValidator.TIME_ZONE_FIELD_NAME,
                 FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
-        assertEquals(statusMessage, msg.getMessage());
+        assertEquals(statusMessage, message.getMessage());
         verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
     }
 
@@ -180,6 +179,12 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         for (FeedbackSessionAttributes session : sessions) {
             assertEquals(courseTimeZone, session.getTimeZone().getId());
         }
+    }
+
+    private void verifyCourseData(CourseData data, String courseId, String courseName, String timeZone) {
+        assertEquals(data.getCourseId(), courseId);
+        assertEquals(data.getCourseName(), courseName);
+        assertEquals(data.getTimeZone(), timeZone);
     }
 
     @Override
