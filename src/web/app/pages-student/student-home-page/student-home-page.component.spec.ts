@@ -37,19 +37,42 @@ describe('StudentHomePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap', () => {
+  it('should snap with null fields', () => {
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with blank fields', () => {
+    const studentName: string = '';
+    const studentCourse: any = {
+      course: {},
+      feedbackSessions: [],
+    };
+    component.user = studentName;
+    component.courses = [studentCourse];
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with populated fields', () => {
-    let studentCourse = {
+    const studentName: string = 'John Doe';
+    const studentCourse: any = {
       course: {
         id: 'CS2103',
         name: 'Software Engineering',
       },
       feedbackSessions: [],
     };
+    const sessionInfoMap: any = {
+      endTime: '1200',
+      isOpened: true,
+      isWaitingToOpen: true,
+      isPublished: true,
+      isSubmitted: true,
+    };
+
+    component.user = studentName;
     component.courses = [studentCourse];
+    component.sessionsInfoMap.set('Session', sessionInfoMap);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
