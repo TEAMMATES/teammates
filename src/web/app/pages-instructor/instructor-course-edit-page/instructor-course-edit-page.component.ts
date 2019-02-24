@@ -1024,7 +1024,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   resendReminderEmail(index: number): void {
     const instructorToResend: InstructorAttributes = this.instructorList[index];
 
-    this.courseService.remindInstructor(this.courseToEdit.id, instructorToResend.email)
+    this.courseService.remindInstructorForJoin(this.courseToEdit.id, instructorToResend.email)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
         }, (resp: ErrorMessageOutput) => {

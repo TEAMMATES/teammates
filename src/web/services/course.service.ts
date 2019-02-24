@@ -26,9 +26,9 @@ export class CourseService {
   }
 
   /**
-   * Send reminder emails to unregistered students.
+   * Send join reminder emails to unregistered students.
    */
-  remindUnregisteredStudents(courseId: string): Observable<MessageOutput> {
+  remindUnregisteredStudentsForJoin(courseId: string): Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
     };
@@ -36,9 +36,9 @@ export class CourseService {
   }
 
   /**
-   * Send reminder emails to a student.
+   * Send join reminder email to a student.
    */
-  remindStudent(courseId: string, studentEmail: string): Observable<MessageOutput> {
+  remindStudentForJoin(courseId: string, studentEmail: string): Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
       studentemail: studentEmail,
@@ -47,9 +47,9 @@ export class CourseService {
   }
 
   /**
-   * Send reminder emails to an instructor.
+   * Send join reminder email to an instructor.
    */
-  remindInstructor(courseId: string, instructorEmail: string): Observable<MessageOutput> {
+  remindInstructorForJoin(courseId: string, instructorEmail: string): Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
       instructoremail: instructorEmail,

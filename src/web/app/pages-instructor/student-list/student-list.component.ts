@@ -92,7 +92,7 @@ export class StudentListComponent implements OnInit {
    * Remind the student from course.
    */
   remindStudentFromCourse(studentEmail: string): void {
-    this.courseService.remindStudent(this.courseId, studentEmail)
+    this.courseService.remindStudentForJoin(this.courseId, studentEmail)
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
             '/web/instructor/courses/details', resp.message);

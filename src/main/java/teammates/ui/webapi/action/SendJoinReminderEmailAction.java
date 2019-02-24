@@ -12,9 +12,9 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 
 /**
- * Send reminder emails to register for a course.
+ * Send join reminder emails to register for a course.
  */
-public class SendReminderEmailAction extends Action {
+public class SendJoinReminderEmailAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

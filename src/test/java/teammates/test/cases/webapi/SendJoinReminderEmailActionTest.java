@@ -13,13 +13,13 @@ import teammates.common.util.Const;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SendReminderEmailAction;
+import teammates.ui.webapi.action.SendJoinReminderEmailAction;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link SendReminderEmailActionTest}.
+ * SUT: {@link SendJoinReminderEmailActionTest}.
  */
-public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmailAction> {
+public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinReminderEmailAction> {
 
     @Override
     protected String getActionUri() {
@@ -52,17 +52,17 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
                 Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email,
         };
 
-        SendReminderEmailAction sendReminderEmailAction = getAction(submissionParams);
-        JsonResult result = getJsonResult(sendReminderEmailAction);
+        SendJoinReminderEmailAction sendJoinReminderEmailAction = getAction(submissionParams);
+        JsonResult result = getJsonResult(sendJoinReminderEmailAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         MessageOutput msg = (MessageOutput) result.getOutput();
         assertEquals("An email has been sent to " + anotherInstructorOfCourse1.email, msg.getMessage());
 
-        verifySpecifiedTasksAdded(sendReminderEmailAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(sendJoinReminderEmailAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
-        TaskWrapper taskAdded = sendReminderEmailAction.getTaskQueuer().getTasksAdded().get(0);
+        TaskWrapper taskAdded = sendJoinReminderEmailAction.getTaskQueuer().getTasksAdded().get(0);
         Map<String, String[]> paramMap = taskAdded.getParamMap();
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
         assertEquals(anotherInstructorOfCourse1.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL)[0]);
@@ -75,17 +75,17 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
-        sendReminderEmailAction = getAction(submissionParams);
-        result = getJsonResult(sendReminderEmailAction);
+        sendJoinReminderEmailAction = getAction(submissionParams);
+        result = getJsonResult(sendJoinReminderEmailAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         msg = (MessageOutput) result.getOutput();
         assertEquals("An email has been sent to " + student1InCourse1.email, msg.getMessage());
 
-        verifySpecifiedTasksAdded(sendReminderEmailAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(sendJoinReminderEmailAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
-        taskAdded = sendReminderEmailAction.getTaskQueuer().getTasksAdded().get(0);
+        taskAdded = sendJoinReminderEmailAction.getTaskQueuer().getTasksAdded().get(0);
         paramMap = taskAdded.getParamMap();
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
         assertEquals(student1InCourse1.email, paramMap.get(Const.ParamsNames.STUDENT_EMAIL)[0]);
@@ -115,8 +115,8 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        sendReminderEmailAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        result = getJsonResult(sendReminderEmailAction);
+        sendJoinReminderEmailAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        result = getJsonResult(sendJoinReminderEmailAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
@@ -124,9 +124,9 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         assertEquals("Emails have been sent to unregistered students.", msg.getMessage());
 
         // 2 unregistered students, thus 2 emails queued to be sent
-        verifySpecifiedTasksAdded(sendReminderEmailAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 2);
+        verifySpecifiedTasksAdded(sendJoinReminderEmailAction, Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 2);
 
-        List<TaskWrapper> tasksAdded = sendReminderEmailAction.getTaskQueuer().getTasksAdded();
+        List<TaskWrapper> tasksAdded = sendJoinReminderEmailAction.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             paramMap = task.getParamMap();
             assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
@@ -140,8 +140,8 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        sendReminderEmailAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        result = getJsonResult(sendReminderEmailAction);
+        sendJoinReminderEmailAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        result = getJsonResult(sendJoinReminderEmailAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
@@ -149,7 +149,7 @@ public class SendReminderEmailActionTest extends BaseActionTest<SendReminderEmai
         assertEquals("Emails have been sent to unregistered students.", msg.getMessage());
 
         // no unregistered students, thus no emails sent
-        verifyNoTasksAdded(sendReminderEmailAction);
+        verifyNoTasksAdded(sendJoinReminderEmailAction);
 
         ______TS("Failure case: Invalid email parameter");
 
