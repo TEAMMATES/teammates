@@ -48,10 +48,9 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
 
         ______TS("Typical case: profile picture is null");
 
-        PostStudentProfilePictureAction nullProfilePicAction =
-                getActionWithParts("studentprofilephoto", "");
+        PostStudentProfilePictureAction nullProfilePicAction = getAction();
 
-        assertThrows(NullPointerException.class, () -> nullProfilePicAction.execute());
+        assertThrows(InvalidHttpRequestBodyException.class, () -> nullProfilePicAction.execute());
 
         ______TS("Typical case: profile picture is too large");
 

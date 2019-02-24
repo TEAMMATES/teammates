@@ -60,7 +60,7 @@ public class PostStudentProfilePictureAction extends Action {
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
         } catch (ServletException | IOException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }
