@@ -8,8 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -63,7 +61,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image, contentType);
     }
 
-    protected static boolean doesFileExistInGcs(BlobKey fileKey) {
+    protected static boolean doesFileExistInGcs(String fileKey) {
         return GoogleCloudStorageHelper.doesFileExistInGcs(fileKey);
     }
 
