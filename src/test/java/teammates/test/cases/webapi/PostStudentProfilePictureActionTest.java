@@ -1,8 +1,5 @@
 package teammates.test.cases.webapi;
 
-import java.io.File;
-import java.net.URLConnection;
-
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
@@ -39,9 +36,7 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
         ______TS("Typical case: upload profile picture operation successful");
 
         String filePath = "src/test/resources/images/profile_pic.png";
-        String contentType = URLConnection.guessContentTypeFromName(new File(filePath).getName());
-
-        PostStudentProfilePictureAction action = getActionWithParts("studentprofilephoto", contentType, filePath);
+        PostStudentProfilePictureAction action = getActionWithParts("studentprofilephoto", filePath);
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

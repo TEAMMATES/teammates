@@ -21,17 +21,15 @@ public class DeleteStudentProfilePictureAction extends Action {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Student privilege is required to update this resource.");
         }
+        String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
+        if (!userInfo.id.equals(googleId) && !isMasqueradeMode()) {
+            throw new UnauthorizedAccessException("You are not authorized to delete this student's profile.");
+        }
     }
 
     @Override
     public ActionResult execute() {
-        String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
-        if (!userInfo.id.equals(googleId) && !isMasqueradeMode()) {
-            return new JsonResult("You are not authorized to delete this student's profile.",
-                    HttpStatus.SC_FORBIDDEN);
-        }
-        String blobKey = getNonNullRequestParamValue(Const.ParamsNames.BLOB_KEY);
-        logic.deletePicture(new BlobKey(blobKey));
+        logic.deletePicture(new BlobKey(logic.getStudentProfile(userInfo.id).pictureKey));
         logic.deletePictureKey(userInfo.id);
         return new JsonResult("Your profile picture has been deleted successfully", HttpStatus.SC_OK);
     }

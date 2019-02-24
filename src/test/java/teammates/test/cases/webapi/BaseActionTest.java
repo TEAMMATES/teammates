@@ -80,7 +80,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Gets an action with request multipart config.
      */
-    protected T getActionWithParts(String key, String contentType, String filePath, String... params) throws IOException {
+    protected T getActionWithParts(String key, String filePath, String... params) throws IOException {
         Map<String, Part> parts = new HashMap<>();
         parts.put(key, new MockPart(filePath));
 

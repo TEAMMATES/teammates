@@ -113,8 +113,7 @@ export class StudentProfilePageComponent implements OnInit {
             this.name = response.name;
 
             this.pictureKey = this.student.studentProfile.pictureKey;
-            this.profilePicLink =
-                this.getProfilePictureUrl(this.pictureKey);
+            this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
 
             this.initStudentProfileForm(this.student.studentProfile);
           } else {
@@ -200,7 +199,6 @@ export class StudentProfilePageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       user: this.user,
       googleid: this.id,
-      'blob-key': this.pictureKey,
     };
     this.httpRequestService.delete('/students/profilePic', paramMap)
         .subscribe((response: MessageOutput) => {

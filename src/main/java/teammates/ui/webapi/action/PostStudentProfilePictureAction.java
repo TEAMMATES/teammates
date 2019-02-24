@@ -36,9 +36,6 @@ public class PostStudentProfilePictureAction extends Action {
         try {
             Part image = extractProfilePicture();
             byte[] imageData = new byte[(int) image.getSize()];
-            if (imageData == null) {
-                return new JsonResult("Image is invalid!", HttpStatus.SC_BAD_REQUEST);
-            }
             try (InputStream is = image.getInputStream()) {
                 is.read(imageData);
             }
