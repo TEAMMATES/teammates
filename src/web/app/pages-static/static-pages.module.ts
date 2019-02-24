@@ -69,7 +69,7 @@ const routes: Routes = [
         path: 'getting-started',
         component: InstructorHelpGettingStartedComponent,
         data: {
-          instructorHelpPath: 'web/front/help/instructor',
+          instructorHelpPath: '/web/front/help/instructor',
         },
       },
     ],
@@ -78,7 +78,7 @@ const routes: Routes = [
     path: 'getting-started',
     component: InstructorHelpGettingStartedComponent,
     data: {
-      instructorHelpPath: 'web/front/help/instructor',
+      instructorHelpPath: '/web/front/help/instructor',
     },
   },
   {

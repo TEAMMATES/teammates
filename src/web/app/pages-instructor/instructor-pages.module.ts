@@ -175,7 +175,7 @@ const routes: Routes = [
     path: 'getting-started',
     component: InstructorHelpGettingStartedComponent,
     data: {
-      instructorHelpPath: 'web/instructor/help',
+      instructorHelpPath: '/web/instructor/help',
     },
   },
   {
