@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  CoursesPermanentDeletionConfirmModalComponent,
+} from './courses-permanent-deletion-confirm-modal/courses-permanent-deletion-confirm-modal.component';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
 /**
@@ -11,6 +14,7 @@ import { InstructorCoursesPageComponent } from './instructor-courses-page.compon
 @NgModule({
   declarations: [
     InstructorCoursesPageComponent,
+    CoursesPermanentDeletionConfirmModalComponent,
   ],
   exports: [
     InstructorCoursesPageComponent,
@@ -21,6 +25,9 @@ import { InstructorCoursesPageComponent } from './instructor-courses-page.compon
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
+  ],
+  entryComponents: [
+    CoursesPermanentDeletionConfirmModalComponent,
   ],
 })
 export class InstructorCoursesPageModule { }
