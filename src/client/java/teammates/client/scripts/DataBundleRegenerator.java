@@ -2,8 +2,12 @@ package teammates.client.scripts;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -34,9 +38,33 @@ public final class DataBundleRegenerator {
             }
             String jsonString = FileHelper.readFile(file.getCanonicalPath());
             DataBundle db = JsonUtils.fromJson(jsonString, DataBundle.class);
+            db.feedbackQuestions.forEach((key, feedbackQuestionAttributes) -> fixQuestion(feedbackQuestionAttributes));
             String regeneratedJsonString = JsonUtils.toJson(db).replace("+0000", "UTC");
             saveFile(file.getCanonicalPath(), regeneratedJsonString + System.lineSeparator());
         }
+    }
+
+    private static void fixQuestion(FeedbackQuestionAttributes question) {
+        String questionValue = question.questionMetaData;
+        try {
+            JSONObject questionJson = maintainKeyOrder(new JSONObject(questionValue));
+            question.questionMetaData = questionJson.toString();
+        } catch (JSONException e) {
+            question.questionMetaData = questionValue;
+        }
+    }
+
+    private static JSONObject maintainKeyOrder(JSONObject json) {
+        JSONObject reprintedJson = new JSONObject();
+        List<String> keys = new ArrayList<>();
+        for (Object key : json.keySet()) {
+            keys.add((String) key);
+        }
+        keys.sort(null);
+        for (String key : keys) {
+            reprintedJson.put(key, json.get(key));
+        }
+        return reprintedJson;
     }
 
     private static void regenerateAllDataBundleJson() throws IOException {

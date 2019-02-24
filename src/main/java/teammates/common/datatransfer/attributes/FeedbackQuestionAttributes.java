@@ -25,7 +25,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     public String feedbackSessionName;
     public String courseId;
-    public FeedbackQuestionDetails questionDetails;
+    /**
+     * Contains the JSON formatted string that holds the information of the question details.
+     *
+     * <p>Don't use directly unless for storing/loading from data store.<br>
+     * To get the question text use {@code getQuestionDetails().questionText}
+     */
+    public String questionMetaData;
     public String questionDescription;
     public int questionNumber;
     public FeedbackQuestionType questionType;
