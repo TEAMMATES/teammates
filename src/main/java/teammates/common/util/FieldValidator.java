@@ -139,6 +139,10 @@ public class FieldValidator {
             + "The value of '${fieldName}' field should be no longer than ${maxLength} characters.";
     public static final String INVALID_NAME_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
+    public static final String TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE =
+            "The field " + TEAM_NAME_FIELD_NAME + " is not acceptable to TEAMMATES as the suggested value for "
+                    + TEAM_NAME_FIELD_NAME + " can be mis-interpreted as an email.";
+
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
@@ -403,11 +407,15 @@ public class FieldValidator {
 
     /**
      * Checks if {@code teamName} is a non-null non-empty string no longer than the specified length
-     * {@code TEAM_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * {@code TEAM_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %) and is not a valid email.
      * @return An explanation of why the {@code teamName} is not acceptable.
      *         Returns an empty string if the {@code teamName} is acceptable.
      */
     public String getInvalidityInfoForTeamName(String teamName) {
+        boolean isValidEmail = StringHelper.isMatching(teamName, REGEX_EMAIL);
+        if (isValidEmail) {
+            return TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE;
+        }
         return getValidityInfoForAllowedName(TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, teamName);
     }
 
