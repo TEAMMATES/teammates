@@ -12,6 +12,7 @@ import teammates.ui.webapi.action.GetInstructorAction;
 import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.InstructorData;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link GetInstructorAction}.
@@ -61,15 +62,18 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         ______TS("Course ID given but Course is non existent");
 
-        assertThrows(EntityNotFoundException.class, () -> {
-            String[] invalidCourseParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, "1234A",
-                    Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
-                    Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-            };
+        String[] invalidCourseParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "1234A",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+        };
 
-            getAction(new GetInstructorAction(), invalidCourseParams).execute();
-        });
+        GetInstructorAction invalidCourseAction = getAction(invalidCourseParams);
+        JsonResult invalidCourseOutput = getJsonResult(invalidCourseAction);
+        MessageOutput invalidCourseMsg = (MessageOutput) invalidCourseOutput.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, invalidCourseOutput.getStatusCode());
+        assertEquals("Instructor could not be found for this course", invalidCourseMsg.getMessage());
 
         ______TS("Intent is specified as STUDENT_SUBMISSION");
 

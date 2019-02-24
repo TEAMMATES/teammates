@@ -59,7 +59,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         MessageOutput msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("The changes to the instructor " + newInstructorName + " has been updated.",
+        assertEquals("The instructor " + newInstructorName + " has been updated.",
                 msg.getMessage());
 
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
@@ -128,7 +128,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("The changes to the instructor " + newInstructorName + " has been updated.",
+        assertEquals("The instructor " + newInstructorName + " has been updated.",
                 msg.getMessage());
 
         editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
