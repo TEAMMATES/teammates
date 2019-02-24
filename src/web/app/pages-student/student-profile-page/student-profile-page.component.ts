@@ -152,8 +152,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Opens a modal box to upload/edit profile picture.
    */
   onUploadEdit(): void {
-    const modalRef: NgbModalRef =
-        this.ngbModal.open(UploadEditProfilePictureModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
     modalRef.componentInstance.profilePicLink = this.profilePicLink;
     modalRef.componentInstance.pictureKey = this.pictureKey;
 

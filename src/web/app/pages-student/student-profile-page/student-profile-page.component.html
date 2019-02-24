@@ -6,7 +6,6 @@
       <div class="row profile-pic-row">
         <div class="col-3 cursor-pointer">
           <img
-              id="profilePic"
               src="{{ profilePicLink }}"
               class="profile-pic"
               (click)="onUploadEdit()">
@@ -22,7 +21,6 @@
             Upload/Edit Photo
           </button>
           <button *ngIf="this.pictureKey"
-              id="deletePhoto"
               class="btn btn-danger"
               ngbTooltip="Delete your profile picture"
               (click)="onDelete(confirmDeleteProfilePicture)">
@@ -94,7 +92,6 @@
           <input
               type="submit"
               class="btn btn-primary"
-              id="button_submit"
               value="Save Profile">
         </div>
         <div class="whisper">This profile will be visible to all your instructors and coursemates.</div>

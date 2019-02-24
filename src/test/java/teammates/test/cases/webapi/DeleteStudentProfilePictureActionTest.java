@@ -36,6 +36,7 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
     @Test
     public void testExecute() throws Exception {
         testActionWithBlobKey();
+        testInvalidProfileAction();
     }
 
     private void testActionWithBlobKey() {
@@ -43,10 +44,14 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
     }
 
     private void testActionWithBlobKeySuccess() {
-        ______TS("Typical case: Success scenario");
+        ______TS("Typical case: success scenario");
+
         loginAsStudent(account.googleId);
 
-        DeleteStudentProfilePictureAction action = getAction();
+        String[] submissionParams = {
+                Const.ParamsNames.STUDENT_ID, account.googleId,
+        };
+        DeleteStudentProfilePictureAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) result.getOutput();
         String newPictureKey = logic.getStudentProfile(account.googleId).pictureKey;
@@ -54,6 +59,22 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals(messageOutput.getMessage(), "Your profile picture has been deleted successfully");
         assertEquals("", newPictureKey);
+
+    }
+
+    private void testInvalidProfileAction() {
+        ______TS("Typical case: invalid student profile");
+
+        loginAsStudent(account.googleId);
+        String[] submissionParams = {
+                Const.ParamsNames.STUDENT_ID, "invalidGoogleId",
+        };
+        DeleteStudentProfilePictureAction action = getAction(submissionParams);
+        JsonResult result = getJsonResult(action);
+        MessageOutput messageOutput = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals(messageOutput.getMessage(), "Invalid student profile");
     }
 
     @Test

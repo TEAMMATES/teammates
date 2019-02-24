@@ -9,6 +9,7 @@ import javax.servlet.http.Part;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -34,7 +35,16 @@ public class PostStudentProfilePictureAction extends Action {
     @Override
     public ActionResult execute() {
         try {
-            Part image = extractProfilePicture();
+            Part image = req.getPart("studentprofilephoto");
+            if (image == null) {
+                throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
+            }
+            if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
+                throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+            }
+            if (!image.getContentType().startsWith("image/")) {
+                throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
+            }
             byte[] imageData = new byte[(int) image.getSize()];
             try (InputStream is = image.getInputStream()) {
                 is.read(imageData);
@@ -47,25 +57,10 @@ public class PostStudentProfilePictureAction extends Action {
             StudentProfilePictureResults dataFormat =
                     new StudentProfilePictureResults(pictureKey);
             return new JsonResult(dataFormat);
-        } catch (InvalidParametersException | ServletException | IOException e) {
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
+        } catch (ServletException | IOException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
-    }
-
-    private Part extractProfilePicture() throws IOException, ServletException, InvalidParametersException {
-        Part image = req.getPart("studentprofilephoto");
-        if (image == null) {
-            throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
-        }
-        return validateProfilePicture(image);
-    }
-
-    private Part validateProfilePicture(Part image) throws InvalidParametersException {
-        if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
-            throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
-        } else if (!image.getContentType().startsWith("image/")) {
-            throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
-        }
-        return image;
     }
 }
