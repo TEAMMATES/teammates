@@ -82,7 +82,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected T getActionWithParts(String key, String contentType, String filePath, String... params) throws IOException {
         Map<String, Part> parts = new HashMap<>();
-        parts.put(key, new MockPart(contentType, filePath));
+        parts.put(key, new MockPart(filePath));
 
         return getAction(null, parts, params);
     }

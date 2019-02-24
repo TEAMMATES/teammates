@@ -2,7 +2,6 @@ package teammates.ui.webapi.action;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidParameterException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -37,6 +36,9 @@ public class PostStudentProfilePictureAction extends Action {
         try {
             Part image = extractProfilePicture();
             byte[] imageData = new byte[(int) image.getSize()];
+            if (imageData == null) {
+                return new JsonResult("Image is invalid!", HttpStatus.SC_BAD_REQUEST);
+            }
             try (InputStream is = image.getInputStream()) {
                 is.read(imageData);
             }
@@ -46,7 +48,7 @@ public class PostStudentProfilePictureAction extends Action {
                             .withPictureKey(pictureKey)
                             .build());
             StudentProfilePictureResults dataFormat =
-                    new StudentProfilePictureResults(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, pictureKey);
+                    new StudentProfilePictureResults(pictureKey);
             return new JsonResult(dataFormat);
         } catch (InvalidParametersException | ServletException | IOException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
@@ -61,11 +63,11 @@ public class PostStudentProfilePictureAction extends Action {
         return validateProfilePicture(image);
     }
 
-    private Part validateProfilePicture(Part image) throws InvalidParameterException {
+    private Part validateProfilePicture(Part image) throws InvalidParametersException {
         if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
-            throw new InvalidParameterException(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+            throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
         } else if (!image.getContentType().startsWith("image/")) {
-            throw new InvalidParameterException(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
+            throw new InvalidParametersException(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
         }
         return image;
     }

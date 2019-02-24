@@ -3,6 +3,7 @@ package teammates.test.driver;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -21,10 +22,9 @@ public class MockPart implements Part {
     private final long size;
     private final String name;
 
-    public MockPart(String contentType, String filePath) throws IOException {
-        this.contentType = contentType;
-
+    public MockPart(String filePath) throws IOException {
         File file = new File(filePath);
+        this.contentType = URLConnection.guessContentTypeFromName(file.getName());
         this.inputStream = Files.newInputStream(Paths.get(filePath));
         this.size = file.length();
         this.name = file.getName();

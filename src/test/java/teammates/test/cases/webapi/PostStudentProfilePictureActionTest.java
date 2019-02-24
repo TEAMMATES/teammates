@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.PostStudentProfilePictureAction;
@@ -30,6 +31,9 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
     @Test
     public void testExecute() throws Exception {
         AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
+        StudentProfileAttributes student1ProfileAttributes = typicalBundle.profiles.get("student1InCourse1");
+
+        String oldPictureKey = student1ProfileAttributes.pictureKey;
         loginAsStudent(student1.googleId);
 
         ______TS("Typical case: upload profile picture operation successful");
@@ -43,9 +47,10 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         StudentProfilePictureResults output = (StudentProfilePictureResults) result.getOutput();
+        String newPictureKey = logic.getStudentProfile(student1.googleId).pictureKey;
 
-        assertEquals(output.getMessage(), Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         assertNotNull(output.getPictureKey());
+        assertNotEquals(oldPictureKey, newPictureKey);
     }
 
     @Override

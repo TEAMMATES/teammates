@@ -25,6 +25,11 @@ public class DeleteStudentProfilePictureAction extends Action {
 
     @Override
     public ActionResult execute() {
+        String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
+        if (!userInfo.id.equals(googleId) && !isMasqueradeMode()) {
+            return new JsonResult("You are not authorized to delete this student's profile.",
+                    HttpStatus.SC_FORBIDDEN);
+        }
         String blobKey = getNonNullRequestParamValue(Const.ParamsNames.BLOB_KEY);
         logic.deletePicture(new BlobKey(blobKey));
         logic.deletePictureKey(userInfo.id);

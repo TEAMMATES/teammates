@@ -26,10 +26,7 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_RESULTS_PAGE, InstructorFeedbackResultsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
-
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
-        map(CREATE_IMAGE_UPLOAD_URL, CreateImageUploadUrlAction.class);
-        map(IMAGE_UPLOAD, ImageUploadAction.class);
     }
 
     /**

@@ -76,7 +76,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
     };
     this.httpRequestService.post('/students/profilePic', paramsMap, this.formData)
         .subscribe((response: StudentProfilePictureResults) => {
-          this.statusMessageService.showSuccessMessage(response.message);
+          this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
           this.pictureKey = response.pictureKey;
           this.profilePicLink = `${this.backendUrl}/webapi/students/profilePic?blob-key=${this.pictureKey}`;
 
