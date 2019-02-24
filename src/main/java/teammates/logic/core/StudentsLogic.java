@@ -63,7 +63,7 @@ public final class StudentsLogic {
     }
 
     public List<StudentAttributes> getAllStudentsForEmail(String email) {
-        return studentsDb.getAllStudentForEmail(email);
+        return studentsDb.getAllStudentsForEmail(email);
     }
 
     public StudentAttributes getStudentForCourseIdAndGoogleId(String courseId, String googleId) {

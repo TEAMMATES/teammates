@@ -104,8 +104,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     /**
      * Preconditions: <br>
-     * * All parameters are non-null.
-     *
+     * All parameters are non-null.
      * @return The data for Student with the courseId and email. Returns null if
      *         there is no such student.
      */
@@ -118,12 +117,11 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     /**
      * Preconditions: <br>
-     * * All parameters are non-null.
-     *
+     * All parameters are non-null.
      * @return The data for list of student(s) with the email. Returns an empty list if
      *         there is no such student.
      */
-    public List<StudentAttributes> getAllStudentForEmail(String email) {
+    public List<StudentAttributes> getAllStudentsForEmail(String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 
         List<CourseStudent> students = getAllCourseStudentEntitiesForEmail(email);

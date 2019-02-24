@@ -217,11 +217,11 @@ public class EmailGenerator {
 
     /**
      * Generate for the student an recovery email listing all feedback session links under
-     * {@code destinationEmail} in the past 180 days. If no links are found, generate an email stating
+     * {@code recoveryEmail} in the past 180 days. If no links are found, generate an email stating
      * no feedback session links found.
      */
-    public EmailWrapper generateLinkRecoveryEmail(String destinationEmail) {
-        return generateLinkRecoveryEmailForStudent(destinationEmail);
+    public EmailWrapper generateLinkRecoveryEmail(String recoveryEmail) {
+        return generateLinkRecoveryEmailForStudent(recoveryEmail);
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBasesForInstructorReminders(
@@ -260,7 +260,7 @@ public class EmailGenerator {
 
     }
 
-    private EmailWrapper generateLinkRecoveryEmailForStudent(String userEmail) {
+    private EmailWrapper generateLinkRecoveryEmailForStudent(String recoveryEmail) {
         Instant endTime = Instant.now();
         Instant startTime = endTime.minus(Duration.ofDays(180));
         String subject = EmailType.FEEDBACK_ACCESS_LINKS_RECOVERY.getSubject();
@@ -272,7 +272,7 @@ public class EmailGenerator {
         List<FeedbackSessionAttributes> sessions = fsLogic.getAllFeedbackSessionsWithinTimeRange(startTime, endTime);
         for (FeedbackSessionAttributes session : sessions) {
             CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-            StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), userEmail);
+            StudentAttributes student = studentsLogic.getStudentForEmail(course.getId(), recoveryEmail);
 
             if (student != null) {
                 studentName = student.getName();
@@ -313,19 +313,19 @@ public class EmailGenerator {
         if (linksFragmentValue.length() == 0) {
             emailBody = Templates.populateTemplate(
                     EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE,
-                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
+                    "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmail),
                     "${supportEmail}", Config.SUPPORT_EMAIL);
         } else {
             emailBody = Templates.populateTemplate(
                     EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS,
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
                     "${linksFragment}", linksFragmentValue.toString(),
-                    "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
+                    "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmail),
                     "${teammateHomePageLink}", teammateHomePageLink,
                     "${supportEmail}", Config.SUPPORT_EMAIL);
         }
 
-        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(recoveryEmail);
         email.setSubject(subject);
         email.setContent(emailBody);
 

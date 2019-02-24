@@ -84,7 +84,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Gets a list of feedback sessions within the given time range.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSeesionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
+    public List<FeedbackSessionAttributes> getFeedbackSessionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
 
         List<FeedbackSession> lst = new LinkedList<>();
 

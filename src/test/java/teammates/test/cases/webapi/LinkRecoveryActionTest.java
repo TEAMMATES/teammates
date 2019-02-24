@@ -18,7 +18,7 @@ import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.LinkRecoveryAction;
-import teammates.ui.webapi.output.EmailRestoreResponseData;
+import teammates.ui.webapi.output.LinkRecoveryResponseData;
 
 /**
  * SUT: {@link LinkRecoveryAction}.
@@ -67,10 +67,10 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         LinkRecoveryAction a = getAction(nonExistingParam);
         JsonResult result = getJsonResult(a);
 
-        EmailRestoreResponseData output = (EmailRestoreResponseData) result.getOutput();
+        LinkRecoveryResponseData output = (LinkRecoveryResponseData) result.getOutput();
 
-        assertEquals("No response found with given email.", output.getMessage());
-        assertFalse(output.getStatus());
+        assertEquals("No student is registered under email: non-existent email", output.getMessage());
+        assertFalse(output.isEmailSent());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 0);
 
@@ -83,11 +83,12 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         a = getAction(param);
         result = getJsonResult(a);
 
-        output = (EmailRestoreResponseData) result.getOutput();
+        output = (LinkRecoveryResponseData) result.getOutput();
 
-        assertEquals("The recovery links for your feedback sessions have been sent to the specified email.",
+        assertEquals("The recovery links for your feedback sessions have been sent to the specified email: "
+                        + student1InCourse1.getEmail(),
                 output.getMessage());
-        assertTrue(output.getStatus());
+        assertTrue(output.isEmailSent());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 
@@ -98,7 +99,6 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
                 Templates.EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getEmail()),
                 "${supportEmail}", Config.SUPPORT_EMAIL), emailSent.getContent());
-
         ______TS("Typical case: successfully sent recovery link email: Feedback sessions found");
 
         param = new String[] {
@@ -108,11 +108,12 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         a = getAction(param);
         result = getJsonResult(a);
 
-        output = (EmailRestoreResponseData) result.getOutput();
+        output = (LinkRecoveryResponseData) result.getOutput();
 
-        assertEquals("The recovery links for your feedback sessions have been sent to the specified email.",
+        assertEquals("The recovery links for your feedback sessions have been sent to the specified email: "
+                        + student1InCourse3.getEmail(),
                 output.getMessage());
-        assertTrue(output.getStatus());
+        assertTrue(output.isEmailSent());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 

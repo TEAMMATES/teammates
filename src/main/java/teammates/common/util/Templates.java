@@ -49,11 +49,11 @@ public final class Templates {
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSubmissionConfirmation.html");
         public static final String FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK =
-                FileHelper.readResourceFile("userEmailTemplateFragment-feedbackSessionRecoveryAccessLink.html");
+                FileHelper.readResourceFile("userRecoveryEmailTemplateFragment-feedbackSessionAccessLink.html");
         public static final String USER_FEEDBACK_SESSIONS_ACCESS_LINKS =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionsRecoveryAccessLinks.html");
+                FileHelper.readResourceFile("userRecoveryEmailTemplate-feedbackSessionsAccessLinks.html");
         public static final String USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionsRecoveryAccessLinksNone.html");
+                FileHelper.readResourceFile("userRecoveryEmailTemplate-feedbackSessionsAccessLinksNone.html");
         public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS =
