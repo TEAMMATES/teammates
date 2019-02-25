@@ -151,10 +151,11 @@ public abstract class AppPageNew {
 
     /**
      * Gives an AppPageNew instance based on the given Browser.
-     */
-//    public static AppPageNew getNewPageInstance(Browser currentBrowser) {
-//        return getNewPageInstance(currentBrowser, GenericAppPage.class);
-//    }
+     * To be added in the future
+    public static AppPageNew getNewPageInstance(Browser currentBrowser) {
+        return getNewPageInstance(currentBrowser, GenericAppPage.class);
+    }
+    */
 
 
     /**
@@ -534,12 +535,12 @@ public abstract class AppPageNew {
      * Equivalent of clicking the 'Help' tab on the top menu of the page.
      * @return the loaded page
      */
-//    public StudentHelpPageNew loadStudentHelpTab() {
-//        click(studentHelpTab);
-//        waitForPageToLoad();
-//        switchToNewWindow();
-//        return changePageType(StudentHelpPageNew.class);
-//    }
+    public StudentHelpPageNew loadStudentHelpTab() {
+        click(studentHelpTab);
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(StudentHelpPageNew.class);
+    }
 
     /**
      * Click the 'logout' link in the top menu of the page.

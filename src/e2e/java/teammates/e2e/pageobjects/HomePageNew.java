@@ -22,22 +22,22 @@ public class HomePageNew extends AppPageNew {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("Designed for Simplicity, Flexibility, and Power:");
     }
+    /** To implement in the future
+    public LoginPageNew clickInstructorLogin() {
+        click(instructorLoginLink);
+        waitForPageToLoad();
+        String pageSource = getPageSource();
+        if (InstructorHomePage.containsExpectedPageContents(pageSource)) {
+            //already logged in. We need to logout because the return type of
+            //  this method is a LoginPageNew
+            logout();
+            click(instructorLoginLink);
+            waitForPageToLoad();
+        }
+        return createCorrectLoginPageType(browser);
 
-//    public LoginPageNew clickInstructorLogin() {
-//
-//        click(instructorLoginLink);
-//        waitForPageToLoad();
-//        String pageSource = getPageSource();
-//        if (InstructorHomePage.containsExpectedPageContents(pageSource)) {
-//            //already logged in. We need to logout because the return type of
-//            //  this method is a LoginPageNew
-//            logout();
-//            click(instructorLoginLink);
-//            waitForPageToLoad();
-//        }
-//        return createCorrectLoginPageType(browser);
-//
-//    }
+    }
+    */
 
     public LoginPageNew clickStudentLogin() {
         click(studentLoginLink);
