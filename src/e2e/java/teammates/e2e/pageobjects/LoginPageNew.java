@@ -22,7 +22,6 @@ public abstract class LoginPageNew extends AppPageNew {
 
 //    public abstract InstructorHomePage loginAsJoiningInstructorByPassConfirmation(String username, String password);
 
-//    public abstract void loginAdminAsInstructor(
-//            String adminUsername, String adminPassword, String instructorUsername);
-
+    public abstract void loginAdminAsInstructor(
+            String adminUsername, String adminPassword, String instructorUsername);
 }

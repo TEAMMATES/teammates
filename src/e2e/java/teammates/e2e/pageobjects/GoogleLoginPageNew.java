@@ -55,13 +55,13 @@ public class GoogleLoginPageNew extends LoginPageNew {
 //        browser.isAdminLoggedIn = false;
 //        return this;
 //    }
-//
-//    @Override
-//    public void loginAdminAsInstructor(
-//            String adminUsername, String adminPassword, String instructorUsername) {
-//        completeGoogleLoginSteps(adminUsername, adminPassword);
-//        browser.isAdminLoggedIn = true;
-//    }
+
+    @Override
+    public void loginAdminAsInstructor(
+            String adminUsername, String adminPassword, String instructorUsername) {
+        completeGoogleLoginSteps(adminUsername, adminPassword);
+        browser.isAdminLoggedIn = true;
+    }
 
     @Override
     public StudentHomePageNew loginAsStudent(String username, String password) {

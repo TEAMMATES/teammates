@@ -45,16 +45,16 @@ public class DevServerLoginPageNew extends LoginPageNew {
 //        browser.isAdminLoggedIn = false;
 //        return this;
 //    }
-//
-//    @Override
-//    public void loginAdminAsInstructor(
-//            String adminUsername, String adminPassword, String instructorUsername) {
-//        fillTextBox(emailTextBox, instructorUsername);
-//        click(isAdminCheckBox);
-//        click(loginButton);
-//        waitForPageToLoad();
-//        browser.isAdminLoggedIn = true;
-//    }
+
+    @Override
+    public void loginAdminAsInstructor(
+            String adminUsername, String adminPassword, String instructorUsername) {
+        fillTextBox(emailTextBox, instructorUsername);
+        click(isAdminCheckBox);
+        click(loginButton);
+        waitForPageToLoad();
+        browser.isAdminLoggedIn = true;
+    }
 
     @Override
     public StudentHomePageNew loginAsStudent(String username, String password) {
