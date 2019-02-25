@@ -16,7 +16,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
-public final class FieldValidator {
+private final class FieldValidator {
 
     /////////////////
     // FIELD TYPES //
@@ -410,7 +410,12 @@ public final class FieldValidator {
      * {@code TEAM_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %) and is not a valid email.
      * @return An explanation of why the {@code teamName} is not acceptable.
      *         Returns an empty string if the {@code teamName} is acceptable.
-     */
+     */ public static String getInvalidityInfoForTeamName(String teamName) {
+
+        boolean isValidEmail = StringHelper.isMatching(teamName, REGEX_EMAIL);
+        if (isValidEmail) {
+            return TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE;
+        }
 
         return getValidityInfoForAllowedName(TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, teamName);
     }
