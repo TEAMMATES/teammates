@@ -17,7 +17,9 @@ public class StudentHomePageNew extends AppPageNew {
     }
 
     public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("<h1>Student Home</h1>");
+        // TODO: method to be removed as getPageSource() only returns the header segment and ignores the body.
+        return pageSource.contains("<title>TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects</title>");
+        // return pageSource.contains("<h1>Student Home</h1>");
     }
 
     public void clickViewTeam() {
