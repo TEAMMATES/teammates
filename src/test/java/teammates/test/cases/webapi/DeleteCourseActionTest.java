@@ -3,11 +3,12 @@ package teammates.test.cases.webapi;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.DeleteCourseAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * SUT: {@link DeleteCourseAction}.
@@ -43,16 +44,18 @@ public class DeleteCourseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
+        CourseAttributes courseToBeDeleted = logic.getCourse(courseId);
         loginAsInstructor(instructorId);
-        logic.moveCourseToRecycleBin(courseId);
+        logic.moveCourseToRecycleBin(courseToBeDeleted.getId());
         assertEquals(courseId, logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
 
         DeleteCourseAction deleteCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(deleteCourseAction);
-        MessageOutput message = (MessageOutput) result.getOutput();
+        CourseData courseData = (CourseData) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertEquals("The course " + courseId + " has been permanently deleted.", message.getMessage());
+        verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
+                courseToBeDeleted.getTimeZone().getId());
         assertNull(logic.getCourse(instructor1OfCourse1.courseId));
     }
 
@@ -68,16 +71,24 @@ public class DeleteCourseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
-        assertNotNull(logic.getCourse(instructor1OfCourse1.courseId));
+        CourseAttributes courseToBeDeleted = logic.getCourse(instructor1OfCourse1.courseId);
+        assertNotNull(courseToBeDeleted);
         loginAsInstructor(instructorId);
 
         DeleteCourseAction deleteCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(deleteCourseAction);
-        MessageOutput message = (MessageOutput) result.getOutput();
+        CourseData courseData = (CourseData) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertEquals("The course " + courseId + " has been permanently deleted.", message.getMessage());
+        verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
+                courseToBeDeleted.getTimeZone().getId());
         assertNull(logic.getCourse(instructor1OfCourse1.courseId));
+    }
+
+    private void verifyCourseData(CourseData data, String courseId, String courseName, String timeZone) {
+        assertEquals(data.getCourseId(), courseId);
+        assertEquals(data.getCourseName(), courseName);
+        assertEquals(data.getTimeZone(), timeZone);
     }
 
     @Override

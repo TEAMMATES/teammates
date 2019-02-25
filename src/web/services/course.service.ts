@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Course, CourseArchive, MessageOutput } from '../types/api-output';
+import { Course, CourseArchive } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -34,7 +34,7 @@ export class CourseService {
   /**
    * Deletes a course by calling API.
    */
-  deleteCourse(courseid: string): Observable<MessageOutput> {
+  deleteCourse(courseid: string): Observable<Course> {
     const paramMap: { [key: string]: string } = { courseid };
     return this.httpRequestService.delete('/course', paramMap);
   }
