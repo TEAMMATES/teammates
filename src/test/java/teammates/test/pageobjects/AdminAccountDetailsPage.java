@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.By;
 
+import teammates.e2e.pageobjects.Browser;
+
 public class AdminAccountDetailsPage extends AppPage {
 
     public AdminAccountDetailsPage(Browser browser) {

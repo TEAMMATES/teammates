@@ -4,11 +4,9 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: prepares session published reminder for a particular session to be sent.
@@ -18,22 +16,9 @@ public class FeedbackSessionPublishedEmailWorkerAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionDescription() {
-        return null;
-    }
-
-    @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
-        String feedbackSessionName = getRequestParamValue(ParamsNames.EMAIL_FEEDBACK);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
-
-        String courseId = getRequestParamValue(ParamsNames.EMAIL_COURSE);
-        Assumption.assertPostParamNotNull(ParamsNames.EMAIL_COURSE, courseId);
+        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.EMAIL_FEEDBACK);
+        String courseId = getNonNullRequestParamValue(ParamsNames.EMAIL_COURSE);
 
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {
@@ -41,12 +26,14 @@ public class FeedbackSessionPublishedEmailWorkerAction extends AutomatedAction {
                        + " for course: " + courseId + " could not be fetched.");
             return;
         }
-        List<EmailWrapper> emailsToBeSent =
-                new EmailGenerator().generateFeedbackSessionPublishedEmails(session);
+        List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionPublishedEmails(session);
         try {
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
-            session.setSentPublishedEmail(true);
-            logic.updateFeedbackSession(session);
+            logic.updateFeedbackSession(
+                    FeedbackSessionAttributes
+                            .updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
+                            .withSentPublishedEmail(true)
+                            .build());
         } catch (Exception e) {
             log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));
         }

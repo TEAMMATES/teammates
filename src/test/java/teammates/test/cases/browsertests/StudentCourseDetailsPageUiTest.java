@@ -4,12 +4,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 
 /**
  * SUT: {@link Const.ActionURIs#STUDENT_COURSE_DETAILS_PAGE}.
  */
-public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
+public class StudentCourseDetailsPageUiTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
@@ -45,7 +46,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
 
     private void verifyContent(String courseObjectId, String studentObjectId, String filePath,
                                boolean isFullPageChecked) throws Exception {
-        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                                 .withUserId(testData.students.get(studentObjectId).googleId)
                                 .withCourseId(testData.courses.get(courseObjectId).getId());
         StudentCourseDetailsPage detailsPage = loginAdminToPage(detailsPageUrl, StudentCourseDetailsPage.class);

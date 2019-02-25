@@ -18,9 +18,10 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.Priority;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.Priority;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -28,10 +29,10 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SESSIONS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSIONS_PAGE}.
  */
 @Priority(-1)
-public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
+public class InstructorFeedbackSessionsPageUiTest extends BaseE2ETestCase {
     private InstructorFeedbackSessionsPage feedbackPage;
     private String idOfInstructorWithSessions;
     private CourseAttributes course;
@@ -594,13 +595,11 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions)
                 .moveSessionToRecycleBin(courseId, sessionName);
-        newSession.setDeletedTime();
 
         assertTrue(feedbackPage.getTextsForAllStatusMessagesToUser()
                 .contains(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN));
         assertNotNull("session should be in recycle bin",
                 BackDoor.getFeedbackSessionFromRecycleBin(courseId, sessionName));
-        assertTrue(newSession.isSessionDeleted());
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackMoveToRecycleBinSuccessful.html");
 
     }
@@ -1121,7 +1120,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorFeedbackSessionsPage getFeedbackPageForInstructor(String instructorId) {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SESSIONS_PAGE).withUserId(instructorId);
+        AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE).withUserId(instructorId);
         InstructorFeedbackSessionsPage page = loginAdminToPage(feedbackPageLink, InstructorFeedbackSessionsPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;

@@ -16,8 +16,9 @@ import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -27,7 +28,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  *
  * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
  */
-public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
+public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
     private FeedbackSubmitPage submitPage;
 
     @Override
@@ -380,7 +381,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 Const.StatusMessages.FEEDBACK_UNANSWERED_QUESTIONS + "21, 22, 23, 24, 25, 26, 27.");
         assertEquals("<p>" + editedResponse + "</p>",
                      BackDoor.getFeedbackResponse(fq.getId(), "SFSubmitUiT.alice.b@gmail.tmt",
-                                                  "SFSubmitUiT.benny.c@gmail.tmt").responseMetaData);
+                                                  "SFSubmitUiT.benny.c@gmail.tmt").getSerializedFeedbackResponseDetail());
 
         assertEquals("UI", BackDoor.getFeedbackResponse(fqMcq.getId(),
                                                         aliceTeam,
@@ -856,7 +857,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {
-        AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl submitUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                                              .withCourseId(s.course)
                                              .withStudentEmail(s.email)
                                              .withSessionName(testData.feedbackSessions.get(fsDataId)
@@ -867,7 +868,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
@@ -877,7 +878,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     private FeedbackSessionNotVisiblePage
             loginToStudentFeedbackSubmitPageFeedbackSessionNotVisible(String studentName, String fsName) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());

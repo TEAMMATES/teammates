@@ -6,15 +6,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -31,20 +35,6 @@ import teammates.storage.entity.FeedbackResponse;
 public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
 
     private static final Logger log = Logger.getLogger();
-
-    public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd)
-            throws InvalidParametersException {
-        List<FeedbackResponseAttributes> responsesToUpdate = createEntities(responsesToAdd);
-        for (FeedbackResponseAttributes response : responsesToUpdate) {
-            try {
-                updateFeedbackResponse(response);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
 
     /**
      * Preconditions: <br>
@@ -70,7 +60,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityWithCheck(String feedbackResponseId) {
+    private FeedbackResponse getFeedbackResponseEntityWithCheck(String feedbackResponseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
 
         FeedbackResponse fr = getFeedbackResponseEntity(feedbackResponseId);
@@ -86,7 +76,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityWithCheck(
+    private FeedbackResponse getFeedbackResponseEntityWithCheck(
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
@@ -104,23 +94,15 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @return Null if not found.
-     */
-    public FeedbackResponse getFeedbackResponseEntityOptimized(FeedbackResponseAttributes response) {
-        return getEntity(response);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section) {
+            String feedbackQuestionId, String section, SectionDetail sectionDetail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionDetail);
 
-        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section));
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section, sectionDetail));
     }
 
     /**
@@ -185,6 +167,16 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
         return makeAttributes(getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section));
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInGiverAndRecipientSection(
+            String feedbackSessionName, String courseId, String section) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
+
+        return makeAttributes(getFeedbackResponseEntitiesForSessionInGiverAndRecipientSection(feedbackSessionName,
+                courseId, section));
     }
 
     /**
@@ -361,52 +353,53 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     /**
-     * Updates the feedback response identified by {@code newAttributes.getId()}.<br>
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy).<br>
-     * Preconditions: <br>
-     * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
+     * Updates a feedback response with {@link FeedbackResponseAttributes.UpdateOptions}.
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     * @throws EntityAlreadyExistsException if the response cannot be updated
+     *         by recreation because of an existent response
      */
-    public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
+    public FeedbackResponseAttributes updateFeedbackResponse(FeedbackResponseAttributes.UpdateOptions updateOptions)
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
+        FeedbackResponse oldResponse = getFeedbackResponseEntity(updateOptions.getFeedbackResponseId());
+        if (oldResponse == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        FeedbackResponseAttributes newAttributes = makeAttributes(oldResponse);
+        newAttributes.update(updateOptions);
+
+        newAttributes.sanitizeForSaving();
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        updateFeedbackResponseOptimized(newAttributes, getEntity(newAttributes));
-    }
+        if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
+                && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
+            oldResponse.setGiverEmail(newAttributes.giver);
+            oldResponse.setGiverSection(newAttributes.giverSection);
+            oldResponse.setRecipientEmail(newAttributes.recipient);
+            oldResponse.setRecipientSection(newAttributes.recipientSection);
+            oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
 
-    /**
-     * Optimized to take in FeedbackResponse entity if available, to prevent reading the entity again.
-     * Updates the feedback response identified by {@code newAttributes.getId()}
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy).<br>
-     * The timestamp for {@code updatedAt} is independent of the {@code newAttributes}.<br>
-     * Preconditions: <br>
-     * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
-     */
-    public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
+            saveEntity(oldResponse, newAttributes);
 
-        //TODO: Sanitize values and update tests accordingly
+            return makeAttributes(oldResponse);
+        } else {
+            // need to recreate the entity
+            newAttributes.setId(null);
+            FeedbackResponse recreatedResponseEntity = createEntity(newAttributes);
+            deleteEntityDirect(oldResponse);
 
-        if (!newAttributes.isValid()) {
-            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+            return makeAttributes(recreatedResponseEntity);
         }
-
-        if (fr == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
-        }
-
-        fr.setAnswer(newAttributes.responseMetaData);
-        fr.setRecipientEmail(newAttributes.recipient);
-        fr.setGiverSection(newAttributes.giverSection);
-        fr.setRecipientSection(newAttributes.recipientSection);
-
-        saveEntity(fr, newAttributes);
     }
 
     public void deleteFeedbackResponsesForCourse(String courseId) {
@@ -450,26 +443,44 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .first().now();
     }
 
-    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
-                String feedbackQuestionId, String section) {
-        List<FeedbackResponse> feedbackResponses = new ArrayList<>();
+    private Set<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
+                String feedbackQuestionId, String section, SectionDetail sectionDetail) {
+        Set<FeedbackResponse> feedbackResponses = new HashSet<>();
+        if (sectionDetail == SectionDetail.BOTH) {
+            // responses in section with giver or recipient as None are added to respective section selected
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .filter("receiverSection =", "None")
+                    .list());
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .list());
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", "None")
+                    .filter("receiverSection =", section)
+                    .list());
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", section)
-                .filter("receiverSection =", "None")
-                .list());
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .filter("receiverSection =", section)
+                    .list());
 
-        feedbackResponses.addAll(load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverSection =", "None")
-                .filter("receiverSection =", section)
-                .list());
+        }
+        if (sectionDetail == SectionDetail.GIVER || sectionDetail == SectionDetail.EITHER) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("giverSection =", section)
+                    .list());
+
+        }
+        if (sectionDetail == SectionDetail.EVALUEE || sectionDetail == SectionDetail.EITHER) {
+            feedbackResponses.addAll(load()
+                    .filter("feedbackQuestionId =", feedbackQuestionId)
+                    .filter("receiverSection =", section)
+                    .list());
+
+        }
 
         return feedbackResponses;
     }
@@ -514,6 +525,12 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         return feedbackResponses.values();
     }
 
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionInGiverAndRecipientSection(
+            String feedbackSessionName, String courseId, String section) {
+        return getFeedbackResponseEntitiesForSessionInGiverAndRecipientSectionWithinRange(feedbackSessionName, courseId,
+                section, -1);
+    }
+
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSection(
             String feedbackSessionName, String courseId, String section) {
         return getFeedbackResponseEntitiesForSessionFromSectionWithinRange(feedbackSessionName, courseId, section, -1);
@@ -539,6 +556,28 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         }
 
         return feedbackResponses.values();
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionInGiverAndRecipientSectionWithinRange(
+            String feedbackSessionName, String courseId, String section, int range) {
+        List<FeedbackResponse> feedbackResponses = new ArrayList<>();
+
+        feedbackResponses.addAll(load()
+                .filter("feedbackSessionName = ", feedbackSessionName)
+                .filter("courseId =", courseId)
+                .filter("giverSection =", section)
+                .filter("receiverSection =", section)
+                .limit(range + 1).list());
+
+        // also show responses in section with giver but without recipient
+        feedbackResponses.addAll(load()
+                .filter("feedbackSessionName = ", feedbackSessionName)
+                .filter("courseId =", courseId)
+                .filter("giverSection =", section)
+                .filter("receiverSection =", "None")
+                .limit(range + 1).list());
+
+        return feedbackResponses;
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForSessionFromSectionWithinRange(

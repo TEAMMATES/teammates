@@ -5,12 +5,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AppPage;
 
 /**
  * Verifies that the table sorting functions work.
  */
-public class TableSortTest extends BaseUiTestCase {
+public class TableSortTest extends BaseE2ETestCase {
     private AppPage page;
 
     @Override
@@ -177,7 +178,7 @@ public class TableSortTest extends BaseUiTestCase {
                 "33",
                 "10.35",
                 "-0.001",
-                "10.3"
+                "10.3",
         };
 
         StringBuilder searchString = new StringBuilder();
@@ -202,7 +203,7 @@ public class TableSortTest extends BaseUiTestCase {
                 "2",
                 "-13.5",
                 "0",
-                "15"
+                "15",
         };
 
         searchString = new StringBuilder();

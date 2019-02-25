@@ -4,14 +4,15 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.FeedbackSessionNotVisibleException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -34,30 +35,49 @@ public class GateKeeper {
         return userService.getCurrentUser() != null;
     }
 
-    public UserType getCurrentUser() {
+    /**
+     * Gets the information of the current logged in user.
+     */
+    public UserInfo getCurrentUser() {
         User user = getCurrentGoogleUser();
 
         if (user == null) {
             return null;
         }
 
-        UserType userType = new UserType(user);
+        UserInfo userInfo = new UserInfo(user);
 
         if (isAdministrator()) {
-            userType.isAdmin = true;
+            userInfo.isAdmin = true;
         }
 
         if (isInstructor()) {
-            userType.isInstructor = true;
+            userInfo.isInstructor = true;
         }
 
         if (isStudent()) {
-            userType.isStudent = true;
+            userInfo.isStudent = true;
         }
 
-        return userType;
+        return userInfo;
     }
 
+    /**
+     * Gets the information of the current masqueraded user.
+     *
+     * <p>Note that this assumes that the privilege to masquerade as another user is present.
+     */
+    public UserInfo getMasqueradeUser(String googleId) {
+        UserInfo userInfo = new UserInfo(googleId);
+        userInfo.isAdmin = false;
+        userInfo.isInstructor = accountsLogic.isAccountAnInstructor(googleId);
+        userInfo.isStudent = studentsLogic.isStudentInAnyCourse(googleId);
+        return userInfo;
+    }
+
+    /**
+     * Gets the login URL with the specified page as the redirect after logging in (if successful).
+     */
     public String getLoginUrl(String redirectPage) {
         User user = userService.getCurrentUser();
 
@@ -67,13 +87,14 @@ public class GateKeeper {
         return redirectPage;
     }
 
+    /**
+     * Gets the logout URL with the specified page as the redirect after logging out.
+     */
     public String getLogoutUrl(String redirectPage) {
         return userService.createLogoutURL(redirectPage);
     }
 
-    /**
-     * These methods ensures the logged in user is of a particular type.
-     */
+    // These methods ensures the logged in user is of a particular type.
 
     /**
      * Verifies the user is logged in.
@@ -119,11 +140,11 @@ public class GateKeeper {
         verifyLoggedInUserPrivileges();
     }
 
-    /**
-     * These methods ensures that the nominal user specified has access to a
-     * given entity.
-     */
+    // These methods ensures that the nominal user specified has access to a given entity
 
+    /**
+     * Verifies that the specified student can access the specified course.
+     */
     public void verifyAccessible(StudentAttributes student, CourseAttributes course) {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
@@ -136,41 +157,28 @@ public class GateKeeper {
         }
     }
 
-    public void verifyAccessible(StudentAttributes student, FeedbackSessionAttributes feedbacksession) {
+    /**
+     * Verifies that the specified student can access the specified feedback session.
+     */
+    public void verifyAccessible(StudentAttributes student, FeedbackSessionAttributes feedbackSession) {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyNotNull(feedbackSession.getCourseId(), "feedback session's course ID");
 
-        if (!student.course.equals(feedbacksession.getCourseId())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+        if (!student.course.equals(feedbackSession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getFeedbackSessionName()
                                                   + "] is not accessible to student [" + student.email + "]");
         }
 
-        if (!feedbacksession.isVisible()) {
-            throw new FeedbackSessionNotVisibleException(
-                                            "This feedback session is not yet visible.",
-                                            feedbacksession.getStartTimeString());
+        if (!feedbackSession.isVisible()) {
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.");
         }
     }
 
     /**
-     * Verifies that comment is created by feedback participant.
-     *
-     * @param frc comment to be accessed
-     * @param feedbackParticipant email or team of feedback participant
+     * Verifies that the specified instructor can access the specified course.
      */
-    public void verifyOwnership(FeedbackResponseCommentAttributes frc, String feedbackParticipant) {
-        verifyNotNull(frc, "feedback response comment");
-        verifyNotNull(frc.commentGiver, "feedback response comment giver");
-        verifyNotNull(feedbackParticipant, "comment giver");
-
-        if (!frc.commentGiver.equals(feedbackParticipant)) {
-            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
-                    + feedbackParticipant);
-        }
-    }
-
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
@@ -230,22 +238,18 @@ public class GateKeeper {
         }
     }
 
-    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
-                                 boolean creatorOnly) {
+    /**
+     * Verifies that the specified instructor can access the specified feedback session.
+     */
+    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyNotNull(feedbackSession.getCourseId(), "feedback session's course ID");
 
-        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+        if (!instructor.courseId.equals(feedbackSession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
-        }
-
-        if (creatorOnly && !feedbacksession.getCreatorEmail().equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email
-                                                  + "] for this purpose");
         }
     }
 
@@ -255,7 +259,7 @@ public class GateKeeper {
      * privilegeName for feedbackSession.
      */
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
-                                 boolean creatorOnly, String privilegeName) {
+                                 String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbacksession, "feedback session");
@@ -264,12 +268,6 @@ public class GateKeeper {
         if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
-        }
-
-        if (creatorOnly && !feedbacksession.getCreatorEmail().equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email
-                                                  + "] for this purpose");
         }
 
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
@@ -279,26 +277,23 @@ public class GateKeeper {
         }
     }
 
-    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
-                                 boolean creatorOnly, String sectionName, String privilegeName) {
+    /**
+     * Verifies that the specified instructor has specified privilege for a section in the specified feedback session.
+     */
+    public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession,
+                                 String sectionName, String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(feedbacksession, "feedback session");
-        verifyNotNull(feedbacksession.getCourseId(), "feedback session's course ID");
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyNotNull(feedbackSession.getCourseId(), "feedback session's course ID");
 
-        if (!instructor.courseId.equals(feedbacksession.getCourseId())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+        if (!instructor.courseId.equals(feedbackSession.getCourseId())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email + "]");
         }
 
-        if (creatorOnly && !feedbacksession.getCreatorEmail().equals(instructor.email)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
-                                                  + "] is not accessible to instructor [" + instructor.email
-                                                  + "] for this purpose");
-        }
-
-        if (!instructor.isAllowedForPrivilege(sectionName, feedbacksession.getFeedbackSessionName(), privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
+        if (!instructor.isAllowedForPrivilege(sectionName, feedbackSession.getFeedbackSessionName(), privilegeName)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.email
                                                   + "] for privilege [" + privilegeName + "] on section ["
                                                   + sectionName + "]");
@@ -306,17 +301,73 @@ public class GateKeeper {
     }
 
     /**
-     * These methods ensures that the nominal user specified can perform the
-     * specified action on a given entity.
+     * Verifies that the feedback question is for student to answer.
      */
+    public void verifyAnswerableForStudent(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        verifyNotNull(feedbackQuestionAttributes, "feedback question");
 
-    // TODO: to be implemented when we adopt more finer-grain access control.
-    private void verifyNotNull(Object object, String typeName) {
-        if (object == null) {
-            throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName
-                                                  + " entity");
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
+                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
+            throw new UnauthorizedAccessException("Feedback question is not answerable for students");
+        }
+    }
+
+    /**
+     * Verifies that the feedback question is for instructor to answer.
+     */
+    public void verifyAnswerableForInstructor(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        verifyNotNull(feedbackQuestionAttributes, "feedback question");
+
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
+                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.SELF) {
+            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors");
+        }
+    }
+
+    /**
+     * Verifies that an instructor has submission privilege of a feedback session.
+     */
+    public void verifySessionSubmissionPrivilegeForInstructor(
+            FeedbackSessionAttributes session, InstructorAttributes instructor) {
+        verifyNotNull(session, "feedback session");
+        verifyNotNull(instructor, "instructor");
+
+        boolean shouldEnableSubmit =
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+
+        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+            shouldEnableSubmit = true;
         }
 
+        if (!shouldEnableSubmit) {
+            throw new UnauthorizedAccessException("You don't have submission privilege");
+        }
+    }
+
+    /**
+     * Verifies that comment is created by feedback participant.
+     *
+     * @param frc comment to be accessed
+     * @param feedbackParticipant email or team of feedback participant
+     */
+    public void verifyOwnership(FeedbackResponseCommentAttributes frc, String feedbackParticipant) {
+        verifyNotNull(frc, "feedback response comment");
+        verifyNotNull(frc.commentGiver, "feedback response comment giver");
+        verifyNotNull(feedbackParticipant, "comment giver");
+
+        if (!frc.commentGiver.equals(feedbackParticipant)) {
+            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
+                    + feedbackParticipant);
+        }
+    }
+
+    // These methods ensures that the nominal user specified can perform the specified action on a given entity.
+
+    private void verifyNotNull(Object object, String typeName) {
+        if (object == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName + " entity");
+        }
     }
 
     private User getCurrentGoogleUser() {
@@ -341,6 +392,10 @@ public class GateKeeper {
         return studentsLogic.isStudentInAnyCourse(user.getNickname());
     }
 
+    /**
+     * Verifies that the action is accessible when the user is either an instructor of the course, a student of the course
+     * or his/her team member, or an admin.
+     */
     public void verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(AccountAttributes account, String courseId,
             String section, String email) {
         if (isAdministrator()) {

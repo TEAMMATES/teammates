@@ -49,6 +49,32 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         return createEntity(entityToAdd, true);
     }
 
+    private E createEntity(A entityToAdd, boolean shouldCheckExistence)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
+
+        entityToAdd.sanitizeForSaving();
+
+        if (!entityToAdd.isValid()) {
+            throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
+        }
+
+        // TODO: Do we really need special identifiers? Can just use ToString()?
+        // Answer: Yes. We can use toString.
+        if (shouldCheckExistence && hasEntity(entityToAdd)) {
+            String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
+                    + entityToAdd.getIdentificationString();
+            log.info(error);
+            throw new EntityAlreadyExistsException(error);
+        }
+
+        E entity = entityToAdd.toEntity();
+
+        saveEntity(entity, entityToAdd);
+
+        return entity;
+    }
+
     public List<A> createEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
 
@@ -128,32 +154,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
             Assumption.fail("Caught exception thrown by existence check even with existence check disabled");
             return null;
         }
-    }
-
-    private E createEntity(A entityToAdd, boolean shouldCheckExistence)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
-
-        entityToAdd.sanitizeForSaving();
-
-        if (!entityToAdd.isValid()) {
-            throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
-        }
-
-        // TODO: Do we really need special identifiers? Can just use ToString()?
-        // Answer: Yes. We can use toString.
-        if (shouldCheckExistence && hasEntity(entityToAdd)) {
-            String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
-                    + entityToAdd.getIdentificationString();
-            log.info(error);
-            throw new EntityAlreadyExistsException(error);
-        }
-
-        E entity = entityToAdd.toEntity();
-
-        saveEntity(entity, entityToAdd);
-
-        return entity;
     }
 
     public void saveEntity(E entityToSave) {
@@ -257,6 +257,14 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
 
     protected abstract A makeAttributes(E entity);
 
+    protected List<A> makeAttributes(Collection<E> entities) {
+        List<A> attributes = new LinkedList<>();
+        for (E entity : entities) {
+            attributes.add(makeAttributes(entity));
+        }
+        return attributes;
+    }
+
     protected A makeAttributesOrNull(E entity) {
         return makeAttributesOrNull(entity, null);
     }
@@ -269,14 +277,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
             log.info(logMessage);
         }
         return null;
-    }
-
-    protected List<A> makeAttributes(Collection<E> entities) {
-        List<A> attributes = new LinkedList<>();
-        for (E entity : entities) {
-            attributes.add(makeAttributes(entity));
-        }
-        return attributes;
     }
 
     protected Key<E> makeKeyOrNullFromWebSafeString(String webSafeString) {

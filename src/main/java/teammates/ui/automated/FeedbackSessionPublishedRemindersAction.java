@@ -10,16 +10,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 public class FeedbackSessionPublishedRemindersAction extends AutomatedAction {
 
     @Override
-    protected String getActionDescription() {
-        return "send published reminders";
-    }
-
-    @Override
-    protected String getActionMessage() {
-        return "Generating reminders for published feedback sessions.";
-    }
-
-    @Override
     public void execute() {
         List<FeedbackSessionAttributes> sessions =
                 logic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();

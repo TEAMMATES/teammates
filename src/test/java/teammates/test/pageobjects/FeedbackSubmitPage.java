@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.e2e.pageobjects.Browser;
 
 public class FeedbackSubmitPage extends AppPage {
 

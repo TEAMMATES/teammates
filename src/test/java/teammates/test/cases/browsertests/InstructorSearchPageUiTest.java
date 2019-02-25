@@ -9,7 +9,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
@@ -18,9 +19,9 @@ import teammates.test.pageobjects.InstructorSearchPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_SEARCH_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SEARCH_PAGE}.
  */
-public class InstructorSearchPageUiTest extends BaseUiTestCase {
+public class InstructorSearchPageUiTest extends BaseE2ETestCase {
     private InstructorSearchPage searchPage;
 
     @Override
@@ -209,7 +210,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {
-        AppUrl searchPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE)
+        AppUrl searchPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
         return loginAdminToPage(searchPageUrl, InstructorSearchPage.class);

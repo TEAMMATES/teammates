@@ -3,6 +3,7 @@ package teammates.test.driver;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
-import com.google.appengine.api.log.dev.LocalLogService;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
@@ -27,13 +28,15 @@ import com.meterware.servletunit.InvocationContext;
 import com.meterware.servletunit.ServletRunner;
 import com.meterware.servletunit.ServletUnitClient;
 
+import teammates.common.datatransfer.UserInfo;
+import teammates.common.exception.ActionMappingException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
-import teammates.ui.controller.Action;
-import teammates.ui.controller.ActionFactory;
+import teammates.ui.webapi.action.Action;
+import teammates.ui.webapi.action.ActionFactory;
 
 /**
  * Provides a Singleton in-memory simulation of the GAE for unit testing.
@@ -45,16 +48,18 @@ import teammates.ui.controller.ActionFactory;
  */
 public class GaeSimulation {
 
+    // This can be any valid URL; it is not used beyond validation
+    private static final String SIMULATION_BASE_URL = "http://localhost:8080";
+
     private static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
 
+    private static GateKeeper gateKeeper = new GateKeeper();
     private static GaeSimulation instance = new GaeSimulation();
 
     /** This is used only to generate an HttpServletRequest for given parameters. */
     private ServletUnitClient sc;
 
     private LocalServiceTestHelper helper;
-
-    private LocalLogService localLogService;
 
     /**
      * Gets the GAE simulation instance.
@@ -87,18 +92,33 @@ public class GaeSimulation {
             helper.setUp();
 
             sc = new ServletRunner().newClient();
-            localLogService = LocalLogServiceTestConfig.getLocalLogService();
         }
+    }
+
+    private UserInfo loginUser(String userId, boolean isAdmin) {
+        helper.setEnvIsLoggedIn(true);
+        helper.setEnvEmail(userId);
+        helper.setEnvAuthDomain("gmail.com");
+        helper.setEnvIsAdmin(isAdmin);
+        return gateKeeper.getCurrentUser();
     }
 
     /**
      * Logs in the user to the GAE simulation environment without admin rights.
+     *
+     * @return The user info after login process
      */
-    public void loginUser(String userId) {
-        helper.setEnvIsLoggedIn(true);
-        helper.setEnvEmail(userId);
-        helper.setEnvAuthDomain("gmail.com");
-        helper.setEnvIsAdmin(false);
+    public UserInfo loginUser(String userId) {
+        return loginUser(userId, false);
+    }
+
+    /**
+     * Logs in the user to the GAE simulation environment as an admin.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsAdmin(String userId) {
+        return loginUser(userId, true);
     }
 
     /**
@@ -110,72 +130,110 @@ public class GaeSimulation {
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as an admin.
+     * Logs in the user to the GAE simulation environment as an unregistered user
+     * (without any right).
      */
-    public void loginAsAdmin(String userId) {
+    @Deprecated
+    public void loginAsUnregistered(String userId) {
         loginUser(userId);
-        helper.setEnvIsAdmin(true);
+        UserInfo user = gateKeeper.getCurrentUser();
+        assertFalse(user.isStudent);
+        assertFalse(user.isInstructor);
+        assertFalse(user.isAdmin);
     }
 
     /**
      * Logs in the user to the GAE simulation environment as an instructor
-     * (without admin rights).
+     * (without admin rights or student rights).
      */
+    @Deprecated
     public void loginAsInstructor(String userId) {
         loginUser(userId);
-        GateKeeper gateKeeper = new GateKeeper();
-        assertTrue(gateKeeper.getCurrentUser().isInstructor);
-        assertFalse(gateKeeper.getCurrentUser().isAdmin);
+        UserInfo user = gateKeeper.getCurrentUser();
+        assertFalse(user.isStudent);
+        assertTrue(user.isInstructor);
+        assertFalse(user.isAdmin);
     }
 
     /**
      * Logs in the user to the GAE simulation environment as a student
      * (without admin rights or instructor rights).
      */
+    @Deprecated
     public void loginAsStudent(String userId) {
         loginUser(userId);
-        GateKeeper gateKeeper = new GateKeeper();
-        assertTrue(gateKeeper.getCurrentUser().isStudent);
-        assertFalse(gateKeeper.getCurrentUser().isInstructor);
-        assertFalse(gateKeeper.getCurrentUser().isAdmin);
+        UserInfo user = gateKeeper.getCurrentUser();
+        assertTrue(user.isStudent);
+        assertFalse(user.isInstructor);
+        assertFalse(user.isAdmin);
     }
 
     /**
-     * Clears all logs in GAE.
+     * Logs in the user to the GAE simulation environment as a student-instructor
+     * (without admin rights).
      */
-    public void clearLogs() {
-        localLogService.clear();
+    @Deprecated
+    public void loginAsStudentInstructor(String userId) {
+        loginUser(userId);
+        UserInfo user = gateKeeper.getCurrentUser();
+        assertTrue(user.isStudent);
+        assertTrue(user.isInstructor);
+        assertFalse(user.isAdmin);
     }
 
     /**
-     * Adds a request info log to the simulated environment.
+     * Returns an {@link teammates.ui.controller.Action} object that matches the parameters given.
+     *
+     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
-    public void addLogRequestInfo(String appId, String versionId, String requestId, String ip, String nickname,
-                                  long startTimeUsec, long endTimeUsec, String method, String resource,
-                                  String httpVersion, String userAgent, boolean complete, Integer status,
-                                  String referrer) {
-        localLogService.addRequestInfo(appId, versionId, requestId, ip, nickname, startTimeUsec, endTimeUsec,
-                                       method, resource, httpVersion, userAgent, complete, status, referrer);
-    }
-
-    /**
-     * Adds an application log line to the simulated environment.
-     */
-    public void addAppLogLine(String requestId, long time, int level, String message) {
-        localLogService.addAppLogLine(requestId, time, level, message);
+    public teammates.ui.controller.Action getLegacyActionObject(String uri, String... parameters) {
+        InvocationContext ic = invokeWebRequest(uri, parameters);
+        HttpServletRequest req = ic.getRequest();
+        try {
+            teammates.ui.controller.Action action = new teammates.ui.controller.ActionFactory().getAction(req);
+            action.setTaskQueuer(new MockTaskQueuer());
+            action.setEmailSender(new MockEmailSender());
+            return action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * Returns an {@link Action} object that matches the parameters given.
      *
-     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
+     * @param uri The request URI
+     * @param method The request method
+     * @param body The request body
+     * @param parts The request parts
+     * @param params Parameters that appear in a HttpServletRequest received by the app
      */
-    public Action getActionObject(String uri, String... parameters) {
-        HttpServletRequest req = createWebRequest(uri, parameters);
-        Action action = new ActionFactory().getAction(req);
-        action.setTaskQueuer(new MockTaskQueuer());
-        action.setEmailSender(new MockEmailSender());
-        return action;
+    public Action getActionObject(String uri, String method, String body, Map<String, Part> parts, String... params) {
+        try {
+            MockHttpServletRequest req = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + uri);
+            for (int i = 0; i < params.length; i = i + 2) {
+                req.addParam(params[i], params[i + 1]);
+            }
+            if (body != null) {
+                req.setBody(body);
+            }
+            if (parts != null) {
+                parts.forEach((key, part) -> {
+                    try {
+                        req.addPart(key, part);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+            MockHttpServletResponse resp = new MockHttpServletResponse();
+            Action action = new ActionFactory().getAction(req, method, resp);
+            action.setTaskQueuer(new MockTaskQueuer());
+            action.setEmailSender(new MockEmailSender());
+            return action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -184,11 +242,20 @@ public class GaeSimulation {
      * @param parameters Parameters that appear in a HttpServletRequest received by the app.
      */
     public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
-        HttpServletRequest req = createWebRequest(uri, parameters);
-        AutomatedAction action = new AutomatedActionFactory().getAction(req, null);
-        action.setTaskQueuer(new MockTaskQueuer());
-        action.setEmailSender(new MockEmailSender());
-        return action;
+        try {
+            // HTTP method is not used here
+            MockHttpServletRequest req = new MockHttpServletRequest(null, uri);
+            for (int i = 0; i < parameters.length; i = i + 2) {
+                req.addParam(parameters[i], parameters[i + 1]);
+            }
+            MockHttpServletResponse resp = new MockHttpServletResponse();
+            AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
+            action.setTaskQueuer(new MockTaskQueuer());
+            action.setEmailSender(new MockEmailSender());
+            return action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -205,12 +272,15 @@ public class GaeSimulation {
         }
     }
 
-    private HttpServletRequest createWebRequest(String uri, String... parameters) {
+    @Deprecated
+    private InvocationContext invokeWebRequest(String uri, String... parameters) {
+        // This is not testing servlet, so any HTTP method suffices
+        WebRequest request = new PostMethodWebRequest(SIMULATION_BASE_URL + uri);
 
-        WebRequest request = new PostMethodWebRequest("http://localhost" + uri);
-
+        // TODO remove this portion once front-end migration is finished
+        // Reason: CSRF protection is not part of action tests
         if (Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(uri)) {
-            request.setHeaderField("referer", "http://localhost");
+            request.setHeaderField("referer", SIMULATION_BASE_URL);
 
             String sessionId = sc.getSession(true).getId();
             String token = StringHelper.encrypt(sessionId);
@@ -219,18 +289,13 @@ public class GaeSimulation {
 
         Map<String, List<String>> paramMultiMap = new HashMap<>();
         for (int i = 0; i < parameters.length; i = i + 2) {
-            String key = parameters[i];
-            if (paramMultiMap.get(key) == null) {
-                paramMultiMap.put(key, new ArrayList<String>());
-            }
-            paramMultiMap.get(key).add(parameters[i + 1]);
+            paramMultiMap.computeIfAbsent(parameters[i], k -> new ArrayList<>()).add(parameters[i + 1]);
         }
 
         paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[0])));
 
         try {
-            InvocationContext ic = sc.newInvocation(request);
-            return ic.getRequest();
+            return sc.newInvocation(request);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -243,7 +308,8 @@ public class GaeSimulation {
         Map<String, Object> attributes = new HashMap<>();
         try {
             attributes.put("com.google.appengine.runtime.default_version_hostname",
-                    new URL(TestProperties.TEAMMATES_URL).getAuthority());
+                    new URL(SIMULATION_BASE_URL).getAuthority());
+            attributes.put("com.google.appengine.runtime.request_log_id", "samplerequestid123");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

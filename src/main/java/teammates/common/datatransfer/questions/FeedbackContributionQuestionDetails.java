@@ -40,6 +40,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         isNotSureAllowed = true;
     }
 
+    public boolean isNotSureAllowed() {
+        return isNotSureAllowed;
+    }
+
+    public void setNotSureAllowed(boolean notSureAllowed) {
+        isNotSureAllowed = notSureAllowed;
+    }
+
     private void setContributionQuestionDetails(boolean isNotSureAllowed) {
         this.isNotSureAllowed = isNotSureAllowed;
     }
@@ -315,6 +323,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
+    public String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent) {
+        // TODO
+        return "";
+    }
+
+    @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
@@ -457,6 +473,26 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return getStudentResults(teamMembersEmail, teamResults);
     }
 
+    private Map<String, StudentResultSummary> getStudentResults(
+            Map<String, List<String>> teamMembersEmail,
+            Map<String, TeamEvalResult> teamResults) {
+        Map<String, StudentResultSummary> studentResults = new LinkedHashMap<>();
+        teamResults.forEach((key, teamResult) -> {
+            List<String> teamEmails = teamMembersEmail.get(key);
+            int i = 0;
+            for (String studentEmail : teamEmails) {
+                StudentResultSummary summary = new StudentResultSummary();
+                summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
+                summary.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
+
+                studentResults.put(studentEmail, summary);
+
+                i++;
+            }
+        });
+        return studentResults;
+    }
+
     /**
      * Returns A Map with student email as key and TeamEvalResult as value for the specified question.
      */
@@ -476,26 +512,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 teamNames, teamMembersEmail, teamResponses);
 
         return getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-    }
-
-    private Map<String, StudentResultSummary> getStudentResults(
-            Map<String, List<String>> teamMembersEmail,
-            Map<String, TeamEvalResult> teamResults) {
-        Map<String, StudentResultSummary> studentResults = new LinkedHashMap<>();
-        teamResults.forEach((key, teamResult) -> {
-            List<String> teamEmails = teamMembersEmail.get(key);
-            int i = 0;
-            for (String studentEmail : teamEmails) {
-                StudentResultSummary summary = new StudentResultSummary();
-                summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
-                summary.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
-
-                studentResults.put(studentEmail, summary);
-
-                i++;
-            }
-        });
-        return studentResults;
     }
 
     private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
@@ -543,7 +559,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<FeedbackResponseAttributes>> teamResponses = new LinkedHashMap<>();
         for (String teamName : teamNames) {
-            teamResponses.put(teamName, new ArrayList<FeedbackResponseAttributes>());
+            teamResponses.put(teamName, new ArrayList<>());
         }
         for (FeedbackResponseAttributes response : responses) {
             String team = bundle.emailTeamNameTable.get(response.giver);
@@ -712,7 +728,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if (isValidRange && isMultipleOf10) {
                 validAnswer = true;
             }
-            if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+            if (frd.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed
+                    || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
             if (!validAnswer) {

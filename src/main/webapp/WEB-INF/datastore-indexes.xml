@@ -14,10 +14,6 @@
         <property name="googleId" direction="asc"/>
         <property name="isArchived" direction="asc"/>
     </datastore-index>
-    <datastore-index kind="AdminEmail" ancestor="false" source="auto">
-        <property name="isInTrashBin" direction="asc"/>
-        <property name="sendDate" direction="asc"/>
-    </datastore-index>
     <datastore-index kind="FeedbackSession" ancestor="false" source="auto">
         <property name="isClosingEmailEnabled" direction="asc"/>
         <property name="sentClosedEmail" direction="asc"/>

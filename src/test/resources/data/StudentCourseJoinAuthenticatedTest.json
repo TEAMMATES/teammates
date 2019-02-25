@@ -213,8 +213,10 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "What is the best selling point of your product?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -233,8 +235,10 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Rate 1 other student's product",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -255,8 +259,10 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "My comments on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -284,8 +290,10 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Instructor comments on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Instructor comments on the class"
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -313,8 +321,10 @@
     "qnInUnviewableSession": {
       "feedbackSessionName": "Nonviewable feedback session",
       "courseId": "idOfCourseNoEvals",
-      "creatorEmail": "instructor1@course2.tmt",
-      "questionMetaData": "Please rate your instructors",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Please rate your instructors"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -334,7 +344,7 @@
       "email": "i.m.stud1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 3",
       "nationality": "American",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am just a student :P",
       "pictureKey": "asdf34&hfn3!@"
     },
@@ -344,7 +354,7 @@
       "email": "noFSStudent2@gmail.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am a student",
       "pictureKey": ""
     },
@@ -354,7 +364,7 @@
       "email": "noFSStudent3@gmail.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am a student",
       "pictureKey": "asdf34&hfn3!@"
     },
@@ -364,7 +374,7 @@
       "email": "weird&'@gmail.tmt",
       "institute": "inst<script> alert('hi!'); </script>",
       "nationality": "American",
-      "gender": "other",
+      "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
       "pictureKey": ""
     }

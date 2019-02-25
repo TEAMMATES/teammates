@@ -1,0 +1,100 @@
+<nav class="navbar fixed-top navbar-light bg-light" *ngIf="moderatedPerson">
+  <div class="col-12 text-center">
+    <h5>You are moderating responses for
+      <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
+      <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
+      {{ personName }} ({{ moderatedPerson }})
+      <button type="button" class="btn btn-link" *ngIf="!isModerationHintExpanded" (click)="isModerationHintExpanded = true">[More]</button>
+      <button type="button" class="btn btn-link" *ngIf="isModerationHintExpanded" (click)="isModerationHintExpanded = false">[Less]</button>
+    </h5>
+    <div *ngIf="isModerationHintExpanded" class="text-left">
+      <p>
+        The page below resembles the submission page as seen by the respondent {{ personName }} ({{ moderatedPerson }}).
+        You can use it to moderate responses submitted by the respondent or submit responses on behalf of the respondent.
+      </p>
+      <p>
+        Note that due to visibility settings, questions that are not supposed to show responses to instructors (i.e you) are not shown in the page below.
+      </p>
+    </div>
+  </div>
+</nav>
+<nav class="navbar fixed-top navbar-light bg-light" *ngIf="previewAsPerson">
+  <div class="col-12 text-center">
+    <h4>Previewing Session as
+      <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
+      <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
+      {{ personName }} ({{ previewAsPerson }})
+    </h4>
+  </div>
+</nav>
+<div class="row" *ngIf="regKey">
+  <div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      You are submitting feedback as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to
+      <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN">
+  <div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      <i class="fas fa-exclamation-circle"></i> Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session.
+    </div>
+  </div>
+</div>
+
+<div class="card card-plain">
+  <div class="card-body">
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Course ID:</b></div>
+      <div class="col-5">{{ courseId }}</div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Session:</b></div>
+      <div class="col-5">{{ feedbackSessionName }}</div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Opening time:</b></div>
+      <div class="col-5">{{ formattedSessionOpeningTime }}</div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Closing time:</b></div>
+      <div class="col-5">{{ formattedSessionClosingTime }}</div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Instructions:</b></div>
+      <div class="col-5" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+    </div>
+    <br/>
+  </div>
+</div>
+
+<tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
+                             [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                             [isDisabled]="isSubmissionFormsDisabled"
+></tm-question-submission-form>
+
+<br/>
+<div class="row" *ngIf="!hasAnyResponseToSubmit">
+  <div class="col-12 text-center">
+    <div class="alert alert-info" role="alert">
+      There are no questions for you to answer here!
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="hasAnyResponseToSubmit">
+  <div class="col-12 text-center">
+    <label><input type="checkbox" [(ngModel)]="shouldSendConfirmationEmail" [disabled]="isSubmissionFormsDisabled"> Send me a confirmation email</label>
+  </div>
+  <div class="col-12 text-center">
+    <button type="submit" class="btn btn-primary"
+            ngbTooltip="You can save your responses at any time and come back later to continue."
+            (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+    ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Feedback</button>
+  </div>
+</div>

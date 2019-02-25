@@ -136,7 +136,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (weight != null && choice != null) {
                     if (!rowAdded) {
                         weightRows++;
-                        rubricWeightsForEachCell.add(new ArrayList<Double>());
+                        rubricWeightsForEachCell.add(new ArrayList<>());
                         rowAdded = true;
                     }
                     try {
@@ -160,6 +160,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 rubricChoices.add(choice);
             }
         }
+        return rubricChoices;
+    }
+
+    public List<String> getRubricChoices() {
         return rubricChoices;
     }
 
@@ -187,7 +191,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (description != null) {
                     if (!rowAdded) {
                         descRows++;
-                        rubricDescriptions.add(new ArrayList<String>());
+                        rubricDescriptions.add(new ArrayList<>());
                         rowAdded = true;
                     }
                     rubricDescriptions.get(descRows).add(description);
@@ -803,6 +807,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent) {
+        // TODO
+        return "";
+    }
+
+    @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
@@ -1106,10 +1118,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.numOfRubricChoices = numOfRubricChoices;
     }
 
-    public List<String> getRubricChoices() {
-        return rubricChoices;
-    }
-
     public int getNumOfRubricSubQuestions() {
         return numOfRubricSubQuestions;
     }
@@ -1120,148 +1128,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     public List<String> getRubricSubQuestions() {
         return rubricSubQuestions;
-    }
-
-    /**
-     * Class to store any stats related to a recipient.
-     */
-    private class RubricRecipientStatistics {
-        String recipientEmail;
-        String recipientName;
-        String recipientTeam;
-        int[][] numOfResponsesPerSubQuestionPerChoice;
-        double[] totalPerSubQuestion;
-        int[] respondentsPerSubQuestion;
-        List<List<Double>> weights;
-
-        RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
-            Assumption.assertTrue("Per Recipient Stats is only available when weights are enabled", hasAssignedWeights);
-            this.recipientEmail = recipientEmail;
-            this.recipientName = recipientName;
-            this.recipientTeam = recipientTeam;
-            numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
-            totalPerSubQuestion = new double[getNumOfRubricSubQuestions()];
-            respondentsPerSubQuestion = new int[getNumOfRubricSubQuestions()];
-            weights = getRubricWeights();
-        }
-
-        public void addResponseToRecipientStats(FeedbackResponseAttributes response) {
-            if (!response.recipient.equalsIgnoreCase(recipientEmail)) {
-                return;
-            }
-
-            FeedbackRubricResponseDetails rubricResponse = (FeedbackRubricResponseDetails) response.getResponseDetails();
-
-            for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
-                int choice = rubricResponse.getAnswer(i);
-
-                if (choice >= 0) {
-                    ++numOfResponsesPerSubQuestionPerChoice[i][choice];
-                    totalPerSubQuestion[i] += weights.get(i).get(choice);
-                    respondentsPerSubQuestion[i]++;
-                }
-            }
-        }
-
-        /**
-         * Returns a HTML string which contains a sequence of "td" tags.
-         * The "td" tags have data related to a sub question.
-         * The sequence of "td" tags are not enclosed in a "tr" tag.
-         */
-        public String getHtmlForSubQuestion(int subQuestion) {
-            StringBuilder html = new StringBuilder(100);
-            String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
-            String subQuestionString = SanitizationHelper.sanitizeForHtml(alphabeticalIndex + ") "
-                    + getRubricSubQuestions().get(subQuestion));
-            DecimalFormat df = new DecimalFormat("0.00");
-            DecimalFormat dfWeight = new DecimalFormat("#.##");
-
-            List<String> cols = new ArrayList<>();
-
-            // <td> entries which display recipient identification details and rubric subQuestion
-            cols.add(recipientTeam);
-            cols.add(recipientName);
-            cols.add(subQuestionString);
-
-            // <td> entries which display number of responses per subQuestion per rubric choice,
-            // and the corresponding weight of that choice of the specific sub-question.
-            for (int i = 0; i < getNumOfRubricChoices(); i++) {
-                String responseFrequencyAndWeight = Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i])
-                        + " [" + dfWeight.format(weights.get(subQuestion).get(i)) + "]";
-                cols.add(responseFrequencyAndWeight);
-            }
-
-            // <td> entries which display aggregate statistics
-            cols.add(df.format(totalPerSubQuestion[subQuestion]));
-            cols.add(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
-                    : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
-
-            // Generate HTML for all <td> entries using template
-            for (String col : cols) {
-                html.append(
-                        Templates.populateTemplate(FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT,
-                        Slots.RUBRIC_RECIPIENT_STAT_CELL, col));
-            }
-
-            return html.toString();
-        }
-
-        /**
-         * Returns a HTML string which contains a sequence of "tr" tags.
-         * The "tr" tags enclose a sequence of "td" tags which have data related to a sub question.
-         * The sequence of "tr" tags are not enclosed in a "tbody" tag.
-         */
-        public String getHtmlForAllSubQuestions() {
-            StringBuilder html = new StringBuilder(100);
-
-            for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
-                String subQuestionStats = getHtmlForSubQuestion(i);
-                html.append(Templates.populateTemplate(
-                        FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_BODY_FRAGMENT,
-                        Slots.RUBRIC_RECIPIENT_STAT_ROW, subQuestionStats));
-            }
-
-            return html.toString();
-        }
-
-        public String getCsvForSubQuestion(int subQuestion) {
-            StringBuilder csv = new StringBuilder(100);
-            String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
-            String subQuestionString = SanitizationHelper.sanitizeForCsv(alphabeticalIndex + ") "
-                    + getRubricSubQuestions().get(subQuestion));
-            DecimalFormat df = new DecimalFormat("0.00");
-            DecimalFormat dfWeight = new DecimalFormat("#.##");
-
-            // Append recipient identification details and rubric subQuestion
-            csv.append(recipientTeam).append(',')
-               .append(recipientName).append(',')
-               .append(recipientEmail).append(',')
-               .append(subQuestionString);
-
-            // Append number of responses per subQuestion per rubric choice
-            for (int i = 0; i < getNumOfRubricChoices(); i++) {
-                csv.append(',').append(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]))
-                    .append(" [" + dfWeight.format(weights.get(subQuestion).get(i)) + "]");
-            }
-
-            // Append aggregate statistics
-            csv.append(',').append(df.format(totalPerSubQuestion[subQuestion])).append(',')
-               .append(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
-                       : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
-               .append(System.lineSeparator());
-
-            return csv.toString();
-        }
-
-        public String getCsvForAllSubQuestions() {
-            StringBuilder csv = new StringBuilder(100);
-
-            for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
-                csv.append(getCsvForSubQuestion(i));
-            }
-
-            return csv.toString();
-        }
     }
 
     /**
@@ -1355,6 +1221,148 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         return percentageFrequencyAndAverage;
+    }
+
+    /**
+     * Class to store any stats related to a recipient.
+     */
+    private class RubricRecipientStatistics {
+        String recipientEmail;
+        String recipientName;
+        String recipientTeam;
+        int[][] numOfResponsesPerSubQuestionPerChoice;
+        double[] totalPerSubQuestion;
+        int[] respondentsPerSubQuestion;
+        List<List<Double>> weights;
+
+        RubricRecipientStatistics(String recipientEmail, String recipientName, String recipientTeam) {
+            Assumption.assertTrue("Per Recipient Stats is only available when weights are enabled", hasAssignedWeights);
+            this.recipientEmail = recipientEmail;
+            this.recipientName = recipientName;
+            this.recipientTeam = recipientTeam;
+            numOfResponsesPerSubQuestionPerChoice = new int[getNumOfRubricSubQuestions()][getNumOfRubricChoices()];
+            totalPerSubQuestion = new double[getNumOfRubricSubQuestions()];
+            respondentsPerSubQuestion = new int[getNumOfRubricSubQuestions()];
+            weights = getRubricWeights();
+        }
+
+        public void addResponseToRecipientStats(FeedbackResponseAttributes response) {
+            if (!response.recipient.equalsIgnoreCase(recipientEmail)) {
+                return;
+            }
+
+            FeedbackRubricResponseDetails rubricResponse = (FeedbackRubricResponseDetails) response.getResponseDetails();
+
+            for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
+                int choice = rubricResponse.getAnswer(i);
+
+                if (choice >= 0) {
+                    ++numOfResponsesPerSubQuestionPerChoice[i][choice];
+                    totalPerSubQuestion[i] += weights.get(i).get(choice);
+                    respondentsPerSubQuestion[i]++;
+                }
+            }
+        }
+
+        /**
+         * Returns a HTML string which contains a sequence of "td" tags.
+         * The "td" tags have data related to a sub question.
+         * The sequence of "td" tags are not enclosed in a "tr" tag.
+         */
+        public String getHtmlForSubQuestion(int subQuestion) {
+            StringBuilder html = new StringBuilder(100);
+            String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
+            String subQuestionString = SanitizationHelper.sanitizeForHtml(alphabeticalIndex + ") "
+                    + getRubricSubQuestions().get(subQuestion));
+            DecimalFormat df = new DecimalFormat("0.00");
+            DecimalFormat dfWeight = new DecimalFormat("#.##");
+
+            List<String> cols = new ArrayList<>();
+
+            // <td> entries which display recipient identification details and rubric subQuestion
+            cols.add(recipientTeam);
+            cols.add(recipientName);
+            cols.add(subQuestionString);
+
+            // <td> entries which display number of responses per subQuestion per rubric choice,
+            // and the corresponding weight of that choice of the specific sub-question.
+            for (int i = 0; i < getNumOfRubricChoices(); i++) {
+                String responseFrequencyAndWeight = Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i])
+                        + " [" + dfWeight.format(weights.get(subQuestion).get(i)) + "]";
+                cols.add(responseFrequencyAndWeight);
+            }
+
+            // <td> entries which display aggregate statistics
+            cols.add(df.format(totalPerSubQuestion[subQuestion]));
+            cols.add(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
+                    : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]));
+
+            // Generate HTML for all <td> entries using template
+            for (String col : cols) {
+                html.append(
+                        Templates.populateTemplate(FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT,
+                                Slots.RUBRIC_RECIPIENT_STAT_CELL, col));
+            }
+
+            return html.toString();
+        }
+
+        /**
+         * Returns a HTML string which contains a sequence of "tr" tags.
+         * The "tr" tags enclose a sequence of "td" tags which have data related to a sub question.
+         * The sequence of "tr" tags are not enclosed in a "tbody" tag.
+         */
+        public String getHtmlForAllSubQuestions() {
+            StringBuilder html = new StringBuilder(100);
+
+            for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
+                String subQuestionStats = getHtmlForSubQuestion(i);
+                html.append(Templates.populateTemplate(
+                        FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_BODY_FRAGMENT,
+                        Slots.RUBRIC_RECIPIENT_STAT_ROW, subQuestionStats));
+            }
+
+            return html.toString();
+        }
+
+        public String getCsvForSubQuestion(int subQuestion) {
+            StringBuilder csv = new StringBuilder(100);
+            String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(subQuestion + 1);
+            String subQuestionString = SanitizationHelper.sanitizeForCsv(alphabeticalIndex + ") "
+                    + getRubricSubQuestions().get(subQuestion));
+            DecimalFormat df = new DecimalFormat("0.00");
+            DecimalFormat dfWeight = new DecimalFormat("#.##");
+
+            // Append recipient identification details and rubric subQuestion
+            csv.append(recipientTeam).append(',')
+                    .append(recipientName).append(',')
+                    .append(recipientEmail).append(',')
+                    .append(subQuestionString);
+
+            // Append number of responses per subQuestion per rubric choice
+            for (int i = 0; i < getNumOfRubricChoices(); i++) {
+                csv.append(',').append(Integer.toString(numOfResponsesPerSubQuestionPerChoice[subQuestion][i]))
+                        .append(" [" + dfWeight.format(weights.get(subQuestion).get(i)) + "]");
+            }
+
+            // Append aggregate statistics
+            csv.append(',').append(df.format(totalPerSubQuestion[subQuestion])).append(',')
+                    .append(respondentsPerSubQuestion[subQuestion] == 0 ? "0.00"
+                            : df.format(totalPerSubQuestion[subQuestion] / respondentsPerSubQuestion[subQuestion]))
+                    .append(System.lineSeparator());
+
+            return csv.toString();
+        }
+
+        public String getCsvForAllSubQuestions() {
+            StringBuilder csv = new StringBuilder(100);
+
+            for (int i = 0; i < getNumOfRubricSubQuestions(); i++) {
+                csv.append(getCsvForSubQuestion(i));
+            }
+
+            return csv.toString();
+        }
     }
 
 }

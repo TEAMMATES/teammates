@@ -87,11 +87,6 @@ public final class FieldValidator {
     public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
     public static final int GOOGLE_ID_MAX_LENGTH = 254;
 
-    public static final String GENDER_FIELD_NAME = "gender";
-    public static final List<String> GENDER_ACCEPTED_VALUES =
-            Collections.unmodifiableList(
-                    Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER));
-
     public static final String ROLE_FIELD_NAME = "access-level";
     public static final List<String> ROLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
@@ -144,6 +139,10 @@ public final class FieldValidator {
             + "The value of '${fieldName}' field should be no longer than ${maxLength} characters.";
     public static final String INVALID_NAME_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
+    public static final String TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE =
+            "The field " + TEAM_NAME_FIELD_NAME + " is not acceptable to TEAMMATES as the suggested value for "
+                    + TEAM_NAME_FIELD_NAME + " can be mis-interpreted as an email.";
+
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
@@ -194,11 +193,6 @@ public final class FieldValidator {
     public static final String NATIONALITY_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
             + HINT_FOR_CORRECT_NATIONALITY;
-
-    public static final String GENDER_ERROR_MESSAGE =
-            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. "
-            + "Values have to be one of: " + Const.GenderTypes.MALE + ", "
-            + Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
 
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
@@ -258,7 +252,7 @@ public final class FieldValidator {
     public static final List<String> REGEX_COLUMN_TEAM = Collections.unmodifiableList(
             Arrays.asList(
                     new String[] {
-                            "teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?"
+                            "teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?",
                     }));
     public static final List<String> REGEX_COLUMN_NAME = Collections.unmodifiableList(
             Arrays.asList(
@@ -267,7 +261,7 @@ public final class FieldValidator {
             Arrays.asList(
                     new String[] {
                             "emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
-                            "e-mails?\\s+address(es)?", "contacts?"
+                            "e-mails?\\s+address(es)?", "contacts?",
                     }));
     public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
             Arrays.asList(
@@ -413,11 +407,11 @@ public final class FieldValidator {
 
     /**
      * Checks if {@code teamName} is a non-null non-empty string no longer than the specified length
-     * {@code TEAM_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * {@code TEAM_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %) and is not a valid email.
      * @return An explanation of why the {@code teamName} is not acceptable.
      *         Returns an empty string if the {@code teamName} is acceptable.
      */
-    public static String getInvalidityInfoForTeamName(String teamName) {
+
         return getValidityInfoForAllowedName(TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, teamName);
     }
 
@@ -434,21 +428,7 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code gender} is one of the recognized genders {@code GENDER_ACCEPTED_VALUES}.
-     * @return An explanation of why the {@code gender} is not acceptable.
-     *         Returns an empty string if the {@code gender} is acceptable.
-     */
-    public static String getInvalidityInfoForGender(String gender) {
-        Assumption.assertNotNull("Non-null value expected", gender);
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(gender);
 
-        if (!GENDER_ACCEPTED_VALUES.contains(gender)) {
-            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
-        }
-        return "";
-    }
-
-    /**
      * Checks if {@code feedbackSessionName} is a non-null non-empty string no longer than the specified length
      * {@code FEEDBACK_SESSION_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %), and has no
      * unsanitized HTML characters.

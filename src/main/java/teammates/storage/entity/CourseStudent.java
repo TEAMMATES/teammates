@@ -6,7 +6,6 @@ import java.time.Instant;
 import com.google.gson.annotations.SerializedName;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
@@ -22,15 +21,6 @@ import teammates.common.util.StringHelper;
 @Entity
 @Index
 public class CourseStudent extends BaseEntity {
-
-    /**
-     * Setting this to true prevents changes to the lastUpdate time stamp.
-     * Set to true when using scripts to update entities when you want to
-     * preserve the lastUpdate time stamp.
-     **/
-    @Ignore
-    public transient boolean keepUpdateTimestamp;
-
     /**
      * ID of the student.
      *
@@ -119,9 +109,7 @@ public class CourseStudent extends BaseEntity {
     }
 
     public void setLastUpdate(Instant updatedAt) {
-        if (!keepUpdateTimestamp) {
-            this.updatedAt = updatedAt;
-        }
+        this.updatedAt = updatedAt;
     }
 
     public String getUniqueId() {

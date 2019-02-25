@@ -6,7 +6,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
@@ -14,7 +15,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT}.
  */
-public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase {
+public class InstructorCourseStudentDetailsEditPageUiTest extends BaseE2ETestCase {
     private InstructorCourseStudentDetailsEditPage editPage;
 
     @Override
@@ -38,7 +39,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 
         ______TS("content: unregistered student");
 
-        AppUrl editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
+        AppUrl editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
                                         .withUserId(instructorId)
                                         .withCourseId(courseId)
                                         .withStudentEmail(testData.students.get("unregisteredStudent").email);
@@ -48,7 +49,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
 
         ______TS("content: registered student");
 
-        editPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT)
+        editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
             .withUserId(instructorId)
             .withCourseId(courseId)
             .withStudentEmail(testData.students.get("registeredStudent").email);

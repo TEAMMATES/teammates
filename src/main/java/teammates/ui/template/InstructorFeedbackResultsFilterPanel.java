@@ -1,7 +1,9 @@
 package teammates.ui.template;
 
+import java.util.Arrays;
 import java.util.List;
 
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.SanitizationHelper;
 
@@ -12,26 +14,34 @@ public class InstructorFeedbackResultsFilterPanel {
     private String feedbackSessionName;
     private boolean isAllSectionsSelected;
     private String selectedSection;
+    private SectionDetail selectedSectionDetail;
     private boolean isGroupedByTeam;
     private String sortType;
     private String resultsLink;
     private List<String> sections;
+    private List<SectionDetail> sectionDetails;
 
     public InstructorFeedbackResultsFilterPanel(boolean isStatsShown,
                                     FeedbackSessionAttributes session, boolean isAllSectionsSelected,
-                                    String selectedSection, boolean isGroupedByTeam, String sortType,
-                                    String resultsLink, List<String> sections,
-                                    boolean isMissingResponsesShown) {
+                                    String selectedSection, SectionDetail selectedSectionDetail, boolean isGroupedByTeam,
+                                    String sortType, String resultsLink,
+                                    List<String> sections, boolean isMissingResponsesShown) {
         this.isStatsShown = isStatsShown;
         this.courseId = SanitizationHelper.sanitizeForHtml(session.getCourseId());
         this.feedbackSessionName = SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName());
         this.isAllSectionsSelected = isAllSectionsSelected;
         this.selectedSection = selectedSection;
+        this.selectedSectionDetail = selectedSectionDetail;
         this.isGroupedByTeam = isGroupedByTeam;
         this.sortType = sortType;
         this.resultsLink = resultsLink;
         this.isMissingResponsesShown = isMissingResponsesShown;
         this.sections = sections;
+        initializeSectionDetails();
+    }
+
+    private void initializeSectionDetails() {
+        this.sectionDetails = Arrays.asList(SectionDetail.values());
     }
 
     public boolean isStatsShown() {
@@ -62,6 +72,10 @@ public class InstructorFeedbackResultsFilterPanel {
         return selectedSection;
     }
 
+    public SectionDetail getSelectedSectionDetail() {
+        return selectedSectionDetail;
+    }
+
     public boolean isGroupedByTeam() {
         return isGroupedByTeam;
     }
@@ -76,6 +90,10 @@ public class InstructorFeedbackResultsFilterPanel {
 
     public List<String> getSections() {
         return sections;
+    }
+
+    public List<SectionDetail> getSectionDetails() {
+        return sectionDetails;
     }
 
 }

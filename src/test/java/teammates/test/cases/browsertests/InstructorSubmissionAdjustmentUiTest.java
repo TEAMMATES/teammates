@@ -15,16 +15,17 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTaskReturns;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.Priority;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.Priority;
+import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks.
  */
 @Priority(1)
-public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
+public class InstructorSubmissionAdjustmentUiTest extends BaseE2ETestCase {
     private InstructorCourseEnrollPage enrollPage;
 
     @Override
@@ -75,7 +76,9 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         // It might take a while for the submission adjustment to persist (especially on the live server),
         // during which the pre-existing submissions and responses would be counted.
         // Hence, this needs to be retried several times until the count becomes zero.
-        persistenceRetryManager.runUntilSuccessful(new RetryableTaskReturns<Integer>("Assert outdated responses removed") {
+        getPersistenceRetryManager().runUntilSuccessful(new RetryableTaskReturns<Integer>(
+                "Assert outdated responses removed"
+        ) {
             @Override
             public Integer run() {
                 return getAllResponsesForStudentForSession(student, session.getFeedbackSessionName()).size();
@@ -90,7 +93,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     }
 
     private void loadEnrollmentPage() {
-        AppUrl enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
+        AppUrl enrollUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                             .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
                             .withCourseId(testData.courses.get("typicalCourse1").getId());
 

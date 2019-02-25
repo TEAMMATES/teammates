@@ -7,13 +7,14 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**
  * SUT: {@link Const.ActionURIs#INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE}.
  */
-public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
+public class InstructorEditStudentFeedbackPageUiTest extends BaseE2ETestCase {
 
     private InstructorEditStudentFeedbackPage submitPage;
 
@@ -193,7 +194,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
 
     private InstructorEditStudentFeedbackPage loginToInstructorEditStudentFeedbackPage(
             String instructorName, String moderatedStudentEmail, String fsName) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withUserId(testData.instructors.get(instructorName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())

@@ -85,25 +85,6 @@ public class StudentSearchTest extends BaseSearchTest {
         assertEquals(0, bundle.numberOfResults);
         assertTrue(bundle.studentList.isEmpty());
 
-        ______TS("success: search for students; deleted student without deleted document: the document "
-                 + "will be deleted during the search");
-
-        studentsDb.deleteStudentWithoutDocument(stu1InCourse2.course, stu1InCourse2.email);
-
-        bundle = studentsDb.search("student1", ins1OfCourse2);
-
-        assertEquals(0, bundle.numberOfResults);
-        assertTrue(bundle.studentList.isEmpty());
-
-        studentsDb.deleteStudentWithoutDocument(stu2InCourse1.course, stu2InCourse1.email);
-
-        bundle = studentsDb.searchStudentsInWholeSystem("student2");
-
-        assertEquals(2, bundle.numberOfResults);
-        AssertHelper.assertSameContentIgnoreOrder(
-                     Arrays.asList(stu2InCourse2, stu2InUnregCourse),
-                     bundle.studentList);
-
     }
 
 }

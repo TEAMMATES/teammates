@@ -98,7 +98,8 @@
       "course": "AAMgtUiT.CS1101",
       "name": "Teammates Instr2</option></td></div>'\"",
       "comments": "This is an instructor</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {},

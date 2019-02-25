@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.ThreadHelper;
+import teammates.e2e.pageobjects.Browser;
 
 public class InstructorHomePage extends AppPage {
 
@@ -121,7 +121,6 @@ public class InstructorHomePage extends AppPage {
     public InstructorFeedbackSessionsPage clickCourseAddEvaluationLink(String courseId) {
         click(getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
-        ThreadHelper.waitBriefly();
         return changePageType(InstructorFeedbackSessionsPage.class);
     }
 

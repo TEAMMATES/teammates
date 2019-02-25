@@ -72,6 +72,7 @@
                   <input name="fsname" type="hidden" value="MCQ Weight Session">
                   <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
+                  <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="true">
                   <input name="frindicatemissingresponses" type="hidden" value="false">
                 </form>
@@ -107,6 +108,7 @@
     <input name="fsname" type="hidden" value="MCQ Weight Session">
     <input name="user" type="hidden" value="FMcqQnUiT.instructor">
     <input name="frgroupbysection" type="hidden" value="All">
+    <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
     <input name="csvtohtmltable" type="hidden" value="true">
   </form>
   <div class="modal fade align-center" id="fsResultsTableWindow">
@@ -142,7 +144,7 @@
             to PASTE to your Excel Workbook.
           </span>
         </div>
-        <div class="modal-body">
+        <div class="modal-body horizontal-scrollbar">
           <div class="table-responsive">
             <div id="fsModalTable">
             </div>
@@ -159,19 +161,19 @@
   <div style="margin-bottom: 10px">
     <div class="well well-plain">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
           <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
             <div class="row">
-              <label class="col-md-offset-1 col-md-3">
+              <label class="col-md-offset-1 col-md-5">
                 View:
               </label>
-              <div class="col-md-8">
+              <div class="col-md-6">
                 Group by - Question
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
+        <div class="col-md-offset-3 pull-right col-md-3 margin-bottom-15px">
           <label>
             Additional settings:
           </label>
@@ -209,7 +211,7 @@
       </div>
     </div>
     <div class="modal fade" id="editModal" role="dialog">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <form action="/page/instructorFeedbackResultsPage?courseid=FMcqQnUiT.CS2104&fsname=MCQ+Weight+Session&user=FMcqQnUiT.instructor" method="post">
           <div class="modal-content">
             <div class="modal-header alert-info">
@@ -315,6 +317,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -328,6 +331,7 @@
         <input name="fsname" type="hidden" value="MCQ Weight Session">
         <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -951,6 +955,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -964,6 +969,7 @@
         <input name="fsname" type="hidden" value="MCQ Weight Session">
         <input name="courseid" type="hidden" value="FMcqQnUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">

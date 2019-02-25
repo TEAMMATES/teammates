@@ -95,9 +95,10 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes expectedAccount = createAccountAttributesToSanitize();
         actualAccount.sanitizeForSaving();
 
-        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.googleId), actualAccount.googleId);
-        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.name), actualAccount.name);
-        assertEquals(SanitizationHelper.sanitizeForHtml(expectedAccount.institute), actualAccount.institute);
+        assertEquals(SanitizationHelper.sanitizeGoogleId(expectedAccount.googleId), actualAccount.googleId);
+        assertEquals(SanitizationHelper.sanitizeName(expectedAccount.name), actualAccount.name);
+        assertEquals(SanitizationHelper.sanitizeEmail(expectedAccount.email), actualAccount.email);
+        assertEquals(SanitizationHelper.sanitizeTitle(expectedAccount.institute), actualAccount.institute);
     }
 
     @Test
@@ -168,6 +169,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testGetBackUpIdentifier() {
+        AccountAttributes account = createValidAccountAttributesObject();
+
+        String expectedBackUpIdentifierMessage = "Recently modified account::" + account.googleId;
+        assertEquals(expectedBackUpIdentifierMessage, account.getBackupIdentifier());
+    }
+
+    @Test
     public void getCopy_typicalData_createsCopyCorrectly() {
         AccountAttributes account = createValidAccountAttributesObject();
 
@@ -201,6 +210,28 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertNull("name should be null", copy.name);
         assertNull("institute should be null", copy.institute);
         assertNull("email should be null", copy.email);
+    }
+
+    @Test
+    public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
+        AccountAttributes.UpdateOptions updateOptions =
+                AccountAttributes.updateOptionsBuilder("testGoogleId")
+                        .withIsInstructor(true)
+                        .build();
+
+        assertEquals("testGoogleId", updateOptions.getGoogleId());
+
+        AccountAttributes accountAttributes = AccountAttributes.builder().withIsInstructor(false).build();
+
+        accountAttributes.update(updateOptions);
+
+        assertTrue(accountAttributes.isInstructor());
+    }
+
+    @Test
+    public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
+        assertThrows(AssertionError.class, () ->
+                AccountAttributes.updateOptionsBuilder(null));
     }
 
     private AccountAttributes createInvalidAccountAttributesObject() {
@@ -238,15 +269,14 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     private AccountAttributes createAccountAttributesToSanitize() {
+        AccountAttributes unsanitizedAttributes = AccountAttributes.builder().build();
+        unsanitizedAttributes.googleId = "    google'Id@gmail.com\t";
+        unsanitizedAttributes.name = "'n    \t\t    a me'\n\n";
+        unsanitizedAttributes.institute = "Some\t  \\       institute   \n/";
+        unsanitizedAttributes.email = "   <my&email>@gmail.com\n";
+        unsanitizedAttributes.isInstructor = true;
 
-        return AccountAttributes.builder()
-                .withGoogleId("googleId@gmail.com")
-                .withName("'name'")
-                .withInstitute("\\/")
-                .withEmail("&<email>&")
-                .withIsInstructor(true)
-                .build();
-
+        return unsanitizedAttributes;
     }
 
 }

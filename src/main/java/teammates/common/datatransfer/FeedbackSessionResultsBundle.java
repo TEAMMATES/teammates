@@ -252,10 +252,10 @@ public class FeedbackSessionResultsBundle {
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                         Map<String, FeedbackQuestionAttributes> questions, CourseRoster roster) {
-        this(feedbackSession, new ArrayList<FeedbackResponseAttributes>(), questions, new HashMap<String, String>(),
-                new HashMap<String, String>(), new HashMap<String, String>(), new HashMap<String, Set<String>>(),
-                new HashMap<String, boolean[]>(), new FeedbackSessionResponseStatus(), roster,
-                new HashMap<String, List<FeedbackResponseCommentAttributes>>());
+        this(feedbackSession, new ArrayList<>(), questions, new HashMap<>(),
+                new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                new HashMap<>(), new FeedbackSessionResponseStatus(), roster,
+                new HashMap<>());
     }
 
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
@@ -615,9 +615,7 @@ public class FeedbackSessionResultsBundle {
             case INSTRUCTORS:
                 return getSortedListOfInstructorEmails();
             case SELF:
-                List<String> creatorEmail = new ArrayList<>();
-                creatorEmail.add(fqa.creatorEmail);
-                return creatorEmail;
+                return getCreatorEmail();
             default:
                 log.severe("Invalid giver type specified");
                 return new ArrayList<>();
@@ -625,46 +623,6 @@ public class FeedbackSessionResultsBundle {
         } else {
             return getPossibleGiversForTeam(fqa, recipientParticipantIdentifier);
         }
-    }
-
-    /**
-     * Get the possible givers for a TEAM recipient for the question specified.
-     * @return a list of possible givers that can give a response to the team
-     *         specified as the recipient
-     */
-    private List<String> getPossibleGiversForTeam(FeedbackQuestionAttributes fqa,
-                                                  String recipientTeam) {
-        FeedbackParticipantType giverType = fqa.giverType;
-        FeedbackParticipantType recipientType = fqa.recipientType;
-        List<String> possibleGivers = new ArrayList<>();
-
-        if (recipientType == FeedbackParticipantType.TEAMS) {
-            switch (giverType) {
-            case TEAMS:
-                possibleGivers = getSortedListOfTeams();
-                break;
-            case STUDENTS:
-                possibleGivers = getSortedListOfStudentEmails();
-                break;
-            case INSTRUCTORS:
-                possibleGivers = getSortedListOfInstructorEmails();
-                break;
-            case SELF:
-                possibleGivers.add(fqa.creatorEmail);
-                break;
-            default:
-                log.severe("Invalid giver type specified");
-                break;
-            }
-        } else if (recipientType == FeedbackParticipantType.OWN_TEAM) {
-            if (giverType == FeedbackParticipantType.TEAMS) {
-                possibleGivers.add(recipientTeam);
-            } else {
-                possibleGivers = new ArrayList<>(getTeamMembersFromRoster(recipientTeam));
-            }
-        }
-
-        return possibleGivers;
     }
 
     /**
@@ -689,7 +647,7 @@ public class FeedbackSessionResultsBundle {
             possibleGivers = getSortedListOfTeams();
             break;
         case SELF:
-            possibleGivers.add(fqa.creatorEmail);
+            possibleGivers = getCreatorEmail();
             break;
         default:
             log.severe("Invalid giver type specified");
@@ -717,6 +675,71 @@ public class FeedbackSessionResultsBundle {
         return possibleGivers;
     }
 
+    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa) {
+        FeedbackParticipantType giverType = fqa.giverType;
+        List<String> possibleGivers = new ArrayList<>();
+
+        switch (giverType) {
+        case STUDENTS:
+            possibleGivers = getSortedListOfStudentEmails();
+            break;
+        case INSTRUCTORS:
+            possibleGivers = getSortedListOfInstructorEmails();
+            break;
+        case TEAMS:
+            possibleGivers = getSortedListOfTeams();
+            break;
+        case SELF:
+            possibleGivers = getCreatorEmail();
+            break;
+        default:
+            log.severe("Invalid giver type specified");
+            break;
+        }
+
+        return possibleGivers;
+    }
+
+    /**
+     * Get the possible givers for a TEAM recipient for the question specified.
+     * @return a list of possible givers that can give a response to the team
+     *         specified as the recipient
+     */
+    private List<String> getPossibleGiversForTeam(FeedbackQuestionAttributes fqa,
+                                                  String recipientTeam) {
+        FeedbackParticipantType giverType = fqa.giverType;
+        FeedbackParticipantType recipientType = fqa.recipientType;
+        List<String> possibleGivers = new ArrayList<>();
+
+        if (recipientType == FeedbackParticipantType.TEAMS) {
+            switch (giverType) {
+            case TEAMS:
+                possibleGivers = getSortedListOfTeams();
+                break;
+            case STUDENTS:
+                possibleGivers = getSortedListOfStudentEmails();
+                break;
+            case INSTRUCTORS:
+                possibleGivers = getSortedListOfInstructorEmails();
+                break;
+            case SELF:
+                possibleGivers = getCreatorEmail();
+                break;
+            default:
+                log.severe("Invalid giver type specified");
+                break;
+            }
+        } else if (recipientType == FeedbackParticipantType.OWN_TEAM) {
+            if (giverType == FeedbackParticipantType.TEAMS) {
+                possibleGivers.add(recipientTeam);
+            } else {
+                possibleGivers = new ArrayList<>(getTeamMembersFromRoster(recipientTeam));
+            }
+        }
+
+        return possibleGivers;
+    }
+
     /**
      * Get the possible givers for the question specified within specified section.
      * @return a list of possible givers within given section
@@ -737,32 +760,6 @@ public class FeedbackSessionResultsBundle {
         }
 
         return giversInSection;
-    }
-
-    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa) {
-        FeedbackParticipantType giverType = fqa.giverType;
-        List<String> possibleGivers = new ArrayList<>();
-
-        switch (giverType) {
-        case STUDENTS:
-            possibleGivers = getSortedListOfStudentEmails();
-            break;
-        case INSTRUCTORS:
-            possibleGivers = getSortedListOfInstructorEmails();
-            break;
-        case TEAMS:
-            possibleGivers = getSortedListOfTeams();
-            break;
-        case SELF:
-            possibleGivers = new ArrayList<>();
-            possibleGivers.add(fqa.creatorEmail);
-            break;
-        default:
-            log.severe("Invalid giver type specified");
-            break;
-        }
-
-        return possibleGivers;
     }
 
     public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa) {
@@ -963,6 +960,12 @@ public class FeedbackSessionResultsBundle {
         teams.remove(Const.USER_TEAM_FOR_INSTRUCTOR);
         teams.sort(null);
         return teams;
+    }
+
+    private List<String> getCreatorEmail() {
+        List<String> creatorEmail = new ArrayList<>();
+        creatorEmail.add(feedbackSession.getCreatorEmail());
+        return creatorEmail;
     }
 
     /**
@@ -1196,7 +1199,7 @@ public class FeedbackSessionResultsBundle {
         // sorts the questions by its natural ordering, which is by question number
         sortedQuestions.sort(null);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
-            sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
+            sortedMap.put(question, new ArrayList<>());
         }
 
         for (FeedbackResponseAttributes response : responses) {
@@ -1223,7 +1226,7 @@ public class FeedbackSessionResultsBundle {
         // sorts the questions by its natural ordering, which is by question number
         sortedQuestions.sort(null);
         for (FeedbackQuestionAttributes question : sortedQuestions) {
-            sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
+            sortedMap.put(question, new ArrayList<>());
         }
 
         for (FeedbackResponseAttributes response : responses) {
@@ -1245,8 +1248,7 @@ public class FeedbackSessionResultsBundle {
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByRecipientTeam() {
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         responses.sort(compareByTeamQuestionRecipientTeamGiver);
 
@@ -1276,8 +1278,7 @@ public class FeedbackSessionResultsBundle {
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByGiverTeam() {
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
-                new LinkedHashMap<>();
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         responses.sort(compareByTeamQuestionGiverTeamRecipient);
 
@@ -1386,7 +1387,7 @@ public class FeedbackSessionResultsBundle {
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipientGiverQuestion(boolean sortByTeam) {
 
-        LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
+        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap = new LinkedHashMap<>();
 
         if (sortByTeam) {
             responses.sort(compareByTeamRecipientGiverQuestion);

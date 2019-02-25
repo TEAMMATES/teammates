@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.util.Const;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTask;
+import teammates.e2e.pageobjects.Browser;
 
 public class InstructorCourseJoinConfirmationPage extends AppPage {
     @FindBy(id = "button_confirm")
@@ -37,7 +38,7 @@ public class InstructorCourseJoinConfirmationPage extends AppPage {
 
             @Override
             public boolean isSuccessful() {
-                return isPageUri(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+                return isPageUri(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
             }
 
             @Override

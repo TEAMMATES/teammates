@@ -13,7 +13,7 @@ import teammates.ui.automated.StudentCourseJoinEmailWorkerAction;
 /**
  * SUT: {@link StudentCourseJoinEmailWorkerAction}.
  */
-public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionTest {
+public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionTest<StudentCourseJoinEmailWorkerAction> {
 
     @Override
     protected String getActionUri() {
@@ -31,7 +31,7 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionT
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, course1.getId(),
                 ParamsNames.STUDENT_EMAIL, stu1InCourse1.email,
-                ParamsNames.IS_STUDENT_REJOINING, "false"
+                ParamsNames.IS_STUDENT_REJOINING, "false",
         };
 
         StudentCourseJoinEmailWorkerAction action = getAction(submissionParams);
@@ -50,7 +50,7 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionT
         submissionParams = new String[] {
                 ParamsNames.COURSE_ID, course1.getId(),
                 ParamsNames.STUDENT_EMAIL, stu1InCourse1.email,
-                ParamsNames.IS_STUDENT_REJOINING, "true"
+                ParamsNames.IS_STUDENT_REJOINING, "true",
         };
 
         action = getAction(submissionParams);
@@ -63,11 +63,6 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseAutomatedActionT
                                    course1.getName(), course1.getId()),
                      email.getSubject());
         assertEquals(stu1InCourse1.email, email.getRecipient());
-    }
-
-    @Override
-    protected StudentCourseJoinEmailWorkerAction getAction(String... params) {
-        return (StudentCourseJoinEmailWorkerAction) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 
 }
