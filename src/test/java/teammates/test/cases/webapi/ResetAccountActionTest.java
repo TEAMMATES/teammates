@@ -49,6 +49,48 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         verifyHttpParameterFailure(paramsInsufficient);
 
+        ______TS("Failure case: Instructor not exist");
+        String[] invalidInstructorParams = {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "non-exist-instructor@test.com",
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+        };
+
+        a = getAction(invalidInstructorParams);
+        r = getJsonResult(a);
+
+        MessageOutput output = (MessageOutput) r.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+        assertEquals("Instructor does not exist.", output.getMessage());
+
+        ______TS("Failure case: Student not exist");
+        String[] invalidStudentParams = {
+                Const.ParamsNames.STUDENT_EMAIL, "non-exist-student@test.com",
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+        };
+
+        a = getAction(invalidStudentParams);
+        r = getJsonResult(a);
+
+        output = (MessageOutput) r.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+        assertEquals("Student does not exist.", output.getMessage());
+
+        ______TS("Failure case: Course not exist");
+        String[] invalidCourseParams = {
+                Const.ParamsNames.STUDENT_EMAIL, instructor1OfCourse1.getEmail(),
+                Const.ParamsNames.COURSE_ID, "non exist course id",
+        };
+
+        a = getAction(invalidCourseParams);
+        r = getJsonResult(a);
+
+        output = (MessageOutput) r.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+        assertEquals("Student does not exist.", output.getMessage());
+
         ______TS("typical success case: reset instructor account");
 
         String[] paramsInstructor = {
