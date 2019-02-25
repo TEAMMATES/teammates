@@ -119,18 +119,13 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
      */
     private InstructorAttributes extractUpdatedInstructor(String courseId, InstructorCreateRequest instructorRequest) {
 
-        String instructorRole = instructorRequest.getRoleName();
-        String displayedName = instructorRequest.getDisplayName();
-        if (displayedName == null || displayedName.isEmpty()) {
-            displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-        }
-
         InstructorAttributes instructorToEdit =
                 retrieveEditedInstructor(courseId, instructorRequest.getId(),
                         instructorRequest.getName(), instructorRequest.getEmail(),
-                        instructorRole, instructorRequest.getIsDisplayedToStudent(), displayedName);
+                        instructorRequest.getRoleName(), instructorRequest.getIsDisplayedToStudent(),
+                        instructorRequest.getDisplayName());
 
-        if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
+        if (instructorToEdit.getRole().equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToEdit);
         }
 
@@ -142,7 +137,7 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
     }
 
     /**
-     * Edits an existing instructor's basic information.
+     * Creates a new Instructor based on given information.
      * This consists of everything apart from custom privileges.
      *
      * @param courseId              Id of the course the instructor is being added to.
@@ -164,10 +159,16 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
         } else {
             instructorToEdit = logic.getInstructorForGoogleId(courseId, instructorId);
         }
+
+        String newDisplayedName = displayedName;
+        if (newDisplayedName == null || newDisplayedName.isEmpty()) {
+            newDisplayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+        }
+
         instructorToEdit.name = SanitizationHelper.sanitizeName(instructorName);
         instructorToEdit.email = SanitizationHelper.sanitizeEmail(instructorEmail);
         instructorToEdit.role = SanitizationHelper.sanitizeName(instructorRole);
-        instructorToEdit.displayedName = SanitizationHelper.sanitizeName(displayedName);
+        instructorToEdit.displayedName = SanitizationHelper.sanitizeName(newDisplayedName);
         instructorToEdit.isDisplayedToStudents = isDisplayedToStudents;
         instructorToEdit.privileges = new InstructorPrivileges(instructorToEdit.role);
 

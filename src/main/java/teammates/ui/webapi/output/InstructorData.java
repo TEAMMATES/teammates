@@ -1,9 +1,7 @@
 package teammates.ui.webapi.output;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-
 /**
- * The API output format of {@link InstructorAttributes}.
+ * The API output format of an Instructor.
  */
 public class InstructorData extends ApiOutput {
     private final String name;

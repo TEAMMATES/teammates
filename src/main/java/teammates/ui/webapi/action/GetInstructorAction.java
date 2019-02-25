@@ -59,7 +59,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
             String instructorName = instructorAttributes.getName();
             if (instructorName == null) {
-                instructorName = "DEFAULT_NAME";
+                instructorName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
             }
 
             return new JsonResult(new InstructorData(instructorName));
