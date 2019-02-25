@@ -61,9 +61,6 @@ public abstract class AppPageNew {
     /** Firefox change handler for handling when `change` events are not fired in Firefox. */
     private final FirefoxChangeHandler firefoxChangeHandler;
 
-    /** Handler for tracking the state of a JQuery AJAX request. */
-//    private final JQueryAjaxHandler jQueryAjaxHandler;
-
     // These are elements common to most pages in our app
     @FindBy(id = "statusMessagesToUser")
     private WebElement statusMessage;
@@ -159,9 +156,6 @@ public abstract class AppPageNew {
 //        return getNewPageInstance(currentBrowser, GenericAppPage.class);
 //    }
 
-//    JQueryAjaxHandler getjQueryAjaxHandler() {
-//        return jQueryAjaxHandler;
-//    }
 
     /**
      * Simply loads the given URL.
