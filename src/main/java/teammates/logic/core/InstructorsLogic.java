@@ -12,7 +12,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -194,7 +193,7 @@ public final class InstructorsLogic {
 
         if (isNoInstructorMadeVisible || (instructorsDisplayed.size() == 1
                 && isEditedInstructorChangedToNonVisible)) {
-            throw new InvalidParametersException(Const.NO_INSTRUCTOR_DISPLAYED_ERROR);
+            throw new InvalidParametersException("At least one instructor must be displayed to students");
         }
     }
 

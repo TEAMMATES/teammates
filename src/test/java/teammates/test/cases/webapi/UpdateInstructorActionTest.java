@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -20,9 +19,8 @@ import teammates.ui.webapi.request.InstructorCreateRequest;
  * SUT: {@link UpdateInstructorAction}.
  */
 public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorAction> {
-
+    private static final FieldValidator FIELD_VALIDATOR = new FieldValidator();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final FieldValidator fieldValidator = new FieldValidator();
 
     @Override
     protected String getActionUri() {
@@ -85,7 +83,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
         msg = (MessageOutput) actionOutput.getOutput();
-        String expectedErrorMessage = fieldValidator.getInvalidityInfoForEmail(invalidEmail);
+        String expectedErrorMessage = FIELD_VALIDATOR.getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
         ______TS("Failure case: after editing instructor, no instructors are displayed");
@@ -99,7 +97,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
         msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals(Const.NO_INSTRUCTOR_DISPLAYED_ERROR, msg.getMessage());
+        assertEquals("At least one instructor must be displayed to students", msg.getMessage());
 
         ______TS("Masquerade mode: edit instructor successfully");
 

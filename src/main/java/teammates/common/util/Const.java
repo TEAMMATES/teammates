@@ -63,8 +63,6 @@ public final class Const {
 
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
-    public static final String NO_INSTRUCTOR_DISPLAYED_ERROR = "At least one instructor must be displayed to students";
-
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
 
     /*
