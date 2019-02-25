@@ -30,6 +30,7 @@ public class ActionFactory {
     private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
+        map(ResourceURIs.BACKDOOR, POST, BackDoorTestAction.class);
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
