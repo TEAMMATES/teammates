@@ -137,16 +137,11 @@ public final class Const {
         @Deprecated
         public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
                 Arrays.asList(
-                        ActionURIs.CREATE_IMAGE_UPLOAD_URL,
-                        ActionURIs.IMAGE_UPLOAD,
                         ActionURIs.INSTRUCTOR_COURSE_REMIND,
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
-                        ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
-                        ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
-                        ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
+                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH));
 
     }
 
@@ -1018,14 +1013,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
 
-        public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
-        public static final String IMAGE_UPLOAD = "/page/imageUpload";
-
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
-        public static final String STUDENT_PROFILE_PICTURE_UPLOAD = "/page/studentProfilePictureUpload";
-        public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
-        public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
 
