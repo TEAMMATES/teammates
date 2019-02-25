@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -21,6 +22,7 @@ import teammates.ui.webapi.request.InstructorCreateRequest;
 public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorAction> {
 
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final FieldValidator fieldValidator = new FieldValidator();
 
     @Override
     protected String getActionUri() {
@@ -43,7 +45,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         ______TS("Typical case: edit instructor successfully");
 
-        String[] submissionParams = new String[] {
+        final String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
@@ -73,10 +75,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         ______TS("Failure case: edit failed due to invalid parameters");
 
         String invalidEmail = "wrongEmail.com";
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
         reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.name,
                 invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
@@ -87,14 +85,10 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
         msg = (MessageOutput) actionOutput.getOutput();
-        String expectedErrorMessage = new FieldValidator().getInvalidityInfoForEmail(invalidEmail);
+        String expectedErrorMessage = fieldValidator.getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
         ______TS("Failure case: after editing instructor, no instructors are displayed");
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
 
         reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.name,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -105,8 +99,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
         msg = (MessageOutput) actionOutput.getOutput();
-        String expectedMessage = "At least one instructor must be displayed to students";
-        assertEquals(expectedMessage, msg.getMessage());
+        assertEquals(Const.NO_INSTRUCTOR_DISPLAYED_ERROR, msg.getMessage());
 
         ______TS("Masquerade mode: edit instructor successfully");
 
@@ -115,9 +108,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         newInstructorName = "newName2";
         newInstructorEmail = "newEmail2@email.com";
 
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
         reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
@@ -152,15 +142,12 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         ______TS("Unsuccessful case: test null instructor name parameter");
 
-        final String[] newSubmissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
         final InstructorCreateRequest nullNameReq = new InstructorCreateRequest(instructorId, null,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateInstructorAction illegalAction = getAction(nullNameReq, newSubmissionParams);
+            UpdateInstructorAction illegalAction = getAction(nullNameReq, submissionParams);
             getJsonResult(illegalAction);
         });
 
@@ -171,7 +158,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateInstructorAction illegalAction = getAction(nullEmailReq, newSubmissionParams);
+            UpdateInstructorAction illegalAction = getAction(nullEmailReq, submissionParams);
             getJsonResult(illegalAction);
         });
     }

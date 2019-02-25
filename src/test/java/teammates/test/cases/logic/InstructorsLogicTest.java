@@ -416,7 +416,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         InvalidParametersException ive = assertThrows(InvalidParametersException.class,
                 () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
                         true, false));
-        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
+        assertEquals(Const.NO_INSTRUCTOR_DISPLAYED_ERROR, ive.getMessage());
 
         ______TS("failure: null parameter");
 
@@ -588,7 +588,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         InvalidParametersException ive = assertThrows(InvalidParametersException.class,
                 () -> instructorsLogic.updateInstructorByGoogleIdCascade(visibleInstructorUpdateOptions));
 
-        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
+        assertEquals(Const.NO_INSTRUCTOR_DISPLAYED_ERROR, ive.getMessage());
     }
 
     private void testUpdateInstructorByEmail() throws Exception {

@@ -62,6 +62,8 @@ public final class Const {
 
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
+    public static final String NO_INSTRUCTOR_DISPLAYED_ERROR = "At least one instructor must be displayed to students";
+
     /*
      * These constants are used as variable values to mean that the variable
      * is in a 'special' state.
