@@ -152,7 +152,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .withQuestionDescription(questionDescription)
                 .withQuestionNumber(questionNumber)
                 .withNumOfEntitiesToGiveFeedbackTo(numOfEntities)
-                .withQuestionType(questionType)
                 .withGiverType(giverType)
                 .withRecipientType(recipientType)
                 .withShowGiverNameTo(new ArrayList<>(participants))
@@ -209,7 +208,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertNull(observedFeedbackQuestionAttributes.showGiverNameTo);
         assertNull(observedFeedbackQuestionAttributes.showRecipientNameTo);
         assertNull(observedFeedbackQuestionAttributes.questionDescription);
-        assertNull(observedFeedbackQuestionAttributes.questionType);
         assertNull(observedFeedbackQuestionAttributes.questionDetails);
         assertEquals(0, observedFeedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo);
     }
@@ -252,7 +250,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes fq = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName("")
                 .withCourseId("")
-                .withQuestionType(FeedbackQuestionType.TEXT)
                 .withGiverType(FeedbackParticipantType.NONE)
                 .withRecipientType(FeedbackParticipantType.RECEIVER)
                 .withShowGiverNameTo(new ArrayList<>(showGiverNameToList))
@@ -389,7 +386,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .withCourseId("some course")
                 .withQuestionDetails(new FeedbackTextQuestionDetails("test qn from teams->none."))
                 .withQuestionNumber(1)
-                .withQuestionType(FeedbackQuestionType.TEXT)
                 .withGiverType(FeedbackParticipantType.TEAMS)
                 .withRecipientType(FeedbackParticipantType.NONE)
                 .withShowGiverNameTo(new ArrayList<>(participants))
@@ -566,7 +562,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .withRecipientType(FeedbackParticipantType.SELF)
                 .withNumOfEntitiesToGiveFeedbackTo(1)
                 .withQuestionNumber(1)
-                .withQuestionType(FeedbackQuestionType.TEXT)
                 .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(new ArrayList<>(participants))
                 .withShowRecipientNameTo(new ArrayList<>(participants))
@@ -600,7 +595,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                         .withRecipientType(FeedbackParticipantType.SELF)
                         .withNumOfEntitiesToGiveFeedbackTo(3)
                         .withQuestionNumber(1)
-                        .withQuestionType(FeedbackQuestionType.TEXT)
                         .withQuestionDetails(new FeedbackTextQuestionDetails("question text 2"))
                         .withShowGiverNameTo(new ArrayList<>())
                         .withShowRecipientNameTo(new ArrayList<>())
@@ -639,7 +633,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                         .withRecipientType(FeedbackParticipantType.SELF)
                         .withNumOfEntitiesToGiveFeedbackTo(3)
                         .withQuestionNumber(1)
-                        .withQuestionType(FeedbackQuestionType.TEXT)
                         .withQuestionDetails(new FeedbackTextQuestionDetails("question text"))
                         .withShowGiverNameTo(new ArrayList<>())
                         .withShowRecipientNameTo(new ArrayList<>())

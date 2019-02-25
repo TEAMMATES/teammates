@@ -242,7 +242,6 @@
         "questionText": "What general mistakes did the students in the class make?"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -267,7 +266,6 @@
         "questionText": "What has been a highlight for you working on this project?"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -296,7 +294,6 @@
         "step": 1
       },
       "questionNumber": 3,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -323,7 +320,6 @@
         "otherEnabled": false
       },
       "questionNumber": 4,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -345,7 +341,6 @@
         "questionText": "Give feedback to three other students."
       },
       "questionNumber": 5,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
@@ -376,7 +371,6 @@
         "otherEnabled": false
       },
       "questionNumber": 6,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -404,7 +398,6 @@
         "otherEnabled": false
       },
       "questionNumber": 7,
-      "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -429,7 +422,6 @@
         "questionText": "What did you learn from working with your team members?"
       },
       "questionNumber": 8,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -461,7 +453,6 @@
         ]
       },
       "questionNumber": 9,
-      "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -491,7 +482,6 @@
         "constSumOptions": []
       },
       "questionNumber": 10,
-      "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -516,7 +506,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 11,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -562,7 +551,6 @@
         ]
       },
       "questionNumber": 12,
-      "questionType": "RUBRIC",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -588,7 +576,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 13,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -620,7 +607,6 @@
         ]
       },
       "questionNumber": 14,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -645,7 +631,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 1,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -671,7 +656,6 @@
         "questionText": "Comments about your contribution (shown to other teammates)"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -702,7 +686,6 @@
         "questionText": "Your comments about this teammate (confidential and only shown to instructor)"
       },
       "questionNumber": 3,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -724,7 +707,6 @@
         "questionText": "Comments about team dynamics (confidential and only shown to instructor)"
       },
       "questionNumber": 4,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -746,7 +728,6 @@
         "questionText": "Your feedback to this teammate (shown anonymously to the teammate)"
       },
       "questionNumber": 5,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -770,7 +751,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 1,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -796,7 +776,6 @@
         "questionText": "Comments about your contribution (shown to other teammates)"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -827,7 +806,6 @@
         "questionText": "Your comments about this teammate (confidential and only shown to instructor)"
       },
       "questionNumber": 3,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -849,7 +827,6 @@
         "questionText": "Comments about team dynamics (confidential and only shown to instructor)"
       },
       "questionNumber": 4,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -871,7 +848,6 @@
         "questionText": "Your feedback to this teammate (shown anonymously to the teammate)"
       },
       "questionNumber": 5,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
