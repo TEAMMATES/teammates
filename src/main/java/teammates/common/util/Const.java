@@ -585,6 +585,8 @@ public final class Const {
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
+        public static final String INSTRUCTOR_PRIVILEGES_IS_ALL_NEEDED = "instructorprivilegesisallneeded";
+        public static final String INSTRUCTOR_IS_PRIVILEGE_MAP_NEEDED = "instructorisprivilegemapneeded";
         public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
         public static final String INSTRUCTOR_SECTION = "section";
