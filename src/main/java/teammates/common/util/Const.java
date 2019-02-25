@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -61,6 +62,8 @@ public final class Const {
     public static final String DEFAULT_SECTION = "None";
 
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
+
+    public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
 
     /*
      * These constants are used as variable values to mean that the variable
@@ -933,7 +936,7 @@ public final class Const {
         public static final String RESULT = "/result";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
-        public static final String SESSIONS_ADMIN = "/sessions/admin";
+        public static final String SESSIONS_ONGOING = "/sessions/ongoing";
         public static final String SESSION = "/session";
         public static final String SESSION_PUBLISH = "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
