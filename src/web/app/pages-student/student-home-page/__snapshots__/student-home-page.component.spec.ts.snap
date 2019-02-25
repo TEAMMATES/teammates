@@ -171,6 +171,12 @@ exports[`StudentHomePageComponent should snap with populated fields 1`] = `
         </thead>
         <tbody>
           
+          <tr>
+            
+          </tr>
+          <tr>
+            
+          </tr>
         </tbody>
       </table>
       

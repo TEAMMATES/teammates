@@ -60,7 +60,22 @@ describe('StudentHomePageComponent', () => {
         id: 'CS2103',
         name: 'Software Engineering',
       },
-      feedbackSessions: [],
+      feedbackSessions: [
+        {
+          feedbackSession:
+              {
+                feedbackSessionName: 'First Session',
+                courseID: 'CS3281',
+              },
+        },
+        {
+          feedbackSession:
+              {
+                feedbackSessionName: 'Second Session',
+                courseID: 'CS3282',
+              }
+        }
+      ],
     };
     const sessionInfoMap: any = {
       endTime: '1200',
