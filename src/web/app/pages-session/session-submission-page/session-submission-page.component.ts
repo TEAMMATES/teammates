@@ -128,7 +128,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
       this.regKey = queryParams.key ? queryParams.key : '';
-      this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
+      // this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
 
       if (this.previewAsPerson) {
@@ -146,16 +146,16 @@ export class SessionSubmissionPageComponent implements OnInit {
   loadPersonName(): void {
     switch (this.intent) {
       case Intent.STUDENT_SUBMISSION:
-        this.httpRequestService.get('/student', {
+        const paramMap: { [key: string]: string } = {
           courseid: this.courseId,
-          fsname: this.feedbackSessionName,
-          intent: this.intent,
-          key: this.regKey,
-          moderatedperson: this.moderatedPerson,
-          previewas: this.previewAsPerson,
-        }).subscribe((student: Student) => {
-          this.personName = student.name;
-        });
+          regKey: this.regKey,
+          studentemail: this.moderatedPerson || this.previewAsPerson,
+        };
+
+        this.httpRequestService.get('/student', paramMap)
+            .subscribe((student: Student) => {
+              this.personName = student.name;
+            });
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
         this.httpRequestService.get('/instructor', {
