@@ -37,14 +37,28 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
 
         verifyHttpParameterFailure();
 
+        ______TS("account not exist");
+
+        String[] nonExistParams = {
+                Const.ParamsNames.INSTRUCTOR_ID, "non-exist-account",
+        };
+
+        GetAccountAction a = getAction(nonExistParams);
+        JsonResult r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
+        MessageOutput messageOutput = (MessageOutput) r.getOutput();
+
+        assertEquals("Account does not exist.", messageOutput.getMessage());
+
         ______TS("typical success case");
 
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.getGoogleId(),
         };
 
-        GetAccountAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        a = getAction(params);
+        r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         AccountData response = (AccountData) r.getOutput();
@@ -67,6 +81,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
 
         assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
         assertEquals("Account does not exist.", output.getMessage());
+
     }
 
     @Override

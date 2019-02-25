@@ -36,6 +36,7 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
 
         testActionWithInvalidParameters(student1);
+        testActionWithScriptInjection(student2);
         testActionSuccess(student1, "Typical Case");
         testActionForbidden(student1, student2, "Forbidden Case");
         testActionInMasqueradeMode(student1);
@@ -76,19 +77,22 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
                         SanitizationHelper.sanitizeForHtml(req.getNationality())));
 
         assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
+    }
 
+    private void testActionWithScriptInjection(AccountAttributes student) throws Exception {
+        loginAsStudent(student.googleId);
         ______TS("Failure case: invalid parameters with attempted script injection");
 
-        submissionParams = createValidParam(student.googleId);
-        req = createInvalidUpdateRequestForProfileWithScriptInjection();
+        String[] submissionParams = createValidParam(student.googleId);
+        StudentProfileUpdateRequest req = createInvalidUpdateRequestForProfileWithScriptInjection();
 
-        action = getAction(req, submissionParams);
-        result = getJsonResult(action);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
+        JsonResult result = getJsonResult(action);
 
-        assertEquals(result.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        expectedErrorMessages = new ArrayList<>();
-        invalidOutput = (MessageOutput) result.getOutput();
+        List<String> expectedErrorMessages = new ArrayList<>();
+        MessageOutput invalidOutput = (MessageOutput) result.getOutput();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
