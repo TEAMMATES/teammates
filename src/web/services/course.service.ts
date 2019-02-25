@@ -32,7 +32,7 @@ export class CourseService {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
     };
-    return this.httpRequestService.get('/join/remind', paramMap);
+    return this.httpRequestService.post('/join/remind', paramMap);
   }
 
   /**
@@ -43,7 +43,7 @@ export class CourseService {
       courseid: courseId,
       studentemail: studentEmail,
     };
-    return this.httpRequestService.get('/join/remind', paramMap);
+    return this.httpRequestService.post('/join/remind', paramMap);
   }
 
   /**
@@ -54,6 +54,6 @@ export class CourseService {
       courseid: courseId,
       instructoremail: instructorEmail,
     };
-    return this.httpRequestService.get('/join/remind', paramMap);
+    return this.httpRequestService.post('/join/remind', paramMap);
   }
 }
