@@ -17,11 +17,12 @@ import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.e2e.pageobjects.AppPageNew;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
+import teammates.e2e.pageobjects.HomePageNew;
+import teammates.e2e.pageobjects.LoginPageNew;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
-import teammates.e2e.pageobjects.HomePageNew;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 
@@ -118,6 +119,41 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     /**
      * Logs in a page using admin credentials (i.e. in masquerade mode).
      */
+    protected <T extends AppPageNew> T loginAdminToPageNew(AppUrl url, Class<T> typeOfPage) {
+
+        if (browser.isAdminLoggedIn) {
+            browser.driver.get(url.toAbsoluteString());
+            try {
+                return AppPageNew.getNewPageInstance(browser, typeOfPage);
+            } catch (Exception e) {
+                //ignore and try to logout and login again if fail.
+                ignorePossibleException();
+            }
+        }
+
+        // logout and attempt to load the requested URL. This will be
+        // redirected to a dev-server/google login page
+        logout();
+        browser.driver.get(url.toAbsoluteString());
+
+        String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
+        String adminPassword = TestProperties.TEST_ADMIN_PASSWORD;
+
+        String instructorId = url.get(Const.ParamsNames.USER_ID);
+
+        if (instructorId == null) { //admin using system as admin
+            instructorId = adminUsername;
+        }
+
+        // login based on the login page type
+        LoginPageNew loginPage = AppPageNew.createCorrectLoginPageType(browser);
+        loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
+
+        // After login, the browser should be redirected to the page requested originally.
+        // No need to reload. In fact, reloading might results in duplicate request to the server.
+        return AppPageNew.getNewPageInstance(browser, typeOfPage);
+    }
+
     protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
 
         if (browser.isAdminLoggedIn) {
@@ -181,7 +217,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         return AppPageNew.getNewPageInstance(browser, createUrl(""), HomePageNew.class);
     }
 
-    // TODO: outdated method to be removed after migration
+    // Outdated method to be removed after migration
     protected HomePage getHomePage() {
         return AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
     }
@@ -190,7 +226,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        browser.driver.get(createUrl(Const.ActionURIs.LOGOUT).toAbsoluteString());
+        // TODO: manually added a logout URL, any other suggestion?
+        browser.driver.get(createUrl("/_ah/logout?continue=%2Fweb").toAbsoluteString());
         AppPage.getNewPageInstance(browser).waitForPageToLoad();
         browser.isAdminLoggedIn = false;
     }
