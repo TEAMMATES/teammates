@@ -124,11 +124,9 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
         if (displayedName == null || displayedName.isEmpty()) {
             displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         }
-        instructorRole = SanitizationHelper.sanitizeName(instructorRole);
-        displayedName = SanitizationHelper.sanitizeName(displayedName);
 
         InstructorAttributes instructorToEdit =
-                updateBasicInstructorAttributes(courseId, instructorRequest.getId(),
+                retrieveEditedInstructor(courseId, instructorRequest.getId(),
                         instructorRequest.getName(), instructorRequest.getEmail(),
                         instructorRole, instructorRequest.getIsDisplayedToStudent(), displayedName);
 
@@ -157,10 +155,9 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
      *                                  Should not be {@code null} even if {@code isDisplayedToStudents} is false.
      * @return The edited instructor with updated basic info, and its old custom privileges (if applicable)
      */
-    private InstructorAttributes updateBasicInstructorAttributes(String courseId,
-                                                                 String instructorId, String instructorName,
-                                                                 String instructorEmail, String instructorRole,
-                                                                 boolean isDisplayedToStudents, String displayedName) {
+    private InstructorAttributes retrieveEditedInstructor(String courseId, String instructorId, String instructorName,
+                                                          String instructorEmail, String instructorRole,
+                                                          boolean isDisplayedToStudents, String displayedName) {
         InstructorAttributes instructorToEdit = null;
         if (instructorId == null) {
             instructorToEdit = logic.getInstructorForEmail(courseId, instructorEmail);

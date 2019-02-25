@@ -36,7 +36,7 @@ public class InstructorCreateRequest extends BasicRequest {
     }
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
     public String getName() {
