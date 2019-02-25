@@ -4,9 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  QuestionTypesSessionEditModule,
-} from '../../../components/question-types/question-types-session-edit/question-types-session-edit.module';
+import { QuestionEditFormModule } from '../../../components/question-edit-form/question-edit-form.module';
 import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
 import { TemplateQuestionModalComponent } from './template-question-modal.component';
 
@@ -19,7 +17,7 @@ describe('TemplateQuestionModalComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        QuestionTypesSessionEditModule,
+        QuestionEditFormModule,
         TeammatesCommonModule,
         HttpClientTestingModule,
       ],
