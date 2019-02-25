@@ -60,9 +60,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         MessageOutput msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("The instructor " + newInstructorName + " has been added successfully. "
-                + "An email containing how to 'join' this course will be sent to "
-                + newInstructorEmail + " in a few minutes.", msg.getMessage());
+        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, newInstructorName,
+                newInstructorEmail), msg.getMessage());
 
         assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
 
@@ -129,9 +128,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("The instructor " + newInstructorName + " has been added successfully. "
-                + "An email containing how to 'join' this course will be sent to "
-                + newInstructorEmail + " in a few minutes.", msg.getMessage());
+        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, newInstructorName,
+                newInstructorEmail), msg.getMessage());
 
         assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
 
