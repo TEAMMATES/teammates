@@ -29,6 +29,7 @@ interface CourseTabModel {
   sessionsTableRowModelsSortOrder: SortOrder;
 
   hasPopulated: boolean;
+  isAjaxSuccess: boolean;
   isTabExpanded: boolean;
 }
 
@@ -144,6 +145,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           instructorPrivilege: defaultInstructorPrivilege,
           sessionsTableRowModels: [],
           isTabExpanded: false,
+          isAjaxSuccess: true,
           hasPopulated: false,
           sessionsTableRowModelsSortBy: SortBy.NONE,
           sessionsTableRowModelsSortOrder: SortOrder.ASC,
@@ -188,8 +190,13 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           this.updateInstructorPrivilege(m);
         });
         model.hasPopulated = true;
-        model.isTabExpanded = !model.isTabExpanded;
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        if (!model.isAjaxSuccess) {
+          model.isAjaxSuccess = true;
+        }
+      }, (resp: ErrorMessageOutput) => {
+        model.isAjaxSuccess = false;
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
     }
   }
 
@@ -220,7 +227,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
       if (i >= InstructorHomePageComponent.coursesToLoad) {
         break;
       }
-      this.courseTabModels[i].isTabExpanded = false;
+      this.courseTabModels[i].isTabExpanded = true;
       this.loadFeedbackSessions(this.courseTabModels[i]);
     }
   }

@@ -42,7 +42,7 @@
           <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
         </div>
         <div class="col-sm-6">
-          <div class="float-right" *ngIf="courseTabModel.hasPopulated; else errorLoadingFeedbackSessions">
+          <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
             <span ngbDropdown class="padding-right-10px">
               <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu>
