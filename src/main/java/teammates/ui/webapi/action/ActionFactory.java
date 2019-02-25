@@ -48,6 +48,10 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
+        map(ResourceURIs.RESPONSE_COMMENT, POST, CreateFeedbackResponseCommentAction.class);
+        map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
+        map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
+        map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.SESSIONS_ADMIN, GET, GetOngoingSessionsAction.class);
@@ -93,10 +97,13 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_PROFILE, GET, GetStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE, PUT, PutStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, GET, GetStudentProfilePictureAction.class);
+        map(ResourceURIs.STUDENT_PROFILE_PICTURE, POST, PostStudentProfilePictureAction.class);
+        map(ResourceURIs.STUDENT_PROFILE_PICTURE, DELETE, DeleteStudentProfilePictureAction.class);
         map(ResourceURIs.STUDENT_COURSES, GET, GetStudentCoursesAction.class);
         map(ResourceURIs.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, GET, SearchStudentsAndFeedbackSessionDataAction.class);
         map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS_EDIT, PUT, PutCourseStudentDetailsEditAction.class);
+
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_EDIT_DETAILS_SAVE, PUT, SaveCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_DELETE, DELETE, DeleteCourseAction.class);
@@ -111,6 +118,8 @@ public class ActionFactory {
                 DeleteInstructorCourseAllStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV, GET, GetInstructorCourseAllStudentsInCsvAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND, POST, RemindInstructorCourseStudentsAction.class);
+        map(ResourceURIs.INSTRUCTOR_STUDENTS, GET, GetCourseStudentsAction.class);
+        map(ResourceURIs.INSTRUCTOR_STUDENTS_COURSES, GET, InstructorGetCoursesAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

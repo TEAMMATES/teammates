@@ -48,7 +48,7 @@ public class CreateFeedbackQuestionAction extends Action {
                 .withShowGiverNameTo(request.getShowGiverNameTo())
                 .withShowRecipientNameTo(request.getShowRecipientNameTo())
                 .withQuestionType(request.getQuestionType())
-                .withQuestionMetaData(request.getQuestionDetails())
+                .withQuestionDetails(request.getQuestionDetails())
                 .withQuestionDescription(request.getQuestionDescription())
                 .build();
 
