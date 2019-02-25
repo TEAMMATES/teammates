@@ -127,7 +127,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         }
 
         feedbackQuestion.setQuestionNumber(newAttributes.questionNumber);
-        feedbackQuestion.setQuestionText(newAttributes.questionMetaData);
+        feedbackQuestion.setQuestionText(newAttributes.getSerializedQuestionDetails());
         feedbackQuestion.setQuestionDescription(newAttributes.questionDescription);
         feedbackQuestion.setGiverType(newAttributes.giverType);
         feedbackQuestion.setRecipientType(newAttributes.recipientType);

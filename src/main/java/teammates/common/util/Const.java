@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -63,6 +64,8 @@ public final class Const {
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
     public static final String NO_INSTRUCTOR_DISPLAYED_ERROR = "At least one instructor must be displayed to students";
+
+    public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
 
     /*
      * These constants are used as variable values to mean that the variable
@@ -136,19 +139,11 @@ public final class Const {
         @Deprecated
         public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
                 Arrays.asList(
-                        ActionURIs.CREATE_IMAGE_UPLOAD_URL,
-                        ActionURIs.IMAGE_UPLOAD,
                         ActionURIs.INSTRUCTOR_COURSE_REMIND,
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
-                        ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
-                        ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
-                        ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
+                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH));
 
     }
 
@@ -530,6 +525,9 @@ public final class Const {
                 "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
+
+        // Text Question
+        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
     }
 
     public static class FeedbackQuestionTypeNames {
@@ -933,14 +931,16 @@ public final class Const {
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNTS_RESET = "/accounts/reset";
         public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String RESPONSE_COMMENT = "/responsecomment";
         public static final String COURSE = "/course";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
+        public static final String RESULT = "/result";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
-        public static final String SESSIONS_ADMIN = "/sessions/admin";
+        public static final String SESSIONS_ONGOING = "/sessions/ongoing";
         public static final String SESSION = "/session";
         public static final String SESSION_PUBLISH = "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
@@ -1017,22 +1017,8 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
 
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE =
-                "/page/instructorFeedbackResponseCommentDelete";
-
-        public static final String FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE =
-                "/page/feedbackParticipantFeedbackResponseCommentDelete";
-
-        public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
-        public static final String IMAGE_UPLOAD = "/page/imageUpload";
-
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
-        public static final String STUDENT_PROFILE_PICTURE_UPLOAD = "/page/studentProfilePictureUpload";
-        public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
-        public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
 
@@ -1097,8 +1083,6 @@ public final class Const {
 
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
 
-        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD =
-                "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION =

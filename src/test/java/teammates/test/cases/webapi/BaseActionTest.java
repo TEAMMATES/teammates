@@ -1,8 +1,12 @@
 package teammates.test.cases.webapi;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.Part;
 
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -20,6 +24,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.MockPart;
 import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CsvResult;
 import teammates.ui.webapi.action.ImageResult;
@@ -44,22 +49,42 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected abstract String getRequestMethod();
 
     /**
-     * Gets an action with empty request body sent.
+     * Gets an action with empty request body and empty multipart config.
      */
     protected T getAction(String... params) {
-        return getAction(null, params);
+        return getAction(null, null, params);
     }
 
     /**
-     * Gets an action with request body sent.
+     * Gets an action with request body.
      */
     protected T getAction(Object requestBody, String... params) {
         return getAction(JsonUtils.toJson(requestBody), params);
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Gets an action with request body.
+     */
     protected T getAction(String body, String... params) {
-        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, params);
+        return getAction(body, null, params);
+    }
+
+    /**
+     * Gets an action with request body and multipart config.
+     */
+    @SuppressWarnings("unchecked")
+    protected T getAction(String body, Map<String, Part> parts, String... params) {
+        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, params);
+    }
+
+    /**
+     * Gets an action with request multipart config.
+     */
+    protected T getActionWithParts(String key, String filePath, String... params) throws IOException {
+        Map<String, Part> parts = new HashMap<>();
+        parts.put(key, new MockPart(filePath));
+
+        return getAction(null, parts, params);
     }
 
     @BeforeMethod
@@ -293,6 +318,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotAccess(submissionParams);
     }
 
+    protected void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
+
+        ______TS("without Submit-Session-In-Sections privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
     protected void verifyInaccessibleWithoutViewStudentInSectionsPrivilege(String[] submissionParams) {
 
         ______TS("without View-Student-In-Sections privilege cannot access");
@@ -334,6 +369,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotAccess(submissionParams);
     }
 
+    protected void verifyInaccessibleWithoutModifySessionCommentInSectionsPrivilege(String[] submissionParams) {
+
+        ______TS("without Modify-Session-Comment-In-Sections privilege cannot access");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
     protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
 
         ______TS("course instructor can access");
@@ -348,6 +393,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
         verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
 
+    }
+
+    protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
+
+        ______TS("course students can access");
+
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student1InCourse1.googleId);
+        verifyCanAccess(submissionParams);
     }
 
     protected void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
