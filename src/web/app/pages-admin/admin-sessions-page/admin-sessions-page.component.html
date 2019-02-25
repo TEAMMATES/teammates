@@ -120,15 +120,15 @@
 
         <tbody>
           <tr *ngFor="let session of mapping.value">
-            <td>{{ session.sessionStatus }}</td>
-            <td><strong>[{{ session.courseId }}]</strong> {{ session.feedbackSessionName }}</td>
+            <td>{{ session.ongoingSession.sessionStatus }}</td>
+            <td><strong>[{{ session.ongoingSession.courseId }}]</strong> {{ session.ongoingSession.feedbackSessionName }}</td>
             <td>
               <span *ngIf="session.responseRate">{{ session.responseRate }}</span>
-              <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.courseId, session.feedbackSessionName, $event)">Show</a></span>
+              <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
             </td>
-            <td>{{ showDateFromMillis(session.startTime) }}</td>
-            <td>{{ showDateFromMillis(session.endTime) }}</td>
-            <td><a [href]="session.instructorHomePageLink">{{ session.creatorEmail }}</a></td>
+            <td>{{ showDateFromMillis(session.ongoingSession.startTime) }}</td>
+            <td>{{ showDateFromMillis(session.ongoingSession.endTime) }}</td>
+            <td><a [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
           </tr>
         </tbody>
       </table>
