@@ -237,13 +237,10 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      user: this.user,
-    };
-    this.httpRequestService.delete('/course', paramMap).subscribe((resp: MessageOutput) => {
+    this.courseService.binCourse(courseId).subscribe((course: Course) => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      this.statusMessageService.showSuccessMessage(
+        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

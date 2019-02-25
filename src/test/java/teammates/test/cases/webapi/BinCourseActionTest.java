@@ -11,7 +11,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.webapi.action.BinCourseAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * SUT: {@link BinCourseAction}.
@@ -46,16 +46,17 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
+        CourseAttributes courseToBeDeleted = logic.getCourse(instructor1OfCourse1.getCourseId());
+
         logic.createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
 
         BinCourseAction binCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(binCourseAction);
+        CourseData courseData = (CourseData) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
-        MessageOutput msg = (MessageOutput) result.getOutput();
-        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the Recycle Bin manually.",
-                msg.getMessage());
+        verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
+                courseToBeDeleted.getTimeZone().getId());
 
         List<CourseAttributes> courseList = logic.getCoursesForInstructor(instructorId);
         assertEquals(1, courseList.size());
@@ -75,12 +76,16 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         result = getJsonResult(binCourseAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        courseData = (CourseData) result.getOutput();
 
-        msg = (MessageOutput) result.getOutput();
-        assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the Recycle Bin manually.",
-                msg.getMessage());
-
+        verifyCourseData(courseData, "icdct.tpa.id1", "New course", "UTC");
         assertNotNull(logic.getCourse("icdct.tpa.id1").deletedAt);
+    }
+
+    private void verifyCourseData(CourseData data, String courseId, String courseName, String timeZone) {
+        assertEquals(data.getCourseId(), courseId);
+        assertEquals(data.getCourseName(), courseName);
+        assertEquals(data.getTimeZone(), timeZone);
     }
 
     @Override

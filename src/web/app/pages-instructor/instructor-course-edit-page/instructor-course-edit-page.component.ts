@@ -349,8 +349,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Deletes the current course and redirects to 'Courses' page if action is successful.
    */
   deleteCourse(): void {
-    this.courseService.deleteCourse(this.courseToEdit.id).subscribe((resp: MessageOutput) => {
-      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
+    this.courseService.binCourse(this.courseToEdit.id).subscribe((course: Course) => {
+      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses',
+        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

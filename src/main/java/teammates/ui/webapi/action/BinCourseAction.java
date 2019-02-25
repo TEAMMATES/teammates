@@ -2,9 +2,11 @@ package teammates.ui.webapi.action;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * Move a course to the recycle bin.
@@ -31,10 +33,10 @@ public class BinCourseAction extends Action {
     public ActionResult execute() {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
+            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
             logic.moveCourseToRecycleBin(idOfCourseToBin);
 
-            return new JsonResult("The course " + idOfCourseToBin
-                    + " has been deleted. You can restore it from the Recycle Bin manually.");
+            return new JsonResult(new CourseData(courseAttributes));
         } catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }

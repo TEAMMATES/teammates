@@ -46,4 +46,12 @@ export class CourseService {
     const paramMap: { [key: string]: string } = { courseid };
     return this.httpRequestService.put('/course/archive', paramMap, request);
   }
+
+  /**
+   * Bin (soft-delete) a course by calling API.
+   */
+  binCourse(courseid: string): Observable<Course> {
+    const paramMap: { [key: string]: string } = { courseid };
+    return this.httpRequestService.put('/bin/course', paramMap);
+  }
 }
