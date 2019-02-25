@@ -9,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.ArchiveCourseAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.CourseArchiveData;
 import teammates.ui.webapi.request.CourseArchiveRequest;
 
 /**
@@ -51,12 +52,14 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ArchiveCourseAction archiveCourseAction = getAction(courseArchiveRequest, submissionParams);
         JsonResult result = getJsonResult(archiveCourseAction);
+        CourseArchiveData courseArchiveData = (CourseArchiveData) result.getOutput();
 
         InstructorAttributes theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(theInstructor.isArchived);
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, true);
 
         ______TS("Rare case: archive an already archived course");
 
@@ -64,12 +67,14 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         archiveCourseAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(archiveCourseAction);
+        courseArchiveData = (CourseArchiveData) result.getOutput();
 
         theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(theInstructor.isArchived);
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, true);
 
         ______TS("Typical case: unarchive a course");
 
@@ -77,12 +82,14 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ArchiveCourseAction unarchiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(unarchiveAction);
+        courseArchiveData = (CourseArchiveData) result.getOutput();
 
         theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(instructor1OfCourse1.getCourseId(),
                 instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertFalse(theInstructor.isArchived);
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, false);
 
         ______TS("Rare case: unarchive an active course");
 
@@ -90,12 +97,14 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         unarchiveAction = getAction(courseArchiveRequest, submissionParams);
         result = getJsonResult(unarchiveAction);
+        courseArchiveData = (CourseArchiveData) result.getOutput();
 
         theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertFalse(theInstructor.isArchived);
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, false);
 
         ______TS("Masquerade mode: archive course");
 
@@ -104,12 +113,19 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         archiveCourseAction = getAction(courseArchiveRequest, addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(archiveCourseAction);
+        courseArchiveData = (CourseArchiveData) result.getOutput();
 
         theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertTrue(theInstructor.isArchived);
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, true);
+    }
+
+    private void verifyCourseArchive(CourseArchiveData courseArchiveData, String courseId, boolean isArchived) {
+        assertEquals(courseArchiveData.getCourseId(), courseId);
+        assertEquals(courseArchiveData.getIsArchived(), isArchived);
     }
 
     @Override

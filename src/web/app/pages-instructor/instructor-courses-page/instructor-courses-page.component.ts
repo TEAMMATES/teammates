@@ -5,7 +5,7 @@ import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { Course, MessageOutput } from '../../../types/api-output';
+import { Course, CourseArchive, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface ActiveCourse {
@@ -208,34 +208,22 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Archives an active course.
    */
-  onArchive(courseId: string): void {
+  changeArchiveStatus(courseId: string, toArchive: boolean): void {
     if (!courseId) {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
     this.courseService.archiveCourse(courseId, {
-      archiveStatus: true,
-    }).subscribe((resp: MessageOutput) => {
+      archiveStatus: toArchive,
+    }).subscribe((courseArchive: CourseArchive) => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
-  }
-
-  /**
-   * Unarchives an archived course.
-   */
-  onUnarchive(courseId: string): void {
-    if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
-      return;
-    }
-    this.courseService.archiveCourse(courseId, {
-      archiveStatus: false,
-    }).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      if (courseArchive.isArchived) {
+        this.statusMessageService.showSuccessMessage(`The course has been archived.
+          It will not appear in the home page any more. You can access archived courses from the 'Courses' tab.
+          Go there to undo the archiving and bring the course back to the home page.`);
+      } else {
+        this.statusMessageService.showSuccessMessage('The course has been unarchived.');
+      }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
