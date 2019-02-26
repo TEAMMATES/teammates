@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
- * Modal to confirm permanent deletion of a course.
+ * Modal to confirm permanent deletion of one course or all courses in the Recycle Bin.
  */
 @Component({
   selector: 'tm-course-permanent-deletion-confirm-modal',
