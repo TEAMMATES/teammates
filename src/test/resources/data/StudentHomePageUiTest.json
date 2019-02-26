@@ -410,7 +410,6 @@
         "questionText": "Rate 5 other students' products"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
@@ -434,7 +433,6 @@
         "questionText": "Rate 5 other students' products"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
@@ -458,7 +456,6 @@
         "questionText": "Rate 5 other students' products"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
@@ -482,7 +479,6 @@
         "questionText": "Rate 5 other students' products"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
@@ -506,7 +502,6 @@
         "questionText": "This is a session without questions for students"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": 5,

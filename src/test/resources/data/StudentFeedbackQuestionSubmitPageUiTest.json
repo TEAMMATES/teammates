@@ -138,7 +138,6 @@
         "questionText": "What is the best selling point of your product?"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -163,7 +162,6 @@
         "questionText": "Give feedback to your instructors"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -185,7 +183,6 @@
         "questionText": "Give feedback to your instructors"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,

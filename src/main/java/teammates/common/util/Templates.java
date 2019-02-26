@@ -538,11 +538,4 @@ public final class Templates {
             public static final String RUBRIC_TABLE_OPTIONS_FRAGMENT = "${rubricColumnOptionsFragments}";
         }
     }
-
-    // TODO: Consider adding instructions for the feedback session into template?
-    // TODO: Or simply use static strings here?
-    public static class FeedbackSessionTemplates {
-        public static final String TEAM_EVALUATION =
-                FileHelper.readResourceFile("feedbackSessionTeamEvaluationTemplate.json");
-    }
 }
