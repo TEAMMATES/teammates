@@ -128,7 +128,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
       this.regKey = queryParams.key ? queryParams.key : '';
-      // this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
+      this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
 
       if (this.previewAsPerson) {
