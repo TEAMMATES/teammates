@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.InstructorBundle;
-import teammates.common.datatransfer.StudentBundle;
+import teammates.common.datatransfer.InstructorAccountSearchResult;
+import teammates.common.datatransfer.StudentAccountSearchResult;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -61,8 +61,8 @@ public class SearchAccountsAction extends Action {
         populateCourseIdToInstituteMap();
         populateCourseIdToFeedbackSessionsMap();
 
-        List<StudentBundle> studentsBundle = getStudentsBundle(students);
-        List<InstructorBundle> instructorsBundle = getInstructorsBundle(instructors);
+        List<StudentAccountSearchResult> studentsBundle = getStudentsBundle(students);
+        List<InstructorAccountSearchResult> instructorsBundle = getInstructorsBundle(instructors);
 
         AdminSearchResultData result = new AdminSearchResultData(studentsBundle, instructorsBundle);
         return new JsonResult(result);
@@ -148,10 +148,10 @@ public class SearchAccountsAction extends Action {
         }
     }
 
-    private List<StudentBundle> getStudentsBundle(List<StudentAttributes> students) {
-        List<StudentBundle> studentsBundle = new ArrayList<>();
+    private List<StudentAccountSearchResult> getStudentsBundle(List<StudentAttributes> students) {
+        List<StudentAccountSearchResult> studentsBundle = new ArrayList<>();
         for (StudentAttributes student : students) {
-            StudentBundle sb = new StudentBundle();
+            StudentAccountSearchResult sb = new StudentAccountSearchResult();
             sb.setName(student.name);
             sb.setEmail(student.email);
             if (student.googleId != null) {
@@ -246,10 +246,10 @@ public class SearchAccountsAction extends Action {
                 .toAbsoluteString();
     }
 
-    private List<InstructorBundle> getInstructorsBundle(List<InstructorAttributes> instructors) {
-        List<InstructorBundle> instructorsBundle = new ArrayList<>();
+    private List<InstructorAccountSearchResult> getInstructorsBundle(List<InstructorAttributes> instructors) {
+        List<InstructorAccountSearchResult> instructorsBundle = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
-            InstructorBundle ib = new InstructorBundle();
+            InstructorAccountSearchResult ib = new InstructorAccountSearchResult();
             ib.setName(instructor.name);
             ib.setEmail(instructor.email);
 

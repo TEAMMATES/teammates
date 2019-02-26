@@ -9,7 +9,7 @@ import java.util.Map;
  *  * <br> * The section name, team name, comments.
  *  * <br> * Associated opened, not opened, and published sessions.
  */
-public class StudentBundle extends CommonBundle {
+public class StudentAccountSearchResult extends CommonAccountSearchResult {
     private String section;
     private String team;
     private String comments;

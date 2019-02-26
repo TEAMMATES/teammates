@@ -6,7 +6,7 @@ package teammates.common.datatransfer;
  *  * <br> * account name, email, google id, course name, institution.
  *  * <br> * link for join course, home page and manage account.
  */
-public class CommonBundle {
+public class CommonAccountSearchResult {
     protected String name;
     protected String email;
     protected String googleId;

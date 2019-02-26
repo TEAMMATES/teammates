@@ -3,5 +3,5 @@ package teammates.common.datatransfer;
 /**
  * Represents details of an instructor account.
  */
-public class InstructorBundle extends CommonBundle {
+public class InstructorAccountSearchResult extends CommonAccountSearchResult {
 }

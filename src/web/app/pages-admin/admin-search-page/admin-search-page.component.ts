@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AdminSearchResult, InstructorBundle, StudentBundle } from '../../../types/api-output';
+import { AdminSearchResult, InstructorAccountSearchResult,
+  StudentAccountSearchResult } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -15,8 +16,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
 export class AdminSearchPageComponent {
 
   searchQuery: string = '';
-  instructors: InstructorBundle[] = [];
-  students: StudentBundle[] = [];
+  instructors: InstructorAccountSearchResult[] = [];
+  students: StudentAccountSearchResult[] = [];
 
   constructor(private statusMessageService: StatusMessageService, private accountService: AccountService) {}
 
@@ -78,7 +79,7 @@ export class AdminSearchPageComponent {
   /**
    * Resets the instructor's Google ID.
    */
-  resetInstructorGoogleId(instructor: InstructorBundle, event: any): void {
+  resetInstructorGoogleId(instructor: InstructorAccountSearchResult, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -95,7 +96,7 @@ export class AdminSearchPageComponent {
   /**
    * Resets the student's Google ID.
    */
-  resetStudentGoogleId(student: StudentBundle, event: any): void {
+  resetStudentGoogleId(student: StudentAccountSearchResult, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
