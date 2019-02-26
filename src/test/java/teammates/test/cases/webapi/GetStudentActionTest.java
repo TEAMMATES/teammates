@@ -29,7 +29,8 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         return GET;
     }
 
-    private void assertStudentDataMatches(StudentData studentData, StudentAttributes student, boolean isInstructor) {
+    private void assertStudentDataMatches(StudentData studentData, StudentAttributes student,
+                                          boolean isRequestFromInstructor) {
         assertEquals(student.getEmail(), studentData.getEmail());
         assertEquals(student.getCourse(), studentData.getCourseId());
         assertEquals(student.getName(), studentData.getName());
@@ -44,7 +45,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         assertEquals(student.getTeam(), studentData.getTeamName());
         assertEquals(student.getSection(), studentData.getSectionName());
 
-        if (isInstructor) {
+        if (isRequestFromInstructor) {
             assertEquals(student.getComments(), studentData.getComments());
 
             if (student.isRegistered()) {
