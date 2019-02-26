@@ -7,8 +7,8 @@ import {
   CoursePermanentDeletionConfirmModalComponent,
 } from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
 import {
-  CoursesPermanentDeletionConfirmModalComponent,
-} from './courses-permanent-deletion-confirm-modal/courses-permanent-deletion-confirm-modal.component';
+  CourseSoftDeletionConfirmModalComponent,
+} from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
 /**
@@ -17,7 +17,7 @@ import { InstructorCoursesPageComponent } from './instructor-courses-page.compon
 @NgModule({
   declarations: [
     InstructorCoursesPageComponent,
-    CoursesPermanentDeletionConfirmModalComponent,
+    CourseSoftDeletionConfirmModalComponent,
     CoursePermanentDeletionConfirmModalComponent,
   ],
   exports: [
@@ -31,7 +31,7 @@ import { InstructorCoursesPageComponent } from './instructor-courses-page.compon
     NgbModule,
   ],
   entryComponents: [
-    CoursesPermanentDeletionConfirmModalComponent,
+    CourseSoftDeletionConfirmModalComponent,
     CoursePermanentDeletionConfirmModalComponent,
   ],
 })
