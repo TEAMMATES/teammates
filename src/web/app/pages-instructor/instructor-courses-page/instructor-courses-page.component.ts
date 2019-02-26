@@ -257,16 +257,20 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      user: this.user,
-    };
-    this.httpRequestService.delete('/course', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
+    modalRef.result.then(() => {
+      const paramMap: { [key: string]: string } = {
+        courseid: courseId,
+        user: this.user,
+      };
+
+      this.httpRequestService.delete('/course', paramMap).subscribe((resp: MessageOutput) => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage(resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }, () => {});
   }
 
   /**
@@ -318,7 +322,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    const modalRef: NgbModalRef = this.modalService.open(CoursesPermanentDeletionConfirmModalComponent);
+    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+    modalRef.componentInstance.isDeleteAll = true;
     modalRef.result.then(() => {
       const paramMap: { [key: string]: string } = {
         user: this.user,

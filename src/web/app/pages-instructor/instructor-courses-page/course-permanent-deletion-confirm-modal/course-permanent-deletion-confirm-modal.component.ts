@@ -14,6 +14,9 @@ export class CoursePermanentDeletionConfirmModalComponent implements OnInit {
   @Input()
   courseId: string = '';
 
+  @Input()
+  isDeleteAll: boolean = false;
+
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
