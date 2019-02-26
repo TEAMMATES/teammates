@@ -41,10 +41,13 @@ describe('StudentHomePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with blank fields', () => {
+  it('should snap with no feedback sessions', () => {
     const studentName: string = '';
     const studentCourse: any = {
-      course: {},
+      course: {
+        id: 'CS3281',
+        name: 'Thematic Systems',
+      },
       feedbackSessions: [],
     };
     component.user = studentName;
@@ -53,7 +56,7 @@ describe('StudentHomePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with populated fields', () => {
+  it('should snap with two feedback sessions for one course', () => {
     const studentName: string = 'John Doe';
     const studentCourse: any = {
       course: {

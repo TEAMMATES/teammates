@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StudentHomePageComponent should snap with blank fields 1`] = `
+exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
   courses={[Function Array]}
   hasEventualConsistencyMsg="false"
@@ -25,14 +25,14 @@ exports[`StudentHomePageComponent should snap with blank fields 1`] = `
       class="card-header bg-primary text-white"
     >
       <strong>
-        []: 
+        [CS3281]: Thematic Systems
       </strong>
       <span
         class="float-sm-right"
       >
         <a
           class="btn btn-light btn-sm button"
-          href="/course?user="
+          href="/course?user=&courseid=CS3281"
           ng-reflect-ngb-tooltip="View and edit information rega"
           ng-reflect-query-params="[object Object]"
           ng-reflect-router-link="../course"
@@ -87,7 +87,7 @@ exports[`StudentHomePageComponent should snap with null fields 1`] = `
 </tm-student-home-page>
 `;
 
-exports[`StudentHomePageComponent should snap with populated fields 1`] = `
+exports[`StudentHomePageComponent should snap with two feedback sessions for one course 1`] = `
 <tm-student-home-page
   courses={[Function Array]}
   hasEventualConsistencyMsg="false"
