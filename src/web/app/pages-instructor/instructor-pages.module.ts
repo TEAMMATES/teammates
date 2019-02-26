@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
@@ -170,6 +170,7 @@ const routes: Routes = [
   {
     path: 'help',
     component: InstructorHelpPageComponent,
+    canDeactivate: ['canDeactivateHelp'],
   },
   {
     path: 'getting-started',
@@ -214,5 +215,13 @@ const routes: Routes = [
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),
   ],
+  providers: [
+    {
+      provide: 'canDeactivateHelp',
+      useValue:  (_component: InstructorHelpPageComponent, _currentRoute: ActivatedRouteSnapshot,
+        _currentState: RouterStateSnapshot, nextState: RouterStateSnapshot) =>
+        /^\/web\/instructor\/(home|courses|sessions|students|search|getting-started)$/.test(nextState.url)
+    }
+  ]
 })
 export class InstructorPagesModule {}
