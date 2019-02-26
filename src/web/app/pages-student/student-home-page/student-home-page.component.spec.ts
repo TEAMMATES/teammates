@@ -64,13 +64,13 @@ describe('StudentHomePageComponent', () => {
         {
           feedbackSession: {
             feedbackSessionName: 'First Session',
-            courseID: 'CS3281',
+            courseId: 'CS2103',
           },
         },
         {
           feedbackSession: {
             feedbackSessionName: 'Second Session',
-            courseID: 'CS3282',
+            courseId: 'CS2103',
           },
         },
       ],
@@ -86,8 +86,8 @@ describe('StudentHomePageComponent', () => {
     component.user = studentName;
     component.courses = [studentCourse];
     component.sessionsInfoMap = {
-      'CS3281%First Session': sessionInfoMap,
-      'CS3281%Second Session': sessionInfoMap,
+      'CS2103%First Session': sessionInfoMap,
+      'CS2103%Second Session': sessionInfoMap,
     };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

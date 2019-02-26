@@ -160,9 +160,129 @@ exports[`StudentHomePageComponent should snap with populated fields 1`] = `
           
           <tr>
             
+            
+            <td>
+              First Session
+            </td>
+            <td>
+              1200
+            </td>
+            <td>
+              <a
+                ng-reflect-ngb-tooltip="The session is not open for su"
+                style="border-bottom: 1px dashed black;"
+              >
+                 Submitted 
+              </a>
+            </td>
+            <td>
+              <a
+                ng-reflect-ngb-tooltip="The responses for the session "
+                style="border-bottom: 1px dashed black;"
+              >
+                 Published 
+              </a>
+            </td>
+            <td>
+              
+              <a
+                class="btn btn-light btn-sm btn-left button"
+                href="/sessions/result?courseid=CS2103&fsname=First%20Session&user=John%20Doe"
+                ng-reflect-ngb-tooltip="View the submitted responses f"
+                ng-reflect-query-params="[object Object]"
+                ng-reflect-router-link="../sessions/result"
+                ngbtooltip="View the submitted responses for this feedback session"
+                routerlink="../sessions/result"
+              >
+                 View Responses 
+              </a>
+              
+              
+              
+              <a
+                class="btn btn-light btn-sm disabled button"
+              >
+                 Start Submission 
+              </a>
+              
+              
+              <a
+                class="btn btn-light btn-sm button"
+                href="/sessions/submission?courseid=CS2103&fsname=First%20Session&user=John%20Doe"
+                ng-reflect-ngb-tooltip="Edit submitted feedback"
+                ng-reflect-query-params="[object Object]"
+                ng-reflect-router-link="../sessions/submission"
+                ngbtooltip="Edit submitted feedback"
+                routerlink="../sessions/submission"
+              >
+                 Edit Submission 
+              </a>
+              
+              
+            </td>
           </tr>
           <tr>
             
+            
+            <td>
+              Second Session
+            </td>
+            <td>
+              1200
+            </td>
+            <td>
+              <a
+                ng-reflect-ngb-tooltip="The session is not open for su"
+                style="border-bottom: 1px dashed black;"
+              >
+                 Submitted 
+              </a>
+            </td>
+            <td>
+              <a
+                ng-reflect-ngb-tooltip="The responses for the session "
+                style="border-bottom: 1px dashed black;"
+              >
+                 Published 
+              </a>
+            </td>
+            <td>
+              
+              <a
+                class="btn btn-light btn-sm btn-left button"
+                href="/sessions/result?courseid=CS2103&fsname=Second%20Session&user=John%20Doe"
+                ng-reflect-ngb-tooltip="View the submitted responses f"
+                ng-reflect-query-params="[object Object]"
+                ng-reflect-router-link="../sessions/result"
+                ngbtooltip="View the submitted responses for this feedback session"
+                routerlink="../sessions/result"
+              >
+                 View Responses 
+              </a>
+              
+              
+              
+              <a
+                class="btn btn-light btn-sm disabled button"
+              >
+                 Start Submission 
+              </a>
+              
+              
+              <a
+                class="btn btn-light btn-sm button"
+                href="/sessions/submission?courseid=CS2103&fsname=Second%20Session&user=John%20Doe"
+                ng-reflect-ngb-tooltip="Edit submitted feedback"
+                ng-reflect-query-params="[object Object]"
+                ng-reflect-router-link="../sessions/submission"
+                ngbtooltip="Edit submitted feedback"
+                routerlink="../sessions/submission"
+              >
+                 Edit Submission 
+              </a>
+              
+              
+            </td>
           </tr>
         </tbody>
       </table>
