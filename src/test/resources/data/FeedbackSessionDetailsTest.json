@@ -304,7 +304,6 @@
         "questionText": "student self feedback"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -326,7 +325,6 @@
         "questionText": "student feedback to team members. only recipient can see names."
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -349,7 +347,6 @@
         "questionText": "student to instructors. recipient name protected."
       },
       "questionNumber": 3,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -371,7 +368,6 @@
         "questionText": "student to 2 teams with extra responses. only instructor can see giver name."
       },
       "questionNumber": 4,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 2,
@@ -397,7 +393,6 @@
         "questionText": "student to students. only giver team + receiver can see giver name"
       },
       "questionNumber": 5,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -425,7 +420,6 @@
         "questionText": "instructor to none. only instructors can see."
       },
       "questionNumber": 6,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -447,7 +441,6 @@
         "questionText": "teams to students. all students can see everything, but not instr inc creator."
       },
       "questionNumber": 7,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -469,7 +462,6 @@
         "questionText": "teams to teams test."
       },
       "questionNumber": 8,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
@@ -491,7 +483,6 @@
         "questionText": "student > none"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -513,7 +504,6 @@
         "questionText": "instructor > none"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -538,7 +528,6 @@
         "questionText": "students"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -560,7 +549,6 @@
         "questionText": "instructors"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,

@@ -142,7 +142,6 @@
         "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -164,7 +163,6 @@
         "questionText": "This question is so that closing reminders will be sent to students as it is unanswered."
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -186,7 +184,6 @@
         "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
