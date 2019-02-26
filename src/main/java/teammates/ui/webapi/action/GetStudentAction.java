@@ -16,6 +16,8 @@ import teammates.ui.webapi.output.StudentData;
  */
 public class GetStudentAction extends Action {
 
+    private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
+
     @Override
     protected AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
@@ -31,7 +33,7 @@ public class GetStudentAction extends Action {
             String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
             student = logic.getStudentForEmail(courseId, studentEmail);
             if (student == null) {
-                throw new UnauthorizedAccessException(Const.ErrorMessages.UNAUTHORIZED_ACCESS);
+                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
@@ -39,19 +41,9 @@ public class GetStudentAction extends Action {
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
         } else if (userInfo.isStudent) {
             student = logic.getStudentForGoogleId(courseId, userInfo.id);
-            if (student == null) {
-                throw new UnauthorizedAccessException(Const.ErrorMessages.UNAUTHORIZED_ACCESS);
-            }
-
             gateKeeper.verifyAccessible(student, course);
         } else {
-            Optional<StudentAttributes> studentCheck = getUnregisteredStudent();
-            if (studentCheck.isPresent()) {
-                student = studentCheck.get();
-                gateKeeper.verifyAccessible(student, course);
-            } else {
-                throw new UnauthorizedAccessException(Const.ErrorMessages.UNAUTHORIZED_ACCESS);
-            }
+            getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
         }
     }
 
@@ -78,7 +70,7 @@ public class GetStudentAction extends Action {
 
         StudentData studentData = new StudentData(student);
 
-        if (userInfo == null || userInfo.isStudent) {
+        if (userInfo == null || !userInfo.isInstructor) {
             studentData.setComments(null);
             studentData.setJoinState(null);
         }

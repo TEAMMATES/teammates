@@ -1095,10 +1095,6 @@ public final class Const {
         public static final String TABLE_SORT = "/test/tableSort.jsp";
     }
 
-    public static class ErrorMessages {
-        public static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
-    }
-
     /* These are status messages that may be shown to the user */
     @Deprecated
     public static class StatusMessages {
