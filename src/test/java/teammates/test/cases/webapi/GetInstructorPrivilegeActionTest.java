@@ -64,7 +64,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         instructor1ofCourse1.privileges = privileges;
 
-        instructor1ofCourse1.role = "Custom";
+        instructor1ofCourse1.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
         dataBundle.instructors.put("instructor1OfCourse1", instructor1ofCourse1);
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -192,7 +192,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         String[] invalidSectionAndCourseIdParams = {
                 Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.SECTION_NAME, "invalid section",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "invalid session",
         };
 
         a = getAction(invalidSectionAndCourseIdParams);
