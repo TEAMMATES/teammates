@@ -49,9 +49,10 @@ public class UpdateCourseAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String courseName = courseUpdateRequest.getCourseName();
+        CourseAttributes updatedCourse;
 
         try {
-            logic.updateCourseCascade(
+            updatedCourse = logic.updateCourseCascade(
                     CourseAttributes.updateOptionsBuilder(courseId)
                             .withName(courseName)
                             .withTimezone(ZoneId.of(courseTimeZone))
@@ -62,6 +63,6 @@ public class UpdateCourseAction extends Action {
             return new JsonResult(edee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult(new CourseData(logic.getCourse(courseId)));
+        return new JsonResult(new CourseData(updatedCourse));
     }
 }

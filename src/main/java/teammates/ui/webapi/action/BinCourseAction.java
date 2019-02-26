@@ -1,9 +1,8 @@
 package teammates.ui.webapi.action;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.CourseData;
@@ -38,7 +37,7 @@ public class BinCourseAction extends Action {
 
             return new JsonResult(new CourseData(courseAttributes));
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new EntityNotFoundException(e);
         }
     }
 

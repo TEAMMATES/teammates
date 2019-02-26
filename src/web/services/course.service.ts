@@ -42,7 +42,7 @@ export class CourseService {
   /**
    * Archives a course by calling API.
    */
-  archiveCourse(courseid: string, request: CourseArchiveRequest): Observable<CourseArchive> {
+  changeArchiveStatus(courseid: string, request: CourseArchiveRequest): Observable<CourseArchive> {
     const paramMap: { [key: string]: string } = { courseid };
     return this.httpRequestService.put('/course/archive', paramMap, request);
   }

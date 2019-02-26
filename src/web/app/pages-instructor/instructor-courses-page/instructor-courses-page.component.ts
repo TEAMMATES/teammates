@@ -206,14 +206,14 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Archives an active course.
+   * Changes the status of an archived course.
    */
   changeArchiveStatus(courseId: string, toArchive: boolean): void {
     if (!courseId) {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    this.courseService.archiveCourse(courseId, {
+    this.courseService.changeArchiveStatus(courseId, {
       archiveStatus: toArchive,
     }).subscribe((courseArchive: CourseArchive) => {
       this.loadInstructorCourses();
