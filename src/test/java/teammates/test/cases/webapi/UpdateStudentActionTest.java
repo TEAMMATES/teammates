@@ -78,8 +78,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
-        assertEquals("Student has been updated and email sent",
-                msgOutput.getMessage());
+        assertEquals("Student has been updated and email sent", msgOutput.getMessage());
         verifyNumberOfEmailsSent(updateAction, 1);
 
         EmailWrapper email = getEmailsSent(updateAction).get(0);
@@ -152,7 +151,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         UpdateStudentAction takenEmailAction = getAction(updateRequest, submissionParams);
         JsonResult takenEmailOutput = getJsonResult(takenEmailAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, takenEmailOutput.getStatusCode());
+        assertEquals(HttpStatus.SC_CONFLICT, takenEmailOutput.getStatusCode());
         invalidParamsOutput = (MessageOutput) takenEmailOutput.getOutput();
 
         assertEquals("Trying to update to an email that is already used", invalidParamsOutput.getMessage());

@@ -52,9 +52,11 @@ public class UpdateStudentAction extends Action {
         }
 
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
+        boolean emailSent = false;
+
         try {
             logic.validateSectionsAndTeams(Arrays.asList(student), student.course);
-            logic.validateSectionsAndTeams(Arrays.asList(student), student.course);
+            logic.validateTeams(Arrays.asList(student), student.course);
             logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
                             .withName(updateRequest.getName())
@@ -64,24 +66,30 @@ public class UpdateStudentAction extends Action {
                             .withComment(updateRequest.getComments())
                             .build());
 
-            StringBuilder responseMessage = new StringBuilder("Student has been updated");
             if (!student.email.equals(updateRequest.getEmail())) {
                 logic.resetStudentGoogleId(updateRequest.getEmail(), courseId);
                 boolean isSessionSummarySendEmail =
                         getBooleanRequestParamValue(Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK);
 
-                if (isSessionSummarySendEmail && sendEmail(courseId, updateRequest.getEmail())) {
-                    responseMessage.append(" and email sent");
+                if (isSessionSummarySendEmail) {
+                    emailSent = sendEmail(courseId, updateRequest.getEmail());
                 }
             }
-
-            return new JsonResult(responseMessage.toString());
-        } catch (EnrollException | InvalidParametersException | EntityDoesNotExistException e) {
+        } catch (EnrollException | InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+        } catch (EntityDoesNotExistException ednee) {
+            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException e) {
             return new JsonResult("Trying to update to an email that is already used",
-                    HttpStatus.SC_BAD_REQUEST);
+                    HttpStatus.SC_CONFLICT);
         }
+
+        StringBuilder responseMessage = new StringBuilder("Student has been updated");
+        if (emailSent) {
+            responseMessage.append(" and email sent");
+        }
+
+        return new JsonResult(responseMessage.toString());
     }
 
     private boolean sendEmail(String courseId, String studentEmail) {
