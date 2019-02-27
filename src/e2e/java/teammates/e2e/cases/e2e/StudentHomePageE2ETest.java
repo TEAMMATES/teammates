@@ -74,9 +74,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         loginWithPersistenceProblem();
 
-        // This is the full HTML verification for Student Home Page, the rest can all be verifyMainHtml
-        studentHome.verifyHtml("/studentHomeHTMLPersistenceCheck.html");
-
+        assertTrue(studentHome.verifyErrorMessage("Ooops! Your Google account is not known to TEAMMATES"));
 
         ______TS("login");
 

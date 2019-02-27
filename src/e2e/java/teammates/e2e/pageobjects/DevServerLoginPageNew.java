@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -20,7 +21,7 @@ public class DevServerLoginPageNew extends LoginPageNew {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h3>Not logged in</h3>");
+        return getLoginPageTitle().contains("Not logged in");
     }
 
     @Override

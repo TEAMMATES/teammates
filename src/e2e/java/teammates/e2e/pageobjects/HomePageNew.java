@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -17,21 +18,12 @@ public class HomePageNew extends AppPageNew {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Designed for Simplicity, Flexibility, and Power:");
+        return getTitle().contains("TEAMMATES");
     }
 
     public LoginPageNew clickStudentLogin() {
         click(studentLoginLink);
-        waitForPageToLoad();
-        String pageSource = getPageSource();
-        if (StudentHomePageNew.containsExpectedPageContents(pageSource)) {
-            //already logged in. We need to logout because the return type of
-            //  this method is a LoginPageNew
-            logout();
-            click(studentLoginLink);
-            waitForPageToLoad();
-        }
+        waitForElementVisibility(By.id("pageTitle"));
         return createCorrectLoginPageType(browser);
     }
-
 }

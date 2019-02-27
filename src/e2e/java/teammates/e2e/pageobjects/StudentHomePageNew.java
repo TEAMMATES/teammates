@@ -13,6 +13,7 @@ public class StudentHomePageNew extends AppPageNew {
 
     @Override
     protected boolean containsExpectedPageContents() {
+        return getPageTitle().equals("Student Home");
     }
 
     public void clickViewTeam() {
