@@ -5,14 +5,14 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.HomePageNew;
+import teammates.common.util.JsonUtils;
 import teammates.e2e.pageobjects.StudentHelpPageNew;
 import teammates.e2e.pageobjects.StudentHomePageNew;
 import teammates.e2e.util.NewBackDoor;
 import teammates.e2e.util.TestProperties;
 
 /**
- * SUT: {@link Const.ActionURIs#STUDENT_HOME_PAGE}.
+ * Ensure that student home page works as expected.
  */
 public class StudentHomePageE2ETest extends BaseE2ETestCase {
     private StudentHomePageNew studentHome;
@@ -37,13 +37,17 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         testData.students.get("alice.tmms@SHomeUiT.CS4221").googleId = student1GoogleId;
         testData.students.get("alice.tmms@SHomeUiT.CS4221").email = student1Email;
 
-        // TODO: Do I handle this using backdoor operations?
-        removeAndRestoreDataBundle(testData);
+        // Replaced with the v6 method below with executePutRequest instead
+        // removeAndRestoreDataBundle(testData);
 
-        // TODO: what should the return type be for this case?
-        String gracedFeedbackSession =
-                NewBackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
+        String dataBundleJson = JsonUtils.toJson(testData);
+        String removeAndRestoreDataLink = createUrl(Const.ResourceURIs.DATABUNDLE)
+                .withParam(Const.ParamsNames.BACKDOOR_DATA, dataBundleJson)
+                .toString();
 
+        NewBackDoor.executePutRequest(removeAndRestoreDataLink);
+
+        // TODO: How do I implement this? Need to generate a save state.
         // gracedFeedbackSession.setEndTime(Instant.now());
         // NewBackDoor.editFeedbackSession(gracedFeedbackSession);
     }
@@ -61,38 +65,34 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         String unregUserId = TestProperties.TEST_UNREG_ACCOUNT;
         String unregPassword = TestProperties.TEST_UNREG_PASSWORD;
-        NewBackDoor.deleteAccount(unregUserId);
+        NewBackDoor.executeDeleteRequest(createUrl(Const.ResourceURIs.STUDENTS)
+                .withParam(Const.ParamsNames.STUDENT_ID, unregUserId)
+                .toString());
 
         logout();
         studentHome = getHomePageNew().clickStudentLogin().loginAsStudent(unregUserId, unregPassword);
 
-        // this test uses the accounts from test.properties
-        // do not do full HTML verification here as the unregistered username is not predictable
-        studentHome.verifyHtmlMainContent("/studentHomeHTMLEmpty.html");
-
-        ______TS("persistence check");
-
-        loginWithPersistenceProblem();
-
         assertTrue(studentHome.verifyErrorMessage("Ooops! Your Google account is not known to TEAMMATES"));
+
+        // TODO: is the persistent login still necessary?
 
         ______TS("login");
 
+        // TODO: continue working on the other parts after data bundle is initialized correctly
+        logout();
         studentHome = getHomePageNew().clickStudentLogin()
                                    .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                                    TestProperties.TEST_STUDENT1_PASSWORD);
 
+        // verify account is logged in
+        // the log in fails currently as the data is not parsed to DataBundle correctly
+
         ______TS("content: multiple courses");
 
-        // this test uses the accounts from test.properties
-        studentHome.verifyHtmlMainContent("/studentHomeHTML.html");
-
-        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.ResourceURIs.STUDENT)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePageNew studentHomePage = loginAdminToPageNew(detailsPageUrl, StudentHomePageNew.class);
-
-        studentHomePage.verifyHtmlMainContent("/studentHomeTypicalHTML.html");
 
         ______TS("content: requires sanitization");
 
@@ -100,8 +100,6 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
                             .withUserId(testData.students.get("SHomeUiT.student1InTestingSanitizationCourse").googleId);
 
         studentHomePage = loginAdminToPageNew(detailsPageUrl, StudentHomePageNew.class);
-
-        studentHomePage.verifyHtmlMainContent("/studentHomeTypicalTestingSanitization.html");
 
     }
 
@@ -183,19 +181,9 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         ______TS("access the feedback session exactly after it is deleted");
 
-        NewBackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");
+        // NewBackDoor.executeDeleteRequest(createUrl(Const.ResourceURIs.)"First Feedback Session", "SHomeUiT.CS2104");
         studentHomePageNew.clickSubmitFeedbackButton("First Feedback Session");
         studentHomePageNew.waitForPageToLoad();
-        studentHomePageNew.verifyHtmlMainContent("/studentHomeFeedbackDeletedHTML.html");
-
-    }
-
-    private void loginWithPersistenceProblem() {
-        AppUrl homeUrl = ((AppUrl) createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                    .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "SHomeUiT.CS2104"))
-                    .withUserId("unreg_user");
-        // http://localhost:4200/web/admin/home?user=abc@example.com // does not work despite entering the details
-        studentHome = loginAdminToPageNew(homeUrl, StudentHomePageNew.class);
 
     }
 
