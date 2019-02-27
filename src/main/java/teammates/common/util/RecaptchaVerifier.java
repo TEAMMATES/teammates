@@ -76,6 +76,9 @@ public final class RecaptchaVerifier {
             } catch (IOException e) {
                 log.severe("reCAPTCHA verification request failure: " + e.getMessage());
                 return false;
+            } catch (Exception e) {
+                log.severe("reCAPTCHA verification request failure: " + e.getMessage());
+                return false;
             }
         } catch (URISyntaxException e) {
             log.severe("reCAPTCHA verification request failure: " + e.getMessage());
