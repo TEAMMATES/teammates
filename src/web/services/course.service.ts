@@ -40,7 +40,7 @@ export class CourseService {
   }
 
   /**
-   * Archives a course by calling API.
+   * Changes the archive status of a course by calling API.
    */
   changeArchiveStatus(courseid: string, request: CourseArchiveRequest): Observable<CourseArchive> {
     const paramMap: { [key: string]: string } = { courseid };

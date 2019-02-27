@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -60,7 +61,7 @@ public class UpdateCourseAction extends Action {
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException edee) {
-            return new JsonResult(edee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(edee);
         }
 
         return new JsonResult(new CourseData(updatedCourse));

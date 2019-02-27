@@ -3,13 +3,14 @@ package teammates.ui.webapi.action;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.CourseArchiveData;
 import teammates.ui.webapi.request.CourseArchiveRequest;
 
 /**
- * Archive a course.
+ * Changes the archive status of a course.
  */
 public class ArchiveCourseAction extends Action {
 
@@ -38,7 +39,7 @@ public class ArchiveCourseAction extends Action {
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(new CourseArchiveData(idOfCourseToArchive, isArchive));
