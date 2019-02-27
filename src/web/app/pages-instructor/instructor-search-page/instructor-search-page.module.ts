@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StudentListModule } from '../student-list/student-list.module';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
+import { InstructorSearchBarComponent } from './instructor-search-bar/instructor-search-bar.component';
 
 /**
  * Module for instructor search page.
@@ -11,9 +12,11 @@ import { InstructorSearchPageComponent } from './instructor-search-page.componen
 @NgModule({
   declarations: [
     InstructorSearchPageComponent,
+    InstructorSearchBarComponent,
   ],
   exports: [
     InstructorSearchPageComponent,
+    InstructorSearchBarComponent,
   ],
   imports: [
     CommonModule,

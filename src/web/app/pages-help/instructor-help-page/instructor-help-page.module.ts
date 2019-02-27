@@ -29,6 +29,7 @@ import { ExampleBoxComponent } from './example-box/example-box.component';
 import {
   ExampleInstructorCourseStudentEditPageComponent
 } from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
+import { InstructorSearchPageModule } from '../../pages-instructor/instructor-search-page/instructor-search-page.module';
 
 /**
  * Module for instructor help page.
@@ -41,6 +42,7 @@ import {
     RouterModule,
     StudentProfileModule,
     ReactiveFormsModule,
+    InstructorSearchPageModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
