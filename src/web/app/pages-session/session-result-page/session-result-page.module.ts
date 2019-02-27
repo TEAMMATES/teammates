@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { TimeDisplayerModule } from '../../components/time-displayer/time-displayer.module';
 import { SessionResultPageComponent } from './session-result-page.component';
 
 /**
@@ -8,6 +9,7 @@ import { SessionResultPageComponent } from './session-result-page.component';
 @NgModule({
   imports: [
     CommonModule,
+    TimeDisplayerModule,
   ],
   declarations: [
     SessionResultPageComponent,

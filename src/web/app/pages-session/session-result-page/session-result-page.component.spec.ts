@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TimeDisplayerModule } from '../../components/time-displayer/time-displayer.module';
 import { SessionResultPageComponent } from './session-result-page.component';
 
 describe('SessionResultPageComponent', () => {
@@ -7,6 +9,11 @@ describe('SessionResultPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        TimeDisplayerModule,
+      ],
       declarations: [SessionResultPageComponent],
     })
     .compileComponents();

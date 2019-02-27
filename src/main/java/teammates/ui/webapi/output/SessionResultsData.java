@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
 
@@ -31,8 +30,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, question.getQuestionType(),
-                    questionDetails.getQuestionText(),
+            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, questionDetails,
                     questionDetails.getQuestionResultStatisticsJson(responses, question, instructor.email, bundle, false));
 
             List<ResponseOutput> allResponses = buildResponses(responses, bundle);
@@ -50,8 +48,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, question.getQuestionType(),
-                    questionDetails.getQuestionText(),
+            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, questionDetails,
                     questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle, true));
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
@@ -163,8 +160,7 @@ public class SessionResultsData extends ApiOutput {
 
     private static class QuestionOutput {
 
-        private final String questionText;
-        private final FeedbackQuestionType questionType;
+        private final FeedbackQuestionDetails questionDetails;
         private final int questionNumber;
         private final String questionStatistics;
 
@@ -176,20 +172,14 @@ public class SessionResultsData extends ApiOutput {
         private List<ResponseOutput> responsesFromSelf = new ArrayList<>();
         private List<ResponseOutput> otherResponses = new ArrayList<>();
 
-        QuestionOutput(int questionNumber, FeedbackQuestionType questionType, String questionText,
-                String questionStatistics) {
+        QuestionOutput(int questionNumber, FeedbackQuestionDetails questionDetails, String questionStatistics) {
             this.questionNumber = questionNumber;
-            this.questionType = questionType;
-            this.questionText = questionText;
+            this.questionDetails = questionDetails;
             this.questionStatistics = questionStatistics;
         }
 
-        public String getQuestionText() {
-            return questionText;
-        }
-
-        public FeedbackQuestionType getQuestionType() {
-            return questionType;
+        public FeedbackQuestionDetails getQuestionDetails() {
+            return questionDetails;
         }
 
         public int getQuestionNumber() {
