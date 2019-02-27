@@ -23,7 +23,7 @@ public class HomePageNew extends AppPageNew {
 
     public LoginPageNew clickStudentLogin() {
         click(studentLoginLink);
-        waitForElementVisibility(By.id("pageTitle"));
+        waitForElementVisibility(By.tagName("h3"));
         return createCorrectLoginPageType(browser);
     }
 }

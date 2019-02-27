@@ -43,7 +43,7 @@ public class DevServerLoginPageNew extends LoginPageNew {
     public <T extends AppPageNew> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
         click(loginButton);
-        waitForPageToLoad();
+        waitForElementVisibility(By.id("pageTitle"));
         browser.isAdminLoggedIn = false;
         return changePageType(typeOfPage);
     }
