@@ -17,14 +17,9 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public final class FieldValidator {
-    private FieldValidator() {
-    //utility class
-    }
-
     /////////////////
     // FIELD TYPES //
     /////////////////
-
     // name-related
     public static final String PERSON_NAME_FIELD_NAME = "person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
@@ -265,6 +260,9 @@ public final class FieldValidator {
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));
 
+    private FieldValidator() {
+    //utility class
+    }
     /////////////////////////////////////////
     // VALIDATION METHODS FOR EXTERNAL USE //
     /////////////////////////////////////////
