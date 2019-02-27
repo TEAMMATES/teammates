@@ -18,6 +18,7 @@ import {
   FeedbackSessionSubmissionStatus,
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  Student
 } from '../../../types/api-output';
 import {
   FeedbackResponseRecipient,
@@ -27,7 +28,6 @@ import {
 } from '../../components/question-submission-form/question-submission-form-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
-import { Student } from '../../student';
 import {
   FeedbackSessionClosedModalComponent,
 } from './feedback-session-closed-modal/feedback-session-closed-modal.component';

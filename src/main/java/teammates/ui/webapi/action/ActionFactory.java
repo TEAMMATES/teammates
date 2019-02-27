@@ -43,8 +43,10 @@ public class ActionFactory {
         map(ResourceURIs.ACCOUNTS_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
+        map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
         map(ResourceURIs.COURSE, PUT, ArchiveCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
+        map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
@@ -52,6 +54,7 @@ public class ActionFactory {
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
+        map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
@@ -81,11 +84,11 @@ public class ActionFactory {
         map(ResourceURIs.LOCAL_DATE_TIME, GET, GetLocalDateTimeInfoAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
+        map(ResourceURIs.JOIN_REMIND, POST, SendJoinReminderEmailAction.class);
         map(ResourceURIs.COURSE_ENROLL_PAGE_DATA, GET, GetCourseEnrollPageDataAction.class);
         map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES, POST, AddInstructorCourseAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE, PUT, RestoreInstructorSoftDeletedCourseAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE_ALL, PUT, RestoreAllInstructorSoftDeletedCoursesAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE, DELETE, DeleteInstructorSoftDeletedCourseAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL, DELETE,
@@ -102,21 +105,18 @@ public class ActionFactory {
         map(ResourceURIs.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, GET, SearchStudentsAndFeedbackSessionDataAction.class);
         map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS_EDIT, PUT, PutCourseStudentDetailsEditAction.class);
-
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_EDIT_DETAILS_SAVE, PUT, SaveCourseEditDetailsAction.class);
         map(ResourceURIs.COURSE_DELETE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.INSTRUCTORS, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTORS, POST, CreateInstructorAction.class);
         map(ResourceURIs.COURSE_DELETE_INSTRUCTOR, DELETE, DeleteInstructorInCourseAction.class);
-        map(ResourceURIs.COURSE_SEND_REMINDER_EMAILS, POST, SendReminderEmailAction.class);
         map(ResourceURIs.COURSE_ENROLL_SAVE, POST, PostCourseEnrollSaveAction.class);
         map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS, DELETE,
                 DeleteInstructorCourseAllStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV, GET, GetInstructorCourseAllStudentsInCsvAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_REMIND, POST, RemindInstructorCourseStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_STUDENTS, GET, GetCourseStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_STUDENTS_COURSES, GET, InstructorGetCoursesAction.class);
     }

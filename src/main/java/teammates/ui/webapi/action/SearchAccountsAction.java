@@ -219,7 +219,7 @@ public class SearchAccountsAction extends Action {
     }
 
     private String generateResultUrl(StudentAttributes student, String fsName) {
-        return Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(student.course)
                 .withSessionName(fsName)
                 .withRegistrationKey(StringHelper.encrypt(student.key))

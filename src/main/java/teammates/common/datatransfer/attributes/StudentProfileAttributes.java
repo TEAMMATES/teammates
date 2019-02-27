@@ -4,8 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -55,7 +53,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withGender(Gender.getGenderEnumValue(sp.getGender()))
                 .withNationality(sp.getNationality())
                 .withMoreInfo(sp.getMoreInfo())
-                .withPictureKey(sp.getPictureKey().getKeyString())
+                .withPictureKey(sp.getPictureKey())
                 .withModifiedDate(sp.getModifiedDate())
                 .build();
     }
@@ -124,7 +122,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     @Override
     public StudentProfile toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, nationality, gender.name().toLowerCase(),
-                                  moreInfo, new BlobKey(this.pictureKey));
+                                  moreInfo, this.pictureKey);
     }
 
     @Override
