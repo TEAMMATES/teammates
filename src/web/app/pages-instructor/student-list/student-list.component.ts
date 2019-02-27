@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -33,9 +34,12 @@ export class StudentListComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private router: Router, private httpRequestService: HttpRequestService,
-    private statusMessageService: StatusMessageService, private navigationService: NavigationService,
-    private ngbModal: NgbModal) { }
+  constructor(private router: Router,
+              private httpRequestService: HttpRequestService,
+              private statusMessageService: StatusMessageService,
+              private navigationService: NavigationService,
+              private courseService: CourseService,
+              private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -88,12 +92,7 @@ export class StudentListComponent implements OnInit {
    * Remind the student from course.
    */
   remindStudentFromCourse(studentEmail: string): void {
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      studentemail: studentEmail,
-    };
-
-    this.httpRequestService.post('/courses/details/remind', paramsMap)
+    this.courseService.remindStudentForJoin(this.courseId, studentEmail)
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
             '/web/instructor/courses/details', resp.message);

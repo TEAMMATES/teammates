@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import moment from 'moment-timezone';
 
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -117,6 +118,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
               private timezoneService: TimezoneService,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
+              private courseService: CourseService,
               private fb: FormBuilder,
               private ngbModal: NgbModal) { }
 
@@ -1021,12 +1023,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   resendReminderEmail(index: number): void {
     const instructorToResend: InstructorAttributes = this.instructorList[index];
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
-      instructoremail: instructorToResend.email,
-    };
 
-    this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
+    this.courseService.remindInstructorForJoin(this.courseToEdit.id, instructorToResend.email)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
         }, (resp: ErrorMessageOutput) => {
