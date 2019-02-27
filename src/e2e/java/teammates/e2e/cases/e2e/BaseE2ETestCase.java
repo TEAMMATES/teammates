@@ -30,7 +30,7 @@ import teammates.test.pageobjects.LoginPage;
  * Base class for all browser tests.
  *
  * <p>This type of test has no knowledge of the workings of the application,
- * and can only communicate via the UI or via {@link teammates.e2e.util.BackDoor} to obtain/transmit data.
+ * and can only communicate via the UI or via {@link teammates.e2e.util.NewBackDoor} to obtain/transmit data.
  */
 public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess {
 

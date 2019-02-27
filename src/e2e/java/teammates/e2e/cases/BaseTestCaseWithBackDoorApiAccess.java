@@ -14,10 +14,10 @@ import teammates.common.util.Const;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturns;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.NewBackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
+import teammates.test.driver.BackDoor;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.

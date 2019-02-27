@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.AppPage;
 

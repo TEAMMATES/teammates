@@ -1,4 +1,4 @@
-package teammates.e2e.util;
+package teammates.test.driver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -460,7 +460,7 @@ public final class BackDoor {
         map.put("PLACEHOLDER", operation);
 
         // For authentication
-        map.put("PLACEHOLDER", TestProperties.BACKDOOR_KEY);
+        map.put("PLACEHOLDER", "BACKDOOR_KEY");
 
         return map;
     }
@@ -468,7 +468,7 @@ public final class BackDoor {
     private static String makePostRequest(Map<String, String> map) {
         try {
             String paramString = encodeParameters(map);
-            String urlString = TestProperties.TEAMMATES_URL + "/backdoor";
+            String urlString = "/backdoor";
             URLConnection conn = getConnectionToUrl(urlString);
             sendRequest(paramString, conn);
             return readResponse(conn);

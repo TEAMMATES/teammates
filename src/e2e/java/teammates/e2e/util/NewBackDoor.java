@@ -35,7 +35,7 @@ import teammates.common.util.JsonUtils;
 /**
  * Used to create API calls to the back-end without going through the UI.
  *
- * <p>Note that this will replace {@link BackDoor} once the front-end migration is complete.
+ * <p>Note that this will replace {@link teammates.test.driver.BackDoor} once the front-end migration is complete.
  */
 public final class NewBackDoor {
 
