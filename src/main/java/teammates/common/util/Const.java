@@ -580,8 +580,6 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String INSTRUCTOR_NAME = "instructorname";
-        public static final String NAME = "name";
-        public static final String EMAIL = "email";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
@@ -1415,9 +1413,6 @@ public final class Const {
 
         // HTTP parameter null message
         public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
-
-        // Response Body null message
-        public static final String INVALID_REQUEST_BODY = "%s cannot be null";
     }
 
     /**
