@@ -75,7 +75,7 @@ public class StudentProfile extends BaseEntity {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, String gender, String moreInfo, BlobKey pictureKey) {
+                          String nationality, String gender, String moreInfo, String pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -95,7 +95,7 @@ public class StudentProfile extends BaseEntity {
         this.setNationality("");
         this.setGender("other");
         this.setMoreInfo("");
-        this.setPictureKey(new BlobKey(""));
+        this.setPictureKey("");
         this.setModifiedDate(Instant.now());
     }
 
@@ -156,12 +156,12 @@ public class StudentProfile extends BaseEntity {
         this.moreInfo = moreInfo == null ? null : new Text(moreInfo);
     }
 
-    public BlobKey getPictureKey() {
-        return this.pictureKey;
+    public String getPictureKey() {
+        return this.pictureKey == null ? null : this.pictureKey.getKeyString();
     }
 
-    public void setPictureKey(BlobKey pictureKey) {
-        this.pictureKey = pictureKey;
+    public void setPictureKey(String pictureKey) {
+        this.pictureKey = pictureKey == null ? null : new BlobKey(pictureKey);
     }
 
     public Instant getModifiedDate() {
