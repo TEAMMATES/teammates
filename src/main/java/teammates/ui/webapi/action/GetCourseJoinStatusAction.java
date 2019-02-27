@@ -5,10 +5,10 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.JoinStatus;
 
 /**
- * Action: Gets the "join" status of a student/instructor.
+ * Get the join status of a course.
  */
 public class GetCourseJoinStatusAction extends Action {
 
@@ -56,28 +56,4 @@ public class GetCourseJoinStatusAction extends Action {
         JoinStatus result = new JoinStatus(hasJoined, hasJoined ? null : userInfo.id);
         return new JsonResult(result);
     }
-
-    /**
-     * Output format for {@link GetCourseJoinStatusAction}.
-     */
-    public static class JoinStatus extends ApiOutput {
-
-        private final boolean hasJoined;
-        private final String userId;
-
-        public JoinStatus(boolean hasJoined, String userId) {
-            this.hasJoined = hasJoined;
-            this.userId = userId;
-        }
-
-        public boolean isHasJoined() {
-            return hasJoined;
-        }
-
-        public String getUserId() {
-            return userId;
-        }
-
-    }
-
 }

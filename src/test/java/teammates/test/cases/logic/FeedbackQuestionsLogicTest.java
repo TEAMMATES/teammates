@@ -104,25 +104,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testDeleteQuestionsForCourse();
     }
 
-    @Test
-    public void testGetTemplateQuestionForInstructor() {
-
-        ______TS("Get template questions for instructors");
-
-        List<FeedbackQuestionAttributes> actualTemplateQuestions =
-                fqLogic.getFeedbackSessionTemplateQuestions("TEAMEVALUATION", "idOfTypicalCourse1",
-                        "First feedback session");
-
-        assertEquals(actualTemplateQuestions.size(), 5);
-
-        ______TS("Get questions created for instructors by the creating instructor");
-
-        actualTemplateQuestions = fqLogic.getFeedbackSessionTemplateQuestions("NIL", "idOfTypicalCourse1",
-                "First feedback session");
-
-        assertEquals(actualTemplateQuestions.size(), 0);
-    }
-
     private void testGetRecipientsForQuestion() throws Exception {
         FeedbackQuestionAttributes question;
         String email;
@@ -403,7 +384,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         FeedbackQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
 
         assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, copiedQuestion.numberOfEntitiesToGiveFeedbackTo);
-        assertEquals(question1.questionType, copiedQuestion.questionType);
+        assertEquals(question1.getQuestionType(), copiedQuestion.getQuestionType());
         assertEquals(question1.giverType, copiedQuestion.giverType);
         assertEquals(question1.recipientType, copiedQuestion.recipientType);
         assertEquals(question1Details.getQuestionText(), copiedQuestionDetails.getQuestionText());

@@ -49,7 +49,7 @@ public class PostStudentProfilePictureAction extends Action {
             try (InputStream is = image.getInputStream()) {
                 is.read(imageData);
             }
-            String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(userInfo.id, imageData);
+            String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(userInfo.id, imageData, image.getContentType());
             logic.updateOrCreateStudentProfile(
                     StudentProfileAttributes.updateOptionsBuilder(userInfo.id)
                             .withPictureKey(pictureKey)

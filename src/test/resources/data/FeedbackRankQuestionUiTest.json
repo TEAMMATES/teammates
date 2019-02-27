@@ -241,7 +241,6 @@
         ]
       },
       "questionNumber": 1,
-      "questionType": "RANK_OPTIONS",
       "giverType": "INSTRUCTORS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -273,7 +272,6 @@
         ]
       },
       "questionNumber": 2,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -304,7 +302,6 @@
         ]
       },
       "questionNumber": 1,
-      "questionType": "RANK_OPTIONS",
       "giverType": "INSTRUCTORS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -346,7 +343,6 @@
         ]
       },
       "questionNumber": 2,
-      "questionType": "RANK_OPTIONS",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 4,
@@ -372,7 +368,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 3,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 8,
@@ -398,7 +393,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 4,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "INSTRUCTORS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -430,7 +424,6 @@
         ]
       },
       "questionNumber": 5,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -456,7 +449,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 6,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -482,7 +474,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 7,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -508,7 +499,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 8,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -534,7 +524,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 9,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 7,
@@ -560,7 +549,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 10,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -592,7 +580,6 @@
         ]
       },
       "questionNumber": 11,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -624,7 +611,6 @@
         ]
       },
       "questionNumber": 1,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -650,7 +636,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 2,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -676,7 +661,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 3,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -704,7 +688,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 4,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -730,7 +713,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 5,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 7,
@@ -758,7 +740,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 6,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -790,7 +771,6 @@
         ]
       },
       "questionNumber": 7,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -832,7 +812,6 @@
         ]
       },
       "questionNumber": 8,
-      "questionType": "RANK_OPTIONS",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 4,
@@ -866,7 +845,6 @@
         ]
       },
       "questionNumber": 9,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -900,7 +878,6 @@
         ]
       },
       "questionNumber": 10,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -935,7 +912,6 @@
         ]
       },
       "questionNumber": 11,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 4,
@@ -962,7 +938,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 12,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 4,
@@ -989,7 +964,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 13,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 4,
@@ -1017,7 +991,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 15,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 4,
@@ -1043,7 +1016,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 16,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
