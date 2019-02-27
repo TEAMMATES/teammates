@@ -53,7 +53,7 @@ export class StaticPageComponent implements OnInit {
           display: 'Instructor Help',
         },
         {
-          url: '/web/front/help/recover-sessions',
+          url: '/web/front/help/session-link-recovery',
           display: 'Recover Session Links',
         },
       ],

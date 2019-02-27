@@ -12,10 +12,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  */
 @Component({
   selector: 'tm-student-recover-session-links-page',
-  templateUrl: './link-recovery-page.component.html',
-  styleUrls: ['./link-recovery-page.component.scss'],
+  templateUrl: './session-link-recovery-page.component.html',
+  styleUrls: ['./session-link-recovery-page.component.scss'],
 })
-export class LinkRecoveryPageComponent implements OnInit {
+export class SessionLinkRecoveryPageComponent implements OnInit {
 
   // ngx-recaptcha2 element properties
   captchaSuccess: boolean = false;
@@ -42,7 +42,7 @@ export class LinkRecoveryPageComponent implements OnInit {
   /**
    * Sends the feedback session links to the registered email address.
    */
-  onSubmitLinkRecovery(linkRecoveryForm: FormGroup): void {
+  onSubmitFormLinkRecovery(linkRecoveryForm: FormGroup): void {
     if (!this.formLinkRecovery.valid || this.captchaResponse === undefined) {
       this.statusMessageService.showErrorMessage(
           'Please enter a valid email address and click the reCAPTCHA before submitting.');
@@ -54,25 +54,36 @@ export class LinkRecoveryPageComponent implements OnInit {
       captcharesponse: this.captchaResponse,
     };
 
-    this.httpRequestService.get('/recovery', paramsMap)
+    this.httpRequestService.get('/session-link-recovery', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.statusMessageService.showSuccessMessage(resp.message);
 
-        // Reset input field and reCAPTCHA
-        (this.formLinkRecovery = this.formBuilder.group({
-          email: ['', Validators.required],
-          recaptcha: ['', Validators.required],
-        }));
-        this.reload();
+        this.resetEmailFormGroup();
+        this.resetRecaptchaFormGroup();
       }, (response: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(response.error.message);
 
-        // Reset reCAPTCHA
-        (this.formLinkRecovery = this.formBuilder.group({
-          recaptcha: ['', Validators.required],
-        }));
-        this.reload();
+        this.resetRecaptchaFormGroup();
       });
+  }
+
+  /**
+   * Resets reCAPTCHA in the form.
+   */
+  resetRecaptchaFormGroup(): void {
+    (this.formLinkRecovery = this.formBuilder.group({
+      recaptcha: ['', Validators.required],
+    }));
+    this.reload();
+  }
+
+  /**
+   * Resets email input field in the form.
+   */
+  resetEmailFormGroup(): void {
+    (this.formLinkRecovery = this.formBuilder.group({
+      email: ['', Validators.required],
+    }));
   }
 
   /**

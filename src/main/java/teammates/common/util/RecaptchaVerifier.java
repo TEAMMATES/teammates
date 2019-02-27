@@ -53,24 +53,24 @@ public final class RecaptchaVerifier {
 
             HttpPost post = new HttpPost(urlb.build());
 
-            //Execute and get the response.
+            // Execute and get the response.
             try (CloseableHttpClient client = HttpClients.createDefault();
                     CloseableHttpResponse resp = client.execute(post);
                     BufferedReader br = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()))) {
-                String output = br.lines().collect(Collectors.joining(System.lineSeparator()));
+                String response = br.lines().collect(Collectors.joining(System.lineSeparator()));
 
                 if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                    log.info("reCAPTCHA verification request successful:" + System.lineSeparator() + output);
-                    JsonObject jsonObject = JsonUtils.parse(output).getAsJsonObject();
+                    log.info("reCAPTCHA verification request successful:" + response);
+                    JsonObject responseInJson = JsonUtils.parse(response).getAsJsonObject();
 
-                    if (jsonObject.has("error-codes")) {
-                        JsonArray errorCodes = jsonObject.get("error-codes").getAsJsonArray();
+                    if (responseInJson.has("error-codes")) {
+                        JsonArray errorCodes = responseInJson.get("error-codes").getAsJsonArray();
                         log.warning("Error codes during reCAPTCHA verification: " + errorCodes.toString());
                     }
 
-                    return Boolean.parseBoolean(jsonObject.get("success").toString());
+                    return Boolean.parseBoolean(responseInJson.get("success").toString());
                 } else {
-                    log.severe("reCAPTCHA verification request failure:" + System.lineSeparator() + output);
+                    log.severe("reCAPTCHA verification request failure:" + response);
                     return false;
                 }
             } catch (IOException e) {

@@ -8,8 +8,9 @@ import {
 } from '../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component';
 import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
 import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
-import { LinkRecoveryPageComponent } from '../pages-help/recover-session-links/link-recovery-page.component';
-import { LinkRecoveryPageModule } from '../pages-help/recover-session-links/link-recovery-page.module';
+// tslint:disable-next-line:max-line-length
+import { SessionLinkRecoveryPageComponent } from '../pages-help/session-link-recovery/session-link-recovery-page.component';
+import { SessionLinkRecoveryPageModule } from '../pages-help/session-link-recovery/session-link-recovery-page.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
 import { StudentHelpPageModule } from '../pages-help/student-help-page/student-help-page.module';
 import { AboutPageComponent } from './about-page/about-page.component';
@@ -72,8 +73,8 @@ const routes: Routes = [
         component: InstructorHelpGettingStartedComponent,
       },
       {
-        path: 'recover-sessions',
-        component: LinkRecoveryPageComponent,
+        path: 'session-link-recovery',
+        component: SessionLinkRecoveryPageComponent,
       },
     ],
   },
@@ -109,7 +110,7 @@ const routes: Routes = [
     UsermapPageModule,
     StudentHelpPageModule,
     InstructorHelpPageModule,
-    LinkRecoveryPageModule,
+    SessionLinkRecoveryPageModule,
     RouterModule.forChild(routes),
   ],
 })
