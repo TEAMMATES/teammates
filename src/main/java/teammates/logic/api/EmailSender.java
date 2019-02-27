@@ -1,11 +1,15 @@
 package teammates.logic.api;
 
+import java.io.IOException;
 import java.util.List;
 
-import teammates.common.exception.EmailSendingException;
+import javax.mail.MessagingException;
+
+import org.apache.http.HttpStatus;
+
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.EmailLogEntry;
+import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.logic.core.EmailSenderService;
@@ -37,25 +41,37 @@ public class EmailSender {
 
     /**
      * Sends the given {@code message} and generates a log report.
+     *
+     * @return The HTTP status of the email request.
      */
-    public void sendEmail(EmailWrapper message) throws EmailSendingException {
-        service.sendEmail(message);
+    public EmailSendingStatus sendEmail(EmailWrapper message) {
+        EmailSendingStatus status;
+        try {
+            status = service.sendEmail(message);
+        } catch (Exception e) {
+            status = new EmailSendingStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        if (!status.isSuccess()) {
+            log.severe("Email failed to send: " + status.getMessage());
+        }
 
-        EmailLogEntry newEntry = new EmailLogEntry(message);
-        String emailLogInfo = newEntry.generateLogMessage();
+        String emailLogInfo = String.join("|||", "TEAMMATESEMAILLOG",
+                message.getRecipient(), message.getSubject(), message.getContent(),
+                status.getMessage() == null ? "" : status.getMessage());
         log.info(emailLogInfo);
+        return status;
     }
 
     /**
      * Sends the given {@code message} with Javamail service regardless of configuration.
      */
-    private void sendEmailCopyWithJavamail(EmailWrapper message) throws EmailSendingException {
+    private void sendEmailCopyWithJavamail(EmailWrapper message) throws IOException, MessagingException {
         // GAE Javamail is used when we need a service that is not prone to configuration failures
         // and/or third-party API failures. The trade-off is the very little quota of 100 emails per day.
         JavamailService javamailService = new JavamailService();
 
         // GAE Javamail requires the sender email address to be of this format
-        message.setSenderEmail("admin@" + Config.getAppId() + ".appspotmail.com");
+        message.setSenderEmail("admin@" + Config.APP_ID + ".appspotmail.com");
 
         message.setSubject("[Javamail Copy] " + message.getSubject());
 

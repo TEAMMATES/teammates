@@ -269,8 +269,10 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "How do you think you can improve yourself?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "How do you think you can improve yourself?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -292,8 +294,13 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate your perceived contribution of these people.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate your perceived contribution of these people.",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 2,
       "questionType": "NUMSCALE",
       "giverType": "INSTRUCTORS",
@@ -317,8 +324,10 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "What do you think of the students?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What do you think of the students?"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -340,8 +349,10 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question"
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -361,8 +372,10 @@
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "This question should NOT appear when moderated by an instructor, as instructors are unable to see the givers for this question",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should NOT appear when moderated by an instructor, as instructors are unable to see the givers for this question"
+      },
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -383,8 +396,20 @@
     "qn6InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}",
+      "questionDetails": {
+        "hasAssignedWeights": false,
+        "mcqWeights": [],
+        "mcqOtherWeight": 0.0,
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "otherEnabled": false,
+        "generateOptionsFor": "NONE",
+        "questionType": "MCQ",
+        "questionText": "What do you like best about the class' product?"
+      },
       "questionNumber": 6,
       "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
@@ -403,8 +428,10 @@
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "Talk about your contributions",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Talk about your contributions"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -425,8 +452,10 @@
     "qn1InClosedsession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "Talk about your contributions",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Talk about your contributions"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -447,8 +476,16 @@
     "qn2InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IEIFPTCourse",
-      "creatorEmail": "IEIFPTCourseintr@course1.tmt",
-      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "questionText": "What do you like best about our product?",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      },
       "questionNumber": 2,
       "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
@@ -473,107 +510,129 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
-      "responseMetaData": "Helper 1 self feedback.",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Helper 1 self feedback."
+      }
     },
     "response2ForQ1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "IEIFPTCourseintr@gmail.tmt",
       "recipient": "IEIFPTCourseintr@gmail.tmt",
-      "responseMetaData": "Instructor 1 self feedback.",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Instructor 1 self feedback."
+      }
     },
     "response1ForQ3": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "student1InIEIFPTCourse@gmail.tmt",
-      "responseMetaData": "Helper 1 opinion about Student 1.",
       "giverSection": "",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Helper 1 opinion about Student 1."
+      }
     },
     "response1ForQ4": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "4",
-      "feedbackQuestionType": "TEXT",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "student1InIEIFPTCourse@gmail.tmt",
-      "responseMetaData": "response whereby receipient should not be seen by instructors",
       "giverSection": "",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "response whereby receipient should not be seen by instructors"
+      }
     },
     "response1ForQ5": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "5",
-      "feedbackQuestionType": "TEXT",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "student1InIEIFPTCourse@gmail.tmt",
-      "responseMetaData": "response whereby giver should not be seen by instructors",
       "giverSection": "",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "response whereby giver should not be seen by instructors"
+      }
     },
     "response1ForQ6": {
       "feedbackSessionName": "First feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "6",
-      "feedbackQuestionType": "MCQ",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseDetails": {
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     },
     "response1ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "IEIFPTCourseintr@gmail.tmt",
       "recipient": "IEIFPTCourseintr@gmail.tmt",
-      "responseMetaData": "Session 2 Question 1 Response 1",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Session 2 Question 1 Response 1"
+      }
     },
     "response2ForS2Q1": {
       "feedbackSessionName": "Another feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
-      "responseMetaData": "Session 2 Question 1 Response 2",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Session 2 Question 1 Response 2"
+      }
     },
     "response1ForQ1InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "IEIFPTCourseintr@gmail.tmt",
       "recipient": "IEIFPTCourseintr@gmail.tmt",
-      "responseMetaData": "Closed session response",
       "giverSection": "",
-      "recipientSection": ""
+      "recipientSection": "",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Closed session response"
+      }
     },
     "response1ForQ2InClosedSession": {
       "feedbackSessionName": "Closed feedback session",
       "courseId": "IEIFPTCourse",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "MCQ",
       "giver": "IEIFPTCoursehelper1@gmail.tmt",
       "recipient": "IEIFPTCoursehelper1@gmail.tmt",
-      "responseMetaData": "{\"answer\":\"It's good\",\"otherFieldContent\":\"\",\"questionType\":\"MCQ\"}"
+      "responseDetails": {
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     }
   },
   "feedbackResponseComments": {},
@@ -584,7 +643,7 @@
       "email": "i.m.stud1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 3",
       "nationality": "American",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am just a student :P",
       "pictureKey": "asdf34&hfn3!@"
     }

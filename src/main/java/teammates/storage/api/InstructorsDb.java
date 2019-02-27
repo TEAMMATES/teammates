@@ -18,7 +18,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchDocument;
 import teammates.storage.search.InstructorSearchQuery;
@@ -54,12 +53,12 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     public void putDocuments(List<InstructorAttributes> instructorParams) {
         List<SearchDocument> instructorDocuments = new ArrayList<>();
         for (InstructorAttributes instructor : instructorParams) {
-            if (instructor.key == null) {
-                instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
-            }
+            InstructorAttributes inst = instructor.key == null
+                    ? getInstructorForEmail(instructor.courseId, instructor.email)
+                    : instructor;
             // defensive coding for legacy data
-            if (instructor.key != null) {
-                instructorDocuments.add(new InstructorSearchDocument(instructor));
+            if (inst.key != null) {
+                instructorDocuments.add(new InstructorSearchDocument(inst));
             }
         }
         putDocuments(Const.SearchIndex.INSTRUCTOR, instructorDocuments);
@@ -177,72 +176,94 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Updates the instructor. Cannot modify Course ID or google id.
+     * Preconditions: <br>
+     *  * All parameters are non-null.
+     * @return empty list if no matching objects.
      */
-    public void updateInstructorByGoogleId(InstructorAttributes instructorAttributesToUpdate)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
+    public List<InstructorAttributes> getInstructorsDisplayedToStudents(String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        if (!instructorAttributesToUpdate.isValid()) {
-            throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidityInfo());
-        }
-        instructorAttributesToUpdate.sanitizeForSaving();
-
-        Instructor instructorToUpdate = getInstructorEntityForGoogleId(
-                instructorAttributesToUpdate.courseId,
-                instructorAttributesToUpdate.googleId);
-
-        if (instructorToUpdate == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.googleId
-                        + ThreadHelper.getCurrentThreadStack());
-        }
-
-        instructorToUpdate.setName(instructorAttributesToUpdate.name);
-        instructorToUpdate.setEmail(instructorAttributesToUpdate.email);
-        instructorToUpdate.setIsArchived(instructorAttributesToUpdate.isArchived);
-        instructorToUpdate.setRole(instructorAttributesToUpdate.role);
-        instructorToUpdate.setIsDisplayedToStudents(instructorAttributesToUpdate.isDisplayedToStudents);
-        instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
-        instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
-
-        //TODO: make courseId+email the non-modifiable values
-
-        putDocument(makeAttributes(instructorToUpdate));
-        saveEntity(instructorToUpdate, instructorAttributesToUpdate);
+        return makeAttributes(getInstructorEntitiesThatAreDisplayedInCourse(courseId));
     }
 
     /**
-     * Updates the instructor. Cannot modify Course ID or email.
+     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the instructor cannot be found
      */
-    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate)
+    public InstructorAttributes updateInstructorByGoogleId(InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
-        if (!instructorAttributesToUpdate.isValid()) {
-            throw new InvalidParametersException(instructorAttributesToUpdate.getInvalidityInfo());
-        }
-        instructorAttributesToUpdate.sanitizeForSaving();
-
-        Instructor instructorToUpdate = getInstructorEntityForEmail(
-                instructorAttributesToUpdate.courseId,
-                instructorAttributesToUpdate.email);
-
-        if (instructorToUpdate == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + instructorAttributesToUpdate.email
-                        + ThreadHelper.getCurrentThreadStack());
+        Instructor instructor = getInstructorEntityForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
+        if (instructor == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
 
-        instructorToUpdate.setGoogleId(instructorAttributesToUpdate.googleId);
-        instructorToUpdate.setName(instructorAttributesToUpdate.name);
-        instructorToUpdate.setIsArchived(instructorAttributesToUpdate.isArchived);
-        instructorToUpdate.setRole(instructorAttributesToUpdate.role);
-        instructorToUpdate.setIsDisplayedToStudents(instructorAttributesToUpdate.isDisplayedToStudents);
-        instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
-        instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.getTextFromInstructorPrivileges());
+        InstructorAttributes newAttributes = makeAttributes(instructor);
+        newAttributes.update(updateOptions);
 
-        //TODO: make courseId+email the non-modifiable values
-        putDocument(makeAttributes(instructorToUpdate));
-        saveEntity(instructorToUpdate, instructorAttributesToUpdate);
+        newAttributes.sanitizeForSaving();
+        if (!newAttributes.isValid()) {
+            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+        }
+
+        instructor.setName(newAttributes.name);
+        instructor.setEmail(newAttributes.email);
+        instructor.setIsArchived(newAttributes.isArchived);
+        instructor.setRole(newAttributes.role);
+        instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents);
+        instructor.setDisplayedName(newAttributes.displayedName);
+        instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
+
+        saveEntity(instructor, newAttributes);
+
+        newAttributes = makeAttributes(instructor);
+        putDocument(newAttributes);
+
+        return newAttributes;
+    }
+
+    /**
+     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithEmail}.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the instructor cannot be found
+     */
+    public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+
+        Instructor instructor = getInstructorEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
+        if (instructor == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
+        }
+
+        InstructorAttributes newAttributes = makeAttributes(instructor);
+        newAttributes.update(updateOptions);
+
+        newAttributes.sanitizeForSaving();
+        if (!newAttributes.isValid()) {
+            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+        }
+
+        instructor.setGoogleId(newAttributes.googleId);
+        instructor.setName(newAttributes.name);
+        instructor.setIsArchived(newAttributes.isArchived);
+        instructor.setRole(newAttributes.role);
+        instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents);
+        instructor.setDisplayedName(newAttributes.displayedName);
+        instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
+
+        saveEntity(instructor, newAttributes);
+
+        newAttributes = makeAttributes(instructor);
+        putDocument(newAttributes);
+
+        return newAttributes;
     }
 
     /**
@@ -322,6 +343,13 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
         return load().filter("courseId in", courseIds).list();
+    }
+
+    private List<Instructor> getInstructorEntitiesThatAreDisplayedInCourse(String courseId) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("isDisplayedToStudents =", true)
+                .list();
     }
 
     private Instructor getInstructorEntityForRegistrationKey(String key) {

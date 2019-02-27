@@ -20,6 +20,9 @@ import teammates.storage.entity.Course;
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
+    private static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
+    private static final String ATTRIBUTE_NAME = "Course";
+
     //Note: be careful when changing these variables as their names are used in *.json files.
     public Instant createdAt;
     public Instant deletedAt;
@@ -103,14 +106,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return TimeHelper.formatDateTimeForDisplay(localDateTime);
     }
 
-    public void setDeletedAt() {
-        this.deletedAt = Instant.now();
-    }
-
-    public void setDeletedAt(Instant deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
     public void resetDeletedAt() {
         this.deletedAt = null;
     }
@@ -125,13 +120,11 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public List<String> getInvalidityInfo() {
-
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseId(getId()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(getId()), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseName(getName()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseName(getName()), errors);
 
         return errors;
     }
@@ -154,12 +147,12 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public String getEntityTypeAsString() {
-        return "Course";
+        return ATTRIBUTE_NAME;
     }
 
     @Override
     public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + getId();
+        return COURSE_BACKUP_LOG_MSG + getId();
     }
 
     @Override
@@ -187,6 +180,22 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public static void sortByCreatedDate(List<CourseAttributes> courses) {
         courses.sort(Comparator.comparing((CourseAttributes course) -> course.createdAt).reversed()
                 .thenComparing(course -> course.getId()));
+    }
+
+    /**
+     * Updates with {@link UpdateOptions}.
+     */
+    public void update(UpdateOptions updateOptions) {
+        updateOptions.deletedAtOption.ifPresent(s -> deletedAt = s);
+        updateOptions.nameOption.ifPresent(s -> name = s);
+        updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a course.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(String courseId) {
+        return new UpdateOptions.Builder(courseId);
     }
 
     public static class Builder {
@@ -221,5 +230,67 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
                 Assumption.assertNotNull(REQUIRED_FIELD_CANNOT_BE_NULL, object);
             }
         }
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link AccountAttributes}.
+     */
+    public static class UpdateOptions {
+        private String courseId;
+
+        private UpdateOption<Instant> deletedAtOption = UpdateOption.empty();
+        private UpdateOption<String> nameOption = UpdateOption.empty();
+        private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
+
+        private UpdateOptions(String courseId) {
+            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
+
+            this.courseId = courseId;
+        }
+
+        public String getCourseId() {
+            return courseId;
+        }
+
+        @Override
+        public String toString() {
+            return "CourseAttributes.UpdateOptions ["
+                    + "courseId = " + courseId
+                    + ", name = " + nameOption
+                    + ", deletedAt = " + deletedAtOption
+                    + ", timezone = " + timeZoneOption
+                    + "]";
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder {
+            private UpdateOptions updateOptions;
+
+            private Builder(String courseId) {
+                updateOptions = new UpdateOptions(courseId);
+            }
+
+            public Builder withName(String name) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, name);
+
+                updateOptions.nameOption = UpdateOption.of(name);
+                return this;
+            }
+
+            public Builder withTimezone(ZoneId timezone) {
+                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, timezone);
+
+                updateOptions.timeZoneOption = UpdateOption.of(timezone);
+                return this;
+            }
+
+            public UpdateOptions build() {
+                return updateOptions;
+            }
+
+        }
+
     }
 }

@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.TaskQueuesLogic;
@@ -65,75 +63,6 @@ public class TaskQueuer {
     }
 
     // The following methods are the actual API methods to be used by the client classes
-
-    /**
-     * Schedules an admin email preparation in address mode, i.e. using the address list given directly.
-     *
-     * @param emailId the ID of admin email to be retrieved from the database
-     * @param addressReceiverListString the list of email receivers given as String
-     */
-    public void scheduleAdminEmailPreparationInAddressMode(String emailId, String addressReceiverListString) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEIVERS, addressReceiverListString);
-
-        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_QUEUE_NAME,
-                TaskQueue.ADMIN_PREPARE_EMAIL_ADDRESS_MODE_WORKER_URL, paramMap);
-    }
-
-    /**
-     * Schedules an admin email preparation in group mode, i.e. using the group receiver list
-     * retrieved from the Google Cloud Storage (GCS).
-     * <p>
-     * This group receiver list is in the form of {@code List<List<String>>} accessed by two indices,
-     * namely "email list index" for accessing the {@code List<String>} inside the {@code List<List<String>>}
-     * and "email index" for accessing the email {@code String} inside the {@code List<String>}.
-     * </p>
-     *
-     * @param emailId the ID of admin email to be retrieved from the database
-     * @param groupReceiverListFileKey the file key for the group receiver list in GCS
-     * @param emailListIndex see method description
-     * @param emailIndex see method description
-     */
-    public void scheduleAdminEmailPreparationInGroupMode(String emailId, String groupReceiverListFileKey,
-                                                         int emailListIndex, int emailIndex) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, Integer.toString(emailListIndex));
-        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, Integer.toString(emailIndex));
-
-        addTask(TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_QUEUE_NAME,
-                TaskQueue.ADMIN_PREPARE_EMAIL_GROUP_MODE_WORKER_URL, paramMap);
-    }
-
-    /**
-     * Schedules an admin email to be sent.
-     *
-     * @param emailId the ID of admin email to be retrieved from the database (if needed)
-     * @param emailReceiver the email address of the email receiver
-     * @param emailSubject the subject of the email
-     * @param emailContent the content of the email
-     */
-    public void scheduleAdminEmailForSending(String emailId, String emailReceiver, String emailSubject,
-                                             String emailContent) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.ADMIN_EMAIL_RECEIVER, emailReceiver);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_SUBJECT, emailSubject);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_CONTENT, emailContent);
-
-        try {
-            addTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
-        } catch (IllegalArgumentException e) {
-            if (e.getMessage().toLowerCase().contains("task size too large")) {
-                log.info("Email task size exceeds max limit. Switching to large email task mode.");
-                paramMap.remove(ParamsNames.ADMIN_EMAIL_SUBJECT);
-                paramMap.remove(ParamsNames.ADMIN_EMAIL_CONTENT);
-                paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
-                addTask(TaskQueue.ADMIN_SEND_EMAIL_QUEUE_NAME, TaskQueue.ADMIN_SEND_EMAIL_WORKER_URL, paramMap);
-            }
-        }
-    }
 
     /**
      * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
@@ -231,13 +160,17 @@ public class TaskQueuer {
      * @param instructorEmail the email address of the invited instructor
      */
     public void scheduleCourseRegistrationInviteToInstructor(String inviterGoogleId,
-            String instructorEmail, String courseId) {
-
+            String instructorEmail, String courseId, String institute, boolean isRejoining) {
         Map<String, String> paramMap = new HashMap<>();
-
-        paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
+        if (inviterGoogleId != null) {
+            paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
+        }
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         paramMap.put(ParamsNames.COURSE_ID, courseId);
+        if (institute != null) {
+            paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        }
+        paramMap.put(ParamsNames.IS_INSTRUCTOR_REJOINING, String.valueOf(isRejoining));
 
         addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
                 TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
@@ -260,27 +193,8 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedules adjustments to be done to responses of a feedback session in the database
-     * after change is done to a course, typically after enrollment of new students
-     * or re-enrollment of old students, or both.
-     *
-     * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the name of the feedback session
-     * @param enrollmentList the list of enrollment details
+     * Schedules adjustments to be done for the respondents of a feedback session.
      */
-    public void scheduleFeedbackResponseAdjustmentForCourse(String courseId, String feedbackSessionName,
-                                                            List<StudentEnrollDetails> enrollmentList) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-
-        String enrollmentDetails = JsonUtils.toJson(enrollmentList);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
-
-        addTask(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME,
-                TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, paramMap);
-    }
-
     public void scheduleUpdateRespondentForSession(
             String courseId, String feedbackSessionName, String email, boolean isInstructor, boolean isToBeRemoved) {
         Map<String, String> paramMap = new HashMap<>();

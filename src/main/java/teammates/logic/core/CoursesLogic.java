@@ -151,6 +151,11 @@ public final class CoursesLogic {
     public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
                 throws EntityDoesNotExistException {
 
+        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
+        if (studentDataList.isEmpty()) {
+            throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
+        }
+
         List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
         CourseAttributes.sortById(courseList);
         List<CourseDetailsBundle> courseDetailsList = new ArrayList<>();
@@ -392,7 +397,7 @@ public final class CoursesLogic {
         Assumption.assertNotNull("Supplied parameter was null", cd);
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.sections = (ArrayList<SectionDetailsBundle>) getSectionsForCourse(cd, cdd);
+        cdd.sections = getSectionsForCourse(cd, cdd);
 
         return cdd;
     }
@@ -449,12 +454,8 @@ public final class CoursesLogic {
      *
      * @param googleId The Google ID of the student
      */
-    public List<CourseAttributes> getCoursesForStudentAccount(String googleId) throws EntityDoesNotExistException {
+    public List<CourseAttributes> getCoursesForStudentAccount(String googleId) {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
-
-        if (studentDataList.isEmpty()) {
-            throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
-        }
 
         List<String> courseIds = studentDataList.stream()
                 .filter(student -> !getCourse(student.course).isCourseDeleted())
@@ -575,7 +576,7 @@ public final class CoursesLogic {
     public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
-        HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<>();
+        Map<String, CourseDetailsBundle> courseSummaryList = new HashMap<>();
         List<String> courseIdList = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructorAttributesList) {
@@ -615,24 +616,25 @@ public final class CoursesLogic {
     }
 
     /**
-     * Updates the course details.
-     * @param courseId Id of the course to update
-     * @param courseName new name of the course
-     * @param courseTimeZone new time zone of the course
+     * Updates a course by {@link CourseAttributes.UpdateOptions}.
+     *
+     * <p>If the {@code timezone} of the course is changed, cascade the change to its corresponding feedback sessions.
+     *
+     * @return updated course
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the course cannot be found
      */
-    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+    public CourseAttributes updateCourseCascade(CourseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes newCourse = validateAndCreateCourseAttributes(courseId, courseName, courseTimeZone);
-        CourseAttributes oldCourse = coursesDb.getCourse(newCourse.getId());
+        CourseAttributes oldCourse = coursesDb.getCourse(updateOptions.getCourseId());
+        CourseAttributes updatedCourse = coursesDb.updateCourse(updateOptions);
 
-        if (oldCourse == null) {
-            throw new EntityDoesNotExistException("Trying to update a course that does not exist.");
+        if (!updatedCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
+            feedbackSessionsLogic
+                    .updateFeedbackSessionsTimeZoneForCourse(updatedCourse.getId(), updatedCourse.getTimeZone());
         }
 
-        coursesDb.updateCourse(newCourse);
-        if (!newCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
-            feedbackSessionsLogic.updateFeedbackSessionsTimeZoneForCourse(newCourse.getId(), newCourse.getTimeZone());
-        }
+        return updatedCourse;
     }
 
     /**
@@ -665,32 +667,25 @@ public final class CoursesLogic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
-     * @return Soft-deletion time of the course.
+     * @return the time when the course is moved to the recycle bin
      */
-    public Instant moveCourseToRecycleBin(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = coursesDb.getCourse(courseId);
-        course.setDeletedAt();
-        coursesDb.updateCourse(course);
+    public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
 
-        return course.deletedAt;
+        return coursesDb.softDeleteCourse(courseId);
     }
 
     /**
      * Restores a course from Recycle Bin by its given corresponding ID.
      */
-    public void restoreCourseFromRecycleBin(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes course = coursesDb.getCourse(courseId);
-        course.resetDeletedAt();
-        coursesDb.updateCourse(course);
+    public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
+        coursesDb.restoreDeletedCourse(courseId);
     }
 
     /**
      * Restores all courses from Recycle Bin.
      */
     public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull("Supplied parameter was null", instructorList);
 
         List<String> softDeletedCourseIdList = instructorList.stream()
@@ -706,7 +701,7 @@ public final class CoursesLogic {
     private Map<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
             List<InstructorAttributes> instructorAttributesList) {
 
-        HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
+        Map<String, CourseSummaryBundle> courseSummaryList = new HashMap<>();
 
         List<String> courseIdList = instructorAttributesList.stream()
                 .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
@@ -813,8 +808,8 @@ public final class CoursesLogic {
             String courseId, String courseName, String courseTimeZone) throws InvalidParametersException {
 
         // Imitate `CourseAttributes.getInvalidityInfo`
-        FieldValidator validator = new FieldValidator();
-        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
+
+        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
             // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
             CourseAttributes dummyCourse = CourseAttributes

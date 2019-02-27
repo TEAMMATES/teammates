@@ -8,15 +8,16 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.HtmlHelper;
+import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
-import teammates.test.driver.HtmlHelper;
-import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AppPage;
 
 /**
  * Verifies that God mode is working properly.
  */
-public class GodModeTest extends BaseUiTestCase {
+public class GodModeTest extends BaseE2ETestCase {
 
     private static final String PLACEHOLDER_CONTENT = "<div id=\"mainContent\">test</div>";
     private static final String OUTPUT_FILENAME = "/godmodeOutput.html";

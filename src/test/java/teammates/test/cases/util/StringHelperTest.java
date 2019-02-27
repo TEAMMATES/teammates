@@ -68,7 +68,7 @@ public class StringHelperTest extends BaseTestCase {
                 "names", "name", " name ", " names ", "student name", "students names",
                 "student names", "students name", "full name", "full names", "full   names",
                 "student full names", "students full    names", "Names", "NAMES", "Full Names",
-                "FULL NAMES", "Full Name", "Student Full Name", "Name"
+                "FULL NAMES", "Full Name", "Student Full Name", "Name",
         };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
@@ -79,7 +79,7 @@ public class StringHelperTest extends BaseTestCase {
         stringsToMatch = new String[] {
                 "section", "sections", "sect", "sec", "course sections", "courses sections",
                 "course section", "course sections", "course sec", "courses sec", "Section",
-                "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"
+                "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections",
         };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
@@ -92,7 +92,7 @@ public class StringHelperTest extends BaseTestCase {
                 "Groups", "GROUPS", "student teams", "students teams ", "student team",
                 "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
                 "Student Groups", "student   groups", "student   teams", "Course Teams",
-                "courses teams", "course   team", "courses team", "COURSE TEAM"
+                "courses teams", "course   team", "courses team", "COURSE TEAM",
         };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
@@ -105,7 +105,7 @@ public class StringHelperTest extends BaseTestCase {
                 "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
                 "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
                 "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
-                "E-mail  addresses", "Contact", "CONTACT", "contacts"
+                "E-mail  addresses", "Contact", "CONTACT", "contacts",
         };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
@@ -115,7 +115,7 @@ public class StringHelperTest extends BaseTestCase {
         regexList = FieldValidator.REGEX_COLUMN_COMMENT;
         stringsToMatch = new String[] {
                 "comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
-                "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "
+                "note", "Note", "NOTE", "notes", "Notes", "  NOTES  ",
         };
         verifyRegexMatch(stringsToMatch, regexList, true);
 
@@ -126,7 +126,7 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        ArrayList<String> strings = new ArrayList<>();
+        List<String> strings = new ArrayList<>();
         assertEquals("", StringHelper.toString(strings, ""));
         assertEquals("", StringHelper.toString(strings, "<br>"));
 
@@ -140,7 +140,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
         assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
 
-        ArrayList<Integer> ints = new ArrayList<>();
+        List<Integer> ints = new ArrayList<>();
         ints.add(1);
         ints.add(44);
         assertEquals("1\n44", StringHelper.toString(ints, "\n"));
@@ -444,7 +444,7 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testJoinWithListOfIntegers() {
-        assertEquals("", StringHelper.join(",", new ArrayList<Integer>()));
+        assertEquals("", StringHelper.join(",", new ArrayList<>()));
         assertEquals("5", StringHelper.join(",", Collections.singletonList(5)));
         assertEquals("5,14", StringHelper.join(",", Arrays.asList(5, 14)));
         assertEquals("5||14", StringHelper.join("||", Arrays.asList(5, 14)));

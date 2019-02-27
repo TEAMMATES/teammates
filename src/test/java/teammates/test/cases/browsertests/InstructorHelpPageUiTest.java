@@ -5,13 +5,14 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 
 /**
  * SUT: {@link InstructorHelpPage}.
  */
-public class InstructorHelpPageUiTest extends BaseUiTestCase {
+public class InstructorHelpPageUiTest extends BaseE2ETestCase {
     private static final By SEARCH_RESULTS = By.id("searchResults");
     private InstructorHelpPage helpPage;
 
@@ -22,7 +23,7 @@ public class InstructorHelpPageUiTest extends BaseUiTestCase {
 
     @BeforeClass
     public void classSetup() {
-        helpPage = AppPage.getNewPageInstance(browser, createUrl(Const.ActionURIs.INSTRUCTOR_HELP_PAGE + ".jsp"),
+        helpPage = AppPage.getNewPageInstance(browser, createUrl(Const.WebPageURIs.INSTRUCTOR_HELP_PAGE + ".jsp"),
                                                 InstructorHelpPage.class);
     }
 

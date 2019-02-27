@@ -1,0 +1,176 @@
+<h1 class="page-title" *ngIf="course"> {{course.name}}</h1>
+
+<div class="section" *ngIf="course">
+  <div class="col-sm-12">
+    <h4 class="font-weight-bold">Course</h4>
+  </div>
+  <div class="card border-primary">
+    <div class="card-body fill-plain">
+      <div class="form form-horizontal">
+        <div class="form-group row">
+          <div class="col-4 text-right">
+            <label>Name</label>
+          </div>
+          <div class="col-8">
+            <span>{{course.name}}</span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-4 text-right">
+            <label>ID</label>
+          </div>
+          <div class="col-8">
+            <span>{{course.id}}</span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-4 text-right">
+            <label>Timezone</label>
+          </div>
+          <div class="col-8">
+            <span>{{course.timeZone}}</span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-4 text-right">
+            <label>Created at</label>
+          </div>
+          <div class="col-8">
+            <span>{{course.createdAt}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" *ngIf="instructorDetails">
+  <div class="col-sm-12">
+    <h4 class="font-weight-bold">Instructors</h4>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th class="font-weight-bold">Name</th>
+              <th class="font-weight-bold">Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let instructorDetail of instructorDetails">
+              <td>{{instructorDetail.name}}</td>
+              <td>{{instructorDetail.email}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" *ngIf="student">
+  <div class="col-sm-12">
+    <h4 class="font-weight-bold">Self</h4>
+  </div>
+  <div class="card border-primary">
+    <div class="card-body fill-plain">
+      <div class="form form-horizontal">
+        <div class="form-group row">
+          <div class="col-4 text-right">
+            <label>Name</label>
+          </div>
+          <div class="col-8">
+            <span>{{student.name}}</span>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="student.section">
+          <div class="col-4 text-right">
+            <label>Section</label>
+          </div>
+          <div class="col-8">
+            <span>{{student.section}}</span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-4 text-right">
+            <label>Team</label>
+          </div>
+          <div class="col-8">
+            <span>{{student.team}}</span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-4 text-right">
+            <label>Email</label>
+          </div>
+          <div class="col-8">
+            <span>{{student.email}}</span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-4 text-right">
+            <label>Google ID</label>
+          </div>
+          <div class="col-8">
+            <span>{{student.googleId}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" *ngIf="teammateProfiles">
+  <div class="col-sm-12">
+    <h4 class="font-weight-bold">Teammates</h4>
+  </div>
+  <div class="row" *ngFor="let teammateProfile of teammateProfiles">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-md-2 col-3">
+          <img src="{{getPictureUrl(teammateProfile.pictureKey)}}" class="profile-pic float-left">
+        </div>
+        <div class="col-md-10 col-sm-9 col-8">
+          <table class="table table-striped">
+            <tbody>
+            <tr>
+              <td class="font-weight-bold">Name</td>
+              <td>
+                <span>{{teammateProfile.shortName}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-weight-bold">Email</td>
+              <td>
+                <span>{{teammateProfile.email}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-weight-bold">Gender</td>
+              <td>
+                <span *ngIf="teammateProfile.gender != Gender.OTHER">{{teammateProfile.gender}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-weight-bold">Institution</td>
+              <td>
+                <span *ngIf="teammateProfile.institute">{{teammateProfile.institute}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-weight-bold">Nationality</td>
+              <td>
+                <span *ngIf="teammateProfile.nationality">{{teammateProfile.nationality}}</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

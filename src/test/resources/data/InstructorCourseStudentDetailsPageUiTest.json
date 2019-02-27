@@ -128,7 +128,8 @@
       "course": "CCSDetailsUiT.CS2104",
       "name": "José Gómez",
       "comments": "This student's name is José Gómez",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "unregisteredStudent": {
       "googleId": "",
@@ -136,7 +137,8 @@
       "course": "CCSDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "student1InTestingSanitizationCourse": {
       "googleId": "CCSDetailsUiT.sanitizationStud",
@@ -159,7 +161,7 @@
       "email": "jose@e.tmt",
       "institute": "TEAMMATES Test Institute 7",
       "nationality": "Laotian",
-      "gender": "other",
+      "gender": "OTHER",
       "moreInfo": "This is a lot of info...",
       "pictureKey": ""
     },
@@ -169,7 +171,7 @@
       "email": "weird&'@gmail.tmt",
       "institute": "school'/><script>alert('hi!');</script>",
       "nationality": "American",
-      "gender": "other",
+      "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
       "pictureKey": ""
     }

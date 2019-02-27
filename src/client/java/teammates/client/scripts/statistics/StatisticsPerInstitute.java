@@ -6,7 +6,7 @@ import java.time.Instant;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.client.scripts.util.LoopHelper;
+import teammates.client.util.LoopHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
 

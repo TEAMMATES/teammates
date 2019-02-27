@@ -1,0 +1,130 @@
+<div>
+  <h1 class="color-orange">About Us</h1>
+  <p class="h3">Acknowledgements:</p>
+  <p>
+    TEAMMATES team wishes to thank the following invaluable contributions:
+  </p>
+  <ul>
+    <li>
+      <a href="http://www.comp.nus.edu.sg/" target="_blank" rel="noopener noreferrer"><b>School of Computing, National University of Singapore (NUS)</b></a>, for providing us with the infrastructure support to run the project.
+    </li>
+    <li>
+      <a href="http://www.cdtl.nus.edu.sg/" target="_blank" rel="noopener noreferrer"><b>Centre for Development of Teaching and Learning (CDTL)</b></a> of NUS, for supporting us with several Teaching Enhancement Grants over the years.
+    </li>
+    <li>
+      <b>Learning Innovation Fund-Technology (LIF-T)</b> initiative of NUS, for funding us for the 2015-2018 period.
+    </li>
+    <li>
+      <b>Google Summer of Code</b> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015, GSoC2016, GSoC2017, and GSoC2018 editions.
+    </li>
+    <li>
+      <b>Facebook Open Academy</b> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
+    </li>
+    <li>
+      <b>Jet Brains</b>, for the <a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener noreferrer">Intellij IDEA</a> licences.
+    </li>
+    <li>
+      <img src="assets/images/yklogo.png" width="100">
+      <b><a href="https://www.yourkit.com" target="_blank" rel="noopener noreferrer">YourKit LLC</a></b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>.
+    </li>
+    <li>
+      <img src="assets/images/saucelabs.png" width="100">
+      <b><a href="https://saucelabs.com" target="_blank" rel="noopener noreferrer">SauceLabs</a></b>, for providing us with a free <a href="https://saucelabs.com/open-source" target="_blank" rel="noopener noreferrer">Open Sauce account</a> for cross-browser testing.
+    </li>
+  </ul>
+  <p>
+    TEAMMATES has benefitted from the work of {{ nDevelopers }} developers.
+  </p>
+
+  <h3>Core Team:</h3>
+  <div *ngFor="let teamMember of teamMembers" class="row core-team">
+    <div *ngIf="teamMember.image" class="col-xs-8 offset-xs-2 col-sm-5 offset-sm-0 col-md-4 col-lg-3 text-center">
+      <img class="img-core-team" src="{{ teamMember.image }}" alt="{{ teamMember.name }}">
+    </div>
+    <div class="col-xs-10 offset-xs-1 col-sm-7 offset-sm-0 col-md-8 margin-top-7px">
+      <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer"><strong>{{ teamMember.name }}</strong></a>
+      <br><br>
+      <strong>{{ teamMember.currentPosition }}</strong>
+      <br>
+      <span *ngFor="let position of teamMember.pastPositions">
+        {{ position }}<br>
+      </span>
+    </div>
+  </div>
+
+  <h3>Committers:</h3>
+  <ol>
+    <li *ngFor="let committer of committers">
+      <span *ngIf="committer.image">
+        <img src="{{ committer.image }}" alt="{{ committer.name }}" width="120px"><br>
+      </span>
+      <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
+      ({{ committer.startPeriod }} - )
+    </li>
+  </ol>
+
+  <h3>Past Team Members:</h3>
+  <ol>
+    <li *ngFor="let teamMember of pastTeamMembers">
+      <span *ngIf="teamMember.image">
+        <img src="{{ teamMember.image }}" alt="{{ teamMember.name }}" width="120px"><br>
+      </span>
+      <span *ngIf="teamMember.url">
+        <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer">{{ teamMember.name }}</a>
+      </span>
+      <span *ngIf="!teamMember.url">{{ teamMember.name }}</span>
+      <ul>
+        <li *ngFor="let position of teamMember.pastPositions">
+          {{ position }}
+        </li>
+      </ul>
+    </li>
+  </ol>
+
+  <h3>Past Committers:</h3>
+  <ol>
+    <li *ngFor="let committer of pastCommitters">
+      <span *ngIf="committer.image">
+        <img src="{{ committer.image }}" alt="{{ committer.name }}" width="120px"><br>
+      </span>
+      <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
+      ({{ committer.startPeriod }} - {{ committer.endPeriod }})
+    </li>
+  </ol>
+
+  <h3>Contributors</h3>
+
+  <h4>Major contributions:</h4>
+  <ol>
+    <li *ngFor="let contributor of majorContributors">
+      <span *ngIf="contributor.image">
+        <img src="{{ contributor.image }}" alt="{{ contributor.name }}" width="120px"><br>
+      </span>
+      <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{ contributor.name }}</a>
+    </li>
+  </ol>
+
+  <h4>Multiple contributions:</h4>
+  <ol>
+    <li *ngFor="let contributor of multipleContributors">
+      <span *ngIf="contributor.url">
+        <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{ contributor.displayedName }}</a>
+      </span>
+      <span *ngIf="!contributor.url">{{ contributor.displayedName }}</span>
+    </li>
+  </ol>
+
+  <h4>One-time contributions:</h4>
+  <ol>
+    <li *ngFor="let contributor of singleContributors">
+      <span *ngIf="contributor.url">
+        <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{ contributor.displayedName }}</a>
+      </span>
+      <span *ngIf="!contributor.url">{{ contributor.displayedName }}</span>
+    </li>
+  </ol>
+
+  <p>
+    Would you like to join the TEAMMATES team as a contributor? <a routerLink="/web/front/contact">Contact us.</a>
+  </p>
+</div>

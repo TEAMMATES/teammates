@@ -231,7 +231,8 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "section": "None"
     },
     "benny.tmms@CCDetailsUiT.CS2104": {
       "googleId": "",
@@ -239,7 +240,8 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "charlie.tmms@CCDetailsUiT.CS2104": {
       "googleId": "",
@@ -247,7 +249,8 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 1</option><option value=\"dump\"></td><td>'\""
+      "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "section": "None"
     },
     "danny.tmms@CCDetailsUiT.CS2104": {
       "googleId": "danny.tmms",
@@ -255,7 +258,8 @@
       "course": "CCDetailsUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103": {
       "googleId": "${value.injected.in.testfile}",
@@ -305,7 +309,7 @@
       "email": "weird&'@gmail.tmt",
       "institute": "inst<script> alert('hi!'); </script>",
       "nationality": "American",
-      "gender": "other",
+      "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
       "pictureKey": ""
     }

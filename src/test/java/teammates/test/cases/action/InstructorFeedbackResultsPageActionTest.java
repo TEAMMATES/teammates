@@ -44,7 +44,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         String[] param = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
         };
 
         InstructorFeedbackResultsPageAction action = getAction(param);
@@ -58,94 +58,129 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsWithoutSortType = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
         String[] paramsWithSortTypeQuestion = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
         };
         String[] paramsWithSortTypeGiverRecipientQuestion = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-recipient-question"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-recipient-question",
         };
         String[] paramsWithSortTypeRecipientGiverQuestion = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question",
         };
         String[] paramsWithSortTypeGiverQuestionRecipient = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-question-recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-question-recipient",
         };
         String[] paramsWithSortTypeRecipientQuestionGiver = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-question-giver"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-question-giver",
         };
         String[] paramsWithSortTypeUndefined = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "undefined"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "undefined",
         };
         String[] paramsNeedAjax = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "undefined",
-                Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, "true"
+                Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, "true",
         };
         String[] paramsWithStartIndex = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "undefined",
-                Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX, "1"
+                Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX, "1",
         };
         String[] paramsQuestionNumberOne = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
-                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1"
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
         };
-        String[] paramsSectionOneByQuestion = {
+        // either will be chosen by default when a section is selected
+        String[] paramsEitherSectionOneByQuestion = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EITHER",
+        };
+        String[] paramsFromSectionOneByQuestion = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "GIVER",
+        };
+        String[] paramsToSectionOneByQuestion = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EVALUEE",
+        };
+        String[] paramsBothSectionOneByQuestion = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "BOTH",
         };
         String[] paramsSectionOneByGrq = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "giver-recipient-question",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
         };
         String[] paramsSectionOneByRgq = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
         };
         String[] paramsNeedHtmlTableAllSections = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question",
-                Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true"
+                Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true",
         };
         String[] paramsNeedHtmlTableSectionOne = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient-giver-question",
                 Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true",
-                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1"
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "EITHER",
+        };
+        String[] paramsWithInvalidSectionDetail = {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, "Section+1",
+                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL, "ALL",
         };
 
         ______TS("Failure case: no params");
 
         this.verifyAssumptionFailure();
         this.verifyAssumptionFailure(new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourseId()
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
         });
+
+        ______TS("Failure case: params with invalid feedback section detail");
+
+        this.verifyAssumptionFailure(paramsWithInvalidSectionDetail);
 
         ______TS("Typical case: no sortType param");
 
@@ -283,8 +318,47 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
 
-        ______TS("Typical case: view section 1 sortType question");
-        action = getAction(paramsSectionOneByQuestion);
+        ______TS("Typical case: view default / either recipient or giver in section 1 sortType question");
+        action = getAction(paramsEitherSectionOneByQuestion);
+        result = getShowPageResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                        false,
+                        "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
+        assertEquals("", result.getStatusMessage());
+        assertFalse(result.isError);
+
+        ______TS("Typical case: view giver from section 1 sortType question");
+        action = getAction(paramsFromSectionOneByQuestion);
+        result = getShowPageResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                        false,
+                        "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
+        assertEquals("", result.getStatusMessage());
+        assertFalse(result.isError);
+
+        ______TS("Typical case: view recipient to section 1 sortType question");
+        action = getAction(paramsToSectionOneByQuestion);
+        result = getShowPageResult(action);
+
+        assertEquals(
+                getPageResultDestination(
+                        Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION,
+                        false,
+                        "idOfInstructor1OfCourse1"),
+                result.getDestinationWithParams());
+        assertEquals("", result.getStatusMessage());
+        assertFalse(result.isError);
+
+        ______TS("Typical case: view both recipient and section from section 1 sortType question");
+        action = getAction(paramsBothSectionOneByQuestion);
         result = getShowPageResult(action);
 
         assertEquals(
@@ -332,7 +406,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         assertEquals("", ajaxResult.getStatusMessage());
         assertFalse(ajaxResult.isError);
 
-        ______TS("Typical case: view HTML table section 1");
+        ______TS("Typical case: view HTML table either giver or recipient in section 1");
         action = getAction(paramsNeedHtmlTableSectionOne);
         ajaxResult = getAjaxResult(action);
 
@@ -355,7 +429,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
 
     @Override
     protected InstructorFeedbackResultsPageAction getAction(String... params) {
-        return (InstructorFeedbackResultsPageAction) gaeSimulation.getActionObject(getActionUri(), params);
+        return (InstructorFeedbackResultsPageAction) gaeSimulation.getLegacyActionObject(getActionUri(), params);
     }
 
     @Override
@@ -365,7 +439,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName()
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

@@ -18,7 +18,8 @@ import teammates.ui.automated.FeedbackSessionResendPublishedEmailWorkerAction;
 /**
  * SUT: {@link FeedbackSessionResendPublishedEmailWorkerAction}.
  */
-public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAutomatedActionTest {
+public class FeedbackSessionResendPublishedEmailWorkerActionTest
+        extends BaseAutomatedActionTest<FeedbackSessionResendPublishedEmailWorkerAction> {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
@@ -41,7 +42,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAut
                 ParamsNames.SUBMISSION_COURSE, publishedSession.getCourseId(),
                 ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, student1.email,
                 ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, instructor1.email,
-                ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, "non-existent"
+                ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, "non-existent",
         };
 
         FeedbackSessionResendPublishedEmailWorkerAction action = getAction(submissionParams);
@@ -59,12 +60,6 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAut
             String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
             assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.email));
         }
-    }
-
-    @Override
-    protected FeedbackSessionResendPublishedEmailWorkerAction getAction(String... params) {
-        return (FeedbackSessionResendPublishedEmailWorkerAction)
-                gaeSimulation.getAutomatedActionObject(getActionUri(), params);
     }
 
 }

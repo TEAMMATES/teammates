@@ -75,9 +75,9 @@ Note that these roles are not fixed or formally assigned; it is simply for guida
 Roles:
 
 * **Web page developer**: Works on static web pages, such as those used in the TEAMMATES product web site.
-* **Front end developer**: Works on the front end of the app that is generated dynamically from the server side.
+* **Front-end developer**: Works on the front-end of the app, i.e. the dynamically-generated user interface.
 * **Test developer**: Works on automating system tests.
-* **Back end developer**: Works on the back end logic of the app, including data storage.
+* **Back-end developer**: Works on the back-end logic of the app, including data storage.
 * **DevOps developer**: Works on automations (CI, static analysis, scripting) and operations (logging, monitoring, troubleshooting).
 
 ### Orientation task list
@@ -86,7 +86,7 @@ Roles:
 
 1. [Set up TEAMMATES development environment on your computer.](setting-up.md)<br>
    **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
-1. Get the tests to pass (more info in [_Development Guidelines_ document](development.md)).
+1. Get *dev green* (more info in [_Development Guidelines_ document](development.md)).
    It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
 #### Phase B: Learn

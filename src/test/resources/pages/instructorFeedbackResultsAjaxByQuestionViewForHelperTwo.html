@@ -68,6 +68,7 @@
                   <input name="fsname" type="hidden" value="First Session">
                   <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
                   <input name="sectionname" type="hidden" value="All">
+                  <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
                   <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="false">
                   <input name="frindicatemissingresponses" type="hidden" value="false">
                 </form>
@@ -103,6 +104,7 @@
     <input name="fsname" type="hidden" value="First Session">
     <input name="user" type="hidden" value="CFResultsUiT.helper2">
     <input name="frgroupbysection" type="hidden" value="All">
+    <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
     <input name="csvtohtmltable" type="hidden" value="true">
   </form>
   <div class="modal fade align-center" id="fsResultsTableWindow">
@@ -138,7 +140,7 @@
             to PASTE to your Excel Workbook.
           </span>
         </div>
-        <div class="modal-body">
+        <div class="modal-body horizontal-scrollbar">
           <div class="table-responsive">
             <div id="fsModalTable">
             </div>
@@ -155,13 +157,13 @@
   <div style="margin-bottom: 10px">
     <div class="well well-plain">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
           <div data-original-title="View results in different formats" data-toggle="tooltip" title="">
             <div class="row">
-              <label class="col-md-offset-1 col-md-3">
+              <label class="col-md-offset-1 col-md-5">
                 View:
               </label>
-              <div class="col-md-8">
+              <div class="col-md-6">
                 Group by - Question
               </div>
             </div>
@@ -169,16 +171,19 @@
           <br>
           <div class="row">
             <div data-original-title="View results by sections" data-toggle="tooltip" title="">
-              <label class="col-md-offset-1 col-md-3">
+              <label class="col-md-offset-1 col-md-5">
                 Section:
               </label>
-              <div class="col-md-8">
+              <div class="col-md-6">
                 All
               </div>
             </div>
           </div>
+          <br>
+          <div class="row" id="selectedSection">
+          </div>
         </div>
-        <div class="col-md-offset-4 pull-right col-md-3 margin-bottom-15px">
+        <div class="col-md-offset-3 pull-right col-md-3 margin-bottom-15px">
           <label>
             Additional settings:
           </label>
@@ -216,7 +221,7 @@
       </div>
     </div>
     <div class="modal fade" id="editModal" role="dialog">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <form action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&fsname=First+Session&user=CFResultsUiT.helper2" method="post">
           <div class="modal-content">
             <div class="modal-header alert-info">
@@ -271,6 +276,30 @@
                         </option>
                         <option value="None">
                           No specific section
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div data-original-title="Choose the way responses for the selected section is viewed" data-toggle="tooltip" title="">
+                    <div class="form-group">
+                      <label class="control-label" for="sectionSelectDetails">
+                        If showing only a section:
+                      </label>
+                      <select class="form-control" id="sectionSelectDetails" name="frgroupbysectiondetail">
+                        <option value="EITHER">
+                          Show response if either the giver or evaluee is in the selected section
+                        </option>
+                        <option value="GIVER">
+                          Show response if the giver is in the selected section
+                        </option>
+                        <option value="EVALUEE">
+                          Show response if the evaluee is in the selected section
+                        </option>
+                        <option value="BOTH">
+                          Show response only if both are in the selected section
+                        </option>
+                        <option selected="" value="NOT_APPLICABLE">
+                          This option is not applicable as all sections are selected
                         </option>
                       </select>
                     </div>
@@ -350,6 +379,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon pull-right glyphicon-chevron-up">
@@ -363,6 +393,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1887,6 +1918,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -1900,6 +1932,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1933,6 +1966,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -1946,6 +1980,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -1979,6 +2014,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -1992,6 +2028,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2025,6 +2062,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -2038,6 +2076,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2071,6 +2110,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -2084,6 +2124,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2117,6 +2158,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -2130,6 +2172,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2186,6 +2229,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -2199,6 +2243,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2255,6 +2300,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -2268,6 +2314,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2312,6 +2359,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -2325,6 +2373,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
@@ -2369,6 +2418,7 @@
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">
         <input name="frgroupbysection" type="hidden" value="All">
+        <input name="frgroupbysectiondetail" type="hidden" value="NOT_APPLICABLE">
       </form>
       <div class="display-icon pull-right">
         <span class="glyphicon glyphicon-chevron-down pull-right">
@@ -2382,6 +2432,7 @@
         <input name="fsname" type="hidden" value="First Session">
         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104">
         <input name="sectionname" type="hidden" value="All">
+        <input name="sectionnamedetail" type="hidden" value="NOT_APPLICABLE">
         <input id="statsShownCheckBox" name="frshowstats" type="hidden" value="">
         <input name="frindicatemissingresponses" type="hidden" value="false">
         <input name="questionid" type="hidden" value="${question.id}">

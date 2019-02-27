@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import teammates.e2e.pageobjects.Browser;
+
 public class StudentCourseDetailsPage extends AppPage {
 
     public StudentCourseDetailsPage(Browser browser) {

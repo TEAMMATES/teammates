@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="component-tests">
+    <test name="component-tests">
+        <packages>
+            <package name="teammates.test.cases.storage" />
+            <package name="teammates.test.cases.search" />
+            <package name="teammates.test.cases.automated" />
+            <package name="teammates.test.cases.datatransfer" />
+            <package name="teammates.test.cases.testdriver" />
+            <package name="teammates.test.cases.util" />
+            <package name="teammates.test.cases.logic" />
+            <package name="teammates.test.cases.action" />
+            <package name="teammates.test.cases.webapi" />
+        </packages>
+    </test>
+</suite>

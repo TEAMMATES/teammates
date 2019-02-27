@@ -468,6 +468,7 @@
       "section": "None"
     },
     "student1InUnregisteredCourse": {
+      "googleId": "",
       "email": "student1InUnregisteredCourse@gmail.tmt",
       "course": "idOfUnregisteredCourse.access",
       "name": "student1 In unregisteredCourse",
@@ -633,8 +634,10 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "What is the best selling point of your product?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -653,8 +656,10 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Rate 1 other student's product",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -675,8 +680,10 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "My comments on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      },
       "questionNumber": 3,
       "questionType": "TEXT",
       "giverType": "SELF",
@@ -704,8 +711,10 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Instructor comments on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Instructor comments on the class"
+      },
       "questionNumber": 4,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -733,8 +742,10 @@
     "team.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Give feedback to 2 other teams.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -753,8 +764,10 @@
     "team.members.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Give feedback to 1 of your team mates",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 1 of your team mates"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -773,8 +786,10 @@
     "graceperiod.session.feedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Give feedback to 2 other teams.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "TEAMS",
@@ -793,8 +808,10 @@
     "graceperiod.session.feedback2": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Give feedback to yourself.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to yourself."
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -813,8 +830,10 @@
     "closed.session.feedback": {
       "feedbackSessionName": "Closed Session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Give feedback to yourself.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to yourself."
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -833,8 +852,10 @@
     "qn1InSession4InCourse1": {
       "feedbackSessionName": "non visible session",
       "courseId": "idOfTypicalCourse1.access",
-      "creatorEmail": "instructor1@course1.tmt",
-      "questionMetaData": "Give feedback to 4 other students",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 4 other students"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
@@ -853,8 +874,10 @@
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2.access",
-      "creatorEmail": "instructor1@course2.tmt",
-      "questionMetaData": "Please rate the following teams",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Please rate the following teams"
+      },
       "questionNumber": 1,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -867,8 +890,10 @@
     "qn2InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2.access",
-      "creatorEmail": "instructor1@course2.tmt",
-      "questionMetaData": "Please rate your fellow instructors",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Please rate your fellow instructors"
+      },
       "questionNumber": 2,
       "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
@@ -884,144 +909,170 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1.access@gmail.tmt",
       "recipient": "student1InCourse1.access@gmail.tmt",
-      "responseMetaData": "Student 1 self feedback.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Student 1 self feedback."
+      }
     },
     "response2ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1.access@gmail.tmt",
       "recipient": "student2InCourse1.access@gmail.tmt",
-      "responseMetaData": "I'm cool'",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
+      }
     },
     "response1ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student2InCourse1.access@gmail.tmt",
       "recipient": "student1InCourse1.access@gmail.tmt",
-      "responseMetaData": "Response from student 2 to student 1.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 2 to student 1."
+      }
     },
     "response2ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1.access@gmail.tmt",
       "recipient": "student2InCourse1.access@gmail.tmt",
-      "responseMetaData": "Response from student 1 to student 2.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 1 to student 2."
+      }
     },
     "response3ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student2InCourse1.access@gmail.tmt",
-      "responseMetaData": "Response from student 3 \"to\" student 2.\r\nMultiline test.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 3 \"to\" student 2.\r\nMultiline test."
+      }
     },
     "response1ForQ3S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "3",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "%GENERAL%",
-      "responseMetaData": "Good work, keep it up!",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Good work, keep it up!"
+      }
     },
     "response1ForQ1S2C1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": "Response from team 1 by (student 4) to team 1.2.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 2"
+      "recipientSection": "Section 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from team 1 by (student 4) to team 1.2."
+      }
     },
     "response1GracePeriodFeedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "Team 1.2",
-      "responseMetaData": "Response from team 1 by (student 4) to team 1.2.",
       "giverSection": "Section 1",
-      "recipientSection": "Section 2"
+      "recipientSection": "Section 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from team 1 by (student 4) to team 1.2."
+      }
     },
     "response1Q2GracePeriodFeedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "responseMetaData": "Response from instructor to self.",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from instructor to self."
+      }
     },
     "response1Q1ClosedPeriodFeedback": {
       "feedbackSessionName": "Closed Session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "responseMetaData": "Response from Inst1 to self.",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from Inst1 to self."
+      }
     },
     "response1ForQ2S2C1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student4InCourse1@gmail.tmt",
       "recipient": "student2InCourse1.access@gmail.tmt",
-      "responseMetaData": "Response from student 4 to team member (student 2).",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 4 to team member (student 2)."
+      }
     },
     "response2ForQ2S2C1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1.access",
       "feedbackQuestionId": "2",
-      "feedbackQuestionType": "TEXT",
       "giver": "student1InCourse1.access@gmail.tmt",
       "recipient": "student4InCourse1@gmail.tmt",
-      "responseMetaData": "Response from student 1 to team member (student 4).",
       "giverSection": "Section 1",
-      "recipientSection": "Section 1"
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from student 1 to team member (student 4)."
+      }
     },
     "response1ForQ1S1C2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2.access",
       "feedbackQuestionId": "1",
-      "feedbackQuestionType": "TEXT",
       "giver": "instructor1@course2.tmt",
       "recipient": "Team 2.1",
-      "responseMetaData": "Response from instr to Team 2.1",
       "giverSection": "None",
-      "recipientSection": "None"
+      "recipientSection": "None",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from instr to Team 2.1"
+      }
     }
   },
   "feedbackResponseComments": {
@@ -1064,14 +1115,14 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "3%student1InCourse1.access@gmail.tmt%student1InCourse1.access@gmail.tmt",
+      "feedbackResponseId": "3%instructor1@course1.tmt%%GENERAL%",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-01-01T23:59:00Z",
-      "commentText": "Instructor 1 comment to student 1 self feedback Question 3"
+      "commentText": "Instructor 1 comment to his own response for feedback Question 3"
     }
   },
   "profiles": {
@@ -1081,7 +1132,7 @@
       "email": "i.m.stud1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 3",
       "nationality": "American",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am just a student :P",
       "pictureKey": "asdf34&hfn3!@"
     }

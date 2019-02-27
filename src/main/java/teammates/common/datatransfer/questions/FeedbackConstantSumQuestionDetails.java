@@ -497,6 +497,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     @Override
+    public String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent) {
+        // TODO
+        return "";
+    }
+
+    @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
@@ -618,13 +626,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private void updateOptionPointsMapping(
             Map<String, List<Integer>> optionPoints,
             String optionReceivingPoints, int pointsReceived) {
-        List<Integer> points = optionPoints.get(optionReceivingPoints);
-        if (points == null) {
-            points = new ArrayList<>();
-            optionPoints.put(optionReceivingPoints, points);
-        }
-
-        points.add(pointsReceived);
+        optionPoints.computeIfAbsent(optionReceivingPoints, key -> new ArrayList<>()).add(pointsReceived);
     }
 
     /**

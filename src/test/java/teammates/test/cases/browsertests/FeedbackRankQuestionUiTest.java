@@ -10,14 +10,14 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
+import teammates.e2e.util.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_EDIT_PAGE},
+ * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for rank questions.
  * TODO: Backend validation. Blocked by #8646
  */
@@ -643,7 +643,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
         feedbackEditPage.clickAddQuestionButton();
         JSONObject rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                                                                        .questionMetaData);
+                                                                        .getSerializedQuestionDetails());
         assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                      rankOptionsQuestionDetails.get("options").toString());
 
@@ -655,7 +655,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                                                            .questionMetaData);
+                                                            .getSerializedQuestionDetails());
         assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                      rankOptionsQuestionDetails.get("options").toString());
 
@@ -667,7 +667,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                                                            .questionMetaData);
+                                                            .getSerializedQuestionDetails());
         assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
                      rankOptionsQuestionDetails.get("options").toString());
 
@@ -683,7 +683,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         rankOptionsQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                                                            .questionMetaData);
+                                                            .getSerializedQuestionDetails());
         assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
                      rankOptionsQuestionDetails.get("options").toString());
 
@@ -696,7 +696,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+        AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                         .withUserId(instructorId)
                         .withCourseId(courseId)
                         .withSessionName(feedbackSessionName)
@@ -706,7 +706,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
             String instructorName, String fsName) {
-        AppUrl submitPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl submitPageUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                         .withUserId(testData.instructors.get(instructorName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
@@ -715,7 +715,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
             String studentName, String fsName) {
-        AppUrl submitPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+        AppUrl submitPageUrl = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                         .withUserId(testData.students.get(studentName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());

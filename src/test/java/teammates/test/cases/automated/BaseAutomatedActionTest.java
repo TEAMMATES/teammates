@@ -12,14 +12,19 @@ import teammates.ui.automated.AutomatedAction;
 
 /**
  * Base class for all automated actions tests.
+ *
+ * @param <T> The automated action class being tested.
  */
-public abstract class BaseAutomatedActionTest extends BaseComponentTestCase {
+public abstract class BaseAutomatedActionTest<T extends AutomatedAction> extends BaseComponentTestCase {
 
     protected DataBundle dataBundle;
 
     protected abstract String getActionUri();
 
-    protected abstract AutomatedAction getAction(String... params);
+    @SuppressWarnings("unchecked")
+    protected T getAction(String... params) {
+        return (T) gaeSimulation.getAutomatedActionObject(getActionUri(), params);
+    }
 
     @BeforeClass
     public void baseClassSetup() {

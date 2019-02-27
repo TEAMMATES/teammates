@@ -2,12 +2,13 @@ package teammates.test.cases.browsertests;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 /**
  * Base class for all Feedback*QuestionUiTest.
  */
-public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
+public abstract class FeedbackQuestionUiTest extends BaseE2ETestCase {
 
     protected abstract void testNewQuestionFrame();
 
@@ -23,7 +24,7 @@ public abstract class FeedbackQuestionUiTest extends BaseUiTestCase {
 
     protected InstructorFeedbackEditPage getFeedbackEditPage(String instructorId, String courseId,
             String feedbackSessionName) {
-        AppUrl feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).withUserId(instructorId)
+        AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE).withUserId(instructorId)
                 .withCourseId(courseId).withSessionName(feedbackSessionName).withEnableSessionEditDetails(true);
         return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
     }

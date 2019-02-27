@@ -31,6 +31,14 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         recommendedLength = 0;
     }
 
+    public int getRecommendedLength() {
+        return recommendedLength;
+    }
+
+    public void setRecommendedLength(int recommendedLength) {
+        this.recommendedLength = recommendedLength;
+    }
+
     @Override
     public List<String> getInstructions() {
         return null;
@@ -150,6 +158,14 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent) {
+        // TODO
+        return "";
+    }
+
+    @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
@@ -170,7 +186,11 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public List<String> validateQuestionDetails(String courseId) {
-        return new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+        if (recommendedLength < 0) {
+            errors.add(Const.FeedbackQuestion.TEXT_ERROR_INVALID_RECOMMENDED_LENGTH);
+        }
+        return errors;
     }
 
     @Override
@@ -194,5 +214,4 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
     }
-
 }

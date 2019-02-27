@@ -293,7 +293,8 @@
       "course": "CFeedbackUiT.CS2104",
       "name": "Alice Betsy</td></div>'\"",
       "comments": "This student's name is Alice Betsy</td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "benny.tmms@CFeedbackUiT.CS2104": {
       "googleId": "CFeedbackUiT.benny.tmms",
@@ -301,7 +302,8 @@
       "course": "CFeedbackUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "charlie.tmms@CFeedbackUiT.CS1101": {
       "googleId": "CFeedbackUiT.charlie.tmms",
@@ -309,7 +311,8 @@
       "course": "CFeedbackUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     },
     "danny.tmms@CFeedbackUiT.CS1101": {
       "googleId": "CFeedbackUiT.danny.tmms",
@@ -317,7 +320,8 @@
       "course": "CFeedbackUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "None"
     }
   },
   "feedbackSessions": {

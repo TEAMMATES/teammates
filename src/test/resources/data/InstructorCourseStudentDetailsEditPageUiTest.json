@@ -47,7 +47,8 @@
       "course": "CCSDEditUiT.CS2104",
       "name": "José Gómez</option></td></div>'\"",
       "comments": "This student's name is José Gómez</option></td></div>'\"",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     },
     "unregisteredStudent": {
       "googleId": "",
@@ -55,7 +56,8 @@
       "course": "CCSDEditUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\""
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {},

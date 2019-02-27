@@ -7,18 +7,19 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.test.driver.Priority;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.Priority;
 import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.GenericAppPage;
 
 /**
- * SUT: {@link Const.ActionURIs#AUTOMATED_FEEDBACK_OPENING_REMINDERS},
- *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_CLOSING_REMINDERS},
- *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_CLOSED_REMINDERS},
- *      {@link Const.ActionURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
+ * SUT: {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_OPENING_REMINDERS},
+ *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_CLOSING_REMINDERS},
+ *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_CLOSED_REMINDERS},
+ *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
  */
 @Priority(5)
-public class AutomatedSessionRemindersTest extends BaseUiTestCase {
+public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
@@ -38,9 +39,6 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         testData.feedbackSessions.get("closingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("openingSession").setCreatorEmail(Config.SUPPORT_EMAIL);
         testData.feedbackSessions.get("publishedSession").setCreatorEmail(Config.SUPPORT_EMAIL);
-        testData.feedbackQuestions.get("questionForOpeningSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackQuestions.get("questionForClosingSession").creatorEmail = Config.SUPPORT_EMAIL;
-        testData.feedbackQuestions.get("questionForPublishedSession").creatorEmail = Config.SUPPORT_EMAIL;
 
         // Set closing time of one feedback session to tomorrow
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
@@ -61,25 +59,25 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
 
     @Test
     public void testFeedbackSessionOpeningReminders() {
-        AppUrl openingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
+        AppUrl openingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
         loginAdminToPage(openingRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionClosingReminders() {
-        AppUrl closingRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
+        AppUrl closingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(closingRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionClosedReminders() {
-        AppUrl closedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
+        AppUrl closedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
         loginAdminToPage(closedRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionPublishedReminders() {
-        AppUrl publishedRemindersUrl = createUrl(Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
+        AppUrl publishedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
         loginAdminToPage(publishedRemindersUrl, GenericAppPage.class);
     }
 

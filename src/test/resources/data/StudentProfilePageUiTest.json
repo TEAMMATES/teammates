@@ -129,7 +129,8 @@
       "course": "SProfileUiT.CS2104",
       "name": "Benny C",
       "comments": "This student's name is BC",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "studentForHelperCourse": {
       "googleId": "${value.injected.in.testfile}",
@@ -137,7 +138,8 @@
       "course": "SProfileUiT.CS2103",
       "name": "Ash Ketchum",
       "comments": "This student's name is AK",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "SProfileUiT.benny.c@SProfileUiT.CS2104": {
       "googleId": "SProfileUiT.benny.c",
@@ -145,7 +147,8 @@
       "course": "SProfileUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "None"
     },
     "student1InTestingSanitizationCourse": {
       "googleId": "SProfileUiT.sanitizationStud",
@@ -168,7 +171,7 @@
       "email": "i.m.benny@gmail.tmt",
       "institute": "TEAMMATES Test Institute 4",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "I am just another student :P",
       "pictureKey": ""
     },
@@ -178,7 +181,7 @@
       "email": "ash.ketchum@pokemon.com",
       "institute": "TEAMMATES Test Institute 4",
       "nationality": "Singaporean",
-      "gender": "male",
+      "gender": "MALE",
       "moreInfo": "Gotta catch 'em all!",
       "pictureKey": ""
     },
@@ -188,7 +191,7 @@
       "email": "weird&'@gmail.tmt",
       "institute": "school'/><script> alert('hi!'); </script>",
       "nationality": "American",
-      "gender": "other",
+      "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
       "pictureKey": ""
     }

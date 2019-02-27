@@ -9,15 +9,14 @@ import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
@@ -49,20 +48,8 @@ public final class StudentsLogic {
     }
 
     public void createStudentCascade(StudentAttributes studentData)
-            throws InvalidParametersException, EntityAlreadyExistsException,
-            EntityDoesNotExistException {
-        createStudentCascade(studentData, true);
-    }
-
-    public void createStudentCascadeWithoutDocument(
-            StudentAttributes studentData) throws InvalidParametersException,
-            EntityAlreadyExistsException, EntityDoesNotExistException {
-        createStudentCascade(studentData, false);
-    }
-
-    public void createStudentCascade(StudentAttributes studentData, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        studentsDb.createStudent(studentData, hasDocument);
+        studentsDb.createStudent(studentData);
 
         if (!coursesLogic.isCoursePresent(studentData.course)) {
             throw new EntityDoesNotExistException(
@@ -91,6 +78,9 @@ public final class StudentsLogic {
         return studentsDb.getStudentsForCourse(courseId);
     }
 
+    /**
+     * Gets all students of a team.
+     */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
         return studentsDb.getStudentsForTeam(teamName, courseId);
     }
@@ -160,110 +150,66 @@ public final class StudentsLogic {
         return isStudentInTeam(courseId, student1.team, student2Email);
     }
 
-    public void updateStudentCascade(String originalEmail,
-            StudentAttributes student) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudentCascade(originalEmail, student, true);
-    }
+    /**
+     * Updates a student by {@link StudentAttributes.UpdateOptions}.
+     *
+     * <p>If email changed, update by recreating the student and cascade update all responses the student gives/receives.
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
+     */
+    public StudentAttributes updateStudentCascade(StudentAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        StudentAttributes originalStudent = getStudentForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
+        StudentAttributes updatedStudent = studentsDb.updateStudent(updateOptions);
 
-    public void updateStudentCascadeWithoutDocument(String originalEmail,
-            StudentAttributes student) throws InvalidParametersException,
-            EntityDoesNotExistException {
-        updateStudentCascade(originalEmail, student, false);
-    }
-
-    public void updateStudentCascade(String originalEmail, StudentAttributes student, boolean hasDocument)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-        updateStudentCascadeWithSubmissionAdjustmentScheduled(originalEmail, student, hasDocument);
-
-        /* finalEmail is the string to be used to represent a student's email.
-         * This is because:
-         *  - originalEmail cannot be used when student's email is being updated with a new valid email
-         *  - student.email cannot be used always because it is null when non-email attributes
-         *    of a student are being updated or when the new email to be updated is invalid
-         */
-        FieldValidator validator = new FieldValidator();
-        //Untested case: The deletion is not persisted immediately (i.e. persistence delay)
-        //       Reason: Difficult to reproduce a persistence delay during testing
-        String finalEmail = student.email == null
-                                || !validator.getInvalidityInfoForEmail(student.email).isEmpty()
-                            ? originalEmail
-                            : student.email;
-
-        // adjust submissions if moving to a different team
-        if (isTeamChanged(originalStudent.team, student.team)) {
-            frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
+        // cascade email change, if any
+        if (!originalStudent.email.equals(updatedStudent.email)) {
+            frLogic.updateFeedbackResponsesForChangingEmail(
+                    updatedStudent.course, originalStudent.email, updatedStudent.email);
+            fsLogic.updateRespondentsForStudent(originalStudent.email, updatedStudent.email, updatedStudent.course);
         }
 
-        if (isSectionChanged(originalStudent.section, student.section)) {
-            frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section,
-                                                              student.section);
+        // adjust submissions if moving to a different team
+        if (isTeamChanged(originalStudent.team, updatedStudent.team)) {
+            frLogic.updateFeedbackResponsesForChangingTeam(updatedStudent.course, updatedStudent.email,
+                    originalStudent.team, updatedStudent.team);
+        }
+
+        // update the new section name in responses
+        if (isSectionChanged(originalStudent.section, updatedStudent.section)) {
+            frLogic.updateFeedbackResponsesForChangingSection(updatedStudent.course, updatedStudent.email,
+                    originalStudent.section, updatedStudent.section);
         }
 
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
+
+        return updatedStudent;
     }
 
-    public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail,
-            StudentAttributes student, boolean hasDocument)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        // Edit student uses KeepOriginal policy, where unchanged fields are set
-        // as null. Hence, we can't do isValid() for student here.
-        // After updateWithReferenceToExistingStudentRecord method called,
-        // the student should be valid
-
-        // here is like a db access that can be avoided if we really want to optimize the code
-        studentsDb.verifyStudentExists(student.course, originalEmail);
-
-        StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-
-        // prepare new student
-        student.updateWithExistingRecord(originalStudent);
-
-        if (!student.isValid()) {
-            throw new InvalidParametersException(student.getInvalidityInfo());
+    /**
+     * Resets the googleId associated with the student.
+     */
+    public void resetStudentGoogleId(String originalEmail, String courseId)
+            throws EntityDoesNotExistException {
+        try {
+            updateStudentCascade(
+                    StudentAttributes.updateOptionsBuilder(courseId, originalEmail)
+                            .withGoogleId(null)
+                            .build());
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+            Assumption.fail("Resting google ID shall not cause: " + e.getMessage());
         }
-
-        studentsDb.updateStudent(student.course, originalEmail, student.name, student.team, student.section,
-                                 student.email, student.googleId, student.comments, hasDocument, false);
-
-        // cascade email change, if any
-        if (!originalEmail.equals(student.email)) {
-            frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
-            fsLogic.updateRespondentsForStudent(originalEmail, student.email, student.course);
-        }
-    }
-
-    public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        // Edit student uses KeepOriginal policy, where unchanged fields are set
-        // as null. Hence, we can't do isValid() for student here.
-        // After updateWithExistingRecordWithGoogleIdReset method called,
-        // the student should be valid
-
-        studentsDb.verifyStudentExists(courseId, originalEmail);
-        StudentAttributes originalStudent = getStudentForEmail(courseId, originalEmail);
-        originalStudent.googleId = null;
-
-        if (!originalStudent.isValid()) {
-            throw new InvalidParametersException(originalStudent.getInvalidityInfo());
-        }
-        studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name,
-                                 originalStudent.team, originalStudent.section, originalStudent.email,
-                                 originalStudent.googleId, originalStudent.comments, hasDocument, false);
     }
 
     public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)
-            throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-        return enrollStudents(enrollLines, courseId, true);
-    }
-
-    public CourseEnrollmentResult enrollStudentsWithoutDocument(String enrollLines, String courseId)
-            throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
-        return enrollStudents(enrollLines, courseId, false);
-    }
-
-    private CourseEnrollmentResult enrollStudents(String enrollLines, String courseId, boolean hasDocument)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
 
         if (!coursesLogic.isCoursePresent(courseId)) {
@@ -276,8 +222,8 @@ public final class StudentsLogic {
         }
 
         List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
-        ArrayList<StudentAttributes> returnList = new ArrayList<>();
-        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
+        List<StudentAttributes> returnList = new ArrayList<>();
+        List<StudentEnrollDetails> enrollmentList = new ArrayList<>();
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSectionsAndTeams(studentList, courseId);
@@ -287,7 +233,7 @@ public final class StudentsLogic {
         for (StudentAttributes student : studentList) {
             StudentEnrollDetails enrollmentDetails;
 
-            enrollmentDetails = enrollStudent(student, hasDocument);
+            enrollmentDetails = enrollStudent(student);
             student.updateStatus = enrollmentDetails.updateStatus;
 
             enrollmentList.add(enrollmentDetails);
@@ -443,18 +389,10 @@ public final class StudentsLogic {
     }
 
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        deleteStudentCascade(courseId, studentEmail, true);
-    }
-
-    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail) {
-        deleteStudentCascade(courseId, studentEmail, false);
-    }
-
-    public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
-        studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
+        studentsDb.deleteStudent(courseId, studentEmail);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
@@ -463,14 +401,6 @@ public final class StudentsLogic {
             fsLogic.deleteStudentFromRespondentsList(student);
         }
         studentsDb.deleteStudentsForGoogleId(googleId);
-    }
-
-    public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
-        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondentsList(student);
-        }
-        studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
 
     public void deleteStudentsForGoogleIdAndCascade(String googleId) {
@@ -486,29 +416,6 @@ public final class StudentsLogic {
         studentsDb.deleteStudentsForCourse(courseId);
     }
 
-    public void deleteStudentsForCourseWithoutDocument(String courseId) {
-        studentsDb.deleteStudentsForCourseWithoutDocument(courseId);
-    }
-
-    public void adjustFeedbackResponseForEnrollments(
-            List<StudentEnrollDetails> enrollmentList,
-            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
-        for (StudentEnrollDetails enrollment : enrollmentList) {
-            if (enrollment.updateStatus != StudentUpdateStatus.MODIFIED) {
-                continue;
-            }
-
-            boolean isResponseDeleted = false;
-            if (isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
-                isResponseDeleted = frLogic.updateFeedbackResponseForChangingTeam(enrollment, response);
-            }
-
-            if (!isResponseDeleted && isSectionChanged(enrollment.oldSection, enrollment.newSection)) {
-                frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
-            }
-        }
-    }
-
     /**
      * Batch creates or updates documents for the given students.
      */
@@ -516,7 +423,7 @@ public final class StudentsLogic {
         studentsDb.putDocuments(students);
     }
 
-    private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument)
+    private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         StudentAttributes originalStudentAttributes = getStudentForEmail(
                 validStudentAttributes.course, validStudentAttributes.email);
@@ -531,8 +438,13 @@ public final class StudentsLogic {
         if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
             enrollmentDetails.updateStatus = StudentUpdateStatus.UNMODIFIED;
         } else if (isModifyingExistingStudent) {
-            updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email,
-                                                                  validStudentAttributes, true);
+            updateStudentCascade(
+                    StudentAttributes.updateOptionsBuilder(originalStudentAttributes.course, originalStudentAttributes.email)
+                            .withName(validStudentAttributes.name)
+                            .withTeamName(validStudentAttributes.team)
+                            .withSectionName(validStudentAttributes.section)
+                            .withComment(validStudentAttributes.comments)
+                            .build());
             enrollmentDetails.updateStatus = StudentUpdateStatus.MODIFIED;
 
             if (!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
@@ -542,7 +454,7 @@ public final class StudentsLogic {
                 enrollmentDetails.oldSection = originalStudentAttributes.section;
             }
         } else {
-            createStudentCascade(validStudentAttributes, hasDocument);
+            createStudentCascade(validStudentAttributes);
             enrollmentDetails.updateStatus = StudentUpdateStatus.NEW;
         }
 

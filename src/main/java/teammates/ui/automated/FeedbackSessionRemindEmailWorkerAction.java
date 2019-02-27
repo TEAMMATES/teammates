@@ -7,11 +7,9 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.logic.api.EmailGenerator;
 
 /**
  * Task queue worker action: sends feedback session reminder email to a course.
@@ -21,25 +19,10 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionDescription() {
-        return null;
-    }
-
-    @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
-        String feedbackSessionName = getRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
-        Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
-
-        String courseId = getRequestParamValue(ParamsNames.SUBMISSION_COURSE);
-        Assumption.assertPostParamNotNull(ParamsNames.SUBMISSION_COURSE, courseId);
-
-        String instructorId = getRequestParamValue(ParamsNames.USER_ID);
-        Assumption.assertPostParamNotNull(ParamsNames.USER_ID, instructorId);
+        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
+        String courseId = getNonNullRequestParamValue(ParamsNames.SUBMISSION_COURSE);
+        String instructorId = getNonNullRequestParamValue(ParamsNames.USER_ID);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -63,7 +46,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AutomatedAction {
                 }
             }
 
-            List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionReminderEmails(
+            List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {

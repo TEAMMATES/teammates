@@ -47,10 +47,11 @@ import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
 import teammates.common.util.retry.RetryableTaskReturnsThrows;
+import teammates.e2e.pageobjects.Browser;
+import teammates.e2e.util.HtmlHelper;
+import teammates.e2e.util.TestProperties;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.FileHelper;
-import teammates.test.driver.HtmlHelper;
-import teammates.test.driver.TestProperties;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -580,6 +581,13 @@ public abstract class AppPage {
         return browser.driver.getPageSource();
     }
 
+    private String getPageSource(By by) {
+        waitForAjaxLoaderGifToDisappear();
+        String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
+                                   : browser.driver.findElement(by).getAttribute("outerHTML");
+        return HtmlHelper.processPageSourceForHtmlComparison(actual);
+    }
+
     public void click(By by) {
         WebElement element = browser.driver.findElement(by);
         click(element);
@@ -878,7 +886,7 @@ public abstract class AppPage {
      */
     public List<String> getTextsForAllStatusMessagesToUser() {
         List<WebElement> statusMessagesToUser = statusMessage.findElements(By.tagName("div"));
-        List<String> statusMessageTexts = new ArrayList<String>();
+        List<String> statusMessageTexts = new ArrayList<>();
         for (WebElement statusMessage : statusMessagesToUser) {
             statusMessageTexts.add(statusMessage.getText());
         }
@@ -1196,13 +1204,6 @@ public abstract class AppPage {
         return this;
     }
 
-    private String getPageSource(By by) {
-        waitForAjaxLoaderGifToDisappear();
-        String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
-                                   : browser.driver.findElement(by).getAttribute("outerHTML");
-        return HtmlHelper.processPageSourceForHtmlComparison(actual);
-    }
-
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
         return TestProperties.IS_GODMODE_ENABLED && regenerateHtmlFile(filePath, content, isPart);
     }
@@ -1440,6 +1441,31 @@ public abstract class AppPage {
     }
 
     /**
+     * Verifies that comment row doesn't exist for given rowIdSuffix.
+     *
+     * @param rowIdSuffix suffix id of comment row
+     */
+    public void verifyCommentRowMissing(String rowIdSuffix) {
+        try {
+            waitForAjaxLoaderGifToDisappear();
+            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
+            fail("Row expected to be missing found.");
+        } catch (NoSuchElementException expected) {
+            // row expected to be missing
+        }
+    }
+
+    /**
+     * Verifies the comment text.
+     *
+     * @param commentRowIdSuffix suffix id of comment delete button
+     * @param commentText comment text to be verified
+     */
+    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
+        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
+    }
+
+    /**
      * Helper methods for detecting the state of a single JQuery AJAX request in the page. If more than one AJAX request is
      * made at the same time, the behavior is undefined.
      *
@@ -1607,11 +1633,11 @@ public abstract class AppPage {
 
             executeScript(
                     "const seleniumArguments = arguments;"
-                    + "seleniumArguments[0].addEventListener(seleniumArguments[1], function onchange() {"
-                    + "    this.removeEventListener(seleniumArguments[1], onchange);"
-                    + "    document.body.setAttribute(seleniumArguments[2], true);"
-                    + "});"
-                    + "document.body.setAttribute(seleniumArguments[2], false);",
+                            + "seleniumArguments[0].addEventListener(seleniumArguments[1], function onchange() {"
+                            + "    this.removeEventListener(seleniumArguments[1], onchange);"
+                            + "    document.body.setAttribute(seleniumArguments[2], true);"
+                            + "});"
+                            + "document.body.setAttribute(seleniumArguments[2], false);",
                     element, CHANGE_EVENT, HOOK_ATTRIBUTE);
         }
 
@@ -1680,30 +1706,5 @@ public abstract class AppPage {
             executeScript("const event = new Event(arguments[1], {bubbles: true});"
                     + "arguments[0].dispatchEvent(event);", element, CHANGE_EVENT);
         }
-    }
-
-    /**
-     * Verifies that comment row doesn't exist for given rowIdSuffix.
-     *
-     * @param rowIdSuffix suffix id of comment row
-     */
-    public void verifyCommentRowMissing(String rowIdSuffix) {
-        try {
-            waitForAjaxLoaderGifToDisappear();
-            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
-            fail("Row expected to be missing found.");
-        } catch (NoSuchElementException expected) {
-            // row expected to be missing
-        }
-    }
-
-    /**
-     * Verifies the comment text.
-     *
-     * @param commentRowIdSuffix suffix id of comment delete button
-     * @param commentText comment text to be verified
-     */
-    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
-        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
     }
 }

@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -23,7 +24,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+        boolean showStats = getRequestParamAsOnOffBoolean(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
 
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -34,15 +35,19 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        boolean isCreatorOnly = true;
 
-        gateKeeper.verifyAccessible(instructor, session, !isCreatorOnly);
+        gateKeeper.verifyAccessible(instructor, session);
 
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account, sessionToken);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        String sectionDetailValue = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTIONDETAIL);
+        SectionDetail selectedSectionDetail = SectionDetail.NOT_APPLICABLE;
 
         if (selectedSection == null) {
             selectedSection = ALL_SECTION_OPTION;
+        } else if (sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
+            Assumption.assertNotNull(SectionDetail.containsSectionDetail(sectionDetailValue));
+            selectedSectionDetail = SectionDetail.valueOf(sectionDetailValue);
         }
 
         boolean isMissingResponsesShown = getRequestParamAsBoolean(
@@ -54,13 +59,13 @@ public class InstructorFeedbackResultsPageAction extends Action {
         boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         if (isLoadingCsvResultsAsHtml) {
             return createAjaxResultForCsvTableLoadedInHtml(
-                    courseId, feedbackSessionName, instructor, data, selectedSection,
+                    courseId, feedbackSessionName, instructor, data, selectedSection, selectedSectionDetail,
                     isMissingResponsesShown, Boolean.valueOf(showStats));
         }
         data.setSessionResultsHtmlTableAsString("");
         data.setAjaxStatus("");
 
-        String groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
+        boolean groupByTeam = getRequestParamAsOnOffBoolean(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         String sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
 
@@ -70,8 +75,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         if (sortType == null) {
             // default view: sort by question, statistics shown, grouped by team.
-            showStats = "on";
-            groupByTeam = "on";
+            showStats = true;
+            groupByTeam = true;
             sortType = Const.FeedbackSessionResults.QUESTION_SORT_TYPE;
             isMissingResponsesShown = true;
         }
@@ -89,7 +94,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                            DEFAULT_SECTION_QUERY_RANGE, sortType));
         } else if (Const.FeedbackSessionResults.QUESTION_SORT_TYPE.equals(sortType)) {
             data.setBundle(getBundleForQuestionView(isTestingAjax, courseId, feedbackSessionName, instructor, data,
-                                                    selectedSection, sortType, questionId));
+                                                    selectedSection, selectedSectionDetail, sortType, questionId));
         } else if (Const.FeedbackSessionResults.GQR_SORT_TYPE.equals(sortType)
                 || Const.FeedbackSessionResults.GRQ_SORT_TYPE.equals(sortType)) {
             data.setBundle(logic
@@ -134,7 +139,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         switch (sortType) {
         case Const.FeedbackSessionResults.QUESTION_SORT_TYPE:
-            data.initForViewByQuestion(instructor, selectedSection, showStats, groupByTeam, isMissingResponsesShown);
+            data.initForViewByQuestion(instructor, selectedSection, selectedSectionDetail, showStats,
+                    groupByTeam, isMissingResponsesShown);
             return createShowPageResult(
                     Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
         case Const.FeedbackSessionResults.RGQ_SORT_TYPE:
@@ -173,7 +179,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private FeedbackSessionResultsBundle getBundleForQuestionView(
             String needAjax, String courseId, String feedbackSessionName, InstructorAttributes instructor,
-            InstructorFeedbackResultsPageData data, String selectedSection, String sortType, String questionId)
+            InstructorFeedbackResultsPageData data, String selectedSection, SectionDetail selectedSectionDetail,
+            String sortType, String questionId)
                     throws EntityDoesNotExistException {
         FeedbackSessionResultsBundle bundle;
         if (questionId == null) {
@@ -192,10 +199,11 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 // such as the display of warning messages
                 bundle.isComplete = true;
             } else {
-                // bundle for all questions, with a selected section
+                // bundle for all questions, with a selected section and selected section detail
+                // depending on the section detail, this function will filter accordingly
                 bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
-                                                                                    instructor.email,
-                                                                                    selectedSection);
+                                                                                instructor.email, selectedSection,
+                                                                                selectedSectionDetail);
             }
         } else {
             if (ALL_SECTION_OPTION.equals(selectedSection)) {
@@ -206,7 +214,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 // bundle for a specific question and a specific section
                 bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
                                                 feedbackSessionName, courseId,
-                                                instructor.email, questionId, selectedSection);
+                                                instructor.email, questionId, selectedSection, selectedSectionDetail);
             }
         }
 
@@ -215,8 +223,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
                                     InstructorAttributes instructor, InstructorFeedbackResultsPageData data,
-                                    String selectedSection, boolean isMissingResponsesShown,
-                                    boolean isStatsShown)
+                                    String selectedSection, SectionDetail selectedSectionDetail,
+                                    boolean isMissingResponsesShown, boolean isStatsShown)
                                     throws EntityDoesNotExistException {
         try {
             if (selectedSection.contentEquals(ALL_SECTION_OPTION)) {
@@ -230,7 +238,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                         StringHelper.csvToHtmlTable(
                                 logic.getFeedbackSessionResultSummaryInSectionAsCsv(
                                         courseId, feedbackSessionName, instructor.email,
-                                        selectedSection, null, isMissingResponsesShown, isStatsShown)));
+                                        selectedSection, selectedSectionDetail, null,
+                                        isMissingResponsesShown, isStatsShown)));
             }
         } catch (ExceedingRangeException e) {
             // not tested as the test file is not large enough to reach this catch block

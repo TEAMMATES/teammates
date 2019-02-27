@@ -8,15 +8,16 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.TestProperties;
+import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.TestProperties;
 import teammates.test.pageobjects.StudentHelpPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 /**
  * SUT: {@link Const.ActionURIs#STUDENT_HOME_PAGE}.
  */
-public class StudentHomePageUiTest extends BaseUiTestCase {
+public class StudentHomePageUiTest extends BaseE2ETestCase {
     private StudentHomePage studentHome;
 
     @Override
@@ -89,7 +90,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         // this test uses the accounts from test.properties
         studentHome.verifyHtmlMainContent("/studentHomeHTML.html");
 
-        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(detailsPageUrl, StudentHomePage.class);
@@ -98,7 +99,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         ______TS("content: requires sanitization");
 
-        detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                             .withUserId(testData.students.get("SHomeUiT.student1InTestingSanitizationCourse").googleId);
 
         studentHomePage = loginAdminToPage(detailsPageUrl, StudentHomePage.class);
@@ -108,7 +109,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
     private void testLinks() {
 
-        AppUrl homePageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl homePageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(homePageUrl, StudentHomePage.class);
@@ -122,7 +123,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         studentHomePage.clickViewTeam();
 
-        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").googleId)
                 .withCourseId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").course);
         assertEquals(detailsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
@@ -177,7 +178,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
     private void testLinkAndContentAfterDelete() throws Exception {
 
-        AppUrl detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(detailsPageUrl, StudentHomePage.class);
@@ -192,7 +193,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     }
 
     private void loginWithPersistenceProblem() {
-        AppUrl homeUrl = ((AppUrl) createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+        AppUrl homeUrl = ((AppUrl) createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "SHomeUiT.CS2104"))
                     .withUserId("unreg_user");
 

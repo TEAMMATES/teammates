@@ -2,39 +2,8 @@
 <queue-entries>
 
     <queue>
-        <name>admin-prepare-email-address-mode-queue</name>
-        <rate>1/s</rate>
-        <bucket-size>1</bucket-size>
-        <retry-parameters>
-            <task-retry-limit>2</task-retry-limit>
-        </retry-parameters>
-    </queue>
-
-    <queue>
-        <name>admin-prepare-email-group-mode-queue</name>
-        <rate>1/s</rate>
-        <bucket-size>1</bucket-size>
-        <retry-parameters>
-            <task-retry-limit>2</task-retry-limit>
-        </retry-parameters>
-    </queue>
-
-    <queue>
-        <name>admin-send-email-queue</name>
-        <rate>20/s</rate>
-        <bucket-size>40</bucket-size>
-        <retry-parameters>
-            <task-retry-limit>5</task-retry-limit>
-            <task-age-limit>1d</task-age-limit>
-            <min-backoff-seconds>30</min-backoff-seconds>
-            <max-backoff-seconds>300</max-backoff-seconds>
-            <max-doublings>0</max-doublings>
-        </retry-parameters>
-    </queue>
-
-    <queue>
         <name>feedback-response-adjustment-queue</name>
-        <!-- Processes each feedback adjustment sequentially -->
+        <!-- Not used, keep in case of roll back to V6 -->
         <rate>1/s</rate>
         <bucket-size>5</bucket-size>
         <max-concurrent-requests>1</max-concurrent-requests>

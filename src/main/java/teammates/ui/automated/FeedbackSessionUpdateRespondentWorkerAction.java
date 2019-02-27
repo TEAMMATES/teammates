@@ -3,7 +3,6 @@ package teammates.ui.automated;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Logger;
 
@@ -15,30 +14,12 @@ public class FeedbackSessionUpdateRespondentWorkerAction extends AutomatedAction
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected String getActionDescription() {
-        return null;
-    }
-
-    @Override
-    protected String getActionMessage() {
-        return null;
-    }
-
-    @Override
     public void execute() {
-        String courseId = getRequestParamValue(ParamsNames.COURSE_ID);
-        Assumption.assertPostParamNotNull(ParamsNames.COURSE_ID, courseId);
-        String feedbackSessionName = getRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertPostParamNotNull(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        String email = getRequestParamValue(ParamsNames.RESPONDENT_EMAIL);
-        Assumption.assertPostParamNotNull(ParamsNames.RESPONDENT_EMAIL, email);
-        String isInstructorString = getRequestParamValue(ParamsNames.RESPONDENT_IS_INSTRUCTOR);
-        Assumption.assertPostParamNotNull(ParamsNames.RESPONDENT_IS_INSTRUCTOR, isInstructorString);
-        String isToBeRemovedString = getRequestParamValue(ParamsNames.RESPONDENT_IS_TO_BE_REMOVED);
-        Assumption.assertPostParamNotNull(ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, isToBeRemovedString);
-
-        boolean isInstructor = Boolean.parseBoolean(isInstructorString);
-        boolean isToBeRemoved = Boolean.parseBoolean(isToBeRemovedString);
+        String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
+        String email = getNonNullRequestParamValue(ParamsNames.RESPONDENT_EMAIL);
+        boolean isInstructor = getBooleanRequestParamValue(ParamsNames.RESPONDENT_IS_INSTRUCTOR);
+        boolean isToBeRemoved = getBooleanRequestParamValue(ParamsNames.RESPONDENT_IS_TO_BE_REMOVED);
 
         try {
             if (isInstructor) {

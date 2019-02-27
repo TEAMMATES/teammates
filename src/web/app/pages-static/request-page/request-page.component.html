@@ -1,0 +1,14 @@
+<h1 class="color-orange">
+  Request for an Account
+</h1>
+<div *ngIf="accountRequestFormUrl">
+  <p>
+    Cannot see the request form below? <a [href]="accountRequestFormUrl" target="_blank" rel="noopener noreferrer">Click here.</a>
+  </p>
+  <iframe [src]="accountRequestFormUrl" width="760px" height="880px" frameborder="0" marginheight="0" marginwidth="0">
+    Loading...
+  </iframe>
+</div>
+<div *ngIf="!accountRequestFormUrl">
+  The URL for the account request form is not set.
+</div>

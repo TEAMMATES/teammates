@@ -1,0 +1,65 @@
+<div class="main-body" #helpPage>
+  <div id={{Sections.body}}>
+    <h1 class="color-orange"> Help for Instructors</h1>
+    <div>
+      <p>
+        Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
+        <br> If you are new to TEAMMATES, our <a routerLink="../getting-started">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
+        <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We respond within 24 hours.
+      </p>
+      <div class="row">
+        <div class="offset-md-2 col-md-8">
+          <div class="input-group input-group-lg">
+            <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-lg" placeholder="How can we help?" (keyup.enter)="search()">
+            <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
+            <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+      </div>
+      <hr/>
+    </div>
+  </div>
+  <div id="{{Sections.students}}">
+    <tm-instructor-help-students-section [key]="key">
+    </tm-instructor-help-students-section>
+  </div>
+  <div id="{{Sections.courses}}">
+    <tm-instructor-help-courses-section [key]="key">
+    </tm-instructor-help-courses-section>
+  </div>
+  <div id="{{Sections.sessions}}">
+    <tm-instructor-help-sessions-section [key]="key">
+    </tm-instructor-help-sessions-section>
+  </div>
+  <div id="{{Sections.questions}}">
+    <tm-instructor-help-questions-section [key]="key">
+    </tm-instructor-help-questions-section>
+  </div>
+</div>
+
+<div class="side-nav container-fluid col-sm-3 col-4">
+  <p>
+    Browse by topic:
+    <br>
+  </p>
+  <ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+      <a (click)="scroll(Sections.students)" [routerLink]="">Students</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll(Sections.courses)" [routerLink]="">Courses</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll(Sections.sessions)" [routerLink]="">Sessions</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll(Sections.questions)" [routerLink]="">Questions</a>
+    </li>
+  </ul>
+  <br>
+  <ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+      <a (click)="scroll(Sections.body)" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
+    </li>
+  </ul>
+</div>

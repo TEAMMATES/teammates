@@ -83,25 +83,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         frcLogic.createFeedbackResponseComment(frComment);
         verifyPresentInDatastore(frComment);
-
-        ______TS("typical successful case: frComment already exists");
-        frcLogic.createFeedbackResponseComment(frComment);
-        List<FeedbackResponseCommentAttributes> actualFrComments =
-                frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
-
-        FeedbackResponseCommentAttributes actualFrComment = null;
-        for (FeedbackResponseCommentAttributes comment : actualFrComments) {
-            if (comment.commentText.equals(frComment.commentText)) {
-                actualFrComment = comment;
-                break;
-            }
-        }
-
-        assertNotNull(actualFrComment);
-
-        //delete afterwards
-        frcLogic.deleteFeedbackResponseCommentById(frComment.getId());
-        assertNull(frcLogic.getFeedbackResponseComment(frComment.getId()));
     }
 
     @Test
@@ -214,24 +195,14 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testUpdateFeedbackResponseComment() throws Exception {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
 
-        ______TS("fail: invalid params");
-
-        frComment.courseId = "invalid course name";
-        FeedbackResponseCommentAttributes finalFrca = frComment;
-        String expectedError =
-                "\"" + frComment.courseId + "\" is not acceptable to TEAMMATES as a/an course ID "
-                + "because it is not in the correct format. A course ID can contain letters, "
-                + "numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer "
-                + "than 40 characters, cannot be empty and cannot contain spaces.";
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> frcLogic.updateFeedbackResponseComment(finalFrca));
-        assertEquals(expectedError, ipe.getMessage());
-        frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-
         ______TS("typical success case");
-
         frComment.commentText = "Updated feedback response comment";
-        frcLogic.updateFeedbackResponseComment(frComment);
+        FeedbackResponseCommentAttributes updatedComment = frcLogic.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(frComment.getId())
+                        .withCommentText(frComment.commentText)
+                        .build()
+        );
+        assertEquals(frComment.commentText, updatedComment.commentText);
         verifyPresentInDatastore(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
@@ -261,22 +232,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         // reset email
         frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, updatedEmail, oldEmail);
-
-        ______TS("typical success case update feedback response comment feedbackResponseId");
-
-        String oldId = frComment.feedbackResponseId;
-        String updatedId = "newResponseId";
-        frcLogic.updateFeedbackResponseCommentsForChangingResponseId(oldId, updatedId);
-
-        actualFrComment = frcLogic.getFeedbackResponseComment(
-                updatedId, frComment.commentGiver, frComment.createdAt);
-
-        assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(updatedId, actualFrComment.feedbackResponseId);
-        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
-
-        // reset id
-        frcLogic.updateFeedbackResponseCommentsForChangingResponseId(updatedId, oldId);
     }
 
     @Test
