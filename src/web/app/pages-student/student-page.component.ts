@@ -13,7 +13,6 @@ import { AuthInfo } from '../../types/api-output';
 })
 export class StudentPageComponent implements OnInit {
 
-  logoutUrl: string = '';
   user: string = '';
   institute?: string = '';
   isInstructor: boolean = false;
@@ -41,9 +40,6 @@ export class StudentPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
-        if (res.logoutUrl) {
-          this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
-        }
         if (res.user) {
           this.user = res.user.id + (res.masquerade ? ' (M)' : '');
           this.institute = res.institute;

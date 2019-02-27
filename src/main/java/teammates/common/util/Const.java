@@ -920,6 +920,7 @@ public final class Const {
     public static class ResourceURIs {
 
         public static final String URI_PREFIX = "/webapi";
+        public static final String LOGOUT = "/logout";
 
         public static final String DATABUNDLE = "/databundle";
         public static final String EXCEPTION = "/exception";
@@ -1001,8 +1002,6 @@ public final class Const {
     public static class ActionURIs {
 
         /* _PAGE/Page in the Action URI name means 'show page' */
-
-        public static final String LOGOUT = "/logout";
 
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";

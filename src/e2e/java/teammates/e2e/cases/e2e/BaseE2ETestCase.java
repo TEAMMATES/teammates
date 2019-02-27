@@ -201,8 +201,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        // TODO: manually added a logout URL, any other suggestion?
-        browser.driver.get(createUrl("/_ah/logout?continue=%2Fweb").toAbsoluteString());
+        browser.driver.get(createUrl(Const.ResourceURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(browser).waitForPageToLoad();
         browser.isAdminLoggedIn = false;
     }

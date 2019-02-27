@@ -28,7 +28,6 @@ export class PageComponent implements OnInit {
   @Input() isInstructor: boolean = false;
   @Input() isAdmin: boolean = false;
   @Input() isValidUser: boolean = false;
-  @Input() logoutUrl: string = '';
   @Input() pageTitle: string = '';
   @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];
@@ -41,6 +40,7 @@ export class PageComponent implements OnInit {
   messageList: StatusMessage[] = [];
   isNetworkOnline$: Observable<boolean>;
   version: string = environment.version;
+  logoutUrl: string = `${environment.backendUrl}/logout`;
 
   /**
    * Minimum versions of browsers supported.
@@ -74,6 +74,9 @@ export class PageComponent implements OnInit {
         });
       }
     });
+    if (environment.frontendUrl) {
+      this.logoutUrl += `?frontendUrl=${environment.frontendUrl}`;
+    }
 
     this.isNetworkOnline$ = merge(
         of(navigator.onLine),
