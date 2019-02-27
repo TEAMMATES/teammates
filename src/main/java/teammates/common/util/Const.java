@@ -942,6 +942,7 @@ public final class Const {
         public static final String SESSION_STUDENTS_RESPONSE = "/session/students/response";
         public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
+        public static final String BIN_COURSE = "/bin/course";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
         public static final String QUESTION_RECIPIENTS = "/question/recipients";
