@@ -24,7 +24,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.INSTRUCTORS;
+        return Const.ResourceURIs.INSTRUCTOR;
     }
 
     @Override

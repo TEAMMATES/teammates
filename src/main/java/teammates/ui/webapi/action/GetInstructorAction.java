@@ -57,12 +57,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
                 return new JsonResult("Instructor could not be found for this course", HttpStatus.SC_NOT_FOUND);
             }
 
-            String instructorName = instructorAttributes.getName();
-            if (instructorName == null) {
-                instructorName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-            }
-
-            return new JsonResult(new InstructorData(instructorName));
+            return new JsonResult(new InstructorData(instructorAttributes));
         case FULL_DETAIL:
             // TODO implement this when necessary
             return null;
