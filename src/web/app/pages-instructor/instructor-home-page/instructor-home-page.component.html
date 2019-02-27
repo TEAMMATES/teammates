@@ -36,7 +36,7 @@
 
 <div *ngIf="courseTabModels.length > 0; else noCourseMessage">
   <div class="card margin-bottom-15px" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-    <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = !courseTabModel.isTabExpanded">
+    <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel)">
       <div class="row">
         <div class="col-6">
           <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
@@ -44,7 +44,7 @@
         <div class="col-sm-6">
           <div class="float-right">
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" ngbDropdownToggle> Students </button>
+              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu>
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
                   <a class="btn btn-info btn-sm dropdown-item"
@@ -59,16 +59,16 @@
               </div>
             </span>
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" ngbDropdownToggle> Instructors </button>
+              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Instructors </button>
               <div ngbDropdownMenu >
-                <a type="button" class="btn btn-light btn-sm dropdown-item"
+                <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Edit course information and instructor list"
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
               </div>
             </span>
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" ngbDropdownToggle> Sessions </button>
+              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Sessions </button>
               <div ngbDropdownMenu>
                 <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Add a feedback session for the course"
@@ -77,7 +77,7 @@
               </div>
             </span>
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" ngbDropdownToggle> Course </button>
+              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu>
                 <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
@@ -115,8 +115,8 @@
         This action can be reverted by going to the "Courses" tab and restoring the desired course(s).
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">OK</button>
+        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+        <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
       </div>
     </ng-template>
     <ng-template #courseArchiveModal let-modal>
@@ -131,8 +131,8 @@
         This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">OK</button>
+        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+        <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
       </div>
     </ng-template>
 

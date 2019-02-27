@@ -274,7 +274,6 @@
         "questionText": "What is the best selling point of your product?"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -299,7 +298,6 @@
         "step": 0.5
       },
       "questionNumber": 2,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -323,7 +321,6 @@
         "questionText": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which giver gave responses for this question"
       },
       "questionNumber": 3,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -345,7 +342,6 @@
         "questionText": "This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question"
       },
       "questionNumber": 4,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -368,7 +364,6 @@
         "questionText": "This question should NOT appear when moderated by an instructor, as instructors are unable to see responses for this question"
       },
       "questionNumber": 5,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -396,7 +391,6 @@
         "otherEnabled": false
       },
       "questionNumber": 6,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -421,7 +415,6 @@
         "questionText": "Talk about your contributions"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -445,7 +438,6 @@
         "questionText": "Talk about your contributions"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -475,7 +467,6 @@
         "otherEnabled": false
       },
       "questionNumber": 2,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,

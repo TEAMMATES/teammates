@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CourseService } from '../services/course.service';
 import { HttpRequestService } from '../services/http-request.service';
+import { JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
-
-interface JoinStatus {
-  hasJoined: boolean;
-  userId?: string;
-}
 
 /**
  * User join page component.
@@ -27,8 +24,11 @@ export class UserJoinPageComponent implements OnInit {
   institute: string = '';
   userId: string = '';
 
-  constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
-      private ngbModal: NgbModal) {}
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private httpRequestService: HttpRequestService,
+              private courseService: CourseService,
+              private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -36,11 +36,7 @@ export class UserJoinPageComponent implements OnInit {
       this.key = queryParams.key;
       this.institute = queryParams.instructorinstitution;
 
-      const paramMap: { [key: string]: string } = {
-        key: this.key,
-        entitytype: this.entityType,
-      };
-      this.httpRequestService.get('/join', paramMap).subscribe((resp: JoinStatus) => {
+      this.courseService.joinCourse(this.key, this.entityType).subscribe((resp: JoinStatus) => {
         this.hasJoined = resp.hasJoined;
         this.userId = resp.userId || '';
         this.isLoading = false;

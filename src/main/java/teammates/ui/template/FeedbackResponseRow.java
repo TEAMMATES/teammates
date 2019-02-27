@@ -37,7 +37,7 @@ public class FeedbackResponseRow {
         if ("recipient".equals(personType)) {
             this.responseText = response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
         } else if ("giver".equals(personType)) {
-            if (showPcRow && question.questionType.equals(FeedbackQuestionType.CONTRIB)) {
+            if (showPcRow && question.getQuestionType().equals(FeedbackQuestionType.CONTRIB)) {
                 this.responseText = getNewResponseText(response, question, results);
             } else {
                 this.responseText = results.getResponseAnswerHtml(response, question);

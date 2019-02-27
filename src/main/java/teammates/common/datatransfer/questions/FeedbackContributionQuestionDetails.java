@@ -728,7 +728,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if (isValidRange && isMultipleOf10) {
                 validAnswer = true;
             }
-            if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+            if (frd.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed
+                    || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
             if (!validAnswer) {

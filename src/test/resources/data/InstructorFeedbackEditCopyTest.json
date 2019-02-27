@@ -411,7 +411,6 @@
         "questionText": "student self feedback"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
