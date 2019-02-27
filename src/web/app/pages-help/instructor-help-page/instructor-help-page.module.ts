@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentProfileModule } from '../../pages-instructor/student-profile/student-profile.module';
@@ -26,6 +26,9 @@ import {
   ExampleAddCourseFormComponent
 } from '../../pages-instructor/instructor-courses-page/add-course-form/add-course-form.component';
 import { ExampleBoxComponent } from './example-box/example-box.component';
+import {
+  ExampleInstructorCourseStudentEditPageComponent
+} from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
 
 /**
  * Module for instructor help page.
@@ -37,6 +40,7 @@ import { ExampleBoxComponent } from './example-box/example-box.component';
     NgbModule,
     RouterModule,
     StudentProfileModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
@@ -47,6 +51,7 @@ import { ExampleBoxComponent } from './example-box/example-box.component';
     InstructorHelpGettingStartedComponent,
     ExampleAddCourseFormComponent,
     ExampleBoxComponent,
+    ExampleInstructorCourseStudentEditPageComponent,
   ],
   exports: [
     InstructorHelpPageComponent,

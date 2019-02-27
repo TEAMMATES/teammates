@@ -23,6 +23,46 @@ interface StudentEditDetails {
   isOpenOrPublishedEmailSentForTheCourse: boolean;
 }
 
+interface InstructorCourseStudentEditPageComponentInterface {
+  student: StudentAttributes;
+  editForm: FormGroup;
+  onSubmit(confirmDelModal: any, resendPastLinksModal: any): void;
+}
+
+/**
+ * An example component to be shown in the help page
+ */
+@Component({
+  selector: 'tm-example-instructor-course-student-edit-page',
+  templateUrl: './instructor-course-student-edit-page.component.html',
+  styleUrls: ['./instructor-course-student-edit-page.component.scss'],
+})
+export class ExampleInstructorCourseStudentEditPageComponent implements OnInit, InstructorCourseStudentEditPageComponentInterface {
+  student: StudentAttributes = {
+    email: 'alice@email.com',
+    course: '',
+    name: 'Alice Betsy',
+    lastName: '',
+    comments: 'Alice is a transfer student.',
+    team: 'Team A',
+    section: 'Section A',
+  };
+  editForm!: FormGroup;
+
+  ngOnInit(): void {
+    this.editForm = new FormGroup({
+      studentname: new FormControl(this.student.name),
+      sectionname: new FormControl(this.student.section),
+      teamname: new FormControl(this.student.team),
+      newstudentemail: new FormControl(this.student.email),
+      comments: new FormControl(this.student.comments),
+    });
+  }
+
+  onSubmit(_confirmDelModal: any, _resendPastLinksModal: any): void {}
+
+}
+
 /**
  * Instructor course student edit page.
  */
@@ -31,7 +71,7 @@ interface StudentEditDetails {
   templateUrl: './instructor-course-student-edit-page.component.html',
   styleUrls: ['./instructor-course-student-edit-page.component.scss'],
 })
-export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
+export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy, InstructorCourseStudentEditPageComponentInterface {
 
   user: string = '';
   courseid: string = '';

@@ -111,6 +111,9 @@ const routes: Routes = [
           {
             path: 'edit',
             component: InstructorCourseStudentEditPageComponent,
+            data: {
+              pageTitle: 'Edit Student Details',
+            }
           },
         ],
       },
