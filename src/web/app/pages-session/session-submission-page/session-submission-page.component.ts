@@ -18,7 +18,7 @@ import {
   FeedbackSessionSubmissionStatus,
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
-  Student
+  Student,
 } from '../../../types/api-output';
 import {
   FeedbackResponseRecipient,
