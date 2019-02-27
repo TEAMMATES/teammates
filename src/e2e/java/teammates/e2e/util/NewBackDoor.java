@@ -3,8 +3,6 @@ package teammates.e2e.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
@@ -18,7 +16,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -47,6 +44,15 @@ public final class NewBackDoor {
      */
     public static String executePostRequest(String relativeUrl) {
         return executeRequest(HttpPost.METHOD_NAME, relativeUrl);
+    }
+
+    /**
+     * Executes PUT request with the given {@code relativeUrl}.
+     *
+     * @return The content of the HTTP response
+     */
+    public static String executePutRequest(String relativeUrl) {
+        return executeRequest(HttpGet.METHOD_NAME, relativeUrl);
     }
 
     /**
@@ -101,52 +107,6 @@ public final class NewBackDoor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Deletes an account from datastore.
-     */
-    public static String deleteAccount(String googleId) {
-        Map<String, String> params = createParamMap("DeleteStudentAction");
-
-        params.put(Const.ParamsNames.STUDENT_ID, googleId);
-        return executeDeleteRequest("/backdoor?".concat(encodeParameters(params)));
-    }
-
-    /**
-     * Deletes a feedback session from the datastore.
-     */
-    public static String deleteFeedbackSession(String feedbackSessionName, String courseId) {
-        Map<String, String> params = createParamMap("DeleteFeedbackSessionAction");
-
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        return executeDeleteRequest("/backdoor?".concat(encodeParameters(params)));
-    }
-
-    /**
-     * Gets a feedback session from the datastore.
-     */
-    public static String getFeedbackSession(String courseId, String feedbackSessionName) {
-        Map<String, String> params = createParamMap("GetFeedbackSessionAction");
-
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-
-        return executePostRequest( "/backdoor?".concat(encodeParameters(params)));
-    }
-
-    private static Map<String, String> createParamMap(String operation) {
-        Map<String, String> map = new HashMap<>();
-        map.put(Const.ParamsNames.BACKDOOR_OPERATION, operation);
-
-        return map;
-    }
-
-    private static String encodeParameters(Map<String, String> map) {
-        StringBuilder dataStringBuilder = new StringBuilder();
-        map.forEach((key, value) -> dataStringBuilder.append(key + "=" + SanitizationHelper.sanitizeForUri(value) + "&"));
-        return dataStringBuilder.toString();
     }
 
     private static void addAuthKeys(HttpRequestBase request) {
