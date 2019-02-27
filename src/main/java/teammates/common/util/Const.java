@@ -931,6 +931,7 @@ public final class Const {
         public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
         public static final String RESPONSE_COMMENT = "/responsecomment";
         public static final String COURSE = "/course";
+        public static final String COURSE_SECTIONS = "/course/sections";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";

@@ -50,6 +50,7 @@ public class ActionFactory {
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
         map(ResourceURIs.COURSE, PUT, ArchiveCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
+        map(ResourceURIs.COURSE_SECTIONS, GET, GetCourseSectionNamesAction.class);
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
