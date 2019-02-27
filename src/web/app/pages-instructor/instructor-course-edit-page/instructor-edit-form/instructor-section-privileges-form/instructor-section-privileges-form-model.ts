@@ -1,4 +1,4 @@
-import { SectionLevelPrivileges, SessionLevelPrivileges } from '../../instructor-privileges-model';
+import { SectionLevelPrivileges, SessionLevelPrivileges } from '../../../../instructor-privilege';
 
 /**
  * The form model of an instructor edit section privileges form.

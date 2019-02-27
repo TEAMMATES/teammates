@@ -1,4 +1,4 @@
-import { CourseLevelPrivileges, Role } from '../instructor-privileges-model';
+import { CourseLevelPrivileges, Role } from '../../../instructor-privilege';
 import {
   InstructorSectionPrivilegesFormFormModel,
 } from './instructor-section-privileges-form/instructor-section-privileges-form-model';

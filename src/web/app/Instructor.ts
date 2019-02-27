@@ -1,4 +1,4 @@
-import { Privileges, Role } from './pages-instructor/instructor-course-edit-page/instructor-privileges-model';
+import { Privileges, Role } from './instructor-privilege';
 
 /**
  * An instructor.

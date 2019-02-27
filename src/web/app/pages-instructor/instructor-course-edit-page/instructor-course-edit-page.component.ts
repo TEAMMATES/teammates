@@ -4,9 +4,12 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { Course, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Instructor } from '../../Instructor';
+import {
+  CourseLevelPrivileges, DefaultPrivileges, Privileges, Role, SectionLevelPrivileges, SessionLevelPrivileges,
+} from '../../instructor-privilege';
 import { CourseEditFormModel } from './course-edit-form/course-edit-form-model';
 import { DeleteInstructorModalComponent } from './delete-instructor-modal/delete-instructor-modal.component';
 import { InstructorEditFormMode, InstructorEditFormModel } from './instructor-edit-form/instructor-edit-form-model';
@@ -14,17 +17,8 @@ import {
   InstructorSectionPrivilegesFormFormModel,
   InstructorSessionPrivilegesFormFormModel,
 } from './instructor-edit-form/instructor-section-privileges-form/instructor-section-privileges-form-model';
-import {
-  CourseLevelPrivileges, DefaultPrivileges, Privileges, Role, SectionLevelPrivileges, SessionLevelPrivileges,
-} from './instructor-privileges-model';
 import { ResendReminderModalComponent } from './resend-reminder-modal/resend-reminder-modal.component';
 import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privileges-modal.component';
-
-interface Course {
-  id: string;
-  name: string;
-  timeZone: string;
-}
 
 interface CourseEditDetails {
   courseToEdit: Course;

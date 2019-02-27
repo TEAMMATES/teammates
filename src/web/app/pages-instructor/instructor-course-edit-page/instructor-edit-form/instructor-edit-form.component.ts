@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   CourseLevelPrivileges, DefaultPrivileges, Role, SectionLevelPrivileges, SessionLevelPrivileges,
-} from '../instructor-privileges-model';
+} from '../../../instructor-privilege';
 import { InstructorEditFormMode, InstructorEditFormModel } from './instructor-edit-form-model';
 import {
   InstructorSectionPrivilegesFormFormModel, InstructorSessionPrivilegesFormFormModel,

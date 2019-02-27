@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CourseLevelPrivileges } from '../instructor-privileges-model';
+import { CourseLevelPrivileges } from '../../../instructor-privilege';
 
 /**
  * Modal to view instructor privileges.

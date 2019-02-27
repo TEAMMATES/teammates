@@ -3,7 +3,7 @@ import {
   defaultSectionLevelPrivileges,
   SectionLevelPrivileges,
   SessionLevelPrivileges,
-} from '../../instructor-privileges-model';
+} from '../../../../instructor-privilege';
 import {
   InstructorSectionPrivilegesFormFormModel,
   InstructorSessionPrivilegesFormFormModel,
