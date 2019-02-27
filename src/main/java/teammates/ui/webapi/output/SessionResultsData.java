@@ -51,6 +51,7 @@ public class SessionResultsData extends ApiOutput {
             QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, questionDetails,
                     questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle, true));
 
+            Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
             if (questionDetails.isIndividualResponsesShownToStudents()) {
                 List<ResponseOutput> allResponses = buildResponses(question, responses, bundle, student);
                 for (ResponseOutput respOutput : allResponses) {
@@ -59,10 +60,13 @@ public class SessionResultsData extends ApiOutput {
                     } else if ("You".equals(respOutput.recipient)) {
                         qnOutput.responsesToSelf.add(respOutput);
                     } else {
-                        qnOutput.otherResponses.add(respOutput);
+                        String recipientNameWithHash = respOutput.recipient;
+                        respOutput.recipient = removeAnonymousHash(respOutput.recipient);
+                        otherResponsesMap.computeIfAbsent(recipientNameWithHash, k -> new ArrayList<>()).add(respOutput);
                     }
                 }
             }
+            qnOutput.otherResponses = new ArrayList<>(otherResponsesMap.values());
 
             questions.add(qnOutput);
         });
@@ -100,7 +104,6 @@ public class SessionResultsData extends ApiOutput {
             } else {
                 recipientName = bundle.getNameForEmail(recipient);
             }
-            recipientName = removeAnonymousHash(recipientName);
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
                 String giverName = bundle.getGiverNameForResponse(response);
@@ -124,8 +127,8 @@ public class SessionResultsData extends ApiOutput {
 
                 // TODO fetch feedback response comments
 
-                output.add(new ResponseOutput(recipientName, response.recipientSection,
-                        displayedGiverName, response.giverSection, response.responseDetails));
+                output.add(new ResponseOutput(displayedGiverName, response.giverSection,
+                        recipientName, response.recipientSection, response.responseDetails));
             }
 
         });
@@ -150,8 +153,8 @@ public class SessionResultsData extends ApiOutput {
 
                 // TODO fetch feedback response comments
 
-                output.add(new ResponseOutput(recipientName, response.recipientSection,
-                        giverName, response.giverSection, response.responseDetails));
+                output.add(new ResponseOutput(giverName, response.giverSection,
+                        recipientName, response.recipientSection, response.responseDetails));
             }
 
         });
@@ -170,7 +173,7 @@ public class SessionResultsData extends ApiOutput {
         // For student view
         private List<ResponseOutput> responsesToSelf = new ArrayList<>();
         private List<ResponseOutput> responsesFromSelf = new ArrayList<>();
-        private List<ResponseOutput> otherResponses = new ArrayList<>();
+        private List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
         QuestionOutput(int questionNumber, FeedbackQuestionDetails questionDetails, String questionStatistics) {
             this.questionNumber = questionNumber;
@@ -202,7 +205,7 @@ public class SessionResultsData extends ApiOutput {
             return responsesToSelf;
         }
 
-        public List<ResponseOutput> getOtherResponses() {
+        public List<List<ResponseOutput>> getOtherResponses() {
             return otherResponses;
         }
 
@@ -212,9 +215,9 @@ public class SessionResultsData extends ApiOutput {
 
         private final String giver;
         private final String giverSection;
-        private final String recipient;
+        private String recipient;
         private final String recipientSection;
-        private final String responseMetadata;
+        private final FeedbackResponseDetails responseDetails;
 
         ResponseOutput(String giver, String giverSection, String recipient,
                 String recipientSection, FeedbackResponseDetails responseDetails) {
@@ -222,7 +225,7 @@ public class SessionResultsData extends ApiOutput {
             this.giverSection = giverSection;
             this.recipient = recipient;
             this.recipientSection = recipientSection;
-            this.responseMetadata = responseDetails.getJsonString();
+            this.responseDetails = responseDetails;
         }
 
         public String getGiver() {
@@ -241,9 +244,10 @@ public class SessionResultsData extends ApiOutput {
             return recipientSection;
         }
 
-        public String getResponseMetadata() {
-            return responseMetadata;
+        public FeedbackResponseDetails getResponseDetails() {
+            return responseDetails;
         }
+
     }
 
 }

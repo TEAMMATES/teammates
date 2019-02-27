@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackQuestionType } from '../../../types/api-output';
 
+/**
+ * Question text with toggle-able additional info.
+ */
 @Component({
   selector: 'tm-question-text-with-info',
   templateUrl: './question-text-with-info.component.html',
@@ -21,6 +24,9 @@ export class QuestionTextWithInfoComponent implements OnInit {
 
   constructor() { }
 
+  /**
+   * Returns true if the question has additional info.
+   */
   hasAdditionalInfo(questionDetails: FeedbackQuestionDetails): boolean {
     return questionDetails.questionType !== FeedbackQuestionType.TEXT;
   }

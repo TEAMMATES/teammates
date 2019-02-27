@@ -5,6 +5,9 @@ import {
 } from '../../../../types/api-output';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
+/**
+ * Additional info for text questions.
+ */
 @Component({
   selector: 'tm-text-question-additional-info',
   templateUrl: './text-question-additional-info.component.html',

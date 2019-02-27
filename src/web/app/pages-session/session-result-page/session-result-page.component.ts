@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackSession,
@@ -27,16 +28,15 @@ export class SessionResultPageComponent implements OnInit {
   formattedSessionClosingTime: string = '';
 
   constructor(private httpRequestService: HttpRequestService, private route: ActivatedRoute,
-      private timezoneService: TimezoneService) {
+      private timezoneService: TimezoneService, private statusMessageService: StatusMessageService) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      const { courseid, fsname } = queryParams;
       const paramMap: { [key: string]: string } = {
-        courseid,
-        fsname,
+        courseid: queryParams.courseid,
+        fsname: queryParams.fsname,
         intent: Intent.STUDENT_RESULT,
       };
       this.httpRequestService.get('/session', paramMap).subscribe((resp: FeedbackSession) => {
@@ -50,8 +50,10 @@ export class SessionResultPageComponent implements OnInit {
           this.questions = resp2.questions.sort(
               (a: QuestionOutput, b: QuestionOutput) => a.questionNumber - b.questionNumber);
         }, (resp2: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp2.error.message);
         });
       }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
       });
     });
   }

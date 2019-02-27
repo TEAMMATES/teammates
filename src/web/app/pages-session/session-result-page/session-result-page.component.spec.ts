@@ -1,6 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TimeDisplayerModule } from '../../components/time-displayer/time-displayer.module';
+import {
+  StudentViewResponsesModule,
+} from '../../components/question-responses/student-view-responses/student-view-responses.module';
+import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { SessionResultPageComponent } from './session-result-page.component';
 
 describe('SessionResultPageComponent', () => {
@@ -12,7 +16,8 @@ describe('SessionResultPageComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
-        TimeDisplayerModule,
+        StudentViewResponsesModule,
+        QuestionTextWithInfoModule,
       ],
       declarations: [SessionResultPageComponent],
     })
