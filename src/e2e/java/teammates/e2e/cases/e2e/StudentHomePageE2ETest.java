@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.e2e.pageobjects.StudentHelpPageNew;
 import teammates.e2e.pageobjects.StudentHomePageNew;
 import teammates.e2e.util.NewBackDoor;
@@ -37,15 +36,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         testData.students.get("alice.tmms@SHomeUiT.CS4221").googleId = student1GoogleId;
         testData.students.get("alice.tmms@SHomeUiT.CS4221").email = student1Email;
 
-        // Replaced with the v6 method below with executePutRequest instead
-        // removeAndRestoreDataBundle(testData);
-
-        String dataBundleJson = JsonUtils.toJson(testData);
-        String removeAndRestoreDataLink = createUrl(Const.ResourceURIs.DATABUNDLE)
-                .withParam(Const.ParamsNames.BACKDOOR_DATA, dataBundleJson)
-                .toString();
-
-        NewBackDoor.executePutRequest(removeAndRestoreDataLink);
+        removeAndRestoreDataBundle(testData);
 
         // TODO: How do I implement this? Need to generate a save state.
         // gracedFeedbackSession.setEndTime(Instant.now());
@@ -65,9 +56,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         String unregUserId = TestProperties.TEST_UNREG_ACCOUNT;
         String unregPassword = TestProperties.TEST_UNREG_PASSWORD;
-        NewBackDoor.executeDeleteRequest(createUrl(Const.ResourceURIs.STUDENTS)
-                .withParam(Const.ParamsNames.STUDENT_ID, unregUserId)
-                .toString());
+        NewBackDoor.deleteStudent(unregUserId);
 
         logout();
         studentHome = getHomePageNew().clickStudentLogin().loginAsStudent(unregUserId, unregPassword);

@@ -15,6 +15,7 @@ import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.NewBackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
 
@@ -189,7 +190,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected String doRemoveAndRestoreDataBundle(DataBundle testData) {
-        return BackDoor.removeAndRestoreDataBundle(testData);
+        return NewBackDoor.removeAndRestoreDataBundle(testData);
     }
 
     @Override
