@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ProfilesDb;
@@ -57,8 +55,17 @@ public final class ProfilesLogic {
      *
      * <p>Fails silently if the {@code key} doesn't exist.</p>
      */
-    public void deletePicture(BlobKey key) {
+    public void deletePicture(String key) {
         profilesDb.deletePicture(key);
+    }
+
+    /**
+     * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
+     *
+     * <p>If the associated profile doesn't exist, create a new one.</p>
+     */
+    public void deletePictureKey(String googleId) {
+        profilesDb.deletePictureKey(googleId);
     }
 
 }

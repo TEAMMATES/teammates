@@ -31,7 +31,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, question.questionType,
+            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, question.getQuestionType(),
                     questionDetails.getQuestionText(),
                     questionDetails.getQuestionResultStatisticsJson(responses, question, instructor.email, bundle, false));
 
@@ -50,7 +50,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, question.questionType,
+            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, question.getQuestionType(),
                     questionDetails.getQuestionText(),
                     questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle, true));
 

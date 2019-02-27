@@ -609,7 +609,6 @@
         "questionText": "What do you like best about our product?"
       },
       "questionNumber": 1,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -641,7 +640,6 @@
         "questionText": "What do you like best about the class' product?"
       },
       "questionNumber": 2,
-      "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -673,7 +671,6 @@
         "questionText": "What can be improved for this class?"
       },
       "questionNumber": 3,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -708,7 +705,6 @@
         "questionText": "What do you like best about our product?"
       },
       "questionNumber": 4,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -735,7 +731,6 @@
         "otherEnabled": false
       },
       "questionNumber": 1,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -762,7 +757,6 @@
         "otherEnabled": false
       },
       "questionNumber": 2,
-      "questionType": "MSQ",
       "giverType": "INSTRUCTORS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -797,7 +791,6 @@
         "msqOtherWeight": 3.0
       },
       "questionNumber": 3,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -822,7 +815,6 @@
         "step": 0.5
       },
       "questionNumber": 1,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -847,7 +839,6 @@
         "step": 0.5
       },
       "questionNumber": 2,
-      "questionType": "NUMSCALE",
       "giverType": "INSTRUCTORS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -877,7 +868,6 @@
         ]
       },
       "questionNumber": 1,
-      "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -904,7 +894,6 @@
         "constSumOptions": []
       },
       "questionNumber": 2,
-      "questionType": "CONSTSUM",
       "giverType": "INSTRUCTORS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 2,
@@ -931,7 +920,6 @@
         "constSumOptions": []
       },
       "questionNumber": 3,
-      "questionType": "CONSTSUM",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
@@ -953,7 +941,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 1,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1006,7 +993,6 @@
         ]
       },
       "questionNumber": 1,
-      "questionType": "RUBRIC",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1059,7 +1045,6 @@
         ]
       },
       "questionNumber": 2,
-      "questionType": "RUBRIC",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1081,7 +1066,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 1,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1101,7 +1085,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 1,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1126,7 +1109,6 @@
         "step": 0.5
       },
       "questionNumber": 1,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -1148,7 +1130,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 1,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1171,7 +1152,6 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "questionNumber": 1,
-      "questionType": "RANK_RECIPIENTS",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1201,7 +1181,6 @@
         ]
       },
       "questionNumber": 2,
-      "questionType": "RANK_OPTIONS",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM",
       "numberOfEntitiesToGiveFeedbackTo": -100,
