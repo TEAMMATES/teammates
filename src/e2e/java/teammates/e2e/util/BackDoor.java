@@ -37,9 +37,9 @@ import teammates.common.util.JsonUtils;
  *
  * <p>Note that this will replace {@link teammates.test.driver.BackDoor} once the front-end migration is complete.
  */
-public final class NewBackDoor {
+public final class BackDoor {
 
-    private NewBackDoor() {
+    private BackDoor() {
         // Utility class
     }
 

@@ -7,7 +7,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentHelpPageNew;
 import teammates.e2e.pageobjects.StudentHomePageNew;
-import teammates.e2e.util.NewBackDoor;
+import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -40,7 +40,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         // TODO: How do I implement this? Need to generate a save state.
         // gracedFeedbackSession.setEndTime(Instant.now());
-        // NewBackDoor.editFeedbackSession(gracedFeedbackSession);
+        // BackDoor.editFeedbackSession(gracedFeedbackSession);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         String unregUserId = TestProperties.TEST_UNREG_ACCOUNT;
         String unregPassword = TestProperties.TEST_UNREG_PASSWORD;
-        NewBackDoor.deleteStudent(unregUserId);
+        BackDoor.deleteStudent(unregUserId);
 
         logout();
         studentHome = getHomePageNew().clickStudentLogin().loginAsStudent(unregUserId, unregPassword);
@@ -170,7 +170,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         ______TS("access the feedback session exactly after it is deleted");
 
-        // NewBackDoor.executeDeleteRequest(createUrl(Const.ResourceURIs.)"First Feedback Session", "SHomeUiT.CS2104");
+        // BackDoor.executeDeleteRequest(createUrl(Const.ResourceURIs.)"First Feedback Session", "SHomeUiT.CS2104");
         studentHomePageNew.clickSubmitFeedbackButton("First Feedback Session");
         studentHomePageNew.waitForPageToLoad();
 
@@ -187,8 +187,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         // The test data needs to be removed for both `StudentHomePageUiTest` and `StudentProfilePageUiTest`
         // as the tests can run in any order.
 
-        // See `NewBackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
-        NewBackDoor.removeDataBundle(testData);
+        // See `BackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
+        BackDoor.removeDataBundle(testData);
     }
 
 }
