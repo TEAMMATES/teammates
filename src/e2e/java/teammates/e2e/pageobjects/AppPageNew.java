@@ -14,13 +14,10 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.retry.RetryManager;
-import teammates.e2e.util.HtmlHelper;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.FileHelper;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.List;
@@ -443,13 +440,6 @@ public abstract class AppPageNew {
 
     public String getPageTitle() {
         return browser.driver.findElement(By.id("pageTitle")).getText();
-    }
-
-    public String getPageSource(By by) {
-        waitForAjaxLoaderGifToDisappear();
-        String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
-                                   : browser.driver.findElement(by).getAttribute("outerHTML");
-        return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 
     public void click(By by) {
@@ -985,21 +975,6 @@ public abstract class AppPageNew {
             String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
             assertEquals(splitString[row - 1], tableCellString);
         }
-    }
-
-    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
-        return TestProperties.IS_GODMODE_ENABLED && regenerateHtmlFile(filePath, content, isPart);
-    }
-
-    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
-        if (content == null || content.isEmpty()) {
-            return false;
-        }
-
-        TestProperties.verifyReadyForGodMode();
-        String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-        FileHelper.saveFile(filePath, processedPageSource);
-        return true;
     }
 
     /**
