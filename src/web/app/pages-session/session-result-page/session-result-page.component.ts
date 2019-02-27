@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import {
+  FeedbackSession,
+  QuestionOutput,
+  SessionResults,
+} from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
-import { FeedbackSession } from '../../../types/api-output';
-import moment from 'moment-timezone';
 
 /**
  * Feedback session result page.
@@ -18,7 +22,7 @@ import moment from 'moment-timezone';
 export class SessionResultPageComponent implements OnInit {
 
   session: any = {};
-  questions: any[] = [];
+  questions: QuestionOutput[] = [];
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
 
@@ -42,8 +46,9 @@ export class SessionResultPageComponent implements OnInit {
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
               moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
-        this.httpRequestService.get('/result', paramMap).subscribe((resp2: any) => {
-          this.questions = resp2.questions.sort((a: any, b: any) => a.questionNumber - b.questionNumber);
+        this.httpRequestService.get('/result', paramMap).subscribe((resp2: SessionResults) => {
+          this.questions = resp2.questions.sort(
+              (a: QuestionOutput, b: QuestionOutput) => a.questionNumber - b.questionNumber);
         }, (resp2: ErrorMessageOutput) => {
         });
       }, (resp: ErrorMessageOutput) => {

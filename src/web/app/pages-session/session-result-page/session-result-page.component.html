@@ -18,5 +18,6 @@
 </div>
 <div class="card bg-light top-padded" *ngFor="let question of questions">
   <div class="card-body" style="padding: 20px;">
+    <tm-question-text-with-info [questionNumber]="question.questionNumber" [questionDetails]="question.questionDetails"></tm-question-text-with-info>
   </div>
 </div>
