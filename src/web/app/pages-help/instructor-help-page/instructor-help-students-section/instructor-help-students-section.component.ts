@@ -5,6 +5,7 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 import { StudentProfile } from '../../../pages-instructor/student-profile/student-profile';
 import { StudentAttributes } from '../../../pages-instructor/student-profile/student-attributes';
 import { Gender } from '../../../../types/gender';
+import { SearchStudentsTable } from 'src/web/app/pages-instructor/instructor-search-page/instructor-search-page.component';
 
 /**
  * Students Section of the Instructor Help Page.
@@ -36,6 +37,20 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     team: 'Team A',
     section: 'Section A',
   };
+  readonly exampleStudentResultTables: SearchStudentsTable[] = [{
+    courseId: 'Course name appears here',
+    sections: [{
+      sectionName: 'Section A',
+      isAllowedToViewStudentInSection: true,
+      isAllowedToModifyStudent: true,
+      students: [{
+        name: 'Alice Betsy',
+        email: 'alice@email.com',
+        status: 'Joined',
+        team: 'Team A',
+      }],
+    }]
+  }];
 
   constructor() {
     super();

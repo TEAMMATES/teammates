@@ -14,7 +14,7 @@ interface SearchFeedbackSessionDataTable {
   something: any;
 }
 
-interface SearchStudentsTable {
+export interface SearchStudentsTable {
   courseId: string;
   sections: StudentListSectionData[];
 }
