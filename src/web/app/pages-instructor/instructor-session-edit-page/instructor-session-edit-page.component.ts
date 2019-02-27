@@ -847,7 +847,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Previews the submission of the feedback session as a student.
    */
   previewAsStudent(): void {
-    window.open(`${environment.frontendUrl}/web/student/sessions/submission`
+    window.open(`${environment.frontendUrl}/web/sessions/submission`
         + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfStudentToPreview}`);
   }
 
