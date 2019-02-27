@@ -73,10 +73,7 @@ public final class RecaptchaVerifier {
                     log.severe("reCAPTCHA verification request failure:" + response);
                     return false;
                 }
-            } catch (IOException e) {
-                log.severe("reCAPTCHA verification request failure: " + e.getMessage());
-                return false;
-            } catch (Exception e) {
+            } catch (IOException | UnsupportedOperationException e) {
                 log.severe("reCAPTCHA verification request failure: " + e.getMessage());
                 return false;
             }
