@@ -10,6 +10,7 @@ import org.testng.collections.Lists;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -32,7 +33,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         FeedbackQuestion expectedQuestion = new FeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(),
-                fqa.getQuestionMetaData(), fqa.getQuestionDescription(), fqa.getQuestionNumber(),
+                fqa.getSerializedQuestionDetails(), fqa.getQuestionDescription(), fqa.getQuestionNumber(),
                 fqa.getQuestionType(), fqa.getGiverType(), fqa.getRecipientType(), fqa.getNumberOfEntitiesToGiveFeedbackTo(),
                 fqa.getShowResponsesTo(), fqa.showGiverNameTo, fqa.showRecipientNameTo);
 
@@ -79,7 +80,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());
         assertEquals(qn.getNumberOfEntitiesToGiveFeedbackTo(),
                 feedbackQuestionAttributes.getNumberOfEntitiesToGiveFeedbackTo());
-        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getQuestionMetaData());
+        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getSerializedQuestionDetails());
         assertEquals(qn.getGiverType(), feedbackQuestionAttributes.getGiverType());
         assertEquals(qn.getRecipientType(), feedbackQuestionAttributes.getRecipientType());
 
@@ -97,10 +98,40 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testValueOf_textQuestions_shouldDeserializeCorrectly() throws InvalidParametersException {
+        ______TS("legacy data: plain text: single word, should deserialize correctly");
+        FeedbackQuestionsDb db = new FeedbackQuestionsDb();
+        FeedbackQuestion qn = db.createEntityWithoutExistenceCheck(getNewFeedbackQuestionAttributes());
+        qn.setQuestionText("singleWord");
+
+        FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.valueOf(qn);
+        assertEquals("singleWord", fqa.questionDetails.getQuestionText());
+        assertEquals(0, ((FeedbackTextQuestionDetails) fqa.questionDetails).getRecommendedLength());
+
+        ______TS("legacy data: plain text: multiple words, should deserialize correctly");
+        qn.setQuestionText("multiple words text");
+
+        FeedbackQuestionAttributes fqaMulti = FeedbackQuestionAttributes.valueOf(qn);
+        assertEquals("multiple words text", fqaMulti.questionDetails.getQuestionText());
+        assertEquals(0, ((FeedbackTextQuestionDetails) fqaMulti.questionDetails).getRecommendedLength());
+
+        ______TS("json text: should deserialize as json");
+        String jsonQuestionText = "{\n"
+                + "  \"recommendedLength\": 70,\n"
+                + "  \"questionType\": \"TEXT\",\n"
+                + "  \"questionText\": \"normal question\"\n"
+                + "}";
+        qn.setQuestionText(jsonQuestionText);
+        FeedbackQuestionAttributes fqaJson = FeedbackQuestionAttributes.valueOf(qn);
+        assertEquals("normal question", fqaJson.questionDetails.getQuestionText());
+        assertEquals(70, ((FeedbackTextQuestionDetails) fqaJson.questionDetails).getRecommendedLength());
+    }
+
+    @Test
     public void testBuilderWithPopulatedFieldValues() {
         String feedbackSession = "test session";
         String courseId = "some course";
-        String questionMetaData = "test qn from teams->none.";
+        String questionText = "test qn from teams->none.";
         String questionDescription = "some description";
         int questionNumber = 1;
         int numOfEntities = 4;
@@ -117,11 +148,10 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName(feedbackSession)
                 .withCourseId(courseId)
-                .withQuestionMetaData(questionMetaData)
+                .withQuestionDetails(new FeedbackTextQuestionDetails(questionText))
                 .withQuestionDescription(questionDescription)
                 .withQuestionNumber(questionNumber)
                 .withNumOfEntitiesToGiveFeedbackTo(numOfEntities)
-                .withQuestionType(questionType)
                 .withGiverType(giverType)
                 .withRecipientType(recipientType)
                 .withShowGiverNameTo(new ArrayList<>(participants))
@@ -134,7 +164,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(courseId, feedbackQuestionAttributes.getCourseId());
-        assertEquals(questionMetaData, feedbackQuestionAttributes.getQuestionMetaData());
+        assertEquals(questionText, feedbackQuestionAttributes.questionDetails.getQuestionText());
         assertEquals(questionDescription, feedbackQuestionAttributes.questionDescription);
         assertEquals(questionNumber, feedbackQuestionAttributes.getQuestionNumber());
         assertEquals(numOfEntities, feedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo);
@@ -156,7 +186,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         String contentWithWhitespaces = " content to be sanitized by removing leading/trailing whitespace ";
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
-                .withQuestionMetaData("test qn from teams->none.")
+                .withQuestionDetails(new FeedbackTextQuestionDetails("test qn from teams->none."))
                 .withQuestionDescription(contentWithWhitespaces)
                 .build();
 
@@ -178,8 +208,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertNull(observedFeedbackQuestionAttributes.showGiverNameTo);
         assertNull(observedFeedbackQuestionAttributes.showRecipientNameTo);
         assertNull(observedFeedbackQuestionAttributes.questionDescription);
-        assertNull(observedFeedbackQuestionAttributes.questionType);
-        assertNull(observedFeedbackQuestionAttributes.questionMetaData);
+        assertNull(observedFeedbackQuestionAttributes.questionDetails);
         assertEquals(0, observedFeedbackQuestionAttributes.numberOfEntitiesToGiveFeedbackTo);
     }
 
@@ -221,7 +250,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes fq = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName("")
                 .withCourseId("")
-                .withQuestionType(FeedbackQuestionType.TEXT)
                 .withGiverType(FeedbackParticipantType.NONE)
                 .withRecipientType(FeedbackParticipantType.RECEIVER)
                 .withShowGiverNameTo(new ArrayList<>(showGiverNameToList))
@@ -356,9 +384,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes question = FeedbackQuestionAttributes.builder()
                 .withFeedbackSessionName("test session")
                 .withCourseId("some course")
-                .withQuestionMetaData("test qn from teams->none.")
+                .withQuestionDetails(new FeedbackTextQuestionDetails("test qn from teams->none."))
                 .withQuestionNumber(1)
-                .withQuestionType(FeedbackQuestionType.TEXT)
                 .withGiverType(FeedbackParticipantType.TEAMS)
                 .withRecipientType(FeedbackParticipantType.NONE)
                 .withShowGiverNameTo(new ArrayList<>(participants))
@@ -500,6 +527,27 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(expectedBackUpIdentifierMessage, questionAttributes.getBackupIdentifier());
     }
 
+    @Test
+    public void testGetQuestionDetails_shouldDoDeepCopy() {
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionDetails details = fqa.getQuestionDetails();
+        fqa.questionDetails.setQuestionText("updated question");
+
+        assertEquals("Question text.", details.getQuestionText());
+        assertEquals("updated question", fqa.questionDetails.getQuestionText());
+    }
+
+    @Test
+    public void testSetQuestionDetails_shouldDoDeepCopy() {
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("my question");
+        fqa.setQuestionDetails(details);
+        details.setQuestionText("updated question");
+
+        assertEquals("updated question", details.getQuestionText());
+        assertEquals("my question", fqa.questionDetails.getQuestionText());
+    }
+
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
 
@@ -514,8 +562,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .withRecipientType(FeedbackParticipantType.SELF)
                 .withNumOfEntitiesToGiveFeedbackTo(1)
                 .withQuestionNumber(1)
-                .withQuestionType(FeedbackQuestionType.TEXT)
-                .withQuestionMetaData(questionDetails)
+                .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(new ArrayList<>(participants))
                 .withShowRecipientNameTo(new ArrayList<>(participants))
                 .withShowResponseTo(new ArrayList<>(participants))
@@ -548,8 +595,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                         .withRecipientType(FeedbackParticipantType.SELF)
                         .withNumOfEntitiesToGiveFeedbackTo(3)
                         .withQuestionNumber(1)
-                        .withQuestionType(FeedbackQuestionType.TEXT)
-                        .withQuestionMetaData(new FeedbackTextQuestionDetails("question text 2"))
+                        .withQuestionDetails(new FeedbackTextQuestionDetails("question text 2"))
                         .withShowGiverNameTo(new ArrayList<>())
                         .withShowRecipientNameTo(new ArrayList<>())
                         .withShowResponseTo(new ArrayList<>())
@@ -587,8 +633,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                         .withRecipientType(FeedbackParticipantType.SELF)
                         .withNumOfEntitiesToGiveFeedbackTo(3)
                         .withQuestionNumber(1)
-                        .withQuestionType(FeedbackQuestionType.TEXT)
-                        .withQuestionMetaData(new FeedbackTextQuestionDetails("question text"))
+                        .withQuestionDetails(new FeedbackTextQuestionDetails("question text"))
                         .withShowGiverNameTo(new ArrayList<>())
                         .withShowRecipientNameTo(new ArrayList<>())
                         .withShowResponseTo(new ArrayList<>())

@@ -28,7 +28,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -489,8 +489,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withGiverType(FeedbackParticipantType.STUDENTS)
                 .withRecipientType(FeedbackParticipantType.TEAMS)
-                .withQuestionMetaData("question to be deleted through cascade")
-                .withQuestionType(FeedbackQuestionType.TEXT)
+                .withQuestionDetails(new FeedbackTextQuestionDetails("question to be deleted through cascade"))
                 .withShowResponseTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowGiverNameTo(new ArrayList<>())
@@ -534,7 +533,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
             assertEquals(questionDetails1.getQuestionText(), questionDetails2.getQuestionText());
             assertEquals(question1.giverType, question2.giverType);
             assertEquals(question1.recipientType, question2.recipientType);
-            assertEquals(question1.questionType, question2.questionType);
+            assertEquals(question1.getQuestionType(), question2.getQuestionType());
             assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, question2.numberOfEntitiesToGiveFeedbackTo);
         }
         assertEquals(0, copiedSession.getRespondingInstructorList().size());

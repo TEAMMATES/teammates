@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -325,8 +324,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 .withRecipientType(FeedbackParticipantType.SELF)
                 .withNumOfEntitiesToGiveFeedbackTo(1)
                 .withQuestionNumber(1)
-                .withQuestionType(FeedbackQuestionType.TEXT)
-                .withQuestionMetaData(questionDetails)
+                .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowResponseTo(new ArrayList<>())

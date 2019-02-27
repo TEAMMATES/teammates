@@ -37,8 +37,10 @@ public abstract class FeedbackResponseDetails {
 
     public abstract String getAnswerString();
 
+    @Deprecated
     public abstract String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails);
 
+    @Deprecated
     public String getAnswerHtmlStudentView(FeedbackQuestionDetails questionDetails) {
         return getAnswerHtmlInstructorView(questionDetails);
     }
@@ -81,6 +83,7 @@ public abstract class FeedbackResponseDetails {
      * <p>default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails).
      * override in child class if necessary.
      */
+    @Deprecated
     public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                 FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerHtmlInstructorView(question.getQuestionDetails());

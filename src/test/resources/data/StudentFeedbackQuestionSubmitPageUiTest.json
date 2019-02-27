@@ -133,9 +133,11 @@
     "qn1InSession1": {
       "feedbackSessionName": "Open Session",
       "courseId": "SFQSubmitUiT.CS2104",
-      "questionMetaData": "What is the best selling point of your product?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -155,9 +157,11 @@
     "qn1InSession2": {
       "feedbackSessionName": "Closed Session",
       "courseId": "SFQSubmitUiT.CS2104",
-      "questionMetaData": "Give feedback to your instructors",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your instructors"
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -174,9 +178,11 @@
     "qn1InSession3": {
       "feedbackSessionName": "Awaiting Session",
       "courseId": "SFQSubmitUiT.CS2104",
-      "questionMetaData": "Give feedback to your instructors",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your instructors"
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,

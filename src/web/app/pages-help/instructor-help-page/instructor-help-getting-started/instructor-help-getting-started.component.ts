@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 
 /**
@@ -10,10 +11,18 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./instructor-help-getting-started.component.scss'],
 })
 export class InstructorHelpGettingStartedComponent implements OnInit {
-
   readonly supportEmail: string = environment.supportEmail;
+  instructorHelpPath: string = '';
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {
+    let r: ActivatedRoute = this.route;
+    while (r.firstChild) {
+      r = r.firstChild;
+    }
+    r.data.subscribe((resp: any) => {
+      this.instructorHelpPath = resp.instructorHelpPath;
+    });
+  }
 
   ngOnInit(): void {
   }

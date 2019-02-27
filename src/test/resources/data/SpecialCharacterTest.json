@@ -166,9 +166,11 @@
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
-      "questionMetaData": "Give feedback to 3 other teams.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 3 other teams."
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 3,

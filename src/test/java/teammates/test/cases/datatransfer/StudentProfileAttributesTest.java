@@ -6,8 +6,6 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -72,7 +70,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     public void testValueOf() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
                 "Teammates Institute", "American", StudentProfileAttributes.Gender.MALE.name().toLowerCase(),
-                "hello", new BlobKey("key"));
+                "hello", "key");
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
         assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
@@ -82,7 +80,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
         assertEquals(studentProfile.getGender(), profileAttributes.gender.name().toLowerCase());
         assertEquals(studentProfile.getMoreInfo(), profileAttributes.moreInfo);
-        assertEquals(studentProfile.getPictureKey().getKeyString(), profileAttributes.pictureKey);
+        assertEquals(studentProfile.getPictureKey(), profileAttributes.pictureKey);
 
     }
 
@@ -268,7 +266,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
             StudentProfileAttributes profile) {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
                                   profile.institute, profile.nationality, profile.gender.name().toLowerCase(),
-                                  profile.moreInfo, new BlobKey(profile.pictureKey));
+                                  profile.moreInfo, profile.pictureKey);
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {

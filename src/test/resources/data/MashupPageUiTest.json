@@ -355,9 +355,11 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "What is the best selling point of your product?",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -374,9 +376,11 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "Comment about 5 other students",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Comment about 5 other students"
+      },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
@@ -395,9 +399,11 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "My comments on the class",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      },
       "questionNumber": 3,
-      "questionType": "TEXT",
       "giverType": "SELF",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -423,9 +429,18 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"NONE\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "questionText": "What do you like best about our product?",
+        "questionType": "MCQ",
+        "generateOptionsFor": "NONE",
+        "otherEnabled": false
+      },
       "questionNumber": 4,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -451,9 +466,15 @@
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "{\"numOfMcqChoices\":0,\"mcqChoices\":[],\"questionText\":\"Who is the best coder?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 0,
+        "mcqChoices": [],
+        "questionText": "Who is the best coder?",
+        "questionType": "MCQ",
+        "generateOptionsFor": "STUDENTS",
+        "otherEnabled": false
+      },
       "questionNumber": 5,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -479,9 +500,17 @@
     "qn6InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "{\"msqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like about our product?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"NONE\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "msqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "questionText": "What do you like about our product?",
+        "questionType": "MSQ",
+        "generateOptionsFor": "NONE",
+        "otherEnabled": false
+      },
       "questionNumber": 6,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -507,9 +536,14 @@
     "qn7InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "{\"msqChoices\":[],\"questionText\":\"Which team is good?\",\"questionType\":\"MSQ\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "msqChoices": [],
+        "questionText": "Which team is good?",
+        "questionType": "MSQ",
+        "generateOptionsFor": "TEAMS",
+        "otherEnabled": false
+      },
       "questionNumber": 7,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -535,9 +569,14 @@
     "qn8InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "{\"minScale\":1,\"questionText\":\"Rate our product.\",\"questionType\":\"NUMSCALE\",\"maxScale\":5,\"step\":0.5}",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate our product.",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
       "questionNumber": 8,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -563,9 +602,11 @@
     "qn1InSession2InCourse1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "Give feedback to 2 other teams.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 2,
@@ -582,9 +623,11 @@
     "qn2InSession2InCourse1": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "CS2104",
-      "questionMetaData": "Give feedback to 1 of your team mates",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 1 of your team mates"
+      },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -601,9 +644,11 @@
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "CS1101",
-      "questionMetaData": "Please rate the following teams",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Please rate the following teams"
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 1,

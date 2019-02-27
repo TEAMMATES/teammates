@@ -11,21 +11,21 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackParticipantType,
   FeedbackQuestion,
+  FeedbackQuestionRecipient,
+  FeedbackQuestionRecipients,
   FeedbackResponse,
   FeedbackSession,
   FeedbackSessionSubmissionStatus,
-  NumberOfEntitiesToGiveFeedbackToSetting,
+  Instructor, NumberOfEntitiesToGiveFeedbackToSetting, Student,
 } from '../../../types/api-output';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
-} from '../../components/question-types/question-types-session-submission/question-submission-form-model';
+} from '../../components/question-submission-form/question-submission-form-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Instructor } from '../../Instructor';
 import { Intent } from '../../Intent';
-import { Student } from '../../student';
 import {
   FeedbackSessionClosedModalComponent,
 } from './feedback-session-closed-modal/feedback-session-closed-modal.component';
@@ -44,13 +44,6 @@ import {
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
-}
-
-interface FeedbackQuestionRecipients {
-  recipients: {
-    name: string,
-    identifier: string,
-  }[];
 }
 
 interface FeedbackResponsesResponse {
@@ -308,7 +301,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     };
     this.httpRequestService.get('/question/recipients', paramMap)
         .subscribe((response: FeedbackQuestionRecipients) => {
-          response.recipients.forEach((recipient: { name: string, identifier: string }) => {
+          response.recipients.forEach((recipient: FeedbackQuestionRecipient) => {
             model.recipientList.push({
               recipientIdentifier: recipient.identifier,
               recipientName: recipient.name,

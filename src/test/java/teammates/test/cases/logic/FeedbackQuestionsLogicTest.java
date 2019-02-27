@@ -17,7 +17,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
@@ -103,25 +102,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testDeleteQuestion();
         testAddQuestionNoIntegrityCheck();
         testDeleteQuestionsForCourse();
-    }
-
-    @Test
-    public void testGetTemplateQuestionForInstructor() {
-
-        ______TS("Get template questions for instructors");
-
-        List<FeedbackQuestionAttributes> actualTemplateQuestions =
-                fqLogic.getFeedbackSessionTemplateQuestions("TEAMEVALUATION", "idOfTypicalCourse1",
-                        "First feedback session");
-
-        assertEquals(actualTemplateQuestions.size(), 5);
-
-        ______TS("Get questions created for instructors by the creating instructor");
-
-        actualTemplateQuestions = fqLogic.getFeedbackSessionTemplateQuestions("NIL", "idOfTypicalCourse1",
-                "First feedback session");
-
-        assertEquals(actualTemplateQuestions.size(), 0);
     }
 
     private void testGetRecipientsForQuestion() throws Exception {
@@ -404,7 +384,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         FeedbackQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
 
         assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, copiedQuestion.numberOfEntitiesToGiveFeedbackTo);
-        assertEquals(question1.questionType, copiedQuestion.questionType);
+        assertEquals(question1.getQuestionType(), copiedQuestion.getQuestionType());
         assertEquals(question1.giverType, copiedQuestion.giverType);
         assertEquals(question1.recipientType, copiedQuestion.recipientType);
         assertEquals(question1Details.getQuestionText(), copiedQuestionDetails.getQuestionText());
@@ -417,7 +397,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse2");
 
         FeedbackQuestionDetails fqd = new FeedbackTextQuestionDetails("new question text");
-        questionToUpdate.questionMetaData = JsonUtils.toJson(fqd);
+        questionToUpdate.setQuestionDetails(fqd);
         questionToUpdate.questionNumber = 3;
         List<FeedbackParticipantType> newVisibility = new LinkedList<>();
         newVisibility.add(FeedbackParticipantType.INSTRUCTORS);
@@ -438,7 +418,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("cascading update, non-destructive changes, existing responses are preserved");
         questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
         fqd = new FeedbackTextQuestionDetails("new question text 2");
-        questionToUpdate.questionMetaData = JsonUtils.toJson(fqd);
+        questionToUpdate.setQuestionDetails(fqd);
         questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
 
         int numberOfResponses =
@@ -460,7 +440,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("cascading update, destructive changes, delete all existing responses");
         questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
         fqd = new FeedbackTextQuestionDetails("new question text 3");
-        questionToUpdate.questionMetaData = JsonUtils.toJson(fqd);
+        questionToUpdate.setQuestionDetails(fqd);
         questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
 
         assertFalse(frLogic.getFeedbackResponsesForQuestion(questionToUpdate.getId()).isEmpty());

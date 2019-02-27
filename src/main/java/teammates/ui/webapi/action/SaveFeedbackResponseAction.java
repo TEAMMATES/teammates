@@ -60,6 +60,9 @@ public class SaveFeedbackResponseAction extends BasicFeedbackSubmissionAction {
             recipientsOfTheQuestion =
                     logic.getRecipientsOfQuestionForInstructor(feedbackQuestion, instructorAttributes.getEmail());
             break;
+        case INSTRUCTOR_RESULT:
+        case STUDENT_RESULT:
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
