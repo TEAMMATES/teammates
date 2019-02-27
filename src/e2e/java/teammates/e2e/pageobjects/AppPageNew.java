@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import com.google.common.collect.ObjectArrays;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -14,19 +13,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
-import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
-import teammates.common.util.retry.RetryableTask;
-import teammates.common.util.retry.RetryableTaskReturnsThrows;
-import teammates.e2e.cases.util.AssertHelper;
-import teammates.e2e.cases.util.FileHelper;
 import teammates.e2e.util.HtmlHelper;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.AssertHelper;
+import teammates.test.driver.FileHelper;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
