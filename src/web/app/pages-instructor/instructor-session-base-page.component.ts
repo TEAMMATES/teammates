@@ -204,8 +204,9 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Views the result of a feedback session.
    */
-  viewSessionResult(): void {
-    this.router.navigateByUrl('/web/instructor/sessions/result');
+  viewSessionResult(model: SessionsTableRowModel): void {
+    this.router.navigateByUrl('/web/instructor/sessions/result'
+        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
   }
 
   /**
