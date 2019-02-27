@@ -907,7 +907,9 @@ public final class Const {
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/course";
         public static final String STUDENT_PROFILE_PAGE = STUDENT_PAGE + "/profile";
+        public static final String STUDENT_SESSION_RESULTS_PAGE = STUDENT_PAGE + "/sessions/result";
 
+        public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
 
@@ -1013,7 +1015,6 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
 
-        public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
 
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
@@ -1092,8 +1093,6 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp";
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
-
-        public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
 
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";
