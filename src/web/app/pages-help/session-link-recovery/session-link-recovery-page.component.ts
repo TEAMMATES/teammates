@@ -74,7 +74,7 @@ export class SessionLinkRecoveryPageComponent implements OnInit {
     (this.formLinkRecovery = this.formBuilder.group({
       recaptcha: ['', Validators.required],
     }));
-    this.reload();
+    this.captchaElem.reloadCaptcha();
   }
 
   /**
@@ -84,13 +84,6 @@ export class SessionLinkRecoveryPageComponent implements OnInit {
     (this.formLinkRecovery = this.formBuilder.group({
       email: ['', Validators.required],
     }));
-  }
-
-  /**
-   * Reloads the reCAPTCHA widget.
-   */
-  reload(): void {
-    this.captchaElem.reloadCaptcha();
   }
 
   /**
