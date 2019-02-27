@@ -51,8 +51,10 @@
         <button class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0" (click)="previewAsStudent()">Preview as Student</button>
       </div>
       <div class="col-5" ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">
-        <select class="form-control preview_select"></select>
-        <button class="btn btn-primary">Preview as Instructor</button>
+        <select class="form-control preview_select" [(ngModel)]="emailOfInstructorToPreview">
+          <option *ngFor="let instructor of instructorsCanBePreviewedAs" [ngValue]="instructor.email">{{ instructor.name }}</option>
+        </select>
+        <button class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0" (click)="previewAsInstructor()">Preview as Instructor</button>
       </div>
     </div>
   </div>

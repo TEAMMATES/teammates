@@ -18,7 +18,7 @@ import {
   FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessionPublishStatus, FeedbackSessions,
-  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails,
+  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails, Instructor, Instructors,
   NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseVisibleSetting,
   SessionVisibleSetting, Student, Students,
@@ -144,6 +144,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // all students of the course
   studentsOfCourse: Student[] = [];
   emailOfStudentToPreview: string = '';
+  // instructors which can be previewed as
+  instructorsCanBePreviewedAs: Instructor[] = [];
+  emailOfInstructorToPreview: string = '';
 
   constructor(router: Router, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService, navigationService: NavigationService,
@@ -162,6 +165,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
       this.getAllStudentsOfCourse();
+      this.getAllInstructorsCanBePreviewedAs();
     });
   }
 
@@ -813,11 +817,46 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
+   * Gets all instructors of a course which can be previewed as.
+   */
+  getAllInstructorsCanBePreviewedAs(): void {
+    const paramMap: { [key: string]: string } = {
+      courseid: this.courseId,
+      intent: Intent.FULL_DETAIL,
+    };
+    this.httpRequestService.get('/instructors', paramMap)
+        .subscribe((instructors: Instructors) => {
+          this.instructorsCanBePreviewedAs = instructors.instructors;
+
+          // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
+          // in the feedback session
+
+          // sort the instructor list based on name
+          this.instructorsCanBePreviewedAs.sort((a: Instructor, b: Instructor): number => {
+            return a.name.localeCompare(b.name);
+          });
+
+          // select the first instructor
+          if (this.instructorsCanBePreviewedAs.length >= 1) {
+            this.emailOfInstructorToPreview = this.instructorsCanBePreviewedAs[0].email;
+          }
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  }
+
+  /**
    * Previews the submission of the feedback session as a student.
    */
   previewAsStudent(): void {
-    window.open(`${environment.frontendUrl}/web/student/sessions/submission`
+    window.open(`${environment.frontendUrl}/web/sessions/submission`
         + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfStudentToPreview}`);
+  }
+
+  /**
+   * Previews the submission of the feedback session as an instructor.
+   */
+  previewAsInstructor(): void {
+    window.open(`${environment.frontendUrl}/web/instructor/sessions/submission`
+        + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfInstructorToPreview}`);
   }
 
   private deepCopy<T>(obj: T): T {
