@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -83,6 +84,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
               private navigationService: NavigationService,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
+              private courseService: CourseService,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -496,18 +498,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
     modalRef.componentInstance.courseId = this.courseEditFormModel.courseId;
 
     modalRef.result.then(() => {
-      const paramsMap: { [key: string]: string } = {
-        courseid: this.courseEditFormModel.courseId,
-        instructoremail: instructorToResend.email,
-      };
-
-      this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
+      this.courseService.remindInstructorForJoin(this.courseEditFormModel.courseId, instructorToResend.email)
           .subscribe((resp: MessageOutput) => {
             this.statusMessageService.showSuccessMessage(resp.message);
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(resp.error.message);
           });
-    }, () => {});
+      }, () => {});
   }
 
   /**

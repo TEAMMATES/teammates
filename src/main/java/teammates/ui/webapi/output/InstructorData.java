@@ -8,35 +8,38 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
  */
 public class InstructorData extends ApiOutput {
     private String googleId;
-    private String courseId;
-    private String name;
-    private String email;
+    private final String name;
+    private final String courseId;
+    private final String email;
     private String role;
-    private String displayedName;
-    private boolean isDisplayedToStudents;
+    private Boolean isDisplayedToStudents;
+    private final String displayedName;
     private InstructorPrivileges privileges;
+
+    private JoinState joinState;
 
     public InstructorData(InstructorAttributes instructorAttributes) {
         this.googleId = instructorAttributes.getGoogleId();
-        this.courseId = instructorAttributes.getCourseId();
         this.name = instructorAttributes.getName();
+        this.courseId = instructorAttributes.getCourseId();
         this.email = instructorAttributes.getEmail();
         this.role = instructorAttributes.getRole();
+        this.isDisplayedToStudents = instructorAttributes.isDisplayedToStudents();
         this.displayedName = instructorAttributes.getDisplayedName();
-        this.isDisplayedToStudents = instructorAttributes.isDisplayedToStudents;
         this.privileges = instructorAttributes.privileges;
+        this.joinState = instructorAttributes.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
     }
 
     public String getGoogleId() {
         return googleId;
     }
 
-    public String getCourseId() {
-        return courseId;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public String getCourseId() {
+        return courseId;
     }
 
     public String getEmail() {
@@ -47,15 +50,27 @@ public class InstructorData extends ApiOutput {
         return role;
     }
 
-    public String getDisplayedName() {
-        return displayedName;
-    }
-
     public boolean getIsDisplayedToStudents() {
         return isDisplayedToStudents;
     }
 
+    public String getDisplayedName() {
+        return displayedName;
+    }
+
     public InstructorPrivileges getPrivileges() {
         return privileges;
+    }
+
+    public void setIsDisplayedToStudents(boolean displayedToStudents) {
+        isDisplayedToStudents = displayedToStudents;
+    }
+
+    public JoinState getJoinState() {
+        return joinState;
+    }
+
+    public void setJoinState(JoinState joinState) {
+        this.joinState = joinState;
     }
 }
