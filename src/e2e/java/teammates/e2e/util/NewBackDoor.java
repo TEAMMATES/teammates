@@ -209,10 +209,20 @@ public final class NewBackDoor {
      * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
     public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
+        removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
-                executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+                executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
         return putRequestOutput.responseCode == HttpStatus.SC_OK
                 ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+    }
+
+    /**
+     * Removes given data from the datastore.
+     *
+     * <p>If given entities have already been deleted, it fails silently.
+     */
+    public static void removeDataBundle(DataBundle dataBundle) {
+        executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 
     /**

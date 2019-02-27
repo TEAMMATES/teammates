@@ -3,15 +3,14 @@ package teammates.ui.webapi.action;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 
 /**
- * Persists a data bundle into the DB.
+ * Deletes a data bundle from the DB.
  */
-public class PutDataBundleAction extends Action {
+public class DeleteDataBundleAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -28,14 +27,7 @@ public class PutDataBundleAction extends Action {
     @Override
     public JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
-
-        try {
-            logic.persistDataBundle(dataBundle);
-        } catch (InvalidParametersException e) {
-            return new JsonResult("Error when persisting data bundle: " + e.getMessage(),
-                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        }
-
+        logic.removeDataBundle(dataBundle);
         return new JsonResult("Data bundle successfully persisted.", HttpStatus.SC_OK);
     }
 

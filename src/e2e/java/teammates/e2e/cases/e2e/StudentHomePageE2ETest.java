@@ -187,7 +187,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         // The test data needs to be removed for both `StudentHomePageUiTest` and `StudentProfilePageUiTest`
         // as the tests can run in any order.
 
-        // See `BackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
-        // NewBackDoor.removeDataBundle(testData);
+        // See `NewBackDoor#removeAndRestoreDataBundle(DataBundle))` for more details.
+        NewBackDoor.removeDataBundle(testData);
     }
+
 }
