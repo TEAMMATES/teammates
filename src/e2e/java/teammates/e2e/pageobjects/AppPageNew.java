@@ -45,9 +45,6 @@ import static org.junit.Assert.*;
  * @see <a href="https://code.google.com/p/selenium/wiki/PageObjects">https://code.google.com/p/selenium/wiki/PageObjects</a>
  */
 public abstract class AppPageNew {
-    private static final By MAIN_CONTENT = By.id("mainContent");
-    private static final int VERIFICATION_RETRY_COUNT = 5;
-    private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
 
     /** Browser instance the page is loaded into. */
     protected Browser browser;
@@ -62,20 +59,9 @@ public abstract class AppPageNew {
     private final FirefoxChangeHandler firefoxChangeHandler;
 
     // These are elements common to most pages in our app
-    @FindBy(id = "statusMessagesToUser")
-    private WebElement statusMessage;
 
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
-    private WebElement instructorHomeTab;
-
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
-    private WebElement instructorCoursesTab;
-
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
-    private WebElement instructorStudentsTab;
-
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
-    private WebElement instructorHelpTab;
+    @FindBy(id = "btnLogout")
+    private WebElement logoutButton;
 
     @FindBy(id = "studentHomeNavLink")
     private WebElement studentHomeTab;
@@ -85,9 +71,6 @@ public abstract class AppPageNew {
 
     @FindBy(id = "studentHelpLink")
     private WebElement studentHelpTab;
-
-    @FindBy(id = "btnLogout")
-    private WebElement logoutButton;
 
     @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td[@class =\"enroll-handsontable\"])[1]")
     private WebElement enrollSpreadsheetFirstCell;
@@ -150,23 +133,6 @@ public abstract class AppPageNew {
     }
 
     /**
-     * Gives an AppPageNew instance based on the given Browser.
-     * To be added in the future
-    public static AppPageNew getNewPageInstance(Browser currentBrowser) {
-        return getNewPageInstance(currentBrowser, GenericAppPage.class);
-    }
-    */
-
-
-    /**
-     * Simply loads the given URL.
-     */
-    public AppPageNew navigateTo(Url url) {
-        browser.driver.get(url.toAbsoluteString());
-        return this;
-    }
-
-    /**
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code newPageType}.
      */
@@ -182,19 +148,6 @@ public abstract class AppPageNew {
         Class<? extends LoginPageNew> cls =
                 TestProperties.isDevServer() ? DevServerLoginPageNew.class : GoogleLoginPageNew.class;
         return getNewPageInstance(browser, cls);
-    }
-
-    /**
-     * Checks whether the URL currently loaded in the browser corresponds to the given page {@code uri}.
-     */
-    public boolean isPageUri(String uri) {
-        Url currentPageUrl;
-        try {
-            currentPageUrl = new Url(browser.driver.getCurrentUrl());
-        } catch (AssertionError e) { // due to MalformedURLException
-            return false;
-        }
-        return currentPageUrl.getRelativeUrl().equals(uri);
     }
 
     public <E> E waitFor(ExpectedCondition<E> expectedCondition) {
@@ -214,24 +167,6 @@ public abstract class AppPageNew {
         });
     }
 
-    /**
-     * Waits until TinyMCE editor is fully loaded.
-     */
-    public void waitForRichTextEditorToLoad(String id) {
-        waitFor(driver -> {
-            String script = "return tinymce.get('" + id + "') !== null";
-            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) checkNotNull(driver);
-            return (Boolean) javascriptExecutor.executeScript(script);
-        });
-    }
-
-    /**
-     * Waits until the element is not covered by any other element.
-     */
-    public void waitForElementNotCovered(WebElement element) {
-        waitFor(d -> !isElementCovered(element));
-    }
-
     public void waitForElementVisibility(WebElement element) {
         waitFor(ExpectedConditions.visibilityOf(element));
     }
@@ -243,11 +178,6 @@ public abstract class AppPageNew {
     public void waitForElementToBeClickable(WebElement element) {
         waitFor(ExpectedConditions.elementToBeClickable(element));
     }
-
-    public void waitForElementsVisibility(List<WebElement> elements) {
-        waitFor(ExpectedConditions.visibilityOfAllElements(elements));
-    }
-
     /**
      * {@code locator} is mapped to an actual {@link WebElement}.
      * @param locator used to find the element
@@ -469,57 +399,6 @@ public abstract class AppPageNew {
         waitForPageToLoad();
         return changePageType(typeOfPreviousPage);
     }
-
-    /**
-     * Equivalent to clicking the 'Courses' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-//    public InstructorCoursesPage loadCoursesTab() {
-//        click(instructorCoursesTab);
-//        waitForPageToLoad();
-//        return changePageType(InstructorCoursesPage.class);
-//    }
-
-    /**
-     * Equivalent to clicking the 'Students' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-//    public InstructorStudentListPage loadStudentsTab() {
-//        click(instructorStudentsTab);
-//        waitForPageToLoad();
-//        return changePageType(InstructorStudentListPage.class);
-//    }
-
-    /**
-     * Equivalent to clicking the 'Home' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-//    public InstructorHomePage loadInstructorHomeTab() {
-//        click(instructorHomeTab);
-//        waitForPageToLoad();
-//        return changePageType(InstructorHomePage.class);
-//    }
-
-    /**
-     * Equivalent to clicking the 'Help' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-//    public InstructorHelpPage loadInstructorHelpTab() {
-//        click(instructorHelpTab);
-//        waitForPageToLoad();
-//        switchToNewWindow();
-//        return changePageType(InstructorHelpPage.class);
-//    }
-
-    /**
-     * Equivalent of clicking the 'Profile' tab on the top menu of the page.
-     * @return the loaded page
-     */
-//    public StudentProfilePage loadProfileTab() {
-//        click(studentProfileTab);
-//        waitForPageToLoad();
-//        return changePageType(StudentProfilePage.class);
-//    }
 
     /**
      * Equivalent of student clicking the 'Home' tab on the top menu of the page.
@@ -835,39 +714,9 @@ public abstract class AppPageNew {
         return !newSelectedOption.equals(originalSelectedOption);
     }
 
-    /**
-     * Waits for all ongoing AJAX requests to complete if any before selecting the option by actual value, then
-     * waits for the associated AJAX request to complete.
-     *
-     * @see AppPageNew#selectDropdownByActualValue(WebElement, String)
-     */
-    void selectDropdownByActualValueAndHandleAjaxRequests(WebElement element, String value) {
-//        jQueryAjaxHandler.waitForAjaxIfPresentThenRegisterHandlers();
-//
-//        if (selectDropdownByActualValue(element, value)) {
-//            jQueryAjaxHandler.waitForRequestComplete();
-//        } else {
-//            // No AJAX request will be made if the value did not change
-//            jQueryAjaxHandler.unregisterHandlers();
-//        }
-    }
-
     public String getDropdownSelectedValue(WebElement element) {
         Select select = new Select(element);
         return select.getFirstSelectedOption().getAttribute("value");
-    }
-
-    /**
-     * Returns a list containing the texts of the user status messages in the page.
-     * @see WebElement#getText()
-     */
-    public List<String> getTextsForAllStatusMessagesToUser() {
-        List<WebElement> statusMessagesToUser = statusMessage.findElements(By.tagName("div"));
-        List<String> statusMessageTexts = new ArrayList<>();
-        for (WebElement statusMessage : statusMessagesToUser) {
-            statusMessageTexts.add(statusMessage.getText());
-        }
-        return statusMessageTexts;
     }
 
     /**
@@ -1126,61 +975,6 @@ public abstract class AppPageNew {
         }
     }
 
-    /**
-     * Verifies that the currently loaded page has the same HTML content as
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence.
-     * @param filePath
-     *         If this starts with "/" (e.g., "/expected.html"), the
-     *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
-     * @return The page (for chaining method calls).
-     */
-    public AppPageNew verifyHtml(String filePath) throws IOException {
-        return verifyHtmlPart(null, filePath);
-    }
-
-    /**
-     * Verifies that element specified in currently loaded page has the same HTML content as
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence.
-     * @param filePathParam
-     *         If this starts with "/" (e.g., "/expected.html"), the
-     *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
-     * @return The page (for chaining method calls).
-     */
-    public AppPageNew verifyHtmlPart(By by, String filePathParam) throws IOException {
-        String filePath = (filePathParam.charAt(0) == '/' ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
-        boolean isPart = by != null;
-        String actual = getPageSource(by);
-        try {
-            String expected = FileHelper.readFile(filePath);
-            expected = HtmlHelper.injectTestProperties(expected);
-
-            // The check is done multiple times with waiting times in between to account for
-            // certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
-            for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
-                if (i == VERIFICATION_RETRY_COUNT - 1) {
-                    // Last retry count: do one last attempt and if it still fails,
-                    // throw assertion error and show the differences
-                    HtmlHelper.assertSameHtml(expected, actual, isPart);
-                    break;
-                }
-                if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
-                    break;
-                }
-                ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
-                actual = getPageSource(by);
-            }
-
-        } catch (IOException | AssertionError e) {
-            if (!testAndRunGodMode(filePath, actual, isPart)) {
-                throw e;
-            }
-        }
-
-        return this;
-    }
-
     private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
         return TestProperties.IS_GODMODE_ENABLED && regenerateHtmlFile(filePath, content, isPart);
     }
@@ -1194,36 +988,6 @@ public abstract class AppPageNew {
         String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
         FileHelper.saveFile(filePath, processedPageSource);
         return true;
-    }
-
-    /**
-     * Verifies that main content specified id "mainContent" in currently
-     * loaded page has the same HTML content as
-     * the content given in the file at {@code filePath}. <br>
-     * The HTML is checked for logical equivalence, not text equivalence.
-     * @param filePath
-     *         If this starts with "/" (e.g., "/expected.html"), the
-     *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
-     * @return The page (for chaining method calls).
-     */
-    public AppPageNew verifyHtmlMainContent(String filePath) throws IOException {
-        return verifyHtmlPart(MAIN_CONTENT, filePath);
-    }
-
-    public AppPageNew verifyHtmlMainContentWithReloadRetry(String filePath)
-            throws IOException, MaximumRetriesExceededException {
-        return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPageNew, IOException>(
-                "HTML verification") {
-            @Override
-            public AppPageNew run() throws IOException {
-                return verifyHtmlPart(MAIN_CONTENT, filePath);
-            }
-
-            @Override
-            public void beforeRetry() {
-                reloadPage();
-            }
-        }, AssertionError.class);
     }
 
     /**
@@ -1252,29 +1016,6 @@ public abstract class AppPageNew {
 
     public void verifyElementDoesNotContainElement(WebElement parentElement, By childBy) {
         assertTrue(parentElement.findElements(childBy).isEmpty());
-    }
-
-    /**
-     * Waits and verifies that the texts of user status messages in the page are equal to the expected texts.
-     * The check is done multiple times with waiting times in between to account for
-     * timing issues due to page load, inconsistencies in Selenium API, etc.
-     */
-    public void waitForTextsForAllStatusMessagesToUserEquals(String firstExpectedText, String... remainingExpectedTexts) {
-        List<String> expectedTexts = Arrays.asList(ObjectArrays.concat(firstExpectedText, remainingExpectedTexts));
-        try {
-            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
-                @Override
-                public void run() {
-                    // Scroll to status message because it must be visible in order to get its text
-                    new Actions(browser.driver).moveToElement(statusMessage).perform();
-                    waitForElementVisibility(statusMessage);
-
-                    assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
-                }
-            }, WebDriverException.class, AssertionError.class);
-        } catch (MaximumRetriesExceededException e) {
-            assertEquals(expectedTexts, getTextsForAllStatusMessagesToUser());
-        }
     }
 
     /**

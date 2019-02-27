@@ -37,25 +37,6 @@ public class GoogleLoginPageNew extends LoginPageNew {
         return getPageSource().contains(EXPECTED_SNIPPET_SIGN_IN);
     }
 
-//    @Override
-//    public InstructorHomePage loginAsInstructor(String username, String password) {
-//        return loginAsInstructor(username, password, InstructorHomePage.class);
-//    }
-
-//    @Override
-//    public <T extends AppPageNew> T loginAsInstructor(String username, String password, Class<T> typeOfPage) {
-//        completeGoogleLoginSteps(username, password);
-//        browser.isAdminLoggedIn = false;
-//        return changePageType(typeOfPage);
-//    }
-//
-//    @Override
-//    public AppPageNew loginAsInstructorUnsuccessfully(String userName, String password) {
-//        completeGoogleLoginSteps(userName, password);
-//        browser.isAdminLoggedIn = false;
-//        return this;
-//    }
-
     @Override
     public void loginAdminAsInstructor(
             String adminUsername, String adminPassword, String instructorUsername) {
@@ -143,28 +124,4 @@ public class GoogleLoginPageNew extends LoginPageNew {
 
         fillTextBox(identifierTextBox, identifier);
     }
-
-//    @Override
-//    public StudentCourseJoinConfirmationPageNew loginAsJoiningStudent(
-//            String username, String password) {
-//        completeGoogleLoginSteps(username, password);
-//        browser.isAdminLoggedIn = false;
-//        return changePageType(StudentCourseJoinConfirmationPageNew.class);
-//    }
-
-//    @Override
-//    public InstructorCourseJoinConfirmationPage loginAsJoiningInstructor(
-//            String username, String password) {
-//        completeGoogleLoginSteps(username, password);
-//        browser.isAdminLoggedIn = false;
-//        return changePageType(InstructorCourseJoinConfirmationPage.class);
-//    }
-
-//    @Override
-//    public InstructorHomePage loginAsJoiningInstructorByPassConfirmation(
-//            String username, String password) {
-//        completeGoogleLoginSteps(username, password);
-//        browser.isAdminLoggedIn = false;
-//        return changePageType(InstructorHomePage.class);
-//    }
 }

@@ -13,13 +13,6 @@ public class StudentHomePageNew extends AppPageNew {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return containsExpectedPageContents(getPageSource());
-    }
-
-    public static boolean containsExpectedPageContents(String pageSource) {
-        // TODO: method to be removed as getPageSource() only returns the header segment and ignores the body.
-        return pageSource.contains("<title>TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects</title>");
-        // return pageSource.contains("<h1>Student Home</h1>");
     }
 
     public void clickViewTeam() {
