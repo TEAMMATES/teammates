@@ -34,7 +34,7 @@ export class CourseService {
   /**
    * Deletes a course by calling API.
    */
-  deleteCourse(courseid: string): Observable<Course> {
+  deleteCourse(courseid: string): Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = { courseid };
     return this.httpRequestService.delete('/course', paramMap);
   }

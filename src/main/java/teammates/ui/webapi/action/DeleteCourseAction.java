@@ -1,9 +1,8 @@
 package teammates.ui.webapi.action;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.CourseData;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * Delete a course.
@@ -30,10 +29,8 @@ public class DeleteCourseAction extends Action {
     public ActionResult execute() {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        CourseAttributes courseAttributes = logic.getCourse(idOfCourseToDelete);
-
         logic.deleteCourse(idOfCourseToDelete);
 
-        return new JsonResult(new CourseData(courseAttributes));
+        return new JsonResult(new MessageOutput("OK"));
     }
 }

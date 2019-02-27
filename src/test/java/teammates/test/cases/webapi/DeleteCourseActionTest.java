@@ -8,7 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.DeleteCourseAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CourseData;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link DeleteCourseAction}.
@@ -51,11 +51,10 @@ public class DeleteCourseActionTest
 
         DeleteCourseAction deleteCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(deleteCourseAction);
-        CourseData courseData = (CourseData) result.getOutput();
+        MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
-                courseToBeDeleted.getTimeZone().getId());
+        assertEquals("OK", messageOutput.getMessage());
         assertNull(logic.getCourse(instructor1OfCourse1.courseId));
     }
 
@@ -77,18 +76,11 @@ public class DeleteCourseActionTest
 
         DeleteCourseAction deleteCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(deleteCourseAction);
-        CourseData courseData = (CourseData) result.getOutput();
+        MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
-                courseToBeDeleted.getTimeZone().getId());
+        assertEquals("OK", messageOutput.getMessage());
         assertNull(logic.getCourse(instructor1OfCourse1.courseId));
-    }
-
-    private void verifyCourseData(CourseData data, String courseId, String courseName, String timeZone) {
-        assertEquals(data.getCourseId(), courseId);
-        assertEquals(data.getCourseName(), courseName);
-        assertEquals(data.getTimeZone(), timeZone);
     }
 
     @Override
