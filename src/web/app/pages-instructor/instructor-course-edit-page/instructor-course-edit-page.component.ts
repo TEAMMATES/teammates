@@ -499,12 +499,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     modalRef.result.then(() => {
       this.courseService.remindInstructorForJoin(this.courseEditFormModel.courseId, instructorToResend.email)
-          .subscribe((resp: MessageOutput) => {
-            this.statusMessageService.showSuccessMessage(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
-          });
-      }, () => {});
+        .subscribe((resp: MessageOutput) => {
+          this.statusMessageService.showSuccessMessage(resp.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+    }, () => {});
   }
 
   /**

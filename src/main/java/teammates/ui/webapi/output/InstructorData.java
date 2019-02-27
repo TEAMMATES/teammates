@@ -50,7 +50,7 @@ public class InstructorData extends ApiOutput {
         return role;
     }
 
-    public boolean getIsDisplayedToStudents() {
+    public Boolean getIsDisplayedToStudents() {
         return isDisplayedToStudents;
     }
 
@@ -62,7 +62,7 @@ public class InstructorData extends ApiOutput {
         return privileges;
     }
 
-    public void setIsDisplayedToStudents(boolean displayedToStudents) {
+    public void setIsDisplayedToStudents(Boolean displayedToStudents) {
         isDisplayedToStudents = displayedToStudents;
     }
 
