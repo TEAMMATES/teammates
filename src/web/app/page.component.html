@@ -64,6 +64,7 @@
       <i class="fas fa-ban"></i>&nbsp;You are currently not enabling cookies in your browser. TEAMMATES requires cookies in order to work effectively.
     </div>
   </div>
+  <h1 id="pageTitle" *ngIf="pageTitle">{{ pageTitle }}</h1>
   <div *ngIf="!isValidUser">
     <div *ngIf="isStudent || isInstructor || isAdmin">
       <div class="row">
@@ -106,7 +107,6 @@
       </div>
     </div>
   </div>
-  <h1 *ngIf="pageTitle && isValidUser">{{ pageTitle }}</h1>
   <tm-status-message [messages]="messageList"></tm-status-message>
   <router-outlet *ngIf="isValidUser"></router-outlet>
 </div>
