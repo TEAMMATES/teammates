@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 /**
  * Action: get all students list from a course in csv.
  */
-public class GetInstructorCourseAllStudentsInCsvAction extends Action {
+public class GetStudentsAsCsvAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

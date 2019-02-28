@@ -8,17 +8,17 @@ import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.CsvChecker;
 import teammates.ui.webapi.action.CsvResult;
-import teammates.ui.webapi.action.GetInstructorCourseAllStudentsInCsvAction;
+import teammates.ui.webapi.action.GetStudentsAsCsvAction;
 
 /**
- * SUT: {@link GetInstructorCourseAllStudentsInCsvAction}.
+ * SUT: {@link GetStudentsAsCsvAction}.
  */
-public class GetInstructorCourseAllStudentsInCsvActionTest extends
-        BaseActionTest<GetInstructorCourseAllStudentsInCsvAction> {
+public class GetStudentsAsCsvActionTest extends
+        BaseActionTest<GetStudentsAsCsvAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV;
+        return Const.ResourceURIs.STUDENTS_CSV;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class GetInstructorCourseAllStudentsInCsvActionTest extends
         };
 
         ______TS("Typical case: student list downloaded successfully");
-        GetInstructorCourseAllStudentsInCsvAction downloadAction = getAction(submissionParams);
+        GetStudentsAsCsvAction downloadAction = getAction(submissionParams);
         CsvResult result = getCsvResult(downloadAction);
         String content = result.getContent();
 

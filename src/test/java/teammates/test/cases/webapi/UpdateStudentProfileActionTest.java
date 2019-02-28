@@ -11,13 +11,14 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.PutStudentProfileAction;
+import teammates.ui.webapi.action.UpdateStudentProfileAction;
 import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.StudentProfileUpdateRequest;
 
 /**
- * SUT: {@link PutStudentProfileAction}.
+ * SUT: {@link UpdateStudentProfileAction}.
  */
-public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfileAction> {
+public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudentProfileAction> {
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.STUDENT_PROFILE;
@@ -35,6 +36,7 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
 
         testActionWithInvalidParameters(student1);
+        testActionWithScriptInjection(student2);
         testActionSuccess(student1, "Typical Case");
         testActionForbidden(student1, student2, "Forbidden Case");
         testActionInMasqueradeMode(student1);
@@ -49,9 +51,10 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         loginAsStudent(student.googleId);
         ______TS("Failure case: invalid parameters");
 
-        String[] submissionParams = createInvalidParamsForProfile(student.googleId);
+        String[] submissionParams = createValidParam(student.googleId);
+        StudentProfileUpdateRequest req = createInvalidUpdateRequest();
 
-        PutStudentProfileAction action = getAction(submissionParams);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
@@ -60,65 +63,70 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         MessageOutput invalidOutput = (MessageOutput) result.getOutput();
 
         expectedErrorMessages.add(
-                getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, submissionParams[3],
+                getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, req.getShortName(),
                         FieldValidator.PERSON_NAME_FIELD_NAME,
                         FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
                         FieldValidator.PERSON_NAME_MAX_LENGTH));
         expectedErrorMessages.add(
-                getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, submissionParams[5],
+                getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, req.getEmail(),
                         FieldValidator.EMAIL_FIELD_NAME,
                         FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.EMAIL_MAX_LENGTH));
         expectedErrorMessages.add(
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(submissionParams[9])));
+                        SanitizationHelper.sanitizeForHtml(req.getNationality())));
 
         assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
+    }
 
+    private void testActionWithScriptInjection(AccountAttributes student) throws Exception {
+        loginAsStudent(student.googleId);
         ______TS("Failure case: invalid parameters with attempted script injection");
 
-        submissionParams = createInvalidParamsForProfileWithScriptInjection(student.googleId);
+        String[] submissionParams = createValidParam(student.googleId);
+        StudentProfileUpdateRequest req = createInvalidUpdateRequestForProfileWithScriptInjection();
 
-        action = getAction(submissionParams);
-        result = getJsonResult(action);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
+        JsonResult result = getJsonResult(action);
 
-        assertEquals(result.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
 
-        expectedErrorMessages = new ArrayList<>();
-        invalidOutput = (MessageOutput) result.getOutput();
+        List<String> expectedErrorMessages = new ArrayList<>();
+        MessageOutput invalidOutput = (MessageOutput) result.getOutput();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(submissionParams[3]),
+                        SanitizationHelper.sanitizeForHtml(req.getShortName()),
                         FieldValidator.PERSON_NAME_FIELD_NAME,
                         FieldValidator.REASON_CONTAINS_INVALID_CHAR,
                         FieldValidator.PERSON_NAME_MAX_LENGTH));
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(submissionParams[5]),
+                        SanitizationHelper.sanitizeForHtml(req.getEmail()),
                         FieldValidator.EMAIL_FIELD_NAME,
                         FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.EMAIL_MAX_LENGTH));
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(submissionParams[7]),
+                        SanitizationHelper.sanitizeForHtml(req.getInstitute()),
                         FieldValidator.INSTITUTE_NAME_FIELD_NAME,
                         FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
                         FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
         expectedErrorMessages.add(
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(submissionParams[9])));
+                        SanitizationHelper.sanitizeForHtml(req.getNationality())));
 
         assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
     }
 
     private void testActionSuccess(AccountAttributes student, String caseDescription) {
-        String[] submissionParams = createValidParamsForProfile(student.googleId);
+        String[] submissionParams = createValidParam(student.googleId);
+        StudentProfileUpdateRequest req = createValidRequestForProfile();
         loginAsStudent(student.googleId);
 
         ______TS(caseDescription);
 
-        PutStudentProfileAction action = getAction(submissionParams);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
@@ -126,12 +134,13 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
 
     private void testActionForbidden(AccountAttributes student1, AccountAttributes student2,
                                      String caseDescription) {
-        String[] submissionParams = createValidParamsForProfile(student1.googleId);
+        String[] submissionParams = createValidParam(student1.googleId);
+        StudentProfileUpdateRequest req = createValidRequestForProfile();
         loginAsStudent(student2.googleId);
 
         ______TS(caseDescription);
 
-        PutStudentProfileAction action = getAction(submissionParams);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_FORBIDDEN, result.getStatusCode());
@@ -143,8 +152,9 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         gaeSimulation.loginAsAdmin("admin.user");
 
         String[] submissionParams = createValidParamsForMasqueradeMode(student.googleId);
+        StudentProfileUpdateRequest req = createValidRequestForProfile();
 
-        PutStudentProfileAction action = getAction(submissionParams);
+        UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
@@ -154,49 +164,52 @@ public class PutStudentProfileActionTest extends BaseActionTest<PutStudentProfil
         return new String[] {
                 Const.ParamsNames.STUDENT_ID, googleId,
                 Const.ParamsNames.USER_ID, googleId,
-                Const.ParamsNames.STUDENT_SHORT_NAME, "short ",
-                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
-                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
-                Const.ParamsNames.STUDENT_NATIONALITY, "American",
-                Const.ParamsNames.STUDENT_GENDER, "  other   ",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   ",
         };
     }
 
-    private String[] createValidParamsForProfile(String googleId) {
+    private String[] createValidParam(String googleId) {
         return new String[] {
                 Const.ParamsNames.STUDENT_ID, googleId,
-                Const.ParamsNames.STUDENT_SHORT_NAME, "short ",
-                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
-                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
-                Const.ParamsNames.STUDENT_NATIONALITY, "American",
-                Const.ParamsNames.STUDENT_GENDER, "  other   ",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   ",
         };
     }
 
-    private String[] createInvalidParamsForProfile(String googleId) {
-        return new String[] {
-                Const.ParamsNames.STUDENT_ID, googleId,
-                Const.ParamsNames.STUDENT_SHORT_NAME, "$$short",
-                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "invalid.email",
-                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "institute",
-                Const.ParamsNames.STUDENT_NATIONALITY, "USA",
-                Const.ParamsNames.STUDENT_GENDER, "female",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me",
-        };
+    private StudentProfileUpdateRequest createValidRequestForProfile() {
+        StudentProfileUpdateRequest req = new StudentProfileUpdateRequest();
+
+        req.setShortName("short ");
+        req.setEmail("e@email.com  ");
+        req.setInstitute(" TEAMMATES Test Institute 5   ");
+        req.setNationality("American");
+        req.setGender("  other   ");
+        req.setMoreInfo("   This is more info on me   ");
+
+        return req;
     }
 
-    private String[] createInvalidParamsForProfileWithScriptInjection(String googleId) {
-        return new String[] {
-                Const.ParamsNames.STUDENT_ID, googleId,
-                Const.ParamsNames.STUDENT_SHORT_NAME, "short%<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_NATIONALITY, "USA<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_GENDER, "female<script>alert(\"was here\");</script>",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me<script>alert(\"was here\");</script>",
-        };
+    private StudentProfileUpdateRequest createInvalidUpdateRequest() {
+        StudentProfileUpdateRequest req = new StudentProfileUpdateRequest();
+
+        req.setShortName("$$short");
+        req.setEmail("invalid.email");
+        req.setInstitute("institute");
+        req.setNationality("USA");
+        req.setGender("female");
+        req.setMoreInfo("This is more info on me");
+
+        return req;
+    }
+
+    private StudentProfileUpdateRequest createInvalidUpdateRequestForProfileWithScriptInjection() {
+        StudentProfileUpdateRequest req = new StudentProfileUpdateRequest();
+
+        req.setShortName("short%<script>alert(\"was here\");</script>");
+        req.setEmail("<script>alert(\"was here\");</script>");
+        req.setInstitute("<script>alert(\"was here\");</script>");
+        req.setNationality("USA<script>alert(\"was here\");</script>");
+        req.setGender("female<script>alert(\"was here\");</script>");
+        req.setMoreInfo("This is more info on me<script>alert(\"was here\");</script>");
+
+        return req;
     }
 
     @Override

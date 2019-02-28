@@ -7,11 +7,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.ui.webapi.request.StudentProfileUpdateRequest;
 
 /**
- * Action: Update a student's profile.
+ * Update a student's profile.
  */
-public class PutStudentProfileAction extends Action {
+public class UpdateStudentProfileAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -28,14 +29,15 @@ public class PutStudentProfileAction extends Action {
     @Override
     public ActionResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
-
         if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
             return new JsonResult("You are not authorized to update this student's profile.",
                     HttpStatus.SC_FORBIDDEN);
         }
 
+        StudentProfileUpdateRequest updateRequest = getAndValidateRequestBody(StudentProfileUpdateRequest.class);
+
         try {
-            StudentProfileAttributes studentProfile = sanitizeProfile(extractProfileData(studentId));
+            StudentProfileAttributes studentProfile = sanitizeProfile(extractProfileData(studentId, updateRequest));
             logic.updateOrCreateStudentProfile(
                     StudentProfileAttributes.updateOptionsBuilder(studentId)
                             .withShortName(studentProfile.shortName)
@@ -51,24 +53,24 @@ public class PutStudentProfileAction extends Action {
         }
     }
 
-    private StudentProfileAttributes extractProfileData(String studentId) {
+    private StudentProfileAttributes extractProfileData(String studentId, StudentProfileUpdateRequest req) {
         StudentProfileAttributes editedProfile =
                 StudentProfileAttributes.builder(studentId).build();
 
-        editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
-        editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
-        editedProfile.institute = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION);
-        editedProfile.nationality = getRequestParamValue(Const.ParamsNames.STUDENT_NATIONALITY);
+        editedProfile.shortName = req.getShortName();
+        editedProfile.email = req.getEmail();
+        editedProfile.institute = req.getInstitute();
+        editedProfile.nationality = req.getNationality();
+
         if ("".equals(editedProfile.nationality)) {
-            editedProfile.nationality = getRequestParamValue("existingNationality");
+            editedProfile.nationality = req.getExistingNationality();
         }
-        editedProfile.gender = StudentProfileAttributes.Gender.getGenderEnumValue(
-                                                                getRequestParamValue(Const.ParamsNames.STUDENT_GENDER));
-        editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
+
+        editedProfile.gender = StudentProfileAttributes.Gender.getGenderEnumValue(req.getGender());
+        editedProfile.moreInfo = req.getMoreInfo();
         editedProfile.pictureKey = "";
 
         sanitizeProfile(editedProfile);
-
         return editedProfile;
     }
 

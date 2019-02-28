@@ -11,6 +11,7 @@ import { AuthInfo, MessageOutput, Nationalities } from '../../../types/api-outpu
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentProfileService } from '../../../services/student-profile.service';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -28,6 +29,9 @@ interface StudentProfile {
   pictureKey: string;
 }
 
+/**
+ * Represents detailed data for student profile.
+ */
 interface StudentDetails {
   studentProfile: StudentProfile;
   name: string;
@@ -62,7 +66,9 @@ export class StudentProfilePageComponent implements OnInit {
               private ngbModal: NgbModal,
               private httpRequestService: HttpRequestService,
               private authService: AuthService,
-              private statusMessageService: StatusMessageService) {}
+              private statusMessageService: StatusMessageService,
+              private studentProfileService: StudentProfileService) {
+  }
 
   ngOnInit(): void {
     // populate drop-down menu for nationality list
@@ -168,20 +174,21 @@ export class StudentProfilePageComponent implements OnInit {
    * Submits the form data to edit the student profile details.
    */
   submitEditForm(): void {
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-      googleid: this.id,
-      ...this.editForm.value,
-    };
-
-    this.httpRequestService.put('/student/profile', paramsMap)
-        .subscribe((response: MessageOutput) => {
-          if (response) {
-            this.statusMessageService.showSuccessMessage(response.message);
-          }
-        }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(`Could not save your profile! ${response.error.message}`);
-        });
+    this.studentProfileService.updateStudentProfile(this.user, this.id, {
+      shortName: this.editForm.controls.studentshortname.value,
+      email: this.editForm.controls.studentprofileemail.value,
+      institute: this.editForm.controls.studentprofileinstitute.value,
+      nationality: this.editForm.controls.studentnationality.value,
+      gender: this.editForm.controls.studentgender.value,
+      moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
+      existingNationality: this.editForm.controls.existingNationality.value,
+    }).subscribe((response: MessageOutput) => {
+      if (response) {
+        this.statusMessageService.showSuccessMessage(response.message);
+      }
+    }, (response: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(`Could not save your profile! ${response.error.message}`);
+    });
   }
 
   /**
