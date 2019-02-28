@@ -227,16 +227,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             this.googleId = "";
         }
 
-        if (this.team == null) {
-            this.team = "";
-        }
-
         if (this.comments == null) {
             this.comments = "";
-        }
-
-        if (this.section == null) {
-            this.section = "";
         }
     }
 
