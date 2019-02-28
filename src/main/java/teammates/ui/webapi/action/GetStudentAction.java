@@ -27,23 +27,30 @@ public class GetStudentAction extends Action {
     public void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
+
         StudentAttributes student = null;
 
-        if (userInfo.isInstructor) {
-            String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+
+        if (studentEmail != null) {
             student = logic.getStudentForEmail(courseId, studentEmail);
-            if (student == null) {
+            if (student == null || !userInfo.isInstructor) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
             gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        } else if (userInfo.isStudent) {
+        } else if (regKey != null) {
+            getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
+        } else {
+            if (!userInfo.isStudent) {
+                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
+            }
+
             student = logic.getStudentForGoogleId(courseId, userInfo.id);
             gateKeeper.verifyAccessible(student, course);
-        } else {
-            getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
         }
     }
 
@@ -52,15 +59,17 @@ public class GetStudentAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentAttributes student = null;
 
-        if (userInfo == null) {
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+
+        if (studentEmail != null) {
+            student = logic.getStudentForEmail(courseId, studentEmail);
+        } else if (regKey != null) {
             Optional<StudentAttributes> studentCheck = getUnregisteredStudent();
             if (studentCheck.isPresent()) {
                 student = studentCheck.get();
             }
-        } else if (userInfo.isInstructor) {
-            String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-            student = logic.getStudentForEmail(courseId, studentEmail);
-        } else if (userInfo.isStudent) {
+        } else {
             student = logic.getStudentForGoogleId(courseId, userInfo.id);
         }
 
@@ -70,7 +79,7 @@ public class GetStudentAction extends Action {
 
         StudentData studentData = new StudentData(student);
 
-        if (userInfo == null || !userInfo.isInstructor) {
+        if (studentEmail == null) {
             studentData.setComments(null);
             studentData.setJoinState(null);
         }

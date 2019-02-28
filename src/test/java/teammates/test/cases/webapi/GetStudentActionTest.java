@@ -11,7 +11,6 @@ import teammates.logic.core.StudentsLogic;
 import teammates.ui.webapi.action.GetStudentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.JoinState;
-import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.output.StudentData;
 
 /**
@@ -74,26 +73,24 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         StudentAttributes unregStudent =
                 StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
 
-        String[] submissionParams = new String[] {
+        final String[] submissionParamsNoRegKey = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
         };
 
-        GetStudentAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-        MessageOutput message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals("No student found", message.getMessage());
+        assertThrows(NullPointerException.class, () -> {
+            GetStudentAction actionNoRegKey = getAction(submissionParamsNoRegKey);
+            getJsonResult(actionNoRegKey);
+        });
 
         ______TS("Success Case: Unregistered Student");
 
-        submissionParams = new String[] {
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.key),
         };
 
-        action = getAction(submissionParams);
-        result = getJsonResult(action);
+        GetStudentAction action = getAction(submissionParams);
+        JsonResult result = getJsonResult(action);
         StudentData outputData = (StudentData) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
@@ -127,12 +124,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         ______TS("Failure Case: Instructor - Incomplete Params");
 
         verifyHttpParameterFailure();
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-        };
-
-        verifyHttpParameterFailure(submissionParams);
 
         submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getCourse(),
@@ -176,6 +167,15 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         verifyInaccessibleForStudents(submissionParams);
 
+        ______TS("Student - cannot access another student's details");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student2InCourse2.getCourse(),
+                Const.ParamsNames.STUDENT_EMAIL, student2InCourse2.getEmail(),
+        };
+
+        verifyInaccessibleForStudents(submissionParams);
+
         ______TS("Instructor - must be in same course as student");
 
         submissionParams = new String[] {
@@ -186,6 +186,14 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
 
+        ______TS("Instructor - must provide student email");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
+        };
+
+        verifyInaccessibleForInstructors(submissionParams);
+
         ______TS("Unregistered Student - can access with key");
 
         StudentAttributes unregStudent =
@@ -193,6 +201,13 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
+        };
+
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
+                Const.ParamsNames.REGKEY, "RANDOM_KEY",
         };
 
         verifyInaccessibleForUnregisteredUsers(submissionParams);
