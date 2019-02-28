@@ -314,13 +314,13 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidRole = "student leader";
         String actual = FieldValidator.getInvalidityInfoForRole(invalidRole);
         assertEquals("Invalid role should return appropriate error string",
-                 String.format(FieldValidator.ROLE_ERROR_MESSAGE, invalidRole),
+                String.format(FieldValidator.ROLE_ERROR_MESSAGE, invalidRole),
                 actual);
 
         invalidRole = "<script> alert('hi!'); </script>";
         actual = FieldValidator.getInvalidityInfoForRole(invalidRole);
         assertEquals("Unsanitized, invalid role should return appropriate error string",
-                 String.format(FieldValidator.ROLE_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidRole)),
+                String.format(FieldValidator.ROLE_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidRole)),
                 actual);
     }
 
