@@ -19,7 +19,6 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorFee
         this.participantIdentifier = participantIdentifier;
         this.name = participantName;
         this.isGiver = isGiver;
-
         this.isEmailValid = FieldValidator.getInvalidityInfoForEmail(participantIdentifier)
                                     .isEmpty();
         this.profilePictureLink = profilePictureLink;

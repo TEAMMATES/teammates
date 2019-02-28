@@ -175,6 +175,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         // id is allowed to be null when the student is not registered
         Assumption.assertNotNull(team);
         Assumption.assertNotNull(comments);
+       
         List<String> errors = new ArrayList<>();
 
         if (isRegistered()) {

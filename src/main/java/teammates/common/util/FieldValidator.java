@@ -17,9 +17,11 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
 public final class FieldValidator {
+
     /////////////////
     // FIELD TYPES //
     /////////////////
+
     // name-related
     public static final String PERSON_NAME_FIELD_NAME = "person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
@@ -57,12 +59,7 @@ public final class FieldValidator {
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
 
     /*
-     * ===== Collections.unmodifiableList(
-                    Arrays.asList(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
-                            Const.InstructorPermissio==================================================================
+     * =======================================================================
      * Field: Course ID
      * Unique: system-wide, not just among the course of that instructor.
      * Technically, we can get rid of CourseID field and enforce users to use
@@ -102,6 +99,7 @@ public final class FieldValidator {
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
+    
     ////////////////////
     // ERROR MESSAGES //
     ////////////////////
@@ -162,6 +160,7 @@ public final class FieldValidator {
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
     public static final String EMAIL_ERROR_MESSAGE_EMPTY_STRING =
             EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
+
     public static final String HINT_FOR_CORRECT_COURSE_ID =
             "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
@@ -169,6 +168,7 @@ public final class FieldValidator {
             ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
     public static final String COURSE_ID_ERROR_MESSAGE_EMPTY_STRING =
             EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
+
     public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
             "A Google ID must be a valid id already registered with Google. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
@@ -176,25 +176,31 @@ public final class FieldValidator {
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
     public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
             EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
+    
     public static final String HINT_FOR_CORRECT_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";
     public static final String TIME_ZONE_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_TIME_ZONE;
+    
     public static final String HINT_FOR_CORRECT_GRACE_PERIOD =
             "The value must be one of the options in the grace period dropdown selector.";
     public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative." + " "
             + HINT_FOR_CORRECT_GRACE_PERIOD;
+    
     public static final String HINT_FOR_CORRECT_NATIONALITY =
             "The value must be one of the values from the nationality dropdown selector.";
     public static final String NATIONALITY_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
             + HINT_FOR_CORRECT_NATIONALITY;
+    
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
+   
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
     public static final String TIME_FRAME_ERROR_MESSAGE =
                 "The %s for this feedback session cannot be earlier than the %s.";
+    
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
@@ -260,9 +266,11 @@ public final class FieldValidator {
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));
 
+    // Intentional private constructor to prevent instantiation.
     private FieldValidator() {
-    //utility class
+      // utility class
     }
+
     /////////////////////////////////////////
     // VALIDATION METHODS FOR EXTERNAL USE //
     /////////////////////////////////////////

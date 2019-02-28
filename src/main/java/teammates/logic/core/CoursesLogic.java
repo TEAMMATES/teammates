@@ -808,7 +808,6 @@ public final class CoursesLogic {
             String courseId, String courseName, String courseTimeZone) throws InvalidParametersException {
 
         // Imitate `CourseAttributes.getInvalidityInfo`
-
         String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
             // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
