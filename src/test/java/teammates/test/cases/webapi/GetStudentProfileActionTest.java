@@ -28,12 +28,9 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     @Test
     public void testExecute() throws Exception {
         AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
-        AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
 
         StudentProfileAttributes student1InCourse1Profile = typicalBundle.profiles.get("student1InCourse1");
         testActionSuccess(student1, student1InCourse1Profile, "Typical case");
-
-        testActionForbidden(student1, student2, "Forbidden case");
 
         testActionInMasquerade(student1);
 
@@ -63,21 +60,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         output.getStudentProfile().modifiedDate = null; // ignore this field for testing
         assertEquals(studentProfileAttributes.toString(), output.getStudentProfile().toString());
         assertEquals(student.getName(), output.getName());
-    }
-
-    private void testActionForbidden(AccountAttributes student1, AccountAttributes student2,
-                                   String caseDescription) {
-        loginAsStudent(student2.googleId);
-
-        ______TS(caseDescription);
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_ID, student1.googleId,
-        };
-
-        GetStudentProfileAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_FORBIDDEN, result.getStatusCode());
     }
 
     private void testActionInMasquerade(AccountAttributes student) {
