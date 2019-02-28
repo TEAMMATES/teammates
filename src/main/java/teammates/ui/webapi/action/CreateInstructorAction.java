@@ -9,11 +9,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
  * Action: adds another instructor to a course that already exists.
  */
-public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAbstractAction {
+public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -39,7 +40,6 @@ public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAb
 
     @Override
     public ActionResult execute() {
-
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructorToAdd = extractCompleteInstructor(courseId);
 
@@ -71,29 +71,17 @@ public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAb
      * @return An instructor with all relevant info filled in.
      */
     private InstructorAttributes extractCompleteInstructor(String courseId) {
-        String instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String instructorRole = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
+        InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
+        InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId,
+                instructorRequest.getName(), instructorRequest.getEmail(), instructorRequest.getRoleName(),
+                instructorRequest.getIsDisplayedToStudent(), instructorRequest.getDisplayName());
 
-        boolean isDisplayedToStudents = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT) != null;
-        String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
-        if (displayedName == null || displayedName.isEmpty()) {
-            displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-        }
-        instructorRole = SanitizationHelper.sanitizeName(instructorRole);
-        displayedName = SanitizationHelper.sanitizeName(displayedName);
-
-        InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId, instructorName,
-                instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
-
-        if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
+        if (instructorToAdd.getRole().equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             updateInstructorCourseLevelPrivileges(instructorToAdd);
         }
 
         updateInstructorWithSectionLevelPrivileges(courseId, instructorToAdd);
-
         instructorToAdd.privileges.validatePrivileges();
-
         return instructorToAdd;
     }
 
@@ -113,10 +101,17 @@ public class CreateInstructorInCourseAction extends UpdateInstructorPrivilegesAb
     private InstructorAttributes createInstructorWithBasicAttributes(String courseId, String instructorName,
                                                                      String instructorEmail, String instructorRole,
                                                                      boolean isDisplayedToStudents, String displayedName) {
+
         String instrName = SanitizationHelper.sanitizeName(instructorName);
         String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
         String instrRole = SanitizationHelper.sanitizeName(instructorRole);
-        String instrDisplayedName = SanitizationHelper.sanitizeName(displayedName);
+
+        String instrDisplayedName = displayedName;
+        if (displayedName == null || displayedName.isEmpty()) {
+            instrDisplayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+        }
+
+        instrDisplayedName = SanitizationHelper.sanitizeName(instrDisplayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
 
         return InstructorAttributes.builder(null, courseId, instrName, instrEmail)
