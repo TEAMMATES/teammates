@@ -210,7 +210,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForInstituteName_invalid_returnSpecificErrorString() {
-        String invalidInstituteName = StringHelperExtension.generateStringOfLength(INSTITUTE_NAME_MAX_LENGTH + 1);
+        String invalidInstituteName = StringHelperExtension.generateStringOfLength(
+                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForInstituteName(invalidInstituteName);
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not "
@@ -224,12 +225,14 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidNationality = "{ Invalid Char Nationality";
         String actual = FieldValidator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
-                     String.format(NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
+                     String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
 
         invalidNationality = "<script> alert('hi!'); </script>";
         actual = FieldValidator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Unsanitized, invalid nationality should return sanitized error string",
-                String.format(NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidNationality)), actual);
+                String.format(
+                    FieldValidator.NATIONALITY_ERROR_MESSAGE,
+                    SanitizationHelper.sanitizeForHtml(invalidNationality)), actual);
     }
 
     @Test
@@ -273,7 +276,8 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForFeedbackSessionName_invalid_returnSpecificErrorString() {
-        String invalidSessionName = StringHelperExtension.generateStringOfLength(FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+        String invalidSessionName = StringHelperExtension.generateStringOfLength(
+                    FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
         assertEquals("Invalid feedback session name (too long) should return error message specific to feedback "
                          + "session name",
@@ -310,13 +314,13 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidRole = "student leader";
         String actual = FieldValidator.getInvalidityInfoForRole(invalidRole);
         assertEquals("Invalid role should return appropriate error string",
-                String.format(ROLE_ERROR_MESSAGE, invalidRole),
+                 String.format(FieldValidator.ROLE_ERROR_MESSAGE, invalidRole),
                 actual);
 
         invalidRole = "<script> alert('hi!'); </script>";
         actual = FieldValidator.getInvalidityInfoForRole(invalidRole);
         assertEquals("Unsanitized, invalid role should return appropriate error string",
-                String.format(ROLE_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidRole)),
+                 String.format(FieldValidator.ROLE_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidRole)),
                 actual);
     }
 
@@ -348,7 +352,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Google ID (short email) should return empty string", "",
                      FieldValidator.getInvalidityInfoForGoogleId(shortEmailAsId));
 
-        String maxLengthId = StringHelperExtension.generateStringOfLength(GOOGLE_ID_MAX_LENGTH);
+        String maxLengthId = StringHelperExtension.generateStringOfLength(FieldValidator.GOOGLE_ID_MAX_LENGTH);
         assertEquals("Valid Google ID (max length) should return empty string", "",
                      FieldValidator.getInvalidityInfoForGoogleId(maxLengthId));
     }
@@ -364,15 +368,17 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String whitespaceId = "     ";
         assertEquals("Invalid Google ID (contains whitespaces only) should return appropriate error message",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME),
+                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForGoogleId(whitespaceId));
 
         String untrimmedId = "  googleIdWithSpacesAround    ";
         assertEquals("Invalid Google ID (leading/trailing whitespaces) should return appropriate error message",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME),
+                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForGoogleId(untrimmedId));
 
-        String tooLongId = StringHelperExtension.generateStringOfLength(GOOGLE_ID_MAX_LENGTH + 1);
+        String tooLongId = StringHelperExtension.generateStringOfLength(FieldValidator.GOOGLE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Google ID (too long) should return appropriate error message",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                          + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -414,7 +420,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid email (short) should return empty string", "",
                      FieldValidator.getInvalidityInfoForEmail(shortEmail));
 
-        String maxLengthEmail = StringHelperExtension.generateStringOfLength(EMAIL_MAX_LENGTH - 6) + "@c.gov";
+        String maxLengthEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH - 6) + "@c.gov";
         assertEquals("Valid email (max-length) should return empty string", "",
                      FieldValidator.getInvalidityInfoForEmail(maxLengthEmail));
     }
@@ -430,15 +436,17 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String untrimmedEmail = "  untrimmed@email.com  ";
         assertEquals("Invalid email (leading/trailing spaces) should return appropriate error string",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME),
+                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.EMAIL_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForEmail(untrimmedEmail));
 
         String whitespaceEmail = "    ";
         assertEquals("Invalid email (only whitespaces) should return appropriate error string",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME),
+                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.EMAIL_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForEmail(whitespaceEmail));
 
-        String tooLongEmail = StringHelperExtension.generateStringOfLength(EMAIL_MAX_LENGTH + 1) + "@c.gov";
+        String tooLongEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH + 1) + "@c.gov";
         assertEquals("Invalid email (too long) should return appropriate error string",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                          + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -483,7 +491,7 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForEmailContent_invalid_returnEmptyString() {
         String emptyEmailContent = "";
         assertEquals("Valid Email Content should return empty string",
-                     EMAIL_CONTENT_ERROR_MESSAGE,
+                     FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE,
                      FieldValidator.getInvalidityInfoForEmailContent(emptyEmailContent));
     }
 
@@ -509,7 +517,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Course ID (short) should return empty string", "",
                      FieldValidator.getInvalidityInfoForCourseId(shortCourseId));
 
-        String maxLengthCourseId = StringHelperExtension.generateStringOfLength(COURSE_ID_MAX_LENGTH);
+        String maxLengthCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
         assertEquals("Valid Course ID (max length) should return empty string", "",
                      FieldValidator.getInvalidityInfoForCourseId(maxLengthCourseId));
     }
@@ -525,15 +533,17 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String untrimmedCourseId = " $cs1101-sem1.2_ ";
         assertEquals("Invalid Course ID (untrimmed) should return appropriate error string",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", COURSE_NAME_FIELD_NAME),
+                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForCourseId(untrimmedCourseId));
 
         String whitespaceOnlyCourseId = "    ";
         assertEquals("Invalid Course ID (whitespace only) should return appropriate error string",
-                     WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", COURSE_NAME_FIELD_NAME),
+                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
 
-        String tooLongCourseId = StringHelperExtension.generateStringOfLength(COURSE_ID_MAX_LENGTH + 1);
+        String tooLongCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Course ID (too long) should return appropriate error string",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
                          + "course ID because it is too long. A course ID can contain letters, numbers, "
@@ -615,95 +625,95 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testRegexName() {
         ______TS("success: typical name");
         String name = "Benny Charlés";
-        assertTrue(StringHelper.isMatching(name, REGEX_NAME));
+        assertTrue(StringHelper.isMatching(name, FieldValidator.REGEX_NAME));
 
         ______TS("success: name begins with accented characters");
         name = "Ýàn-B. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
-        assertTrue(StringHelper.isMatching(name, REGEX_NAME));
+        assertTrue(StringHelper.isMatching(name, FieldValidator.REGEX_NAME));
 
         ______TS("failure: name begins with non-alphanumeric character");
         name = "~Amy-Ben. s/o O'br, &2(~!@#$^*+_={}[]\\:;\"<>?)";
-        assertFalse(StringHelper.isMatching(name, REGEX_NAME));
+        assertFalse(StringHelper.isMatching(name, FieldValidator.REGEX_NAME));
 
         ______TS("failure: name contains invalid character");
         name = "Amy-B. s/o O'br, %|&2(~!@#$^*+_={}[]\\:;\"<>?)";
-        assertFalse(StringHelper.isMatching(name, REGEX_NAME));
+        assertFalse(StringHelper.isMatching(name, FieldValidator.REGEX_NAME));
     }
 
     @Test
     public void testRegexEmail() {
         ______TS("success: typical email");
         String email = "john@email.com";
-        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("success: minimum allowed email format");
         email = "a@e";
-        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("success: all allowed special characters");
         email = "a!#$%&'*/=?^_`{}~@e";
-        assertTrue(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("failure: invalid starting character");
         email = "$john@email.com";
-        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("failure: two consecutive dots in local part");
         email = "john..dot@email.com";
-        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("failure: invalid characters in domain part");
         email = "john@e&email.com";
-        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("failure: invalid ending character in domain part");
         email = "john@email.com3";
-        assertFalse(StringHelper.isMatching(email, REGEX_EMAIL));
+        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
     }
 
     @Test
     public void testRegexCourseId() {
         ______TS("success: typical course ID");
         String courseId = "CS101";
-        assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, FieldValidator.REGEX_COURSE_ID));
 
         ______TS("success: course ID with all accepted symbols");
         courseId = "CS101-B.$";
-        assertTrue(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, FieldValidator.REGEX_COURSE_ID));
 
         ______TS("failure: contains invalid character");
         courseId = "CS101+B";
-        assertFalse(StringHelper.isMatching(courseId, REGEX_COURSE_ID));
+        assertFalse(StringHelper.isMatching(courseId, FieldValidator.REGEX_COURSE_ID));
     }
 
     @Test
     public void testRegexSampleCourseId() {
         ______TS("success: typical sample course ID");
         String courseId = "CS101-demo3";
-        assertTrue(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
+        assertTrue(StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID));
 
         ______TS("failure: non-demo course ID");
         courseId = "CS101";
-        assertFalse(StringHelper.isMatching(courseId, REGEX_SAMPLE_COURSE_ID));
+        assertFalse(StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID));
     }
 
     @Test
     public void testRegexGoogleIdNonEmail() {
         ______TS("success: typical google id");
         String googleId = "teammates.instr";
-        assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertTrue(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
 
         ______TS("success: google id with all accepted characters");
         googleId = "teammates.new_instr-3";
-        assertTrue(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertTrue(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
 
         ______TS("failure: is email");
         googleId = "teammates.instr@email.com";
-        assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertFalse(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
 
         ______TS("failure: contains invalid character");
         googleId = "teammates.$instr";
-        assertFalse(StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL));
+        assertFalse(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
     }
 
 }

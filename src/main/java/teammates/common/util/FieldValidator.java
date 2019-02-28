@@ -99,7 +99,7 @@ public final class FieldValidator {
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
     public static final String VIEWER_TYPE_NAME = "feedback viewer";
-    
+
     ////////////////////
     // ERROR MESSAGES //
     ////////////////////
@@ -176,31 +176,31 @@ public final class FieldValidator {
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
     public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
             EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
-    
+
     public static final String HINT_FOR_CORRECT_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";
     public static final String TIME_ZONE_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_TIME_ZONE;
-    
+
     public static final String HINT_FOR_CORRECT_GRACE_PERIOD =
             "The value must be one of the options in the grace period dropdown selector.";
     public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative." + " "
             + HINT_FOR_CORRECT_GRACE_PERIOD;
-    
+
     public static final String HINT_FOR_CORRECT_NATIONALITY =
             "The value must be one of the values from the nationality dropdown selector.";
     public static final String NATIONALITY_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
             + HINT_FOR_CORRECT_NATIONALITY;
-    
+
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
-   
+
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
     public static final String TIME_FRAME_ERROR_MESSAGE =
                 "The %s for this feedback session cannot be earlier than the %s.";
-    
+
     public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
