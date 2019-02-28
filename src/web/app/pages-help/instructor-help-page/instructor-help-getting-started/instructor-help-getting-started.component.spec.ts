@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Component } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
+
+@Component({ selector: 'tm-example-box', template: '' })
+class ExampleBoxStubComponent {}
+@Component({ selector: 'tm-example-add-course-form', template: '' })
+class ExampleAddCourseFormStubComponent {}
 
 describe('InstructorHelpGettingStartedComponent', () => {
   let component: InstructorHelpGettingStartedComponent;
@@ -9,7 +15,11 @@ describe('InstructorHelpGettingStartedComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpGettingStartedComponent],
+      declarations: [
+        InstructorHelpGettingStartedComponent,
+        ExampleBoxStubComponent,
+        ExampleAddCourseFormStubComponent,
+      ],
       imports: [
         RouterTestingModule,
       ],
