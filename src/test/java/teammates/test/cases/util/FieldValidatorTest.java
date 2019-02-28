@@ -77,7 +77,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: untrimmed",
                      "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
                          + "contains extra spaces at the beginning or at the end of the text.",
-                     FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
+                FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
                                                                                untrimmedValue));
 
         String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
@@ -85,7 +85,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an my field because it is too long. The value of a/an my field should be no "
                          + "longer than 50 characters.",
-                     FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
+                FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
                                                                                tooLongName));
     }
 
@@ -118,7 +118,7 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "not acceptable to TEAMMATES as a/an name field because it contains invalid "
                          + "characters. A/An name field must start with an alphanumeric character, and cannot "
                          + "contain any vertical bar (|) or percent sign (%).",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameContainInvalidChars));
 
         ______TS("failure: starts with non-alphanumeric character");
@@ -129,7 +129,7 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "acceptable to TEAMMATES as a/an name field because it starts with a "
                          + "non-alphanumeric character. A/An name field must start with an alphanumeric "
                          + "character, and cannot contain any vertical bar (|) or percent sign (%).",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithNonAlphaNumChar));
 
         ______TS("failure: starts with curly braces but contains invalid char");
@@ -140,7 +140,7 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "acceptable to TEAMMATES as a/an name field because it contains invalid "
                          + "characters. A/An name field must start with an alphanumeric character, and cannot "
                          + "contain any vertical bar (|) or percent sign (%).",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithBracesButHasInvalidChar));
 
         ______TS("failure: starts with opening curly bracket but dose not have closing bracket");
@@ -151,7 +151,7 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "acceptable to TEAMMATES as a/an name field because it starts with a "
                          + "non-alphanumeric character. A/An name field must start with an alphanumeric "
                          + "character, and cannot contain any vertical bar (|) or percent sign (%).",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithCurlyBracketButHasNoEnd));
 
         ______TS("success: with opening and closing curly braces");
@@ -179,7 +179,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an name field because it is too long. The value of a/an name field should "
                          + "be no longer than 50 characters. It should not be empty.",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, tooLongName));
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, tooLongName));
 
         ______TS("failure: empty string");
 
@@ -187,7 +187,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: empty",
                      "The field 'name field' is empty. The value of a/an name field should be no longer "
                          + "than 50 characters. It should not be empty.",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue));
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue));
 
         ______TS("failure: untrimmed value");
 
@@ -195,7 +195,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: untrimmed",
                      "The provided name field is not acceptable to TEAMMATES as it contains only whitespace "
                          + "or contains extra spaces at the beginning or at the end of the text.",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue));
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue));
     }
 
     @Test
