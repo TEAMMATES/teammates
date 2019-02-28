@@ -66,8 +66,8 @@ public class PutCourseStudentDetailsEditAction extends Action {
         student.comments = SanitizationHelper.sanitizeTextField(student.comments);
 
         try {
+            student.nullToEmptyString();
             StudentAttributes originalStudentAttribute = logic.getStudentForEmail(courseId, studentEmail);
-            student.updateWithExistingRecord(originalStudentAttribute);
 
             boolean isSectionChanged = student.isSectionChanged(originalStudentAttribute);
             boolean isTeamChanged = student.isTeamChanged(originalStudentAttribute);

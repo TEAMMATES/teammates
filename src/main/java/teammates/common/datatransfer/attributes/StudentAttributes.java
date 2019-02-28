@@ -214,29 +214,29 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                 .thenComparing(student -> student.email));
     }
 
-    public void updateWithExistingRecord(StudentAttributes originalStudent) {
+    public void nullToEmptyString() {
         if (this.email == null) {
-            this.email = originalStudent.email;
+            this.email = "";
         }
 
         if (this.name == null) {
-            this.name = originalStudent.name;
+            this.name = "";
         }
 
         if (this.googleId == null) {
-            this.googleId = originalStudent.googleId;
+            this.googleId = "";
         }
 
         if (this.team == null) {
-            this.team = originalStudent.team;
+            this.team = "";
         }
 
         if (this.comments == null) {
-            this.comments = originalStudent.comments;
+            this.comments = "";
         }
 
         if (this.section == null) {
-            this.section = originalStudent.section;
+            this.section = "";
         }
     }
 
