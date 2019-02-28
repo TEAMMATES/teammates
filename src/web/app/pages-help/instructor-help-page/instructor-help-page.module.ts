@@ -8,6 +8,16 @@ import { StudentProfileModule } from '../../pages-instructor/student-profile/stu
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
 import {
+  ExampleInstructorCourseStudentEditPageComponent,
+} from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
+import {
+  ExampleAddCourseFormComponent,
+} from '../../pages-instructor/instructor-courses-page/add-course-form/add-course-form.component';
+import {
+  InstructorSearchPageModule,
+} from '../../pages-instructor/instructor-search-page/instructor-search-page.module';
+import { ExampleBoxComponent } from './example-box/example-box.component';
+import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
 import {
@@ -22,14 +32,6 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
-import {
-  ExampleAddCourseFormComponent
-} from '../../pages-instructor/instructor-courses-page/add-course-form/add-course-form.component';
-import { ExampleBoxComponent } from './example-box/example-box.component';
-import {
-  ExampleInstructorCourseStudentEditPageComponent
-} from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
-import { InstructorSearchPageModule } from '../../pages-instructor/instructor-search-page/instructor-search-page.module';
 
 /**
  * Module for instructor help page.

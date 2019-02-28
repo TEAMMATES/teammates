@@ -8,7 +8,7 @@ describe('AddCourseFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddCourseFormComponent ]
+      declarations: [AddCourseFormComponent],
     })
     .compileComponents();
   }));

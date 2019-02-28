@@ -8,7 +8,7 @@ describe('ExampleBoxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExampleBoxComponent ]
+      declarations: [ExampleBoxComponent],
     })
     .compileComponents();
   }));

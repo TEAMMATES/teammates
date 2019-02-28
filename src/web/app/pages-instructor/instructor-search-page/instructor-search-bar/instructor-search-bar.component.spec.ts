@@ -8,7 +8,7 @@ describe('InstructorSearchBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InstructorSearchBarComponent ]
+      declarations: [InstructorSearchBarComponent],
     })
     .compileComponents();
   }));

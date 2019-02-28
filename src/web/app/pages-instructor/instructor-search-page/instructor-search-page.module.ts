@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { StudentListModule } from '../student-list/student-list.module';
-import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { InstructorSearchBarComponent } from './instructor-search-bar/instructor-search-bar.component';
+import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { StudentResultTableComponent } from './student-result-table/student-result-table.component';
 
 /**

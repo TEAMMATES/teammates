@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
 import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
@@ -113,7 +113,7 @@ const routes: Routes = [
             component: InstructorCourseStudentEditPageComponent,
             data: {
               pageTitle: 'Edit Student Details',
-            }
+            },
           },
         ],
       },
@@ -222,9 +222,9 @@ const routes: Routes = [
     {
       provide: 'canDeactivateHelp',
       useValue:  (_component: InstructorHelpPageComponent, _currentRoute: ActivatedRouteSnapshot,
-        _currentState: RouterStateSnapshot, nextState: RouterStateSnapshot) =>
-        /^\/web\/instructor\/(home|courses|sessions|students|search|getting-started)$/.test(nextState.url)
-    }
-  ]
+        _currentState: RouterStateSnapshot, nextState: RouterStateSnapshot): boolean =>
+        /^\/web\/instructor\/(home|courses|sessions|students|search|getting-started)$/.test(nextState.url),
+    },
+  ],
 })
 export class InstructorPagesModule {}

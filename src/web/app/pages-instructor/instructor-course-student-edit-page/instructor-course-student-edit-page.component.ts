@@ -37,7 +37,8 @@ interface InstructorCourseStudentEditPageComponentInterface {
   templateUrl: './instructor-course-student-edit-page.component.html',
   styleUrls: ['./instructor-course-student-edit-page.component.scss'],
 })
-export class ExampleInstructorCourseStudentEditPageComponent implements OnInit, InstructorCourseStudentEditPageComponentInterface {
+export class ExampleInstructorCourseStudentEditPageComponent
+implements OnInit, InstructorCourseStudentEditPageComponentInterface {
   student: StudentAttributes = {
     email: 'alice@email.com',
     course: '',
@@ -59,6 +60,9 @@ export class ExampleInstructorCourseStudentEditPageComponent implements OnInit, 
     });
   }
 
+  /**
+   * Mock onSubmit
+   */
   onSubmit(_confirmDelModal: any, _resendPastLinksModal: any): void {}
 
 }
@@ -71,7 +75,8 @@ export class ExampleInstructorCourseStudentEditPageComponent implements OnInit, 
   templateUrl: './instructor-course-student-edit-page.component.html',
   styleUrls: ['./instructor-course-student-edit-page.component.scss'],
 })
-export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy, InstructorCourseStudentEditPageComponentInterface {
+export class InstructorCourseStudentEditPageComponent
+implements OnInit, OnDestroy, InstructorCourseStudentEditPageComponentInterface {
 
   user: string = '';
   courseid: string = '';

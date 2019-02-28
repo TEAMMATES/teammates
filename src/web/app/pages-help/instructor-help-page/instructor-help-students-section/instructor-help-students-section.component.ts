@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 
-import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
-import { StudentProfile } from '../../../pages-instructor/student-profile/student-profile';
-import { StudentAttributes } from '../../../pages-instructor/student-profile/student-attributes';
 import { Gender } from '../../../../types/gender';
-import { SearchStudentsTable } from 'src/web/app/pages-instructor/instructor-search-page/instructor-search-page.component';
+import {
+  SearchStudentsTable,
+} from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
+import { StudentAttributes } from '../../../pages-instructor/student-profile/student-attributes';
+import { StudentProfile } from '../../../pages-instructor/student-profile/student-profile';
+import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
  * Students Section of the Instructor Help Page.
@@ -26,7 +28,7 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     gender: Gender.FEMALE,
     moreInfo: 'Hi I am Alice Betsy! I am from Colorado, America. I am a programming and gaming enthusiast. '
       + 'Aspiring to become a Software Architect in a well reputed organization.',
-    pictureKey: ''
+    pictureKey: '',
   };
   readonly exampleStudentAttributes: StudentAttributes = {
     email: 'alice@email.com',
@@ -49,7 +51,7 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
         status: 'Joined',
         team: 'Team A',
       }],
-    }]
+    }],
   }];
 
   constructor() {

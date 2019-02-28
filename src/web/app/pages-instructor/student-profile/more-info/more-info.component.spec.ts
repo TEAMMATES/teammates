@@ -8,7 +8,7 @@ describe('MoreInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MoreInfoComponent ]
+      declarations: [MoreInfoComponent],
     })
     .compileComponents();
   }));

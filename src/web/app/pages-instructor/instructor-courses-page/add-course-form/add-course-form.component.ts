@@ -26,7 +26,7 @@ interface AddCourseFormComponentInterface {
 @Component({
   selector: 'tm-example-add-course-form',
   templateUrl: './add-course-form.component.html',
-  styleUrls: ['./add-course-form.component.scss']
+  styleUrls: ['./add-course-form.component.scss'],
 })
 export class ExampleAddCourseFormComponent implements AddCourseFormComponentInterface {
   timezones: string[] = ['UTC', 'Other options ommitted...'];
@@ -34,7 +34,13 @@ export class ExampleAddCourseFormComponent implements AddCourseFormComponentInte
   newCourseId: string = '';
   newCourseName: string = '';
 
+  /**
+   * Mock
+   */
   onAutoDetectTimezone(): void { }
+  /**
+   * Mock
+   */
   onSubmit(): void { }
 }
 
@@ -44,13 +50,13 @@ export class ExampleAddCourseFormComponent implements AddCourseFormComponentInte
 @Component({
   selector: 'tm-add-course-form',
   templateUrl: './add-course-form.component.html',
-  styleUrls: ['./add-course-form.component.scss']
+  styleUrls: ['./add-course-form.component.scss'],
 })
 export class AddCourseFormComponent implements OnInit, AddCourseFormComponentInterface {
 
   user: string = '';
 
-  @Output() courseAdded = new EventEmitter<void>();
+  @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
   timezones: string[] = [];
   timezone: string = '';

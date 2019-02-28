@@ -14,11 +14,17 @@ interface SearchFeedbackSessionDataTable {
   something: any;
 }
 
+/**
+ * Data object for communciation with the child student result component
+ */
 export interface SearchStudentsTable {
   courseId: string;
   sections: StudentListSectionData[];
 }
 
+/**
+ * Data object for communciation with the child search bar component
+ */
 export interface SearchQuery {
   searchKey: string;
   searchStudents: boolean;
