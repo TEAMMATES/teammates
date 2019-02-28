@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { JoinStatus, MessageOutput } from '../types/api-output';
+import { Course, JoinStatus, MessageOutput } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -12,6 +12,16 @@ import { HttpRequestService } from './http-request.service';
 export class CourseService {
 
   constructor(private httpRequestService: HttpRequestService) {
+  }
+
+  /**
+   * Get course data as an instructor by calling API.
+   */
+  getCourse(courseId: string): Observable<Course> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+    return this.httpRequestService.get('/course', paramMap);
   }
 
   /**
