@@ -12,7 +12,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
@@ -302,30 +301,6 @@ public final class InstructorsLogic {
         return instructorsDb.updateInstructorByEmail(updateOptions);
     }
 
-    public List<String> getInvalidityInfoForNewInstructorData(String name,
-                                                              String institute, String email) {
-        List<String> errors = new ArrayList<>();
-        String error;
-
-        error = FieldValidator.getInvalidityInfoForPersonName(name);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
-
-        error = FieldValidator.getInvalidityInfoForEmail(email);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
-
-        error = FieldValidator.getInvalidityInfoForInstituteName(institute);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
-
-        //No validation for isInstructor and createdAt fields.
-        return errors;
-    }
-
     public void deleteInstructorCascade(String courseId, String email) {
         fsLogic.deleteInstructorFromRespondentsList(getInstructorForEmail(courseId, email));
         instructorsDb.deleteInstructor(courseId, email);
@@ -365,7 +340,7 @@ public final class InstructorsLogic {
     public void resetInstructorGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         try {
             instructorsDb.updateInstructorByEmail(
-                    InstructorAttributes.updateOptionsWithEmailBuilder(originalEmail, originalEmail)
+                    InstructorAttributes.updateOptionsWithEmailBuilder(courseId, originalEmail)
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException e) {
