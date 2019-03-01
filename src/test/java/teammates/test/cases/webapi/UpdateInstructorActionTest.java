@@ -82,7 +82,9 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
         msg = (MessageOutput) actionOutput.getOutput();
+
         String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
+
         assertEquals(expectedErrorMessage, msg.getMessage());
 
         ______TS("Failure case: after editing instructor, no instructors are displayed");
