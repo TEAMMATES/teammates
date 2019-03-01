@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -12,9 +13,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.StringHelperExtension;
 import teammates.ui.webapi.action.CreateAccountAction;
-import teammates.ui.webapi.action.CreateAccountAction.JoinLink;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.output.JoinLinkData;
+import teammates.ui.webapi.request.AccountCreateRequest;
 
 /**
  * SUT: {@link CreateAccountAction}.
@@ -23,7 +24,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNTS;
+        return Const.ResourceURIs.ACCOUNT;
     }
 
     @Override
@@ -34,30 +35,33 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
     @Override
     @Test
     protected void testExecute() throws Exception {
+        loginAsAdmin();
         String name = "JamesBond";
         String email = "jamesbond89@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
 
         ______TS("Not enough parameters");
+        AccountCreateRequest badRequest = buildCreateRequest(null, institute, email);
 
-        loginAsAdmin();
+        try {
+            getAction(badRequest).execute();
+        } catch (InvalidHttpRequestBodyException e) {
+            assertEquals("name cannot be null", e.getMessage());
+        }
 
-        verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.INSTRUCTOR_NAME, name);
-        verifyHttpParameterFailure(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        verifyHttpParameterFailure(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        verifyHttpParameterFailure(
-                Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email
-        );
-        verifyHttpParameterFailure(
-                Const.ParamsNames.INSTRUCTOR_NAME, name,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute
-        );
-        verifyHttpParameterFailure(
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute
-        );
+        badRequest = buildCreateRequest(name, null, email);
+        try {
+            getAction(badRequest).execute();
+        } catch (InvalidHttpRequestBodyException e) {
+            assertEquals("institute cannot be null", e.getMessage());
+        }
+
+        badRequest = buildCreateRequest(name, institute, null);
+        try {
+            getAction(badRequest).execute();
+        } catch (InvalidHttpRequestBodyException e) {
+            assertEquals("email cannot be null", e.getMessage());
+        }
 
         ______TS("Normal case");
 
@@ -65,12 +69,8 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String emailWithSpaces = "   " + email + "   ";
         String instituteWithSpaces = "   " + institute + "   ";
 
-        String[] params = {
-                Const.ParamsNames.INSTRUCTOR_NAME, nameWithSpaces,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, emailWithSpaces,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, instituteWithSpaces,
-        };
-        CreateAccountAction a = getAction(params);
+        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces, emailWithSpaces);
+        CreateAccountAction a = getAction(req);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -83,7 +83,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 .withInstructorInstitution(institute)
                 .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
-        JoinLink output = (JoinLink) r.getOutput();
+        JoinLinkData output = (JoinLinkData) r.getOutput();
         assertEquals(joinLink, output.getJoinLink());
 
         verifyNumberOfEmailsSent(a, 1);
@@ -96,25 +96,21 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         ______TS("Error: invalid parameter");
 
         String invalidName = "James%20Bond99";
-        params = new String[] {
-                Const.ParamsNames.INSTRUCTOR_NAME, invalidName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, email,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
-        };
-        a = getAction(params);
-        r = getJsonResult(a);
 
-        String expectedError =
-                "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                        + "it contains invalid characters. A/An person name must start with an "
-                        + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
+        req = buildCreateRequest(invalidName, institute, emailWithSpaces);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        CreateAccountAction finalA = getAction(req);
+        try {
+            finalA.execute();
+        } catch (InvalidHttpRequestBodyException e) {
+            String expectedError =
+                    "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
+                            + "it contains invalid characters. A/An person name must start with an "
+                            + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
+            assertEquals(expectedError, e.getMessage());
+        }
 
-        MessageOutput msgOutput = (MessageOutput) r.getOutput();
-        assertEquals(expectedError, msgOutput.getMessage());
-
-        verifyNoEmailsSent(a);
+        verifyNoEmailsSent(finalA);
     }
 
     @Override
@@ -172,4 +168,13 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
     }
 
+    private AccountCreateRequest buildCreateRequest(String name, String institution, String email) {
+        AccountCreateRequest req = new AccountCreateRequest();
+
+        req.setInstructorName(name);
+        req.setInstructorInstitution(institution);
+        req.setInstructorEmail(email);
+
+        return req;
+    }
 }

@@ -724,7 +724,7 @@ public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
 
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
             String studentName, String fsName) {
-        AppUrl resultsPageUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        AppUrl resultsPageUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                         .withUserId(testData.students.get(studentName).googleId)
                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());

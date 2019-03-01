@@ -282,7 +282,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       courseid: courseId,
       user: this.user,
     };
-    this.httpRequestService.put('/instructor/courses/restore', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.delete('/bin/course', paramMap).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {

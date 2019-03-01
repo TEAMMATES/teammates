@@ -147,7 +147,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         user: this.user,
         courseid: courseId,
       };
-      this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
+      this.httpRequestService.get('/students/csv', paramsMap, 'text')
         .subscribe((resp: string) => {
           blob = new Blob([resp], { type: 'text/csv' });
           saveAs(blob, filename);
@@ -175,7 +175,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       user: this.user,
       courseid: courseId,
     };
-    this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
+    this.httpRequestService.get('/students/csv', paramsMap, 'text')
       .subscribe((resp: string) => {
         this.courseStudentListAsCsv = resp;
       }, (resp: ErrorMessageOutput) => {
