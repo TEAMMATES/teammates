@@ -58,7 +58,6 @@ public class AccountCreateRequest extends BasicRequest {
             errors.add(emailError);
         }
 
-
         String instituteError = FieldValidator.getInvalidityInfoForInstituteName(this.instructorInstitution.trim());
 
         if (!instituteError.isEmpty()) {
