@@ -1,5 +1,4 @@
-import { FeedbackSession, FeedbackSessionStudentResponse } from '../../../types/api-output';
-import { InstructorPrivilege } from '../../instructor-privilege';
+import { FeedbackSession, FeedbackSessionStudentResponse, InstructorPrivilege } from '../../../types/api-output';
 
 /**
  * The model for a row of the sessions table.

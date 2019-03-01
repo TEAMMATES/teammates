@@ -1,12 +1,4 @@
-/**
- * Instructor privilege.
- */
-export interface InstructorPrivilege {
-  canModifyCourse: boolean;
-  canModifySession: boolean;
-  canModifyStudent: boolean;
-  canSubmitSessionInSections: boolean;
-}
+import { InstructorPrivilege } from '../types/api-output';
 
 /**
  * The default instructor privilege.
@@ -16,4 +8,8 @@ export const defaultInstructorPrivilege: InstructorPrivilege = {
   canModifySession: true,
   canModifyStudent: true,
   canSubmitSessionInSections: true,
+  canModifyInstructor: true,
+  canViewStudentInSections: true,
+  canModifySessionCommentsInSections: true,
+  canViewSessionInSections: true,
 };
