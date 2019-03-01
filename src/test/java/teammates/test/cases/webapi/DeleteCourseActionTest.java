@@ -71,7 +71,7 @@ public class DeleteCourseActionTest
         };
 
         CourseAttributes courseToBeDeleted = logic.getCourse(instructor1OfCourse1.courseId);
-        assertNotNull(courseToBeDeleted);
+        assertNull(courseToBeDeleted.deletedAt);
         loginAsInstructor(instructorId);
 
         DeleteCourseAction deleteCourseAction = getAction(submissionParams);

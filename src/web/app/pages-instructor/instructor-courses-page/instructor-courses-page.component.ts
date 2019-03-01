@@ -257,13 +257,9 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (confirm(`Are you sure you want to permanently delete the course: ${courseId}? `
             + 'This operation will delete all students and sessions in this course. '
             + 'All instructors of this course will not be able to access it hereafter as well.')) {
-      this.courseService.deleteCourse(courseId).subscribe((message: MessageOutput) => {
+      this.courseService.deleteCourse(courseId).subscribe(() => {
         this.loadInstructorCourses();
-        if (message.message === 'OK') {
-          this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
-        } else {
-          this.statusMessageService.showWarningMessage(message.message);
-        }
+        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
