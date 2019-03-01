@@ -77,7 +77,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: untrimmed",
                      "The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
                          + "contains extra spaces at the beginning or at the end of the text.",
-                FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
+                     FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
                                                                                untrimmedValue));
 
         String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
@@ -85,7 +85,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an my field because it is too long. The value of a/an my field should be no "
                          + "longer than 50 characters.",
-                FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
+                     FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
                                                                                tooLongName));
     }
 
@@ -118,7 +118,7 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "not acceptable to TEAMMATES as a/an name field because it contains invalid "
                          + "characters. A/An name field must start with an alphanumeric character, and cannot "
                          + "contain any vertical bar (|) or percent sign (%).",
-                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameContainInvalidChars));
 
         ______TS("failure: starts with non-alphanumeric character");
@@ -129,7 +129,7 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "acceptable to TEAMMATES as a/an name field because it starts with a "
                          + "non-alphanumeric character. A/An name field must start with an alphanumeric "
                          + "character, and cannot contain any vertical bar (|) or percent sign (%).",
-                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithNonAlphaNumChar));
 
         ______TS("failure: starts with curly braces but contains invalid char");
@@ -140,7 +140,7 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "acceptable to TEAMMATES as a/an name field because it contains invalid "
                          + "characters. A/An name field must start with an alphanumeric character, and cannot "
                          + "contain any vertical bar (|) or percent sign (%).",
-                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithBracesButHasInvalidChar));
 
         ______TS("failure: starts with opening curly bracket but dose not have closing bracket");
@@ -151,7 +151,7 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "acceptable to TEAMMATES as a/an name field because it starts with a "
                          + "non-alphanumeric character. A/An name field must start with an alphanumeric "
                          + "character, and cannot contain any vertical bar (|) or percent sign (%).",
-                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
                                                              nameStartedWithCurlyBracketButHasNoEnd));
 
         ______TS("success: with opening and closing curly braces");
@@ -179,7 +179,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
                          + "as a/an name field because it is too long. The value of a/an name field should "
                          + "be no longer than 50 characters. It should not be empty.",
-                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, tooLongName));
+                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, tooLongName));
 
         ______TS("failure: empty string");
 
@@ -187,7 +187,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: empty",
                      "The field 'name field' is empty. The value of a/an name field should be no longer "
                          + "than 50 characters. It should not be empty.",
-                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue));
+                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue));
 
         ______TS("failure: untrimmed value");
 
@@ -195,7 +195,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("invalid: untrimmed",
                      "The provided name field is not acceptable to TEAMMATES as it contains only whitespace "
                          + "or contains extra spaces at the beginning or at the end of the text.",
-                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue));
+                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue));
     }
 
     @Test
@@ -211,7 +211,7 @@ public class FieldValidatorTest extends BaseTestCase {
     @Test
     public void testGetInvalidityInfoForInstituteName_invalid_returnSpecificErrorString() {
         String invalidInstituteName = StringHelperExtension.generateStringOfLength(
-                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+                        FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForInstituteName(invalidInstituteName);
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not "
@@ -231,8 +231,7 @@ public class FieldValidatorTest extends BaseTestCase {
         actual = FieldValidator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Unsanitized, invalid nationality should return sanitized error string",
                 String.format(
-                    FieldValidator.NATIONALITY_ERROR_MESSAGE,
-                    SanitizationHelper.sanitizeForHtml(invalidNationality)), actual);
+                 FieldValidator.NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidNationality)), actual);
     }
 
     @Test
@@ -277,7 +276,7 @@ public class FieldValidatorTest extends BaseTestCase {
     @Test
     public void testGetInvalidityInfoForFeedbackSessionName_invalid_returnSpecificErrorString() {
         String invalidSessionName = StringHelperExtension.generateStringOfLength(
-                    FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+                FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
         assertEquals("Invalid feedback session name (too long) should return error message specific to feedback "
                          + "session name",
@@ -517,7 +516,8 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Course ID (short) should return empty string", "",
                      FieldValidator.getInvalidityInfoForCourseId(shortCourseId));
 
-        String maxLengthCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH);
+        String maxLengthCourseId = StringHelperExtension.generateStringOfLength(
+                FieldValidator.COURSE_ID_MAX_LENGTH);
         assertEquals("Valid Course ID (max length) should return empty string", "",
                      FieldValidator.getInvalidityInfoForCourseId(maxLengthCourseId));
     }
@@ -543,7 +543,8 @@ public class FieldValidatorTest extends BaseTestCase {
                         "${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
 
-        String tooLongCourseId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
+        String tooLongCourseId = StringHelperExtension.generateStringOfLength(
+                FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Course ID (too long) should return appropriate error string",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
                          + "course ID because it is too long. A course ID can contain letters, numbers, "

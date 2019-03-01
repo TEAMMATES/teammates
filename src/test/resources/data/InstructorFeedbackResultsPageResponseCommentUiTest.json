@@ -494,7 +494,6 @@
         "questionText": "Dummy question for NoSections course session"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
@@ -521,7 +520,6 @@
         "questionText": "Rate 3 other students' products"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
@@ -548,7 +546,6 @@
         "questionText": "What is the best selling point of your product?"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -573,7 +570,6 @@
         "questionText": "My comments on the class"
       },
       "questionNumber": 3,
-      "questionType": "TEXT",
       "giverType": "SELF",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -589,7 +585,6 @@
         "questionText": "Give feedback to 3 other teams."
       },
       "questionNumber": 4,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
@@ -614,7 +609,6 @@
         "questionText": "Give feedback to your team mates"
       },
       "questionNumber": 5,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -637,7 +631,6 @@
         "questionText": "This question should be hidden."
       },
       "questionNumber": 6,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -667,7 +660,6 @@
         "otherEnabled": false
       },
       "questionNumber": 7,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -699,7 +691,6 @@
         "otherEnabled": false
       },
       "questionNumber": 8,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -726,7 +717,6 @@
         "otherEnabled": false
       },
       "questionNumber": 9,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -753,7 +743,6 @@
         "otherEnabled": false
       },
       "questionNumber": 10,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -780,7 +769,6 @@
         "otherEnabled": false
       },
       "questionNumber": 2,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -807,7 +795,6 @@
         "otherEnabled": false
       },
       "questionNumber": 3,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -835,7 +822,6 @@
         "step": 0.5
       },
       "questionNumber": 4,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -865,7 +851,6 @@
         ]
       },
       "questionNumber": 5,
-      "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -895,7 +880,6 @@
         "constSumOptions": []
       },
       "questionNumber": 6,
-      "questionType": "CONSTSUM",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -920,7 +904,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 7,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -949,7 +932,6 @@
         "step": 0.5
       },
       "questionNumber": 8,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -972,7 +954,6 @@
         "step": 0.25
       },
       "questionNumber": 9,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -992,7 +973,6 @@
         "questionText": "Give feedback to your instructors"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1012,7 +992,6 @@
         "questionType": "CONTRIB"
       },
       "questionNumber": 10,
-      "questionType": "CONTRIB",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1035,7 +1014,6 @@
         "questionText": "As a team, what do you think could have been done differently?"
       },
       "questionNumber": 11,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -1061,7 +1039,6 @@
         "step": 5
       },
       "questionNumber": 12,
-      "questionType": "NUMSCALE",
       "giverType": "TEAMS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -1085,7 +1062,6 @@
         "questionText": "As a team, what do you think could have been done differently?"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -1114,7 +1090,6 @@
         "constSumOptions": []
       },
       "questionNumber": 2,
-      "questionType": "CONSTSUM",
       "giverType": "TEAMS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -1137,7 +1112,6 @@
       },
       "questionDescription": "<p> Some  question description. </p><a href='https://github.com/TEAMMATES/teammates/issues'>a link</a> attempted script injection <script>alert('hi');</script>",
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1162,7 +1136,6 @@
         "questionText": "Rate 3 other students' products"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -1190,7 +1163,6 @@
         "questionText": "This is a dummy question to test default sort"
       },
       "questionNumber": 11,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 3,

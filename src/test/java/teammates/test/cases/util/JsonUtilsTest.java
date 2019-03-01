@@ -9,7 +9,6 @@ import com.google.gson.JsonParseException;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
@@ -36,7 +35,6 @@ public class JsonUtilsTest extends BaseTestCase {
                 .withRecipientType(FeedbackParticipantType.SELF)
                 .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withQuestionNumber(1)
-                .withQuestionType(FeedbackQuestionType.TEXT)
                 .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(participants)
                 .withShowRecipientNameTo(participants)
@@ -54,7 +52,6 @@ public class JsonUtilsTest extends BaseTestCase {
                     + "    \"questionText\": \"Question text.\"\n"
                     + "  },\n"
                     + "  \"questionNumber\": 1,\n"
-                    + "  \"questionType\": \"TEXT\",\n"
                     + "  \"giverType\": \"INSTRUCTORS\",\n"
                     + "  \"recipientType\": \"SELF\",\n"
                     + "  \"numberOfEntitiesToGiveFeedbackTo\": -100,\n"

@@ -114,6 +114,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     @Override
     public List<String> getInvalidityInfo() {
+
         List<String> errors = new ArrayList<>();
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);

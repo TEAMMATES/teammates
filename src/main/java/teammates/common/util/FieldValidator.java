@@ -142,6 +142,7 @@ public final class FieldValidator {
     public static final String TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE =
             "The field " + TEAM_NAME_FIELD_NAME + " is not acceptable to TEAMMATES as the suggested value for "
                     + TEAM_NAME_FIELD_NAME + " can be mis-interpreted as an email.";
+
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
@@ -707,7 +708,8 @@ public final class FieldValidator {
      * @return Error string if condition is not met, otherwise empty string.
      */
     public static String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
-            boolean isCommentFromFeedbackParticipant, boolean isVisibilityFollowingFeedbackQuestion) {
+            boolean isCommentFromFeedbackParticipant,
+            boolean isVisibilityFollowingFeedbackQuestion) {
         if (isCommentFromFeedbackParticipant && !isVisibilityFollowingFeedbackQuestion) {
             return "Comment by feedback participant not following visibility setting of the question.";
         }

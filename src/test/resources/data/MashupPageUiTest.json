@@ -360,7 +360,6 @@
         "questionText": "What is the best selling point of your product?"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -382,7 +381,6 @@
         "questionText": "Comment about 5 other students"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 5,
@@ -406,7 +404,6 @@
         "questionText": "My comments on the class"
       },
       "questionNumber": 3,
-      "questionType": "TEXT",
       "giverType": "SELF",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -444,7 +441,6 @@
         "otherEnabled": false
       },
       "questionNumber": 4,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -479,7 +475,6 @@
         "otherEnabled": false
       },
       "questionNumber": 5,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -516,7 +511,6 @@
         "otherEnabled": false
       },
       "questionNumber": 6,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -550,7 +544,6 @@
         "otherEnabled": false
       },
       "questionNumber": 7,
-      "questionType": "MSQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -584,7 +577,6 @@
         "step": 0.5
       },
       "questionNumber": 8,
-      "questionType": "NUMSCALE",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -615,7 +607,6 @@
         "questionText": "Give feedback to 2 other teams."
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 2,
@@ -637,7 +628,6 @@
         "questionText": "Give feedback to 1 of your team mates"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -659,7 +649,6 @@
         "questionText": "Please rate the following teams"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 1,

@@ -87,8 +87,8 @@
             at the opening time of each session. Send a join request to {{student.email}} anyway?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn modal-btn-cancel btn-default" (click)="modal.dismiss()">Cancel</button>
-            <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">OK</button>
+            <button type="button" class="btn modal-btn-cancel btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
+            <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">Yes</button>
           </div>
         </ng-template>
         <button class="btn btn-secondary btn-sm mr-2"
@@ -109,8 +109,8 @@
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
-            <button type="button" ngbAutofocus class="btn btn-danger" (click)="removeStudentFromCourse(student.email); modal.dismiss()">Ok</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">No, cancel the operation</button>
+            <button type="button" ngbAutofocus class="btn btn-danger" (click)="removeStudentFromCourse(student.email); modal.dismiss()">Yes</button>
           </div>
         </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {

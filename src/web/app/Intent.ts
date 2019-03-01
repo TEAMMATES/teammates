@@ -17,4 +17,15 @@ export enum Intent {
    * To submit the feedback session as students.
    */
   STUDENT_SUBMISSION = 'STUDENT_SUBMISSION',
+
+  /**
+   * To view the feedback session results as instructors.
+   */
+  INSTRUCTOR_RESULT = 'INSTRUCTOR_RESULT',
+
+  /**
+   * To view the feedback session results as students.
+   */
+  STUDENT_RESULT = 'STUDENT_RESULT',
+
 }
