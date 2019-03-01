@@ -56,9 +56,9 @@ describe('StudentHomePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with two feedback sessions for one course', () => {
+  it('should snap with all feedback sessions over 2 courses', () => {
     const studentName: string = 'John Doe';
-    const studentCourse: any = {
+    const studentCourseA: any = {
       course: {
         id: 'CS2103',
         name: 'Software Engineering',
@@ -78,7 +78,29 @@ describe('StudentHomePageComponent', () => {
         },
       ],
     };
-    const sessionInfoMap: any = {
+
+    const studentCourseB: any = {
+      course: {
+        id: 'CS2102',
+        name: 'Databases',
+      },
+      feedbackSessions: [
+        {
+          feedbackSession: {
+            feedbackSessionName: 'Third Session',
+            courseId: 'CS2102',
+          },
+        },
+        {
+          feedbackSession: {
+            feedbackSessionName: 'Fourth Session',
+            courseId: 'CS2102',
+          },
+        },
+      ],
+    };
+
+    const publishedSessionInfoMap: any = {
       endTime: '1200',
       isOpened: true,
       isWaitingToOpen: true,
@@ -86,11 +108,37 @@ describe('StudentHomePageComponent', () => {
       isSubmitted: true,
     };
 
+    const unpublishedSessionInfoMap: any = {
+      endTime: '1200',
+      isOpened: true,
+      isWaitingToOpen: false,
+      isPublished: false,
+      isSubmitted: false,
+    };
+
+    const submittedSessionInfoMap: any = {
+      endTime: '1200',
+      isOpened: true,
+      isWaitingToOpen: false,
+      isPublished: false,
+      isSubmitted: true,
+    };
+
+    const concludedSessionInfoMap: any = {
+      endTime: '1200',
+      isOpened: false,
+      isWaitingToOpen: false,
+      isPublished: false,
+      isSubmitted: true,
+    };
+
     component.user = studentName;
-    component.courses = [studentCourse];
+    component.courses = [studentCourseA, studentCourseB];
     component.sessionsInfoMap = {
-      'CS2103%First Session': sessionInfoMap,
-      'CS2103%Second Session': sessionInfoMap,
+      'CS2103%First Session': publishedSessionInfoMap,
+      'CS2103%Second Session': unpublishedSessionInfoMap,
+      'CS2102%Third Session': submittedSessionInfoMap,
+      'CS2102%Fourth Session': concludedSessionInfoMap,
     };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
