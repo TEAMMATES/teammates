@@ -68,11 +68,16 @@ public class GetInstructorPrivilegeAction extends Action {
         customPrivilegeData.setCanSubmitSessionInSections(false);
         customPrivilegeData.setCanModifySessionCommentsInSections(false);
 
-        INSTRUCTOR_PRIVILEGES.put("coowner", coOwnerPrivilegeData);
-        INSTRUCTOR_PRIVILEGES.put("manager", managerPrivilegeData);
-        INSTRUCTOR_PRIVILEGES.put("observer", observerPrivilegeData);
-        INSTRUCTOR_PRIVILEGES.put("tutor", tutorPrivilegeData);
-        INSTRUCTOR_PRIVILEGES.put("custom", customPrivilegeData);
+        INSTRUCTOR_PRIVILEGES.put(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, coOwnerPrivilegeData);
+        INSTRUCTOR_PRIVILEGES.put(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, managerPrivilegeData);
+        INSTRUCTOR_PRIVILEGES.put(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, observerPrivilegeData);
+        INSTRUCTOR_PRIVILEGES.put(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, tutorPrivilegeData);
+        INSTRUCTOR_PRIVILEGES.put(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, customPrivilegeData);
     }
 
     @Override
@@ -103,10 +108,22 @@ public class GetInstructorPrivilegeAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
+        // is getting privilege of another instructor
+        String instructorOfInterest = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+
+        InstructorAttributes instructor;
+        if (instructorOfInterest == null) {
+            instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        } else {
+            instructor = logic.getInstructorForGoogleId(courseId, instructorOfInterest);
+            if (instructor == null) {
+                return new JsonResult("Instructor does not exist.", HttpStatus.SC_NOT_FOUND);
+            }
+        }
+
         String sectionName = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
         InstructorPrivilegeData response = new InstructorPrivilegeData();
 
         // course level privileges.

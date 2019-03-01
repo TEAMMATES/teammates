@@ -69,18 +69,69 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         removeAndRestoreDataBundle(dataBundle);
     }
 
-    @Test
     @Override
     protected void testExecute() throws Exception {
+        // see individual tests.
+    }
+
+    @Test
+    protected void testExecute_fetchPrivilegeOfNonExistInstructor() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes session1ofCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
+        ______TS("Request to fetch privilege of another instructor");
+        // course id is used for instructor identify verification here.
+        String[] invalidInstructorParams = {
+                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_ID, "invalidid",
+        };
 
+        GetInstructorPrivilegeAction a = getAction(invalidInstructorParams);
+        JsonResult result = getJsonResult(a);
+        MessageOutput output = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals("Instructor does not exist.", output.getMessage());
+    }
+
+    @Test
+    protected void testExecute_fetchPrivilegeOfAnotherInstructor() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor2ofCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+        ______TS("Request to fetch privilege of another instructor");
+        // course id is used for instructor identify verification here.
+        String[] anotherInstructorParams = {
+                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructor2ofCourse1.getGoogleId(),
+        };
+
+        GetInstructorPrivilegeAction a = getAction(anotherInstructorParams);
+        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+
+        assertFalse(response.isCanModifyCourse());
+        assertTrue(response.isCanModifyStudent());
+        assertTrue(response.isCanModifyInstructor());
+        assertTrue(response.isCanModifySession());
+
+        assertTrue(response.isCanViewStudentInSections());
+
+        assertTrue(response.isCanModifySessionCommentsInSections());
+        assertTrue(response.isCanViewSessionInSections());
+        assertTrue(response.isCanSubmitSessionInSections());
+    }
+
+    @Test
+    protected void testExecute_notEnoughParameters() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
         ______TS("Not enough parameters");
-
         verifyHttpParameterFailure();
+    }
 
+    @Test
+    protected void testExecute_withCourseId() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
         ______TS("Request with course id to fetch general privileges");
 
         String[] courseIdParam = {
@@ -100,7 +151,13 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         assertFalse(response.isCanModifySessionCommentsInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanSubmitSessionInSections());
+    }
 
+    @Test
+    protected void testExecute_withCourseIdAndSectionName() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
         ______TS("Request with course id and section name to fetch section level privileges");
 
         String[] sectionParams = {
@@ -108,8 +165,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.SECTION_NAME, student1InCourse1.getSection(),
         };
 
-        a = getAction(sectionParams);
-        response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        GetInstructorPrivilegeAction a = getAction(sectionParams);
+        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
         assertTrue(response.isCanModifyCourse());
         assertTrue(response.isCanModifyStudent());
@@ -121,7 +178,14 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         assertFalse(response.isCanModifySessionCommentsInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanSubmitSessionInSections());
+    }
 
+    @Test
+    protected void testExecute_withCourseIdAndSectionNameAndSessionName() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes session1ofCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
         ______TS("Request with course id, section name and session name to fetch session level privileges");
 
         String[] sessionParams = {
@@ -130,8 +194,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1ofCourse1.getFeedbackSessionName(),
         };
 
-        a = getAction(sessionParams);
-        response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        GetInstructorPrivilegeAction a = getAction(sessionParams);
+        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
         assertTrue(response.isCanModifyCourse());
         assertTrue(response.isCanModifyStudent());
@@ -143,7 +207,13 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         assertFalse(response.isCanModifySessionCommentsInSections());
         assertTrue(response.isCanViewSessionInSections());
         assertTrue(response.isCanSubmitSessionInSections());
+    }
 
+    @Test
+    protected void testExecute_withSectionNameAndInvalidSessionName() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
         ______TS("Request with course id,"
                 + " section name and invalid session name, return section level privilege.");
 
@@ -153,8 +223,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "invalid session",
         };
 
-        a = getAction(invalidSessionParams);
-        response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        GetInstructorPrivilegeAction a = getAction(invalidSessionParams);
+        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
         assertTrue(response.isCanModifyCourse());
         assertTrue(response.isCanModifyStudent());
@@ -166,7 +236,12 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         assertFalse(response.isCanModifySessionCommentsInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanSubmitSessionInSections());
+    }
 
+    @Test
+    protected void testExecute_withInvalidSectionName() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
         ______TS("Request with course id and invalid section name, return general privilege.");
 
         String[] invalidSectionParams = {
@@ -174,8 +249,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.SECTION_NAME, "invalid section",
         };
 
-        a = getAction(invalidSectionParams);
-        response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        GetInstructorPrivilegeAction a = getAction(invalidSectionParams);
+        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
         assertTrue(response.isCanModifyCourse());
         assertTrue(response.isCanModifyStudent());
@@ -187,6 +262,12 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         assertFalse(response.isCanModifySessionCommentsInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanSubmitSessionInSections());
+    }
+
+    @Test
+    protected void testExecute_withInvalidSessionName() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         ______TS("Request with course id and invalid session name, return general privilege.");
 
@@ -195,8 +276,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "invalid session",
         };
 
-        a = getAction(invalidSectionAndCourseIdParams);
-        response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        GetInstructorPrivilegeAction a = getAction(invalidSectionAndCourseIdParams);
+        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
         assertTrue(response.isCanModifyCourse());
         assertTrue(response.isCanModifyStudent());
@@ -208,17 +289,23 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         assertFalse(response.isCanModifySessionCommentsInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanSubmitSessionInSections());
+    }
 
-        ______TS("Request with course id and session name to fetch privilege for an instructor role");
+    @Test
+    protected void testExecute_fetchInstructorRole() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+        ______TS("Request with course id and instructor role to fetch privilege for an instructor role");
 
         // course id is used for instructor identify verification here.
         String[] courseAndSessionParams = {
                 Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, "coowner",
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
         };
 
-        a = getAction(courseAndSessionParams);
-        response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+        GetInstructorPrivilegeAction a = getAction(courseAndSessionParams);
+        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
         assertTrue(response.isCanModifyCourse());
         assertTrue(response.isCanModifyStudent());
@@ -231,20 +318,24 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         // has privilege in any of the sections.
         assertTrue(response.isCanViewSessionInSections());
         assertTrue(response.isCanSubmitSessionInSections());
+    }
 
+    @Test
+    protected void testExecute_withInvalidInstructorRole() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
         ______TS("Failure: Request with invalid instructor role.");
         String[] invalidRoleParams = {
                 Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME, "invalid role",
         };
 
-        a = getAction(invalidRoleParams);
+        GetInstructorPrivilegeAction a = getAction(invalidRoleParams);
         JsonResult result = getJsonResult(a);
 
         MessageOutput output = (MessageOutput) result.getOutput();
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
         assertEquals("Invalid instructor role.", output.getMessage());
-
     }
 
     @Test
