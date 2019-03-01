@@ -24,6 +24,12 @@ import teammates.ui.webapi.output.LinkRecoveryResponseData;
  * SUT: {@link LinkRecoveryAction}.
  */
 public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
+
+    private FeedbackSessionAttributes session1InCourse3 = typicalBundle.feedbackSessions.get("session1InCourse3");
+    private FeedbackSessionAttributes session2InCourse3 = typicalBundle.feedbackSessions.get("session2InCourse3");
+    private FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+    private FeedbackSessionAttributes session2InCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.LINK_RECOVERY;
@@ -38,32 +44,29 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
     @Override
     public void beforeTestMethodSetup() {
         // change start time of one feedback session in the data bundle for the purpose of this testing.
-        DataBundle dataBundle = getTypicalDataBundle();
+        DataBundle dataBundle = typicalBundle;
 
         // opened and unpublished.
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse3");
-        fs.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
-        dataBundle.feedbackSessions.put("session1InCourse3", fs);
+        session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
+        dataBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
 
         // closed and unpublished
-        fs = dataBundle.feedbackSessions.get("session2InCourse3");
-        fs.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
-        fs.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        fs.resetDeletedTime();
-        dataBundle.feedbackSessions.put("session2InCourse3", fs);
+        session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
+        session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session2InCourse3.resetDeletedTime();
+        dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
 
         // opened and published.
-        fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        fs.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
-        fs.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        dataBundle.feedbackSessions.put("session1InCourse1", fs);
+        session1InCourse1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
+        session1InCourse1.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        dataBundle.feedbackSessions.put("session1InCourse1", session1InCourse1);
 
         // closed and published
-        fs = dataBundle.feedbackSessions.get("session2InCourse1");
-        fs.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
-        fs.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        fs.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        dataBundle.feedbackSessions.put("session2InCourse1", fs);
+        session2InCourse1 = dataBundle.feedbackSessions.get("session2InCourse1");
+        session2InCourse1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
+        session2InCourse1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session2InCourse1.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        dataBundle.feedbackSessions.put("session2InCourse1", session2InCourse1);
 
         removeAndRestoreDataBundle(dataBundle);
     }
@@ -76,30 +79,16 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         StudentAttributes student1InCourse3 = typicalBundle.students.get("student1InCourse3");
         CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");
         CourseAttributes course3 = typicalBundle.courses.get("typicalCourse3");
-        FeedbackSessionAttributes session1InCourse3 = typicalBundle.feedbackSessions.get("session1InCourse3");
-        FeedbackSessionAttributes session2InCourse3 = typicalBundle.feedbackSessions.get("session2InCourse3");
-        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSessionAttributes session2InCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
-
-        session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
-        session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
-        session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        session2InCourse3.resetDeletedTime();
-        session1InCourse1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
-        session1InCourse1.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        session2InCourse1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
-        session2InCourse1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        session2InCourse1.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
 
         ______TS("Invalid parameters");
 
         // no params
         verifyHttpParameterFailure();
 
-        ______TS("Typical case: non-existing email");
+        ______TS("Typical case: non-existing email address");
 
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.RECOVERY_EMAIL, "non-existent email",
+                Const.ParamsNames.RECOVERY_EMAIL, "non-existent email address.",
         };
 
         LinkRecoveryAction a = getAction(nonExistingParam);
@@ -107,8 +96,8 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
 
         LinkRecoveryResponseData output = (LinkRecoveryResponseData) result.getOutput();
 
-        assertEquals("No student is registered under email: non-existent email", output.getMessage());
-        assertFalse(output.isEmailSent());
+        assertEquals("The recovery links for your feedback sessions have been sent to "
+                + "the specified email address: non-existent email address.", output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 0);
 
@@ -123,10 +112,9 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
 
         output = (LinkRecoveryResponseData) result.getOutput();
 
-        assertEquals("The recovery links for your feedback sessions have been sent to the specified email: "
-                        + student1InCourse2.getEmail(),
+        assertEquals("The recovery links for your feedback sessions have been sent to the "
+                        + "specified email address: " + student1InCourse2.getEmail(),
                 output.getMessage());
-        assertTrue(output.isEmailSent());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 
@@ -150,10 +138,9 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
 
         output = (LinkRecoveryResponseData) result.getOutput();
 
-        assertEquals("The recovery links for your feedback sessions have been sent to the specified email: "
-                        + student1InCourse3.getEmail(),
+        assertEquals("The recovery links for your feedback sessions have been "
+                        + "sent to the specified email address: " + student1InCourse3.getEmail(),
                 output.getMessage());
-        assertTrue(output.isEmailSent());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 
@@ -223,10 +210,9 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
 
         output = (LinkRecoveryResponseData) result.getOutput();
 
-        assertEquals("The recovery links for your feedback sessions have been sent to the specified email: "
-                        + student1InCourse1.getEmail(),
+        assertEquals("The recovery links for your feedback sessions have been sent "
+                        + "to the specified email address: " + student1InCourse1.getEmail(),
                 output.getMessage());
-        assertTrue(output.isEmailSent());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 
