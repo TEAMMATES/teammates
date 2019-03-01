@@ -353,7 +353,8 @@
               </a>
               <div class="form-group">
                 <div class="align-center">
-                  <button class="btn btn-primary" tabindex="6" id="btn-save-{{ i }}" style="display:none;" type="submit">
+                  <button class="btn btn-primary" tabindex="6" id="btn-save-{{ i }}" style="display:none;"
+                          (click)="onSubmitEditInstructor(instr, i)">
                     Save changes
                   </button>
                 </div>
