@@ -21,7 +21,8 @@ public class DevServerLoginPageNew extends LoginPageNew {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getLoginPageTitle().contains("Not logged in");
+        waitForElementVisibility(By.tagName("h3"));
+        return getPageSource().contains("<h3>Not logged in</h3>");
     }
 
     @Override
@@ -30,7 +31,7 @@ public class DevServerLoginPageNew extends LoginPageNew {
         fillTextBox(emailTextBox, instructorUsername);
         click(isAdminCheckBox);
         click(loginButton);
-        waitForPageToLoad();
+        waitForElementVisibility(By.id("pageTitle"));
         browser.isAdminLoggedIn = true;
     }
 

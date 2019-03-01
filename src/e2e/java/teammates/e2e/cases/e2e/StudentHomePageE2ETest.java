@@ -37,10 +37,6 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         testData.students.get("alice.tmms@SHomeUiT.CS4221").email = student1Email;
 
         removeAndRestoreDataBundle(testData);
-
-        // TODO: How do I implement this? Need to generate a save state.
-        // gracedFeedbackSession.setEndTime(Instant.now());
-        // BackDoor.editFeedbackSession(gracedFeedbackSession);
     }
 
     @Test
@@ -61,35 +57,42 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         logout();
         studentHome = getHomePageNew().clickStudentLogin().loginAsStudent(unregUserId, unregPassword);
 
-        assertTrue(studentHome.verifyErrorMessage("Ooops! Your Google account is not known to TEAMMATES"));
+        browser.waitForPageLoad();
+        assertTrue(studentHome.verifyStrangerMessage());
 
-        // TODO: is the persistent login still necessary?
+        ______TS("login successfully");
 
-        ______TS("login");
-
-        // TODO: continue working on the other parts after data bundle is initialized correctly
         logout();
         studentHome = getHomePageNew().clickStudentLogin()
                                    .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                                    TestProperties.TEST_STUDENT1_PASSWORD);
 
-        // verify account is logged in
-        // the log in fails currently as the data is not parsed to DataBundle correctly
+        browser.waitForPageLoad();
+//        assertTrue(studentHome.verifyFirstPanelFeedbackSessionName("[SHomeUiT.CS1101]: Programming Methodology"));
 
         ______TS("content: multiple courses");
 
+//        AppUrl detailsPageUrl = createUrl(Const.ResourceURIs.STUDENT)
+//                .withUserId(Const.ParamsNames.USER_ID, testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId)
+//                .toString();
+
         AppUrl detailsPageUrl = createUrl(Const.ResourceURIs.STUDENT)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
+        System.out.println(detailsPageUrl);
 
         StudentHomePageNew studentHomePage = loginAdminToPageNew(detailsPageUrl, StudentHomePageNew.class);
+        browser.waitForPageLoad();
 
+        String temp = studentHomePage.verifyAdminPagePresent();
+        System.out.println(temp);
         ______TS("content: requires sanitization");
 
-        detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
+        detailsPageUrl = createUrl(Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT)
                             .withUserId(testData.students.get("SHomeUiT.student1InTestingSanitizationCourse").googleId);
 
         studentHomePage = loginAdminToPageNew(detailsPageUrl, StudentHomePageNew.class);
-
+        // studentHomePage.verifyFirstPanelFeedbackSessionName("[SHomeUiT.idOfTestingSanitizationCourse] : Testing&lt;script&gt; alert('hi!'); &lt;/script&gt;");
+//        assertTrue(
     }
 
     private void testLinks() {
