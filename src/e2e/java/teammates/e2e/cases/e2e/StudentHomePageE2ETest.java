@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.StudentHelpPageNew;
 import teammates.e2e.pageobjects.StudentHomePageNew;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
@@ -68,31 +67,17 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
                                                    TestProperties.TEST_STUDENT1_PASSWORD);
 
         browser.waitForPageLoad();
-//        assertTrue(studentHome.verifyFirstPanelFeedbackSessionName("[SHomeUiT.CS1101]: Programming Methodology"));
+        assertTrue(studentHome.verifyFirstPanelFeedbackSessionName("[SHomeUiT.CS1101]: Programming Methodology"));
 
-        ______TS("content: multiple courses");
+        ______TS("login successfully as admin (masquerade mode)");
 
-//        AppUrl detailsPageUrl = createUrl(Const.ResourceURIs.STUDENT)
-//                .withUserId(Const.ParamsNames.USER_ID, testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId)
-//                .toString();
-
-        AppUrl detailsPageUrl = createUrl(Const.ResourceURIs.STUDENT)
-                             .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
-        System.out.println(detailsPageUrl);
+        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
+                .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePageNew studentHomePage = loginAdminToPageNew(detailsPageUrl, StudentHomePageNew.class);
         browser.waitForPageLoad();
 
-        String temp = studentHomePage.verifyAdminPagePresent();
-        System.out.println(temp);
-        ______TS("content: requires sanitization");
-
-        detailsPageUrl = createUrl(Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT)
-                            .withUserId(testData.students.get("SHomeUiT.student1InTestingSanitizationCourse").googleId);
-
-        studentHomePage = loginAdminToPageNew(detailsPageUrl, StudentHomePageNew.class);
-        // studentHomePage.verifyFirstPanelFeedbackSessionName("[SHomeUiT.idOfTestingSanitizationCourse] : Testing&lt;script&gt; alert('hi!'); &lt;/script&gt;");
-//        assertTrue(
+        assertTrue(studentHomePage.verifyAdminPagePresent());
     }
 
     private void testLinks() {
@@ -100,68 +85,27 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         AppUrl homePageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-        StudentHomePageNew studentHomePageNew = loginAdminToPageNew(homePageUrl, StudentHomePageNew.class);
-
-        ______TS("link: help page");
-
-        StudentHelpPageNew helpPage = studentHomePageNew.loadStudentHelpTab();
-        helpPage.closeCurrentWindowAndSwitchToParentWindow();
+        StudentHomePageNew studentHomePage = loginAdminToPageNew(homePageUrl, StudentHomePageNew.class);
 
         ______TS("link: view team link");
 
-        studentHomePageNew.clickViewTeam();
+        studentHomePage.clickViewTeam();
 
-        AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
-                .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").googleId)
-                .withCourseId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS1101").course);
-        assertEquals(detailsPageUrl.toAbsoluteString(), browser.driver.getCurrentUrl());
-        studentHomePageNew.loadStudentHomeTab();
+        ______TS("link: help page");
 
-        ______TS("link: link of published feedback");
+        studentHomePage.loadStudentHelpTab();
 
-        studentHomePageNew.clickViewFeedbackButton("Closed Feedback Session");
-        studentHomePageNew.reloadPage();
-        String pageSource = browser.driver.getPageSource();
-        assertTrue(pageSource.contains("Feedback Results"));
-        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
-        assertTrue(pageSource.contains("Closed Feedback Session"));
-        studentHomePageNew.loadStudentHomeTab();
+        ______TS("link: student profile page");
 
-        studentHomePageNew.clickSubmitFeedbackButton("Closed Feedback Session");
-        studentHomePageNew.reloadPage();
-        pageSource = browser.driver.getPageSource();
-        assertTrue(pageSource.contains("Submit Feedback"));
-        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
-        assertTrue(pageSource.contains("Closed Feedback Session"));
-        assertTrue(pageSource.contains(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN));
-        studentHomePageNew.loadStudentHomeTab();
+        studentHomePage.loadStudentProfileTab();
 
-        ______TS("link: link of Grace period feedback");
+        ______TS("link: student home page");
 
-        assertTrue(studentHomePageNew.getViewFeedbackButton("Graced Feedback Session")
-                .getAttribute("class").contains("disabled"));
+        studentHomePage.loadStudentHomeTab();
 
-        studentHomePageNew.clickSubmitFeedbackButton("Graced Feedback Session");
-        studentHomePageNew.reloadPage();
-        pageSource = browser.driver.getPageSource();
-        assertTrue(pageSource.contains("Submit Feedback"));
-        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
-        assertTrue(pageSource.contains("Graced Feedback Session"));
-        assertTrue(pageSource.contains(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN));
-        studentHomePageNew.loadStudentHomeTab();
+        ______TS("link: log out to home page");
 
-        ______TS("link: link of pending feedback");
-
-        assertTrue(studentHomePageNew.getViewFeedbackButton("First Feedback Session")
-                .getAttribute("class").contains("disabled"));
-
-        studentHomePageNew.clickSubmitFeedbackButton("First Feedback Session");
-        studentHomePageNew.reloadPage();
-        pageSource = browser.driver.getPageSource();
-        assertTrue(pageSource.contains("Submit Feedback"));
-        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
-        assertTrue(pageSource.contains("First Feedback Session"));
-        studentHomePageNew.loadStudentHomeTab();
+        studentHomePage.clickLogout();
     }
 
     private void testLinkAndContentAfterDelete() throws Exception {
@@ -173,7 +117,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         ______TS("access the feedback session exactly after it is deleted");
 
-        // BackDoor.executeDeleteRequest(createUrl(Const.ResourceURIs.)"First Feedback Session", "SHomeUiT.CS2104");
+        BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");
         studentHomePageNew.clickSubmitFeedbackButton("First Feedback Session");
         studentHomePageNew.waitForPageToLoad();
 

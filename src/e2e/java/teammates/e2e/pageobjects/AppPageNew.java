@@ -38,12 +38,6 @@ public abstract class AppPageNew {
     /** Browser instance the page is loaded into. */
     protected Browser browser;
 
-    /** Use for retrying due to persistence delays. */
-    protected RetryManager persistenceRetryManager = new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
-
-    /** Use for retrying due to transient UI issues. */
-    protected RetryManager uiRetryManager = new RetryManager((TestProperties.TEST_TIMEOUT + 1) / 2);
-
     /** Firefox change handler for handling when `change` events are not fired in Firefox. */
     private final FirefoxChangeHandler firefoxChangeHandler;
 
@@ -52,13 +46,13 @@ public abstract class AppPageNew {
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
 
-    @FindBy(id = "studentHomeNavLink")
+    @FindBy(linkText = "Home")
     private WebElement studentHomeTab;
 
-    @FindBy(id = "studentProfileNavLink")
+    @FindBy(linkText = "Profile")
     private WebElement studentProfileTab;
 
-    @FindBy(id = "studentHelpLink")
+    @FindBy(linkText = "Help")
     private WebElement studentHelpTab;
 
     /**
@@ -215,17 +209,6 @@ public abstract class AppPageNew {
         return waitFor(ExpectedConditions.presenceOfElementLocated(by));
     }
 
-    /**
-     * Switches to the new browser window just opened.
-     */
-    protected void switchToNewWindow() {
-        browser.switchToNewWindow();
-    }
-
-    public void closeCurrentWindowAndSwitchToParentWindow() {
-        browser.closeCurrentWindowAndSwitchToParentWindow();
-    }
-
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
         waitForPageToLoad();
@@ -242,8 +225,18 @@ public abstract class AppPageNew {
      */
     public StudentHomePageNew loadStudentHomeTab() {
         click(studentHomeTab);
-        waitForPageToLoad();
+        browser.waitForPageLoad();
         return changePageType(StudentHomePageNew.class);
+    }
+
+    /**
+     * Equivalent of clicking the 'Profile' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentProfilePageNew loadStudentProfileTab() {
+        click(studentProfileTab);
+        browser.waitForPageLoad();
+        return changePageType(StudentProfilePageNew.class);
     }
 
     /**
@@ -252,17 +245,16 @@ public abstract class AppPageNew {
      */
     public StudentHelpPageNew loadStudentHelpTab() {
         click(studentHelpTab);
-        waitForPageToLoad();
-        switchToNewWindow();
+        browser.waitForPageLoad();
         return changePageType(StudentHelpPageNew.class);
     }
 
     /**
      * Click the 'logout' link in the top menu of the page.
      */
-    public AppPageNew logout() {
+    public AppPageNew clickLogout() {
         click(logoutButton);
-        waitForPageToLoad();
+        browser.waitForPageLoad();
         return this;
     }
 
@@ -274,16 +266,31 @@ public abstract class AppPageNew {
         return browser.driver.getPageSource();
     }
 
-    public String getLoginPageTitle() {
-        return browser.driver.findElement(By.tagName("h3")).getText();
-    }
-
     public String getTitle() {
         return browser.driver.getTitle();
     }
 
+    public void clickLoginDropDown() {
+        click(By.cssSelector("a.nav-link.dropdown-toggle"));
+    }
+
+    public boolean verifyStrangerMessage() {
+        return browser.driver.findElement(By.tagName("h5")).getText()
+                .contains("Your Google account is not known to TEAMMATES");
+    }
+
+    public boolean verifyFirstPanelFeedbackSessionName(String message) {
+        return message.equals(browser.driver.findElement(By.cssSelector("div.card-header.bg-primary strong")).getText());
+    }
+
+    public boolean verifyAdminPagePresent() {
+        clickLoginDropDown();
+        return "To admin pages".equals(
+                browser.driver.findElement(By.cssSelector("div.dropdown-menu.show a:nth-of-type(2)")).getText());
+    }
+
     public String getPageTitle() {
-        return browser.driver.findElement(By.id("pageTitle")).getText();
+        return browser.driver.findElement(By.tagName("h1")).getText();
     }
 
     public void click(By by) {

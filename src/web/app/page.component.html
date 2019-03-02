@@ -64,7 +64,7 @@
       <i class="fas fa-ban"></i>&nbsp;You are currently not enabling cookies in your browser. TEAMMATES requires cookies in order to work effectively.
     </div>
   </div>
-  <h1 id="pageTitle" *ngIf="pageTitle">{{ pageTitle }}</h1>
+  <h1 *ngIf="pageTitle">{{ pageTitle }}</h1>
   <div *ngIf="!isValidUser">
     <div *ngIf="isStudent || isInstructor || isAdmin">
       <div class="row">

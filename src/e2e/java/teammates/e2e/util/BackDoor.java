@@ -234,6 +234,16 @@ public final class BackDoor {
         executeDeleteRequest(Const.ResourceURIs.STUDENTS, params);
     }
 
+    /**
+     * Deletes a feedback session from the datastore.
+     */
+    public static void deleteFeedbackSession(String feedbackSession, String courseId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSession });
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        executeDeleteRequest(Const.ResourceURIs.SESSION, params);
+    }
+
     private static final class ResponseBodyAndCode {
 
         String responseBody;
