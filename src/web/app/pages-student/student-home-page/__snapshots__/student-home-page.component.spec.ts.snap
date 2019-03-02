@@ -356,6 +356,27 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
 </tm-student-home-page>
 `;
 
+exports[`StudentHomePageComponent should snap with default fields 1`] = `
+<tm-student-home-page
+  courses={[Function Array]}
+  hasEventualConsistencyMsg="false"
+  httpRequestService={[Function HttpRequestService]}
+  recentlyJoinedCourseId=""
+  route={[Function ActivatedRoute]}
+  sessionsInfoMap={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentFeedbackSessionStatusAwaiting={[Function String]}
+  studentFeedbackSessionStatusClosed={[Function String]}
+  studentFeedbackSessionStatusNotPublished={[Function String]}
+  studentFeedbackSessionStatusPending={[Function String]}
+  studentFeedbackSessionStatusPublished={[Function String]}
+  studentFeedbackSessionStatusSubmitted={[Function String]}
+  user="undefined"
+>
+  
+</tm-student-home-page>
+`;
+
 exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
   courses={[Function Array]}
@@ -419,26 +440,5 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
       </table>
     </div>
   </div>
-</tm-student-home-page>
-`;
-
-exports[`StudentHomePageComponent should snap with null fields 1`] = `
-<tm-student-home-page
-  courses={[Function Array]}
-  hasEventualConsistencyMsg="false"
-  httpRequestService={[Function HttpRequestService]}
-  recentlyJoinedCourseId=""
-  route={[Function ActivatedRoute]}
-  sessionsInfoMap={[Function Object]}
-  statusMessageService={[Function StatusMessageService]}
-  studentFeedbackSessionStatusAwaiting={[Function String]}
-  studentFeedbackSessionStatusClosed={[Function String]}
-  studentFeedbackSessionStatusNotPublished={[Function String]}
-  studentFeedbackSessionStatusPending={[Function String]}
-  studentFeedbackSessionStatusPublished={[Function String]}
-  studentFeedbackSessionStatusSubmitted={[Function String]}
-  user="undefined"
->
-  
 </tm-student-home-page>
 `;

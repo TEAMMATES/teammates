@@ -37,7 +37,7 @@ describe('StudentHomePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap with null fields', () => {
+  it('should snap with default fields', () => {
     expect(fixture).toMatchSnapshot();
   });
 
