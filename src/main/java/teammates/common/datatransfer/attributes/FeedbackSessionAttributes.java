@@ -202,12 +202,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         // Check for null fields.
 
-        addNonEmptyError(
-                FieldValidator.getValidityInfoForNonNullField(
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
                 FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName), errors);
 
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
-                         FieldValidator.COURSE_ID_FIELD_NAME, courseId), errors);
+                FieldValidator.COURSE_ID_FIELD_NAME, courseId), errors);
 
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
 
