@@ -64,9 +64,6 @@ public abstract class AppPageNew {
     @FindBy(id = "studentHelpLink")
     private WebElement studentHelpTab;
 
-    @FindBy(xpath = "(//*[@class=\"htCore\"]/tbody/tr/td[@class =\"enroll-handsontable\"])[1]")
-    private WebElement enrollSpreadsheetFirstCell;
-
     /**
      * Used by subclasses to create a {@code AppPageNew} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -170,14 +167,6 @@ public abstract class AppPageNew {
     public void waitForElementToBeClickable(WebElement element) {
         waitFor(ExpectedConditions.elementToBeClickable(element));
     }
-    /**
-     * {@code locator} is mapped to an actual {@link WebElement}.
-     * @param locator used to find the element
-     * @see AppPageNew#waitForElementStaleness(WebElement)
-     */
-    public void waitForElementStaleness(By locator) {
-        waitForElementStaleness(browser.driver.findElement(locator));
-    }
 
     /**
      * Waits until an element is no longer attached to the DOM or the timeout expires.
@@ -191,103 +180,6 @@ public abstract class AppPageNew {
     }
 
     /**
-     * Waits until an element belongs to the class or the timeout expires.
-     * @param element the WebElement
-     * @param elementClass the class that the element must belong to
-     * @throws TimeoutException if the timeout defined in
-     * {@link TestProperties#TEST_TIMEOUT} expires
-     * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
-     */
-    void waitForElementToBeMemberOfClass(WebElement element, String elementClass) {
-        waitFor(driver -> {
-            String classAttribute = element.getAttribute("class");
-            List<String> classes = Arrays.asList(classAttribute.split(" "));
-
-            return classes.contains(elementClass);
-        });
-    }
-
-    /**
-     * Waits for element to be invisible or not present, or timeout.
-     */
-    public void waitForElementToDisappear(By by) {
-        waitFor(ExpectedConditions.invisibilityOfElementLocated(by));
-    }
-
-    /**
-     * Waits for a list of elements to be invisible or not present, or timeout.
-     */
-    public void waitForElementsToDisappear(List<WebElement> elements) {
-        waitFor(ExpectedConditions.invisibilityOfAllElements(elements));
-    }
-
-    /**
-     * Waits until scrolling on the page is complete. Note: The detection of whether the page is scrolling is coupled to our
-     * own implementation of scrolling {@code (scrollTo.js)} and is not a true detection.
-     * @throws TimeoutException if the timeout defined in {@link TestProperties#TEST_TIMEOUT} expires
-     */
-    void waitForScrollingToComplete() {
-        // Note: The implementation compares previous and current scroll positions so the polling interval should not be
-        // changed or set to too low a value or the comparisons may unexpectedly be equal.
-        waitFor(new ExpectedCondition<Boolean>() {
-            private static final String SCROLL_POSITION_PROPERTY = "scrollTop";
-
-            private boolean isFirstEvaluation = true;
-
-            private final WebElement htmlElement = browser.driver.findElement(By.tagName("html"));
-            private final WebElement bodyElement = browser.driver.findElement(By.tagName("body"));
-
-            private String prevHtmlScrollPosition;
-            private String prevBodyScrollPosition;
-
-            private boolean isPreviouslyEqual;
-
-            @Override
-            public Boolean apply(WebDriver input) {
-                // The first evaluation has no previous scrolling positions to compare to
-                if (isFirstEvaluation) {
-                    prevHtmlScrollPosition = htmlElement.getAttribute(SCROLL_POSITION_PROPERTY);
-                    prevBodyScrollPosition = bodyElement.getAttribute(SCROLL_POSITION_PROPERTY);
-
-                    isFirstEvaluation = false;
-                    return false;
-                }
-
-                return isCurrentScrollingPositionSameAsPrevious();
-            }
-
-            private Boolean isCurrentScrollingPositionSameAsPrevious() {
-                String currentHtmlScrollPosition = htmlElement.getAttribute(SCROLL_POSITION_PROPERTY);
-                String currentBodyScrollPosition = bodyElement.getAttribute(SCROLL_POSITION_PROPERTY);
-
-                if (currentHtmlScrollPosition.equals(prevHtmlScrollPosition)
-                        && currentBodyScrollPosition.equals(prevBodyScrollPosition)) {
-                    // Because we are not truly detecting if the page has stopped scrolling,
-                    // we make sure the scroll positions is the same for one more iteration
-                    if (isPreviouslyEqual) {
-                        return true;
-                    } else {
-                        isPreviouslyEqual = true;
-                        return false;
-                    }
-                }
-
-                prevHtmlScrollPosition = currentHtmlScrollPosition;
-                prevBodyScrollPosition = currentBodyScrollPosition;
-
-                return false;
-            }
-        });
-    }
-
-    /**
-     * Waits for an alert modal to appear and dismisses it.
-     */
-    public void waitForAndDismissAlertModal() {
-        waitForConfirmationModalAndClickOk();
-    }
-
-    /**
      * Waits for a confirmation modal to appear and click the confirm button.
      */
     public void waitForConfirmationModalAndClickOk() {
@@ -295,27 +187,6 @@ public abstract class AppPageNew {
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
         clickDismissModalButtonAndWaitForModalHidden(okayButton);
-    }
-
-    /**
-     * Waits for a confirmation modal to appear and click the No button.
-     */
-    public void clickNoOnModal() {
-        waitForModalShown();
-        WebElement noButton = browser.driver.findElement(By.cssSelector("[data-bb-handler='no']"));
-        waitForElementToBeClickable(noButton);
-        clickDismissModalButtonAndWaitForModalHidden(noButton);
-    }
-
-    public void cancelModalForm(WebElement modal) {
-        clickDismissModalButtonAndWaitForModalHidden(modal.findElement(By.tagName("button")));
-    }
-
-    public void checkCheckboxesInForm(WebElement form, String elementsName) {
-        List<WebElement> formElements = form.findElements(By.name(elementsName));
-        for (WebElement e : formElements) {
-            markCheckBoxAsChecked(e);
-        }
     }
 
     /**
@@ -348,20 +219,6 @@ public abstract class AppPageNew {
     }
 
     /**
-     * Waits for text contained in the element to appear in the page, or timeout.
-     */
-    public void waitForTextContainedInElementPresence(By by, String text) {
-        waitFor(ExpectedConditions.textToBePresentInElementLocated(by, text));
-    }
-
-    /**
-     * Waits for text contained in the element to disappear from the page, or timeout.
-     */
-    public void waitForTextContainedInElementAbsence(By by, String text) {
-        waitFor(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(by, text)));
-    }
-
-    /**
      * Switches to the new browser window just opened.
      */
     protected void switchToNewWindow() {
@@ -380,16 +237,6 @@ public abstract class AppPageNew {
     protected Object executeScript(String script, Object... args) {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) browser.driver;
         return javascriptExecutor.executeScript(script, args);
-    }
-
-    /** Equivalent to pressing the 'back' button of the browser. <br>
-     * Fails if the page content does not match content expected in a page of
-     * the type indicated by the parameter {@code typeOfPreviousPage}.
-     */
-    public <T extends AppPageNew> T goToPreviousPage(Class<T> typeOfPreviousPage) {
-        browser.driver.navigate().back();
-        waitForPageToLoad();
-        return changePageType(typeOfPreviousPage);
     }
 
     /**
@@ -524,19 +371,6 @@ public abstract class AppPageNew {
         return result;
     }
 
-    public String getElementAttribute(By locator, String attrName) {
-        return browser.driver.findElement(locator).getAttribute(attrName);
-    }
-
-    protected void fillSpreadsheet(String value) {
-        try {
-            scrollElementToFirstCellAndSendKeys(enrollSpreadsheetFirstCell, value);
-        } catch (WebDriverException e) {
-            System.out.println("Unexpectedly not able to click on the spreadsheet element because of: ");
-            System.out.println(e);
-        }
-    }
-
     protected void fillTextBox(WebElement textBoxElement, String value) {
         try {
             scrollElementToCenterAndClick(textBoxElement);
@@ -575,52 +409,6 @@ public abstract class AppPageNew {
         firefoxChangeHandler.fireChangeEventIfNotFired(textBoxElement);
     }
 
-    protected void fillRichTextEditor(String id, String content) {
-        String preparedContent = content.replace("\n", "<br>");
-
-        clearAndSetNewValueForTinyMce(id, preparedContent);
-    }
-
-    /**
-     * Simulates the clearing and setting of value for a TinyMCE Editor. This method is a legacy helper for filling rich text
-     * editors and should not be used unless necessary.
-     */
-    private void clearAndSetNewValueForTinyMce(String id, String preparedContent) {
-        executeScript(
-                // clear content programmatically; one implication is that an undo level is not added to the TinyMCE editor
-                "tinyMCE.get(arguments[0]).setContent('');"
-                        // insert like a user does (one implication is that an undo level is added);
-                        // this may result in some events (e.g. `Change`) firing immediately
-                        + "tinyMCE.get(arguments[0]).insertContent(arguments[1]);"
-                        + "tinyMCE.get(arguments[0]).focus();", // for consistent HTML verification across browsers
-                id, preparedContent);
-    }
-
-    protected String getRichTextEditorContent(String id) {
-        return (String) executeScript("  if (typeof tinyMCE !== 'undefined') {"
-                                      + "    return tinyMCE.get('" + id + "').getContent();"
-                                      + "}");
-    }
-
-    protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
-        if (fileName.isEmpty()) {
-            fileBoxElement.clear();
-        } else {
-            fileBoxElement.setFileDetector(new UselessFileDetector());
-            String newFilePath = new File(fileName).getAbsolutePath();
-            fileBoxElement.sendKeys(newFilePath);
-        }
-    }
-
-    protected String getTextBoxValue(WebElement textBox) {
-        return textBox.getAttribute("value");
-    }
-
-    protected boolean checkEmptyTextBoxValue(WebElement textBox) {
-        String textInsideInputBox = textBox.getAttribute("value");
-        return textInsideInputBox.isEmpty();
-    }
-
     /**
      * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
@@ -630,91 +418,6 @@ public abstract class AppPageNew {
         if (!checkBox.isSelected()) {
             click(checkBox);
         }
-    }
-
-    /**
-     * 'uncheck' the check box, if it is already 'checked'.
-     * No action taken if it is not already 'checked'.
-     */
-    protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        if (checkBox.isSelected()) {
-            click(checkBox);
-        }
-    }
-
-    /**
-     * 'check' the radio button, if it is not already 'checked'.
-     * No action taken if it is already 'checked'.
-     */
-    protected void markRadioButtonAsChecked(WebElement radioButton) {
-        waitForElementVisibility(radioButton);
-        if (!radioButton.isSelected()) {
-            click(radioButton);
-        }
-    }
-
-    /**
-     * Selects the option by visible text and returns whether the dropdown value has changed.
-     *
-     * @throws AssertionError if the selected option is not the one we wanted to select
-     *
-     * @see Select#selectByVisibleText(String)
-     */
-    boolean selectDropdownByVisibleValue(WebElement element, String text) {
-        Select select = new Select(element);
-
-        WebElement originalSelectedOption = select.getFirstSelectedOption();
-
-        select.selectByVisibleText(text);
-
-        WebElement newSelectedOption = select.getFirstSelectedOption();
-
-        assertEquals(text, newSelectedOption.getText().trim());
-
-        return !newSelectedOption.equals(originalSelectedOption);
-    }
-
-    /**
-     * Waits for all ongoing AJAX requests to complete if any before selecting the option by visible text, then
-     * waits for the associated AJAX request to complete.
-     *
-     * @see AppPageNew#selectDropdownByVisibleValue(WebElement, String)
-     */
-    void selectDropdownByVisibleValueAndHandleAjaxRequests(WebElement element, String text) {
-//        jQueryAjaxHandler.waitForAjaxIfPresentThenRegisterHandlers();
-//
-//        if (selectDropdownByVisibleValue(element, text)) {
-//            jQueryAjaxHandler.waitForRequestComplete();
-//        } else {
-//            // No AJAX request will be made if the value did not change
-//            jQueryAjaxHandler.unregisterHandlers();
-//        }
-    }
-
-    /**
-     * Selects the option by value and returns whether the dropdown value has changed.
-     *
-     * @throws AssertionError if the selected option is not the one we wanted to select
-     *
-     * @see Select#selectByValue(String)
-     */
-    boolean selectDropdownByActualValue(WebElement element, String value) {
-        Select select = new Select(element);
-
-        WebElement originalSelectedOption = select.getFirstSelectedOption();
-
-        select.selectByValue(value);
-
-        WebElement newSelectedOption = select.getFirstSelectedOption();
-
-        assertEquals(value, newSelectedOption.getAttribute("value"));
-
-        return !newSelectedOption.equals(originalSelectedOption);
-    }
-
-    public String getDropdownSelectedValue(WebElement element) {
-        Select select = new Select(element);
-        return select.getFirstSelectedOption().getAttribute("value");
     }
 
     /**
@@ -737,50 +440,6 @@ public abstract class AppPageNew {
     }
 
     /**
-     * Returns the value of the header located at {@code (row, column)}
-     *         from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
-     */
-    public String getHeaderValueFromDataTable(int tableNum, int row, int column) {
-        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
-        WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
-        WebElement tdElement = trElement.findElements(By.tagName("th")).get(column);
-        return tdElement.getText();
-    }
-
-    /**
-     * Returns the number of rows from the nth(0-index-based) table
-     *         (which is of type {@code class=table}) in the page.
-     */
-    public int getNumberOfRowsFromDataTable(int tableNum) {
-        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
-        return tableElement.findElements(By.tagName("tr")).size();
-    }
-
-    /**
-     * Returns the number of columns from the header in the table
-     *         (which is of type {@code class=table}) in the page.
-     */
-    public int getNumberOfColumnsFromDataTable(int tableNum) {
-        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
-        WebElement trElement = tableElement.findElement(By.tagName("tr"));
-        return trElement.findElements(By.tagName("th")).size();
-    }
-
-    /**
-     * Returns the id of the table
-     *         (which is of type {@code class=table}) in the page.
-     */
-    public String getDataTableId(int tableNum) {
-        WebElement tableElement = browser.driver.findElements(By.className("table")).get(tableNum);
-        return tableElement.getAttribute("id");
-    }
-
-    public void clickElementById(String elementId) {
-        WebElement element = browser.driver.findElement(By.id(elementId));
-        click(element);
-    }
-
-    /**
      * Clicks the element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
@@ -790,28 +449,6 @@ public abstract class AppPageNew {
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
-    }
-
-    /**
-     * Clicks the element and clicks 'Yes' in the follow up dialog box and will not wait for modal to disappear
-     * Fails if there is no dialog box.
-     */
-    public void clickAndConfirmWithoutWaitingForModalDisappearance(WebElement elementToClick) {
-        click(elementToClick);
-        waitForModalShown();
-        WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
-        waitForElementToBeClickable(okayButton);
-        click(okayButton);
-    }
-
-    /**
-     * Clicks the element and clicks 'No' in the follow up dialog box.
-     * Fails if there is no dialog box.
-     */
-    public void clickAndCancel(WebElement elementToClick) {
-        click(elementToClick);
-        waitForConfirmationModalAndClickCancel();
-        waitForPageToLoad();
     }
 
     /**
@@ -873,224 +510,6 @@ public abstract class AppPageNew {
     }
 
     /**
-     * Returns true if the element is invisible or stale as defined in the WebDriver specification.
-     * @param locator used to find the element
-     */
-    public boolean isElementInvisibleOrStale(By locator) {
-        return isExpectedCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
-    }
-
-    /**
-     * Returns true if there exists an element with the given id and class name.
-     *
-     * @param elementId
-     *            Id of the element
-     * @param targetClass
-     *            className
-     */
-    public boolean isElementHasClass(String elementId, String targetClass) {
-        List<WebElement> elementsMatched =
-                browser.driver.findElements(By.cssSelector("#" + elementId + "." + targetClass));
-        return !elementsMatched.isEmpty();
-    }
-
-    public boolean isNamedElementVisible(String elementName) {
-        try {
-            return browser.driver.findElement(By.name(elementName)).isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    public boolean isElementEnabled(String elementId) {
-        try {
-            return browser.driver.findElement(By.id(elementId)).isEnabled();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    public boolean isNamedElementEnabled(String elementName) {
-        try {
-            return browser.driver.findElement(By.name(elementName)).isEnabled();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    public boolean isElementSelected(String elementId) {
-        try {
-            return browser.driver.findElement(By.id(elementId)).isSelected();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Checks if the midpoint of an element is covered by any other element.
-     * @return true if element is covered, false otherwise.
-     */
-    public boolean isElementCovered(WebElement element) {
-        int x = element.getLocation().x + element.getSize().width / 2;
-        int y = element.getLocation().y + element.getSize().height / 2;
-        WebElement topElem = (WebElement) executeScript("return document.elementFromPoint(" + x + "," + y + ");");
-        return !topElem.equals(element);
-    }
-
-    public boolean verifyErrorMessage(String message) {
-        return browser.driver.findElement(By.tagName("h5")).getText().contains(message);
-    }
-
-    public void verifyUnclickable(WebElement element) {
-        if (element.getTagName().equals("a")) {
-            assertTrue(element.getAttribute("class").contains("disabled"));
-        } else {
-            assertNotNull(element.getAttribute("disabled"));
-        }
-    }
-
-    /**
-     * Compares selected column's rows with patternString to check the order of rows.
-     * This can be useful in checking if the table is sorted in a particular order.
-     * Separate rows using {*}
-     * e.g., {@code "value 1{*}value 2{*}value 3" }
-     * The header row will be ignored
-     */
-    public void verifyTablePattern(int column, String patternString) {
-        verifyTablePattern(0, column, patternString);
-    }
-
-    /**
-     * Compares selected column's rows with patternString to check the order of rows.
-     * This can be useful in checking if the table is sorted in a particular order.
-     * Separate rows using {*}
-     * e.g., {@code "value 1{*}value 2{*}value 3" }
-     * The header row will be ignored
-     */
-    public void verifyTablePattern(int tableNum, int column, String patternString) {
-        String[] splitString = patternString.split(Pattern.quote("{*}"));
-        int expectedNumberOfRowsInTable = splitString.length + 1;
-        assertEquals(expectedNumberOfRowsInTable, getNumberOfRowsFromDataTable(tableNum));
-        for (int row = 1; row < splitString.length; row++) {
-            String tableCellString = this.getCellValueFromDataTable(tableNum, row, column);
-            assertEquals(splitString[row - 1], tableCellString);
-        }
-    }
-
-    /**
-     * Verifies that the title of the loaded page is the same as {@code expectedTitle}.
-     */
-    public void verifyTitle(String expectedTitle) {
-        assertEquals(expectedTitle, browser.driver.getTitle());
-    }
-
-    /**
-     * Also supports the expression "{*}" which will match any text.
-     * e.g. "team 1{*}team 2" will match "team 1 xyz team 2"
-     */
-    public AppPageNew verifyContains(String searchString) {
-        AssertHelper.assertContainsRegex(searchString, getPageSource());
-        return this;
-    }
-
-    public void verifyContainsElement(By childBy) {
-        assertFalse(browser.driver.findElements(childBy).isEmpty());
-    }
-
-    public void verifyElementContainsElement(WebElement parentElement, By childBy) {
-        assertFalse(parentElement.findElements(childBy).isEmpty());
-    }
-
-    public void verifyElementDoesNotContainElement(WebElement parentElement, By childBy) {
-        assertTrue(parentElement.findElements(childBy).isEmpty());
-    }
-
-    /**
-     * As of now, this simply verifies that the link is not broken. It does
-     * not verify whether the file content is as expected. To be improved.
-     */
-    public void verifyDownloadLink(Url url) {
-        //TODO: implement a better way to download a file and check content
-        // (may be using HtmlUnit as the Webdriver?)
-        String beforeReportDownloadUrl = browser.driver.getCurrentUrl();
-        browser.driver.get(url.toAbsoluteString());
-        String afterReportDownloadUrl = browser.driver.getCurrentUrl();
-        assertEquals(beforeReportDownloadUrl, afterReportDownloadUrl);
-    }
-
-    public void verifyFieldValue(String fieldId, String expectedValue) {
-        assertEquals(expectedValue,
-                browser.driver.findElement(By.id(fieldId)).getAttribute("value"));
-    }
-
-    /**
-     * Verifies that the page source does not contain the given searchString.
-     *
-     * @param searchString the substring that we want to omit from the page source
-     * @return the AppPageNew
-     */
-    public AppPageNew verifyNotContain(String searchString) {
-        String pageSource = getPageSource();
-        assertFalse(pageSource.contains(searchString));
-        return this;
-    }
-
-    public void waitForAjaxLoaderGifToDisappear() {
-        try {
-            waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif' or @src='/images/ajax-preload.gif']"));
-        } catch (NoSuchElementException alreadydisappears) {
-            // ok to ignore
-            return;
-        }
-    }
-
-    public void verifyImageUrl(String urlRegex, String imgSrc) {
-        if (Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH.equals(urlRegex)) {
-            verifyDefaultImageUrl(imgSrc);
-        } else {
-            AssertHelper.assertContainsRegex(urlRegex, imgSrc);
-        }
-    }
-
-    public void verifyDefaultImageUrl(String imgSrc) {
-        openNewWindow(imgSrc);
-        switchToNewWindow();
-        assertEquals(TestProperties.TEAMMATES_URL + Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH,
-                browser.driver.getCurrentUrl());
-        browser.closeCurrentWindowAndSwitchToParentWindow();
-    }
-
-    /**
-     * Returns if the input element is valid (satisfies constraint validation). Note: This method will return false if the
-     * input element is not a candidate for constraint validation (e.g. when input element is disabled).
-     */
-    public boolean isInputElementValid(WebElement inputElement) {
-        checkArgument(inputElement.getAttribute("nodeName").equals("INPUT"));
-
-        return (boolean) executeScript("return arguments[0].willValidate && arguments[0].checkValidity();", inputElement);
-    }
-
-    public void changeToMobileView() {
-        browser.driver.manage().window().setSize(new Dimension(360, 640));
-    }
-
-    public void changeToDesktopView() {
-        browser.driver.manage().window().maximize();
-    }
-
-    /**
-     * Returns true if the element is in the user's visible area of a web page.
-     */
-    public boolean isElementInViewport(String id) {
-        String script = "return isWithinView(document.getElementById('" + id + "'));";
-        return (boolean) executeScript(script);
-    }
-
-    private void openNewWindow(String url) {
-        executeScript("$(window.open('" + url + "'))");
-    }
-
-    /**
      * Clicks a button (can be inside or outside the modal) that dismisses the modal and waits for the modal to be hidden.
      * The caller must ensure the button is in the modal or a timeout will occur while waiting for the modal to be hidden.
      * @param dismissModalButton a button that dismisses the modal
@@ -1135,157 +554,6 @@ public abstract class AppPageNew {
                 + "const center = elementAbsoluteTop - (window.innerHeight / 2);"
                 + "window.scrollTo(0, center);", element);
         element.click();
-    }
-
-    /**
-     * Scrolls element to first cell in spreadsheet, clicks on it and sends the value as keystrokes.
-     */
-    void scrollElementToFirstCellAndSendKeys(WebElement spreadsheetElement, String value) {
-        new Actions(browser.driver).moveToElement(spreadsheetElement)
-                .click().sendKeys(value).build().perform();
-    }
-
-    /**
-     * Verifies that comment row doesn't exist for given rowIdSuffix.
-     *
-     * @param rowIdSuffix suffix id of comment row
-     */
-    public void verifyCommentRowMissing(String rowIdSuffix) {
-        try {
-            waitForAjaxLoaderGifToDisappear();
-            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
-            fail("Row expected to be missing found.");
-        } catch (NoSuchElementException expected) {
-            // row expected to be missing
-        }
-    }
-
-    /**
-     * Verifies the comment text.
-     *
-     * @param commentRowIdSuffix suffix id of comment delete button
-     * @param commentText comment text to be verified
-     */
-    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText) {
-        waitForTextContainedInElementPresence(By.id("plainCommentText" + commentRowIdSuffix), commentText);
-    }
-
-    /**
-     * Helper methods for detecting the state of a single JQuery AJAX request in the page. If more than one AJAX request is
-     * made at the same time, the behavior is undefined.
-     *
-     * <p><b>Note:</b> If {@code $.ajax()} or {@code $.ajaxSetup()} is called with the {@code global} option set to
-     * {@code false},the methods cannot work correctly.
-     */
-    class JQueryAjaxHandler {
-        /**
-         * The attribute that tracks if an AJAX request is started and not yet complete,
-         * i.e. {@code ajaxStart} is triggered and {@code ajaxStop} is not yet triggered.
-         */
-        private static final String START_ATTRIBUTE = "__ajaxStart__";
-        /**
-         * The attribute that tracks if an AJAX request is complete,
-         * i.e. {@code ajaxStop} is triggered.
-         */
-        private static final String STOP_ATTRIBUTE = "__ajaxStop__";
-
-        /**
-         * The attribute that tracks if an AJAX request is started, and may or may not be complete,
-         * i.e. {@code ajaxStart} is triggered.
-         */
-        private static final String START_OCCURRED_ATTRIBUTE = "__ajaxStartOccurred__";
-
-        /**
-         * Waits until there is no ongoing jQuery AJAX requests.
-         */
-        void waitForNoActiveAjaxRequests() {
-            // `$.active` is a counter for holding the number of active AJAX requests
-            // but is not documented because it is used by JQuery internally.
-            // see https://stackoverflow.com/questions/3148225/jquery-active-function/3148506#3148506
-            waitFor(driver -> (Boolean) ((JavascriptExecutor) driver).executeScript("return $.active === 0"));
-        }
-
-        /**
-         * Waits for all AJAX requests to complete if any is present and registers `ajaxStart` and `ajaxStop` handlers to
-         * track the state of an AJAX request.
-         *
-         * @throws IllegalStateException if the handlers are already registered in the document
-         */
-        void waitForAjaxIfPresentThenRegisterHandlers() {
-            checkState(!hasHandlers(), "`ajaxStart` and `ajaxStop` handlers need only be added once to the document.");
-
-            waitForNoActiveAjaxRequests();
-
-            executeScript("const seleniumArguments = arguments;"
-                            + "$(document).ajaxStart(function() {"
-                            + "    document.body.setAttribute(seleniumArguments[0], true);"
-                            + "    document.body.setAttribute(seleniumArguments[1], false);"
-                            + "    document.body.setAttribute(seleniumArguments[2], true);"
-                            + "});"
-                            + "$(document).ajaxStop(function() {"
-                            + "    document.body.setAttribute(seleniumArguments[0], false);"
-                            + "    document.body.setAttribute(seleniumArguments[1], true);"
-                            + "});"
-                            + "document.body.setAttribute(seleniumArguments[0], false);"
-                            + "document.body.setAttribute(seleniumArguments[1], false);"
-                            + "document.body.setAttribute(seleniumArguments[2], false);",
-                    START_ATTRIBUTE, STOP_ATTRIBUTE, START_OCCURRED_ATTRIBUTE);
-        }
-
-        /**
-         * Unregisters `ajaxStart` and `ajaxStop` handlers.
-         *
-         * @throws IllegalStateException if there are no registered handlers to unregister
-         */
-        private void unregisterHandlers() {
-            checkState(hasHandlers(), "`ajaxStart` and `ajaxStop` handlers are not registered. Cannot unregister!");
-
-            executeScript("$(document).off('ajaxStart');"
-                            + "$(document).off('ajaxStop');"
-                            + "document.body.removeAttribute(arguments[0]);"
-                            + "document.body.removeAttribute(arguments[1]);"
-                            + "document.body.removeAttribute(arguments[2]);",
-                    START_ATTRIBUTE, STOP_ATTRIBUTE, START_OCCURRED_ATTRIBUTE);
-        }
-
-        /**
-         * Returns true if `ajaxStart` and `ajaxStop` handlers exist.
-         */
-        private boolean hasHandlers() {
-            WebElement bodyElement = browser.driver.findElement(By.tagName("body"));
-
-            return isExpectedCondition(ExpectedConditions.and(
-                    ExpectedConditions.attributeToBeNotEmpty(bodyElement, START_ATTRIBUTE),
-                    ExpectedConditions.attributeToBeNotEmpty(bodyElement, STOP_ATTRIBUTE),
-                    ExpectedConditions.attributeToBeNotEmpty(bodyElement, START_OCCURRED_ATTRIBUTE)));
-        }
-
-        /**
-         * Waits for an AJAX request to complete and automatically unregisters the handlers.
-         * <b>Note:</b> The behavior is undefined if more than one AJAX request was made after the the registration of the
-         * handlers.
-         */
-        void waitForRequestComplete() {
-            checkState(hasHandlers(),
-                    "`ajaxStart` and `ajaxStop` handlers are not registered. Cannot detect if AJAX request is complete!");
-
-            WebElement bodyElement = browser.driver.findElement(By.tagName("body"));
-
-            waitFor(ExpectedConditions.and(
-                    // Make sure that only a single AJAX request has previously occurred, this will be false if an AJAX
-                    // request was made while there are other outstanding AJAX requests.
-                    ExpectedConditions.attributeContains(bodyElement, START_OCCURRED_ATTRIBUTE, "true"),
-                    ExpectedConditions.attributeContains(bodyElement, START_ATTRIBUTE, "false"),
-                    ExpectedConditions.attributeContains(bodyElement, STOP_ATTRIBUTE, "true")));
-
-            // Any AJAX requests made while executing the following script will result in undefined behavior.
-            executeScript("document.body.setAttribute(arguments[0], false);"
-                            + "document.body.setAttribute(arguments[1], false);"
-                            + "document.body.setAttribute(arguments[2], false);",
-                    START_ATTRIBUTE, STOP_ATTRIBUTE, START_OCCURRED_ATTRIBUTE);
-
-            unregisterHandlers();
-        }
     }
 
     /**
