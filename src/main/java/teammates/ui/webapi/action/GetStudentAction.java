@@ -1,7 +1,5 @@
 package teammates.ui.webapi.action;
 
-import java.util.Optional;
-
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -16,7 +14,11 @@ import teammates.ui.webapi.output.StudentData;
  */
 public class GetStudentAction extends Action {
 
-    private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
+    /** String indicating ACCESS is not given. */
+    public static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
+
+    /** Message indicating that a student not found. */
+    public static final String STUDENT_NOT_FOUND = "No student found";
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -60,25 +62,26 @@ public class GetStudentAction extends Action {
         StudentAttributes student = null;
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
 
-        if (studentEmail != null) {
-            student = logic.getStudentForEmail(courseId, studentEmail);
-        } else if (regKey != null) {
-            Optional<StudentAttributes> studentCheck = getUnregisteredStudent();
-            if (studentCheck.isPresent()) {
-                student = studentCheck.get();
-            }
+        if (studentEmail == null) {
+            student = getUnregisteredStudent().orElseGet(() -> {
+                if (userInfo == null) {
+                    return null;
+                }
+
+                return logic.getStudentForGoogleId(courseId, userInfo.id);
+            });
         } else {
-            student = logic.getStudentForGoogleId(courseId, userInfo.id);
+            student = logic.getStudentForEmail(courseId, studentEmail);
         }
 
         if (student == null) {
-            return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+            return new JsonResult(STUDENT_NOT_FOUND, HttpStatus.SC_NOT_FOUND);
         }
 
         StudentData studentData = new StudentData(student);
 
+        // hide information if not an instructor
         if (studentEmail == null) {
             studentData.setComments(null);
             studentData.setJoinState(null);

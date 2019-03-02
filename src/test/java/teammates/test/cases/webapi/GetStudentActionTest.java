@@ -5,12 +5,14 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.webapi.action.GetStudentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.JoinState;
+import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.output.StudentData;
 
 /**
@@ -35,8 +37,8 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         assertEquals(student.getName(), studentData.getName());
 
         if (student.getLastName() == null) {
-            String[] name = student.name.split(" ");
-            assertEquals(name[name.length - 1], studentData.getLastName());
+            String[] name = StringHelper.splitName(student.name);
+            assertEquals(name[1], studentData.getLastName());
         } else {
             assertEquals(student.getLastName(), studentData.getLastName());
         }
@@ -73,36 +75,63 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         StudentAttributes unregStudent =
                 StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
 
-        final String[] submissionParamsNoRegKey = new String[] {
-                Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-        };
-
-        assertThrows(NullPointerException.class, () -> {
-            GetStudentAction actionNoRegKey = getAction(submissionParamsNoRegKey);
-            getJsonResult(actionNoRegKey);
-        });
-
-        ______TS("Success Case: Unregistered Student");
-
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.key),
         };
 
         GetStudentAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
+        MessageOutput message = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
+
+        ______TS("Failure Case: Unregistered Student with random RegKey");
+
+        final String[] submissionParamsRandomRegKey = new String[] {
+                Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
+                Const.ParamsNames.REGKEY, "RANDOM_KEY",
+        };
+
+        assertThrows(UnauthorizedAccessException.class, () -> {
+            GetStudentAction actionRandomRegKey = getAction(submissionParamsRandomRegKey);
+            getJsonResult(actionRandomRegKey);
+        });
+
+        ______TS("Success Case: Unregistered Student");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.key),
+        };
+
+        action = getAction(submissionParams);
+        result = getJsonResult(action);
         StudentData outputData = (StudentData) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertStudentDataMatches(outputData, unregStudent, false);
 
+        ______TS("Failure Case: Student - Logged In with no params");
+
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         gaeSimulation.logoutUser();
         loginAsStudent(student1InCourse1.googleId);
 
-        ______TS("Failure Case: Student - Logged In with no params");
-
         verifyHttpParameterFailure();
+
+        ______TS("Failure Case: Student - Random Course Given");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
+        };
+
+        action = getAction(submissionParams);
+        result = getJsonResult(action);
+        message = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
 
         ______TS("Success Case: Student - Logged In");
 
@@ -117,11 +146,11 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertStudentDataMatches(outputData, student1InCourse1, false);
 
+        ______TS("Failure Case: Instructor - Incomplete Params");
+
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         gaeSimulation.logoutUser();
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-
-        ______TS("Failure Case: Instructor - Incomplete Params");
 
         verifyHttpParameterFailure();
 
@@ -144,6 +173,34 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertStudentDataMatches(outputData, student1InCourse1, true);
+
+        ______TS("Failure Case: Instructor - Random Student Email Given");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
+                Const.ParamsNames.STUDENT_EMAIL, "RANDOM_EMAIL",
+        };
+
+        action = getAction(submissionParams);
+        result = getJsonResult(action);
+        message = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
+
+        ______TS("Failure Case: Instructor - Random Course Given");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+        };
+
+        action = getAction(submissionParams);
+        result = getJsonResult(action);
+        message = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
     }
 
     @Test
@@ -172,6 +229,15 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student2InCourse2.getCourse(),
                 Const.ParamsNames.STUDENT_EMAIL, student2InCourse2.getEmail(),
+        };
+
+        verifyInaccessibleForStudents(submissionParams);
+
+        ______TS("Student - cannot access a non-existent email");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student2InCourse2.getCourse(),
+                Const.ParamsNames.STUDENT_EMAIL, "TEST_EMAIL",
         };
 
         verifyInaccessibleForStudents(submissionParams);
