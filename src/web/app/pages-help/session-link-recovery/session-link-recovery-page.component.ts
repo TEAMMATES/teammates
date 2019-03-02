@@ -50,21 +50,31 @@ export class SessionLinkRecoveryPageComponent implements OnInit {
     }
 
     const paramsMap: { [key: string]: string } = {
-      recoveryemail: linkRecoveryForm.controls.email.value,
+      sessionlinkrecoveryemail: linkRecoveryForm.controls.email.value,
       captcharesponse: this.captchaResponse,
     };
 
-    this.httpRequestService.get('/session-link-recovery', paramsMap)
+    this.httpRequestService.get('/sessionlinkrecovery', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.statusMessageService.showSuccessMessage(resp.message);
 
-        this.resetEmailFormGroup();
-        this.resetRecaptchaFormGroup();
+        this.resetFormGroup();
       }, (response: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(response.error.message);
 
         this.resetRecaptchaFormGroup();
       });
+  }
+
+  /**
+   * Resets the email and reCAPTCHA input fields in the form.
+   */
+  resetFormGroup(): void {
+    (this.formLinkRecovery = this.formBuilder.group({
+      email: ['', Validators.required],
+      recaptcha: ['', Validators.required],
+    }));
+    this.captchaElem.reloadCaptcha();
   }
 
   /**
@@ -75,15 +85,6 @@ export class SessionLinkRecoveryPageComponent implements OnInit {
       recaptcha: ['', Validators.required],
     }));
     this.captchaElem.reloadCaptcha();
-  }
-
-  /**
-   * Resets email input field in the form.
-   */
-  resetEmailFormGroup(): void {
-    (this.formLinkRecovery = this.formBuilder.group({
-      email: ['', Validators.required],
-    }));
   }
 
   /**
