@@ -63,7 +63,7 @@
         <div>
           <select class="form-control" [(ngModel)]="section">
             <option value="">All</option>
-            <option *ngFor="let section of sectionsModel | keyvalue" value="section.key">{{ section.key }}</option>
+            <option *ngFor="let section of sectionsModel | keyvalue" [value]="section.key">{{ section.key }}</option>
             <!-- <option value="None">No specific section</option> -->
           </select>
         </div>
@@ -74,16 +74,16 @@
         </label>
         <div>
           <select class="form-control" [(ngModel)]="sectionType">
-            <option [value]="InstructorSessionResultSectionType.EITHER">
+            <option [ngValue]="InstructorSessionResultSectionType.EITHER">
               Show response if either the giver or evaluee is in the selected section
             </option>
-            <option [value]="InstructorSessionResultSectionType.GIVER">
+            <option [ngValue]="InstructorSessionResultSectionType.GIVER">
               Show response if the giver is in the selected section
             </option>
-            <option [value]="InstructorSessionResultSectionType.EVALUEE">
+            <option [ngValue]="InstructorSessionResultSectionType.EVALUEE">
               Show response if the evaluee is in the selected section
             </option>
-            <option [value]="InstructorSessionResultSectionType.BOTH">
+            <option [ngValue]="InstructorSessionResultSectionType.BOTH">
               Show response only if both are in the selected section
             </option>
           </select>

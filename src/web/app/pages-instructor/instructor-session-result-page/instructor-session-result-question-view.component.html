@@ -7,8 +7,7 @@
     </div>
   </div>
   <div class="card-body" *ngIf="question.isTabExpanded">
-    <div *ngFor="let response of question.responses">
-      {{ response }}
-    </div>
+    <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType"
+        [indicateMissingResponses]="true"></tm-per-question-view-responses>
   </div>
 </div>
