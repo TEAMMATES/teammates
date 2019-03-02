@@ -1,13 +1,18 @@
 package teammates.e2e.pageobjects;
 
-import com.google.common.base.Preconditions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.google.common.base.Preconditions;
+
 import teammates.e2e.util.TestProperties;
 
+/**
+ * An login page in deployment for the app to interact and validate with.
+ */
 public class GoogleLoginPageNew extends LoginPageNew {
 
     private static final String EXPECTED_SNIPPET_SIGN_IN = "Sign in – Google accounts";

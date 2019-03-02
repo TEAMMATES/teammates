@@ -1,31 +1,28 @@
 package teammates.e2e.pageobjects;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.remote.UselessFileDetector;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
+import java.lang.reflect.Constructor;
+import java.util.Map;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import teammates.common.util.Const;
+
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
-import teammates.common.util.retry.RetryManager;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.AssertHelper;
-
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import static com.google.common.base.Preconditions.*;
-import static org.junit.Assert.*;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and

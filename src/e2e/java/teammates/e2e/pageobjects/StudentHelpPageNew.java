@@ -1,5 +1,8 @@
 package teammates.e2e.pageobjects;
 
+/**
+ * The student help page for the app to interact and validate with.
+ */
 public class StudentHelpPageNew extends AppPageNew {
 
     public StudentHelpPageNew(Browser browser) {
@@ -8,7 +11,7 @@ public class StudentHelpPageNew extends AppPageNew {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Help for Students</h1>");
+        return getPageTitle().contains("Help for Students");
     }
 
 }

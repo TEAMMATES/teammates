@@ -1,10 +1,13 @@
 package teammates.e2e.pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
-
+/**
+ * The student home page for the app to interact and validate with.
+ */
 public class StudentHomePageNew extends AppPageNew {
 
     public StudentHomePageNew(Browser browser) {
@@ -18,7 +21,7 @@ public class StudentHomePageNew extends AppPageNew {
 
     public void clickViewTeam() {
 
-        List<WebElement> viewTeamLinks = browser.driver.findElements(By.linkText("View Team"));
+        List<WebElement> viewTeamLinks = browser.driver.findElements(By.linkText("View team"));
 
         click(viewTeamLinks.get(0));
     }

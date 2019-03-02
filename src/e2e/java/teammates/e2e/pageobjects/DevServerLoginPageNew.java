@@ -4,6 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+/**
+ * An login page in development for the app to interact and validate with.
+ */
 public class DevServerLoginPageNew extends LoginPageNew {
 
     @FindBy(id = "email")
@@ -31,7 +34,7 @@ public class DevServerLoginPageNew extends LoginPageNew {
         fillTextBox(emailTextBox, instructorUsername);
         click(isAdminCheckBox);
         click(loginButton);
-        waitForElementVisibility(By.id("pageTitle"));
+        waitForElementVisibility(By.tagName("h1"));
         browser.isAdminLoggedIn = true;
     }
 
@@ -44,7 +47,7 @@ public class DevServerLoginPageNew extends LoginPageNew {
     public <T extends AppPageNew> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
         click(loginButton);
-        waitForElementVisibility(By.id("pageTitle"));
+        waitForElementVisibility(By.tagName("h1"));
         browser.isAdminLoggedIn = false;
         return changePageType(typeOfPage);
     }
