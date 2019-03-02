@@ -98,9 +98,6 @@ public abstract class AppPage {
     @FindBy(id = "studentProfileNavLink")
     private WebElement studentProfileTab;
 
-    @FindBy(id = "studentHelpLink")
-    private WebElement studentHelpTab;
-
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
 
@@ -546,17 +543,6 @@ public abstract class AppPage {
         click(studentHomeTab);
         waitForPageToLoad();
         return changePageType(StudentHomePage.class);
-    }
-
-    /**
-     * Equivalent of clicking the 'Help' tab on the top menu of the page.
-     * @return the loaded page
-     */
-    public StudentHelpPage loadStudentHelpTab() {
-        click(studentHelpTab);
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(StudentHelpPage.class);
     }
 
     /**
