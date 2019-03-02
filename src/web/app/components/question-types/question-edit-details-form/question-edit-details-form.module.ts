@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
+import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 
 /**
@@ -10,10 +11,12 @@ import { TextQuestionEditDetailsFormComponent } from './text-question-edit-detai
 @NgModule({
   declarations: [
     ContributionQuestionEditDetailsFormComponent,
+    NumScaleQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
   ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
+    NumScaleQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
   ],
   imports: [
