@@ -211,7 +211,7 @@ public class FieldValidatorTest extends BaseTestCase {
     @Test
     public void testGetInvalidityInfoForInstituteName_invalid_returnSpecificErrorString() {
         String invalidInstituteName = StringHelperExtension.generateStringOfLength(
-                        FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+                                                                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForInstituteName(invalidInstituteName);
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not "
