@@ -16,11 +16,11 @@ import { Intent } from '../../Intent';
  * Instructor feedback session result page.
  */
 @Component({
-  selector: 'tm-instructor-sessions-result-page',
-  templateUrl: './instructor-sessions-result-page.component.html',
-  styleUrls: ['./instructor-sessions-result-page.component.scss'],
+  selector: 'tm-instructor-session-result-page',
+  templateUrl: './instructor-session-result-page.component.html',
+  styleUrls: ['./instructor-session-result-page.component.scss'],
 })
-export class InstructorSessionsResultPageComponent implements OnInit {
+export class InstructorSessionResultPageComponent implements OnInit {
 
   session: any = {};
   questions: QuestionOutput[] = [];

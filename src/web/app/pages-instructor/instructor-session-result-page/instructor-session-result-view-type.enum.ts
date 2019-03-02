@@ -1,7 +1,7 @@
 /**
  * Represents the different supported view types in instructor sessions result page.
  */
-export enum InstructorSessionsResultViewType {
+export enum InstructorSessionResultViewType {
 
   /**
    * Organize responses by questions.
