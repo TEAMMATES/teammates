@@ -48,12 +48,12 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSubmissionConfirmation.html");
-        public static final String FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK =
-                FileHelper.readResourceFile("userRecoveryEmailTemplateFragment-feedbackSessionAccessLink.html");
-        public static final String USER_FEEDBACK_SESSIONS_ACCESS_LINKS =
-                FileHelper.readResourceFile("userRecoveryEmailTemplate-feedbackSessionsAccessLinks.html");
-        public static final String USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE =
-                FileHelper.readResourceFile("userRecoveryEmailTemplate-feedbackSessionsAccessLinksNone.html");
+        public static final String FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS =
+                FileHelper.readResourceFile("sessionLinkRecoveryEmailTemplateFragment-feedbackSessionAccessLinks.html");
+        public static final String SESSION_LINK_RECOVERY_ACCESS_LINKS =
+                FileHelper.readResourceFile("sessionLinkRecoveryEmailTemplate-feedbackSessionAccessLinks.html");
+        public static final String SESSION_LINK_RECOVERY_ACCESS_LINKS_NONE =
+                FileHelper.readResourceFile("sessionLinkRecoveryEmailTemplate-feedbackSessionAccessLinksNone.html");
         public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS =

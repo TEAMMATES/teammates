@@ -9,7 +9,7 @@ import teammates.ui.webapi.output.LinkRecoveryResponseData;
 /**
  * Action specifically created for confirming email and sending session recovery links.
  */
-public class LinkRecoveryAction extends Action {
+public class SessionLinkRecoveryAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -23,7 +23,7 @@ public class LinkRecoveryAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.RECOVERY_EMAIL);
+        String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL);
         boolean hasStudentsWithRecoveryEmail = !logic.getAllStudentForEmail(recoveryEmailAddress).isEmpty();
 
         if (hasStudentsWithRecoveryEmail) {

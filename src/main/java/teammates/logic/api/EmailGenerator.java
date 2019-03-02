@@ -299,7 +299,7 @@ public class EmailGenerator {
                 }
 
                 linksFragmentValue.append(Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK,
+                        EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
                         "${courseId}", course.getId(),
                         "${courseName}", course.getName(),
                         "${feedbackSessionName}", session.getFeedbackSessionName(),
@@ -311,12 +311,12 @@ public class EmailGenerator {
 
         if (linksFragmentValue.length() == 0) {
             emailBody = Templates.populateTemplate(
-                    EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE,
+                    EmailTemplates.SESSION_LINK_RECOVERY_ACCESS_LINKS_NONE,
                     "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
                     "${supportEmail}", Config.SUPPORT_EMAIL);
         } else {
             emailBody = Templates.populateTemplate(
-                    EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS,
+                    EmailTemplates.SESSION_LINK_RECOVERY_ACCESS_LINKS,
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
                     "${linksFragment}", linksFragmentValue.toString(),
                     "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),

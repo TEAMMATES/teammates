@@ -17,13 +17,13 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.LinkRecoveryAction;
+import teammates.ui.webapi.action.SessionLinkRecoveryAction;
 import teammates.ui.webapi.output.LinkRecoveryResponseData;
 
 /**
- * SUT: {@link LinkRecoveryAction}.
+ * SUT: {@link SessionLinkRecoveryAction}.
  */
-public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
+public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRecoveryAction> {
 
     private FeedbackSessionAttributes session1InCourse3 = typicalBundle.feedbackSessions.get("session1InCourse3");
     private FeedbackSessionAttributes session2InCourse3 = typicalBundle.feedbackSessions.get("session2InCourse3");
@@ -32,7 +32,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.LINK_RECOVERY;
+        return Const.ResourceURIs.SESSION_LINK_RECOVERY;
     }
 
     @Override
@@ -88,10 +88,10 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         ______TS("Typical case: non-existing email address");
 
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.RECOVERY_EMAIL, "non-existent email address.",
+                Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, "non-existent email address.",
         };
 
-        LinkRecoveryAction a = getAction(nonExistingParam);
+        SessionLinkRecoveryAction a = getAction(nonExistingParam);
         JsonResult result = getJsonResult(a);
 
         LinkRecoveryResponseData output = (LinkRecoveryResponseData) result.getOutput();
@@ -104,7 +104,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         ______TS("Typical case: successfully sent recovery link email: No feedback sessions found");
 
         String[] param = new String[] {
-                Const.ParamsNames.RECOVERY_EMAIL, student1InCourse2.getEmail(),
+                Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse2.getEmail(),
         };
 
         a = getAction(param);
@@ -122,7 +122,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         assertEquals(EmailType.FEEDBACK_ACCESS_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse2.getEmail(), emailSent.getRecipient());
         assertEquals(Templates.populateTemplate(
-                Templates.EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS_NONE,
+                Templates.EmailTemplates.SESSION_LINK_RECOVERY_ACCESS_LINKS_NONE,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse2.getEmail()),
                 "${supportEmail}", Config.SUPPORT_EMAIL), emailSent.getContent());
 
@@ -130,7 +130,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
                 + "closed and unpublished.");
 
         param = new String[] {
-                Const.ParamsNames.RECOVERY_EMAIL, student1InCourse3.getEmail(),
+                Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse3.getEmail(),
         };
 
         a = getAction(param);
@@ -164,7 +164,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         String reportUrlHtml = "(Feedback session is not yet published)";
 
         linksFragmentValue.append(Templates.populateTemplate(
-                Templates.EmailTemplates.FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK,
+                Templates.EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
                 "${courseId}", course3.getId(),
                 "${courseName}", course3.getName(),
                 "${feedbackSessionName}", session1InCourse3.getFeedbackSessionName(),
@@ -182,7 +182,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
 
         linksFragmentValue.append(Templates.populateTemplate(
-                Templates.EmailTemplates.FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK,
+                Templates.EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
                 "${courseId}", course3.getId(),
                 "${courseName}", course3.getName(),
                 "${feedbackSessionName}", session2InCourse3.getFeedbackSessionName(),
@@ -191,7 +191,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
                 "${reportUrl}", reportUrlHtml));
 
         assertEquals(Templates.populateTemplate(
-                Templates.EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS,
+                Templates.EmailTemplates.SESSION_LINK_RECOVERY_ACCESS_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getName()),
                 "${linksFragment}", linksFragmentValue.toString(),
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getEmail()),
@@ -202,7 +202,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
                 + "closed and published.");
 
         param = new String[] {
-                Const.ParamsNames.RECOVERY_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse1.getEmail(),
         };
 
         a = getAction(param);
@@ -241,7 +241,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
 
         linksFragmentValue.append(Templates.populateTemplate(
-                Templates.EmailTemplates.FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK,
+                Templates.EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
                 "${courseId}", course1.getId(),
                 "${courseName}", course1.getName(),
                 "${feedbackSessionName}", session1InCourse1.getFeedbackSessionName(),
@@ -264,7 +264,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
         reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
 
         linksFragmentValue.append(Templates.populateTemplate(
-                Templates.EmailTemplates.FRAGMENT_FEEDBACK_SESSION_ACCESS_LINK,
+                Templates.EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
                 "${courseId}", course1.getId(),
                 "${courseName}", course1.getName(),
                 "${feedbackSessionName}", session2InCourse1.getFeedbackSessionName(),
@@ -273,7 +273,7 @@ public class LinkRecoveryActionTest extends BaseActionTest<LinkRecoveryAction> {
                 "${reportUrl}", reportUrlHtml));
 
         assertEquals(Templates.populateTemplate(
-                Templates.EmailTemplates.USER_FEEDBACK_SESSIONS_ACCESS_LINKS,
+                Templates.EmailTemplates.SESSION_LINK_RECOVERY_ACCESS_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getName()),
                 "${linksFragment}", linksFragmentValue.toString(),
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getEmail()),
