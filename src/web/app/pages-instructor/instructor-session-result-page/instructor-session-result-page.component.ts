@@ -10,6 +10,7 @@ import {
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
+import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 
 /**
  * Instructor feedback session result page.
@@ -21,10 +22,18 @@ import { Intent } from '../../Intent';
 })
 export class InstructorSessionResultPageComponent implements OnInit {
 
+  // enum
+  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
+
   session: any = {};
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
   viewType: string = 'QUESTION';
+  section: string = '';
+  sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
+  groupByTeam: boolean = true;
+  showStatistics: boolean = true;
+  indicateMissingResponses: boolean = true;
   user: string = '';
 
   sectionsModel: { [key: string]: any } = {};
