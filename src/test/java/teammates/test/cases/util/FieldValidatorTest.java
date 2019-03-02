@@ -230,8 +230,7 @@ public class FieldValidatorTest extends BaseTestCase {
         invalidNationality = "<script> alert('hi!'); </script>";
         actual = FieldValidator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Unsanitized, invalid nationality should return sanitized error string",
-                String.format(
-                 FieldValidator.NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidNationality)), actual);
+        String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidNationality)), actual);
     }
 
     @Test
