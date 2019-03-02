@@ -275,7 +275,7 @@ public class FieldValidatorTest extends BaseTestCase {
     @Test
     public void testGetInvalidityInfoForFeedbackSessionName_invalid_returnSpecificErrorString() {
         String invalidSessionName = StringHelperExtension.generateStringOfLength(
-                FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+                                                              FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
         assertEquals("Invalid feedback session name (too long) should return error message specific to feedback "
                          + "session name",
@@ -543,7 +543,7 @@ public class FieldValidatorTest extends BaseTestCase {
                      FieldValidator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
 
         String tooLongCourseId = StringHelperExtension.generateStringOfLength(
-                FieldValidator.COURSE_ID_MAX_LENGTH + 1);
+                                                           FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Course ID (too long) should return appropriate error string",
                      "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a/an "
                          + "course ID because it is too long. A course ID can contain letters, numbers, "
