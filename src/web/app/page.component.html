@@ -20,7 +20,7 @@
       </ng-template>
     </ul>
     <ul class="nav navbar-nav mr-auto" *ngIf="!isValidUser"></ul>
-    <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo">
+    <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo && !isFetchingAuthDetails">
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="!user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
         <div class="dropdown-menu" ngbDropdownMenu>
