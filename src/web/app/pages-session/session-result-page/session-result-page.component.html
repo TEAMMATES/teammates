@@ -18,7 +18,7 @@
 </div>
 <div class="card bg-light top-padded" *ngFor="let question of questions">
   <div class="card-body" style="padding: 20px;">
-    <tm-question-text-with-info [questionNumber]="question.questionNumber" [questionDetails]="question.questionDetails"></tm-question-text-with-info>
+    <tm-question-text-with-info [questionNumber]="question.questionNumber" [questionDetails]="question.questionDetails" style="font-size: 20px;"></tm-question-text-with-info>
     <tm-student-view-responses *ngIf="question.responsesToSelf.length" [responses]="question.responsesToSelf"></tm-student-view-responses>
     <div *ngFor="let responsesForOtherRecipient of question.otherResponses">
       <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient"></tm-student-view-responses>

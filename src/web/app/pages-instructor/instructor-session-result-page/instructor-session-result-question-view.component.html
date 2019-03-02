@@ -1,6 +1,6 @@
 <div class="card margin-bottom-15px" *ngFor="let question of questionsOrder">
   <div class="card-header bg-info text-white course-tab-header" (click)="expandQuestionTab(question)">
-    <tm-question-text-with-info [questionNumber]="question.questionNumber" [questionDetails]="question.questionDetails"></tm-question-text-with-info>
+    <tm-question-text-with-info [questionNumber]="question.questionNumber" [questionDetails]="question.questionDetails" (click)="$event.stopPropagation()"></tm-question-text-with-info>
     <div class="float-right">
       <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
       <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
