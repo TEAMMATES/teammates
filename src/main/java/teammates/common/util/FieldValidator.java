@@ -267,9 +267,9 @@ public final class FieldValidator {
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));
 
-    // Intentional private constructor to prevent instantiation.
     private FieldValidator() {
-      // utility class
+    // utility class
+    // Intentional private constructor to prevent instantiation.
     }
 
     /////////////////////////////////////////
