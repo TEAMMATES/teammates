@@ -1,11 +1,11 @@
 package teammates.e2e.pageobjects;
 
 /**
- * The student profile page for the app to interact and validate with.
+ * Page Object Model for student profile page in development server.
  */
-public class StudentProfilePageNew extends AppPageNew {
+public class StudentProfilePage extends AppPageNew {
 
-    public StudentProfilePageNew(Browser browser) {
+    public StudentProfilePage(Browser browser) {
         super(browser);
     }
 

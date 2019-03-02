@@ -24,7 +24,7 @@ public class MashupPageUiTest extends BaseE2ETestCase {
 
     @Test
     public void loadWebpageCompilation() throws Exception {
-        AppPage page = loginAdmin();
+        AppPage page = null; // loginAdmin();
         uploadNewPhotoForStudent();
         page.navigateTo(createUrl(Const.ViewURIs.MASHUP));
     }

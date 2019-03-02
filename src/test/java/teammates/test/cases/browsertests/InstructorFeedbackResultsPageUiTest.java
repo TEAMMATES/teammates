@@ -693,7 +693,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        return loginAdminToPageOld(resultsUrl, InstructorFeedbackResultsPage.class);
     }
 
     private InstructorFeedbackResultsPage
@@ -714,7 +714,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
         }
 
         InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPageOld(resultsUrl, InstructorFeedbackResultsPage.class);
 
         if (needAjax) {
             resultsPage.waitForPageStructureToLoad();

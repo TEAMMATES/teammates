@@ -61,7 +61,7 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         ______TS("content: typical page");
 
         AppUrl homeUrl = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
-        homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
+        homePage = loginAdminToPageOld(homeUrl, AdminHomePage.class);
 
         homePage.verifyHtml("/adminHomePage.html");
     }
@@ -210,7 +210,7 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         ______TS("action failure : trying to create instructor with an invalid email");
 
         AppUrl homeUrl = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE);
-        homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
+        homePage = loginAdminToPageOld(homeUrl, AdminHomePage.class);
 
         instructor.email = "AHPUiT.email.tmt";
         homePage.createInstructor(instructor, institute);
@@ -232,9 +232,9 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         //verify sample course is accessible for newly joined instructor as an student
 
-        StudentHomePage studentHomePage =
-                getHomePage().clickStudentLogin().loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                                                                 TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        StudentHomePage studentHomePage = null;
+                //getHomePage().clickStudentLogin().loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                                                                 // TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
@@ -260,9 +260,9 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         studentHomePage.logout();
 
         //login in as instructor again to test sample course deletion
-        instructorHomePage =
-                getHomePage().clickInstructorLogin().loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        instructorHomePage = null;
+                // getHomePage().clickInstructorLogin().loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+                //                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
         assertTrue(instructorHomePage.getTextsForAllStatusMessagesToUser()

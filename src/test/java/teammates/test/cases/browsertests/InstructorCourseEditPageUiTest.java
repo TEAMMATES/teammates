@@ -840,7 +840,7 @@ public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
                                     .withUserId(instructorId)
                                     .withCourseId(courseId);
 
-        return loginAdminToPage(courseEditPageLink, InstructorCourseEditPage.class);
+        return loginAdminToPageOld(courseEditPageLink, InstructorCourseEditPage.class);
     }
 
 }

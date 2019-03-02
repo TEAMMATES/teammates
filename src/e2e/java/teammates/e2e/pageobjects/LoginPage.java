@@ -3,13 +3,13 @@ package teammates.e2e.pageobjects;
 /**
  * An abstract class of login page for the app to provide ways to interact validate some aspects of it.
  */
-public abstract class LoginPageNew extends AppPageNew {
+public abstract class LoginPage extends AppPageNew {
 
-    public LoginPageNew(Browser browser) {
+    public LoginPage(Browser browser) {
         super(browser);
     }
 
-    public abstract StudentHomePageNew loginAsStudent(String username, String password);
+    public abstract StudentHomePage loginAsStudent(String username, String password);
 
     public abstract <T extends AppPageNew> T loginAsStudent(String username, String password, Class<T> typeOfPage);
 

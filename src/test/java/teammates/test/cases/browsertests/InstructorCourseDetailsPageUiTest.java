@@ -291,7 +291,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseE2ETestCase {
                                 .withUserId(instructorId)
                                 .withCourseId(courseId);
 
-        return loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
+        return loginAdminToPageOld(detailsPageUrl, InstructorCourseDetailsPage.class);
     }
 
     /**

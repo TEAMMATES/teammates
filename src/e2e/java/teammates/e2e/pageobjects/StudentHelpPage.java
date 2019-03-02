@@ -1,11 +1,11 @@
 package teammates.e2e.pageobjects;
 
 /**
- * The student help page for the app to interact and validate with.
+ * Page Object Model for student help page in development server.
  */
-public class StudentHelpPageNew extends AppPageNew {
+public class StudentHelpPage extends AppPageNew {
 
-    public StudentHelpPageNew(Browser browser) {
+    public StudentHelpPage(Browser browser) {
         super(browser);
     }
 

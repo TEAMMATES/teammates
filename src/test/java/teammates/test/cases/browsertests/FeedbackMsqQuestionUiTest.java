@@ -950,7 +950,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 .withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question");
 
         InstructorFeedbackResultsPage instructorResultsPage =
-                loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPageOld(editUrl, InstructorFeedbackResultsPage.class);
 
         ______TS("Show statistics for mcq question without weights enabled");
 

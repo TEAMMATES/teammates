@@ -605,7 +605,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
 
-        homePage = loginAdminToPage(editUrl, InstructorHomePage.class);
+        homePage = loginAdminToPageOld(editUrl, InstructorHomePage.class);
     }
 
     private void loginWithPersistenceProblem() {
@@ -613,7 +613,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"))
                     .withUserId("unreg_user");
 
-        homePage = loginAdminToPage(homeUrl, InstructorHomePage.class);
+        homePage = loginAdminToPageOld(homeUrl, InstructorHomePage.class);
 
     }
 

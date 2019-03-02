@@ -97,7 +97,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseE2ETestCase {
                             .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
                             .withCourseId(testData.courses.get("typicalCourse1").getId());
 
-        enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
+        enrollPage = loginAdminToPageOld(enrollUrl, InstructorCourseEnrollPage.class);
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {

@@ -1222,7 +1222,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName)
                                     .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPageOfCourseWithoutQuestions() {
@@ -1235,7 +1235,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions)
                                     .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPageOfSessionIndDstCourse() {
@@ -1244,7 +1244,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                 .withCourseId(testData.courses.get("courseWithDstTimeZone").getId())
                 .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName())
                 .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
 }

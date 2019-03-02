@@ -96,7 +96,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
     private void testNavLinkToPage() {
         AppUrl profileUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                                    .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
-        StudentHomePage shp = loginAdminToPage(profileUrl, StudentHomePage.class);
+        StudentHomePage shp = loginAdminToPageOld(profileUrl, StudentHomePage.class);
         profilePage = shp.loadProfileTab();
     }
 
@@ -321,7 +321,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withUserId(testData.accounts.get(studentId).googleId)
                                    .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
-        return loginAdminToPage(profileUrl, typeOfPage);
+        return loginAdminToPageOld(profileUrl, typeOfPage);
     }
 
     private void verifyPictureIsPresent(String pictureKey) {
@@ -331,7 +331,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
     private StudentProfilePage getProfilePageForStudent(String studentId) {
         AppUrl profileUrl = createUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE)
                                    .withUserId(testData.accounts.get(studentId).googleId);
-        return loginAdminToPage(profileUrl, StudentProfilePage.class);
+        return loginAdminToPageOld(profileUrl, StudentProfilePage.class);
     }
 
     @AfterClass

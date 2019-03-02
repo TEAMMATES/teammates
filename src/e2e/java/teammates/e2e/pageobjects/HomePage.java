@@ -5,14 +5,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Represents the home page of the website (i.e., index.jsp).
+ * Represents the home page of the website.
  */
-public class HomePageNew extends AppPageNew {
+public class HomePage extends AppPageNew {
 
     @FindBy(id = "btnStudentLogin")
     private WebElement studentLoginLink;
 
-    public HomePageNew(Browser browser) {
+    public HomePage(Browser browser) {
         super(browser);
     }
 
@@ -21,7 +21,7 @@ public class HomePageNew extends AppPageNew {
         return getTitle().contains("TEAMMATES");
     }
 
-    public LoginPageNew clickStudentLogin() {
+    public LoginPage clickStudentLogin() {
         click(studentLoginLink);
         waitForElementVisibility(By.tagName("h3"));
         return createCorrectLoginPageType(browser);

@@ -873,7 +873,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
-        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPageOld(editUrl, FeedbackSubmitPage.class);
     }
 
     private FeedbackSessionNotVisiblePage
@@ -883,7 +883,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
-        return loginAdminToPage(editUrl, FeedbackSessionNotVisiblePage.class);
+        return loginAdminToPageOld(editUrl, FeedbackSessionNotVisiblePage.class);
     }
 
     private void moveToTeam(StudentAttributes student, String newTeam) {

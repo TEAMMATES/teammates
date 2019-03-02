@@ -121,12 +121,12 @@ public abstract class AppPageNew {
     }
 
     /**
-     * Gives a {@link LoginPageNew} instance based on the given {@link Browser} and test configuration.
+     * Gives a {@link LoginPage} instance based on the given {@link Browser} and test configuration.
      * Fails if the page content does not match the content of the expected login page.
      */
-    public static LoginPageNew createCorrectLoginPageType(Browser browser) {
-        Class<? extends LoginPageNew> cls =
-                TestProperties.isDevServer() ? DevServerLoginPageNew.class : GoogleLoginPageNew.class;
+    public static LoginPage createCorrectLoginPageType(Browser browser) {
+        Class<? extends LoginPage> cls =
+                TestProperties.isDevServer() ? DevServerLoginPage.class : GoogleLoginPage.class;
         return getNewPageInstance(browser, cls);
     }
 
@@ -223,30 +223,30 @@ public abstract class AppPageNew {
      * Equivalent of student clicking the 'Home' tab on the top menu of the page.
      * @return the loaded page
      */
-    public StudentHomePageNew loadStudentHomeTab() {
+    public StudentHomePage loadStudentHomeTab() {
         click(studentHomeTab);
         browser.waitForPageLoad();
-        return changePageType(StudentHomePageNew.class);
+        return changePageType(StudentHomePage.class);
     }
 
     /**
      * Equivalent of clicking the 'Profile' tab on the top menu of the page.
      * @return the loaded page
      */
-    public StudentProfilePageNew loadStudentProfileTab() {
+    public StudentProfilePage loadStudentProfileTab() {
         click(studentProfileTab);
         browser.waitForPageLoad();
-        return changePageType(StudentProfilePageNew.class);
+        return changePageType(StudentProfilePage.class);
     }
 
     /**
      * Equivalent of clicking the 'Help' tab on the top menu of the page.
      * @return the loaded page
      */
-    public StudentHelpPageNew loadStudentHelpTab() {
+    public StudentHelpPage loadStudentHelpTab() {
         click(studentHelpTab);
         browser.waitForPageLoad();
-        return changePageType(StudentHelpPageNew.class);
+        return changePageType(StudentHelpPage.class);
     }
 
     /**

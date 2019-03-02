@@ -12,17 +12,15 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Url;
 import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
+import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPageNew;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
-import teammates.e2e.pageobjects.HomePageNew;
-import teammates.e2e.pageobjects.LoginPageNew;
+import teammates.e2e.pageobjects.HomePage;
+import teammates.e2e.pageobjects.LoginPage;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
-import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.HomePage;
-import teammates.test.pageobjects.LoginPage;
 
 /**
  * Base class for all browser tests.
@@ -94,7 +92,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     /**
      * Logs in a page using admin credentials (i.e. in masquerade mode).
      */
-    protected <T extends AppPageNew> T loginAdminToPageNew(AppUrl url, Class<T> typeOfPage) {
+    protected <T extends AppPageNew> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
 
         if (browser.isAdminLoggedIn) {
             browser.driver.get(url.toAbsoluteString());
@@ -121,7 +119,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         }
 
         // login based on the login page type
-        LoginPageNew loginPage = AppPageNew.createCorrectLoginPageType(browser);
+        LoginPage loginPage = AppPageNew.createCorrectLoginPageType(browser);
         loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
 
         // After login, the browser should be redirected to the page requested originally.
@@ -129,38 +127,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         return AppPageNew.getNewPageInstance(browser, typeOfPage);
     }
 
-    protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
-
-        if (browser.isAdminLoggedIn) {
-            browser.driver.get(url.toAbsoluteString());
-            try {
-                return AppPage.getNewPageInstance(browser, typeOfPage);
-            } catch (Exception e) {
-                //ignore and try to logout and login again if fail.
-                ignorePossibleException();
-            }
-        }
-
-        //logout and attempt to load the requested URL. This will be
-        //  redirected to a dev-server/google login page
-        logout();
-        browser.driver.get(url.toAbsoluteString());
-
-        String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
-        String adminPassword = TestProperties.TEST_ADMIN_PASSWORD;
-
-        String instructorId = url.get(Const.ParamsNames.USER_ID);
-
-        if (instructorId == null) { //admin using system as admin
-            instructorId = adminUsername;
-        }
-
-        //login based on the login page type
-        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
-        loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
-
-        //After login, the browser should be redirected to the page requested originally.
-        //  No need to reload. In fact, reloading might results in duplicate request to the server.
+    /**
+     * Dummy method to be removed after migration of Ui tests. Currently too many dependencies.
+     */
+    protected <T extends AppPage> T loginAdminToPageOld(AppUrl url, Class<T> typeOfPage) {
         return AppPage.getNewPageInstance(browser, typeOfPage);
     }
 
@@ -176,7 +146,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         browser.driver.get(url.toAbsoluteString());
 
         //login based on the login page type
-        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        teammates.test.pageobjects.LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
         loginPage.loginAsInstructor(instructorGoogleId, password, typeOfPage);
 
         //After login, the browser will redirect to the original page requested
@@ -186,15 +156,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
     /**
      * Navigates to the application's home page (as defined in test.properties)
-     * and gives the {@link HomePage} instance based on it.
+     * and gives the {@link teammates.test.pageobjects.HomePage} instance based on it.
      */
-    protected HomePageNew getHomePageNew() {
-        return AppPageNew.getNewPageInstance(browser, createUrl(""), HomePageNew.class);
-    }
-
-    // Outdated method to be removed after migration
     protected HomePage getHomePage() {
-        return AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
+        return AppPageNew.getNewPageInstance(browser, createUrl(""), HomePage.class);
     }
 
     /**

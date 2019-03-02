@@ -44,7 +44,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseE2ETestCas
                                         .withCourseId(courseId)
                                         .withStudentEmail(testData.students.get("unregisteredStudent").email);
 
-        editPage = loginAdminToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
+        editPage = loginAdminToPageOld(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
         editPage.verifyHtmlMainContent("/instructorCourseStudentEditUnregisteredPage.html");
 
         ______TS("content: registered student");
@@ -54,7 +54,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseE2ETestCas
             .withCourseId(courseId)
             .withStudentEmail(testData.students.get("registeredStudent").email);
 
-        editPage = loginAdminToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
+        editPage = loginAdminToPageOld(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
 
         // This is the full HTML verification for Instructor Course Student Edit Page, the rest can all be verifyMainHtml
         editPage.verifyHtml("/instructorCourseStudentEditPage.html");

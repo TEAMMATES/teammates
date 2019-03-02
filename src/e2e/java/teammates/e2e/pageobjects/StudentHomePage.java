@@ -6,11 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
- * The student home page for the app to interact and validate with.
+ * Page Object Model for student home page in development server.
  */
-public class StudentHomePageNew extends AppPageNew {
+public class StudentHomePage extends AppPageNew {
 
-    public StudentHomePageNew(Browser browser) {
+    public StudentHomePage(Browser browser) {
         super(browser);
     }
 

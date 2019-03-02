@@ -1121,7 +1121,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseE2ETestCase {
 
     private InstructorFeedbackSessionsPage getFeedbackPageForInstructor(String instructorId) {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE).withUserId(instructorId);
-        InstructorFeedbackSessionsPage page = loginAdminToPage(feedbackPageLink, InstructorFeedbackSessionsPage.class);
+        InstructorFeedbackSessionsPage page = loginAdminToPageOld(feedbackPageLink, InstructorFeedbackSessionsPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;
     }

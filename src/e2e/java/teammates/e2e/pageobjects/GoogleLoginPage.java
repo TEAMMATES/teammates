@@ -11,9 +11,9 @@ import com.google.common.base.Preconditions;
 import teammates.e2e.util.TestProperties;
 
 /**
- * An login page in deployment for the app to interact and validate with.
+ * Page Object Model for login page using official Google account.
  */
-public class GoogleLoginPageNew extends LoginPageNew {
+public class GoogleLoginPage extends LoginPage {
 
     private static final String EXPECTED_SNIPPET_SIGN_IN = "Sign in – Google accounts";
     private static final String EXPECTED_SNIPPET_APPROVAL = "requesting permission to access your Google Account";
@@ -33,7 +33,7 @@ public class GoogleLoginPageNew extends LoginPageNew {
     @FindBy(id = "passwordNext")
     private WebElement passwordNextButton;
 
-    public GoogleLoginPageNew(Browser browser) {
+    public GoogleLoginPage(Browser browser) {
         super(browser);
     }
 
@@ -50,8 +50,8 @@ public class GoogleLoginPageNew extends LoginPageNew {
     }
 
     @Override
-    public StudentHomePageNew loginAsStudent(String username, String password) {
-        return loginAsStudent(username, password, StudentHomePageNew.class);
+    public StudentHomePage loginAsStudent(String username, String password) {
+        return loginAsStudent(username, password, StudentHomePage.class);
     }
 
     @Override

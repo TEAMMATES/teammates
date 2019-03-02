@@ -440,7 +440,7 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
     private InstructorCoursesPage getCoursesPage() {
         AppUrl coursesUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(instructorId);
-        InstructorCoursesPage page = loginAdminToPage(coursesUrl, InstructorCoursesPage.class);
+        InstructorCoursesPage page = loginAdminToPageOld(coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();
         return page;
     }

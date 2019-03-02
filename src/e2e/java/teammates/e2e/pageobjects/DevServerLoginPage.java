@@ -5,9 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * An login page in development for the app to interact and validate with.
+ * Page Object Model for login page in development server.
  */
-public class DevServerLoginPageNew extends LoginPageNew {
+public class DevServerLoginPage extends LoginPage {
 
     @FindBy(id = "email")
     private WebElement emailTextBox;
@@ -18,7 +18,7 @@ public class DevServerLoginPageNew extends LoginPageNew {
     @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
     private WebElement loginButton;
 
-    public DevServerLoginPageNew(Browser browser) {
+    public DevServerLoginPage(Browser browser) {
         super(browser);
     }
 
@@ -39,8 +39,8 @@ public class DevServerLoginPageNew extends LoginPageNew {
     }
 
     @Override
-    public StudentHomePageNew loginAsStudent(String username, String password) {
-        return loginAsStudent(username, password, StudentHomePageNew.class);
+    public StudentHomePage loginAsStudent(String username, String password) {
+        return loginAsStudent(username, password, StudentHomePage.class);
     }
 
     @Override

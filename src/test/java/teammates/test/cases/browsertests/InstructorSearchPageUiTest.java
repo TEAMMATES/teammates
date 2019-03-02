@@ -213,7 +213,7 @@ public class InstructorSearchPageUiTest extends BaseE2ETestCase {
         AppUrl searchPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
-        return loginAdminToPage(searchPageUrl, InstructorSearchPage.class);
+        return loginAdminToPageOld(searchPageUrl, InstructorSearchPage.class);
     }
 
 }

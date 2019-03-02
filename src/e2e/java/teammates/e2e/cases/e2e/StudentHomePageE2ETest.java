@@ -5,15 +5,15 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.StudentHomePageNew;
+import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 
 /**
- * Ensure that student home page works as expected.
+ * SUT: {@link Const.WebPageURIs#STUDENT_HOME_PAGE}
  */
 public class StudentHomePageE2ETest extends BaseE2ETestCase {
-    private StudentHomePageNew studentHome;
+    private StudentHomePage studentHome;
 
     @Override
     protected void prepareTestData() {
@@ -54,7 +54,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         BackDoor.deleteStudent(unregUserId);
 
         logout();
-        studentHome = getHomePageNew().clickStudentLogin().loginAsStudent(unregUserId, unregPassword);
+        studentHome = getHomePage().clickStudentLogin().loginAsStudent(unregUserId, unregPassword);
 
         browser.waitForPageLoad();
         assertTrue(studentHome.verifyStrangerMessage());
@@ -62,7 +62,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         ______TS("login successfully");
 
         logout();
-        studentHome = getHomePageNew().clickStudentLogin()
+        studentHome = getHomePage().clickStudentLogin()
                                    .loginAsStudent(TestProperties.TEST_STUDENT1_ACCOUNT,
                                                    TestProperties.TEST_STUDENT1_PASSWORD);
 
@@ -74,7 +74,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-        StudentHomePageNew studentHomePage = loginAdminToPageNew(detailsPageUrl, StudentHomePageNew.class);
+        StudentHomePage studentHomePage = loginAdminToPage(detailsPageUrl, StudentHomePage.class);
         browser.waitForPageLoad();
 
         assertTrue(studentHomePage.verifyAdminPagePresent());
@@ -85,7 +85,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         AppUrl homePageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                 .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-        StudentHomePageNew studentHomePage = loginAdminToPageNew(homePageUrl, StudentHomePageNew.class);
+        StudentHomePage studentHomePage = loginAdminToPage(homePageUrl, StudentHomePage.class);
 
         ______TS("link: view team link");
 
@@ -113,13 +113,13 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
-        StudentHomePageNew studentHomePageNew = loginAdminToPageNew(detailsPageUrl, StudentHomePageNew.class);
+        StudentHomePage studentHomePage = loginAdminToPage(detailsPageUrl, StudentHomePage.class);
 
         ______TS("access the feedback session exactly after it is deleted");
 
         BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");
-        studentHomePageNew.clickSubmitFeedbackButton("First Feedback Session");
-        studentHomePageNew.waitForPageToLoad();
+        studentHomePage.clickSubmitFeedbackButton("First Feedback Session");
+        studentHomePage.waitForPageToLoad();
 
     }
 

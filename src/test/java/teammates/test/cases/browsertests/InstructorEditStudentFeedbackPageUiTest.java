@@ -200,7 +200,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseE2ETestCase {
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName())
                 .withParam(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedStudentEmail);
 
-        return loginAdminToPage(editUrl, InstructorEditStudentFeedbackPage.class);
+        return loginAdminToPageOld(editUrl, InstructorEditStudentFeedbackPage.class);
     }
 
 }
