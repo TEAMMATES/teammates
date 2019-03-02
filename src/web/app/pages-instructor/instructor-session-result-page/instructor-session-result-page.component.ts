@@ -6,8 +6,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackSession,
-  QuestionOutput,
-  // SessionResults,
+  SessionResults,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
@@ -23,11 +22,15 @@ import { Intent } from '../../Intent';
 export class InstructorSessionResultPageComponent implements OnInit {
 
   session: any = {};
-  questions: QuestionOutput[] = [];
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
   viewType: string = 'QUESTION';
   user: string = '';
+
+  sectionsModel: { [key: string]: any } = {};
+  isSectionsLoaded: boolean = false;
+  questionsModel: { [key: string]: any } = {};
+  isQuestionsLoaded: boolean = false;
 
   constructor(private httpRequestService: HttpRequestService, private route: ActivatedRoute,
       private timezoneService: TimezoneService, private statusMessageService: StatusMessageService) {
@@ -40,7 +43,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
       const paramMap: { [key: string]: string } = {
         courseid: queryParams.courseid,
         fsname: queryParams.fsname,
-        intent: Intent.STUDENT_RESULT,
+        intent: Intent.INSTRUCTOR_RESULT,
+        user: this.user,
       };
       this.httpRequestService.get('/session', paramMap).subscribe((resp: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
@@ -49,15 +53,84 @@ export class InstructorSessionResultPageComponent implements OnInit {
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
             moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
-        // this.httpRequestService.get('/result', paramMap).subscribe((resp2: SessionResults) => {
-        //   this.questions = resp2.questions.sort(
-        //       (a: QuestionOutput, b: QuestionOutput) => a.questionNumber - b.questionNumber);
-        // }, (resp2: ErrorMessageOutput) => {
-        //   this.statusMessageService.showErrorMessage(resp2.error.message);
-        // });
+
+        const sectionsParamMap: { [key: string]: string } = {
+          courseid: queryParams.courseid,
+          user: this.user,
+        };
+        this.httpRequestService.get('/course/sections', sectionsParamMap).subscribe((resp2: any) => {
+          for (const sectionName of resp2.sectionNames) {
+            this.sectionsModel[sectionName] = {
+              responses: [],
+              hasPopulated: false,
+            };
+          }
+          this.isSectionsLoaded = true;
+        }, (resp2: any) => {
+          this.statusMessageService.showErrorMessage(resp2.error.message);
+        });
+
+        this.httpRequestService.get('/questions', paramMap).subscribe((resp2: any) => {
+          for (const question of resp2.questions) {
+            question.responses = [];
+            question.hasPopulated = false;
+            this.questionsModel[question.feedbackQuestionId] = question;
+          }
+          this.isQuestionsLoaded = true;
+        }, (resp2: any) => {
+          this.statusMessageService.showErrorMessage(resp2.error.message);
+        });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
+    });
+  }
+
+  /**
+   * Loads all the responses and response statistics for the specified question.
+   */
+  loadQuestion(questionId: string): void {
+    if (this.questionsModel[questionId].hasPopulated) {
+      // Do not re-fetch data
+      return;
+    }
+    const paramMap: { [key: string]: string } = {
+      courseid: this.session.courseId,
+      fsname: this.session.feedbackSessionName,
+      questionid: questionId,
+      intent: Intent.INSTRUCTOR_RESULT,
+    };
+    this.httpRequestService.get('/result', paramMap).subscribe((resp: SessionResults) => {
+      if (resp.questions.length) {
+        const responses: any = resp.questions[0];
+        this.questionsModel[questionId].responses = responses.allResponses;
+        this.questionsModel[questionId].statistics = responses.questionStatistics;
+        this.questionsModel[questionId].hasPopulated = true;
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Loads all the responses and response statistics for the specified section.
+   */
+  loadSection(sectionName: string): void {
+    if (this.sectionsModel[sectionName].hasPopulated) {
+      // Do not re-fetch data
+      return;
+    }
+    const paramMap: { [key: string]: string } = {
+      courseid: this.session.courseId,
+      fsname: this.session.feedbackSessionName,
+      frgroupbysection: sectionName,
+      intent: Intent.INSTRUCTOR_RESULT,
+    };
+    this.httpRequestService.get('/result', paramMap).subscribe((resp: SessionResults) => {
+      this.sectionsModel[sectionName].questions = resp.questions;
+      this.sectionsModel[sectionName].hasPopulated = true;
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 

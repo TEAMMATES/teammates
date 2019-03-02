@@ -39,9 +39,12 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
+        case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
+        case STUDENT_RESULT:
+            throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
@@ -64,8 +67,11 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                 questions = logic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, instructor.getEmail());
                 break;
             case FULL_DETAIL:
+            case INSTRUCTOR_RESULT:
                 questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
                 break;
+            case STUDENT_RESULT:
+                throw new InvalidHttpParameterException("Invalid intent for this action");
             default:
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
             }

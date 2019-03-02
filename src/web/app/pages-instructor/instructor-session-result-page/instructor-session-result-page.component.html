@@ -58,10 +58,10 @@
   </div>
 </div>
 
-<div class="top-padded">
-  <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'"></tm-instructor-session-result-question-view>
-  <tm-instructor-session-result-grq-view *ngIf="viewType === 'GRQ'"></tm-instructor-session-result-grq-view>
-  <tm-instructor-session-result-rgq-view *ngIf="viewType === 'RGQ'"></tm-instructor-session-result-rgq-view>
-  <tm-instructor-session-result-gqr-view *ngIf="viewType === 'GQR'"></tm-instructor-session-result-gqr-view>
-  <tm-instructor-session-result-rqg-view *ngIf="viewType === 'RQG'"></tm-instructor-session-result-rqg-view>
+<div class="top-padded" *ngIf="isSectionsLoaded && isQuestionsLoaded">
+  <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'" [responses]="questionsModel" (loadQuestion)="loadQuestion($event)"></tm-instructor-session-result-question-view>
+  <tm-instructor-session-result-grq-view *ngIf="viewType === 'GRQ'" [responses]="sectionsModel" (loadSection)="loadSection($event)"></tm-instructor-session-result-grq-view>
+  <tm-instructor-session-result-rgq-view *ngIf="viewType === 'RGQ'" [responses]="sectionsModel" (loadSection)="loadSection($event)"></tm-instructor-session-result-rgq-view>
+  <tm-instructor-session-result-gqr-view *ngIf="viewType === 'GQR'" [responses]="sectionsModel" (loadSection)="loadSection($event)"></tm-instructor-session-result-gqr-view>
+  <tm-instructor-session-result-rqg-view *ngIf="viewType === 'RQG'" [responses]="sectionsModel" (loadSection)="loadSection($event)"></tm-instructor-session-result-rqg-view>
 </div>
