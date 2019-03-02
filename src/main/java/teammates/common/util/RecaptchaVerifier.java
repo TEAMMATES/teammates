@@ -12,7 +12,6 @@ import com.google.gson.JsonObject;
  * Used to handle the verification of the user's reCAPTCHA response.
  *
  * @see <a href="https://developers.google.com/recaptcha/docs/verify">reCAPTCHA user response verification API</a>
- * @see <a href="https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha-what-should-i-do">Automated testing with reCAPTCHA v2</a>
  */
 public class RecaptchaVerifier {
 
