@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SingleResponseModule } from '../single-response/single-response.module';
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 
 describe('PerQuestionViewResponsesComponent', () => {
@@ -9,6 +10,7 @@ describe('PerQuestionViewResponsesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [PerQuestionViewResponsesComponent],
+      imports: [SingleResponseModule],
     })
     .compileComponents();
   }));
