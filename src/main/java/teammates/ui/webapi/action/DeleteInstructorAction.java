@@ -2,6 +2,7 @@ package teammates.ui.webapi.action;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -31,6 +32,13 @@ public class DeleteInstructorAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+        if (instructor == null) {
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
+            if (courseAttributes == null) {
+                return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
+            }
+            return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
+        }
         logic.deleteInstructor(courseId, instructor.email);
 
         return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
