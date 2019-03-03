@@ -38,6 +38,7 @@ export class AdminPageComponent implements OnInit {
       display: 'Timezone Listing',
     },
   ];
+  isFetchingAuthDetails: boolean = true;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -64,6 +65,7 @@ export class AdminPageComponent implements OnInit {
       } else {
         window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
       }
+      this.isFetchingAuthDetails = false;
     }, () => {
       // TODO
     });
