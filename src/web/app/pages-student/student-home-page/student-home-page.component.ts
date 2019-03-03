@@ -36,7 +36,7 @@ interface StudentCourses {
   recentlyJoinedCourseId: string;
   hasEventualConsistencyMsg: boolean;
   courses: StudentCourse[];
-  sessionsInfoMap: Map<String, SessionInfoMap>;
+  sessionsInfoMap: { [key: string]: SessionInfoMap };
 }
 
 /**
@@ -65,7 +65,7 @@ export class StudentHomePageComponent implements OnInit {
   recentlyJoinedCourseId?: string = '';
   hasEventualConsistencyMsg: boolean = false;
   courses: StudentCourse[] = [];
-  sessionsInfoMap: Map<String, SessionInfoMap> = new Map();
+  sessionsInfoMap: { [key: string]: SessionInfoMap } = {};
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
