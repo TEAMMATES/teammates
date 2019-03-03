@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
+  GqrRqgViewResponsesModule,
+} from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
+import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
@@ -34,6 +37,7 @@ describe('InstructorSessionResultPageComponent', () => {
         FormsModule,
         NgbModule,
         QuestionTextWithInfoModule,
+        GqrRqgViewResponsesModule,
         PerQuestionViewResponsesModule,
       ],
     })

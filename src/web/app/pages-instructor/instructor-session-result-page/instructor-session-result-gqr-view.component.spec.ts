@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import {
+  GqrRqgViewResponsesModule,
+} from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
 
 describe('InstructorSessionResultGqrViewComponent', () => {
@@ -9,6 +12,7 @@ describe('InstructorSessionResultGqrViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorSessionResultGqrViewComponent],
+      imports: [GqrRqgViewResponsesModule],
     })
     .compileComponents();
   }));
