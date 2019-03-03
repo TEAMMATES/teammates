@@ -45,6 +45,7 @@ export class InstructorPageComponent implements OnInit {
       display: 'Help',
     },
   ];
+  isFetchingAuthDetails: boolean = true;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -65,6 +66,7 @@ export class InstructorPageComponent implements OnInit {
         } else {
           window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
         }
+        this.isFetchingAuthDetails = false;
       }, () => {
         // TODO
       });
