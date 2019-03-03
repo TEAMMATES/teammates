@@ -13,7 +13,7 @@
         <span class="btn btn-primary profile-pic-file-selector">
           Browse...
           <input
-            class="studentPhoto"
+            class="student-photo"
             type="file"
             name="studentprofilephoto"
             (change)="onFileChanged($event)">
@@ -22,7 +22,7 @@
         <p class="form-text">
           Max Size: 5 MB
         </p>
-        <button type="button" class="btn btn-primary profileUploadPictureSubmit" [disabled]=!isFileSelected (click)="uploadPicture()">
+        <button type="button" class="btn btn-primary profile-upload-picture-submit" [disabled]="!isFileSelected" (click)="uploadPicture()">
           Upload Picture
         </button>
       </div>
