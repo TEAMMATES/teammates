@@ -164,6 +164,20 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         log.info(entityToDelete.getBackupIdentifier());
     }
 
+    /**
+     * Deletes entity by key.
+     */
+    protected void deleteEntity(Key<?>... keys) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, (Object) keys);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, (Object[]) keys);
+
+        for (Key<?> key : keys) {
+            log.info(String.format("Delete entity %s of key (id: %d, name: %s)",
+                    key.getKind(), key.getId(), key.getName()));
+        }
+        ofy().delete().keys(keys).now();
+    }
+
     public void deleteEntities(Collection<A> entitiesToDelete) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
 
@@ -279,11 +293,15 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         }
     }
 
-    protected void deleteDocument(String indexName, String documentId) {
+    /**
+     * Deletes document by documentId(s).
+     */
+    protected void deleteDocument(String indexName, String... documentIds) {
         try {
-            SearchManager.deleteDocument(indexName, documentId);
+            SearchManager.deleteDocument(indexName, documentIds);
         } catch (Exception e) {
-            log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);
+            log.info("Unable to delete document in the index: " + indexName
+                    + " with document Ids " + String.join(", ", documentIds));
         }
     }
 

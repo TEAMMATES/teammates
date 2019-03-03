@@ -1891,15 +1891,6 @@ public class Logic {
     }
 
     /**
-     * Removes document for the comment by given id.
-     *
-     * @see FeedbackResponseCommentsLogic#deleteDocumentByCommentId(long)
-     */
-    public void deleteDocumentByCommentId(long commentId) {
-        feedbackResponseCommentsLogic.deleteDocumentByCommentId(commentId);
-    }
-
-    /**
      * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
@@ -1931,12 +1922,10 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * Id of comment is not null.
+     * Deletes a comment.
      */
-    public void deleteFeedbackResponseCommentById(Long commentId) {
-        Assumption.assertNotNull(commentId);
-        feedbackResponseCommentsLogic.deleteFeedbackResponseCommentById(commentId);
+    public void deleteFeedbackResponseComment(long commentId) {
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(commentId);
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,

@@ -11,6 +11,7 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -434,7 +435,9 @@ public final class DataBundleLogic {
             fbDb.deleteFeedbackSessionsForCourses(courseIds);
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);
-            fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
+            courseIds.forEach(courseId -> {
+                fcDb.deleteFeedbackResponseComments(AttributesDeletionQuery.builder().withCourseId(courseId).build());
+            });
         }
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SectionDetail;
@@ -604,7 +605,10 @@ public final class FeedbackResponsesLogic {
     }
 
     public void deleteFeedbackResponseAndCascade(FeedbackResponseAttributes responseToDelete) {
-        frcLogic.deleteFeedbackResponseCommentsForResponse(responseToDelete.getId());
+        frcLogic.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withResponseId(responseToDelete.getId())
+                        .build());
         frDb.deleteEntity(responseToDelete);
     }
 

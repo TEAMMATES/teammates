@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
@@ -1378,7 +1379,10 @@ public final class FeedbackSessionsLogic {
      * feedback response comments in the course are deleted.
      */
     public void deleteFeedbackSessionsForCourseCascade(String courseId) {
-        frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
+        frcLogic.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(courseId)
+                        .build());
         frLogic.deleteFeedbackResponsesForCourse(courseId);
         fqLogic.deleteFeedbackQuestionsForCourse(courseId);
         deleteFeedbackSessionsForCourse(courseId);
