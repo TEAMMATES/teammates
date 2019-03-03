@@ -31,6 +31,9 @@ export class NumScaleQuestionEditDetailsFormComponent
   }
 
   get isIntervalDivisible(): boolean {
+    if (this.model.step <= 0) {
+      return false;
+    }
     const largestValueInRange: number = this.model.minScale + (this.numberOfPossibleValues - 1) * this.model.step;
     return largestValueInRange === this.model.maxScale;
   }
