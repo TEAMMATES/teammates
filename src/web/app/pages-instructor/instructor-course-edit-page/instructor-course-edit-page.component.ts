@@ -619,7 +619,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       editedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
 
-    this.httpRequestService.put('/instructors', paramsMap, reqBody)
+    this.httpRequestService.put('/instructor', paramsMap, reqBody)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.updateInstructorDetails(index, editedInstructor);
@@ -858,7 +858,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       addedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
 
-    this.httpRequestService.post('/instructors', paramsMap, reqBody)
+    this.httpRequestService.post('/instructor', paramsMap, reqBody)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.addToInstructorList(addedInstructor);
