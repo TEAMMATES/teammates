@@ -17,7 +17,7 @@
         <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
         <td *ngIf="showRecipient">{{ response.recipient }}</td>
         <td>
-          <tm-single-response [responseDetails]="response.responseDetails"></tm-single-response>
+          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails"></tm-single-response>
         </td>
         <td></td>
       </tr>

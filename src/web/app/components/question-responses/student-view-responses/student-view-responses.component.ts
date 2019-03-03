@@ -10,6 +10,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class StudentViewResponsesComponent implements OnInit {
 
+  @Input() questionDetails: any = {};
   @Input() responses: any[] = [];
   @Input() isSelfResponses: boolean = false;
 

@@ -13,6 +13,7 @@ import {
 })
 export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
 
+  @Input() questionDetails: any = {};
   @Input() responses: any[] = [];
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;

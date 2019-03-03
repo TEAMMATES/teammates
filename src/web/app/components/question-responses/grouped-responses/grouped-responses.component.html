@@ -15,7 +15,7 @@
           <tm-question-text-with-info [questionNumber]="response.questionNumber" [questionDetails]="response.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
-          <tm-single-response [responseDetails]="response.allResponses[0].responseDetails"></tm-single-response>
+          <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.questionDetails"></tm-single-response>
         </div>
       </div>
     </div>

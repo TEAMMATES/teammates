@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {
+  FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
   FeedbackQuestionType,
 } from '../../../../types/api-output';
@@ -16,12 +17,17 @@ import { QuestionResponse } from './question-response';
   templateUrl: './contribution-question-response.component.html',
   styleUrls: ['./contribution-question-response.component.scss'],
 })
-export class ContributionQuestionResponseComponent extends QuestionResponse<FeedbackContributionResponseDetails> {
+export class ContributionQuestionResponseComponent
+    extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails> {
 
   constructor() {
     super({
       answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
       questionType: FeedbackQuestionType.CONTRIB,
+    }, {
+      isNotSureAllowed: true,
+      questionType: FeedbackQuestionType.CONTRIB,
+      questionText: '',
     });
   }
 
