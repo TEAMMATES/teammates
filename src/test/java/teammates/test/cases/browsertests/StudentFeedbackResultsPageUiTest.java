@@ -144,7 +144,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseE2ETestCase {
     }
 
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(String studentName, String fsName) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                                         .withUserId(testData.students.get(studentName).googleId)
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
@@ -153,7 +153,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseE2ETestCase {
 
     private <T extends AppPage> T loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId,
                                                                     Class<T> typeOfPage) {
-        AppUrl submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        AppUrl submitUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                                             .withCourseId(s.course)
                                             .withStudentEmail(s.email)
                                             .withSessionName(testData.feedbackSessions.get(fsDataId)

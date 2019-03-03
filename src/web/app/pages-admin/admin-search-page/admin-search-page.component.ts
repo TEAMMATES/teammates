@@ -1,41 +1,9 @@
 import { Component } from '@angular/core';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { AdminSearchResult, InstructorAccountSearchResult,
+  StudentAccountSearchResult } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-interface CommonBundle {
-  name: string;
-  email: string;
-  googleId: string;
-  courseId: string;
-  courseName: string;
-  institute: string;
-
-  courseJoinLink: string;
-  homePageLink: string;
-  manageAccountLink: string;
-
-  showLinks: boolean;
-}
-
-interface StudentBundle extends CommonBundle {
-  section: string;
-  team: string;
-  comments: string;
-  recordsPageLink: string;
-
-  openSessions: { [key: string]: string };
-  notOpenSessions: { [key: string]: string };
-  publishedSessions: { [key: string]: string };
-}
-
-// tslint:disable-next-line:no-empty-interface
-interface InstructorBundle extends CommonBundle {}
-
-interface AdminAccountSearchResult {
-  students: StudentBundle[];
-  instructors: InstructorBundle[];
-}
 
 /**
  * Admin search page.
@@ -48,19 +16,16 @@ interface AdminAccountSearchResult {
 export class AdminSearchPageComponent {
 
   searchQuery: string = '';
-  instructors: InstructorBundle[] = [];
-  students: StudentBundle[] = [];
+  instructors: InstructorAccountSearchResult[] = [];
+  students: StudentAccountSearchResult[] = [];
 
-  constructor(private httpRequestService: HttpRequestService, private statusMessageService: StatusMessageService) {}
+  constructor(private statusMessageService: StatusMessageService, private accountService: AccountService) {}
 
   /**
    * Searches for students and instructors matching the search query.
    */
   search(): void {
-    const paramMap: { [key: string]: string } = {
-      searchkey: this.searchQuery,
-    };
-    this.httpRequestService.get('/accounts/search', paramMap).subscribe((resp: AdminAccountSearchResult) => {
+    this.accountService.searchAccounts(this.searchQuery).subscribe((resp: AdminSearchResult) => {
       this.instructors = resp.instructors;
       for (const instructor of this.instructors) {
         instructor.showLinks = false;
@@ -114,17 +79,13 @@ export class AdminSearchPageComponent {
   /**
    * Resets the instructor's Google ID.
    */
-  resetInstructorGoogleId(instructor: InstructorBundle, event: any): void {
+  resetInstructorGoogleId(instructor: InstructorAccountSearchResult, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
 
-    const paramMap: { [key: string]: string } = {
-      courseid: instructor.courseId,
-      instructoremail: instructor.email,
-    };
-    this.httpRequestService.put('/accounts/reset', paramMap).subscribe(() => {
+    this.accountService.resetAccount(instructor.courseId, instructor.email).subscribe(() => {
       this.search();
       this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
@@ -135,17 +96,13 @@ export class AdminSearchPageComponent {
   /**
    * Resets the student's Google ID.
    */
-  resetStudentGoogleId(student: StudentBundle, event: any): void {
+  resetStudentGoogleId(student: StudentAccountSearchResult, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
 
-    const paramMap: { [key: string]: string } = {
-      courseid: student.courseId,
-      studentemail: student.email,
-    };
-    this.httpRequestService.put('/accounts/reset', paramMap).subscribe(() => {
+    this.accountService.resetAccount(student.courseId, student.email).subscribe(() => {
       student.googleId = '';
       this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
