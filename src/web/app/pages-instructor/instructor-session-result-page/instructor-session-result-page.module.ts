@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
+  GqrRqgViewResponsesModule,
+} from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
+import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
@@ -34,6 +37,7 @@ import { InstructorSessionResultRqgViewComponent } from './instructor-session-re
     NgbModule,
     QuestionTextWithInfoModule,
     PerQuestionViewResponsesModule,
+    GqrRqgViewResponsesModule,
   ],
 })
 export class InstructorSessionResultPageModule { }

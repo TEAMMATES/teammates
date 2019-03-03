@@ -1,16 +1,16 @@
-<div class="card margin-bottom-15px" *ngFor="let section of responses | keyvalue">
-  <div class="card-header bg-info text-white course-tab-header" (click)="expandSectionTab(section.key, section.value)">
-    {{ section.key }}
-    <div class="float-right">
-      <i class="fas fa-chevron-down" *ngIf="!section.value.isTabExpanded"></i>
-      <i class="fas fa-chevron-up" *ngIf="section.value.isTabExpanded"></i>
-    </div>
-  </div>
-  <div class="card-body" *ngIf="section.value.isTabExpanded">
-    <div *ngFor="let question of section.value.questions" style="margin-bottom: 20px;">
-      <div *ngFor="let response of question.allResponses">
-        {{ response }}
+<div *ngFor="let sectionInfo of responses | keyvalue">
+  <div class="card margin-bottom-15px" *ngIf="!section || (sectionInfo.key == section)">
+    <div class="card-header bg-info text-white course-tab-header" (click)="expandSectionTab(sectionInfo.key, sectionInfo.value)">
+      {{ sectionInfo.key }}
+      <div class="float-right">
+        <i class="fas fa-chevron-down" *ngIf="!sectionInfo.value.isTabExpanded"></i>
+        <i class="fas fa-chevron-up" *ngIf="sectionInfo.value.isTabExpanded"></i>
       </div>
+    </div>
+    <div class="card-body" *ngIf="sectionInfo.value.isTabExpanded">
+      <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="section" [sectionType]="sectionType"
+          [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="true"
+          style="margin-bottom: 20px;"></tm-gqr-rqg-view-responses>
     </div>
   </div>
 </div>
