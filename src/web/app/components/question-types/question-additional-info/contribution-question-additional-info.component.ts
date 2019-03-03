@@ -18,7 +18,7 @@ export class ContributionQuestionAdditionalInfoComponent
 
   constructor() {
     super({
-      isNotSureAllowed: false,
+      isNotSureAllowed: true,
       questionType: FeedbackQuestionType.CONTRIB,
       questionText: '',
     });

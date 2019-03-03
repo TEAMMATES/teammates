@@ -5,4 +5,11 @@ Question {{ questionNumber }}: {{ questionDetails.questionText }}
 <div *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
   <tm-contribution-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
   <tm-text-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.TEXT" [questionDetails]="questionDetails"></tm-text-question-additional-info>
+  <tm-mcq-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.MCQ" [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
+  <tm-msq-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.MSQ" [questionDetails]="questionDetails"></tm-msq-question-additional-info>
+  <tm-rank-options-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
+  <tm-rank-recipients-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
+  <tm-rubric-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RUBRIC" [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
+  <tm-constsum-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM" [questionDetails]="questionDetails"></tm-constsum-question-additional-info>
+  <tm-numscale-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="questionDetails"></tm-numscale-question-additional-info>
 </div>
