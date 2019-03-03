@@ -600,10 +600,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
-    public String getQuestionAdditionalInfoHtml() {
-        return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
-    }
-
     private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(String questionDetailsInJson,
                                                                               FeedbackQuestionType questionType) {
         if (questionType == FeedbackQuestionType.TEXT) {

@@ -112,11 +112,6 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        return "";
-    }
-
-    @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             String studentEmail,

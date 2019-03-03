@@ -31,9 +31,9 @@ public class FeedbackResponseRow {
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         this.questionNumber = question.questionNumber;
         this.questionText = results.getQuestionText(questionId);
-        this.questionMoreInfo = questionDetails.getQuestionAdditionalInfoHtml(this.questionNumber,
-                                                                              personType + "-" + personIndex
-                                                                                         + "-session-" + fbIndex);
+        this.questionMoreInfo = "";
+        // questionDetails.getQuestionAdditionalInfoHtml(this.questionNumber,
+        // personType + "-" + personIndex + "-session-" + fbIndex);
         if ("recipient".equals(personType)) {
             this.responseText = ""; // response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
         } else if ("giver".equals(personType)) {

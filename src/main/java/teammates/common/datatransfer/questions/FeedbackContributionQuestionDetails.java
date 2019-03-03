@@ -140,19 +140,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
              + "</div>";
     }
 
-    @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        String additionalInfo = this.getQuestionTypeDisplayName();
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-    }
-
     /**
      * Uses classes from evaluations to calculate statistics.
      * Uses actualResponses from FeedbackSessionResultsBundle - need to hide data that should be hidden.

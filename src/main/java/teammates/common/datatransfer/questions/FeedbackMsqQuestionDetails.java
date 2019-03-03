@@ -583,49 +583,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        StringBuilder optionListHtml = new StringBuilder(200);
-        String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
-
-        if (generateOptionsFor != FeedbackParticipantType.NONE) {
-            String optionHelpText = String.format(
-                    "<br>The options for this question is automatically generated from the list of all %s in this course.",
-                    generateOptionsFor.toString().toLowerCase());
-            optionListHtml.append(optionHelpText);
-        } else if (!msqChoices.isEmpty()) {
-            optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-            for (String msqChoice : msqChoices) {
-                String optionFragment =
-                        Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MSQ_CHOICE_VALUE, SanitizationHelper.sanitizeForHtml(msqChoice));
-
-                optionListHtml.append(optionFragment);
-            }
-
-            if (otherEnabled) {
-                String optionFragment =
-                        Templates.populateTemplate(optionFragmentTemplate, Slots.MSQ_CHOICE_VALUE, "Other");
-                optionListHtml.append(optionFragment);
-            }
-
-            optionListHtml.append("</ul>");
-        }
-
-        String additionalInfo = Templates.populateTemplate(
-                FormTemplates.MSQ_ADDITIONAL_INFO,
-                Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-                Slots.MSQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString());
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-    }
-
-    @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             String studentEmail,

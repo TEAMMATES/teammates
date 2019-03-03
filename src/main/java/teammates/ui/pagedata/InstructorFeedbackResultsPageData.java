@@ -479,10 +479,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             int recipientIndex = viewType.isPrimaryGroupingOfGiverType() ? secondaryRecipientIndex
                                                                          : primaryParticipantIndex;
 
-            String additionalInfoText =
-                    questionToDetailsMap.get(question).getQuestionAdditionalInfoHtml(
-                            question.getQuestionNumber(), String.format(
-                                    additionalInfoId, giverIndex, recipientIndex));
+            String additionalInfoText = "";
+            // questionToDetailsMap.get(question).getQuestionAdditionalInfoHtml(
+            // question.getQuestionNumber(), String.format(additionalInfoId, giverIndex, recipientIndex));
             String displayableResponse = bundle.getResponseAnswerHtml(response, question);
 
             String giverName = bundle.getNameForEmail(response.giver);
@@ -928,7 +927,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                  bundle, viewType.toString());
 
         String questionText = questionDetails.getQuestionText();
-        String additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
+        String additionalInfoText = "";
+        // questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
 
         InstructorFeedbackResultsQuestionTable questionTable = new InstructorFeedbackResultsQuestionTable(
                                                                         !responses.isEmpty(), statisticsTable,

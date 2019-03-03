@@ -554,36 +554,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return rubricDescriptions.get(subQuestion).get(choice);
     }
 
-    @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        StringBuilder subQuestionListHtml = new StringBuilder();
-
-        if (numOfRubricSubQuestions > 0) {
-            subQuestionListHtml.append("<p>");
-            for (int i = 0; i < numOfRubricSubQuestions; i++) {
-                String subQuestionFragment =
-                        StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)
-                        + ") " + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i));
-                subQuestionListHtml.append(subQuestionFragment);
-                subQuestionListHtml.append("<br>");
-            }
-            subQuestionListHtml.append("</p>");
-        }
-
-        String additionalInfo = Templates.populateTemplate(
-                FormTemplates.RUBRIC_ADDITIONAL_INFO,
-                Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-                Slots.RUBRIC_ADDITIONAL_INFO_FRAGMENTS, subQuestionListHtml.toString());
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-    }
-
     private String getRecipientStatsHeaderFragmentHtml(String header) {
         return Templates.populateTemplate(
                 FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT,

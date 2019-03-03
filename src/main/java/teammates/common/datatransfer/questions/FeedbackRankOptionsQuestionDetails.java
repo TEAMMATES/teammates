@@ -272,37 +272,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber,
-            String additionalInfoId) {
-        StringBuilder optionListHtml = new StringBuilder(100);
-        String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
-        String additionalInfo = "";
-
-        optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-        for (String option : options) {
-            String optionFragment =
-                    Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.MSQ_CHOICE_VALUE, option);
-
-            optionListHtml.append(optionFragment);
-        }
-
-        optionListHtml.append("</ul>");
-        additionalInfo = Templates.populateTemplate(
-            FormTemplates.MSQ_ADDITIONAL_INFO,
-            Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-            Slots.MSQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString());
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-    }
-
-    @Override
     public String getQuestionResultStatisticsHtml(
                         List<FeedbackResponseAttributes> responses,
                         FeedbackQuestionAttributes question,

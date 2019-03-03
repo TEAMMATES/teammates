@@ -57,9 +57,6 @@ public abstract class FeedbackQuestionDetails {
     public abstract String getNewQuestionSpecificEditFormHtml();
 
     @Deprecated
-    public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
-
-    @Deprecated
     public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
                                                            FeedbackQuestionAttributes question,
                                                            String studentEmail,

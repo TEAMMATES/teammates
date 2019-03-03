@@ -392,45 +392,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber,
-            String additionalInfoId) {
-        StringBuilder optionListHtml = new StringBuilder();
-        String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
-        StringBuilder additionalInfo = new StringBuilder();
-
-        if (distributeToRecipients) {
-            additionalInfo.append(getQuestionTypeDisplayName()).append("<br>");
-        } else if (numOfConstSumOptions > 0) {
-            optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-            for (int i = 0; i < numOfConstSumOptions; i++) {
-                String optionFragment =
-                        Templates.populateTemplate(optionFragmentTemplate,
-                                Slots.MSQ_CHOICE_VALUE, constSumOptions.get(i));
-
-                optionListHtml.append(optionFragment);
-            }
-            optionListHtml.append("</ul>");
-            additionalInfo.append(Templates.populateTemplate(
-                    FormTemplates.MSQ_ADDITIONAL_INFO,
-                    Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-                    Slots.MSQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString()));
-
-        }
-        //Point information
-        additionalInfo.append(pointsPerOption
-                              ? "Points per " + (distributeToRecipients ? "recipient" : "option") + ": " + points
-                              : "Total points: " + points);
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo.toString());
-    }
-
-    @Override
     public String getQuestionResultStatisticsHtml(
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,

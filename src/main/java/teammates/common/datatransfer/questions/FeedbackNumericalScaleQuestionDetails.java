@@ -151,23 +151,6 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
     }
 
     @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber,
-            String additionalInfoId) {
-        String additionalInfo = getQuestionTypeDisplayName()
-                              + ":<br>Minimum value: " + minScale
-                              + ". Increment: " + step + ". Maximum value: "
-                              + maxScale + '.';
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-    }
-
-    @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             String studentEmail,

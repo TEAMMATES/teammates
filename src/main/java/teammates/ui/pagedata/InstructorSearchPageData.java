@@ -136,8 +136,8 @@ public class InstructorSearchPageData extends PageData {
         for (FeedbackQuestionAttributes question : questionList) {
             int questionNumber = question.questionNumber;
             String questionText = question.getQuestionDetails().getQuestionText();
-            String additionalInfo = question.getQuestionDetails()
-                                            .getQuestionAdditionalInfoHtml(questionNumber, "");
+            String additionalInfo = "";
+            // question.getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
 
             questionTables.add(new QuestionTable(questionNumber, questionText, additionalInfo,
                                             createResponseRows(question, frcSearchResultBundle)));
