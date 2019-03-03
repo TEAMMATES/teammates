@@ -7,6 +7,9 @@ import {
   GqrRqgViewResponsesModule,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
 import {
+  GrqRgqViewResponsesModule,
+} from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
+import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
@@ -38,6 +41,7 @@ describe('InstructorSessionResultPageComponent', () => {
         NgbModule,
         QuestionTextWithInfoModule,
         GqrRqgViewResponsesModule,
+        GrqRgqViewResponsesModule,
         PerQuestionViewResponsesModule,
       ],
     })
