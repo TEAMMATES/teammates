@@ -19,8 +19,48 @@ export class NumScaleQuestionEditDetailsFormComponent
       maxScale: 5,
       step: 1,
       questionText: '',
-      questionType: FeedbackQuestionType.CONTRIB,
+      questionType: FeedbackQuestionType.NUMSCALE,
     });
   }
 
+  get maxScaleValue(): number {
+    if (this.model.maxScale <= this.model.minScale) {
+      this.model.maxScale = this.model.minScale + 1;
+    }
+    return this.model.maxScale;
+  }
+
+  get isIntervalDivisible(): boolean {
+    const largestValueInRange: number = this.model.minScale + (this.numberOfPossibleValues - 1) * this.model.step;
+    return largestValueInRange === this.model.maxScale;
+  }
+
+  get numberOfPossibleValues(): number {
+    const minValue: number = this.model.minScale;
+    const maxValue: number = this.model.maxScale;
+    const increment: number = this.model.step;
+    const num: number = (maxValue - minValue) / increment + 1;
+
+    return Math.floor(parseFloat(num.toFixed(3)));
+  }
+
+  get possibleValues(): string {
+
+    if (this.numberOfPossibleValues > 6) {
+      return `[${this.model.minScale},
+           ${(Math.round((this.model.minScale + this.model.step) * 1000) / 1000).toString()},
+           ${(Math.round((this.model.minScale + 2 * this.model.step) * 1000) / 1000).toString()}, ...,
+           ${(Math.round((this.model.maxScale - 2 * this.model.step) * 1000) / 1000).toString()},
+           ${(Math.round((this.model.maxScale - this.model.step) * 1000) / 1000).toString()},
+           ${this.model.maxScale}]`;
+    }
+    let possibleValuesString: string = `[${this.model.minScale.toString()}`;
+    let currentValue: number = this.model.minScale + this.model.step;
+
+    while (this.model.maxScale - currentValue >= -1e-9) {
+      possibleValuesString += `, ${(Math.round(currentValue * 1000) / 1000).toString()}`;
+      currentValue += this.model.step;
+    }
+    return `${possibleValuesString}]`;
+  }
 }

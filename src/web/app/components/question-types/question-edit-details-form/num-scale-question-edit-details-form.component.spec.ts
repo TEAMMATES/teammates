@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule } from '@angular/forms';
 import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
 
 describe('NumScaleQuestionEditDetailsFormComponent', () => {
@@ -9,6 +9,9 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [NumScaleQuestionEditDetailsFormComponent],
+      imports: [
+        FormsModule,
+      ],
     })
     .compileComponents();
   }));
