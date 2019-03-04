@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -7,6 +8,12 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { Course, CourseArchive, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import {
+  CoursePermanentDeletionConfirmModalComponent,
+} from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
+import {
+  CourseSoftDeletionConfirmModalComponent,
+} from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
 interface ActiveCourse {
   id: string;
@@ -84,7 +91,8 @@ export class InstructorCoursesPageComponent implements OnInit {
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private timezoneService: TimezoneService,
-              private courseService: CourseService) { }
+              private courseService: CourseService,
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -237,13 +245,16 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    this.courseService.binCourse(courseId).subscribe((course: Course) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(
-        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
+    modalRef.result.then(() => {
+      this.courseService.binCourse(courseId).subscribe((course: Course) => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage(
+          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }, () => {});
   }
 
   /**
@@ -254,16 +265,16 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    if (confirm(`Are you sure you want to permanently delete the course: ${courseId}? `
-            + 'This operation will delete all students and sessions in this course. '
-            + 'All instructors of this course will not be able to access it hereafter as well.')) {
+    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+    modalRef.componentInstance.courseId = courseId;
+    modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
         this.loadInstructorCourses();
         this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
-    }
+    }, () => {});
   }
 
   /**
@@ -290,9 +301,9 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    if (confirm('Are you sure you want to permanently delete all the courses in Recycle Bin? ' +
-            'This operation will delete all students and sessions in these courses. ' +
-            'All instructors of these courses will not be able to access them hereafter as well.')) {
+    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+    modalRef.componentInstance.isDeleteAll = true;
+    modalRef.result.then(() => {
       const paramMap: { [key: string]: string } = {
         user: this.user,
       };
@@ -303,7 +314,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(resp.error.message);
           });
-    }
+    }, () => {});
   }
 
   /**

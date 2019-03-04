@@ -29,6 +29,8 @@ interface CourseTabModel {
   sessionsTableRowModelsSortBy: SortBy;
   sessionsTableRowModelsSortOrder: SortOrder;
 
+  hasPopulated: boolean;
+  isAjaxSuccess: boolean;
   isTabExpanded: boolean;
 }
 
@@ -42,6 +44,7 @@ interface CourseTabModel {
 })
 export class InstructorHomePageComponent extends InstructorSessionBasePageComponent implements OnInit {
 
+  private static readonly coursesToLoad: number = 3;
   // enum
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
@@ -49,7 +52,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
   user: string = '';
   studentSearchkey: string = '';
-  instructorCoursesSortBy: SortBy = SortBy.CREATION_DATE;
+  instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // data
   courseTabModels: CourseTabModel[] = [];
@@ -149,14 +152,16 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           instructorPrivilege: defaultInstructorPrivilege,
           sessionsTableRowModels: [],
           isTabExpanded: false,
+          isAjaxSuccess: true,
+          hasPopulated: false,
           sessionsTableRowModelsSortBy: SortBy.NONE,
           sessionsTableRowModelsSortOrder: SortOrder.ASC,
         };
 
         this.courseTabModels.push(model);
         this.updateCourseInstructorPrivilege(model);
-        this.loadFeedbackSessions(model);
       });
+      this.sortCoursesBy(this.instructorCoursesSortBy);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
@@ -177,22 +182,29 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Loads the feedback session in the course.
    */
   loadFeedbackSessions(model: CourseTabModel): void {
-    this.httpRequestService.get('/sessions', {
-      courseid: model.course.courseId,
-    }).subscribe((response: FeedbackSessions) => {
-      response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
-        const m: SessionsTableRowModel = {
-          feedbackSession,
-          responseRate: '',
-          isLoadingResponseRate: false,
-          instructorPrivilege: defaultInstructorPrivilege,
-        };
-        model.sessionsTableRowModels.push(m);
-        this.updateInstructorPrivilege(m);
+    if (!model.hasPopulated) {
+      this.httpRequestService.get('/sessions', {
+        courseid: model.course.courseId,
+      }).subscribe((response: FeedbackSessions) => {
+        response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+          const m: SessionsTableRowModel = {
+            feedbackSession,
+            responseRate: '',
+            isLoadingResponseRate: false,
+            instructorPrivilege: defaultInstructorPrivilege,
+          };
+          model.sessionsTableRowModels.push(m);
+          this.updateInstructorPrivilege(m);
+        });
+        model.hasPopulated = true;
+        if (!model.isAjaxSuccess) {
+          model.isAjaxSuccess = true;
+        }
+      }, (resp: ErrorMessageOutput) => {
+        model.isAjaxSuccess = false;
+        this.statusMessageService.showErrorMessage(resp.error.message);
       });
-
-      model.isTabExpanded = true;
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    }
   }
 
   /**
@@ -210,6 +222,20 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
 
     if (this.courseTabModels.length > 1) {
       this.courseTabModels.sort(this.sortPanelsBy(by));
+    }
+    this.loadLatestCourses();
+  }
+
+  /**
+   * Loads and expand the latest number of courses.
+   */
+  loadLatestCourses(): void {
+    for (let i: number = 0; i < this.courseTabModels.length; i += 1) {
+      if (i >= InstructorHomePageComponent.coursesToLoad) {
+        break;
+      }
+      this.courseTabModels[i].isTabExpanded = true;
+      this.loadFeedbackSessions(this.courseTabModels[i]);
     }
   }
 
@@ -230,7 +256,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           strA = a.course.courseId;
           strB = b.course.courseId;
           break;
-        case SortBy.CREATION_DATE:
+        case SortBy.COURSE_CREATION_DATE:
           strA = a.course.creationDate;
           strB = b.course.creationDate;
           break;
