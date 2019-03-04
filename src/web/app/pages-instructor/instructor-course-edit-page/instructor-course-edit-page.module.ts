@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
@@ -24,6 +25,7 @@ import { ViewPrivilegesModalComponent } from './view-privileges-modal/view-privi
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    RouterModule,
     TeammatesCommonModule,
   ],
   declarations: [

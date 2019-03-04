@@ -6,6 +6,7 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Course, MessageOutput } from '../../../types/api-output';
+import { InstructorCreateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Instructor } from '../../Instructor';
 import {
@@ -261,16 +262,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     let paramsMap: { [key: string]: string } = {
       courseid: this.courseEditFormModel.courseId,
-      instructorid: instructorEditFormModel.googleId,
-      instructorname: instructorEditFormModel.name,
-      instructoremail: instructorEditFormModel.email,
-      instructorrole: instructorEditFormModel.role,
-      instructordisplayname: instructorEditFormModel.displayedName,
-      instructorisdisplayed: instructorEditFormModel.isDisplayedToStudents.toString(),
+    };
+
+    const reqBody: InstructorCreateRequest = {
+      id: instructorEditFormModel.googleId,
+      name: instructorEditFormModel.name,
+      email: instructorEditFormModel.email,
+      roleName: instructorEditFormModel.role,
+      displayName: instructorEditFormModel.displayedName,
+      isDisplayedToStudent: instructorEditFormModel.isDisplayedToStudents,
     };
     paramsMap = this.addAdditionalParams(instructorEditFormModel, paramsMap);
 
-    this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
+    this.httpRequestService.put('/instructor', paramsMap, reqBody)
         .subscribe((updatedInstructor: Instructor) => {
           this.instructorFormModels[instructorIndex] = updatedInstructor;
           this.instructorEditFormModels[instructorIndex] = this.getInstructorEditFormModel(updatedInstructor);
@@ -419,10 +423,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
   addInstructorHandler(instructorAddForm: InstructorEditFormModel): void {
     let paramsMap: { [key: string]: string } = {
       courseid: this.courseEditFormModel.courseId,
-      instructorname: instructorAddForm.name,
-      instructoremail: instructorAddForm.email,
-      instructorrole: instructorAddForm.role,
-      instructordisplayname: instructorAddForm.displayedName,
+    };
+
+    const reqBody: InstructorCreateRequest = {
+      id: instructorAddForm.googleId,
+      name: instructorAddForm.name,
+      email: instructorAddForm.email,
+      roleName: instructorAddForm.role,
+      displayName: instructorAddForm.displayedName,
+      isDisplayedToStudent: instructorAddForm.isDisplayedToStudents != null,
     };
 
     const instructorIsDisplayed: string = 'instructorisdisplayed';
@@ -432,7 +441,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     paramsMap = this.addAdditionalParams(instructorAddForm, paramsMap);
 
-    this.httpRequestService.put('/instructors/course/details/addInstructor', paramsMap)
+    this.httpRequestService.post('/instructor', paramsMap, reqBody)
         .subscribe((addedInstructor: Instructor) => {
           this.instructorEditFormModels.push(this.getInstructorEditFormModel(addedInstructor));
           this.instructorFormModels.push(addedInstructor);
