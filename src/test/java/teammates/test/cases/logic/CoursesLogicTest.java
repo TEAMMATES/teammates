@@ -92,7 +92,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         testMoveCourseToRecycleBin();
         testRestoreCourseFromRecycleBin();
         testRestoreAllCoursesFromRecycleBin();
-        testDeleteCourse();
         testDeleteAllCourses();
         testUpdateCourseCascade();
     }
@@ -1042,7 +1041,8 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
-    private void testDeleteCourse() {
+    @Test
+    public void testDeleteCourseCascade() {
 
         ______TS("typical case");
 

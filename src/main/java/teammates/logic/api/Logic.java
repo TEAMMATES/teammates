@@ -1406,32 +1406,17 @@ public class Logic {
     }
 
     /**
-     * Permanently deletes the feedback session in Recycle Bin, but not the questions and
-     * responses associated to it.
-     * Fails silently if no such feedback session. <br>
-     * Preconditions: <br>
+     * Deletes a feedback session cascade to its associated questions, responses and comments.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
-    }
-
-    /**
-     * Permanently deletes feedback sessions in Recycle Bin, but not the questions and
-     * responses associated to them.
-     * Fails silently if no such feedback session. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void deleteAllFeedbackSessions(List<InstructorAttributes> instructorList) {
-
-        Assumption.assertNotNull(instructorList);
-
-        feedbackSessionsLogic.deleteAllFeedbackSessionsCascade(instructorList);
     }
 
     /**

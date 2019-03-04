@@ -432,7 +432,6 @@ public final class DataBundleLogic {
             coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
-            fbDb.deleteFeedbackSessionsForCourses(courseIds);
             courseIds.forEach(courseId -> {
                 AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                         .withCourseId(courseId)
@@ -440,6 +439,7 @@ public final class DataBundleLogic {
                 frDb.deleteFeedbackResponses(query);
                 fcDb.deleteFeedbackResponseComments(query);
                 fqDb.deleteFeedbackQuestions(query);
+                fbDb.deleteFeedbackSessions(query);
             });
         }
     }

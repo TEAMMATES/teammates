@@ -1368,36 +1368,9 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Deletes the feedback sessions in the course specified. The delete
-     * is cascaded, and feedback questions, feedback responses, and
-     * feedback response comments in the course are deleted.
-     */
-    public void deleteFeedbackSessionsForCourseCascade(String courseId) {
-        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-                .withCourseId(courseId)
-                .build();
-        frcLogic.deleteFeedbackResponseComments(query);
-        frLogic.deleteFeedbackResponses(query);
-        fqLogic.deleteFeedbackQuestions(query);
-        deleteFeedbackSessionsForCourse(courseId);
-    }
-
-    /**
-     * Deletes all feedback sessions the course specified. This is
-     * a non-cascade delete.
-     *
-     * <p>The responses, questions and the comments of the responses
-     * should be handled.
-     */
-    public void deleteFeedbackSessionsForCourse(String courseId) {
-        fsDb.deleteFeedbackSessionsForCourse(courseId);
-    }
-
-    /**
-     * Permanently deletes a specific feedback session in Recycle Bin, and all its questions and responses.
+     * Deletes a feedback session cascade to its associated questions, responses and comments.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
-
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                 .withCourseId(courseId)
                 .withFeedbackSessionName(feedbackSessionName)
@@ -1406,24 +1379,14 @@ public final class FeedbackSessionsLogic {
         frLogic.deleteFeedbackResponses(query);
         frcLogic.deleteFeedbackResponseComments(query);
 
-        FeedbackSessionAttributes sessionToDelete =
-                FeedbackSessionAttributes.builder(feedbackSessionName, courseId).build();
-
-        fsDb.deleteEntity(sessionToDelete);
+        fsDb.deleteFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
-     * Permanently deletes all feedback sessions in Recycle Bin, and all their questions and responses.
+     * Deletes sessions using {@link AttributesDeletionQuery}.
      */
-    public void deleteAllFeedbackSessionsCascade(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull("Supplied parameter was null", instructorList);
-
-        List<FeedbackSessionAttributes> feedbackSessionsList =
-                getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
-
-        for (FeedbackSessionAttributes session : feedbackSessionsList) {
-            deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
-        }
+    public void deleteFeedbackSessions(AttributesDeletionQuery query) {
+        fsDb.deleteFeedbackSessions(query);
     }
 
     /**
