@@ -54,6 +54,7 @@ export class StaticPageComponent implements OnInit {
       ],
     },
   ];
+  isFetchingAuthDetails: boolean = true;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -71,6 +72,7 @@ export class StaticPageComponent implements OnInit {
         this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
         this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
       }
+      this.isFetchingAuthDetails = false;
     }, () => {
       // TODO
     });
