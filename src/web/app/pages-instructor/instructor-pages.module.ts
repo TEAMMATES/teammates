@@ -204,7 +204,6 @@ const routes: Routes = [
     InstructorCourseStudentDetailsPageModule,
     InstructorCourseStudentEditPageModule,
     InstructorHomePageModule,
-    InstructorCourseEditPageModule,
     InstructorSessionEditPageModule,
     InstructorSessionsPageModule,
     InstructorSearchPageModule,
