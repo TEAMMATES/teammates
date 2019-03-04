@@ -8,8 +8,10 @@ import java.util.Map;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -28,10 +30,10 @@ import teammates.logic.core.FeedbackSessionsLogic;
  */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -45,49 +47,27 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackQuestionsCascadeForSession_correspondingSessionNotInRecycleBin_shouldDoCascadeDeletion() {
-        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
-        assertNotNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
-        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
-        assertFalse(
-                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertFalse(
-                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertFalse(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
-
-        fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-
-        assertTrue(
-                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertTrue(
-                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
-    }
-
-    @Test
-    public void testDeleteFeedbackQuestionsCascadeForSession_correspondingSessionInRecycleBin_shouldDoCascadeDeletion()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testDeleteFeedbackQuestions_byCourseIdAndSessionName_shouldDeleteQuestions() {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         assertFalse(
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        FeedbackSessionAttributes anotherFsa = dataBundle.feedbackSessions.get("session2InCourse1");
         assertFalse(
-                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertFalse(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
-        fsLogic.moveFeedbackSessionToRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId());
-        assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
-        assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+                fqLogic.getFeedbackQuestionsForSession(anotherFsa.getFeedbackSessionName(), anotherFsa.getCourseId())
+                        .isEmpty());
 
-        fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
+        fqLogic.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(fsa.getCourseId())
+                .withFeedbackSessionName(fsa.getFeedbackSessionName())
+                .build());
 
         assertTrue(
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertTrue(
-                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+        // other sessions are not affected
+        assertFalse(
+                fqLogic.getFeedbackQuestionsForSession(anotherFsa.getFeedbackSessionName(), anotherFsa.getCourseId())
+                        .isEmpty());
+
     }
 
     @Test
@@ -98,8 +78,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testIsQuestionHasResponses();
         testIsQuestionAnswered();
         testAddQuestion();
-        testDeleteQuestion();
-        testDeleteQuestionsForCourse();
     }
 
     private void testGetRecipientsForQuestion() throws Exception {
@@ -449,19 +427,77 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 ipe.getMessage());
     }
 
-    private void testDeleteQuestion() {
-        //Success case already tested in update
-        ______TS("question already does not exist, silently fail");
+    @Test
+    public void testDeleteFeedbackQuestionCascade_existentQuestion_shouldDoCascadeDeletion() {
+        FeedbackQuestionAttributes typicalQuestion = getQuestionFromDatastore("qn3InSession1InCourse1");
+        assertEquals(3, typicalQuestion.getQuestionNumber());
+        assertEquals(4, getQuestionFromDatastore("qn4InSession1InCourse1").getQuestionNumber());
 
-        fqLogic.deleteFeedbackQuestionCascade("non-existent-question-id");
-        //No error should be thrown.
+        // the question has some responses and comments
+        assertFalse(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
+        assertFalse(
+                frcLogic.getFeedbackResponseCommentForSession(
+                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName()).stream()
+                        .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
 
+        fqLogic.deleteFeedbackQuestionCascade(typicalQuestion.getId());
+
+        assertNull(logic.getFeedbackQuestion(typicalQuestion.getId()));
+        // the responses and comments should gone
+        assertTrue(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
+        assertTrue(
+                frcLogic.getFeedbackResponseCommentForSession(
+                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName()).stream()
+                        .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
+
+        // verify that questions are shifted
+        List<FeedbackQuestionAttributes> questionsOfSessions =
+                logic.getFeedbackQuestionsForSession(
+                        typicalQuestion.getFeedbackSessionName(), typicalQuestion.getCourseId());
+        for (int i = 1; i <= questionsOfSessions.size(); i++) {
+            assertEquals(i, questionsOfSessions.get(i - 1).getQuestionNumber());
+        }
     }
 
-    private void testDeleteQuestionsForCourse() throws EntityDoesNotExistException {
-        ______TS("standard case");
+    @Test
+    public void testDeleteFeedbackQuestionCascade_nonExistentQuestion_shouldFailSilently() {
+        fqLogic.deleteFeedbackQuestionCascade("non-existent-question-id");
 
-        // test that questions are deleted
+        // other questions not get affected
+        assertNotNull(getQuestionFromDatastore("qn3InSession1InCourse1"));
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestionCascade_cascadeDeleteResponseOfStudent_shouldUpdateRespondents() throws Exception {
+        FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackQuestionAttributes fqa =
+                fqLogic.getFeedbackQuestion(fra.feedbackSessionName, fra.courseId, Integer.parseInt(fra.feedbackQuestionId));
+        FeedbackResponseAttributes responseInDb = frLogic.getFeedbackResponse(fqa.getId(), fra.giver, fra.recipient);
+        assertNotNull(responseInDb);
+
+        // the student only gives this response for the session
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(responseInDb.courseId, responseInDb.giver).stream()
+                .filter(response -> response.feedbackSessionName.equals(responseInDb.feedbackSessionName))
+                .count());
+        // suppose he is in the respondents list
+        fsLogic.addStudentRespondent(responseInDb.giver, responseInDb.feedbackSessionName, responseInDb.courseId);
+        FeedbackSessionAttributes correspondingSession =
+                fsLogic.getFeedbackSession(responseInDb.feedbackSessionName, responseInDb.courseId);
+        assertTrue(correspondingSession.getRespondingStudentList().contains(responseInDb.giver));
+
+        // after deletion the question
+        fqLogic.deleteFeedbackQuestionCascade(responseInDb.feedbackQuestionId);
+
+        FeedbackSessionAttributes sessionAfter =
+                fsLogic.getFeedbackSession(responseInDb.feedbackSessionName, responseInDb.courseId);
+        // instructor respondents will not change
+        assertEquals(correspondingSession.getRespondingInstructorList(), sessionAfter.getRespondingInstructorList());
+        // the student should not in the respondents
+        assertFalse(sessionAfter.getRespondingStudentList().contains(responseInDb.giver));
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestions_byCourseId_shouldDeleteQuestions() {
         String courseId = "idOfTypicalCourse2";
         FeedbackQuestionAttributes deletedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
         assertNotNull(deletedQuestion);
@@ -470,7 +506,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
         assertFalse(questions.isEmpty());
 
-        fqLogic.deleteFeedbackQuestionsForCourse(courseId);
+        fqLogic.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(courseId)
+                .build());
         deletedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
         assertNull(deletedQuestion);
 

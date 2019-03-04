@@ -1378,7 +1378,7 @@ public final class FeedbackSessionsLogic {
                 .build();
         frcLogic.deleteFeedbackResponseComments(query);
         frLogic.deleteFeedbackResponses(query);
-        fqLogic.deleteFeedbackQuestionsForCourse(courseId);
+        fqLogic.deleteFeedbackQuestions(query);
         deleteFeedbackSessionsForCourse(courseId);
     }
 
@@ -1398,7 +1398,13 @@ public final class FeedbackSessionsLogic {
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
-        fqLogic.deleteFeedbackQuestionsCascadeForSession(feedbackSessionName, courseId);
+        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                .withCourseId(courseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .build();
+        fqLogic.deleteFeedbackQuestions(query);
+        frLogic.deleteFeedbackResponses(query);
+        frcLogic.deleteFeedbackResponseComments(query);
 
         FeedbackSessionAttributes sessionToDelete =
                 FeedbackSessionAttributes.builder(feedbackSessionName, courseId).build();

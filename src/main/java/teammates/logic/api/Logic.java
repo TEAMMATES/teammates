@@ -1507,12 +1507,16 @@ public class Logic {
     }
 
     /**
-     * Deletes the feedback question and the responses associated to it. Fails
-     * silently if there is no such feedback question. <br>
-     * Preconditions: <br>
+     * Deletes a feedback question cascade its responses and comments.
+     *
+     * <p>Silently fail if question does not exist.
+     *
+     * <p>The respondent lists will also be updated due the deletion of question.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackQuestion(String questionId) {
+    public void deleteFeedbackQuestionCascade(String questionId) {
         Assumption.assertNotNull(questionId);
         feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
     }

@@ -67,7 +67,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackSessionCascade_deleteDirectly_shouldDoCascadeDeletion()
+    public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion()
             throws EntityDoesNotExistException {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         assertNotNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));

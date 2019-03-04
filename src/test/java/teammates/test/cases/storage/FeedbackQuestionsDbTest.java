@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -64,6 +65,145 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         // Assert lastUpdate has changed, and is now.
         assertFalse(feedbackQuestion.getUpdatedAt().equals(updatedFq.getUpdatedAt()));
         AssertHelper.assertInstantIsNow(updatedFq.getUpdatedAt());
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestion() throws Exception {
+
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes oldFqa =
+                fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        if (oldFqa != null) {
+            fqDb.deleteFeedbackQuestion(oldFqa.getId());
+        }
+        fqDb.createEntity(fqa);
+        fqa = fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+
+        ______TS("delete non-existent question");
+
+        // should pass silently
+        fqDb.deleteFeedbackQuestion("123");
+
+        ______TS("standard success case");
+
+        assertNotNull(fqDb.getFeedbackQuestion(fqa.getId()));
+
+        fqDb.deleteFeedbackQuestion(fqa.getId());
+
+        assertNull(fqDb.getFeedbackQuestion(fqa.getId()));
+
+        ______TS("delete question again");
+
+        // should pass silently
+        fqDb.deleteFeedbackQuestion(fqa.getId());
+
+        assertNull(fqDb.getFeedbackQuestion(fqa.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestions_deleteByCourseIdAndSessionName() throws Exception {
+        ______TS("standard success case");
+
+        // create a new question in current session
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes oldFqa =
+                fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        if (oldFqa != null) {
+            fqDb.deleteFeedbackQuestion(oldFqa.getId());
+        }
+        fqDb.createEntity(fqa);
+        fqa = fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        assertNotNull(fqa);
+
+        // create another question under another session
+        FeedbackQuestionAttributes anotherFqa = getNewFeedbackQuestionAttributes();
+        anotherFqa.feedbackSessionName = "Another Session";
+        fqDb.createEntity(anotherFqa);
+        anotherFqa = fqDb.getFeedbackQuestion(
+                anotherFqa.getFeedbackSessionName(), anotherFqa.getCourseId(), anotherFqa.getQuestionNumber());
+        assertNotNull(anotherFqa);
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(fqa.getCourseId())
+                .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                .build());
+
+        // the question under current session is deleted
+        assertNull(fqDb.getFeedbackQuestion(fqa.getId()));
+        // the question under different session remain
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+
+        ______TS("non-existent course ID");
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId("not_exist")
+                .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                .build());
+
+        // no accident deletion
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+
+        ______TS("non-existent feedback session name");
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(fqa.getCourseId())
+                .withFeedbackSessionName("not_exist")
+                .build());
+
+        // no accident deletion
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+
+        ______TS("non-existent course ID and feedback session name");
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId("not_exist")
+                .withFeedbackSessionName("not_exist")
+                .build());
+
+        // no accident deletion
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestions_deleteByCourseId() throws Exception {
+        ______TS("standard success case");
+
+        // create a new question in current course
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes oldFqa =
+                fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        if (oldFqa != null) {
+            fqDb.deleteFeedbackQuestion(oldFqa.getId());
+        }
+        fqDb.createEntity(fqa);
+        fqa = fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        assertNotNull(fqa);
+
+        // create another question under another course
+        FeedbackQuestionAttributes anotherFqa = getNewFeedbackQuestionAttributes();
+        anotherFqa.courseId = "AnotherCourse";
+        fqDb.createEntity(anotherFqa);
+        anotherFqa = fqDb.getFeedbackQuestion(
+                anotherFqa.getFeedbackSessionName(), anotherFqa.getCourseId(), anotherFqa.getQuestionNumber());
+        assertNotNull(anotherFqa);
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(fqa.getCourseId())
+                .build());
+
+        // the question under current course is deleted
+        assertNull(fqDb.getFeedbackQuestion(fqa.getId()));
+        // the question under different course remain
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+
+        ______TS("non-existent course ID");
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId("not_exist")
+                .build());
+
+        // no accident deletion
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
     }
 
     @Test

@@ -696,7 +696,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         Set<String> instructorRespondentsBefore =
                 fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId).getRespondingInstructorList();
 
-        frLogic.deleteFeedbackResponsesForQuestionCascade(fra.feedbackQuestionId, true);
+        frLogic.deleteFeedbackResponsesForQuestionCascade(fra.feedbackQuestionId);
 
         Set<String> studentRespondentsAfter =
                 fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId).getRespondingStudentList();
@@ -726,7 +726,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         Set<String> studentRespondentsBefore =
                 fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId).getRespondingStudentList();
 
-        frLogic.deleteFeedbackResponsesForQuestionCascade(fra.feedbackQuestionId, true);
+        frLogic.deleteFeedbackResponsesForQuestionCascade(fra.feedbackQuestionId);
 
         Set<String> studentRespondentsAfter =
                 fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId).getRespondingStudentList();

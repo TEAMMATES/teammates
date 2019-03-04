@@ -433,13 +433,13 @@ public final class DataBundleLogic {
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
             fbDb.deleteFeedbackSessionsForCourses(courseIds);
-            fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             courseIds.forEach(courseId -> {
                 AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                         .withCourseId(courseId)
                         .build();
                 frDb.deleteFeedbackResponses(query);
                 fcDb.deleteFeedbackResponseComments(query);
+                fqDb.deleteFeedbackQuestions(query);
             });
         }
     }

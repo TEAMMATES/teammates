@@ -689,21 +689,22 @@ public final class FeedbackResponsesLogic {
      *
      * <p>The respondent lists will also be updated.
      */
-    public void deleteFeedbackResponsesForQuestionCascade(
-            String feedbackQuestionId, boolean hasResponseRateUpdate) {
+    public void deleteFeedbackResponsesForQuestionCascade(String feedbackQuestionId) {
         List<FeedbackResponseAttributes> responsesForQuestion =
                 getFeedbackResponsesForQuestion(feedbackQuestionId);
 
         Set<String> emails = new HashSet<>();
-
+        // record all giver and prepare respondents update
         for (FeedbackResponseAttributes response : responsesForQuestion) {
-            deleteFeedbackResponseCascade(response.getId());
             emails.add(response.giver);
         }
 
-        if (!hasResponseRateUpdate) {
-            return;
-        }
+        // delete all responses, comments of the question
+        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                .withQuestionId(feedbackQuestionId)
+                .build();
+        deleteFeedbackResponses(query);
+        frcLogic.deleteFeedbackResponseComments(query);
 
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
         if (question.getGiverType() == FeedbackParticipantType.SELF
