@@ -10,7 +10,6 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -24,11 +23,10 @@ public class FeedbackResponseRow {
     private List<FeedbackResponseCommentRow> instructorComments;
     private FeedbackResponseCommentRow feedbackParticipantComment;
 
-    public FeedbackResponseRow(int fbIndex, int personIndex, String personType, FeedbackResponseAttributes response,
+    public FeedbackResponseRow(String personType, FeedbackResponseAttributes response,
             FeedbackSessionResultsBundle results, boolean showPcRow) {
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = results.questions.get(questionId);
-        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         this.questionNumber = question.questionNumber;
         this.questionText = results.getQuestionText(questionId);
         this.questionMoreInfo = "";

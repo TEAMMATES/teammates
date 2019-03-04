@@ -72,7 +72,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         this.answer = answer;
     }
 
-    private String getContributionQuestionResponseAnswerHtml(
+    public String getContributionQuestionResponseAnswerHtml(
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
