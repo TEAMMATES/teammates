@@ -35,7 +35,7 @@ public class FeedbackResponseRow {
                                                                               personType + "-" + personIndex
                                                                                          + "-session-" + fbIndex);
         if ("recipient".equals(personType)) {
-            this.responseText = response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
+            this.responseText = ""; // response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
         } else if ("giver".equals(personType)) {
             if (showPcRow && question.getQuestionType().equals(FeedbackQuestionType.CONTRIB)) {
                 this.responseText = getNewResponseText(response, question, results);

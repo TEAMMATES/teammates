@@ -43,11 +43,6 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
     }
 
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        return getAnswerString();
-    }
-
-    @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return getAnswerString();
     }

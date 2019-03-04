@@ -58,12 +58,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
-    }
-
-    // Not used for contribution question, due to calculations required. See corresponding function below.
-    @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return SanitizationHelper.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
     }
@@ -72,12 +66,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getContributionQuestionResponseAnswerCsv(response, question, feedbackSessionResultsBundle);
-    }
-
-    @Override
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getContributionQuestionResponseAnswerHtml(response, question, feedbackSessionResultsBundle);
     }
 
     private void setAnswer(int answer) {
