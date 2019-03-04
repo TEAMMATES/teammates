@@ -25,7 +25,7 @@ export class NumScaleQuestionEditDetailsFormComponent
 
   get maxScaleValue(): number {
     if (this.model.maxScale <= this.model.minScale) {
-      this.model.maxScale = this.model.minScale + 1;
+      this.model.maxScale = this.model.minScale + this.model.step;
     }
     return this.model.maxScale;
   }
