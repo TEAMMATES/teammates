@@ -907,14 +907,14 @@ public class Logic {
     }
 
     /**
-     * Deletes the student from the course including any submissions to/from
-     * for this student in this course.
-     * Fails silently if no match found. <br>
-     * Preconditions: <br>
+     * Deletes a student cascade its associated feedback responses and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteStudent(String courseId, String studentEmail) {
-
+    public void deleteStudentCascade(String courseId, String studentEmail) {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);
 
@@ -922,14 +922,15 @@ public class Logic {
     }
 
     /**
-     * Deletes all the students in the course.
+     * Deletes all the students in the course cascade their associated responses and comments.
      *
-     * @param courseId course id for the students
+     * <br/>Preconditions: <br>
+     * * All parameters are non-null.
      */
-    public void deleteAllStudentsInCourse(String courseId) {
-
+    public void deleteStudentsInCourseCascade(String courseId) {
         Assumption.assertNotNull(courseId);
-        studentsLogic.deleteAllStudentsInCourse(courseId);
+
+        studentsLogic.deleteStudentsInCourseCascade(courseId);
     }
 
     /**

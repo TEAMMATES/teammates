@@ -259,7 +259,7 @@ public final class AccountsLogic {
     public void deleteAccountCascade(String googleId) {
         profilesLogic.deleteStudentProfile(googleId);
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
-        studentsLogic.deleteStudentsForGoogleIdAndCascade(googleId);
+        studentsLogic.deleteStudentsForGoogleIdCascade(googleId);
         accountsDb.deleteAccount(googleId);
         //TODO: deal with orphan courses, submissions etc.
     }

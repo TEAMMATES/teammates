@@ -659,7 +659,6 @@ public final class CoursesLogic {
             return;
         }
 
-        studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
 
         coursesDb.deleteCourse(courseId);
@@ -667,6 +666,7 @@ public final class CoursesLogic {
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                 .withCourseId(courseId)
                 .build();
+        studentsLogic.deleteStudents(query);
         feedbackSessionsLogic.deleteFeedbackSessions(query);
         fqLogic.deleteFeedbackQuestions(query);
         frLogic.deleteFeedbackResponses(query);
