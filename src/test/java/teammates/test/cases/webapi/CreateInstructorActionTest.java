@@ -12,6 +12,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.CreateInstructorAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
@@ -59,9 +60,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, newInstructorName,
-                newInstructorEmail), msg.getMessage());
+        InstructorData resp = (InstructorData) actionOutput.getOutput();
+        assertEquals(newInstructorName, resp.getName());
+        assertEquals(newInstructorEmail, resp.getEmail());
 
         assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
 
@@ -84,7 +85,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(HttpStatus.SC_CONFLICT, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
+        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
         assertEquals("An instructor with the same email address already exists in the course.",
                 msg.getMessage());
 
@@ -127,9 +128,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, newInstructorName,
-                newInstructorEmail), msg.getMessage());
+        resp = (InstructorData) actionOutput.getOutput();
+        assertEquals(newInstructorName, resp.getName());
+        assertEquals(newInstructorEmail, resp.getEmail());
 
         assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
 

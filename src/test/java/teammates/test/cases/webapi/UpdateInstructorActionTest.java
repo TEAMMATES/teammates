@@ -12,6 +12,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.UpdateInstructorAction;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
@@ -58,9 +59,9 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("The instructor " + newInstructorName + " has been updated.",
-                msg.getMessage());
+        InstructorData resp = (InstructorData) actionOutput.getOutput();
+        assertEquals(newInstructorName, resp.getName());
+        assertEquals(newInstructorEmail, resp.getEmail());
 
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.name);
@@ -82,7 +83,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
+        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
         String expectedErrorMessage = FIELD_VALIDATOR.getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
@@ -115,9 +116,9 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("The instructor " + newInstructorName + " has been updated.",
-                msg.getMessage());
+        resp = (InstructorData) actionOutput.getOutput();
+        assertEquals(newInstructorEmail, resp.getEmail());
+        assertEquals(newInstructorName, resp.getName());
 
         editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorEmail, editedInstructor.email);
