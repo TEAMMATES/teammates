@@ -1206,16 +1206,13 @@ public final class FeedbackSessionsLogic {
      * Deletes the instructor's email from the instructor respondents set of all feedback sessions
      * in the corresponding course.
      */
-    public void deleteInstructorFromRespondentsList(InstructorAttributes instructor) {
-        if (instructor == null || instructor.email == null) {
-            return;
-        }
+    public void deleteInstructorFromRespondentsList(String courseId, String email) {
         List<FeedbackSessionAttributes> sessionsToUpdate =
-                fsDb.getFeedbackSessionsForCourse(instructor.courseId);
+                fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
-                deleteInstructorRespondent(instructor.email, session.getFeedbackSessionName(), session.getCourseId());
+                deleteInstructorRespondent(email, session.getFeedbackSessionName(), session.getCourseId());
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail(ASSUMPTION_FAIL_DELETE_INSTRUCTOR + session.getFeedbackSessionName());
             }
@@ -1226,16 +1223,13 @@ public final class FeedbackSessionsLogic {
      * Deletes the student's email from the student respondents set of all feedback sessions
      * in the corresponding course.
      */
-    public void deleteStudentFromRespondentsList(StudentAttributes student) {
-        if (student == null || student.email == null) {
-            return;
-        }
+    public void deleteStudentFromRespondentsList(String courseId, String email) {
         List<FeedbackSessionAttributes> sessionsToUpdate =
-                fsDb.getFeedbackSessionsForCourse(student.course);
+                fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
-                deleteStudentFromRespondentList(student.email, session.getFeedbackSessionName(), session.getCourseId());
+                deleteStudentFromRespondentList(email, session.getFeedbackSessionName(), session.getCourseId());
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail(ASSUMPTION_FAIL_DELETE_INSTRUCTOR + session.getFeedbackSessionName());
             }
@@ -1379,11 +1373,11 @@ public final class FeedbackSessionsLogic {
      * feedback response comments in the course are deleted.
      */
     public void deleteFeedbackSessionsForCourseCascade(String courseId) {
-        frcLogic.deleteFeedbackResponseComments(
-                AttributesDeletionQuery.builder()
-                        .withCourseId(courseId)
-                        .build());
-        frLogic.deleteFeedbackResponsesForCourse(courseId);
+        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                .withCourseId(courseId)
+                .build();
+        frcLogic.deleteFeedbackResponseComments(query);
+        frLogic.deleteFeedbackResponses(query);
         fqLogic.deleteFeedbackQuestionsForCourse(courseId);
         deleteFeedbackSessionsForCourse(courseId);
     }

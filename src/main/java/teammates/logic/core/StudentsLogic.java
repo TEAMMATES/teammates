@@ -389,17 +389,25 @@ public final class StudentsLogic {
         }
     }
 
+    /**
+     * Deletes a student cascade its associated feedback response and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     */
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        // delete responses before deleting the student as we need to know the student's team.
-        frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
-        fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
+        StudentAttributes student = getStudentForEmail(courseId, studentEmail);
+        if (student == null) {
+            return;
+        }
+
         studentsDb.deleteStudent(courseId, studentEmail);
+        frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(courseId, studentEmail, student.getTeam());
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondentsList(student);
+            fsLogic.deleteStudentFromRespondentsList(student.getCourse(), student.getEmail());
         }
         studentsDb.deleteStudentsForGoogleId(googleId);
     }

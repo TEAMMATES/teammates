@@ -682,7 +682,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         AssertionError ae = assertThrows(AssertionError.class,
                 () -> instructorsLogic.deleteInstructorCascade(courseId, null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
+        AssertHelper.assertContains(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
 
         ae = assertThrows(AssertionError.class, () -> instructorsLogic.deleteInstructorCascade(null, email));
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());

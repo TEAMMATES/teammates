@@ -3,7 +3,6 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +15,7 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -403,26 +403,39 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     .withRecipientSection(newAttributes.getRecipientSection())
                     .build();
             newAttributes = createEntity(newAttributes);
-            deleteEntityDirect(oldResponse);
+            deleteEntity(Key.create(FeedbackResponse.class, oldResponse.getId()));
 
             return newAttributes;
         }
     }
 
-    public void deleteFeedbackResponsesForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+    /**
+     * Deletes a feedback response.
+     */
+    public void deleteFeedbackResponse(String responseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, responseId);
 
-        deleteFeedbackResponsesForCourses(Arrays.asList(courseId));
+        deleteEntity(Key.create(FeedbackResponse.class, responseId));
     }
 
-    public void deleteFeedbackResponsesForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+    /**
+     * Deletes responses using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackResponses(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
-        ofy().delete().keys(getFeedbackResponsesForCoursesQuery(courseIds).keys()).now();
-    }
+        Query<FeedbackResponse> entitiesToDelete = load().project();
+        if (query.isCourseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+        if (query.isQuestionIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackQuestionId =", query.getQuestionId());
+        }
 
-    private Query<FeedbackResponse> getFeedbackResponsesForCoursesQuery(List<String> courseIds) {
-        return load().filter("courseId in", courseIds);
+        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
     }
 
     /**

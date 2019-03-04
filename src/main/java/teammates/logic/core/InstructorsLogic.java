@@ -304,7 +304,7 @@ public final class InstructorsLogic {
     }
 
     public void deleteInstructorCascade(String courseId, String email) {
-        fsLogic.deleteInstructorFromRespondentsList(getInstructorForEmail(courseId, email));
+        fsLogic.deleteInstructorFromRespondentsList(courseId, email);
         instructorsDb.deleteInstructor(courseId, email);
     }
 

@@ -32,6 +32,8 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
@@ -47,6 +49,9 @@ public class StudentsLogicTest extends BaseLogicTest {
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
     private static AccountsLogic accountsLogic = AccountsLogic.inst();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -1039,6 +1044,50 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes student5InCourse1 = dataBundle.students.get("student5InCourse1");
         assertFalse(studentsLogic.isStudentsInSameTeam(course1.getId(), student2InCourse1.email,
                                                         student5InCourse1.email));
+    }
+
+    @Test
+    public void testDeleteStudentCascade_lastPersonInTeam_shouldDeleteTeamResponses() throws Exception {
+        StudentAttributes student1InCourse2 = dataBundle.students.get("student1InCourse2");
+        StudentAttributes student2InCourse2 = dataBundle.students.get("student2InCourse2");
+        // they are in the same team
+        assertEquals(student1InCourse2.getTeam(), student2InCourse2.getTeam());
+
+        // delete the second student
+        studentsLogic.deleteStudentCascade(student1InCourse2.getCourse(), student1InCourse2.getEmail());
+        // there is only one student in the team
+        assertEquals(1,
+                StudentsLogic.inst().getStudentsForTeam(student2InCourse2.getTeam(), student2InCourse2.getCourse()).size());
+
+        // get the response from DB
+        FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C2");
+        int qnNumber = Integer.parseInt(fra.feedbackQuestionId);
+        String qnId = fqLogic.getFeedbackQuestion(fra.feedbackSessionName, fra.courseId, qnNumber).getId();
+        fra = frLogic.getFeedbackResponse(qnId, fra.giver, fra.recipient);
+        assertNotNull(fra);
+        // the team is the recipient of the response
+        assertEquals(student2InCourse2.getTeam(), fra.recipient);
+        // this is the only response the instructor has given for the session
+        String feedbackSessionName = fra.feedbackSessionName;
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
+                .filter(response -> response.feedbackSessionName.equals(feedbackSessionName))
+                .count());
+        // suppose the instructor is in the respondent list
+        fsLogic.addInstructorRespondent(fra.giver, fra.feedbackSessionName, fra.courseId);
+        assertTrue(
+                fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId)
+                        .getRespondingInstructorList().contains(fra.giver));
+
+        // after the student is moved from the course
+        // team response will also be removed
+        studentsLogic.deleteStudentCascade(student2InCourse2.getCourse(), student2InCourse2.getEmail());
+
+        // this will delete the response to the team
+        assertNull(frLogic.getFeedbackResponse(fra.getId()));
+        // the instructor will be removed from the respondents list
+        assertFalse(
+                fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId)
+                        .getRespondingInstructorList().contains(fra.giver));
     }
 
     private void testDeleteStudent() {

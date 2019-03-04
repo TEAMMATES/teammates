@@ -1824,12 +1824,16 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Deletes a feedback response cascade its associated comments.
+     *
+     * <p>The respondent lists will NOT be updated.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        Assumption.assertNotNull(feedbackResponse);
-        feedbackResponsesLogic.deleteFeedbackResponseAndCascade(feedbackResponse);
+    public void deleteFeedbackResponseCascade(String responseId) {
+        Assumption.assertNotNull(responseId);
+        feedbackResponsesLogic.deleteFeedbackResponseCascade(responseId);
     }
 
     /**
