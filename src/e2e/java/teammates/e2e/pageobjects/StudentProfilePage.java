@@ -3,7 +3,7 @@ package teammates.e2e.pageobjects;
 /**
  * Page Object Model for student profile page in development server.
  */
-public class StudentProfilePage extends AppPageNew {
+public class StudentProfilePage extends AppPage {
 
     public StudentProfilePage(Browser browser) {
         super(browser);

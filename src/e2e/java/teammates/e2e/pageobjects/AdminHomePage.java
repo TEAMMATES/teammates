@@ -4,7 +4,7 @@ package teammates.e2e.pageobjects;
  * Represents the admin home page of the website.
  * TODO: migrate with admin home page
  */
-public class AdminHomePage extends AppPageNew {
+public class AdminHomePage extends AppPage {
 
     public AdminHomePage(Browser browser) {
         super(browser);

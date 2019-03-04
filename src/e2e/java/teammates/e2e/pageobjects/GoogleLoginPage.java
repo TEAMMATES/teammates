@@ -55,7 +55,7 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     @Override
-    public <T extends AppPageNew> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
+    public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         completeGoogleLoginSteps(username, password);
         browser.isAdminLoggedIn = false;
         return changePageType(typeOfPage);

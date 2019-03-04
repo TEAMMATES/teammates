@@ -44,7 +44,7 @@ public class DevServerLoginPage extends LoginPage {
     }
 
     @Override
-    public <T extends AppPageNew> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
+    public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
         click(loginButton);
         waitForElementVisibility(By.tagName("h1"));

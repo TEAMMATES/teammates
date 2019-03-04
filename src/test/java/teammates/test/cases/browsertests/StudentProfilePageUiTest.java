@@ -15,6 +15,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.EntityNotFoundPage;
 import teammates.test.pageobjects.GenericAppPage;
+import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotAuthorizedPage;
 import teammates.test.pageobjects.NotFoundPage;
 import teammates.test.pageobjects.StudentHomePage;
@@ -307,6 +308,25 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
 
         getProfilePicturePage(instructorGoogleId, TestProperties.TEST_INSTRUCTOR_PASSWORD,
                 invalidEmail, courseId, EntityNotFoundPage.class);
+    }
+
+    /**
+     * Logs in a page as an instructor.
+     */
+    private <T extends AppPage> T loginInstructorToPage(
+            String instructorGoogleId, String password, AppUrl url, Class<T> typeOfPage) {
+        // logout
+        logout();
+
+        // load the page to be checked
+        browser.driver.get(url.toAbsoluteString());
+
+        // login based on the login page type
+        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        loginPage.loginAsInstructor(instructorGoogleId, password, typeOfPage);
+
+        // After login, the browser will redirect to the original page requested
+        return AppPage.getNewPageInstance(browser, typeOfPage);
     }
 
     private <T extends AppPage> T getProfilePicturePage(String instructorGoogleId, String password,

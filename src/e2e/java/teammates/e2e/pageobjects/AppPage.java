@@ -32,7 +32,7 @@ import teammates.e2e.util.TestProperties;
  *
  * @see <a href="https://code.google.com/p/selenium/wiki/PageObjects">https://code.google.com/p/selenium/wiki/PageObjects</a>
  */
-public abstract class AppPageNew {
+public abstract class AppPage {
 
     /** Browser instance the page is loaded into. */
     protected Browser browser;
@@ -41,11 +41,11 @@ public abstract class AppPageNew {
     private final FirefoxChangeHandler firefoxChangeHandler;
 
     /**
-     * Used by subclasses to create a {@code AppPageNew} object to wrap around the
+     * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
      * the page type, as defined by the sub-class.
      */
-    public AppPageNew(Browser browser) {
+    public AppPage(Browser browser) {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
         // jQueryAjaxHandler = new JQueryAjaxHandler(); // no longer used
@@ -77,7 +77,7 @@ public abstract class AppPageNew {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
-    public static <T extends AppPageNew> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
+    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
         return getNewPageInstance(currentBrowser, typeOfPage);
     }
@@ -86,7 +86,7 @@ public abstract class AppPageNew {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
-    public static <T extends AppPageNew> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
+    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
         try {
             Constructor<T> constructor = typeOfPage.getConstructor(Browser.class);
             T page = constructor.newInstance(currentBrowser);
@@ -98,10 +98,17 @@ public abstract class AppPageNew {
     }
 
     /**
+     * Gives an AppPage instance based on the given Browser.
+     */
+    public static AppPage getNewPageInstance(Browser currentBrowser) {
+        return getNewPageInstance(currentBrowser, GenericAppPage.class);
+    }
+
+    /**
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code newPageType}.
      */
-    public <T extends AppPageNew> T changePageType(Class<T> newPageType) {
+    public <T extends AppPage> T changePageType(Class<T> newPageType) {
         return getNewPageInstance(browser, newPageType);
     }
 
@@ -236,7 +243,7 @@ public abstract class AppPageNew {
      * It avoids double firing of the {@code change} event which may occur when {@link WebElement#clear} is followed by
      * {@link WebElement#sendKeys}.
      *
-     * @see AppPageNew#clearWithoutEvents(WebElement)
+     * @see AppPage#clearWithoutEvents(WebElement)
      */
     private void clearAndSendKeys(WebElement element, CharSequence... keysToSend) {
         Map<String, Object> result = clearWithoutEvents(element);
@@ -375,7 +382,7 @@ public abstract class AppPageNew {
      * Fails if there is no dialog box.
      * @return the resulting page.
      */
-    public AppPageNew clickAndConfirm(WebElement elementToClick) {
+    public AppPage clickAndConfirm(WebElement elementToClick) {
         click(elementToClick);
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
