@@ -907,17 +907,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
       instructorid: this.instructor.googleId,
-      instructoremail: instructorToDelete.email,
-      instructorisdisplayed: instructorToDelete.isDisplayedToStudents.toString(),
     };
 
-    this.httpRequestService.delete('/instructors/course/details/deleteInstructor', paramsMap)
-        .subscribe((resp: MessageOutput) => {
+    this.httpRequestService.delete('/instructor', paramsMap)
+        .subscribe(() => {
           if (instructorToDelete.googleId === this.instructor.googleId) {
-            this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
+            this.navigationService.
+            navigateWithSuccessMessage(this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
           } else {
             this.removeFromInstructorList(index);
-            this.statusMessageService.showSuccessMessage(resp.message);
+            this.statusMessageService.showSuccessMessage('Instructor is successfully deleted.');
           }
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
