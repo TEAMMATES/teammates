@@ -3,7 +3,6 @@ package teammates.common.datatransfer.questions;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetails {
     private int minScale;
@@ -727,11 +725,6 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
             //TODO: strengthen check for step
         }
         return errors;
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
     }
 
     @Override

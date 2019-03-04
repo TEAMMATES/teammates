@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +25,6 @@ import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.ui.pagedata.PageData;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
     public static final transient int MIN_NUM_OF_OPTIONS = 2;
@@ -442,11 +440,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         }
 
         return errors;
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
     }
 
     @Override

@@ -900,15 +900,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 Assumption.fail("View type should not involve question tables");
                 break;
             }
-
-            // If question specific sorting is not needed, responses are sorted
-            // by default order (first by team name, then by display name)
-            if (questionDetails.isQuestionSpecificSortingRequired()) {
-                responseRows.sort(questionDetails.getResponseRowsSortOrder());
-            } else {
-                responseRows = InstructorFeedbackResultsResponseRow.sortListWithDefaultOrder(responseRows);
-            }
-
         }
 
         String studentEmail = student == null ? null : student.email;

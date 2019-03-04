@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 /**
  * A class holding the details for a specific question type.
@@ -264,12 +262,6 @@ public abstract class FeedbackQuestionDetails {
         }
         return Arrays.stream(answers).noneMatch(answer -> answer != null && !answer.trim().isEmpty());
     }
-
-    public boolean isQuestionSpecificSortingRequired() {
-        return getResponseRowsSortOrder() != null;
-    }
-
-    public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
 
     public FeedbackQuestionType getQuestionType() {
         return questionType;

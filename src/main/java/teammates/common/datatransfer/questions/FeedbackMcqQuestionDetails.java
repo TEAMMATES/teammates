@@ -27,7 +27,6 @@ import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private static final Logger log = Logger.getLogger();
@@ -621,11 +620,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         return errors;
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
     }
 
     @Override

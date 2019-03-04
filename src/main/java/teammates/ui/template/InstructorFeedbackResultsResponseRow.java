@@ -165,13 +165,6 @@ public class InstructorFeedbackResultsResponseRow {
         this.isActionsDisplayed = isActionsDisplayed;
     }
 
-    public static List<InstructorFeedbackResultsResponseRow> sortListWithDefaultOrder(
-            List<InstructorFeedbackResultsResponseRow> responseRows) {
-        responseRows.sort(Comparator.comparing((InstructorFeedbackResultsResponseRow obj) -> obj.getGiverTeam())
-                .thenComparing(obj -> obj.getGiverDisplayableIdentifier()));
-        return responseRows;
-    }
-
     public FeedbackResponseCommentRow getAddCommentButton() {
         return addCommentButton;
     }

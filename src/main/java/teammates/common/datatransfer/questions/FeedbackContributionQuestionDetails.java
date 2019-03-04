@@ -22,7 +22,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
 
@@ -923,11 +922,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             }
         }
         return true;
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
     }
 
     private String getEqualShareHelpLinkIfNeeded(int responseIdx) {

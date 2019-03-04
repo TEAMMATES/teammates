@@ -23,7 +23,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
@@ -1047,11 +1046,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         return new ArrayList<>();
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
     }
 
     @Override
