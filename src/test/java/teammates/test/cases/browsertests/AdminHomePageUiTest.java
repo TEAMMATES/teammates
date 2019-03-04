@@ -233,8 +233,8 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         //verify sample course is accessible for newly joined instructor as an student
 
         StudentHomePage studentHomePage = null;
-                //getHomePage().clickStudentLogin().loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                                                                 // TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        // getHomePage().clickStudentLogin().loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+        //                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
@@ -261,8 +261,8 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         //login in as instructor again to test sample course deletion
         instructorHomePage = null;
-                // getHomePage().clickInstructorLogin().loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                //                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        // getHomePage().clickInstructorLogin().loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+        //                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
         assertTrue(instructorHomePage.getTextsForAllStatusMessagesToUser()
