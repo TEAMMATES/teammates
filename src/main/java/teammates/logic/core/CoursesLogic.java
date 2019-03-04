@@ -650,12 +650,19 @@ public final class CoursesLogic {
     }
 
     /**
-     * Permanently deletes a course in Recycle Bin by its given corresponding ID.
-     * This will also cascade the data in other databases which are related to this course.
+     * Deletes a course cascade its students, instructors, sessions, responses and comments.
+     *
+     * <p>Fails silently if no such course.
      */
     public void deleteCourseCascade(String courseId) {
+        if (getCourse(courseId) == null) {
+            return;
+        }
+
         studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
+
+        coursesDb.deleteCourse(courseId);
 
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                 .withCourseId(courseId)
@@ -664,25 +671,6 @@ public final class CoursesLogic {
         fqLogic.deleteFeedbackQuestions(query);
         frLogic.deleteFeedbackResponses(query);
         frcLogic.deleteFeedbackResponseComments(query);
-
-        coursesDb.deleteCourse(courseId);
-    }
-
-    /**
-     * Permanently deletes all courses in Recycle Bin.
-     * This will also cascade the data in other databases which are related to these courses.
-     */
-    public void deleteAllCoursesCascade(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull("Supplied parameter was null", instructorList);
-
-        List<String> softDeletedCourseIdList = instructorList.stream()
-                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
-                .map(InstructorAttributes::getCourseId)
-                .collect(Collectors.toList());
-
-        for (String courseId : softDeletedCourseIdList) {
-            deleteCourseCascade(courseId);
-        }
     }
 
     /**

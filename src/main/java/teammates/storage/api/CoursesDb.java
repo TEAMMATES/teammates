@@ -84,22 +84,12 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     /**
-     * Permanently deletes the course from the Datastore.
-     *
-     * <p>Note: This is a non-cascade delete.<br>
-     *   <br> Fails silently if there is no such object.
-     * <br> Preconditions:
-     * <br> * {@code courseId} is not null.
+     * Deletes a course.
      */
     public void deleteCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        // only the courseId is important here, everything else are placeholders
-        deleteEntity(CourseAttributes
-                .builder(courseId)
-                .withName("Non-existent course")
-                .withTimezone(Const.DEFAULT_TIME_ZONE)
-                .build());
+        deleteEntity(Key.create(Course.class, courseId));
     }
 
     /**

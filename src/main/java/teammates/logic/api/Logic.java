@@ -591,24 +591,16 @@ public class Logic {
     }
 
     /**
-     * Permanently deletes a course and all data related to the course
-     * (instructors, students, feedback sessions) from Recycle Bin.
-     * Fails silently if no such account. <br>
-     * Preconditions: <br>
+     * Deletes a course cascade its students, instructors, sessions, responses and comments.
+     *
+     * <p>Fails silently if no such course.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteCourse(String courseId) {
+    public void deleteCourseCascade(String courseId) {
         Assumption.assertNotNull(courseId);
         coursesLogic.deleteCourseCascade(courseId);
-    }
-
-    /**
-     * Permanently deletes all courses and all data related to these courses
-     * (instructors, students, feedback sessions) from Recycle Bin.
-     */
-    public void deleteAllCourses(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull(instructorList);
-        coursesLogic.deleteAllCoursesCascade(instructorList);
     }
 
     /**

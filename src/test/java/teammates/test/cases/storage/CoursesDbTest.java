@@ -171,6 +171,13 @@ public class CoursesDbTest extends BaseComponentTestCase {
     @Test
     public void testDeleteCourse() throws InvalidParametersException {
         CourseAttributes c = createNewCourse();
+        assertNotNull(coursesDb.getCourse(c.getId()));
+
+        ______TS("Failure: delete a non-existent courses");
+
+        // Should fail silently
+        coursesDb.deleteCourse("not_exist");
+        assertNotNull(coursesDb.getCourse(c.getId()));
 
         ______TS("Success: delete an existing course");
 
@@ -179,10 +186,10 @@ public class CoursesDbTest extends BaseComponentTestCase {
         CourseAttributes deleted = coursesDb.getCourse(c.getId());
         assertNull(deleted);
 
-        ______TS("Failure: delete a non-existent courses");
+        ______TS("Delete it again");
 
-        // Should fail silently
         coursesDb.deleteCourse(c.getId());
+        assertNull(coursesDb.getCourse(c.getId()));
 
         ______TS("Failure: null parameter");
 

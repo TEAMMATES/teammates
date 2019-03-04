@@ -429,10 +429,11 @@ public final class DataBundleLogic {
             courseIds.add(course.getId());
         }
         if (!courseIds.isEmpty()) {
-            coursesDb.deleteEntities(courses);
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
             courseIds.forEach(courseId -> {
+                coursesDb.deleteCourse(courseId);
+
                 AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                         .withCourseId(courseId)
                         .build();
