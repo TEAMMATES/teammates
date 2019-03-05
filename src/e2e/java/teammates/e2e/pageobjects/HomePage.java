@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Represents the home page of the website.
+ * Page Object Model for home page in the development server.
  */
 public class HomePage extends AppPage {
 

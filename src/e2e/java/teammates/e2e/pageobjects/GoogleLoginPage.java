@@ -11,7 +11,7 @@ import com.google.common.base.Preconditions;
 import teammates.e2e.util.TestProperties;
 
 /**
- * Page Object Model for login page using official Google account.
+ * Page Object Model for the official Google Accounts login page.
  */
 public class GoogleLoginPage extends LoginPage {
 
