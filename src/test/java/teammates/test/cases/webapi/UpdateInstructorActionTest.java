@@ -19,7 +19,6 @@ import teammates.ui.webapi.request.InstructorCreateRequest;
  * SUT: {@link UpdateInstructorAction}.
  */
 public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorAction> {
-    private static final FieldValidator FIELD_VALIDATOR = new FieldValidator();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     @Override
@@ -83,7 +82,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
         msg = (MessageOutput) actionOutput.getOutput();
-        String expectedErrorMessage = FIELD_VALIDATOR.getInvalidityInfoForEmail(invalidEmail);
+        String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
         ______TS("Failure case: after editing instructor, no instructors are displayed");

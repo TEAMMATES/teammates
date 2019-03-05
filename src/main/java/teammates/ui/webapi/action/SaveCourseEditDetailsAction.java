@@ -38,8 +38,7 @@ public class SaveCourseEditDetailsAction extends Action {
     public ActionResult execute() {
         String courseTimeZone = getNonNullRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
 
-        FieldValidator validator = new FieldValidator();
-        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
+        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
             return new JsonResult(timeZoneErrorMessage, HttpStatus.SC_BAD_REQUEST);
         }

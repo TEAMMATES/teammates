@@ -122,7 +122,7 @@ export abstract class InstructorSessionBasePageComponent {
           strA = String(a.feedbackSession.submissionEndTimestamp);
           strB = String(b.feedbackSession.submissionEndTimestamp);
           break;
-        case SortBy.CREATION_DATE:
+        case SortBy.SESSION_CREATION_DATE:
           strA = String(a.feedbackSession.createdAtTimestamp);
           strB = String(b.feedbackSession.createdAtTimestamp);
           break;
