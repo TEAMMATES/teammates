@@ -12,19 +12,18 @@ import teammates.test.cases.BaseTestCase;
 
 /**
  * SUT: {@link RecaptchaVerifier}.
- * @see <a href="https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha-what-should-i-do">Automated testing with reCAPTCHA v2</a>
  */
 public class RecaptchaVerifierTest extends BaseTestCase {
 
     @Test
     public void testIsVerificationSuccessful() {
         ______TS("null or empty captcha response");
+        // Does not require Stub since these should not even attempt to make the API request
         assertFalse(new RecaptchaVerifier().isVerificationSuccessful(null));
         assertFalse(new RecaptchaVerifier().isVerificationSuccessful(""));
 
-        ______TS("Any other key"); // success when using the official secret test key
-        assertTrue(new RecaptchaVerifier().isVerificationSuccessful("testResponseKey"));
-        assertTrue(new RecaptchaVerifier().isVerificationSuccessful(".#?"));
+        ______TS("Successful verification");
+        assertTrue(new RecaptchaVerifierStub().isVerificationSuccessful("success"));
 
         ______TS("reCAPTCHA error codes that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic error codes
@@ -43,8 +42,10 @@ public class RecaptchaVerifierTest extends BaseTestCase {
     }
 
     /**
-     * A subclass to mock the possible errors and exceptions that could occur in
+     * A subclass to mock successful response and the possible errors and exceptions that could occur in
      * RecaptchaVerifier#isVerificationSuccessful().
+     * Success responses are mocked to decouple from the Google server for testing purposes. This way, tests will not be
+     * affected by potential issues in the Google server (e.g. server down).
      *
      * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference">reCAPTCHA API error codes</a>
      */
@@ -54,6 +55,9 @@ public class RecaptchaVerifierTest extends BaseTestCase {
         @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
         protected String getApiResponse(String captchaResponse) throws URISyntaxException, IOException {
             switch (captchaResponse) {
+            case "success":
+                return "{ success: true }";
+
             case "missing recaptcha params":
                 return "{ success: false, error-codes: [ 'missing-input-response', 'missing-input-secret' ] }";
 
@@ -82,7 +86,7 @@ public class RecaptchaVerifierTest extends BaseTestCase {
                 throw new HttpResponseException(101, "testing http failure status code");
 
             default:
-                return super.getApiResponse(captchaResponse);
+                return "{ success: true }";
             }
         }
     }
