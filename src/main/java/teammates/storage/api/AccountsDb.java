@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
@@ -81,29 +80,14 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     /**
-     * Note: This is a non-cascade delete. <br>
-     *   <br> Fails silently if there is no such account.
-     * <br> Preconditions:
-     * <br> * {@code googleId} is not null.
+     * Deletes an account.
+     *
+     * <p>Fails silently if there is no such account.
      */
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        Account accountToDelete = getAccountEntity(googleId);
-
-        if (accountToDelete == null) {
-            return;
-        }
-
-        deleteEntityDirect(accountToDelete);
-    }
-
-    public void deleteAccounts(Collection<AccountAttributes> accounts) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, accounts);
-
-        for (AccountAttributes accountToDelete : accounts) {
-            deleteAccount(accountToDelete.googleId);
-        }
+        deleteEntity(Key.create(Account.class, googleId));
     }
 
     private Account getAccountEntity(String googleId) {

@@ -416,8 +416,9 @@ public final class DataBundleLogic {
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
-        accountsDb.deleteAccounts(dataBundle.accounts.values());
-
+        dataBundle.accounts.values().forEach(account -> {
+            accountsDb.deleteAccount(account.getGoogleId());
+        });
         dataBundle.profiles.values().forEach(profile -> {
             profilesDb.deleteStudentProfile(profile.googleId);
         });

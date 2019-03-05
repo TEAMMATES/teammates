@@ -95,14 +95,13 @@ public class Logic {
      * Deletes both instructor and student privileges, as long as the account and associated student profile.
      *
      * <ul>
-     * <li>Does not delete courses, which can result in orphan courses.</li>
      * <li>Fails silently if no such account.</li>
      * </ul>
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
-    public void deleteAccount(String googleId) {
+    public void deleteAccountCascade(String googleId) {
 
         Assumption.assertNotNull(googleId);
 
