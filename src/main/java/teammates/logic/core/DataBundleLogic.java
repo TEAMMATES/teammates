@@ -417,10 +417,10 @@ public final class DataBundleLogic {
         deleteCourses(dataBundle.courses.values());
 
         accountsDb.deleteAccounts(dataBundle.accounts.values());
-        // delete associated profiles
-        // TODO: Remove the following line after tests have been run against LIVE server
-        dataBundle.accounts.values().forEach(account -> profilesDb.deleteStudentProfile(account.googleId));
-        profilesDb.deleteEntities(dataBundle.profiles.values());
+
+        dataBundle.profiles.values().forEach(profile -> {
+            profilesDb.deleteStudentProfile(profile.googleId);
+        });
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {

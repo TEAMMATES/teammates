@@ -95,7 +95,9 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         if (!sp.getPictureKey().equals("")) {
             deletePicture(sp.getPictureKey());
         }
-        deleteEntityDirect(sp);
+        Key<Account> parentKey = Key.create(Account.class, googleId);
+        Key<StudentProfile> profileKey = Key.create(parentKey, StudentProfile.class, googleId);
+        deleteEntity(profileKey);
     }
 
     /**
