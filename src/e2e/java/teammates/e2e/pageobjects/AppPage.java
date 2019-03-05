@@ -3,6 +3,7 @@ package teammates.e2e.pageobjects;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.FileHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -33,6 +35,21 @@ import teammates.e2e.util.TestProperties;
  * @see <a href="https://code.google.com/p/selenium/wiki/PageObjects">https://code.google.com/p/selenium/wiki/PageObjects</a>
  */
 public abstract class AppPage {
+
+    private static final String CLEAR_ELEMENT_SCRIPT;
+    private static final String SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT;
+    private static final String ADD_CHANGE_EVENT_HOOK;
+
+    static {
+        try {
+            ADD_CHANGE_EVENT_HOOK = FileHelper.readFile("src/e2e/resources/scripts/addChangeEventHook.js");
+            CLEAR_ELEMENT_SCRIPT = FileHelper.readFile("src/e2e/resources/scripts/clearElementWithoutEvents.js");
+            SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT = FileHelper
+                    .readFile("src/e2e/resources/scripts/scrollElementToCenterAndClick.js");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /** Browser instance the page is loaded into. */
     protected Browser browser;
@@ -48,7 +65,6 @@ public abstract class AppPage {
     public AppPage(Browser browser) {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
-        // jQueryAjaxHandler = new JQueryAjaxHandler(); // no longer used
 
         boolean isCorrectPageType = containsExpectedPageContents();
 
@@ -131,12 +147,7 @@ public abstract class AppPage {
      * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {
-        waitFor(driver -> {
-            // Check https://developer.mozilla.org/en/docs/web/api/document/readystate
-            // to understand more on a web document's readyState
-            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) checkNotNull(driver);
-            return "complete".equals(javascriptExecutor.executeScript("return document.readyState"));
-        });
+        browser.waitForPageLoad();
     }
 
     public void waitForElementVisibility(WebElement element) {
@@ -278,34 +289,7 @@ public abstract class AppPage {
         }
 
         @SuppressWarnings("unchecked")
-        Map<String, Object> result = (Map<String, Object>) executeScript(
-                "const element = arguments[0];"
-                        + "if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {"
-                        + "   if (element.readOnly) {"
-                        + "       return { "
-                        + "           errors: {"
-                        + "               detail: 'You may only edit editable elements'"
-                        + "           }"
-                        + "       };"
-                        + "   }"
-                        + "   if (element.disabled) {"
-                        + "       return { "
-                        + "           errors: {"
-                        + "               detail: 'You may only interact with enabled elements'"
-                        + "           }"
-                        + "       };"
-                        + "   }"
-                        + "   element.value='';"
-                        + "} else if (element.isContentEditable) {"
-                        + "   while (element.firstChild) {"
-                        + "       element.removeChild(element.firstChild);"
-                        + "   }"
-                        + "}"
-                        + "return { "
-                        + "   data: {"
-                        + "       detail: 'Success'"
-                        + "   }"
-                        + "};", element);
+        Map<String, Object> result = (Map<String, Object>) executeScript(CLEAR_ELEMENT_SCRIPT, element);
         return result;
     }
 
@@ -487,10 +471,7 @@ public abstract class AppPage {
      */
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
-        executeScript("const elementRect = arguments[0].getBoundingClientRect();"
-                + "const elementAbsoluteTop = elementRect.top + window.pageYOffset;"
-                + "const center = elementAbsoluteTop - (window.innerHeight / 2);"
-                + "window.scrollTo(0, center);", element);
+        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
         element.click();
     }
 
@@ -542,14 +523,7 @@ public abstract class AppPage {
             checkState(!isChangeEventHookAdded(),
                     "The `%1$s` event hook can only be added once in the document.", CHANGE_EVENT);
 
-            executeScript(
-                    "const seleniumArguments = arguments;"
-                            + "seleniumArguments[0].addEventListener(seleniumArguments[1], function onchange() {"
-                            + "    this.removeEventListener(seleniumArguments[1], onchange);"
-                            + "    document.body.setAttribute(seleniumArguments[2], true);"
-                            + "});"
-                            + "document.body.setAttribute(seleniumArguments[2], false);",
-                    element, CHANGE_EVENT, HOOK_ATTRIBUTE);
+            executeScript(ADD_CHANGE_EVENT_HOOK, element, CHANGE_EVENT, HOOK_ATTRIBUTE);
         }
 
         /**
