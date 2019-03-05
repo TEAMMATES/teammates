@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
+  DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import {
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
 } from '../../../../types/feedback-response-details';
@@ -24,17 +27,7 @@ export class RankOptionsQuestionResponseComponent
   orderedAnswer: string[] = [];
 
   constructor() {
-    super({
-      answers: [],
-      questionType: FeedbackQuestionType.RANK_OPTIONS,
-    }, {
-      minOptionsToBeRanked: Number.MIN_VALUE,
-      maxOptionsToBeRanked: Number.MIN_VALUE,
-      areDuplicatesAllowed: false,
-      options: [],
-      questionType: FeedbackQuestionType.RANK_OPTIONS,
-      questionText: '',
-    });
+    super(DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS(), DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {

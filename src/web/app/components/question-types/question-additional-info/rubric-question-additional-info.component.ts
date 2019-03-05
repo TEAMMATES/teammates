@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  FeedbackQuestionType,
-  FeedbackRubricQuestionDetails,
-} from '../../../../types/api-output';
+import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
@@ -16,17 +14,7 @@ import { QuestionAdditionalInfo } from './question-additional-info';
 export class RubricQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackRubricQuestionDetails> {
 
   constructor() {
-    super({
-      hasAssignedWeights: false,
-      numOfRubricChoices: 0,
-      rubricChoices: [],
-      numOfRubricSubQuestions: 0,
-      rubricSubQuestions: [],
-      rubricWeightsForEachCell: [],
-      rubricDescriptions: [],
-      questionType: FeedbackQuestionType.RUBRIC,
-      questionText: '',
-    });
+    super(DEFAULT_RUBRIC_QUESTION_DETAILS());
   }
 
 }

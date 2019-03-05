@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import {
-  FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { QuestionResponse } from './question-response';
 
 /**
@@ -18,16 +21,7 @@ export class RankRecipientsQuestionResponseComponent
     extends QuestionResponse<FeedbackRankRecipientsResponseDetails, FeedbackRankRecipientsQuestionDetails> {
 
   constructor() {
-    super({
-      answer: 0,
-      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
-    }, {
-      minOptionsToBeRanked: Number.MIN_VALUE,
-      maxOptionsToBeRanked: Number.MIN_VALUE,
-      areDuplicatesAllowed: false,
-      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
-      questionText: '',
-    });
+    super(DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS(), DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
   }
 
 }

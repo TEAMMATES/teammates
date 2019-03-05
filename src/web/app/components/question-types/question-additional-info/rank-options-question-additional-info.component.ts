@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails,
-} from '../../../../types/api-output';
+import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
@@ -17,14 +15,7 @@ export class RankOptionsQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackRankOptionsQuestionDetails> {
 
   constructor() {
-    super({
-      minOptionsToBeRanked: Number.MIN_VALUE,
-      maxOptionsToBeRanked: Number.MIN_VALUE,
-      areDuplicatesAllowed: false,
-      options: [],
-      questionType: FeedbackQuestionType.RANK_OPTIONS,
-      questionText: '',
-    });
+    super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
   }
 
 }

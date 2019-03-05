@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
-  FeedbackParticipantType,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_MCQ_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { QuestionResponse } from './question-response';
 
 /**
@@ -19,22 +21,7 @@ export class McqQuestionResponseComponent
     extends QuestionResponse<FeedbackMcqResponseDetails, FeedbackMcqQuestionDetails> {
 
   constructor() {
-    super({
-      answer: '',
-      isOther: false,
-      otherFieldContent: '',
-      questionType: FeedbackQuestionType.MCQ,
-    }, {
-      hasAssignedWeights: false,
-      mcqWeights: [],
-      mcqOtherWeight: 0,
-      numOfMcqChoices: 0,
-      mcqChoices: [],
-      otherEnabled: false,
-      generateOptionsFor: FeedbackParticipantType.NONE,
-      questionType: FeedbackQuestionType.MCQ,
-      questionText: '',
-    });
+    super(DEFAULT_MCQ_RESPONSE_DETAILS(), DEFAULT_MCQ_QUESTION_DETAILS());
   }
 
 }

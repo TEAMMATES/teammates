@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FeedbackQuestionType,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_RUBRIC_QUESTION_DETAILS,
+  DEFAULT_RUBRIC_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { QuestionResponse } from './question-response';
 
 /**
@@ -21,20 +24,7 @@ export class RubricQuestionResponseComponent
   answers: any[] = [];
 
   constructor() {
-    super({
-      answer: [],
-      questionType: FeedbackQuestionType.RUBRIC,
-    }, {
-      hasAssignedWeights: false,
-      numOfRubricChoices: 0,
-      rubricChoices: [],
-      numOfRubricSubQuestions: 0,
-      rubricSubQuestions: [],
-      rubricWeightsForEachCell: [],
-      rubricDescriptions: [],
-      questionType: FeedbackQuestionType.RUBRIC,
-      questionText: '',
-    });
+    super(DEFAULT_RUBRIC_RESPONSE_DETAILS(), DEFAULT_RUBRIC_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {

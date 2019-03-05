@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_EQUAL_SHARE,
   CONTRIBUTION_POINT_NOT_SUBMITTED,
@@ -27,14 +30,7 @@ export class ContributionQuestionResponseComponent
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 
   constructor() {
-    super({
-      answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
-      questionType: FeedbackQuestionType.CONTRIB,
-    }, {
-      isNotSureAllowed: true,
-      questionType: FeedbackQuestionType.CONTRIB,
-      questionText: '',
-    });
+    super(DEFAULT_CONTRIBUTION_RESPONSE_DETAILS(), DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
 }

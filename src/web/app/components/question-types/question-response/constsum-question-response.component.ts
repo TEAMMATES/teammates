@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_CONSTSUM_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { QuestionResponse } from './question-response';
 
 /**
@@ -22,20 +24,7 @@ export class ConstsumQuestionResponseComponent
   optionToAnswer: { [key: string]: number } = {};
 
   constructor() {
-    super({
-      answers: [],
-      questionType: FeedbackQuestionType.CONSTSUM,
-    }, {
-      numOfConstSumOptions: 0,
-      constSumOptions: ['', ''],
-      distributeToRecipients: false,
-      pointsPerOption: false,
-      forceUnevenDistribution: false,
-      distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
-      points: 100,
-      questionType: FeedbackQuestionType.CONSTSUM,
-      questionText: '',
-    });
+    super(DEFAULT_CONSTSUM_RESPONSE_DETAILS(), DEFAULT_CONSTSUM_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {

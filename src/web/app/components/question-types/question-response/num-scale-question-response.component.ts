@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_NUMSCALE_QUESTION_DETAILS,
+  DEFAULT_NUMSCALE_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { QuestionResponse } from './question-response';
 
 /**
@@ -18,16 +21,7 @@ export class NumScaleQuestionResponseComponent
     extends QuestionResponse<FeedbackNumericalScaleResponseDetails, FeedbackNumericalScaleQuestionDetails> {
 
   constructor() {
-    super({
-      answer: 0,
-      questionType: FeedbackQuestionType.NUMSCALE,
-    }, {
-      minScale: 1,
-      maxScale: 5,
-      step: 0.5,
-      questionType: FeedbackQuestionType.NUMSCALE,
-      questionText: '',
-    });
+    super(DEFAULT_NUMSCALE_RESPONSE_DETAILS(), DEFAULT_NUMSCALE_QUESTION_DETAILS());
   }
 
 }

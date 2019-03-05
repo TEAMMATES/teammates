@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  FeedbackConstantSumDistributePointsType,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackQuestionType,
-} from '../../../../types/api-output';
+import { FeedbackConstantSumQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_CONSTSUM_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
@@ -18,17 +15,7 @@ export class ConstsumQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {
 
   constructor() {
-    super({
-      numOfConstSumOptions: 0,
-      constSumOptions: ['', ''],
-      distributeToRecipients: false,
-      pointsPerOption: false,
-      forceUnevenDistribution: false,
-      distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
-      points: 100,
-      questionType: FeedbackQuestionType.CONSTSUM,
-      questionText: '',
-    });
+    super(DEFAULT_CONSTSUM_QUESTION_DETAILS());
   }
 
 }

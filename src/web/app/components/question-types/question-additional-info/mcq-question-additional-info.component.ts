@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
@@ -20,17 +20,7 @@ export class McqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<F
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
 
   constructor() {
-    super({
-      hasAssignedWeights: false,
-      mcqWeights: [],
-      mcqOtherWeight: 0,
-      numOfMcqChoices: 0,
-      mcqChoices: [],
-      otherEnabled: false,
-      generateOptionsFor: FeedbackParticipantType.NONE,
-      questionType: FeedbackQuestionType.MCQ,
-      questionText: '',
-    });
+    super(DEFAULT_MCQ_QUESTION_DETAILS());
   }
 
 }

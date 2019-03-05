@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
@@ -20,18 +20,7 @@ export class MsqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<F
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
 
   constructor() {
-    super({
-      msqChoices: [],
-      otherEnabled: false,
-      generateOptionsFor: FeedbackParticipantType.NONE,
-      maxSelectableChoices: Number.MIN_VALUE,
-      minSelectableChoices: Number.MIN_VALUE,
-      hasAssignedWeights: false,
-      msqWeights: [],
-      msqOtherWeight: 0,
-      questionType: FeedbackQuestionType.MSQ,
-      questionText: '',
-    });
+    super(DEFAULT_MSQ_QUESTION_DETAILS());
   }
 
 }

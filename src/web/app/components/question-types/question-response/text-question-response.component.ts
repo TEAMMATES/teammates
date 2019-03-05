@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import {
-  FeedbackQuestionType,
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_TEXT_QUESTION_DETAILS,
+  DEFAULT_TEXT_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { QuestionResponse } from './question-response';
 
 /**
@@ -18,14 +21,7 @@ export class TextQuestionResponseComponent
     extends QuestionResponse<FeedbackTextResponseDetails, FeedbackTextQuestionDetails> {
 
   constructor() {
-    super({
-      answer: '',
-      questionType: FeedbackQuestionType.TEXT,
-    }, {
-      recommendedLength: 0,
-      questionType: FeedbackQuestionType.TEXT,
-      questionText: '',
-    });
+    super(DEFAULT_TEXT_RESPONSE_DETAILS(), DEFAULT_TEXT_QUESTION_DETAILS());
   }
 
 }

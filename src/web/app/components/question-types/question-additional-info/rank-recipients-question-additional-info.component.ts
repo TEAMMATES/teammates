@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  FeedbackQuestionType,
-  FeedbackRankRecipientsQuestionDetails,
-} from '../../../../types/api-output';
+import { FeedbackRankRecipientsQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
@@ -17,13 +15,7 @@ export class RankRecipientsQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackRankRecipientsQuestionDetails> {
 
   constructor() {
-    super({
-      minOptionsToBeRanked: Number.MIN_VALUE,
-      maxOptionsToBeRanked: Number.MIN_VALUE,
-      areDuplicatesAllowed: false,
-      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
-      questionText: '',
-    });
+    super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
   }
 
 }
