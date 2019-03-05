@@ -1312,8 +1312,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         for (String possibleRecipient : possibleReceivers) {
             if (questionDetails.shouldShowNoResponseText(question)) {
-                String textToDisplay = questionDetails.getNoResponseTextInHtml(
-                                               giverIdentifier, possibleRecipient, bundle, question);
+                String textToDisplay = "";
+                // questionDetails.getNoResponseTextInHtml(giverIdentifier, possibleRecipient, bundle, question);
                 String possibleRecipientName = bundle.getFullNameFromRoster(possibleRecipient);
                 String possibleRecipientTeam = bundle.getTeamNameFromRoster(possibleRecipient);
 
@@ -1351,8 +1351,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String possibleGiverName = bundle.getFullNameFromRoster(possibleGiver);
             String possibleGiverTeam = bundle.getTeamNameFromRoster(possibleGiver);
 
-            String textToDisplay = questionDetails.getNoResponseTextInHtml(recipientIdentifier, possibleGiver,
-                                                                           bundle, question);
+            String textToDisplay = "";
+            // questionDetails.getNoResponseTextInHtml(recipientIdentifier, possibleGiver, bundle, question);
             boolean isFeedbackParticipantCommentsOnResponsesAllowed =
                     question.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed();
 

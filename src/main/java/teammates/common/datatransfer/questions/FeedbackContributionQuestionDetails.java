@@ -766,53 +766,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return errorMsg;
     }
 
-    static String getPerceivedContributionInEqualShareFormatHtml(int i) {
-        return "<span>&nbsp;&nbsp;["
-                + "Perceived Contribution: "
-                + convertToEqualShareFormatHtml(i)
-                + "]</span>";
-    }
-
-    private String getPerceivedContributionHtml(FeedbackQuestionAttributes question,
-            String targetEmail, FeedbackSessionResultsBundle bundle) {
-
-        if (hasPerceivedContribution(targetEmail, question, bundle)) {
-            Map<String, StudentResultSummary> stats =
-                    FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
-            StudentResultSummary studentResult = stats.get(targetEmail);
-            int pc = studentResult.perceivedToInstructor;
-
-            return FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
-        }
-        return "";
-    }
-
-    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question,
-                                             FeedbackSessionResultsBundle bundle) {
-        Map<String, StudentResultSummary> stats =
-                FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
-        return stats.containsKey(email);
-    }
-
-    /**
-     * Used to display missing responses between a possible giver and a possible recipient.
-     * Returns "No Response" with the Perceived Contribution if the giver is the recipient.
-     * Otherwise, returns "No Response".
-     */
-    @Override
-    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
-                                          FeedbackSessionResultsBundle bundle,
-                                          FeedbackQuestionAttributes question) {
-        boolean isPerceivedContributionShown = giverEmail.equals(recipientEmail)
-                                               && hasPerceivedContribution(recipientEmail, question, bundle);
-
-        // in the row for the student's self response,
-        // show the perceived contribution if the student has one
-        return "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>"
-               + (isPerceivedContributionShown ? getPerceivedContributionHtml(question, recipientEmail, bundle)
-                                               : "");
-    }
-
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
      * -------------------------------------------------------------------------------
@@ -886,28 +839,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "Not Sure";
         } else {
             return "";
-        }
-    }
-
-    /**
-     * Converts points in integer to String for HTML display.
-     * @return points in text form "Equal Share..." with html formatting for colors.
-     */
-    static String convertToEqualShareFormatHtml(int i) {
-        if (i == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color-neutral\">N/A</span>";
-        } else if (i == Const.POINTS_NOT_SUBMITTED) {
-            return "<span class=\"color-neutral\"></span>";
-        } else if (i == Const.POINTS_NOT_SURE) {
-            return "<span class=\"color-negative\">Not Sure</span>";
-        } else if (i == 0) {
-            return "<span class=\"color-negative\">0%</span>";
-        } else if (i > 100) {
-            return "<span class=\"color-positive\">Equal Share +" + (i - 100) + "%</span>";
-        } else if (i < 100) {
-            return "<span class=\"color-negative\">Equal Share -" + (100 - i) + "%</span>";
-        } else {
-            return "<span class=\"color-neutral\">Equal Share</span>";
         }
     }
 

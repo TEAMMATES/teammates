@@ -208,15 +208,6 @@ public abstract class FeedbackQuestionDetails {
     // The following function handle the display of rows between possible givers
     // and recipients who did not respond to a question in feedback sessions
 
-    @Deprecated
-    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
-                                          FeedbackSessionResultsBundle bundle,
-                                          FeedbackQuestionAttributes question) {
-        return "<i>"
-               + SanitizationHelper.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
-               + "</i>";
-    }
-
     /**
      * Returns true if 'No Response' is to be displayed in the Response rows.
      */
