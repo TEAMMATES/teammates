@@ -9,11 +9,11 @@ import { QuestionAdditionalInfo } from './question-additional-info';
  * Additional info for numerical scale questions.
  */
 @Component({
-  selector: 'tm-numscale-question-additional-info',
-  templateUrl: './numscale-question-additional-info.component.html',
-  styleUrls: ['./numscale-question-additional-info.component.scss'],
+  selector: 'tm-num-scale-question-additional-info',
+  templateUrl: './num-scale-question-additional-info.component.html',
+  styleUrls: ['./num-scale-question-additional-info.component.scss'],
 })
-export class NumscaleQuestionAdditionalInfoComponent
+export class NumScaleQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackNumericalScaleQuestionDetails> {
 
   constructor() {

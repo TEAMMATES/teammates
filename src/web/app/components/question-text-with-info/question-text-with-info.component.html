@@ -11,5 +11,5 @@ Question {{ questionNumber }}: {{ questionDetails.questionText }}
   <tm-rank-recipients-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
   <tm-rubric-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RUBRIC" [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
   <tm-constsum-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM" [questionDetails]="questionDetails"></tm-constsum-question-additional-info>
-  <tm-numscale-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="questionDetails"></tm-numscale-question-additional-info>
+  <tm-num-scale-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
 </div>

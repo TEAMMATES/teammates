@@ -10,11 +10,11 @@ import { QuestionResponse } from './question-response';
  * Numerical scale question response.
  */
 @Component({
-  selector: 'tm-numscale-question-response',
-  templateUrl: './numscale-question-response.component.html',
-  styleUrls: ['./numscale-question-response.component.scss'],
+  selector: 'tm-num-scale-question-response',
+  templateUrl: './num-scale-question-response.component.html',
+  styleUrls: ['./num-scale-question-response.component.scss'],
 })
-export class NumscaleQuestionResponseComponent
+export class NumScaleQuestionResponseComponent
     extends QuestionResponse<FeedbackNumericalScaleResponseDetails, FeedbackNumericalScaleQuestionDetails> {
 
   constructor() {
