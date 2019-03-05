@@ -70,7 +70,6 @@ public final class Const {
      * is in a 'special' state.
      */
     public static final int INT_UNINITIALIZED = -9999;
-    public static final double DOUBLE_UNINITIALIZED = -9999.0;
 
     public static final int MAX_POSSIBLE_RECIPIENTS = -100;
 

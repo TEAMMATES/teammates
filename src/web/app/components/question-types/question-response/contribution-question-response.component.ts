@@ -5,7 +5,9 @@ import {
   FeedbackQuestionType,
 } from '../../../../types/api-output';
 import {
+  CONTRIBUTION_POINT_EQUAL_SHARE,
   CONTRIBUTION_POINT_NOT_SUBMITTED,
+  CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
 import { QuestionResponse } from './question-response';
 
@@ -19,6 +21,10 @@ import { QuestionResponse } from './question-response';
 })
 export class ContributionQuestionResponseComponent
     extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails> {
+
+  CONTRIBUTION_POINT_EQUAL_SHARE: number = CONTRIBUTION_POINT_EQUAL_SHARE;
+  CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
+  CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 
   constructor() {
     super({

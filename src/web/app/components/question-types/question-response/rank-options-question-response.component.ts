@@ -4,6 +4,9 @@ import {
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
 } from '../../../../types/api-output';
+import {
+  RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
+} from '../../../../types/feedback-response-details';
 import { QuestionResponse } from './question-response';
 
 /**
@@ -38,7 +41,7 @@ export class RankOptionsQuestionResponseComponent
     let arrayOfRanks: any[][] = [];
     for (let i: number = 0; i < this.questionDetails.options.length; i += 1) {
       const rank: number = this.responseDetails.answers[i];
-      if (rank === -999) {
+      if (rank === RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
         continue;
       }
       arrayOfRanks[rank] = arrayOfRanks[rank] || [];
