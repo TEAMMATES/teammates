@@ -13,8 +13,8 @@ import { InstructorHelpStudentsSectionComponent } from './instructor-help-studen
 class ExampleBoxStubComponent {}
 @Component({ selector: 'tm-instructor-search-bar', template: '' })
 class InstructorSearchBarStubComponent {}
-@Component({ selector: 'tm-example-instructor-course-student-edit-page', template: '' })
-class ExampleInstructorCourseStudentEditPageStubComponent {}
+@Component({ selector: 'tm-instructor-course-student-edit-page', template: '' })
+class InstructorCourseStudentEditPageStubComponent { @Input() isEnabled?: boolean; }
 @Component({ selector: 'tm-student-result-table', template: '' })
 class StudentResultTableStubComponent {
   @Input() studentTables: SearchStudentsTable[] = [];
@@ -59,7 +59,7 @@ describe('InstructorHelpStudentsSectionComponent', () => {
         InstructorHelpStudentsSectionComponent,
         ExampleBoxStubComponent,
         InstructorSearchBarStubComponent,
-        ExampleInstructorCourseStudentEditPageStubComponent,
+        InstructorCourseStudentEditPageStubComponent,
         StudentResultTableStubComponent,
         StudentProfileStubComponent,
         CourseRelatedInfoStubComponent,

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,50 +23,6 @@ interface StudentEditDetails {
   isOpenOrPublishedEmailSentForTheCourse: boolean;
 }
 
-interface InstructorCourseStudentEditPageComponentInterface {
-  student: StudentAttributes;
-  editForm: FormGroup;
-  onSubmit(confirmDelModal: any, resendPastLinksModal: any): void;
-}
-
-/**
- * An example component to be shown in the help page
- */
-@Component({
-  selector: 'tm-example-instructor-course-student-edit-page',
-  templateUrl: './instructor-course-student-edit-page.component.html',
-  styleUrls: ['./instructor-course-student-edit-page.component.scss'],
-})
-export class ExampleInstructorCourseStudentEditPageComponent
-implements OnInit, InstructorCourseStudentEditPageComponentInterface {
-  student: StudentAttributes = {
-    email: 'alice@email.com',
-    course: '',
-    name: 'Alice Betsy',
-    lastName: '',
-    comments: 'Alice is a transfer student.',
-    team: 'Team A',
-    section: 'Section A',
-  };
-  editForm!: FormGroup;
-
-  ngOnInit(): void {
-    this.editForm = new FormGroup({
-      studentname: new FormControl(this.student.name),
-      sectionname: new FormControl(this.student.section),
-      teamname: new FormControl(this.student.team),
-      newstudentemail: new FormControl(this.student.email),
-      comments: new FormControl(this.student.comments),
-    });
-  }
-
-  /**
-   * Mock onSubmit
-   */
-  onSubmit(_confirmDelModal: any, _resendPastLinksModal: any): void {}
-
-}
-
 /**
  * Instructor course student edit page.
  */
@@ -75,10 +31,10 @@ implements OnInit, InstructorCourseStudentEditPageComponentInterface {
   templateUrl: './instructor-course-student-edit-page.component.html',
   styleUrls: ['./instructor-course-student-edit-page.component.scss'],
 })
-export class InstructorCourseStudentEditPageComponent
-implements OnInit, OnDestroy, InstructorCourseStudentEditPageComponentInterface {
+export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 
   user: string = '';
+  @Input() isEnabled: boolean = true;
   courseid: string = '';
   studentemail: string = '';
   student!: StudentAttributes;
@@ -100,6 +56,21 @@ implements OnInit, OnDestroy, InstructorCourseStudentEditPageComponentInterface 
               private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
+    if (!this.isEnabled) {
+      this.student = {
+        email: 'alice@email.com',
+        course: '',
+        name: 'Alice Betsy',
+        lastName: '',
+        comments: 'Alice is a transfer student.',
+        team: 'Team A',
+        section: 'Section A',
+      };
+      this.studentemail = this.student.email;
+      this.initEditForm();
+      return;
+    }
+
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
       this.courseid = queryParams.courseid;
@@ -161,6 +132,10 @@ implements OnInit, OnDestroy, InstructorCourseStudentEditPageComponentInterface 
    * upon submission of the form. Submits the form otherwise.
    */
   onSubmit(confirmDelModal: any, resendPastLinksModal: any): void {
+    if (!this.isEnabled) {
+      return;
+    }
+
     if (this.isTeamnameFieldChanged) {
       this.ngbModal.open(confirmDelModal);
     } else if (this.isEmailFieldChanged) {

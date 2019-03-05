@@ -8,8 +8,8 @@ import { StudentProfileModule } from '../../pages-instructor/student-profile/stu
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
 import {
-  ExampleInstructorCourseStudentEditPageComponent,
-} from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
+  InstructorCourseStudentEditPageModule,
+} from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.module';
 import {
   ExampleAddCourseFormComponent,
 } from '../../pages-instructor/instructor-courses-page/add-course-form/add-course-form.component';
@@ -45,6 +45,7 @@ import {
     StudentProfileModule,
     ReactiveFormsModule,
     InstructorSearchPageModule,
+    InstructorCourseStudentEditPageModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
@@ -55,7 +56,6 @@ import {
     InstructorHelpGettingStartedComponent,
     ExampleAddCourseFormComponent,
     ExampleBoxComponent,
-    ExampleInstructorCourseStudentEditPageComponent,
   ],
   exports: [
     InstructorHelpPageComponent,
