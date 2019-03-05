@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.SanitizationHelper;
 
@@ -76,6 +77,11 @@ public class FeedbackConstantSumResponseDetails extends
         }
 
         return csvBuilder.toString();
+    }
+
+    @Override
+    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
+        return new ArrayList<>();
     }
 
     private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions,
