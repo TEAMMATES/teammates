@@ -128,7 +128,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         ______TS("success: search for instructors in whole system; deleting instructor without deleting document:"
                 + "document deleted during search, instructor unsearchable");
 
-        instructorsDb.deleteEntity(ins2InCourse1);
+        instructorsDb.deleteInstructor(ins2InCourse1.getCourseId(), ins2InCourse1.getEmail());
         results = instructorsDb.searchInstructorsInWholeSystem("instructor2");
         verifySearchResults(results, ins2InCourse2, ins2InCourse3);
     }

@@ -76,7 +76,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
 
         // remove possibly conflicting entity from the database
-        frDb.deleteEntity(fra);
+        deleteResponse(fra);
 
         frDb.createEntity(fra);
         verifyPresentInDatastore(fra);
@@ -265,7 +265,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
 
         // remove possibly conflicting entity from the database
-        frDb.deleteEntity(fra);
+        deleteResponse(fra);
 
         frDb.createEntity(fra);
 
@@ -280,7 +280,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("delete - with id specified");
 
-        frDb.deleteEntity(fra);
+        deleteResponse(fra);
         verifyAbsentInDatastore(fra);
 
         ______TS("null params");
@@ -912,7 +912,15 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     private void deleteResponsesFromDb() {
         Set<String> keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
-            frDb.deleteEntity(dataBundle.feedbackResponses.get(i));
+            deleteResponse(dataBundle.feedbackResponses.get(i));
+        }
+    }
+
+    private void deleteResponse(FeedbackResponseAttributes attributes) {
+        FeedbackResponseAttributes feedbackResponse =
+                frDb.getFeedbackResponse(attributes.feedbackQuestionId, attributes.giver, attributes.recipient);
+        if (feedbackResponse != null) {
+            frDb.deleteFeedbackResponse(feedbackResponse.getId());
         }
     }
 

@@ -152,18 +152,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         ofy().save().entities(entitiesToSave).now();
     }
 
-    // TODO: use this method for subclasses.
-    /**
-     * Note: This is a non-cascade delete.<br>
-     *   <br> Fails silently if there is no such object.
-     */
-    public void deleteEntity(A entityToDelete) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
-
-        ofy().delete().keys(getEntityQueryKeys(entityToDelete)).now();
-        log.info(entityToDelete.getBackupIdentifier());
-    }
-
     /**
      * Deletes entity by key.
      */
@@ -176,38 +164,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
                     key.getKind(), key.getId(), key.getName()));
         }
         ofy().delete().keys(keys).now();
-    }
-
-    public void deleteEntities(Collection<A> entitiesToDelete) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
-
-        List<Key<E>> keysToDelete = new ArrayList<>();
-        for (A entityToDelete : entitiesToDelete) {
-            Key<E> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
-            if (keyToDelete == null) {
-                continue;
-            }
-            keysToDelete.add(keyToDelete);
-            log.info(entityToDelete.getBackupIdentifier());
-        }
-
-        ofy().delete().keys(keysToDelete).now();
-    }
-
-    protected void deleteEntityDirect(E entityToDelete) {
-        deleteEntityDirect(entityToDelete, makeAttributes(entityToDelete));
-    }
-
-    protected void deleteEntityDirect(E entityToDelete, A entityToDeleteAttributesForLogging) {
-        ofy().delete().entity(entityToDelete).now();
-        log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
-    }
-
-    protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Collection<A> entitiesToDeleteAttributesForLogging) {
-        for (A attributes : entitiesToDeleteAttributesForLogging) {
-            log.info(attributes.getBackupIdentifier());
-        }
-        ofy().delete().entities(entitiesToDelete).now();
     }
 
     protected abstract LoadType<E> load();

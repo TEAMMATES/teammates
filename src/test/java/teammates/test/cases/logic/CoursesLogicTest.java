@@ -119,7 +119,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(c.getId(), coursesLogic.getCourse(c.getId()).getId());
         assertEquals(c.getName(), coursesLogic.getCourse(c.getId()).getName());
 
-        coursesDb.deleteEntity(c);
+        coursesDb.deleteCourse(c.getId());
         ______TS("Null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourse(null));

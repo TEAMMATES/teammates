@@ -97,7 +97,10 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("Entity deletion");
 
-        frcDb.deleteEntity(frcaTemp);
+        frcaTemp = frcDb.getFeedbackResponseComment(
+                frcaTemp.feedbackResponseId, frcaTemp.commentGiver, frcaTemp.createdAt);
+        assertNotNull(frcaTemp);
+        frcDb.deleteFeedbackResponseComment(frcaTemp.getId());
         verifyAbsentInDatastore(frcaTemp);
     }
 
@@ -239,7 +242,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertEquals(frcaExpected.courseId, frcaActual.courseId);
         assertEquals(frcaExpected.commentText, frcaActual.commentText);
 
-        frcDb.deleteEntity(frcaTemp);
+        frcDb.deleteFeedbackResponseComment(frcaActual.getId());
 
         ______TS("non-existent comment");
 
