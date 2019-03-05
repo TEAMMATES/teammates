@@ -1,7 +1,10 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
@@ -75,6 +78,11 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return SanitizationHelper.sanitizeForCsv(getAnswerString());
+    }
+
+    @Override
+    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
+        return new ArrayList<>();
     }
 
     public Boolean isOtherOptionAnswer() {
