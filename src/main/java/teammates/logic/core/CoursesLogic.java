@@ -659,13 +659,12 @@ public final class CoursesLogic {
             return;
         }
 
-        instructorsLogic.deleteInstructorsForCourse(courseId);
-
         coursesDb.deleteCourse(courseId);
 
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                 .withCourseId(courseId)
                 .build();
+        instructorsLogic.deleteInstructors(query);
         studentsLogic.deleteStudents(query);
         feedbackSessionsLogic.deleteFeedbackSessions(query);
         fqLogic.deleteFeedbackQuestions(query);

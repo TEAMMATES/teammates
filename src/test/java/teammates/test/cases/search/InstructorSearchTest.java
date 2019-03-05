@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -155,6 +156,36 @@ public class InstructorSearchTest extends BaseSearchTest {
         bundle = instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
         assertEquals(1, bundle.numberOfResults);
         assertEquals("instructorABCDE", bundle.instructorList.get(0).getName());
+    }
+
+    @Test
+    public void testSearchInstructor_deleteAfterSearch_shouldNotBeSearchable() {
+        InstructorsDb instructorsDb = new InstructorsDb();
+
+        InstructorAttributes ins1InCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
+        InstructorAttributes ins2InCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
+        InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
+
+        // there is search result before deletion
+        InstructorSearchResultBundle results = instructorsDb.searchInstructorsInWholeSystem("idOfTypicalCourse2");
+        verifySearchResults(results, ins1InCourse2, ins2InCourse2, ins3InCourse2);
+
+        // delete a student
+        instructorsDb.deleteInstructor(ins1InCourse2.getCourseId(), ins1InCourse2.getEmail());
+
+        // the search result will change
+        results = instructorsDb.searchInstructorsInWholeSystem("idOfTypicalCourse2");
+        verifySearchResults(results, ins2InCourse2, ins3InCourse2);
+
+        // delete all instructors in course 2
+        instructorsDb.deleteInstructors(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(ins2InCourse2.getCourseId())
+                        .build());
+
+        // there should be no search result
+        results = instructorsDb.searchInstructorsInWholeSystem("idOfTypicalCourse2");
+        verifySearchResults(results);
     }
 
     /*
