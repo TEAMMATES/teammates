@@ -39,7 +39,7 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     team: 'Team A',
     section: 'Section A',
   };
-  readonly exampleStudentResultTables: SearchStudentsTable[] = [{
+  readonly exampleSingleStudentResultTables: SearchStudentsTable[] = [{
     courseId: 'Course name appears here',
     sections: [{
       sectionName: 'Section A',
@@ -52,6 +52,62 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
         team: 'Team A',
       }],
     }],
+  }];
+  readonly exampleMultipleStudentResultTables: SearchStudentsTable[] = [{
+    courseId: 'Course name appears here',
+    sections: [
+      {
+        sectionName: 'Section A',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+        students: [
+          {
+            name: 'Alice Betsy',
+            email: 'alice@email.com',
+            status: 'Joined',
+            team: 'Team A',
+          },
+          {
+            name: 'Jean Grey',
+            email: 'jean@email.com',
+            status: 'Joined',
+            team: 'Team A',
+          },
+        ],
+      },
+      {
+        sectionName: 'Section B',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+        students: [
+          {
+            name: 'Oliver Gates',
+            email: 'oliver@email.com',
+            status: 'Joined',
+            team: 'Team B',
+          },
+          {
+            name: 'Thora Parker',
+            email: 'thora@email.com',
+            status: 'Joined',
+            team: 'Team B',
+          },
+        ],
+      },
+      {
+        sectionName: 'Section C',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+        students: [
+          {
+            name: 'Jack Wayne',
+            email: 'jack@email.com',
+            status: 'Joined',
+            team: 'Team C',
+          },
+        ],
+      },
+    ],
   }];
 
   constructor() {
