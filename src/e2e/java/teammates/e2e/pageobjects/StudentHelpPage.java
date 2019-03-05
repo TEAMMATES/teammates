@@ -1,7 +1,7 @@
 package teammates.e2e.pageobjects;
 
 /**
- * Page Object Model for student help page in development server.
+ * Page Object Model for student help page.
  */
 public class StudentHelpPage extends AppPage {
 

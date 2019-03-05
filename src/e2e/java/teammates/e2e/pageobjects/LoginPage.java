@@ -1,7 +1,7 @@
 package teammates.e2e.pageobjects;
 
 /**
- * Abstract Page Object Model for the login page in the development server.
+ * Abstract Page Object Model for the login page.
  */
 public abstract class LoginPage extends AppPage {
 
