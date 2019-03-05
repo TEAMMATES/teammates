@@ -59,16 +59,12 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
             assertTrue(verifyVisibleCourseToStudents(courseId, i));
 
-            String feedbackSessionNames = testData.feedbackSessions.entrySet().stream()
+            String feedbackSessionName = testData.feedbackSessions.entrySet().stream()
                     .filter(feedbackSession -> courseId.equals(feedbackSession.getValue().getCourseId()))
                     .map(x -> x.getValue().getFeedbackSessionName())
                     .collect(Collectors.joining());
 
-            if (feedbackSessionNames.isEmpty()) {
-                assertFalse(verifyVisibleFeedbackSessionToStudents("empty", i));
-            } else {
-                assertTrue(verifyVisibleFeedbackSessionToStudents(feedbackSessionNames, i));
-            }
+            assertTrue(verifyVisibleFeedbackSessionToStudents(feedbackSessionName, i));
         }
     }
 
