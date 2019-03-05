@@ -46,11 +46,8 @@ public class RecaptchaVerifier {
             }
 
             return Boolean.parseBoolean(responseInJson.get("success").toString());
-        } catch (IOException e) {
-            log.severe("reCAPTCHA request failure: " + e.getMessage());
-            return false;
         } catch (Exception e) {
-            log.severe("reCAPTCHA request failure: " + e.getStackTrace());
+            log.severe("reCAPTCHA request failure: " + e.toString());
             return false;
         }
     }
