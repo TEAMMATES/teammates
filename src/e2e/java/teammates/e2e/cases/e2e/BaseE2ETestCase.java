@@ -139,7 +139,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * and gives the {@link HomePage} instance based on it.
      */
     protected HomePage getHomePage() {
-        return AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
+        HomePage homePage = AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
+        homePage.waitForPageToLoad();
+        return homePage;
     }
 
     /**
@@ -147,7 +149,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      */
     protected void logout() {
         browser.driver.get(createUrl(Const.ResourceURIs.LOGOUT).toAbsoluteString());
-        AppPage.getNewPageInstance(browser);
+        AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
         browser.isAdminLoggedIn = false;
     }
 

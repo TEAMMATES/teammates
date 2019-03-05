@@ -25,4 +25,15 @@ public class HomePage extends AppPage {
         return createCorrectLoginPageType(browser);
     }
 
+    @Override
+    public void waitForPageToLoad() {
+        // The load state of this page cannot be determined using Angular testability
+        // as there is a setInterval operation in the page (for the testimonial container),
+        // which causes Angular testability to never stabilize as per their specification.
+        //
+        // Since this page is a static page, we can fall back to the old way of
+        // just checking the document.readyState variable.
+        browser.waitForPageReadyState();
+    }
+
 }
