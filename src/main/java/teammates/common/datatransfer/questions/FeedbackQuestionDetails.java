@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -194,16 +193,6 @@ public abstract class FeedbackQuestionDetails {
      */
     public abstract boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                                    FeedbackQuestionType questionType);
-
-    public static FeedbackQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters,
-                                                                FeedbackQuestionType questionType) {
-        String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                                     Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
-        Assumption.assertNotNull("Null question text", questionText);
-        Assumption.assertNotEmpty("Empty question text", questionText);
-
-        return questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters);
-    }
 
     // The following function handle the display of rows between possible givers
     // and recipients who did not respond to a question in feedback sessions

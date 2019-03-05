@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-import java.util.Comparator;
 import java.util.List;
 
 /**
