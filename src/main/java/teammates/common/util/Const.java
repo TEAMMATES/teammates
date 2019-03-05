@@ -562,8 +562,6 @@ public final class Const {
         public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
         public static final String IS_INSTRUCTOR_REJOINING = "isinstructorrejoining";
 
-        public static final String BACKDOOR_DATA = "data";
-
         public static final String BLOB_KEY = "blob-key";
         public static final String SESSION_TOKEN = "token";
 

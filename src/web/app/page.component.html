@@ -24,8 +24,8 @@
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="!user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
         <div class="dropdown-menu" ngbDropdownMenu>
-          <a class="dropdown-item" id="btnStudentLogin" [href]="studentLoginUrl">Student Login</a>
-          <a class="dropdown-item" id="btnInstructorLogin" [href]="instructorLoginUrl">Instructor Login</a>
+          <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
+          <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
         </div>
       </li>
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
@@ -35,13 +35,12 @@
           <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor">To instructor pages</a>
           <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin">To admin pages</a>
           <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
-          <a class="dropdown-item" id="btnLogout" [href]="logoutUrl">Log Out</a>
+          <a class="dropdown-item" id="logout-btn" [href]="logoutUrl">Log Out</a>
         </div>
       </li>
     </ul>
   </div>
 </nav>
-
 <tm-loading-spinner *ngIf="isFetchingAuthDetails"></tm-loading-spinner>
 <div *ngIf="!isFetchingAuthDetails" id="main-content" class="container main-content">
   <div *ngIf="isUnsupportedBrowser">
@@ -66,7 +65,6 @@
       <i class="fas fa-ban"></i>&nbsp;You are currently not enabling cookies in your browser. TEAMMATES requires cookies in order to work effectively.
     </div>
   </div>
-  <h1 *ngIf="pageTitle">{{ pageTitle }}</h1>
   <div *ngIf="!isValidUser">
     <div *ngIf="isStudent || isInstructor || isAdmin">
       <div class="row">
@@ -109,6 +107,7 @@
       </div>
     </div>
   </div>
+  <h1 *ngIf="pageTitle && isValidUser">{{ pageTitle }}</h1>
   <tm-status-message [messages]="messageList"></tm-status-message>
   <router-outlet *ngIf="isValidUser"></router-outlet>
 </div>
