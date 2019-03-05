@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
 
 @Component({ selector: 'tm-example-box', template: '' })
 class ExampleBoxStubComponent {}
-@Component({ selector: 'tm-example-add-course-form', template: '' })
-class ExampleAddCourseFormStubComponent {}
+@Component({ selector: 'tm-add-course-form', template: '' })
+class AddCourseFormStubComponent { @Input() isEnabled?: boolean; }
 
 describe('InstructorHelpGettingStartedComponent', () => {
   let component: InstructorHelpGettingStartedComponent;
@@ -18,7 +18,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
       declarations: [
         InstructorHelpGettingStartedComponent,
         ExampleBoxStubComponent,
-        ExampleAddCourseFormStubComponent,
+        AddCourseFormStubComponent,
       ],
       imports: [
         RouterTestingModule,

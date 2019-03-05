@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
 import { HttpRequestService } from '../../../../services/http-request.service';
@@ -8,43 +8,6 @@ import { MessageOutput } from '../../../../types/api-output';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
- * Contains properties and methods that are used in the template
- */
-interface AddCourseFormComponentInterface {
-  timezones: string[];
-  timezone: string;
-  newCourseId: string;
-  newCourseName: string;
-
-  onAutoDetectTimezone(): void;
-  onSubmit(): void;
-}
-
-/**
- * An example component to be shown in the help page
- */
-@Component({
-  selector: 'tm-example-add-course-form',
-  templateUrl: './add-course-form.component.html',
-  styleUrls: ['./add-course-form.component.scss'],
-})
-export class ExampleAddCourseFormComponent implements AddCourseFormComponentInterface {
-  timezones: string[] = ['UTC', 'Other options ommitted...'];
-  timezone: string = 'UTC';
-  newCourseId: string = '';
-  newCourseName: string = '';
-
-  /**
-   * Mock
-   */
-  onAutoDetectTimezone(): void { }
-  /**
-   * Mock
-   */
-  onSubmit(): void { }
-}
-
-/**
  * The actual component
  */
 @Component({
@@ -52,10 +15,11 @@ export class ExampleAddCourseFormComponent implements AddCourseFormComponentInte
   templateUrl: './add-course-form.component.html',
   styleUrls: ['./add-course-form.component.scss'],
 })
-export class AddCourseFormComponent implements OnInit, AddCourseFormComponentInterface {
+export class AddCourseFormComponent implements OnInit {
 
   user: string = '';
 
+  @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
   timezones: string[] = [];
@@ -69,6 +33,11 @@ export class AddCourseFormComponent implements OnInit, AddCourseFormComponentInt
               private timezoneService: TimezoneService) { }
 
   ngOnInit(): void {
+    if (!this.isEnabled) {
+      this.timezones = ['UTC', 'Other options ommitted...'];
+      this.timezone = 'UTC';
+      return;
+    }
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
     });
@@ -80,6 +49,9 @@ export class AddCourseFormComponent implements OnInit, AddCourseFormComponentInt
    * Auto-detects timezone for instructor.
    */
   onAutoDetectTimezone(): void {
+    if (!this.isEnabled) {
+      return;
+    }
     this.timezone = moment.tz.guess();
   }
 
@@ -87,6 +59,9 @@ export class AddCourseFormComponent implements OnInit, AddCourseFormComponentInt
    * Submits the data to add the new course.
    */
   onSubmit(): void {
+    if (!this.isEnabled) {
+      return;
+    }
     if (!this.newCourseId || !this.newCourseName) {
       this.statusMessageService.showErrorMessage(
           'Please make sure you have filled in both Course ID and Name before adding the course!');

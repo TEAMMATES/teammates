@@ -11,8 +11,8 @@ import {
   InstructorCourseStudentEditPageModule,
 } from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.module';
 import {
-  ExampleAddCourseFormComponent,
-} from '../../pages-instructor/instructor-courses-page/add-course-form/add-course-form.component';
+  InstructorCoursesPageModule,
+} from '../../pages-instructor/instructor-courses-page/instructor-courses-page.module';
 import {
   InstructorSearchPageModule,
 } from '../../pages-instructor/instructor-search-page/instructor-search-page.module';
@@ -46,6 +46,7 @@ import {
     ReactiveFormsModule,
     InstructorSearchPageModule,
     InstructorCourseStudentEditPageModule,
+    InstructorCoursesPageModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
@@ -54,7 +55,6 @@ import {
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpCoursesSectionComponent,
     InstructorHelpGettingStartedComponent,
-    ExampleAddCourseFormComponent,
     ExampleBoxComponent,
   ],
   exports: [

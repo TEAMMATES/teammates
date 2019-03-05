@@ -16,6 +16,7 @@ import { InstructorCoursesPageComponent } from './instructor-courses-page.compon
   ],
   exports: [
     InstructorCoursesPageComponent,
+    AddCourseFormComponent,
   ],
   imports: [
     CommonModule,
