@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.DeleteStudentAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link DeleteStudentAction}.
@@ -40,22 +41,79 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         };
 
         DeleteStudentAction deleteStudentAction = getAction(submissionParams);
-        JsonResult getOutput = getJsonResult(deleteStudentAction);
+        JsonResult result = getJsonResult(deleteStudentAction);
 
-        assertEquals(HttpStatus.SC_OK, getOutput.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         ______TS("success: delete a student by id");
-        loginAsAdmin();
-
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_ID, student2InCourse1.googleId,
         };
 
         deleteStudentAction = getAction(submissionParams);
-        getOutput = getJsonResult(deleteStudentAction);
+        result = getJsonResult(deleteStudentAction);
 
-        assertEquals(HttpStatus.SC_OK, getOutput.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+
+        ______TS("failure: course does not exist");
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
+                Const.ParamsNames.STUDENT_ID, student2InCourse1.googleId,
+        };
+
+        deleteStudentAction = getAction(submissionParams);
+        result = getJsonResult(deleteStudentAction);
+        MessageOutput msg = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals("Student does not exist", msg.getMessage());
+
+        ______TS("failure: student does not exist");
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_ID, "RANDOM_STUDENT",
+        };
+
+        deleteStudentAction = getAction(submissionParams);
+        result = getJsonResult(deleteStudentAction);
+        msg = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals("Student does not exist", msg.getMessage());
+
+        ______TS("failure: incomplete params given");
+
+        verifyHttpParameterFailure();
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+        };
+
+        verifyHttpParameterFailure(submissionParams);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.STUDENT_EMAIL, instructor1OfCourse1.email,
+        };
+
+        verifyHttpParameterFailure(submissionParams);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.STUDENT_ID, instructor1OfCourse1.courseId,
+        };
+
+        verifyHttpParameterFailure(submissionParams);
+
+        ______TS("failure: random email given - fails silently");
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, "RANDOM_EMAIL",
+        };
+
+        deleteStudentAction = getAction(submissionParams);
+        result = getJsonResult(deleteStudentAction);
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+
     }
 
     @Override
