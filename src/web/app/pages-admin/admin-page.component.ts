@@ -14,7 +14,6 @@ import { AuthInfo } from '../../types/api-output';
 })
 export class AdminPageComponent implements OnInit {
 
-  logoutUrl: string = '';
   user: string = '';
   institute?: string = '';
   isInstructor: boolean = false;
@@ -46,9 +45,6 @@ export class AdminPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
-      if (res.logoutUrl) {
-        this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
-      }
       if (res.user) {
         this.user = res.user.id;
         this.institute = res.institute;

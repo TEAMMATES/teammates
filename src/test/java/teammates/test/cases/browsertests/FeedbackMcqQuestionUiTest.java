@@ -12,7 +12,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
@@ -738,7 +738,7 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
                 .withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question");
 
         InstructorFeedbackResultsPage instructorResultsPage =
-                loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPageOld(editUrl, InstructorFeedbackResultsPage.class);
 
         ______TS("Show statistics for mcq question without weights enabled");
 

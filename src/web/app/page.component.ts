@@ -29,7 +29,6 @@ export class PageComponent implements OnInit {
   @Input() isInstructor: boolean = false;
   @Input() isAdmin: boolean = false;
   @Input() isValidUser: boolean = false;
-  @Input() logoutUrl: string = '';
   @Input() pageTitle: string = '';
   @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];

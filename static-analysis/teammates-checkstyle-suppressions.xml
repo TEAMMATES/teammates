@@ -32,6 +32,8 @@
     <suppress checks="JavadocMethod" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="JavadocType" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
+    <suppress checks="JavadocMethod" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
+    <suppress checks="JavadocVariable" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
 
     <!-- Remove all these when V7 migration is done -->
     <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>

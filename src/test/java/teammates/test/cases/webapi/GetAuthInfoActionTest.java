@@ -48,7 +48,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getUser());
         assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
-        assertNull(output.getLogoutUrl());
 
         ______TS("Normal case: With logged in user");
 
@@ -64,7 +63,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
         assertFalse(output.isMasquerade());
-        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
 
         UserInfo user = output.getUser();
         assertFalse(user.isAdmin);
@@ -90,7 +88,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
         assertTrue(output.isMasquerade());
-        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
 
         assertEquals("TEAMMATES Test Institute 1", output.getInstitute());
 
@@ -112,7 +109,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
         assertFalse(output.isMasquerade());
-        assertEquals(gateKeeper.getLogoutUrl("/web"), output.getLogoutUrl());
 
         user = output.getUser();
         assertFalse(user.isAdmin);

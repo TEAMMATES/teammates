@@ -20,8 +20,6 @@ public class AuthInfo extends ApiOutput {
     @Nullable
     private final String institute;
     private final boolean masquerade;
-    @Nullable
-    private final String logoutUrl;
 
     public AuthInfo(String studentLoginUrl, String instructorLoginUrl, String adminLoginUrl) {
         this.studentLoginUrl = studentLoginUrl;
@@ -30,17 +28,15 @@ public class AuthInfo extends ApiOutput {
         this.user = null;
         this.institute = null;
         this.masquerade = false;
-        this.logoutUrl = null;
     }
 
-    public AuthInfo(UserInfo user, String institute, boolean masquerade, String logoutUrl) {
+    public AuthInfo(UserInfo user, String institute, boolean masquerade) {
         this.studentLoginUrl = null;
         this.instructorLoginUrl = null;
         this.adminLoginUrl = null;
         this.user = user;
         this.institute = institute;
         this.masquerade = masquerade;
-        this.logoutUrl = logoutUrl;
     }
 
     public String getStudentLoginUrl() {
@@ -65,10 +61,6 @@ public class AuthInfo extends ApiOutput {
 
     public boolean isMasquerade() {
         return masquerade;
-    }
-
-    public String getLogoutUrl() {
-        return logoutUrl;
     }
 
 }
