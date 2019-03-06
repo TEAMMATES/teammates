@@ -40,6 +40,11 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         // update section privilege for testing purpose.
 
         // course level privilege
+        privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
+        privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, true);
+        privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, false);
+        privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
+
         privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, false);
 
         privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, false);
@@ -47,14 +52,11 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         privileges.updatePrivilege(
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
 
-        privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
-        privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, true);
-        privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, false);
-        privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
-
         // section level privilege
         privileges.updatePrivilege(section1,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, true);
+        privileges.updatePrivilege(section1,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
         // session level privilege
         privileges.updatePrivilege(section1, session1,
@@ -175,7 +177,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         assertTrue(response.isCanViewStudentInSections());
 
-        assertFalse(response.isCanModifySessionCommentsInSections());
+        assertTrue(response.isCanModifySessionCommentsInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanSubmitSessionInSections());
     }
@@ -233,7 +235,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         assertTrue(response.isCanViewStudentInSections());
 
-        assertFalse(response.isCanModifySessionCommentsInSections());
+        assertTrue(response.isCanModifySessionCommentsInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanSubmitSessionInSections());
     }
@@ -286,7 +288,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         assertFalse(response.isCanViewStudentInSections());
 
-        assertFalse(response.isCanModifySessionCommentsInSections());
+        assertTrue(response.isCanModifySessionCommentsInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanSubmitSessionInSections());
     }
