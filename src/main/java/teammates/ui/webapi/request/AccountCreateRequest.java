@@ -41,24 +41,23 @@ public class AccountCreateRequest extends BasicRequest {
 
     @Override
     public void validate() {
-        FieldValidator validator = new FieldValidator();
         assertTrue(this.instructorEmail != null, "email cannot be null");
         assertTrue(this.instructorName != null, "name cannot be null");
         assertTrue(this.instructorInstitution != null, "institute cannot be null");
 
         List<String> errors = new ArrayList<>();
 
-        String nameError = validator.getInvalidityInfoForPersonName(this.instructorName.trim());
+        String nameError = FieldValidator.getInvalidityInfoForPersonName(this.instructorName.trim());
         if (!nameError.isEmpty()) {
             errors.add(nameError);
         }
 
-        String emailError = validator.getInvalidityInfoForEmail(this.instructorEmail.trim());
+        String emailError = FieldValidator.getInvalidityInfoForEmail(this.instructorEmail.trim());
         if (!emailError.isEmpty()) {
             errors.add(emailError);
         }
 
-        String instituteError = validator.getInvalidityInfoForInstituteName(this.instructorInstitution.trim());
+        String instituteError = FieldValidator.getInvalidityInfoForInstituteName(this.instructorInstitution.trim());
         if (!instituteError.isEmpty()) {
             errors.add(instituteError);
         }

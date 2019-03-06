@@ -12,9 +12,9 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -693,7 +693,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        return loginAdminToPageOld(resultsUrl, InstructorFeedbackResultsPage.class);
     }
 
     private InstructorFeedbackResultsPage
@@ -714,7 +714,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
         }
 
         InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPageOld(resultsUrl, InstructorFeedbackResultsPage.class);
 
         if (needAjax) {
             resultsPage.waitForPageStructureToLoad();

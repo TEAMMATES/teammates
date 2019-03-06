@@ -1,7 +1,8 @@
-package teammates.test.pageobjects;
+package teammates.e2e.pageobjects;
 
-import teammates.e2e.pageobjects.Browser;
-
+/**
+ * Page Object Model for student help page.
+ */
 public class StudentHelpPage extends AppPage {
 
     public StudentHelpPage(Browser browser) {
@@ -10,7 +11,7 @@ public class StudentHelpPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Help for Students</h1>");
+        return getPageTitle().contains("Help for Students");
     }
 
 }

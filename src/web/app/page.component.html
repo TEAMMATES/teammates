@@ -24,8 +24,8 @@
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="!user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
         <div class="dropdown-menu" ngbDropdownMenu>
-          <a class="dropdown-item" [href]="studentLoginUrl">Student Login</a>
-          <a class="dropdown-item" [href]="instructorLoginUrl">Instructor Login</a>
+          <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
+          <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
         </div>
       </li>
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
@@ -35,7 +35,7 @@
           <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor">To instructor pages</a>
           <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin">To admin pages</a>
           <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
-          <a class="dropdown-item" [href]="logoutUrl">Log Out</a>
+          <a class="dropdown-item" id="logout-btn" [href]="logoutUrl">Log Out</a>
         </div>
       </li>
     </ul>
