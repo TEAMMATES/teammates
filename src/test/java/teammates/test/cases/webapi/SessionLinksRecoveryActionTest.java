@@ -17,13 +17,13 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SessionLinkRecoveryAction;
-import teammates.ui.webapi.output.LinkRecoveryResponseData;
+import teammates.ui.webapi.action.SessionLinksRecoveryAction;
+import teammates.ui.webapi.output.SessionLinksRecoveryResponseData;
 
 /**
- * SUT: {@link SessionLinkRecoveryAction}.
+ * SUT: {@link SessionLinksRecoveryAction}.
  */
-public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRecoveryAction> {
+public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksRecoveryAction> {
 
     private FeedbackSessionAttributes session1InCourse3 = typicalBundle.feedbackSessions.get("session1InCourse3");
     private FeedbackSessionAttributes session2InCourse3 = typicalBundle.feedbackSessions.get("session2InCourse3");
@@ -71,46 +71,45 @@ public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRec
         removeAndRestoreDataBundle(dataBundle);
     }
 
-    @Override
     @Test
-    protected void testExecute() throws Exception {
-        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        StudentAttributes student1InCourse2 = typicalBundle.students.get("student1InCourse2");
-        StudentAttributes student1InCourse3 = typicalBundle.students.get("student1InCourse3");
-        CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");
-        CourseAttributes course3 = typicalBundle.courses.get("typicalCourse3");
-
+    protected void testExecute_notEnoughParameters() {
         ______TS("Invalid parameters");
-
         // no params
         verifyHttpParameterFailure();
+    }
 
+    @Test
+    protected void testExecute_nonExistingEmail() {
         ______TS("Typical case: non-existing email address");
 
         String[] nonExistingParam = new String[] {
                 Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, "non-existent email address.",
         };
 
-        SessionLinkRecoveryAction a = getAction(nonExistingParam);
+        SessionLinksRecoveryAction a = getAction(nonExistingParam);
         JsonResult result = getJsonResult(a);
 
-        LinkRecoveryResponseData output = (LinkRecoveryResponseData) result.getOutput();
+        SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
 
         assertEquals("The recovery links for your feedback sessions have been sent to "
                 + "the specified email address: non-existent email address.", output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 0);
+    }
 
+    @Test
+    protected void testExecute_noFeedbakcSessionsFound() {
+        StudentAttributes student1InCourse2 = typicalBundle.students.get("student1InCourse2");
         ______TS("Typical case: successfully sent recovery link email: No feedback sessions found");
 
         String[] param = new String[] {
                 Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse2.getEmail(),
         };
 
-        a = getAction(param);
-        result = getJsonResult(a);
+        SessionLinksRecoveryAction a = getAction(param);
+        JsonResult result = getJsonResult(a);
 
-        output = (LinkRecoveryResponseData) result.getOutput();
+        SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
 
         assertEquals("The recovery links for your feedback sessions have been sent to the "
                         + "specified email address: " + student1InCourse2.getEmail(),
@@ -122,21 +121,26 @@ public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRec
         assertEquals(EmailType.FEEDBACK_ACCESS_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse2.getEmail(), emailSent.getRecipient());
         assertEquals(Templates.populateTemplate(
-                Templates.EmailTemplates.SESSION_LINK_RECOVERY_ACCESS_LINKS_NONE,
+                Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse2.getEmail()),
                 "${supportEmail}", Config.SUPPORT_EMAIL), emailSent.getContent());
+    }
 
+    @Test
+    protected void testExecute_openedOrClosedAndUnpublishedSessions() {
+        CourseAttributes course3 = typicalBundle.courses.get("typicalCourse3");
+        StudentAttributes student1InCourse3 = typicalBundle.students.get("student1InCourse3");
         ______TS("Typical case: successfully sent recovery link email: opened and unpublished, "
                 + "closed and unpublished.");
 
-        param = new String[] {
+        String[] param = new String[] {
                 Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse3.getEmail(),
         };
 
-        a = getAction(param);
-        result = getJsonResult(a);
+        SessionLinksRecoveryAction a = getAction(param);
+        JsonResult result = getJsonResult(a);
 
-        output = (LinkRecoveryResponseData) result.getOutput();
+        SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
 
         assertEquals("The recovery links for your feedback sessions have been "
                         + "sent to the specified email address: " + student1InCourse3.getEmail(),
@@ -144,7 +148,7 @@ public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRec
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 
-        emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
         assertEquals(EmailType.FEEDBACK_ACCESS_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse3.getEmail(), emailSent.getRecipient());
 
@@ -159,16 +163,13 @@ public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRec
                 .withRegistrationKey(StringHelper.encrypt(registrationKey))
                 .withStudentEmail(student1InCourse3.getEmail())
                 .toAbsoluteString();
-        String submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+        String submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
 
-        String reportUrlHtml = "(Feedback session is not yet published)";
+        String reportUrlHtml = "";
 
         linksFragmentValue.append(Templates.populateTemplate(
                 Templates.EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
-                "${courseId}", course3.getId(),
-                "${courseName}", course3.getName(),
-                "${feedbackSessionName}", session1InCourse3.getFeedbackSessionName(),
-                "${deadline}", session1InCourse3.getEndTimeString() + (session1InCourse3.isClosed() ? " (Passed)" : ""),
+                "${sessionName}", session1InCourse3.getFeedbackSessionName(),
                 "${submitUrl}", submitUrlHtml,
                 "${reportUrl}", reportUrlHtml));
 
@@ -179,36 +180,43 @@ public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRec
                 .withRegistrationKey(StringHelper.encrypt(registrationKey))
                 .withStudentEmail(student1InCourse3.getEmail())
                 .toAbsoluteString();
-        submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+        submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
 
         linksFragmentValue.append(Templates.populateTemplate(
                 Templates.EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
-                "${courseId}", course3.getId(),
-                "${courseName}", course3.getName(),
-                "${feedbackSessionName}", session2InCourse3.getFeedbackSessionName(),
-                "${deadline}", session2InCourse3.getEndTimeString() + (session2InCourse3.isClosed() ? " (Passed)" : ""),
+                "${sessionName}", session2InCourse3.getFeedbackSessionName(),
                 "${submitUrl}", submitUrlHtml,
                 "${reportUrl}", reportUrlHtml));
 
+        String courseBody = Templates.populateTemplate(
+                Templates.EmailTemplates.FRAGMENT_COURSE_LINKS_RECOVERY_ACCESS_LINKS,
+                "${sessionFragment}", linksFragmentValue.toString(),
+                "${courseName}", course3.getName());
+
         assertEquals(Templates.populateTemplate(
-                Templates.EmailTemplates.SESSION_LINK_RECOVERY_ACCESS_LINKS,
+                Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getName()),
-                "${linksFragment}", linksFragmentValue.toString(),
-                "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getEmail()),
+                "${linksFragment}", courseBody,
+                "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getEmail()),
                 "${teammateHomePageLink}", Config.APP_URL,
                 "${supportEmail}", Config.SUPPORT_EMAIL), emailSent.getContent());
+    }
 
+    @Test
+    protected void testExecute_openedOrClosedAndPublishedSessions() {
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");
         ______TS("Typical case: successfully sent recovery link email: opened and published, "
                 + "closed and published.");
 
-        param = new String[] {
+        String[] param = new String[] {
                 Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse1.getEmail(),
         };
 
-        a = getAction(param);
-        result = getJsonResult(a);
+        SessionLinksRecoveryAction a = getAction(param);
+        JsonResult result = getJsonResult(a);
 
-        output = (LinkRecoveryResponseData) result.getOutput();
+        SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
 
         assertEquals("The recovery links for your feedback sessions have been sent "
                         + "to the specified email address: " + student1InCourse1.getEmail(),
@@ -216,36 +224,33 @@ public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRec
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 
-        emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
         assertEquals(EmailType.FEEDBACK_ACCESS_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse1.getEmail(), emailSent.getRecipient());
 
-        linksFragmentValue = new StringBuilder(5000);
+        StringBuilder linksFragmentValue = new StringBuilder(5000);
 
-        registrationKey = logic.getStudentForEmail(student1InCourse1.getCourse(),
+        String registrationKey = logic.getStudentForEmail(student1InCourse1.getCourse(),
                 student1InCourse1.getEmail()).getKey();
 
         // opened and published.
-        submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(course1.getId())
                 .withSessionName(session1InCourse1.getFeedbackSessionName())
                 .withRegistrationKey(StringHelper.encrypt(registrationKey))
                 .withStudentEmail(student1InCourse1.getEmail())
                 .toAbsoluteString();
-        submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+        String submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
 
         String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                 .withCourseId(course1.getId())
                 .withSessionName(session1InCourse1.getFeedbackSessionName())
                 .toAbsoluteString();
-        reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
+        String reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
 
         linksFragmentValue.append(Templates.populateTemplate(
                 Templates.EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
-                "${courseId}", course1.getId(),
-                "${courseName}", course1.getName(),
-                "${feedbackSessionName}", session1InCourse1.getFeedbackSessionName(),
-                "${deadline}", session1InCourse1.getEndTimeString() + (session1InCourse1.isClosed() ? " (Passed)" : ""),
+                "${sessionName}", session1InCourse1.getFeedbackSessionName(),
                 "${submitUrl}", submitUrlHtml,
                 "${reportUrl}", reportUrlHtml));
 
@@ -256,29 +261,37 @@ public class SessionLinkRecoveryActionTest extends BaseActionTest<SessionLinkRec
                 .withRegistrationKey(StringHelper.encrypt(registrationKey))
                 .withStudentEmail(student1InCourse1.getEmail())
                 .toAbsoluteString();
-        submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
+        submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
         reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
                 .withCourseId(course1.getId())
                 .withSessionName(session2InCourse1.getFeedbackSessionName())
                 .toAbsoluteString();
-        reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
+        reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
 
         linksFragmentValue.append(Templates.populateTemplate(
                 Templates.EmailTemplates.FRAGMENT_SESSION_LINK_RECOVERY_ACCESS_LINKS,
-                "${courseId}", course1.getId(),
-                "${courseName}", course1.getName(),
-                "${feedbackSessionName}", session2InCourse1.getFeedbackSessionName(),
-                "${deadline}", session2InCourse1.getEndTimeString() + (session2InCourse1.isClosed() ? " (Passed)" : ""),
+                "${sessionName}", session2InCourse1.getFeedbackSessionName(),
                 "${submitUrl}", submitUrlHtml,
                 "${reportUrl}", reportUrlHtml));
 
+        String courseBody = Templates.populateTemplate(
+                Templates.EmailTemplates.FRAGMENT_COURSE_LINKS_RECOVERY_ACCESS_LINKS,
+                "${sessionFragment}", linksFragmentValue.toString(),
+                "${courseName}", course1.getName());
+
         assertEquals(Templates.populateTemplate(
-                Templates.EmailTemplates.SESSION_LINK_RECOVERY_ACCESS_LINKS,
+                Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getName()),
-                "${linksFragment}", linksFragmentValue.toString(),
-                "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getEmail()),
+                "${linksFragment}", courseBody,
+                "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getEmail()),
                 "${teammateHomePageLink}", Config.APP_URL,
                 "${supportEmail}", Config.SUPPORT_EMAIL), emailSent.getContent());
+    }
+
+    @Override
+    @Test
+    protected void testExecute() throws Exception {
+        // see individual tests
     }
 
     @Override

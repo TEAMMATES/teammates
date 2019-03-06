@@ -3,11 +3,11 @@ package teammates.ui.webapi.output;
 /**
  * The output format for link recovery request.
  */
-public class LinkRecoveryResponseData extends ApiOutput {
+public class SessionLinksRecoveryResponseData extends ApiOutput {
     private final boolean isEmailSent;
     private final String message;
 
-    public LinkRecoveryResponseData(boolean isEmailSent, String message) {
+    public SessionLinksRecoveryResponseData(boolean isEmailSent, String message) {
         this.isEmailSent = isEmailSent;
         this.message = message;
     }
