@@ -63,6 +63,17 @@
     </servlet-mapping>
 
     <servlet>
+        <description>Servlet that handles logout requests</description>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>teammates.ui.webapi.action.LogoutServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <description>Servlet that handles mapping from legacy URL to new one</description>
         <servlet-name>LegacyUrlMapper</servlet-name>
         <servlet-class>teammates.ui.webapi.action.LegacyUrlMapper</servlet-class>

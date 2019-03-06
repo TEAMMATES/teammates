@@ -9,7 +9,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -743,7 +743,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private InstructorFeedbackEditPage getFeedbackEditPage() {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE).withUserId(instructorId)
                 .withCourseId(courseId).withSessionName(feedbackSessionName).withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
@@ -752,7 +752,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 .withUserId(testData.instructors.get(instructorName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPageOld(editUrl, FeedbackSubmitPage.class);
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
@@ -761,7 +761,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPageOld(editUrl, FeedbackSubmitPage.class);
     }
 
     private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
@@ -770,7 +770,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
                 .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(editUrl, StudentFeedbackResultsPage.class);
+        return loginAdminToPageOld(editUrl, StudentFeedbackResultsPage.class);
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
@@ -788,7 +788,7 @@ public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
             editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
         }
 
-        return loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+        return loginAdminToPageOld(editUrl, InstructorFeedbackResultsPage.class);
     }
 
 }

@@ -10,7 +10,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
@@ -213,7 +213,7 @@ public class InstructorSearchPageUiTest extends BaseE2ETestCase {
         AppUrl searchPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE)
                 .withUserId(instructorId);
 
-        return loginAdminToPage(searchPageUrl, InstructorSearchPage.class);
+        return loginAdminToPageOld(searchPageUrl, InstructorSearchPage.class);
     }
 
 }

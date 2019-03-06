@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment-timezone';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { Course, CourseArchive, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
@@ -73,11 +71,6 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   user: string = '';
 
-  timezones: string[] = [];
-  timezone: string = '';
-  newCourseId: string = '';
-  newCourseName: string = '';
-
   activeCourses: ActiveCourse[] = [];
   archivedCourses: ArchivedCourse[] = [];
   softDeletedCourses: SoftDeletedCourse[] = [];
@@ -90,7 +83,6 @@ export class InstructorCoursesPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
-              private timezoneService: TimezoneService,
               private courseService: CourseService,
               private modalService: NgbModal) { }
 
@@ -108,8 +100,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       user: this.user,
     };
-    this.timezones = Object.keys(this.timezoneService.getTzOffsets());
-    this.timezone = moment.tz.guess();
     this.httpRequestService.get('/instructor/courses', paramMap).subscribe((resp: InstructorCourses) => {
       this.activeCourses = resp.activeCourses;
       this.archivedCourses = resp.archivedCourses;
@@ -174,43 +164,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-  }
-
-  /**
-   * Auto-detects timezone for instructor.
-   */
-  onAutoDetectTimezone(): void {
-    this.timezone = moment.tz.guess();
-  }
-
-  /**
-   * Submits the data to add the new course.
-   */
-  onSubmit(): void {
-    if (!this.newCourseId || !this.newCourseName) {
-      this.statusMessageService.showErrorMessage(
-          'Please make sure you have filled in both Course ID and Name before adding the course!');
-      return;
-    }
-
-    this.courseService.createCourse({
-      courseName: this.newCourseName,
-      timeZone: this.timezone,
-      courseId: this.newCourseId,
-    }).subscribe((course: Course) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage('The course has been added. '
-          + `Click <a href=\"/web/instructor/courses/enroll?courseid=${course.courseId}\">here</a> `
-          + `to add students to the course or click <a href=\"/web/instructor/courses/edit?courseid=${course.courseId}`
-          + '\">here</a> to add other instructors.'
-          + '<br>If you don\'t see the course in the list below, please refresh the page after a few moments.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
-
-    this.newCourseId = '';
-    this.newCourseName = '';
-    this.timezone = moment.tz.guess();
   }
 
   /**

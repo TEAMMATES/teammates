@@ -42,8 +42,7 @@ public class UpdateCourseAction extends Action {
         CourseUpdateRequest courseUpdateRequest = getAndValidateRequestBody(CourseUpdateRequest.class);
         String courseTimeZone = courseUpdateRequest.getTimeZone();
 
-        FieldValidator validator = new FieldValidator();
-        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
+        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
             return new JsonResult(timeZoneErrorMessage, HttpStatus.SC_BAD_REQUEST);
         }

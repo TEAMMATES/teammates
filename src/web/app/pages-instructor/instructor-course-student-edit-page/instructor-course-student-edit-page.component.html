@@ -1,5 +1,4 @@
 <div *ngIf="student">
-  <h1>Edit Student Details</h1>
   <div class="card border-primary">
     <div class="card-body fill-plain">
       <form
@@ -93,7 +92,7 @@
                 (click)="modal.dismiss()">×</button>
           </div>
           <div class="modal-body">
-            Do you want to resend past session links of this course to the new email {{ editForm.get('newstudentemail').value }}?
+            Do you want to resend past session links of this course to the new email {{ editForm.get('newstudentemail')?.value }}?
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary"

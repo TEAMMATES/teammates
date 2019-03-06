@@ -86,16 +86,15 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public List<String> getInvalidityInfo() {
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(institute), errors);
 
         // No validation for isInstructor and createdAt fields.
 
