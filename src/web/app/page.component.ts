@@ -21,7 +21,7 @@ const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation Syste
 })
 export class PageComponent implements OnInit {
 
-  @Input() isFetchingAuthDetails: boolean = true;
+  @Input() isFetchingAuthDetails: boolean = false;
   @Input() studentLoginUrl: string = '';
   @Input() instructorLoginUrl: string = '';
   @Input() user: string = '';
