@@ -1,16 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { InstructorSearchPageComponent } from './instructor-search-page.component';
+import { InstructorSearchPageComponent, SearchStudentsTable } from './instructor-search-page.component';
 
-@Component({ selector: 'tm-student-list', template: '' })
-class StudentListStubComponent {
-  @Input() courseId: string = '';
-  @Input() useGrayHeading: boolean = true;
-  @Input() sections: Object[] = [];
-  @Input() enableRemindButton: boolean = false;
+@Component({ selector: 'tm-instructor-search-bar', template: '' })
+class InstructorSearchBarStubComponent {
+  @Input() searchKey: string = '';
+}
+@Component({ selector: 'tm-student-result-table', template: '' })
+class StudentResultTableStubComponent {
+  @Input() studentTables: SearchStudentsTable[] = [];
 }
 
 describe('InstructorSearchPageComponent', () => {
@@ -21,12 +21,12 @@ describe('InstructorSearchPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorSearchPageComponent,
-        StudentListStubComponent,
+        InstructorSearchBarStubComponent,
+        StudentResultTableStubComponent,
       ],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
-        FormsModule,
       ],
     })
     .compileComponents();
