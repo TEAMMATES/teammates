@@ -178,7 +178,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       user: this.user,
       courseid: this.courseid,
       studentemail: this.studentemail,
-      sessionsummarysendemail: this.isSessionSummarySendEmail.toString(),
     };
 
     const reqBody: StudentUpdateRequest = {
@@ -187,6 +186,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       team: this.editForm.value.teamname,
       section: this.editForm.value.sectionname,
       comments: this.editForm.value.comments,
+      isSessionSummarySendEmail: this.isSessionSummarySendEmail,
     };
 
     this.httpRequestService.put('/student', paramsMap, reqBody)
