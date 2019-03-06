@@ -37,13 +37,14 @@ export class AdminPageComponent implements OnInit {
       display: 'Timezone Listing',
     },
   ];
-  isFetchingAuthDetails: boolean = true;
+  isFetchingAuthDetails: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
   constructor(private router: Router, private authService: AuthService, private navigationService: NavigationService) {}
 
   ngOnInit(): void {
+    this.isFetchingAuthDetails = true;
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       if (res.user) {
         this.user = res.user.id;
