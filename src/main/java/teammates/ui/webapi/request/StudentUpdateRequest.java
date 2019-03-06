@@ -11,13 +11,16 @@ public class StudentUpdateRequest extends BasicRequest {
     private String team;
     private String section;
     private String comments;
+    private Boolean isSessionSummarySendEmail;
 
-    public StudentUpdateRequest(String name, String email, String team, String section, String comments) {
+    public StudentUpdateRequest(String name, String email, String team, String section, String comments,
+                                Boolean isSessionSummarySendEmail) {
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.team = SanitizationHelper.sanitizeName(team);
         this.section = SanitizationHelper.sanitizeName(section);
         this.comments = SanitizationHelper.sanitizeTextField(comments);
+        this.isSessionSummarySendEmail = isSessionSummarySendEmail;
     }
 
     @Override
@@ -27,6 +30,7 @@ public class StudentUpdateRequest extends BasicRequest {
         assertTrue(team != null, "team cannot be null");
         assertTrue(section != null, "section cannot be null");
         assertTrue(comments != null, "comments cannot be null");
+        assertTrue(isSessionSummarySendEmail != null, "session summary boolean cannot be null");
     }
 
     public String getName() {
@@ -47,5 +51,9 @@ public class StudentUpdateRequest extends BasicRequest {
 
     public String getComments() {
         return this.comments;
+    }
+
+    public Boolean getIsSessionSummarySendEmail() {
+        return this.isSessionSummarySendEmail;
     }
 }

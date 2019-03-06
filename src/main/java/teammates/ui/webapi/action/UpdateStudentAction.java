@@ -10,11 +10,10 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.request.StudentUpdateRequest;
 
@@ -22,7 +21,8 @@ import teammates.ui.webapi.request.StudentUpdateRequest;
  * Action: Edits details of a student in a course.
  */
 public class UpdateStudentAction extends Action {
-    private static final Logger log = Logger.getLogger();
+    private static final String SUCCESSFUL_UPDATE = "Student has been updated";
+    private static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and email sent";
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -68,10 +68,8 @@ public class UpdateStudentAction extends Action {
 
             if (!student.email.equals(updateRequest.getEmail())) {
                 logic.resetStudentGoogleId(updateRequest.getEmail(), courseId);
-                boolean isSessionSummarySendEmail =
-                        getBooleanRequestParamValue(Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK);
 
-                if (isSessionSummarySendEmail) {
+                if (updateRequest.getIsSessionSummarySendEmail()) {
                     emailSent = sendEmail(courseId, updateRequest.getEmail());
                 }
             }
@@ -80,28 +78,22 @@ public class UpdateStudentAction extends Action {
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult("Trying to update to an email that is already used",
+            return new JsonResult("Trying to update to an email that is already in use",
                     HttpStatus.SC_CONFLICT);
         }
 
-        StringBuilder responseMessage = new StringBuilder("Student has been updated");
-        if (emailSent) {
-            responseMessage.append(" and email sent");
-        }
-
-        return new JsonResult(responseMessage.toString());
+        return emailSent ? new JsonResult(SUCCESSFUL_UPDATE_WITH_EMAIL) : new JsonResult(SUCCESSFUL_UPDATE);
     }
 
+    /**
+     * Sends the feedback session summary as an email.
+     *
+     * @return The true if email was sent successfully or false otherwise.
+     */
     private boolean sendEmail(String courseId, String studentEmail) {
-        try {
-            EmailWrapper email =
-                    new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, studentEmail);
-            emailSender.sendEmail(email);
-            return true;
-        } catch (Exception e) {
-            log.severe("Error while sending session summary email"
-                    + TeammatesException.toStringWithStackTrace(e));
-            return false;
-        }
+        EmailWrapper email =
+                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, studentEmail);
+        EmailSendingStatus status = emailSender.sendEmail(email);
+        return status.isSuccess();
     }
 }

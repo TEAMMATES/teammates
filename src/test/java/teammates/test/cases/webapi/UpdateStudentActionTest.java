@@ -65,12 +65,11 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         String newStudentTeam = "new student's team";
         String newStudentComments = "this is new comment after editing";
         StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.name, newStudentEmail,
-                newStudentTeam, student1InCourse1.section, newStudentComments);
+                newStudentTeam, student1InCourse1.section, newStudentComments, true);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
-                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "true",
         };
 
         UpdateStudentAction updateAction = getAction(updateRequest, submissionParams);
@@ -92,12 +91,11 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         String newStudentTeamToBeTrimmed = "  New team   ";
         String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
         updateRequest = new StudentUpdateRequest(student1InCourse1.name, newStudentEmailToBeTrimmed,
-                newStudentTeamToBeTrimmed, student1InCourse1.section, newStudentCommentsToBeTrimmed);
+                newStudentTeamToBeTrimmed, student1InCourse1.section, newStudentCommentsToBeTrimmed, true);
 
         String[] submissionParamsToBeTrimmed = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
-                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "true",
         };
 
         UpdateStudentAction actionToBeTrimmed = getAction(updateRequest, submissionParamsToBeTrimmed);
@@ -115,12 +113,11 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
 
         updateRequest = new StudentUpdateRequest(student1InCourse1.name, invalidStudentEmail,
-                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments);
+                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
-                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "false",
         };
 
         UpdateStudentAction invalidEmailAction = getAction(updateRequest, submissionParams);
@@ -140,12 +137,11 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         String takenStudentEmail = student2InCourse1.email;
 
         updateRequest = new StudentUpdateRequest(student1InCourse1.name, takenStudentEmail,
-                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments);
+                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
-                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "false",
         };
 
         UpdateStudentAction takenEmailAction = getAction(updateRequest, submissionParams);
@@ -154,7 +150,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_CONFLICT, takenEmailOutput.getStatusCode());
         invalidParamsOutput = (MessageOutput) takenEmailOutput.getOutput();
 
-        assertEquals("Trying to update to an email that is already used", invalidParamsOutput.getMessage());
+        assertEquals("Trying to update to an email that is already in use", invalidParamsOutput.getMessage());
 
         // deleting edited student
         AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);
@@ -164,12 +160,11 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
         updateRequest = new StudentUpdateRequest(student1InCourse1.name, student1InCourse1.email,
-                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments);
+                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
-                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "false",
         };
 
         UpdateStudentAction nonExistentStudentAction = getAction(updateRequest, submissionParams);
