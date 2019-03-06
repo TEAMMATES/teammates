@@ -19,8 +19,8 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
 
 1. Initialize git & Change directory
    ```
-   git init
    cd teammates-master
+   git init
    ```
 1. Add a remote name (e.g `upstream`) for your copy of the main repo. Fetch the remote-tracking branches from the main repo to keep it in sync with your copy.
    ```sh
