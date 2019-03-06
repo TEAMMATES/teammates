@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import java.util.logging.Level;
+
 /**
  * Allows any component of the application to log messages at appropriate levels.
  */
@@ -52,4 +54,12 @@ public final class Logger {
         log.severe(msg);
     }
 
+    /**
+     * Logs a message at SEVERE level, with associated Throwable information.
+     *
+     * @see java.util.logging.Logger#log(Level, String, Throwable)
+     */
+    public void logThrowable(Throwable thrown) {
+        log.log(Level.SEVERE, thrown.getMessage(), thrown);
+    }
 }

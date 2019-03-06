@@ -47,7 +47,7 @@ public class RecaptchaVerifier {
 
             return Boolean.parseBoolean(responseInJson.get("success").toString());
         } catch (Exception e) {
-            log.severe("reCAPTCHA request failure: " + e.toString());
+            log.logThrowable(e);
             return false;
         }
     }
