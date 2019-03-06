@@ -39,8 +39,8 @@ export class StudentPageComponent implements OnInit {
   constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.isFetchingAuthDetails = true;
       this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
         if (res.user) {
           this.user = res.user.id + (res.masquerade ? ' (M)' : '');
