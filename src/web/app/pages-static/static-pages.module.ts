@@ -9,9 +9,11 @@ import {
 import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
 import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
 import {
-  SessionLinkRecoveryPageComponent,
-} from '../pages-help/session-link-recovery/session-link-recovery-page.component';
-import { SessionLinkRecoveryPageModule } from '../pages-help/session-link-recovery/session-link-recovery-page.module';
+  SessionLinksRecoveryPageComponent,
+} from '../pages-help/session-links-recovery/session-links-recovery-page.component';
+import {
+  SessionLinksRecoveryPageModule,
+} from '../pages-help/session-links-recovery/session-links-recovery-page.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
 import { StudentHelpPageModule } from '../pages-help/student-help-page/student-help-page.module';
 import { AboutPageComponent } from './about-page/about-page.component';
@@ -75,7 +77,7 @@ const routes: Routes = [
       },
       {
         path: 'session-link-recovery',
-        component: SessionLinkRecoveryPageComponent,
+        component: SessionLinksRecoveryPageComponent,
       },
     ],
   },
@@ -111,7 +113,7 @@ const routes: Routes = [
     UsermapPageModule,
     StudentHelpPageModule,
     InstructorHelpPageModule,
-    SessionLinkRecoveryPageModule,
+    SessionLinksRecoveryPageModule,
     RouterModule.forChild(routes),
   ],
 })

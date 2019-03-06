@@ -11,11 +11,11 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Student recover session links page.
  */
 @Component({
-  selector: 'tm-student-recover-session-links-page',
-  templateUrl: './session-link-recovery-page.component.html',
-  styleUrls: ['./session-link-recovery-page.component.scss'],
+  selector: 'tm-session-links-recovery-page',
+  templateUrl: './session-links-recovery-page.component.html',
+  styleUrls: ['./session-links-recovery-page.component.scss'],
 })
-export class SessionLinkRecoveryPageComponent implements OnInit {
+export class SessionLinksRecoveryPageComponent implements OnInit {
 
   // ngx-recaptcha2 element properties
   captchaSuccess: boolean = false;
@@ -23,7 +23,7 @@ export class SessionLinkRecoveryPageComponent implements OnInit {
   size: 'compact' | 'normal' = 'normal';
   lang: string = 'en';
 
-  formLinkRecovery!: FormGroup;
+  formSessionLinksRecovery!: FormGroup;
   readonly captchaSiteKey: string = environment.captchaSiteKey;
 
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
@@ -33,32 +33,32 @@ export class SessionLinkRecoveryPageComponent implements OnInit {
               private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.formLinkRecovery = this.formBuilder.group({
+    this.formSessionLinksRecovery = this.formBuilder.group({
       email: ['', Validators.required],
       recaptcha: ['', Validators.required],
     });
   }
 
   /**
-   * Sends the feedback session links to the registered email address.
+   * Sends the feedback session links to the recovery email address.
    */
-  onSubmitFormLinkRecovery(linkRecoveryForm: FormGroup): void {
-    if (!this.formLinkRecovery.valid || this.captchaResponse === undefined) {
+  onSubmitFormSessionLinksRecovery(sessionLinksRecoveryForm: FormGroup): void {
+    if (!this.formSessionLinksRecovery.valid || this.captchaResponse === undefined) {
       this.statusMessageService.showErrorMessage(
           'Please enter a valid email address and click the reCAPTCHA before submitting.');
       return;
     }
 
     const paramsMap: { [key: string]: string } = {
-      sessionlinkrecoveryemail: linkRecoveryForm.controls.email.value,
+      sessionlinksrecoveryemail: sessionLinksRecoveryForm.controls.email.value,
       captcharesponse: this.captchaResponse,
     };
 
-    this.httpRequestService.get('/sessionlinkrecovery', paramsMap)
+    this.httpRequestService.get('/sessionlinksrecovery', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.statusMessageService.showSuccessMessage(resp.message);
 
-        this.resetFormGroup();
+        this.resetFormGroups();
       }, (response: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(response.error.message);
 
@@ -69,8 +69,8 @@ export class SessionLinkRecoveryPageComponent implements OnInit {
   /**
    * Resets the email and reCAPTCHA input fields in the form.
    */
-  resetFormGroup(): void {
-    (this.formLinkRecovery = this.formBuilder.group({
+  resetFormGroups(): void {
+    (this.formSessionLinksRecovery = this.formBuilder.group({
       email: ['', Validators.required],
       recaptcha: ['', Validators.required],
     }));
@@ -81,7 +81,7 @@ export class SessionLinkRecoveryPageComponent implements OnInit {
    * Resets reCAPTCHA in the form.
    */
   resetRecaptchaFormGroup(): void {
-    (this.formLinkRecovery = this.formBuilder.group({
+    (this.formSessionLinksRecovery = this.formBuilder.group({
       recaptcha: ['', Validators.required],
     }));
     this.captchaElem.reloadCaptcha();

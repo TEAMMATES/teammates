@@ -2,15 +2,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { SessionLinkRecoveryPageComponent } from './session-link-recovery-page.component';
+import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
 
-describe('SessionLinkRecoveryPageComponent', () => {
-  let component: SessionLinkRecoveryPageComponent;
-  let fixture: ComponentFixture<SessionLinkRecoveryPageComponent>;
+describe('SessionLinksRecoveryPageComponent', () => {
+  let component: SessionLinksRecoveryPageComponent;
+  let fixture: ComponentFixture<SessionLinksRecoveryPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SessionLinkRecoveryPageComponent],
+      declarations: [SessionLinksRecoveryPageComponent],
       imports: [
         ReactiveFormsModule,
         HttpClientTestingModule,
@@ -21,7 +21,7 @@ describe('SessionLinkRecoveryPageComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SessionLinkRecoveryPageComponent);
+    fixture = TestBed.createComponent(SessionLinksRecoveryPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

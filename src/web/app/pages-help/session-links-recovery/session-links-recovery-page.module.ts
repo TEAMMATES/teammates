@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { SessionLinkRecoveryPageComponent } from './session-link-recovery-page.component';
+import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
 
 /**
  * Module for student recover session links page.
@@ -15,10 +15,10 @@ import { SessionLinkRecoveryPageComponent } from './session-link-recovery-page.c
     NgxCaptchaModule,
   ],
   declarations: [
-    SessionLinkRecoveryPageComponent,
+    SessionLinksRecoveryPageComponent,
   ],
   exports: [
-    SessionLinkRecoveryPageComponent,
+    SessionLinksRecoveryPageComponent,
   ],
 })
-export class SessionLinkRecoveryPageModule { }
+export class SessionLinksRecoveryPageModule { }
