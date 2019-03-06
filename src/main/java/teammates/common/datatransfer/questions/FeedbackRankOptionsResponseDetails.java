@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -111,6 +112,11 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
 
         csvBuilder.deleteCharAt(csvBuilder.length() - 1); // remove last comma
         return csvBuilder.toString();
+    }
+
+    @Override
+    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
+        return new ArrayList<>();
     }
 
     private SortedMap<Integer, List<String>> generateMapOfRanksToOptions(

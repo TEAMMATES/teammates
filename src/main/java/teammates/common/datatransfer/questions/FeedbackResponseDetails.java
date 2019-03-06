@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -101,8 +100,5 @@ public abstract class FeedbackResponseDetails {
     /**
      * Validates the response details.
      */
-    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
-        // TODO change this to abstract method after V7 complete
-        return new ArrayList<>();
-    }
+    public abstract List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion);
 }

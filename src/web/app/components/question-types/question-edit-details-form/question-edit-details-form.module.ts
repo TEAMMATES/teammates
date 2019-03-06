@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
+import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
 
@@ -13,21 +15,24 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
 @NgModule({
   declarations: [
     ContributionQuestionEditDetailsFormComponent,
-    TextQuestionEditDetailsFormComponent,
-    McqQuestionEditDetailsFormComponent,
     McqFieldComponent,
+    McqQuestionEditDetailsFormComponent,
+    NumScaleQuestionEditDetailsFormComponent,
+    TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
   ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
-    TextQuestionEditDetailsFormComponent,
-    McqQuestionEditDetailsFormComponent,
     McqFieldComponent,
+    McqQuestionEditDetailsFormComponent,
+    NumScaleQuestionEditDetailsFormComponent,
+    TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
+    NgbModule,
   ],
 })
 export class QuestionEditDetailsFormModule { }

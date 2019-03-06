@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -164,6 +165,11 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return answer.toString();
+    }
+
+    @Override
+    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
+        return new ArrayList<>();
     }
 
     public int getAnswer(int subQuestionIndex) {

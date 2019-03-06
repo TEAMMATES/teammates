@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -34,6 +34,7 @@ interface StudentEditDetails {
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 
   user: string = '';
+  @Input() isEnabled: boolean = true;
   courseid: string = '';
   studentemail: string = '';
   student!: StudentAttributes;
@@ -55,6 +56,21 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
               private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
+    if (!this.isEnabled) {
+      this.student = {
+        email: 'alice@email.com',
+        course: '',
+        name: 'Alice Betsy',
+        lastName: '',
+        comments: 'Alice is a transfer student.',
+        team: 'Team A',
+        section: 'Section A',
+      };
+      this.studentemail = this.student.email;
+      this.initEditForm();
+      return;
+    }
+
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
       this.courseid = queryParams.courseid;
@@ -116,6 +132,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * upon submission of the form. Submits the form otherwise.
    */
   onSubmit(confirmDelModal: any, resendPastLinksModal: any): void {
+    if (!this.isEnabled) {
+      return;
+    }
+
     if (this.isTeamnameFieldChanged) {
       this.ngbModal.open(confirmDelModal);
     } else if (this.isEmailFieldChanged) {

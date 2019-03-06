@@ -240,7 +240,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseE2ET
                 .withUserId(testData.instructors.get(instructorName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
-        return loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        return loginAdminToPageOld(resultsUrl, InstructorFeedbackResultsPage.class);
     }
 
     private void addEmptyCommentToResponseAndCheckStatusMessage(String commentModelId,

@@ -14,7 +14,6 @@ export class StaticPageComponent implements OnInit {
 
   studentLoginUrl: string = '';
   instructorLoginUrl: string = '';
-  logoutUrl: string = '';
   user: string = '';
   institute?: string = '';
   isInstructor: boolean = false;
@@ -64,7 +63,6 @@ export class StaticPageComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       if (res.user) {
-        this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
         this.user = res.user.id;
         this.institute = res.institute;
         this.isInstructor = res.user.isInstructor;

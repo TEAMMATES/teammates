@@ -28,7 +28,9 @@
         <b>Create a course</b><br>
         From the <b>Home</b> page, click <button class="btn btn-primary btn-sm">Add New Course</button>.<br>
         Fill out the following form. Hover your mouse over text to reveal tooltips which tell you what the element does.
-        <p><b>EXAMPLE BOX</b></p>
+        <tm-example-box>
+          <tm-add-course-form [isEnabled]="false"></tm-add-course-form>
+        </tm-example-box>
       </li>
       <li>
         <b><a [routerLink]="instructorHelpPath" fragment="course-add-students">Enroll students in the course</a></b><br>
