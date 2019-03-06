@@ -1,0 +1,23 @@
+<div class="row" style="padding-bottom: 20px; border-bottom: 1px solid #dddddd;"
+    *ngIf="responses.length && responses[0].allResponses.length">
+  <div class="col-md-3">
+    <div>
+      {{ isGrq ? 'To' : 'From' }}: {{ responses[0].allResponses[0][isGrq ? 'recipient' : 'giver']}}
+    </div>
+    <div class="top-padded">
+      {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][isGrq ? 'giver' : 'recipient']}}
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div *ngFor="let response of responses">
+      <div class="card bottom-padded">
+        <div class="card-header bg-info text-white">
+          <tm-question-text-with-info [questionNumber]="response.questionNumber" [questionDetails]="response.questionDetails"></tm-question-text-with-info>
+        </div>
+        <div class="card-body">
+          <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.questionDetails"></tm-single-response>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -71,11 +71,6 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        return SanitizationHelper.sanitizeForHtml(getAnswerString());
-    }
-
-    @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return SanitizationHelper.sanitizeForCsv(getAnswerString());
     }

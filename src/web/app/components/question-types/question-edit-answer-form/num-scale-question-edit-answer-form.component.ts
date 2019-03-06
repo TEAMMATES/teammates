@@ -3,8 +3,11 @@ import { Component } from '@angular/core';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_NUMSCALE_QUESTION_DETAILS,
+  DEFAULT_NUMSCALE_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
@@ -23,16 +26,7 @@ export class NumScaleQuestionEditAnswerFormComponent
   readonly NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
 
   constructor() {
-    super({
-      minScale: 1,
-      maxScale: 5,
-      step: 1,
-      questionType: FeedbackQuestionType.NUMSCALE,
-      questionText: '',
-    }, {
-      answer: NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
-      questionType: FeedbackQuestionType.NUMSCALE,
-    });
+    super(DEFAULT_NUMSCALE_QUESTION_DETAILS(), DEFAULT_NUMSCALE_RESPONSE_DETAILS());
   }
 
   get numberOfPossibleValues(): number {

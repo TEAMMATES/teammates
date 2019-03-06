@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  FeedbackQuestionType,
-  FeedbackTextQuestionDetails,
-} from '../../../../types/api-output';
+import { FeedbackTextQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
@@ -16,11 +14,7 @@ import { QuestionAdditionalInfo } from './question-additional-info';
 export class TextQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackTextQuestionDetails> {
 
   constructor() {
-    super({
-      recommendedLength: 0,
-      questionType: FeedbackQuestionType.TEXT,
-      questionText: '',
-    });
+    super(DEFAULT_TEXT_QUESTION_DETAILS());
   }
 
 }

@@ -65,26 +65,6 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        StringBuilder htmlBuilder = new StringBuilder();
-
-        if (isAnswerBlank()) {
-            // display an empty string if "None of the above" was selected
-            htmlBuilder.append("");
-        } else {
-            htmlBuilder.append("<ul class=\"selectedOptionsList\">");
-            for (String answer : answers) {
-                htmlBuilder.append("<li>");
-                htmlBuilder.append(SanitizationHelper.sanitizeForHtml(answer));
-                htmlBuilder.append("</li>");
-            }
-            htmlBuilder.append("</ul>");
-        }
-
-        return htmlBuilder.toString();
-    }
-
-    @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
         StringBuilder csvBuilder = new StringBuilder();
