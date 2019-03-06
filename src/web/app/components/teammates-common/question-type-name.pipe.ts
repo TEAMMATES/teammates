@@ -14,6 +14,8 @@ export class QuestionTypeNamePipe implements PipeTransform {
    */
   transform(type: FeedbackQuestionType): any {
     switch (type) {
+      case FeedbackQuestionType.MCQ:
+        return 'Multiple-Choice (single answer) question';
       case FeedbackQuestionType.CONTRIB:
         return 'Team contribution question';
       case FeedbackQuestionType.TEXT:

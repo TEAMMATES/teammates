@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
 import {
-  FeedbackContributionQuestionDetails,
+  FeedbackContributionQuestionDetails, FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionDetails,
@@ -45,6 +45,7 @@ export class FeedbackQuestionsService {
         paths.set(FeedbackParticipantType.STUDENTS, [FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         break;
       case FeedbackQuestionType.TEXT:
+      case FeedbackQuestionType.MCQ:
         paths.set(FeedbackParticipantType.SELF,
           [FeedbackParticipantType.SELF, FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS,
             FeedbackParticipantType.TEAMS, FeedbackParticipantType.OWN_TEAM, FeedbackParticipantType.NONE]);
@@ -78,6 +79,7 @@ export class FeedbackQuestionsService {
         paths.set(FeedbackParticipantType.STUDENTS, [FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         break;
       case FeedbackQuestionType.TEXT:
+      case FeedbackQuestionType.MCQ:
         paths.set(FeedbackParticipantType.SELF,
             [FeedbackParticipantType.NONE, FeedbackParticipantType.SELF, FeedbackParticipantType.INSTRUCTORS]);
         paths.set(FeedbackParticipantType.STUDENTS,
@@ -128,6 +130,7 @@ export class FeedbackQuestionsService {
         });
         break;
       case FeedbackQuestionType.TEXT:
+      case FeedbackQuestionType.MCQ:
         settings.push({
           name: 'Shown anonymously to recipient and instructors',
           visibilitySettings: {
@@ -212,6 +215,8 @@ export class FeedbackQuestionsService {
         return true;
       case FeedbackQuestionType.CONTRIB:
         return false;
+      case FeedbackQuestionType.MCQ:
+        return true;
       default:
         throw new Error(`Unsupported question type: ${type}`);
     }
@@ -262,6 +267,32 @@ export class FeedbackQuestionsService {
 
           showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
             FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+          showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+          showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+        };
+      case FeedbackQuestionType.MCQ:
+        return {
+          questionBrief: '',
+          questionDescription: '',
+
+          questionType: FeedbackQuestionType.MCQ,
+          questionDetails: {
+            hasAssignedWeights: false,
+            mcqWeights: [],
+            mcqOtherWeight: 1,
+            numOfMcqChoices: 5,
+            mcqChoices: [''],
+            otherEnabled: false,
+            generateOptionsFor: FeedbackParticipantType.NONE,
+            questionText: '',
+            questionType: FeedbackQuestionType.MCQ,
+          } as FeedbackMcqQuestionDetails,
+          giverType: FeedbackParticipantType.STUDENTS,
+          recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+          numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+          showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
