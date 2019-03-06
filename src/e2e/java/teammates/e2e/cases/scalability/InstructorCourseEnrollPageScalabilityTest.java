@@ -44,7 +44,7 @@ public class InstructorCourseEnrollPageScalabilityTest extends BaseE2ETestCase {
                         .withUserId(testData.instructors.get("CCEnrollScT.teammates.test").googleId)
                         .withCourseId(testData.courses.get("CCEnrollScT.CS2104").getId());
 
-        InstructorCourseEnrollPage enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
+        InstructorCourseEnrollPage enrollPage = loginAdminToPageOld(enrollUrl, InstructorCourseEnrollPage.class);
 
         String enrollString = StudentEnrollmentGenerator.generateStudents(numStudents);
 

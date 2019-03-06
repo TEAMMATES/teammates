@@ -9,12 +9,13 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.EntityNotFoundPage;
 import teammates.test.pageobjects.GenericAppPage;
+import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotAuthorizedPage;
 import teammates.test.pageobjects.NotFoundPage;
 import teammates.test.pageobjects.StudentHomePage;
@@ -96,7 +97,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
     private void testNavLinkToPage() {
         AppUrl profileUrl = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                                    .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
-        StudentHomePage shp = loginAdminToPage(profileUrl, StudentHomePage.class);
+        StudentHomePage shp = loginAdminToPageOld(profileUrl, StudentHomePage.class);
         profilePage = shp.loadProfileTab();
     }
 
@@ -309,6 +310,25 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
                 invalidEmail, courseId, EntityNotFoundPage.class);
     }
 
+    /**
+     * Logs in a page as an instructor.
+     */
+    private <T extends AppPage> T loginInstructorToPage(
+            String instructorGoogleId, String password, AppUrl url, Class<T> typeOfPage) {
+        // logout
+        logout();
+
+        // load the page to be checked
+        browser.driver.get(url.toAbsoluteString());
+
+        // login based on the login page type
+        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        loginPage.loginAsInstructor(instructorGoogleId, password, typeOfPage);
+
+        // After login, the browser will redirect to the original page requested
+        return AppPage.getNewPageInstance(browser, typeOfPage);
+    }
+
     private <T extends AppPage> T getProfilePicturePage(String instructorGoogleId, String password,
             String email, String courseId, Class<T> typeOfPage) {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
@@ -321,7 +341,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
         AppUrl profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withUserId(testData.accounts.get(studentId).googleId)
                                    .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
-        return loginAdminToPage(profileUrl, typeOfPage);
+        return loginAdminToPageOld(profileUrl, typeOfPage);
     }
 
     private void verifyPictureIsPresent(String pictureKey) {
@@ -331,7 +351,7 @@ public class StudentProfilePageUiTest extends BaseE2ETestCase {
     private StudentProfilePage getProfilePageForStudent(String studentId) {
         AppUrl profileUrl = createUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE)
                                    .withUserId(testData.accounts.get(studentId).googleId);
-        return loginAdminToPage(profileUrl, StudentProfilePage.class);
+        return loginAdminToPageOld(profileUrl, StudentProfilePage.class);
     }
 
     @AfterClass

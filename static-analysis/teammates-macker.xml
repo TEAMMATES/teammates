@@ -580,6 +580,7 @@
                                 <include class="${test}.driver.AssertHelper" />
                                 <include class="${test}.driver.CsvChecker" />
                                 <include class="${test}.driver.EmailChecker" />
+                                <include class="${e2e}.pageobjects.**" />
                                 <include class="${e2e}.util.HtmlHelper" />
                             </from>
                         </allow>

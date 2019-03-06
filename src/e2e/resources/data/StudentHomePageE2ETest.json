@@ -7,26 +7,12 @@
       "email": "SHomeUiT.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SHomeUiT.instructor1OfTestingSanitizationCourse": {
-      "googleId": "SHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
-      "isInstructor": true,
-      "email": "SHomeUiT.instructor1@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>"
-    },
     "alice.tmms": {
       "googleId": "${value.injected.in.testfile}",
       "name": "Alice B",
       "isInstructor": false,
       "email": "${value.injected.in.testfile}",
       "institute": "TEAMMATES Test Institute 1"
-    },
-    "SHomeUiT.student1InTestingSanitizationCourse": {
-      "googleId": "SHomeUiT.student1InTestingSanitizationCourse",
-      "name": "Stud1<script> alert('hi!'); </script>",
-      "isInstructor": false,
-      "email": "normal@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
@@ -48,12 +34,6 @@
     "SHomeUiT.CS4221": {
       "id": "SHomeUiT.CS4221",
       "name": "Database Design",
-      "timeZone": "UTC"
-    },
-    "SHomeUiT.testingSanitizationCourse": {
-      "createdAt": "2012-04-01T23:58:00Z",
-      "id": "SHomeUiT.idOfTestingSanitizationCourse",
-      "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },
@@ -149,33 +129,6 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
-    },
-    "SHomeUiT.instructor1OfTestingSanitizationCourse": {
-      "googleId": "SHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
-      "courseId": "SHomeUiT.idOfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
-      "email": "SHomeUiT.instructor1@sanitization.tmt",
-      "isArchived": false,
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "inst'\"/><script>alert('hi!');</script>",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canviewcommentinsection": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
     }
   },
   "students": {
@@ -188,33 +141,6 @@
       "team": "Team 1</td></div>'\"",
       "section": "None"
     },
-    "SHomeUiT.benny.c@SHomeUiT.CS2104": {
-      "googleId": "SHomeUiT.benny.c",
-      "email": "SHomeUiT.benny.c@gmail.tmt",
-      "course": "SHomeUiT.CS2104",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\"",
-      "section": "None"
-    },
-    "SHomeUiT.charlie.d@SHomeUiT.CS2104": {
-      "googleId": "SHomeUiT.charlie.d",
-      "email": "SHomeUiT.charlie.d@gmail.tmt",
-      "course": "SHomeUiT.CS2104",
-      "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis",
-      "team": "Team 2",
-      "section": "None"
-    },
-    "SHomeUiT.danny.e@SHomeUiT.CS2104": {
-      "googleId": "SHomeUiT.danny.e",
-      "email": "SHomeUiT.danny.e@gmail.tmt",
-      "course": "SHomeUiT.CS2104",
-      "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid",
-      "team": "Team 2",
-      "section": "None"
-    },
     "alice.tmms@SHomeUiT.CS1101": {
       "googleId": "${value.injected.in.testfile}",
       "email": "${value.injected.in.testfile}",
@@ -222,33 +148,6 @@
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
       "team": "Team 1</td></div>'\"",
-      "section": "None"
-    },
-    "SHomeUiT.benny.c@SHomeUiT.CS1101": {
-      "googleId": "SHomeUiT.benny.c",
-      "email": "SHomeUiT.benny.c@gmail.tmt",
-      "course": "SHomeUiT.CS1101",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\"",
-      "section": "None"
-    },
-    "SHomeUiT.charlie.d@SHomeUiT.CS1101": {
-      "googleId": "SHomeUiT.charlie.d",
-      "email": "SHomeUiT.charlie.d@gmail.tmt",
-      "course": "SHomeUiT.CS1101",
-      "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis",
-      "team": "Team 2",
-      "section": "None"
-    },
-    "SHomeUiT.danny.e@SHomeUiT.CS1101": {
-      "googleId": "SHomeUiT.danny.e",
-      "email": "SHomeUiT.danny.e@gmail.tmt",
-      "course": "SHomeUiT.CS1101",
-      "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid",
-      "team": "Team 2",
       "section": "None"
     },
     "alice.tmms@SHomeUiT.CS4215": {
@@ -268,15 +167,6 @@
       "comments": "This student's name is Amy Betsy",
       "team": "Team 1</td></div>'\"",
       "section": "None"
-    },
-    "SHomeUiT.student1InTestingSanitizationCourse": {
-      "googleId": "SHomeUiT.student1InTestingSanitizationCourse",
-      "email": "SHomeUiT.normal@sanitization.tmt",
-      "course": "SHomeUiT.idOfTestingSanitizationCourse",
-      "name": "Stud1<script> alert('hi!'); </script>",
-      "comments": "<script> alert('hi!'); </script>",
-      "team": "Team tags&\"</td>",
-      "section": "Section'</td>"
     }
   },
   "feedbackSessions": {
@@ -522,16 +412,5 @@
   },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
-  "profiles": {
-    "SHomeUiT.student1InTestingSanitizationCourse": {
-      "googleId": "student1InTestingSanitizationCourse",
-      "shortName": "Stud1<script> alert('hi!'); </script>",
-      "email": "weird&'@gmail.tmt",
-      "institute": "inst<script> alert('hi!'); </script>",
-      "nationality": "American",
-      "gender": "OTHER",
-      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
-      "pictureKey": ""
-    }
-  }
+  "profiles": {}
 }
