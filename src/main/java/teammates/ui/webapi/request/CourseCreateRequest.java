@@ -9,7 +9,7 @@ public class CourseCreateRequest extends CourseBasicRequest {
     @Override
     public void validate() {
         super.validate();
-        assertTrue(courseId != null, "Time zone should not be null");
+        assertTrue(courseId != null, "Course ID should not be null");
     }
 
     public String getCourseId() {
