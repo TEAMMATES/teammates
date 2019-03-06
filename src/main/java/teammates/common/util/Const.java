@@ -70,7 +70,6 @@ public final class Const {
      * is in a 'special' state.
      */
     public static final int INT_UNINITIALIZED = -9999;
-    public static final double DOUBLE_UNINITIALIZED = -9999.0;
 
     public static final int MAX_POSSIBLE_RECIPIENTS = -100;
 
@@ -931,6 +930,7 @@ public final class Const {
         public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
         public static final String RESPONSE_COMMENT = "/responsecomment";
         public static final String COURSE = "/course";
+        public static final String COURSE_SECTIONS = "/course/sections";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";

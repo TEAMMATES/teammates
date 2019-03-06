@@ -1,0 +1,23 @@
+<div *ngIf="isStudentPage">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Criteria</th>
+        <th class="text-center" *ngFor="let choice of questionDetails.rubricChoices">{{ choice }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let answer of answers; let i = index">
+        <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
+        <td class="text-center" *ngFor="let choice of questionDetails.rubricChoices">
+          <i *ngIf="answer.answer === choice" class="fas fa-check"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="!isStudentPage">
+  <ul>
+    <li *ngFor="let answer of answers">{{ answer.answer }} {{ answer.index ? '(Choice ' + answer.index + ')' : '' }}</li>
+  </ul>
+</div>

@@ -324,8 +324,8 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   /**
    * Views the result of a feedback session.
    */
-  viewSessionResultEventHandler(): void {
-    this.viewSessionResult();
+  viewSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
+    this.viewSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
   }
 
   /**
