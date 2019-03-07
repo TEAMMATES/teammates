@@ -35,7 +35,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   ngOnInit(): void {
     this.formSessionLinksRecovery = this.formBuilder.group({
       email: ['', Validators.required],
-      recaptcha: ['', Validators.required],
+      recaptcha: [''],
     });
   }
 
@@ -43,6 +43,11 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
    * Sends the feedback session links to the recovery email address.
    */
   onSubmitFormSessionLinksRecovery(sessionLinksRecoveryForm: FormGroup): void {
+    if (this.captchaSiteKey === '') {
+      // skip captcha check if non-empty site key is not present
+      this.captchaResponse = '';
+    }
+
     if (!this.formSessionLinksRecovery.valid || this.captchaResponse === undefined) {
       this.statusMessageService.showErrorMessage(
           'Please enter a valid email address and click the reCAPTCHA before submitting.');
@@ -57,13 +62,10 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
     this.httpRequestService.get('/sessionlinksrecovery', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.statusMessageService.showSuccessMessage(resp.message);
-
-        this.resetFormGroups();
       }, (response: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(response.error.message);
-
-        this.resetRecaptchaFormGroup();
       });
+    this.resetFormGroups();
   }
 
   /**
@@ -74,17 +76,17 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       email: ['', Validators.required],
       recaptcha: ['', Validators.required],
     }));
-    this.captchaElem.reloadCaptcha();
+
+    this.reloadCaptcha();
   }
 
   /**
-   * Resets reCAPTCHA in the form.
+   * Reloads the reCAPTCHA widget if a non-empty site key is present.
    */
-  resetRecaptchaFormGroup(): void {
-    (this.formSessionLinksRecovery = this.formBuilder.group({
-      recaptcha: ['', Validators.required],
-    }));
-    this.captchaElem.reloadCaptcha();
+  reloadCaptcha(): void {
+    if (this.captchaSiteKey !== '') {
+      this.captchaElem.reloadCaptcha();
+    }
   }
 
   /**

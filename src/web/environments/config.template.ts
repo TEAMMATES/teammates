@@ -22,5 +22,5 @@ export const config: any = {
    * You can get a pair of keys from the Google reCAPTCHA website.
    * e.g. "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" is a site key for test environments.
    */
-  captchaSiteKey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+  captchaSiteKey: '',
 };

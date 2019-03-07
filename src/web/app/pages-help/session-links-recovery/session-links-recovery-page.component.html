@@ -16,7 +16,7 @@
         </label>
         <input class="form-control" type="email" formControlName="email" maxlength="254" email="true">
       </div>
-      <div class="form-row form-group top-padded">
+      <div *ngIf="captchaSiteKey !== ''" class="form-row form-group top-padded">
         <ngx-recaptcha2 #captchaElem
                         [siteKey]="captchaSiteKey"
                         (success)="handleSuccess($event)"
