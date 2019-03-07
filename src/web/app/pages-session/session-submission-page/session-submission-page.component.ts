@@ -148,7 +148,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       case Intent.STUDENT_SUBMISSION:
         const paramMap: { [key: string]: string } = {
           courseid: this.courseId,
-          regKey: this.regKey,
+          key: this.regKey,
           studentemail: this.moderatedPerson || this.previewAsPerson,
         };
 
