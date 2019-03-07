@@ -8,6 +8,8 @@ import org.apache.http.client.utils.URIBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import teammates.common.exception.TeammatesException;
+
 /**
  * Used to handle the verification of the user's reCAPTCHA response.
  *
@@ -16,10 +18,10 @@ import com.google.gson.JsonObject;
 public class RecaptchaVerifier {
 
     /** The Google reCAPTCHA API URL to verify the response token. */
-    public static final String VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
+    private static final String VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 
     /** The shared secret key between the TEAMMATES site and reCAPTCHA. */
-    public static final String SECRET_KEY = Config.CAPTCHA_SECRET_KEY;
+    private static final String SECRET_KEY = Config.CAPTCHA_SECRET_KEY;
 
     private static final Logger log = Logger.getLogger();
 
@@ -47,7 +49,7 @@ public class RecaptchaVerifier {
 
             return Boolean.parseBoolean(responseInJson.get("success").toString());
         } catch (Exception e) {
-            log.logThrowable(e);
+            log.severe(TeammatesException.toStringWithStackTrace(e));
             return false;
         }
     }
@@ -57,7 +59,7 @@ public class RecaptchaVerifier {
         urlb.setParameter("secret", SECRET_KEY);
         urlb.setParameter("response", captchaResponse);
 
-        return ApiRequest.execute(urlb.build());
+        return HttpRequest.execute(urlb.build());
     }
 
 }
