@@ -7,6 +7,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -16,6 +17,8 @@ import org.apache.http.util.EntityUtils;
  * A utility class to execute an HTTP request and return the response.
  */
 public final class HttpRequest {
+
+    private static final int TIMEOUT_IN_SECONDS = 30;
 
     private HttpRequest() {
         // Utility class
@@ -29,7 +32,12 @@ public final class HttpRequest {
      */
     public static String execute(URI uri) throws IOException, NullPointerException {
         HttpUriRequest request = new HttpGet(uri);
-        HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(TIMEOUT_IN_SECONDS * 1000).build();
+
+        HttpResponse httpResponse = HttpClientBuilder.create()
+                                                     .setDefaultRequestConfig(requestConfig)
+                                                     .build()
+                                                     .execute(request);
         HttpEntity entity = httpResponse.getEntity();
         String response = EntityUtils.toString(entity, "UTF-8");
 

@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.testng.annotations.Test;
 
 import teammates.common.util.RecaptchaVerifier;
@@ -38,6 +39,7 @@ public class RecaptchaVerifierTest extends BaseTestCase {
         assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid uri"));
         assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("http protocol error"));
         assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("i/o exception"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("timeout exception"));
         assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("non 2xx http response"));
     }
 
@@ -81,6 +83,9 @@ public class RecaptchaVerifierTest extends BaseTestCase {
 
             case "i/o exception":
                 throw new IOException();
+
+            case "timeout exception":
+                throw new ConnectTimeoutException();
 
             case "non 2xx http response":
                 throw new HttpResponseException(101, "testing http failure status code");
