@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -56,10 +57,16 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   // data
   courseTabModels: CourseTabModel[] = [];
 
-  constructor(router: Router, httpRequestService: HttpRequestService,
-              statusMessageService: StatusMessageService, navigationService: NavigationService,
-              feedbackSessionsService: FeedbackSessionsService, feedbackQuestionsService: FeedbackQuestionsService,
-              private route: ActivatedRoute, private ngbModal: NgbModal, private timezoneService: TimezoneService) {
+  constructor(router: Router,
+              httpRequestService: HttpRequestService,
+              statusMessageService: StatusMessageService,
+              navigationService: NavigationService,
+              feedbackSessionsService: FeedbackSessionsService,
+              feedbackQuestionsService: FeedbackQuestionsService,
+              private courseService: CourseService,
+              private route: ActivatedRoute,
+              private ngbModal: NgbModal,
+              private timezoneService: TimezoneService) {
     super(router, httpRequestService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService);
     // need timezone data for moment()
@@ -125,13 +132,13 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    this.httpRequestService.delete('/course', { courseid: courseId })
-      .subscribe((resp: MessageOutput) => {
-        this.loadCourses();
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
+    this.courseService.binCourse(courseId).subscribe((course: Course) => {
+      this.loadCourses();
+      this.statusMessageService.showSuccessMessage(
+        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
   /**
    * Loads courses of current instructor.

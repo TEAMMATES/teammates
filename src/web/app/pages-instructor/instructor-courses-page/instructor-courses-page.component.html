@@ -87,7 +87,7 @@
                 [queryParams]="{courseid: course.id}">
               Edit
             </button>
-            <button class="btn btn-light btn-sm" (click)="onArchive(course.id)"
+            <button class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.id, true)"
                 ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still
                 access it from the 'Courses' tab)">
               Archive
@@ -139,7 +139,7 @@
             {{course.createdAt | date:'d MMM yyyy'}}
           </td>
           <td class="text-center">
-            <button class="btn btn-light btn-sm" (click)="onUnarchive(course.id)">
+            <button class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.id, false)">
               Unarchive
             </button>
             <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.id)"

@@ -7,15 +7,18 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.ui.webapi.output.CourseData;
+import teammates.ui.webapi.request.CourseUpdateRequest;
 
 /**
- * Action: Save edited course details.
+ * Updates a course.
  */
-public class SaveCourseEditDetailsAction extends Action {
+public class UpdateCourseAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -36,7 +39,8 @@ public class SaveCourseEditDetailsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String courseTimeZone = getNonNullRequestParamValue(Const.ParamsNames.COURSE_TIME_ZONE);
+        CourseUpdateRequest courseUpdateRequest = getAndValidateRequestBody(CourseUpdateRequest.class);
+        String courseTimeZone = courseUpdateRequest.getTimeZone();
 
         String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
@@ -44,9 +48,11 @@ public class SaveCourseEditDetailsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String courseName = getNonNullRequestParamValue(Const.ParamsNames.COURSE_NAME);
+        String courseName = courseUpdateRequest.getCourseName();
+        CourseAttributes updatedCourse;
+
         try {
-            logic.updateCourseCascade(
+            updatedCourse = logic.updateCourseCascade(
                     CourseAttributes.updateOptionsBuilder(courseId)
                             .withName(courseName)
                             .withTimezone(ZoneId.of(courseTimeZone))
@@ -54,10 +60,9 @@ public class SaveCourseEditDetailsAction extends Action {
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException edee) {
-            return new JsonResult(edee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(edee);
         }
 
-        return new JsonResult("Updated course [" + courseId + "] details: Name: " + courseName
-                + ", Time zone: " + courseTimeZone, HttpStatus.SC_OK);
+        return new JsonResult(new CourseData(updatedCourse));
     }
 }
