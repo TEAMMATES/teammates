@@ -6,7 +6,6 @@ These are the common tasks involved when working on features, enhancements, bug 
 * [Managing the dev server: back-end](#managing-the-dev-server-back-end)
 * [Building front-end files](#building-front-end-files)
 * [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
-* [Setting up reCAPTCHA](setting-up-recaptcha)
 * [Testing](#testing)
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)

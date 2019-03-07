@@ -44,7 +44,6 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
    */
   onSubmitFormSessionLinksRecovery(sessionLinksRecoveryForm: FormGroup): void {
     if (this.captchaSiteKey === '') {
-      // skip captcha check if non-empty site key is not present
       this.captchaResponse = '';
     }
 
