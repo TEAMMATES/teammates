@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentProfilePageComponent should snap with default fields 1`] = `
+<tm-student-profile-page
+  Gender={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  httpRequestService={[Function HttpRequestService]}
+  id=""
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  studentProfileService={[Function StudentProfileService]}
+  user="undefined"
+>
+  
+</tm-student-profile-page>
+`;
