@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetStudentProfileAction;
 import teammates.ui.webapi.action.GetStudentProfileAction.StudentProfile;
@@ -88,5 +89,19 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     protected void testAccessControl() throws Exception {
         verifyInaccessibleWithoutLogin();
         verifyInaccessibleForUnregisteredUsers();
+
+        ______TS("Cannot view another student's profile");
+
+        AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
+        AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
+        loginAsStudent(student2.googleId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.STUDENT_ID, student1.googleId,
+        };
+
+        GetStudentProfileAction action = getAction(submissionParams);
+        assertThrows(UnauthorizedAccessException.class, () -> action.checkAccessControl());
     }
+
 }
