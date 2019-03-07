@@ -180,27 +180,6 @@ To "log out", submit the following API call:
 POST http://localhost:8080/_ah/login?action=Log+Out
 ```
 
-## Setting up reCAPTCHA
-
-TEAMMATES uses reCAPTCHA on the `Recover Session Links` page (`/web/front/help/session-link-recovery`).
-By default, we use an [official test key](https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha-what-should-i-do) for development purposes and the reCAPTCHA widget looks like the one shown in the figure below.
- 
-![recaptcha-test-widget.png](images/recaptcha-test-widget.png)
- 
-However, this should be changed for production environments:
-
-1. Go to the Google [reCAPTCHA website](https://www.google.com/recaptcha/intro/v3.html) and click `Admin Console`. You may be prompted to sign in with your Google account.
-1. Go to the `Register a new site` page by clicking the `+` icon, if you are not redirected automatically.
-1. Fill up the form and choose your [reCAPTCHA type](https://developers.google.com/recaptcha/docs/versions).
-
-    Under `Domains`, remember to add `localhost` and/or `127.0.0.1` if you are using this for development as well.
-1. After submitting:
-    
-    - Copy the site key to `captchaSiteKey` in the `config.ts` file.
-    - Copy the secret key to `app.captcha.secretkey` in the `build.properties` file.
-
-Now, you should not see the red text in the reCAPTCHA widget anymore.
-
 ## Testing
 
 There are two big categories of testing in TEAMMATES:
