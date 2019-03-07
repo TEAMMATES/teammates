@@ -17,7 +17,7 @@
                      (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
                     (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
                     (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
-                    (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler()"
+                    (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
                     (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
                     (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler($event)"
                     (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler($event)"></tm-sessions-table>
@@ -70,11 +70,11 @@
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.FEEDBACK_SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.FEEDBACK_SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
               </th>
-              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.CREATION_DATE)" class="sortable-header">
+              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_CREATION_DATE)" class="sortable-header">
                 Creation Date
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.CREATION_DATE"><i class="fas fa-sort"></i></span>
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.SESSION_CREATION_DATE"><i class="fas fa-sort"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
               </th>
               <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.DELETION_DATE)" class="sortable-header">
                 Deletion Date

@@ -11,8 +11,8 @@ import teammates.test.cases.BaseTestCase;
 public class TestPropertiesTest extends BaseTestCase {
 
     @Test
-    public void testGodModeFlag() {
-        assertFalse(TestProperties.IS_GODMODE_ENABLED);
+    public void testContent() {
+        assertNotNull(TestProperties.TEAMMATES_URL);
     }
 
 }

@@ -70,7 +70,6 @@ public final class Const {
      * is in a 'special' state.
      */
     public static final int INT_UNINITIALIZED = -9999;
-    public static final double DOUBLE_UNINITIALIZED = -9999.0;
 
     public static final int MAX_POSSIBLE_RECIPIENTS = -100;
 
@@ -918,16 +917,22 @@ public final class Const {
     public static class ResourceURIs {
 
         public static final String URI_PREFIX = "/webapi";
+        public static final String LOGOUT = "/logout";
 
+        public static final String DATABUNDLE = "/databundle";
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
+        public static final String ACCOUNT = "/account";
         public static final String ACCOUNTS = "/accounts";
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
-        public static final String ACCOUNTS_RESET = "/accounts/reset";
-        public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String ACCOUNT_RESET = "/account/reset";
+        public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
         public static final String RESPONSE_COMMENT = "/responsecomment";
         public static final String COURSE = "/course";
+        public static final String COURSE_ARCHIVE = "/course/archive";
+        public static final String BIN_COURSE = "/bin/course";
+        public static final String COURSE_SECTIONS = "/course/sections";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
@@ -944,7 +949,6 @@ public final class Const {
         public static final String SESSION_STUDENTS_RESPONSE = "/session/students/response";
         public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
-        public static final String BIN_COURSE = "/bin/course";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
         public static final String QUESTION_RECIPIENTS = "/question/recipients";
@@ -959,16 +963,13 @@ public final class Const {
 
         public static final String INSTRUCTOR_HOME = "/instrutor/home";
         public static final String INSTRUCTOR_COURSES = "/instructor/courses";
-        public static final String INSTRUCTOR_COURSES_RESTORE = "/instructor/courses/restore";
         public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE = "/instructor/courses/permanentlyDelete";
         public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL = "/instructor/courses/permanentlyDeleteAll";
         public static final String INSTRUCTOR_COURSES_RESTORE_ALL = "/instructor/courses/restoreAll";
         public static final String COURSE_STATS = "/course/stats";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
-        public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/courses/details/allStudentsCsv";
         public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
-        public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
 
         public static final String INSTRUCTOR_STUDENTS_COURSES = "/instructor/students/courses";
         public static final String INSTRUCTOR_STUDENTS = "/instructor/students";
@@ -977,13 +978,12 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSES = "/student/courses";
+        public static final String STUDENTS_CSV = "/students/csv";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
 
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
         public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
-        public static final String COURSE_EDIT_DETAILS_SAVE = "/instructors/course/details/save";
-        public static final String COURSE_DELETE = "/instructors/course/delete";
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
         public static final String COURSE_DELETE_INSTRUCTOR = "/instructors/course/details/deleteInstructor";
@@ -998,8 +998,6 @@ public final class Const {
     public static class ActionURIs {
 
         /* _PAGE/Page in the Action URI name means 'show page' */
-
-        public static final String LOGOUT = "/logout";
 
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
@@ -1413,6 +1411,9 @@ public final class Const {
 
         // HTTP parameter null message
         public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
+
+        // body parameter null message
+        public static final String NULL_BODY_PARAMETER = "The body parameter is null";
     }
 
     /**

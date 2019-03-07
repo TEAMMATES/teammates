@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +25,6 @@ import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.ui.pagedata.PageData;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
     public static final transient int MIN_NUM_OF_OPTIONS = 2;
@@ -272,37 +270,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber,
-            String additionalInfoId) {
-        StringBuilder optionListHtml = new StringBuilder(100);
-        String optionFragmentTemplate = FormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
-        String additionalInfo = "";
-
-        optionListHtml.append("<ul style=\"list-style-type: disc;margin-left: 20px;\" >");
-        for (String option : options) {
-            String optionFragment =
-                    Templates.populateTemplate(optionFragmentTemplate,
-                            Slots.MSQ_CHOICE_VALUE, option);
-
-            optionListHtml.append(optionFragment);
-        }
-
-        optionListHtml.append("</ul>");
-        additionalInfo = Templates.populateTemplate(
-            FormTemplates.MSQ_ADDITIONAL_INFO,
-            Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-            Slots.MSQ_ADDITIONAL_INFO_FRAGMENTS, optionListHtml.toString());
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-    }
-
-    @Override
     public String getQuestionResultStatisticsHtml(
                         List<FeedbackResponseAttributes> responses,
                         FeedbackQuestionAttributes question,
@@ -473,11 +440,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         }
 
         return errors;
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
     }
 
     @Override

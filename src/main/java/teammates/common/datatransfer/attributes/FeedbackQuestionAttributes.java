@@ -149,16 +149,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public List<String> getInvalidityInfo() {
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(courseId), errors);
 
-        errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
+        errors.addAll(FieldValidator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 
-        errors.addAll(validator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo,
+        errors.addAll(FieldValidator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo,
                                                                              showGiverNameTo,
                                                                              showRecipientNameTo));
 
@@ -599,10 +598,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     public void setShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
-    }
-
-    public String getQuestionAdditionalInfoHtml() {
-        return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
 
     private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(String questionDetailsInJson,

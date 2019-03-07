@@ -11,8 +11,6 @@ import teammates.common.util.Const;
  */
 public class RestoreCourseAction extends Action {
 
-    private String idOfCourseToRestore;
-
     @Override
     protected AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -23,7 +21,7 @@ public class RestoreCourseAction extends Action {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
-        idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, userInfo.id),
                 logic.getCourse(idOfCourseToRestore),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
@@ -31,7 +29,8 @@ public class RestoreCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-        idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
+        String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String statusMessage;
 
         try {

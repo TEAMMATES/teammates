@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 
 import {
-  FeedbackQuestionType,
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_TEXT_QUESTION_DETAILS,
+  DEFAULT_TEXT_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
@@ -20,14 +23,7 @@ export class TextQuestionEditAnswerFormComponent
         <FeedbackTextQuestionDetails, FeedbackTextResponseDetails> {
 
   constructor() {
-    super({
-      recommendedLength: 0,
-      questionType: FeedbackQuestionType.TEXT,
-      questionText: '',
-    }, {
-      answer: '',
-      questionType: FeedbackQuestionType.TEXT,
-    });
+    super(DEFAULT_TEXT_QUESTION_DETAILS(), DEFAULT_TEXT_RESPONSE_DETAILS());
   }
 
   get wordCount(): number {

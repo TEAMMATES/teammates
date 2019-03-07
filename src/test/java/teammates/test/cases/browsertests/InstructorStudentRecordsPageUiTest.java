@@ -168,7 +168,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseE2ETestCase {
                            .withUserId(instructorId)
                            .withCourseId(courseId)
                            .withStudentEmail(studentEmail);
-        return loginAdminToPage(viewPageUrl, InstructorStudentRecordsPage.class);
+        return loginAdminToPageOld(viewPageUrl, InstructorStudentRecordsPage.class);
     }
 
     private void testPanelsCollapseExpand() {

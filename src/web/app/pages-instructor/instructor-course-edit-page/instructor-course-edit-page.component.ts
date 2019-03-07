@@ -10,7 +10,7 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { MessageOutput } from '../../../types/api-output';
+import { Course, MessageOutput } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -350,14 +350,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Deletes the current course and redirects to 'Courses' page if action is successful.
    */
   deleteCourse(): void {
-    const paramsMap: { [key: string]: string } = { courseid: this.courseToEdit.id };
-
-    this.httpRequestService.delete('/instructors/course/delete', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+    this.courseService.binCourse(this.courseToEdit.id).subscribe((course: Course) => {
+      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses',
+        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -367,20 +365,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const newName: string = formEditCourse.controls.name.value;
     const newTimeZone: string = formEditCourse.controls.timeZone.value;
 
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
-      coursename: newName,
-      coursetimezone: newTimeZone,
-    };
-
-    this.httpRequestService.put('/instructors/course/details/save', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
-          this.updateCourseDetails(newName, newTimeZone);
-          this.toggleIsEditingCourse();
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+    this.courseService.updateCourse(this.courseToEdit.id, {
+      courseName: newName,
+      timeZone: newTimeZone,
+    }).subscribe((course: Course) => {
+      this.statusMessageService.showSuccessMessage(`Updated course [${course.courseId}] details: `
+          + `Name: ${course.courseName}, Time zone: ${course.timeZone}`);
+      this.updateCourseDetails(newName, newTimeZone);
+      this.toggleIsEditingCourse();
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -619,7 +614,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       editedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
 
-    this.httpRequestService.put('/instructors', paramsMap, reqBody)
+    this.httpRequestService.put('/instructor', paramsMap, reqBody)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.updateInstructorDetails(index, editedInstructor);
@@ -858,7 +853,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       addedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
 
-    this.httpRequestService.post('/instructors', paramsMap, reqBody)
+    this.httpRequestService.post('/instructor', paramsMap, reqBody)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.addToInstructorList(addedInstructor);

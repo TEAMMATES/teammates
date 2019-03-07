@@ -1,0 +1,29 @@
+<div *ngIf="responsesToShow.length">
+  <table class="table">
+    <thead>
+      <tr>
+        <th *ngIf="showGiver">Team</th>
+        <th *ngIf="showGiver">Giver</th>
+        <th *ngIf="showRecipient">Team</th>
+        <th *ngIf="showRecipient">Recipient</th>
+        <th>Response</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let response of responsesToShow">
+        <td *ngIf="showGiver">{{ response.giverTeam }}</td>
+        <td *ngIf="showGiver">{{ response.giver }}</td>
+        <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
+        <td *ngIf="showRecipient">{{ response.recipient }}</td>
+        <td>
+          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails"></tm-single-response>
+        </td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="!responsesToShow.length">
+  <i>There are no responses for this question or you may not have the permission to see the response.</i>
+</div>

@@ -100,6 +100,7 @@
           <div class="padding-15px">
             <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
             <tm-contribution-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
+            <tm-num-scale-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-num-scale-question-edit-details-form>
           </div>
         </div>
       </div>

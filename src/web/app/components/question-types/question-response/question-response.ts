@@ -1,16 +1,19 @@
 import { Input, OnInit } from '@angular/core';
-import { FeedbackResponseDetails } from '../../../../types/api-output';
+import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../types/api-output';
 
 /**
  * The abstract question response.
  */
-export abstract class QuestionResponse<R extends FeedbackResponseDetails> implements OnInit {
+export abstract class QuestionResponse<R extends FeedbackResponseDetails, Q extends FeedbackQuestionDetails>
+    implements OnInit {
 
-  @Input()
-  responseDetails: R;
+  @Input() responseDetails: R;
+  @Input() questionDetails: Q;
+  @Input() isStudentPage: boolean = false;
 
-  protected constructor(responseDetails: R) {
+  protected constructor(responseDetails: R, questionDetails: Q) {
     this.responseDetails = responseDetails;
+    this.questionDetails = questionDetails;
   }
 
   ngOnInit(): void {

@@ -1,0 +1,72 @@
+<div *ngIf="groupByTeam">
+  <div *ngFor="let teamInfo of teamsToUsers | keyvalue">
+    <div class="card top-padded">
+      <div class="card-header bg-warning" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
+        {{ teamInfo.key }}
+        <div class="float-right">
+          <i class="fas fa-chevron-down" *ngIf="!teamExpanded[teamInfo.key]"></i>
+          <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="teamExpanded[teamInfo.key]">
+
+        <!-- TODO extract this out -->
+        <div *ngFor="let userInfo of teamInfo.value">
+          <div class="card top-padded">
+            <div class="card-header bg-primary text-white" (click)="userToTeamName[userInfo].isExpanded = !userToTeamName[userInfo].isExpanded">
+              {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
+              <div class="float-right">
+                <i class="fas fa-chevron-down" *ngIf="!userToTeamName[userInfo].isExpanded"></i>
+                <i class="fas fa-chevron-up" *ngIf="userToTeamName[userInfo].isExpanded"></i>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="userToTeamName[userInfo].isExpanded">
+              <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo]">
+                <div class="card-header bg-info text-white" (click)="question.isTabExpanded = !question.isTabExpanded">
+                  <tm-question-text-with-info [questionNumber]="question.questionNumber" [questionDetails]="question.questionDetails" (click)="$event.stopPropagation()"></tm-question-text-with-info>
+                  <div class="float-right">
+                    <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
+                    <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
+                  </div>
+                </div>
+                <div class="card-body" *ngIf="question.isTabExpanded">
+                  <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType"
+                      [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails"></tm-per-question-view-responses>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!groupByTeam">
+  <div *ngFor="let userInfo of userToTeamName | keyvalue">
+    <div class="card top-padded">
+      <div class="card-header bg-primary text-white" (click)="userInfo.value.isExpanded = !userInfo.value.isExpanded">
+        {{ isGqr ? 'From' : 'To' }}: {{ userInfo.key }}
+        <div class="float-right">
+          <i class="fas fa-chevron-down" *ngIf="!userInfo.value.isExpanded"></i>
+          <i class="fas fa-chevron-up" *ngIf="userInfo.value.isExpanded"></i>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="userInfo.value.isExpanded">
+        <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo.key]">
+          <div class="card-header bg-info text-white" (click)="question.isTabExpanded = !question.isTabExpanded">
+            <tm-question-text-with-info [questionNumber]="question.questionNumber" [questionDetails]="question.questionDetails" (click)="$event.stopPropagation()"></tm-question-text-with-info>
+            <div class="float-right">
+              <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
+              <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="question.isTabExpanded">
+            <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType"
+                [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails"></tm-per-question-view-responses>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

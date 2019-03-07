@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
@@ -81,89 +79,13 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
-        StringBuilder html = new StringBuilder(100);
-        for (int i = 0; i < answer.size(); i++) {
-            int chosenIndex = answer.get(i);
-            String chosenChoice = "";
-            if (chosenIndex == -1) {
-                chosenChoice = "<span class=\"color-neutral\"><i>"
-                             + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE
-                             + "</i></span>";
-                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice + "<br>");
-            } else {
-                chosenChoice = SanitizationHelper.sanitizeForHtml(fqd.getRubricChoices().get(answer.get(i)));
-                html.append(StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1) + ") " + chosenChoice
-                            + " <span class=\"color-neutral\"><i>(Choice " + (chosenIndex + 1)
-                            + ")</i></span><br>");
-            }
-
-        }
-
-        return html.toString();
-    }
-
-    @Override
-    public String getAnswerHtmlStudentView(FeedbackQuestionDetails questionDetails) {
-        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
-        StringBuilder html = new StringBuilder(100);
-
-        html.append("<table class=\"table table-bordered\">");
-
-        StringBuilder tableHeaderHtml = new StringBuilder(100);
-
-        tableHeaderHtml.append(
-                "<thead>"
-                   + "<tr>"
-                        + "<th>Criteria</th>");
-
-        List<String> subQuestions = fqd.getRubricSubQuestions();
-        List<String> rubricChoices = fqd.getRubricChoices();
-
-        for (String rubricChoice : rubricChoices) {
-            tableHeaderHtml.append("<th class=\"text-center\">");
-            tableHeaderHtml.append(rubricChoice);
-            tableHeaderHtml.append("</th>");
-        }
-
-        tableHeaderHtml.append(
-                      "</tr>"
-                + "</thead>");
-
-        StringBuilder tableBodyHtml = new StringBuilder(200);
-
-        tableBodyHtml.append("<tbody>");
-
-        for (int i = 0; i < answer.size(); i++) {
-            int chosenIndex = answer.get(i);
-
-            tableBodyHtml.append(
-                    "<tr>"
-                        + "<td>");
-            tableBodyHtml.append(subQuestions.get(i));
-            tableBodyHtml.append("</td>");
-
-            for (int j = 0; j < rubricChoices.size(); j++) {
-                tableBodyHtml.append("<td class=\"text-center\">");
-
-                if (j == chosenIndex) {
-                    tableBodyHtml.append("<span class=\"glyphicon glyphicon-ok text-success\"></span>");
-                }
-
-                tableBodyHtml.append("</td>");
-            }
-        }
-
-        tableBodyHtml.append("</tbody>");
-        html.append(tableHeaderHtml).append(tableBodyHtml).append("</table>");
-
-        return html.toString();
-    }
-
-    @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return answer.toString();
+    }
+
+    @Override
+    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
+        return new ArrayList<>();
     }
 
     public int getAnswer(int subQuestionIndex) {
