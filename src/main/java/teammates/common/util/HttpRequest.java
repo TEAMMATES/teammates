@@ -13,19 +13,19 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 /**
- * A utility class to execute an API request and return the response.
+ * A utility class to execute an HTTP request and return the response.
  */
-public final class ApiRequest {
+public final class HttpRequest {
 
-    private ApiRequest() {
+    private HttpRequest() {
         // Utility class
         // Intentional private constructor to prevent instantiation.
     }
 
     /**
-     * Returns the API HTTP response string.
+     * Returns the HTTP response string.
      * @param uri The URI containing the request URL and request parameters.
-     * @return the HTTP response string after executing the API request
+     * @return the HTTP response string after executing the HTTP request
      */
     public static String execute(URI uri) throws IOException, NullPointerException {
         HttpUriRequest request = new HttpGet(uri);
