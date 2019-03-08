@@ -66,8 +66,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         MessageOutput msg = (MessageOutput) r.getOutput();
-        assertEquals("Updated course [" + courseId + "] details: Name: " + courseName
-                + ", Time zone: " + courseTimeZone, msg.getMessage());
+        assertEquals("The course has been edited.", msg.getMessage());
 
         verifySessionsInCourseHaveTimeZone(courseId, courseTimeZone);
 
@@ -86,8 +85,7 @@ public class SaveCourseEditDetailsActionTest extends BaseActionTest<SaveCourseEd
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         msg = (MessageOutput) r.getOutput();
-        assertEquals("Updated course [" + courseId + "] details: Name: " + courseNameWithValidCharacters
-                + ", Time zone: " + courseTimeZone, msg.getMessage());
+        assertEquals("The course has been edited.", msg.getMessage());
 
         ______TS("Failure case: edit course name with empty string");
 
