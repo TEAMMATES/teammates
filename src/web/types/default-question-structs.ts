@@ -135,6 +135,7 @@ export const DEFAULT_MCQ_QUESTION_DETAILS: () => FeedbackMcqQuestionDetails =
         numOfMcqChoices: 0,
         mcqChoices: [],
         otherEnabled: false,
+        generatedOptionsEnabled: false,
         generateOptionsFor: FeedbackParticipantType.NONE,
         questionType: FeedbackQuestionType.MCQ,
         questionText: '',
