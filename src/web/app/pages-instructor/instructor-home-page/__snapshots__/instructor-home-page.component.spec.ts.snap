@@ -5,6 +5,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -124,6 +125,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -685,6 +687,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
+  courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
