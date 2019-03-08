@@ -38,6 +38,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private int numOfMcqChoices;
     private List<String> mcqChoices;
     private boolean otherEnabled;
+    private boolean generatedOptionsEnabled;
     private FeedbackParticipantType generateOptionsFor;
 
     public FeedbackMcqQuestionDetails() {

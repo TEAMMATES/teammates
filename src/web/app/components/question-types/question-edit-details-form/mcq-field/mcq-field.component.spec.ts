@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FormsModule } from '@angular/forms';
 import { McqFieldComponent } from './mcq-field.component';
 
 describe('McqFieldComponent', () => {
@@ -9,6 +10,9 @@ describe('McqFieldComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [McqFieldComponent],
+      imports: [
+        FormsModule,
+      ],
     })
     .compileComponents();
   }));

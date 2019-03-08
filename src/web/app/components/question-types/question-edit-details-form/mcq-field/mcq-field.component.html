@@ -5,11 +5,13 @@
                 <span>&#8597; </span>
                 <input type="radio" class="disabled_radio" disabled>
             </span>
-    <input type="text" class="form-control">
+    <input type="text" class="form-control" [disabled]="!isEditable" [(ngModel)]="text"
+           (blur)="onSearchChange($event.target.value)">
     <span class="input-group-btn">
-              <button type="button" class="btn btn-default removeOptionLink input-group-addon" tabindex="-1">
+              <button type="button" class="btn btn-default input-group-addon" style="cursor: initial" tabindex="-1"
+                      [disabled]="!isEditable" (click)="deleteMcq()">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </span>
+    </span>
   </div>
 </div>

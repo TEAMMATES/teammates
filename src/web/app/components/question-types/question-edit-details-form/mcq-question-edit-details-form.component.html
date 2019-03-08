@@ -1,7 +1,7 @@
 <div class="row">
   <br>
   <div class="col-sm-12 margin-bottom-7px">
-    <div class="form-check form-check-inline" *ngIf="!IS_GENERATE_OPTIONS_FROM_LIST_CHECKED">
+    <div class="form-check form-check-inline" *ngIf="!model.generatedOptionsEnabled">
       <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
              container="body">
         <input class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
@@ -14,21 +14,25 @@
   </div>
   <br>
   <div class="col-sm-6">
-    <div *ngIf="!IS_GENERATE_OPTIONS_FROM_LIST_CHECKED">
+    <div *ngIf="!model.generatedOptionsEnabled">
       <div class="row">
         <div class="col-sm-9">
-          <tm-mcq-field *ngFor="let num of numbers"></tm-mcq-field>
+          <tm-mcq-field *ngFor="let num of model.mcqChoices; let i = index;" (elementDeleted)="onMcqDeleted()"
+                        [index]="i" [text]="model.mcqChoices[i]" (mcqText)="onMcqEntered($event, i)"
+                        [isEditable]="isEditable" [numberOfMcqChoices]="model.numOfMcqChoices"></tm-mcq-field>
         </div>
         <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
-          <tm-weight-field *ngFor="let num of numbers"></tm-weight-field>
+          <tm-weight-field *ngFor="let num of model.mcqChoices"></tm-weight-field>
         </div>
       </div>
       <br>
       <div>
-        <div colspan="2">
-          <a class="btn btn-primary btn-xs addOptionLink">
+        <div>
+          <button class="btn btn-primary" [ngModel]="model.numOfMcqChoices" name="button" ngDefaultControl
+             [disabled]="!isEditable" (click)="increaseNumberOfOptions()"
+             (ngModelChange)="triggerModelChange('numOfMcqChoices', $event)">
             <span>&#10133;</span> add more options
-          </a>
+          </button>
           <div class="row">
             <div class="checkbox col-sm-9 padding-left-35px">
               <label class="bold-label">
@@ -38,7 +42,8 @@
               </label>
             </div>
             <div class="col-sm-3" *ngIf="model.hasAssignedWeights && model.otherEnabled">
-              <input type="number" class="form-control" step="0.01" min="0">
+              <input type="number" class="form-control" step="0.01" min="0" [ngModel]="model.mcqOtherWeight"
+                     (ngModelChange)="triggerModelChange('mcqOtherWeight', $event)" [disabled]="!isEditable">
             </div>
           </div>
         </div>
@@ -47,11 +52,13 @@
   </div>
   <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
     <label class="form-check-label" container="body">
-      <input class="form-check-input" type="checkbox" (change)="toggleEditable($event)" [disabled]="!isEditable">
+      <input class="form-check-input" type="checkbox"  [disabled]="!isEditable"
+             [ngModel]="model.generatedOptionsEnabled" (ngModelChange)="triggerModelChange('generatedOptionsEnabled', $event)">
       <b>Or, generate options from the list of all</b>
     </label>
-    <select class="form-control width-auto inline" [disabled]="!IS_GENERATE_OPTIONS_FROM_LIST_CHECKED">
-      <option *ngFor="let option of participantTypes" [value]="option">{{ option }}</option>
+    <select class="form-control width-auto inline" [disabled]="!model.generatedOptionsEnabled"
+            [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
+      <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option }}</option>
     </select>
   </div>
 </div>

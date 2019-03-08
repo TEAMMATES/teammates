@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
  * The input field to specify weights for options.
  */
 @Component({
-  selector: 'tm-weight-field',
+  selector: '@tm-weight-field',
   templateUrl: './weight-field.component.html',
   styleUrls: ['./weight-field.component.scss'],
 })
