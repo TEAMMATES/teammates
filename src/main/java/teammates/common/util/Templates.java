@@ -65,9 +65,6 @@ public final class Templates {
     public static class FeedbackQuestion {
 
         public static class FormTemplates {
-            public static final String FEEDBACK_QUESTION_ADDITIONAL_INFO =
-                    FileHelper.readResourceFile("feedbackQuestionAdditionalInfoTemplate.html");
-
             public static final String TEXT_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionTextSubmissionFormTemplate.html");
             public static final String TEXT_RESULT_STATS =
@@ -87,10 +84,6 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionMcqEditFormOptionFragment.html");
             public static final String MCQ_EDIT_FORM_WEIGHTFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMcqEditFormWeightFragment.html");
-            public static final String MCQ_ADDITIONAL_INFO_FRAGMENT =
-                    FileHelper.readResourceFile("feedbackQuestionMcqAdditionalInfoFragment.html");
-            public static final String MCQ_ADDITIONAL_INFO =
-                    FileHelper.readResourceFile("feedbackQuestionMcqAdditionalInfoTemplate.html");
             public static final String MCQ_RESULT_STATS =
                     FileHelper.readResourceFile("feedbackQuestionMcqResultStatsTemplate.html");
             public static final String MCQ_RESULT_STATS_OPTIONFRAGMENT =
@@ -116,10 +109,6 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionMsqEditFormOptionFragment.html");
             public static final String MSQ_EDIT_FORM_WEIGHTFRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionMsqEditFormWeightFragment.html");
-            public static final String MSQ_ADDITIONAL_INFO_FRAGMENT =
-                    FileHelper.readResourceFile("feedbackQuestionMsqAdditionalInfoFragment.html");
-            public static final String MSQ_ADDITIONAL_INFO =
-                    FileHelper.readResourceFile("feedbackQuestionMsqAdditionalInfoTemplate.html");
 
             public static final String NUMSCALE_EDIT_FORM =
                     FileHelper.readResourceFile("feedbackQuestionNumScaleEditFormTemplate.html");
@@ -208,8 +197,6 @@ public final class Templates {
                     FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsBodyFragment.html");
             public static final String RUBRIC_RESULT_RECIPIENT_STATS_BODY_ROW_FRAGMENT =
                     FileHelper.readResourceFile("feedbackQuestionRubricResultRecipientStatsBodyRowFragment.html");
-            public static final String RUBRIC_ADDITIONAL_INFO =
-                    FileHelper.readResourceFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
 
             public static final String RANK_SUBMISSION_FORM =
                     FileHelper.readResourceFile("feedbackQuestionRankSubmissionFormTemplate.html");
@@ -307,7 +294,6 @@ public final class Templates {
             public static final String MCQ_EDIT_FORM_OPTION_FRAGMENTS = "${mcqEditFormOptionFragments}";
             public static final String MCQ_EDIT_FORM_WEIGHT_FRAGMENTS = "${mcqEditFormWeightFragments}";
             public static final String MCQ_NUM_OF_MCQ_CHOICES = "${numOfMcqChoices}";
-            public static final String MCQ_ADDITIONAL_INFO_FRAGMENTS = "${mcqAdditionalInfoFragments}";
             public static final String MCQ_PARAM_CHOICE = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE}";
             public static final String MCQ_PARAM_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT}";
             public static final String MCQ_PARAM_OTHER_WEIGHT = "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT}";
@@ -332,7 +318,6 @@ public final class Templates {
             public static final String MSQ_SUBMISSION_FORM_OPTION_FRAGMENTS = "${msqSubmissionFormOptionFragments}";
             public static final String MSQ_NUMBER_OF_CHOICES = "${numOfMsqChoices}";
             public static final String MSQ_CHECKED_GENERATED_OPTIONS = "${checkedGeneratedOptions}";
-            public static final String MSQ_ADDITIONAL_INFO_FRAGMENTS = "${msqAdditionalInfoFragments}";
             public static final String MSQ_MAX_SELECTABLE_CHOICES = "${msqMaxSelectableChoices}";
             public static final String MSQ_MIN_SELECTABLE_CHOICES = "${msqMinSelectableChoices}";
             public static final String MSQ_IS_MAX_SELECTABLE_CHOICES_ENABLED =
@@ -519,7 +504,6 @@ public final class Templates {
             public static final String RUBRIC_WEIGHT = "${rubricWeight}";
             public static final String RUBRIC_CHOICE_VALUE = "${rubricChoiceValue}";
             public static final String RUBRIC_TABLE_WEIGHT_ROW_FRAGMENT_HTML = "${tableWeightRowFragmentHtml}";
-            public static final String RUBRIC_ADDITIONAL_INFO_FRAGMENTS = "${rubricAdditionalInfoFragments}";
             public static final String RUBRIC_RECIPIENT_STAT_CELL = "${recipientStatCell}";
             public static final String RUBRIC_RECIPIENT_STATS_HTML = "${perRecipientStatsHtml}";
             public static final String RUBRIC_RECIPIENT_STAT_ROW = "${recipientStatRow}";

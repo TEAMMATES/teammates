@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FeedbackNumericalScaleQuestionDetails, FeedbackQuestionType } from '../../../../types/api-output';
+import { FeedbackNumericalScaleQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
@@ -14,13 +15,7 @@ export class NumScaleQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {
 
   constructor() {
-    super({
-      minScale: 1,
-      maxScale: 5,
-      step: 1,
-      questionText: '',
-      questionType: FeedbackQuestionType.NUMSCALE,
-    });
+    super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
   }
 
   get maxScaleValue(): number {

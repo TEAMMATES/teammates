@@ -15,13 +15,12 @@ public class FeedbackResultsTable {
     private List<FeedbackResponsePersonRow> receivedResponses;
     private List<FeedbackResponsePersonRow> givenResponses;
 
-    public FeedbackResultsTable(int fbIndex, String studentName, String studentEmail, FeedbackSessionResultsBundle result) {
+    public FeedbackResultsTable(String studentName, String studentEmail, FeedbackSessionResultsBundle result) {
         this.studentName = studentName;
 
         this.receivedResponses = new ArrayList<>();
         Map<String, List<FeedbackResponseAttributes>> received =
                                         result.getResponsesSortedByRecipient().get(studentName);
-        int giverIndex = 0;
         if (received != null) {
             FeedbackResponseAttributes contribFeedbackResponse = findContribFeedbackResponse(received);
             if (contribFeedbackResponse != null && contribFeedbackResponse.recipient.equals(studentEmail)) {
@@ -30,16 +29,15 @@ public class FeedbackResultsTable {
 
             Map<String, List<FeedbackResponseAttributes>> receivedSorted = new TreeMap<>(received);
             for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : receivedSorted.entrySet()) {
-                giverIndex++;
                 if (contribFeedbackResponse != null && entry.getKey().equals(this.studentName)) {
                     List<FeedbackResponseAttributes> newResponseReceived = entry.getValue();
                     newResponseReceived.add(contribFeedbackResponse);
                     FeedbackResponseAttributes.sortFeedbackResponses(newResponseReceived);
 
-                    this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(),
+                    this.receivedResponses.add(new FeedbackResponsePersonRow(entry.getKey(),
                                     "giver", newResponseReceived, result, true));
                 } else {
-                    this.receivedResponses.add(new FeedbackResponsePersonRow(fbIndex, giverIndex, entry.getKey(),
+                    this.receivedResponses.add(new FeedbackResponsePersonRow(entry.getKey(),
                                     "giver", entry.getValue(), result, false));
                 }
             }
@@ -47,11 +45,9 @@ public class FeedbackResultsTable {
 
         this.givenResponses = new ArrayList<>();
         Map<String, List<FeedbackResponseAttributes>> given = result.getResponsesSortedByGiver().get(studentName);
-        int recipientIndex = 0;
         if (given != null) {
             for (Map.Entry<String, List<FeedbackResponseAttributes>> entry : given.entrySet()) {
-                recipientIndex++;
-                this.givenResponses.add(new FeedbackResponsePersonRow(fbIndex, recipientIndex, entry.getKey(), "recipient",
+                this.givenResponses.add(new FeedbackResponsePersonRow(entry.getKey(), "recipient",
                                                                       entry.getValue(), result, false));
             }
         }

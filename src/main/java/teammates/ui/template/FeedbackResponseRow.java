@@ -10,7 +10,6 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -24,18 +23,17 @@ public class FeedbackResponseRow {
     private List<FeedbackResponseCommentRow> instructorComments;
     private FeedbackResponseCommentRow feedbackParticipantComment;
 
-    public FeedbackResponseRow(int fbIndex, int personIndex, String personType, FeedbackResponseAttributes response,
+    public FeedbackResponseRow(String personType, FeedbackResponseAttributes response,
             FeedbackSessionResultsBundle results, boolean showPcRow) {
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = results.questions.get(questionId);
-        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         this.questionNumber = question.questionNumber;
         this.questionText = results.getQuestionText(questionId);
-        this.questionMoreInfo = questionDetails.getQuestionAdditionalInfoHtml(this.questionNumber,
-                                                                              personType + "-" + personIndex
-                                                                                         + "-session-" + fbIndex);
+        this.questionMoreInfo = "";
+        // questionDetails.getQuestionAdditionalInfoHtml(this.questionNumber,
+        // personType + "-" + personIndex + "-session-" + fbIndex);
         if ("recipient".equals(personType)) {
-            this.responseText = response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
+            this.responseText = ""; // response.getResponseDetails().getAnswerHtmlInstructorView(questionDetails);
         } else if ("giver".equals(personType)) {
             if (showPcRow && question.getQuestionType().equals(FeedbackQuestionType.CONTRIB)) {
                 this.responseText = getNewResponseText(response, question, results);

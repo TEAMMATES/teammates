@@ -44,13 +44,14 @@ export class InstructorPageComponent implements OnInit {
       display: 'Help',
     },
   ];
-  isFetchingAuthDetails: boolean = true;
+  isFetchingAuthDetails: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
       this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
         if (res.user) {

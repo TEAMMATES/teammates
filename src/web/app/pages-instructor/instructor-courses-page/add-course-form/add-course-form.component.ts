@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
-import { HttpRequestService } from '../../../../services/http-request.service';
+import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
-import { MessageOutput } from '../../../../types/api-output';
+import { Course } from '../../../../types/api-output';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
@@ -28,8 +28,8 @@ export class AddCourseFormComponent implements OnInit {
   newCourseName: string = '';
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
+              private courseService: CourseService,
               private timezoneService: TimezoneService) { }
 
   ngOnInit(): void {
@@ -67,21 +67,22 @@ export class AddCourseFormComponent implements OnInit {
           'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: this.newCourseId,
-      coursename: this.newCourseName,
-      coursetimezone: this.timezone,
-      user: this.user,
-    };
-    this.newCourseId = '';
-    this.newCourseName = '';
-    this.timezone = moment.tz.guess();
-    this.httpRequestService.post('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
+    this.courseService.createCourse({
+      courseName: this.newCourseName,
+      timeZone: this.timezone,
+      courseId: this.newCourseId,
+    }).subscribe((course: Course) => {
       this.courseAdded.emit();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      this.statusMessageService.showSuccessMessage('The course has been added. '
+          + `Click <a href=\"/web/instructor/courses/enroll?courseid=${course.courseId}\">here</a> `
+          + `to add students to the course or click <a href=\"/web/instructor/courses/edit?courseid=${course.courseId}`
+          + '\">here</a> to add other instructors.'
+          + '<br>If you don\'t see the course in the list below, please refresh the page after a few moments.');
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+    this.newCourseId = '';
+    this.newCourseName = '';
+    this.timezone = moment.tz.guess();
   }
-
 }

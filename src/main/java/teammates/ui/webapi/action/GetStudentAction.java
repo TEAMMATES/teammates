@@ -1,14 +1,24 @@
 package teammates.ui.webapi.action;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import org.apache.http.HttpStatus;
+
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.StudentData;
 
 /**
  * Get the information of a student inside a course.
  */
-public class GetStudentAction extends BasicFeedbackSubmissionAction {
+public class GetStudentAction extends Action {
+
+    /** String indicating ACCESS is not given. */
+    public static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
+
+    /** Message indicating that a student not found. */
+    public static final String STUDENT_NOT_FOUND = "No student found";
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -17,37 +27,66 @@ public class GetStudentAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public void checkSpecificAccessControl() {
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        switch (intent) {
-        case STUDENT_SUBMISSION:
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-            FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
-            checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
-            break;
-        case FULL_DETAIL:
-            // TODO implement this when necessary
-            break;
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        CourseAttributes course = logic.getCourse(courseId);
+
+        StudentAttributes student = null;
+
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+
+        if (studentEmail != null) {
+            student = logic.getStudentForEmail(courseId, studentEmail);
+            if (student == null || !userInfo.isInstructor) {
+                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
+            }
+
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+        } else if (regKey != null) {
+            getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
+        } else {
+            if (!userInfo.isStudent) {
+                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
+            }
+
+            student = logic.getStudentForGoogleId(courseId, userInfo.id);
+            gateKeeper.verifyAccessible(student, course);
         }
     }
 
     @Override
     public ActionResult execute() {
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        switch (intent) {
-        case STUDENT_SUBMISSION:
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-            return new JsonResult(new StudentInfo.StudentResponse(studentAttributes));
-        case FULL_DETAIL:
-            // TODO implement this when necessary
-            return null;
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
-    }
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        StudentAttributes student = null;
 
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+
+        if (studentEmail == null) {
+            student = getUnregisteredStudent().orElseGet(() -> {
+                if (userInfo == null) {
+                    return null;
+                }
+
+                return logic.getStudentForGoogleId(courseId, userInfo.id);
+            });
+        } else {
+            student = logic.getStudentForEmail(courseId, studentEmail);
+        }
+
+        if (student == null) {
+            return new JsonResult(STUDENT_NOT_FOUND, HttpStatus.SC_NOT_FOUND);
+        }
+
+        StudentData studentData = new StudentData(student);
+
+        // hide information if not an instructor
+        if (studentEmail == null) {
+            studentData.setComments(null);
+            studentData.setJoinState(null);
+        }
+
+        return new JsonResult(studentData);
+    }
 }

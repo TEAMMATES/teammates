@@ -54,13 +54,14 @@ export class StaticPageComponent implements OnInit {
       ],
     },
   ];
-  isFetchingAuthDetails: boolean = true;
+  isFetchingAuthDetails: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.isFetchingAuthDetails = true;
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       if (res.user) {
         this.user = res.user.id;

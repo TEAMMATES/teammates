@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { Course, CourseArchive, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -82,6 +83,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
+              private courseService: CourseService,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -165,42 +167,24 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Archives an active course.
+   * Changes the status of an archived course.
    */
-  onArchive(courseId: string): void {
+  changeArchiveStatus(courseId: string, toArchive: boolean): void {
     if (!courseId) {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      archive: 'true',
-      user: this.user,
-    };
-    this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
+    this.courseService.changeArchiveStatus(courseId, {
+      archiveStatus: toArchive,
+    }).subscribe((courseArchive: CourseArchive) => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
-  }
-
-  /**
-   * Unarchives an archived course.
-   */
-  onUnarchive(courseId: string): void {
-    if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
-      return;
-    }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      archive: 'false',
-      user: this.user,
-    };
-    this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      if (courseArchive.isArchived) {
+        this.statusMessageService.showSuccessMessage(`The course has been archived.
+          It will not appear in the home page any more. You can access archived courses from the 'Courses' tab.
+          Go there to undo the archiving and bring the course back to the home page.`);
+      } else {
+        this.statusMessageService.showSuccessMessage('The course has been unarchived.');
+      }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -216,14 +200,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
     modalRef.result.then(() => {
-      const paramMap: { [key: string]: string } = {
-        courseid: courseId,
-        user: this.user,
-      };
-
-      this.httpRequestService.delete('/course', paramMap).subscribe((resp: MessageOutput) => {
+      this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.loadInstructorCourses();
-        this.statusMessageService.showSuccessMessage(resp.message);
+        this.statusMessageService.showSuccessMessage(
+          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
@@ -241,17 +221,12 @@ export class InstructorCoursesPageComponent implements OnInit {
     const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
-      const paramMap: { [key: string]: string } = {
-        courseid: courseId,
-        user: this.user,
-      };
-      this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap)
-          .subscribe((resp: MessageOutput) => {
-            this.loadInstructorCourses();
-            this.statusMessageService.showSuccessMessage(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
-          });
+      this.courseService.deleteCourse(courseId).subscribe(() => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
     }, () => {});
   }
 

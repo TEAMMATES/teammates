@@ -1,0 +1,4 @@
+<span *ngIf="questionDetails.distributeToRecipients">{{ responseDetails.answers }}</span>
+<ul *ngIf="!questionDetails.distributeToRecipients">
+  <li *ngFor="let answer of optionToAnswer | keyvalue">{{ answer.key }}: {{ answer.value }}</li>
+</ul>

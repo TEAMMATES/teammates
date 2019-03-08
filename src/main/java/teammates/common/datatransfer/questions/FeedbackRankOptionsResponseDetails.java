@@ -2,7 +2,6 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -59,35 +58,6 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public String getAnswerString() {
         String listString = getFilteredSortedAnswerList().toString(); //[1, 2, 3] format
         return listString.substring(1, listString.length() - 1); //remove []
-    }
-
-    @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
-
-        SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
-
-        StringBuilder htmlBuilder = new StringBuilder(100);
-        htmlBuilder.append("<ul>");
-
-        for (Entry<Integer, List<String>> rankAndOption : orderedOptions.entrySet()) {
-            Integer rank = rankAndOption.getKey();
-            if (rank == Const.POINTS_NOT_SUBMITTED) {
-                continue;
-            }
-
-            List<String> optionsWithGivenRank = rankAndOption.getValue();
-            for (String option : optionsWithGivenRank) {
-                htmlBuilder.append("<li>");
-                htmlBuilder.append(SanitizationHelper.sanitizeForHtml(rank.toString()));
-                htmlBuilder.append(": ");
-                htmlBuilder.append(option);
-                htmlBuilder.append("</li>");
-            }
-        }
-
-        htmlBuilder.append("</ul>");
-        return htmlBuilder.toString();
     }
 
     @Override

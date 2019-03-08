@@ -25,11 +25,6 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     }
 
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        return getAnswerString();
-    }
-
-    @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return Integer.toString(answer);
     }

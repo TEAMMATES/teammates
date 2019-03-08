@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  FeedbackContributionQuestionDetails,
-  FeedbackQuestionType,
-} from '../../../../types/api-output';
+import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionAdditionalInfo } from './question-additional-info';
 
 /**
@@ -17,11 +15,7 @@ export class ContributionQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackContributionQuestionDetails> {
 
   constructor() {
-    super({
-      isNotSureAllowed: false,
-      questionType: FeedbackQuestionType.CONTRIB,
-      questionText: '',
-    });
+    super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
 }

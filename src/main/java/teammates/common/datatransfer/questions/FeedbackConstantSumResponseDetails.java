@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Assumption;
-import teammates.common.util.SanitizationHelper;
 
 public class FeedbackConstantSumResponseDetails extends
         FeedbackResponseDetails {
@@ -43,26 +42,6 @@ public class FeedbackConstantSumResponseDetails extends
     public String getAnswerString() {
         String listString = answers.toString(); //[1, 2, 3] format
         return listString.substring(1, listString.length() - 1); //remove []
-    }
-
-    @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        FeedbackConstantSumQuestionDetails csQd = (FeedbackConstantSumQuestionDetails) questionDetails;
-        if (csQd.isDistributeToRecipients()) {
-            return getAnswerString();
-        }
-        StringBuilder htmlBuilder = new StringBuilder(100);
-        htmlBuilder.append("<ul>");
-        for (int i = 0; i < answers.size(); i++) {
-            String answerString = answers.get(i).toString();
-            String optionString = csQd.getConstSumOptions().get(i);
-
-            htmlBuilder.append("<li>");
-            htmlBuilder.append(optionString).append(": ").append(SanitizationHelper.sanitizeForHtml(answerString));
-            htmlBuilder.append("</li>");
-        }
-        htmlBuilder.append("</ul>");
-        return htmlBuilder.toString();
     }
 
     @Override

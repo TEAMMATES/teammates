@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -36,14 +35,6 @@ public abstract class FeedbackResponseDetails {
 
     public abstract String getAnswerString();
 
-    @Deprecated
-    public abstract String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails);
-
-    @Deprecated
-    public String getAnswerHtmlStudentView(FeedbackQuestionDetails questionDetails) {
-        return getAnswerHtmlInstructorView(questionDetails);
-    }
-
     public String getJsonString() {
         Assumption.assertNotNull(questionType);
         if (questionType == FeedbackQuestionType.TEXT) {
@@ -74,27 +65,6 @@ public abstract class FeedbackResponseDetails {
     public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerCsv(question.getQuestionDetails());
-    }
-
-    /**
-     * getAnswerHtml with an additional parameter (FeedbackSessionResultsBundle)
-     *
-     * <p>default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails).
-     * override in child class if necessary.
-     */
-    @Deprecated
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getAnswerHtmlInstructorView(question.getQuestionDetails());
-    }
-
-    public static FeedbackResponseDetails createResponseDetails(
-            String[] answer, FeedbackQuestionType questionType,
-            FeedbackQuestionDetails questionDetails,
-            Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
-
-        return questionType.getFeedbackResponseDetailsInstance(questionDetails, answer, requestParameters,
-                                                               questionIndx, responseIndx);
     }
 
     /**
