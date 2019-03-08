@@ -1,7 +1,7 @@
 package teammates.ui.webapi.output;
 
 /**
- * The output format for link recovery request.
+ * The output format for session links recovery request.
  */
 public class SessionLinksRecoveryResponseData extends ApiOutput {
     private final boolean isEmailSent;

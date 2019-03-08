@@ -86,7 +86,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
 
-        List<FeedbackSession> lst = new LinkedList<>();
+        List<FeedbackSession> feedbackSessionList = new LinkedList<>();
 
         List<FeedbackSession> startEntities = load()
                 .filter("startTime >=", rangeStart)
@@ -105,11 +105,11 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         resultsVisibleEntities.removeAll(startEntities);
         resultsVisibleEntities.removeAll(endEntities);
 
-        lst.addAll(startEntities);
-        lst.addAll(endEntities);
-        lst.addAll(resultsVisibleEntities);
+        feedbackSessionList.addAll(startEntities);
+        feedbackSessionList.addAll(endEntities);
+        feedbackSessionList.addAll(resultsVisibleEntities);
 
-        return makeAttributes(lst).stream()
+        return makeAttributes(feedbackSessionList).stream()
                 .sorted(Comparator.comparing(FeedbackSessionAttributes::getStartTime))
                 .filter(fs -> !fs.isSessionDeleted())
                 .collect(Collectors.toList());

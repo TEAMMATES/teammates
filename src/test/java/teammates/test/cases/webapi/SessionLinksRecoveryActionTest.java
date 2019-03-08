@@ -32,7 +32,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.SESSION_LINK_RECOVERY;
+        return Const.ResourceURIs.SESSION_LINKS_RECOVERY;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         ______TS("Typical case: non-existing email address");
 
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, "non-existent email address.",
+                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "non-existent email address.",
         };
 
         SessionLinksRecoveryAction a = getAction(nonExistingParam);
@@ -103,7 +103,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         ______TS("Typical case: successfully sent recovery link email: No feedback sessions found");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse2.getEmail(),
+                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse2.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);
@@ -134,7 +134,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 + "closed and unpublished.");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse3.getEmail(),
+                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse3.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);
@@ -210,7 +210,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 + "closed and published.");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse1.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);

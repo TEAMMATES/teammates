@@ -23,7 +23,7 @@ public class SessionLinksRecoveryAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.SESSION_LINK_RECOVERY_EMAIL);
+        String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL);
         boolean hasStudentsWithRecoveryEmail = !logic.getAllStudentForEmail(recoveryEmailAddress).isEmpty();
 
         if (hasStudentsWithRecoveryEmail) {
