@@ -682,6 +682,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
+    public boolean isGeneratedOptionsEnabled() {
+        return generatedOptionsEnabled;
+    }
+
     /**
      * Class that contains methods which are used to calculate both MCQ and MSQ response statistics.
      */
