@@ -19,9 +19,9 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -1121,7 +1121,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseE2ETestCase {
 
     private InstructorFeedbackSessionsPage getFeedbackPageForInstructor(String instructorId) {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE).withUserId(instructorId);
-        InstructorFeedbackSessionsPage page = loginAdminToPage(feedbackPageLink, InstructorFeedbackSessionsPage.class);
+        InstructorFeedbackSessionsPage page = loginAdminToPageOld(feedbackPageLink, InstructorFeedbackSessionsPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;
     }

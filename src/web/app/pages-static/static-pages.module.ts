@@ -74,16 +74,15 @@ const routes: Routes = [
       {
         path: 'getting-started',
         component: InstructorHelpGettingStartedComponent,
+        data: {
+          instructorHelpPath: '/web/front/help/instructor',
+        },
       },
       {
         path: 'session-link-recovery',
         component: SessionLinksRecoveryPageComponent,
       },
     ],
-  },
-  {
-    path: 'getting-started',
-    component: InstructorHelpGettingStartedComponent,
   },
   {
     path: '',

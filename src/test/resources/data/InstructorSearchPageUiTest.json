@@ -303,7 +303,6 @@
         "questionText": "What is the best selling point of your product?"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -325,7 +324,6 @@
         "questionText": "Rate 1 other student's product"
       },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -351,7 +349,6 @@
         "questionText": "My searchUI on the class"
       },
       "questionNumber": 3,
-      "questionType": "TEXT",
       "giverType": "SELF",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -382,7 +379,6 @@
         "questionText": "Instructor searchUI on the class"
       },
       "questionNumber": 4,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -413,7 +409,6 @@
         "questionText": "Testing quotation marks '\" Testing unclosed tags </td></div> Testing script injection <script> alert('hello'); </script>"
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,

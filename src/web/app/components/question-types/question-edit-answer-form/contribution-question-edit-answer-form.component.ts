@@ -3,8 +3,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import {
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
@@ -30,14 +33,7 @@ export class ContributionQuestionEditAnswerFormComponent
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 
   constructor(private modalService: NgbModal) {
-    super({
-      isNotSureAllowed: false,
-      questionType: FeedbackQuestionType.CONTRIB,
-      questionText: '',
-    }, {
-      answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
-      questionType: FeedbackQuestionType.CONTRIB,
-    });
+    super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS(), DEFAULT_CONTRIBUTION_RESPONSE_DETAILS());
   }
 
   get contributionQuestionPoints(): number[] {

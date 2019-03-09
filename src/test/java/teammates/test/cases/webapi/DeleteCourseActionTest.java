@@ -1,14 +1,11 @@
 package teammates.test.cases.webapi;
 
-import java.util.List;
-
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.CoursesLogic;
 import teammates.ui.webapi.action.DeleteCourseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
@@ -16,7 +13,8 @@ import teammates.ui.webapi.output.MessageOutput;
 /**
  * SUT: {@link DeleteCourseAction}.
  */
-public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
+public class DeleteCourseActionTest
+        extends BaseActionTest<DeleteCourseAction> {
 
     @Override
     protected String getActionUri() {
@@ -30,87 +28,69 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-
-        loginAsInstructor(instructorId);
+    public void testExecute() throws Exception {
 
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
 
-        ______TS("Typical case, 2 courses");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        String instructorId = instructor1OfCourse1.googleId;
+        String courseId = instructor1OfCourse1.courseId;
 
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
+        ______TS("Typical case, delete a soft-deleted course in Recycle Bin");
+
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
-        DeleteCourseAction deleteAction = getAction(submissionParams);
-        JsonResult result = getJsonResult(deleteAction);
+        CourseAttributes courseToBeDeleted = logic.getCourse(courseId);
+        loginAsInstructor(instructorId);
+        logic.moveCourseToRecycleBin(courseToBeDeleted.getId());
+        assertEquals(courseId, logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
+
+        DeleteCourseAction deleteCourseAction = getAction(submissionParams);
+        JsonResult result = getJsonResult(deleteCourseAction);
+        MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertEquals("OK", messageOutput.getMessage());
+        assertNull(logic.getCourse(instructor1OfCourse1.courseId));
+    }
 
-        MessageOutput msg = (MessageOutput) result.getOutput();
-        assertEquals("The course idOfTypicalCourse1 has been deleted. You can restore it from the Recycle Bin manually.",
-                msg.getMessage());
+    @Test
+    public void testExecute_notInRecycleBin_shouldPass() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        String instructorId = instructor1OfCourse1.googleId;
+        String courseId = instructor1OfCourse1.courseId;
 
-        List<CourseAttributes> courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
-        assertEquals(1, courseList.size());
-        assertEquals("icdct.tpa.id1", courseList.get(0).getId());
+        ______TS("delete a course not in Recycle Bin");
 
-        ______TS("Masquerade mode, delete last course");
-
-        loginAsAdmin();
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "icdct.tpa.id1",
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
-        deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
-        result = getJsonResult(deleteAction);
+        CourseAttributes courseToBeDeleted = logic.getCourse(instructor1OfCourse1.courseId);
+        assertNull(courseToBeDeleted.deletedAt);
+        loginAsInstructor(instructorId);
+
+        DeleteCourseAction deleteCourseAction = getAction(submissionParams);
+        JsonResult result = getJsonResult(deleteCourseAction);
+        MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
-        msg = (MessageOutput) result.getOutput();
-        assertEquals("The course icdct.tpa.id1 has been deleted. You can restore it from the Recycle Bin manually.",
-                msg.getMessage());
-
-        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
-        assertEquals(0, courseList.size());
+        assertEquals("OK", messageOutput.getMessage());
+        assertNull(logic.getCourse(instructor1OfCourse1.courseId));
     }
 
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        CoursesLogic.inst().createCourseAndInstructor(
-                typicalBundle.instructors.get("instructor1OfCourse1").googleId,
-                "icdat.owncourse", "New course", "UTC");
-
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "icdat.owncourse",
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
         };
 
-        /*  Test access for users
-         *  This should be separated from testing for admin as we need to recreate the course after being removed
-         */
-        verifyInaccessibleWithoutLogin(submissionParams);
-        verifyInaccessibleForUnregisteredUsers(submissionParams);
-        verifyInaccessibleForStudents(submissionParams);
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsCanAccess(submissionParams);
         verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-
-        CoursesLogic.inst().deleteCourseCascade("icdat.owncourse");
-
-        /* Test access for admin in masquerade mode */
-        CoursesLogic.inst().createCourseAndInstructor(
-                typicalBundle.instructors.get("instructor1OfCourse1").googleId,
-                "icdat.owncourse", "New course", "UTC");
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-
-        CoursesLogic.inst().deleteCourseCascade("icdat.owncourse");
     }
-
 }

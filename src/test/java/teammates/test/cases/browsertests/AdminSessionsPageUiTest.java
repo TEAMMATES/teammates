@@ -39,7 +39,7 @@ public class AdminSessionsPageUiTest extends BaseE2ETestCase {
         ______TS("content: typical page");
 
         AppUrl sessionsUrl = createUrl(Const.WebPageURIs.ADMIN_SESSIONS_PAGE);
-        sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
+        sessionsPage = loginAdminToPageOld(sessionsUrl, AdminSessionsPage.class);
         By timeFramePanel = By.id("timeFramePanel");
         sessionsPage.waitForElementToDisappear(timeFramePanel);
         assertTrue(isSessionDataDisplayCorrect());

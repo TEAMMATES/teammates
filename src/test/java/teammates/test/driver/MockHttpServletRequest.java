@@ -2,6 +2,7 @@ package teammates.test.driver;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import javax.servlet.http.Part;
 public class MockHttpServletRequest implements HttpServletRequest {
 
     private List<Cookie> cookies;
+    private Map<String, Part> parts;
     private Map<String, List<String>> headers;
     private Map<String, List<String>> params;
     private String method;
@@ -45,6 +47,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     public MockHttpServletRequest(String method, String requestUrl) {
         this.cookies = new ArrayList<>();
+        this.parts = new HashMap<>();
         this.headers = new HashMap<>();
         this.params = new HashMap<>();
         this.method = method;
@@ -302,12 +305,19 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public Collection<Part> getParts() {
-        return null;
+        return this.parts.values();
     }
 
     @Override
     public Part getPart(String s) {
-        return null;
+        return this.parts.get(s);
+    }
+
+    /**
+     * Adds Part to the request.
+     */
+    public void addPart(String key, Part part) throws IOException {
+        this.parts.putIfAbsent(key, part);
     }
 
     @Override

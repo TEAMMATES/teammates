@@ -26,8 +26,8 @@
               Are you sure you want to discard your unsaved edits?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-              <button type="button" class="btn btn-warning" (click)="modal.close()">OK</button>
+              <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+              <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
             </div>
           </ng-template>
           <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(deleteModal)"><i class="fas fa-trash"></i> Delete</button>
@@ -42,8 +42,8 @@
               Are you sure you want to delete this question?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-              <button type="button" class="btn btn-danger" (click)="modal.close()">OK</button>
+              <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+              <button type="button" class="btn btn-danger" (click)="modal.close()">Yes</button>
             </div>
           </ng-template>
           <button type="button" class="btn btn-primary btn-sm"
@@ -64,8 +64,8 @@
               Are you sure you want to discard this question?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-              <button type="button" class="btn btn-warning" (click)="modal.close()">OK</button>
+              <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+              <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
             </div>
           </ng-template>
         </div>
@@ -100,6 +100,7 @@
           <div class="padding-15px">
             <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
             <tm-contribution-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
+            <tm-num-scale-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-num-scale-question-edit-details-form>
           </div>
         </div>
       </div>
@@ -274,7 +275,7 @@
     <p>Are you sure you want to continue?</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close()">OK</button>
+    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close()">Yes</button>
   </div>
 </ng-template>

@@ -198,45 +198,45 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     @Override
     public List<String> getInvalidityInfo() {
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
         // Check for null fields.
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField(
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
                 FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, feedbackSessionName), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField(FieldValidator.COURSE_ID_FIELD_NAME, courseId), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
+                FieldValidator.COURSE_ID_FIELD_NAME, courseId), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("instructions to students", instructions), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField(
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
                 "time for the session to become visible", sessionVisibleFromTime), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField("session time zone", timeZone), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("session time zone", timeZone), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("session creation time", createdTime), errors);
 
         // Early return if any null fields
         if (!errors.isEmpty()) {
             return errors;
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(courseId), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForEmail(creatorEmail), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(creatorEmail), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
 
-        addNonEmptyError(validator.getValidityInfoForNonNullField(
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
                 "time for the responses to become visible", resultsVisibleFromTime), errors);
 
         // Early return if any null fields
@@ -244,9 +244,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return errors;
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
                 sessionVisibleFromTime, startTime), errors);
 
         Instant actualSessionVisibleFromTime = sessionVisibleFromTime;
@@ -255,7 +255,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             actualSessionVisibleFromTime = startTime;
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
         return errors;

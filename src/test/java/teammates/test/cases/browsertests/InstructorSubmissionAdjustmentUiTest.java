@@ -16,9 +16,9 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**
@@ -97,7 +97,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseE2ETestCase {
                             .withUserId(testData.instructors.get("instructor1OfCourse1").googleId)
                             .withCourseId(testData.courses.get("typicalCourse1").getId());
 
-        enrollPage = loginAdminToPage(enrollUrl, InstructorCourseEnrollPage.class);
+        enrollPage = loginAdminToPageOld(enrollUrl, InstructorCourseEnrollPage.class);
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
