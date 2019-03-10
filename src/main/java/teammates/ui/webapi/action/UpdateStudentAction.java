@@ -34,7 +34,7 @@ public class UpdateStudentAction extends Action {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
@@ -74,7 +74,7 @@ public class UpdateStudentAction extends Action {
                 }
             }
         } catch (EnrollException | InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException e) {
@@ -82,7 +82,8 @@ public class UpdateStudentAction extends Action {
                     HttpStatus.SC_CONFLICT);
         }
 
-        return emailSent ? new JsonResult(SUCCESSFUL_UPDATE_WITH_EMAIL) : new JsonResult(SUCCESSFUL_UPDATE);
+        String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL : SUCCESSFUL_UPDATE;
+        return new JsonResult(statusMessage);
     }
 
     /**

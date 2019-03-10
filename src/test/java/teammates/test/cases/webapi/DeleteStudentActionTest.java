@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.DeleteStudentAction;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
 
 /**
  * SUT: {@link DeleteStudentAction}.
@@ -64,10 +63,8 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         deleteStudentAction = getAction(submissionParams);
         result = getJsonResult(deleteStudentAction);
-        MessageOutput msg = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals("Student does not exist", msg.getMessage());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         ______TS("failure: student does not exist");
         submissionParams = new String[] {
@@ -77,10 +74,8 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         deleteStudentAction = getAction(submissionParams);
         result = getJsonResult(deleteStudentAction);
-        msg = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals("Student does not exist", msg.getMessage());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         ______TS("failure: incomplete params given");
 

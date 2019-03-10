@@ -5,13 +5,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.DeleteInstructorCourseAllStudentsAction;
+import teammates.ui.webapi.action.DeleteStudentsAction;
 import teammates.ui.webapi.action.JsonResult;
 
 /**
- * SUT: {@link DeleteInstructorCourseAllStudentsAction}.
+ * SUT: {@link DeleteStudentsAction}.
  */
-public class DeleteInstructorCourseAllStudentsActionTest extends BaseActionTest<DeleteInstructorCourseAllStudentsAction> {
+public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsAction> {
 
     @Override
     protected String getActionUri() {
@@ -35,7 +35,7 @@ public class DeleteInstructorCourseAllStudentsActionTest extends BaseActionTest<
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
-        DeleteInstructorCourseAllStudentsAction action = getAction(submissionParams);
+        DeleteStudentsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

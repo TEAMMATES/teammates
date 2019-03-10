@@ -43,13 +43,16 @@ public class DeleteStudentAction extends Action {
             studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         } else {
             StudentAttributes student = logic.getStudentForGoogleId(courseId, studentId);
-            if (student == null) {
-                return new JsonResult("Student does not exist", HttpStatus.SC_NOT_FOUND);
+            if (student != null) {
+                studentEmail = student.getEmail();
             }
-            studentEmail = student.getEmail();
         }
 
-        logic.deleteStudent(courseId, studentEmail);
+        // if student is not found, fail silently
+        if (studentEmail != null) {
+            logic.deleteStudent(courseId, studentEmail);
+        }
+
         return new JsonResult("Student is successfully deleted.", HttpStatus.SC_OK);
     }
 
