@@ -39,6 +39,20 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+
+        ______TS("fails silently if random course given");
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "RANDOM_ID",
+        };
+
+        action = getAction(submissionParams);
+        result = getJsonResult(action);
+
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+
+        ______TS("failure: invalid params");
+
+        verifyHttpParameterFailure();
     }
 
     @Override

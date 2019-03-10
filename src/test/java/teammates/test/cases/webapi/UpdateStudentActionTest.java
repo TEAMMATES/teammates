@@ -123,7 +123,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         UpdateStudentAction invalidEmailAction = getAction(updateRequest, submissionParams);
         JsonResult invalidEmailOutput = getJsonResult(invalidEmailAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, invalidEmailOutput.getStatusCode());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, invalidEmailOutput.getStatusCode());
         MessageOutput invalidParamsOutput = (MessageOutput) invalidEmailOutput.getOutput();
 
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
