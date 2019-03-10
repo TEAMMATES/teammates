@@ -55,7 +55,7 @@ public class RecaptchaVerifier {
 
     protected String getApiResponse(String captchaResponse) throws URISyntaxException, IOException {
         if (SECRET_KEY == null) {
-            throw new NullHttpParameterException("reCAPTCHA secret key is not set");
+            throw new NullHttpParameterException("reCAPTCHA secret key is not specified");
         }
 
         URIBuilder urlb = new URIBuilder(VERIFY_URL);

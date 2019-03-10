@@ -26,7 +26,7 @@ public final class HttpRequest {
     }
 
     /**
-     * Makes a HTTP GET request and returns the response string.
+     * Executes a HTTP GET request and returns the response string.
      * @param uri The URI containing the request URL and request parameters.
      * @return the HTTP response string after executing the GET request
      */
