@@ -8,6 +8,7 @@ import org.apache.http.client.utils.URIBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.TeammatesException;
 
 /**
@@ -38,8 +39,6 @@ public class RecaptchaVerifier {
 
         try {
             String response = getApiResponse(captchaResponse);
-
-            log.info("reCAPTCHA API response: " + response);
             JsonObject responseInJson = JsonUtils.parse(response).getAsJsonObject();
 
             if (responseInJson.has("error-codes")) {
@@ -55,11 +54,15 @@ public class RecaptchaVerifier {
     }
 
     protected String getApiResponse(String captchaResponse) throws URISyntaxException, IOException {
+        if (SECRET_KEY == null) {
+            throw new NullHttpParameterException("reCAPTCHA secret key is not set");
+        }
+
         URIBuilder urlb = new URIBuilder(VERIFY_URL);
         urlb.setParameter("secret", SECRET_KEY);
         urlb.setParameter("response", captchaResponse);
 
-        return HttpRequest.execute(urlb.build());
+        return HttpRequest.executeGetRequest(urlb.build());
     }
 
 }

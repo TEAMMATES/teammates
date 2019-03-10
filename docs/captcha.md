@@ -1,7 +1,6 @@
-
 # Setting up reCAPTCHA
 
-TEAMMATES uses reCAPTCHA on the `Recover Session Links` page (`/web/front/help/session-link-recovery`).
+TEAMMATES uses reCAPTCHA on the `Recover Session Links` page as a security check. It helps protect the website by blocking spam bots and abusive traffic, and only allows valid human users to pass through.
 By default, it is not shown since no CAPTCHA keys are set.
  
 However, this should be changed for production environments:

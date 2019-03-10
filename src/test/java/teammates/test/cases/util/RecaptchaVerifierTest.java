@@ -19,9 +19,8 @@ public class RecaptchaVerifierTest extends BaseTestCase {
     @Test
     public void testIsVerificationSuccessful() {
         ______TS("null or empty captcha response");
-        // Does not require Stub since these should not even attempt to make the API request
-        assertFalse(new RecaptchaVerifier().isVerificationSuccessful(null));
-        assertFalse(new RecaptchaVerifier().isVerificationSuccessful(""));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful(null));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful(""));
 
         ______TS("Successful verification");
         assertTrue(new RecaptchaVerifierStub().isVerificationSuccessful("success"));

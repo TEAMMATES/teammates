@@ -18,7 +18,7 @@ import org.apache.http.util.EntityUtils;
  */
 public final class HttpRequest {
 
-    private static final int TIMEOUT_IN_SECONDS = 30;
+    private static final int TIMEOUT_IN_MS = 30000;
 
     private HttpRequest() {
         // Utility class
@@ -26,13 +26,13 @@ public final class HttpRequest {
     }
 
     /**
-     * Returns the HTTP response string.
+     * Makes a HTTP GET request and returns the response string.
      * @param uri The URI containing the request URL and request parameters.
-     * @return the HTTP response string after executing the HTTP request
+     * @return the HTTP response string after executing the GET request
      */
-    public static String execute(URI uri) throws IOException, NullPointerException {
+    public static String executeGetRequest(URI uri) throws IOException {
         HttpUriRequest request = new HttpGet(uri);
-        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(TIMEOUT_IN_SECONDS * 1000).build();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(TIMEOUT_IN_MS).build();
 
         HttpResponse httpResponse = HttpClientBuilder.create()
                                                      .setDefaultRequestConfig(requestConfig)

@@ -43,7 +43,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
    * Sends the feedback session links to the recovery email address.
    */
   onSubmitFormSessionLinksRecovery(sessionLinksRecoveryForm: FormGroup): void {
-    if (this.captchaSiteKey === '') {
+    if (this.captchaSiteKey) {
       this.captchaResponse = '';
     }
 
@@ -83,7 +83,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
    * Reloads the reCAPTCHA widget if a non-empty site key is present.
    */
   reloadCaptcha(): void {
-    if (this.captchaSiteKey !== '') {
+    if (this.captchaSiteKey) {
       this.captchaElem.reloadCaptcha();
     }
   }
