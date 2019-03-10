@@ -27,9 +27,9 @@ describe('TimezoneService', () => {
 
   it('should return timezone offsets', () => {
     const tzOffsets: { [key: string]: number } = service.getTzOffsets();
-    expect(tzOffsets['Asia/Singapore']).toEqual(8 * 60);
-    expect(tzOffsets['America/New_York']).toEqual(-5 * 60);
-    expect(tzOffsets['Australia/Sydney']).toEqual(11 * 60);
-    expect(tzOffsets['Europe/London']).toEqual(-0);
+    expect(tzOffsets['Etc/GMT-8']).toEqual(8 * 60);
+    expect(tzOffsets['Etc/GMT+5']).toEqual(-5 * 60);
+    expect(tzOffsets['Etc/GMT-11']).toEqual(11 * 60);
+    expect(tzOffsets['Etc/GMT+0']).toEqual(-0);
   });
 });
