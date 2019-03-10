@@ -1,9 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
+
+@Component({ selector: 'tm-add-course-form', template: '' })
+class AddCourseFormStubComponent {}
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -11,11 +14,12 @@ describe('InstructorCoursesPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorCoursesPageComponent],
+      declarations: [
+        InstructorCoursesPageComponent,
+        AddCourseFormStubComponent,
+      ],
       imports: [
         HttpClientTestingModule,
-        FormsModule,
-        ReactiveFormsModule,
         RouterTestingModule,
         NgbModule,
       ],

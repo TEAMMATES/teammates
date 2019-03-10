@@ -12,7 +12,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -605,7 +605,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
 
-        homePage = loginAdminToPage(editUrl, InstructorHomePage.class);
+        homePage = loginAdminToPageOld(editUrl, InstructorHomePage.class);
     }
 
     private void loginWithPersistenceProblem() {
@@ -613,7 +613,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"))
                     .withUserId("unreg_user");
 
-        homePage = loginAdminToPage(homeUrl, InstructorHomePage.class);
+        homePage = loginAdminToPageOld(homeUrl, InstructorHomePage.class);
 
     }
 

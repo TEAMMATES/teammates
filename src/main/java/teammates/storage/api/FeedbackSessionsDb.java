@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
@@ -41,12 +40,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     public List<FeedbackSessionAttributes> getAllOngoingSessions(Instant rangeStart, Instant rangeEnd) {
         List<FeedbackSession> endEntities = load()
                 .filter("endTime >", rangeStart)
-                .filter("endTime <", Instant.ofEpochMilli(rangeEnd.toEpochMilli()).plus(Duration.ofDays(30)))
+                .filter("endTime <",
+                        Instant.ofEpochMilli(rangeEnd.toEpochMilli()).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW))
                 .list();
 
         List<FeedbackSession> startEntities = load()
                 .filter("startTime <", rangeEnd)
-                .filter("startTime >", Instant.ofEpochMilli(rangeStart.toEpochMilli()).minus(Duration.ofDays(30)))
+                .filter("startTime >",
+                        Instant.ofEpochMilli(rangeStart.toEpochMilli()).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW))
                 .list();
 
         // remove duplications

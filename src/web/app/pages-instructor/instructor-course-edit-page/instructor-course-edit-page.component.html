@@ -369,10 +369,10 @@
         </div>
         <div class="modal-body" id="delete-instr-modal"></div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">No, cancel the operation</button>
           <button type="button" class="btn btn-danger"
                   (click)="deleteInstructor(i); modal.dismiss()">
-            OK
+            Yes
           </button>
         </div>
       </ng-template>
@@ -383,10 +383,10 @@
         </div>
         <div class="modal-body" id="resend-email-modal"></div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">No, cancel the operation</button>
           <button type="button" class="btn btn-info"
                   (click)="resendReminderEmail(i); modal.dismiss()">
-            OK
+            Yes
           </button>
         </div>
       </ng-template>

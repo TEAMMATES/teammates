@@ -37,14 +37,14 @@ public final class EmailChecker {
                         "<actual>" + System.lineSeparator() + actual + "</actual>");
             }
         } catch (IOException | AssertionError e) {
-            if (!testAndRunGodMode(filePath, actual)) {
+            if (!updateSnapshot(filePath, actual)) {
                 throw e;
             }
         }
     }
 
-    private static boolean testAndRunGodMode(String filePath, String emailContent) throws IOException {
-        return TestProperties.IS_GODMODE_ENABLED && regenerateEmailFile(filePath, emailContent);
+    private static boolean updateSnapshot(String filePath, String emailContent) throws IOException {
+        return TestProperties.IS_SNAPSHOT_UPDATE && regenerateEmailFile(filePath, emailContent);
     }
 
     private static boolean regenerateEmailFile(String filePath, String emailContent) throws IOException {

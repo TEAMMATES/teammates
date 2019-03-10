@@ -13,9 +13,9 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -67,20 +67,20 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
         ______TS("content: search no match");
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("noMatch");
 
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
 
         ______TS("content: search student with 1 result");
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("charlie");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
 
         ______TS("content: search student with multiple results");
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("alice");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudentMultiple.html");
 
@@ -96,7 +96,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
@@ -115,7 +115,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
         BackDoor.createInstructor(instructorWith2Courses);
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         viewPage.verifyHtmlMainContent("/instructorStudentList.html");
@@ -126,7 +126,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoStudent.html");
 
@@ -136,7 +136,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
 
         ______TS("content: data required sanitization");
@@ -145,7 +145,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageTestingSanitization.html");
     }
 
@@ -166,7 +166,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("default image");
 
@@ -195,7 +195,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("link: enroll");
         String courseId = testData.courses.get("course2").getId();
@@ -213,7 +213,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
                                                                                               student1.name);
         studentDetailsPage.verifyIsCorrectPage(student1.email);
         studentDetailsPage.closeCurrentWindowAndSwitchToParentWindow();
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("link: edit");
 
@@ -226,7 +226,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
         studentEditPage.verifyIsCorrectPage(student2.email);
         studentEditPage.submitButtonClicked();
         studentEditPage.closeCurrentWindowAndSwitchToParentWindow();
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("link: view records");
 
@@ -237,7 +237,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
                                                                                            student2.name);
         studentRecordsPage.verifyIsCorrectPage(student2.name);
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
     }
 
     private void testDeleteAction() {
@@ -248,7 +248,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         ______TS("action: delete");
 
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         ThreadHelper.waitFor(500);
@@ -273,7 +273,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
     private void testDisplayArchive() throws Exception {
         String instructorId = testData.instructors.get("instructorOfCourse4").googleId;
         AppUrl viewPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
-        viewPage = loginAdminToPage(viewPageUrl, InstructorStudentListPage.class);
+        viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);
 
         ______TS("action: display archive");
 

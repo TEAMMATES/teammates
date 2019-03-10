@@ -1,5 +1,10 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+
 public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseDetails {
     public int answer;
 
@@ -20,13 +25,13 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     }
 
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        return getAnswerString();
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
+        return Integer.toString(answer);
     }
 
     @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return Integer.toString(answer);
+    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
+        return new ArrayList<>();
     }
 
     private void setRankResponseDetails(int answer) {

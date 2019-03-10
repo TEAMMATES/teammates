@@ -26,6 +26,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
+        case STUDENT_RESULT:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
@@ -35,6 +36,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
                     feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
+        case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
@@ -55,6 +57,8 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
         case INSTRUCTOR_SUBMISSION:
+        case STUDENT_RESULT:
+        case INSTRUCTOR_RESULT:
             // hide some attributes for submission
             response.setGracePeriod(null);
             response.setSessionVisibleSetting(null);

@@ -25,20 +25,7 @@ public class ActionFactory {
     static {
         map(INSTRUCTOR_FEEDBACK_RESULTS_PAGE, InstructorFeedbackResultsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD, InstructorFeedbackResponseCommentAddAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT, InstructorFeedbackResponseCommentEditAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE, InstructorFeedbackResponseCommentDeleteAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE, InstructorStudentRecordsAjaxPageAction.class);
-
-        map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
-        map(FEEDBACK_PARTICIPANT_FEEDBACK_RESPONSE_COMMENT_DELETE,
-                FeedbackParticipantFeedbackResponseCommentDeleteAction.class);
-        map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);
-        map(STUDENT_PROFILE_PICTURE_EDIT, StudentProfilePictureEditAction.class);
-        map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
-
-        map(CREATE_IMAGE_UPLOAD_URL, CreateImageUploadUrlAction.class);
-        map(IMAGE_UPLOAD, ImageUploadAction.class);
     }
 
     /**

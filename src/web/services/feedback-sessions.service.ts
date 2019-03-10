@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { FeedbackQuestion, FeedbackSession } from '../types/api-output';
+import { FeedbackQuestion, FeedbackSession, OngoingSessions } from '../types/api-output';
 import { FeedbackSessionCreateRequest, FeedbackSessionSaveRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -45,5 +45,16 @@ export class FeedbackSessionsService {
       courseId: string, feedbackSessionName: string, request: FeedbackSessionSaveRequest): Observable<FeedbackSession> {
     const paramMap: { [key: string]: string } = { courseid: courseId, fsname: feedbackSessionName };
     return this.httpRequestService.put('/session', paramMap, request);
+  }
+
+  /**
+   * Gets all ongoing session by calling API.
+   */
+  getOngoingSessions(startTime: number, endTime: number): Observable<OngoingSessions> {
+    const paramMap: { [key: string]: string } = {
+      starttime: String(startTime),
+      endtime: String(endTime),
+    };
+    return this.httpRequestService.get('/sessions/ongoing', paramMap);
   }
 }

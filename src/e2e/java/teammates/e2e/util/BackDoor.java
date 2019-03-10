@@ -3,64 +3,184 @@ package teammates.e2e.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import com.google.gson.reflect.TypeToken;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
 
 /**
- * Used to access the datastore without going through the UI.
+ * Used to create API calls to the back-end without going through the UI.
  *
- * <p>It requires an authentication via "backdoor key" so that
- * the access is limited only to the person who deployed the application.
+ * <p>Note that this will replace {@link teammates.test.driver.BackDoor} once the front-end migration is complete.
  */
-@Deprecated
 public final class BackDoor {
 
     private BackDoor() {
-        //utility class
+        // Utility class
     }
 
     /**
-     * Persists given data into the datastore.
+     * Executes GET request with the given {@code relativeUrl}.
      *
-     * <p>If given entities already exist in the data store, they will be overwritten.
+     * @return The body content and status of the HTTP response
      */
-    public static String restoreDataBundle(DataBundle dataBundle) {
-        String dataBundleJson = JsonUtils.toJson(dataBundle);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", dataBundleJson);
-        return makePostRequest(params);
+    public static ResponseBodyAndCode executeGetRequest(String relativeUrl, Map<String, String[]> params) {
+        return executeRequest(HttpGet.METHOD_NAME, relativeUrl, params, null);
     }
 
     /**
-     * Removes given data from the datastore.
+     * Executes POST request with the given {@code relativeUrl}.
      *
-     * <p>If given entities have already been deleted, it fails silently.
+     * @return The body content and status of the HTTP response
      */
-    public static String removeDataBundle(DataBundle dataBundle) {
-        String dataBundleJson = JsonUtils.toJson(dataBundle);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", dataBundleJson);
-        return makePostRequest(params);
+    public static ResponseBodyAndCode executePostRequest(String relativeUrl, Map<String, String[]> params, String body) {
+        return executeRequest(HttpPost.METHOD_NAME, relativeUrl, params, body);
+    }
+
+    /**
+     * Executes PUT request with the given {@code relativeUrl}.
+     *
+     * @return The body content and status of the HTTP response
+     */
+    public static ResponseBodyAndCode executePutRequest(String relativeUrl, Map<String, String[]> params, String body) {
+        return executeRequest(HttpPut.METHOD_NAME, relativeUrl, params, body);
+    }
+
+    /**
+     * Executes DELETE request with the given {@code relativeUrl}.
+     *
+     * @return The body content and status of the HTTP response
+     */
+    public static ResponseBodyAndCode executeDeleteRequest(String relativeUrl, Map<String, String[]> params) {
+        return executeRequest(HttpDelete.METHOD_NAME, relativeUrl, params, null);
+    }
+
+    /**
+     * Executes HTTP request with the given {@code method} and {@code relativeUrl}.
+     *
+     * @return The content of the HTTP response
+     */
+    private static ResponseBodyAndCode executeRequest(
+            String method, String relativeUrl, Map<String, String[]> params, String body) {
+        String url = TestProperties.TEAMMATES_URL + Const.ResourceURIs.URI_PREFIX + relativeUrl;
+
+        HttpRequestBase request;
+        switch (method) {
+        case HttpGet.METHOD_NAME:
+            request = createGetRequest(url, params);
+            break;
+        case HttpPost.METHOD_NAME:
+            request = createPostRequest(url, params, body);
+            break;
+        case HttpPut.METHOD_NAME:
+            request = createPutRequest(url, params, body);
+            break;
+        case HttpDelete.METHOD_NAME:
+            request = createDeleteRequest(url, params);
+            break;
+        default:
+            throw new RuntimeException("Unaccepted HTTP method: " + method);
+        }
+
+        addAuthKeys(request);
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault();
+                CloseableHttpResponse response = httpClient.execute(request)) {
+
+            String responseBody = null;
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()))) {
+                    responseBody = br.lines().collect(Collectors.joining(System.lineSeparator()));
+                }
+            }
+            return new ResponseBodyAndCode(responseBody, response.getStatusLine().getStatusCode());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Executes GET request with the given {@code relativeUrl}.
+     *
+     * @return The content of the HTTP response
+     */
+    private static HttpGet createGetRequest(String url, Map<String, String[]> params) {
+        return new HttpGet(createBasicUri(url, params));
+    }
+
+    private static HttpPost createPostRequest(String url, Map<String, String[]> params, String body) {
+        HttpPost post = new HttpPost(createBasicUri(url, params));
+
+        if (body != null) {
+            StringEntity entity = new StringEntity(body, Charset.forName("UTF-8"));
+            post.setEntity(entity);
+        }
+
+        return post;
+    }
+
+    private static HttpPut createPutRequest(String url, Map<String, String[]> params, String body) {
+        HttpPut put = new HttpPut(createBasicUri(url, params));
+
+        if (body != null) {
+            StringEntity entity = new StringEntity(body, Charset.forName("UTF-8"));
+            put.setEntity(entity);
+        }
+
+        return put;
+    }
+
+    private static HttpDelete createDeleteRequest(String url, Map<String, String[]> params) {
+        return new HttpDelete(createBasicUri(url, params));
+    }
+
+    private static URI createBasicUri(String url, Map<String, String[]> params) {
+        List<NameValuePair> postParameters = new ArrayList<>();
+        if (params != null) {
+            params.forEach((key, values) -> Arrays.stream(values).forEach(value -> {
+                postParameters.add(new BasicNameValuePair(key, value));
+            }));
+        }
+
+        try {
+            URIBuilder uriBuilder = new URIBuilder(url);
+            uriBuilder.addParameters(postParameters);
+
+            return uriBuilder.build();
+        } catch (URISyntaxException e) {
+            return null;
+        }
+    }
+
+    private static void addAuthKeys(HttpRequestBase request) {
+        request.addHeader("Backdoor-Key", TestProperties.BACKDOOR_KEY);
+        request.addHeader("CSRF-Key", TestProperties.CSRF_KEY);
     }
 
     /**
@@ -89,444 +209,51 @@ public final class BackDoor {
      * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
     public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
-        String dataBundleJson = JsonUtils.toJson(dataBundle);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", dataBundleJson);
-        return makePostRequest(params);
+        removeDataBundle(dataBundle);
+        ResponseBodyAndCode putRequestOutput =
+                executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+        return putRequestOutput.responseCode == HttpStatus.SC_OK
+                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
     }
 
     /**
-     * Puts searchable documents for entities into the datastore.
+     * Removes given data from the datastore.
+     *
+     * <p>If given entities have already been deleted, it fails silently.
      */
-    public static String putDocuments(DataBundle dataBundle) {
-        String dataBundleJson = JsonUtils.toJson(dataBundle);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", dataBundleJson);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Persists an account data into the datastore.
-     */
-    public static String createAccount(AccountAttributes account) {
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.accounts.put(account.googleId, account);
-        return restoreDataBundle(dataBundle);
-    }
-
-    /**
-     * Gets an account data from the datastore.
-     */
-    public static AccountAttributes getAccount(String googleId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
-        String accountJsonString = makePostRequest(params);
-        return JsonUtils.fromJson(accountJsonString, AccountAttributes.class);
-    }
-
-    /**
-     * Gets a student profile data from the datastore.
-     */
-    public static StudentProfileAttributes getStudentProfile(String googleId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
-        String studentProfileJsonString = makePostRequest(params);
-        return JsonUtils.fromJson(studentProfileJsonString, StudentProfileAttributes.class);
-    }
-
-    /**
-     * Checks if a profile picture with the specified key is present in GCS.
-     */
-    public static boolean getWhetherPictureIsPresentInGcs(String pictureKey) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", pictureKey);
-        return Boolean.parseBoolean(makePostRequest(params));
-    }
-
-    /**
-     * Uploads and updates a student's profile picture in the datastore.
-     */
-    public static String uploadAndUpdateStudentProfilePicture(String googleId, String pictureDataJsonString) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
-        params.put("PLACEHOLDER", pictureDataJsonString);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Deletes an account from datastore.
-     */
-    public static String deleteAccount(String googleId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Persists an instructor data into the datastore.
-     */
-    public static String createInstructor(InstructorAttributes instructor) {
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.instructors.put(instructor.googleId, instructor);
-        return restoreDataBundle(dataBundle);
-    }
-
-    /**
-     * Gets an instructor data with particular google ID from the datastore.
-     */
-    public static InstructorAttributes getInstructorByGoogleId(String googleId, String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", googleId);
-        params.put("PLACEHOLDER", courseId);
-        String instructorJsonString = makePostRequest(params);
-        return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
-    }
-
-    /**
-     * Gets an instructor data with particular email from the datastore.
-     */
-    public static InstructorAttributes getInstructorByEmail(String instructorEmail, String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", instructorEmail);
-        params.put("PLACEHOLDER", courseId);
-        String instructorJsonString = makePostRequest(params);
-        return JsonUtils.fromJson(instructorJsonString, InstructorAttributes.class);
-    }
-
-    /**
-     * Gets the encrypted registration key for an instructor in the datastore.
-     */
-    public static String getEncryptedKeyForInstructor(String courseId, String instructorEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", instructorEmail);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Deletes an instructor from the datastore.
-     */
-    public static String deleteInstructor(String courseId, String instructorEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", instructorEmail);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Persists a course into the datastore.
-     */
-    public static String createCourse(CourseAttributes course) {
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.courses.put("dummy-key", course);
-        return restoreDataBundle(dataBundle);
-    }
-
-    /**
-     * Gets a course data from the datastore.
-     */
-    public static CourseAttributes getCourse(String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        String courseJsonString = makePostRequest(params);
-        return JsonUtils.fromJson(courseJsonString, CourseAttributes.class);
-    }
-
-    /**
-     * Edits a course in the datastore.
-     */
-    public static String editCourse(CourseAttributes course) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", JsonUtils.toJson(course));
-        return makePostRequest(params);
-    }
-
-    /**
-     * Deletes a course from the datastore.
-     */
-    public static String deleteCourse(String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Persists a student data into the datastore.
-     */
-    public static String createStudent(StudentAttributes student) {
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.students.put("dummy-key", student);
-        return restoreDataBundle(dataBundle);
-    }
-
-    /**
-     * Gets a student data from the datastore.
-     */
-    public static StudentAttributes getStudent(String courseId, String studentEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", studentEmail);
-        String studentJson = makePostRequest(params);
-        return JsonUtils.fromJson(studentJson, StudentAttributes.class);
-    }
-
-    /**
-     * Gets list of students data from the datastore.
-     */
-    public static List<StudentAttributes> getStudents(String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        String studentsJson = makePostRequest(params);
-        return JsonUtils.fromJson(studentsJson, new TypeToken<List<StudentAttributes>>(){}.getType());
-    }
-
-    /**
-     * Gets the encrypted registration key for a student in the datastore.
-     */
-    public static String getEncryptedKeyForStudent(String courseId, String studentEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", studentEmail);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Edits a student in the datastore.
-     */
-    public static String editStudent(String originalEmail, StudentAttributes student) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", originalEmail);
-        params.put("PLACEHOLDER", JsonUtils.toJson(student));
-        return makePostRequest(params);
+    public static void removeDataBundle(DataBundle dataBundle) {
+        executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 
     /**
      * Deletes a student from the datastore.
      */
-    public static String deleteStudent(String courseId, String studentEmail) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", studentEmail);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Gets a feedback session data from the data storage.
-     */
-    public static FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackSessionName);
-        params.put("PLACEHOLDER", courseId);
-        String feedbackSessionJson = makePostRequest(params);
-        return JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
-    }
-
-    /**
-     * Gets a feedback session data from the recycle bin.
-     */
-    public static FeedbackSessionAttributes getFeedbackSessionFromRecycleBin(String courseId, String feedbackSessionName) {
-        Map<String, String> params =
-                createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackSessionName);
-        params.put("PLACEHOLDER", courseId);
-        String feedbackSessionJson = makePostRequest(params);
-        return JsonUtils.fromJson(feedbackSessionJson, FeedbackSessionAttributes.class);
-    }
-
-    /**
-     * Edits a feedback session in the datastore.
-     */
-    public static String editFeedbackSession(FeedbackSessionAttributes updatedFeedbackSession) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", JsonUtils.toJson(updatedFeedbackSession));
-        return makePostRequest(params);
+    public static void deleteStudent(String unregUserId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.STUDENT_ID, new String[] { unregUserId });
+        executeDeleteRequest(Const.ResourceURIs.STUDENTS, params);
     }
 
     /**
      * Deletes a feedback session from the datastore.
      */
-    public static String deleteFeedbackSession(String feedbackSessionName, String courseId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackSessionName);
-        params.put("PLACEHOLDER", courseId);
-        return makePostRequest(params);
+    public static void deleteFeedbackSession(String feedbackSession, String courseId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSession });
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        executeDeleteRequest(Const.ResourceURIs.SESSION, params);
     }
 
-    /**
-     * Gets a feedback question data from the datastore.
-     */
-    public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
-                                                                 int qnNumber) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", feedbackSessionName);
-        params.put("PLACEHOLDER", String.valueOf(qnNumber));
-        String feedbackQuestionJson = makePostRequest(params);
-        return JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
-    }
+    private static final class ResponseBodyAndCode {
 
-    /**
-     * Gets a feedback question data from the datastore.
-     */
-    public static FeedbackQuestionAttributes getFeedbackQuestion(String questionId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", questionId);
-        String feedbackQuestionJson = makePostRequest(params);
-        return JsonUtils.fromJson(feedbackQuestionJson, FeedbackQuestionAttributes.class);
-    }
+        String responseBody;
+        int responseCode;
 
-    /**
-     * Edits a feedback question in the datastore.
-     */
-    public static String editFeedbackQuestion(FeedbackQuestionAttributes updatedFeedbackQuestion) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", JsonUtils.toJson(updatedFeedbackQuestion));
-        return makePostRequest(params);
-    }
-
-    /**
-     * Deletes a feedback question from the datastore.
-     */
-    public static String deleteFeedbackQuestion(String questionId) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", questionId);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Persists a feedback response into the datastore.
-     */
-    public static String createFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        String feedbackResponseJson = JsonUtils.toJson(feedbackResponse);
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackResponseJson);
-        return makePostRequest(params);
-    }
-
-    /**
-     * Gets a feedback response data from the datastore.
-     */
-    public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giverEmail,
-                                                                 String recipient) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackQuestionId);
-        params.put("PLACEHOLDER", giverEmail);
-        params.put("PLACEHOLDER", recipient);
-        String feedbackResponseJson = makePostRequest(params);
-        return JsonUtils.fromJson(feedbackResponseJson, FeedbackResponseAttributes.class);
-    }
-
-    /**
-     * Gets a list of feedback response data for particular recipient from the datastore.
-     */
-    public static List<FeedbackResponseAttributes>
-            getFeedbackResponsesForReceiverForCourse(String courseId, String recipientEmail) {
-        Map<String, String> params =
-                createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", recipientEmail);
-        String feedbackResponsesJson = makePostRequest(params);
-        return JsonUtils.fromJson(feedbackResponsesJson,
-                                  new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
-    }
-
-    /**
-     * Gets a list of feedback response data for particular giver from the datastore.
-     */
-    public static List<FeedbackResponseAttributes>
-            getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
-        Map<String, String> params =
-                createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", courseId);
-        params.put("PLACEHOLDER", giverEmail);
-        String feedbackResponsesJson = makePostRequest(params);
-        return JsonUtils.fromJson(feedbackResponsesJson,
-                                  new TypeToken<List<FeedbackResponseAttributes>>(){}.getType());
-    }
-
-    /**
-     * Deletes a feedback response from the datastore.
-     */
-    public static String deleteFeedbackResponse(String feedbackQuestionId, String giverEmail, String recipient) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", feedbackQuestionId);
-        params.put("PLACEHOLDER", giverEmail);
-        params.put("PLACEHOLDER", recipient);
-        return makePostRequest(params);
-    }
-
-    private static Map<String, String> createParamMap(String operation) {
-        Map<String, String> map = new HashMap<>();
-        map.put("PLACEHOLDER", operation);
-
-        // For authentication
-        map.put("PLACEHOLDER", TestProperties.BACKDOOR_KEY);
-
-        return map;
-    }
-
-    private static String makePostRequest(Map<String, String> map) {
-        try {
-            String paramString = encodeParameters(map);
-            String urlString = TestProperties.TEAMMATES_URL + "/backdoor";
-            URLConnection conn = getConnectionToUrl(urlString);
-            sendRequest(paramString, conn);
-            return readResponse(conn);
-        } catch (Exception e) {
-            return TeammatesException.toStringWithStackTrace(e);
+        ResponseBodyAndCode(String responseBody, int responseCode) {
+            this.responseBody = responseBody;
+            this.responseCode = responseCode;
         }
-    }
 
-    @SuppressWarnings("PMD.AssignmentInOperand") // necessary for reading stream response
-    private static String readResponse(URLConnection conn) throws IOException {
-        conn.setReadTimeout(10000);
-        StringBuilder sb = new StringBuilder();
-        try (InputStreamReader isr = new InputStreamReader(conn.getInputStream(), Const.SystemParams.ENCODING);
-                BufferedReader rd = new BufferedReader(isr)) {
-            String line;
-            while ((line = rd.readLine()) != null) {
-                sb.append(line);
-            }
-        }
-        return sb.toString();
-    }
-
-    private static void sendRequest(String paramString, URLConnection conn) throws IOException {
-        try (OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), Const.SystemParams.ENCODING)) {
-            wr.write(paramString);
-            wr.flush();
-        }
-    }
-
-    private static URLConnection getConnectionToUrl(String urlString) throws IOException {
-        URL url = new URL(urlString);
-        URLConnection conn = url.openConnection();
-        conn.setDoOutput(true);
-        return conn;
-    }
-
-    private static String encodeParameters(Map<String, String> map) {
-        StringBuilder dataStringBuilder = new StringBuilder();
-        map.forEach((key, value) -> dataStringBuilder.append(key + "=" + SanitizationHelper.sanitizeForUri(value) + "&"));
-        return dataStringBuilder.toString();
-    }
-
-    /**
-     * Checks if a group recipient's file is present in GCS with specified Key.
-     */
-    public static boolean isGroupListFileKeyPresentInGcs(String groupListFileKey) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", groupListFileKey);
-        return Boolean.parseBoolean(makePostRequest(params));
-    }
-
-    /**
-     * Deletes the uploaded test file for testing email using group mode.
-     */
-    public static String deleteGroupListFile(String groupListFileKey) {
-        Map<String, String> params = createParamMap("PLACEHOLDER");
-        params.put("PLACEHOLDER", groupListFileKey);
-        return makePostRequest(params);
     }
 
 }

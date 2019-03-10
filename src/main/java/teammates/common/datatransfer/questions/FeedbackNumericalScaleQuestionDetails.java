@@ -3,7 +3,6 @@ package teammates.common.datatransfer.questions;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetails {
     private int minScale;
@@ -148,23 +146,6 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         return "<div id=\"numScaleForm\">"
                   + this.getQuestionSpecificEditFormHtml(-1)
              + "</div>";
-    }
-
-    @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber,
-            String additionalInfoId) {
-        String additionalInfo = getQuestionTypeDisplayName()
-                              + ":<br>Minimum value: " + minScale
-                              + ". Increment: " + step + ". Maximum value: "
-                              + maxScale + '.';
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
     }
 
     @Override
@@ -744,11 +725,6 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
             //TODO: strengthen check for step
         }
         return errors;
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
     }
 
     @Override
