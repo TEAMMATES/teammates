@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -41,10 +40,6 @@ public class DeleteInstructorAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
         if (instructor == null) {
-            CourseAttributes courseAttributes = logic.getCourse(courseId);
-            if (courseAttributes == null) {
-                return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
-            }
             return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
         }
 

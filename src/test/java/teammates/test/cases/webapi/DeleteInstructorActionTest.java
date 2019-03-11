@@ -84,6 +84,31 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
+    protected void testExecute_adminDeletesLastInstructor_shouldPass() {
+        loginAsAdmin();
+
+        InstructorAttributes instructor4 = typicalBundle.instructors.get("instructor4");
+        String instructorId = instructor4.googleId;
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
+                Const.ParamsNames.COURSE_ID, instructor4.courseId,
+        };
+
+        assertEquals(logic.getInstructorsForCourse(instructor4.courseId).size(), 1);
+
+        DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
+        JsonResult response = getJsonResult(deleteInstructorAction);
+
+        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
+
+        MessageOutput msg = (MessageOutput) response.getOutput();
+        assertEquals("Instructor is successfully deleted.", msg.getMessage());
+
+        assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructor4.email, instructor4.courseId));
+    }
+
+    @Test
     protected void testExecute_instructorDeleteOwnRole_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
