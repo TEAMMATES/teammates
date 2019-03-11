@@ -20,16 +20,12 @@
                      [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
                      [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
                      (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
-                     (loadResponseRateEvent)="loadResponseRateEventHandler($event)"
-                     (editSessionEvent)="editSessionEventHandler($event)"
-                     (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)"
-                     (copySessionEvent)="copySessionEventHandler($event)"
-                     (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)"
-                     (viewSessionResultEvent)="viewSessionResultEventHandler()"
-                     (publishSessionEvent)="publishSessionEventHandler($event)"
-                     (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
-                     (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler($event)"
-                     (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler($event)"></tm-sessions-table>
+                    (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
+                    (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
+                    (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
+                    (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
+                    (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler($event)"
+                    (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler($event)"></tm-sessions-table>
 </div>
 
 <br/>
@@ -73,6 +69,7 @@
       <div class="card-body recycle-bin-body" *ngIf="isRecycleBinExpanded">
         <table class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
           <thead class="recycle-bin-table-header">
+<<<<<<< HEAD
           <tr>
             <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.COURSE_ID)" class="sortable-header">
               Course ID
@@ -121,6 +118,35 @@
             </th>
             <th>Actions</th>
           </tr>
+=======
+            <tr>
+              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.COURSE_ID)" class="sortable-header">
+                Course ID
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              </th>
+              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.FEEDBACK_SESSION_NAME)" class="sortable-header">
+                Session Name
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.FEEDBACK_SESSION_NAME"><i class="fas fa-sort"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.FEEDBACK_SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.FEEDBACK_SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              </th>
+              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_CREATION_DATE)" class="sortable-header">
+                Creation Date
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.SESSION_CREATION_DATE"><i class="fas fa-sort"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              </th>
+              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.DELETION_DATE)" class="sortable-header">
+                Deletion Date
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.DELETION_DATE"><i class="fas fa-sort"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              </th>
+              <th>Actions</th>
+            </tr>
+>>>>>>> master
           </thead>
           <tbody>
           <tr *ngFor="let recycleBinFeedbackSessionRowModel of recycleBinFeedbackSessionRowModels">

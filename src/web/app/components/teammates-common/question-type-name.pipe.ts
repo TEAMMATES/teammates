@@ -18,6 +18,8 @@ export class QuestionTypeNamePipe implements PipeTransform {
         return 'Team contribution question';
       case FeedbackQuestionType.TEXT:
         return 'Essay question';
+      case FeedbackQuestionType.NUMSCALE:
+        return 'Numerical Scale Question';
       default:
         return 'Unknown';
     }

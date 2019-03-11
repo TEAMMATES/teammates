@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
 import { Intent } from '../Intent';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
@@ -50,14 +50,14 @@ import {
   InstructorSessionEditPageComponent,
 } from './instructor-session-edit-page/instructor-session-edit-page.component';
 import { InstructorSessionEditPageModule } from './instructor-session-edit-page/instructor-session-edit-page.module';
+import {
+  InstructorSessionResultPageComponent,
+} from './instructor-session-result-page/instructor-session-result-page.component';
+import {
+  InstructorSessionResultPageModule,
+} from './instructor-session-result-page/instructor-session-result-page.module';
 import { InstructorSessionsPageComponent } from './instructor-sessions-page/instructor-sessions-page.component';
 import { InstructorSessionsPageModule } from './instructor-sessions-page/instructor-sessions-page.module';
-import {
-  InstructorSessionsResultPageComponent,
-} from './instructor-sessions-result-page/instructor-sessions-result-page.component';
-import {
-  InstructorSessionsResultPageModule,
-} from './instructor-sessions-result-page/instructor-sessions-result-page.module';
 import {
   InstructorStudentListPageComponent,
 } from './instructor-student-list-page/instructor-student-list-page.component';
@@ -111,6 +111,9 @@ const routes: Routes = [
           {
             path: 'edit',
             component: InstructorCourseStudentEditPageComponent,
+            data: {
+              pageTitle: 'Edit Student Details',
+            },
           },
         ],
       },
@@ -143,7 +146,7 @@ const routes: Routes = [
       },
       {
         path: 'result',
-        component: InstructorSessionsResultPageComponent,
+        component: InstructorSessionResultPageComponent,
       },
     ],
   },
@@ -170,6 +173,7 @@ const routes: Routes = [
   {
     path: 'help',
     component: InstructorHelpPageComponent,
+    canDeactivate: ['canDeactivateHelp'],
   },
   {
     path: 'getting-started',
@@ -210,9 +214,17 @@ const routes: Routes = [
     InstructorHelpPageModule,
     InstructorStudentListPageModule,
     InstructorStudentRecordsPageModule,
-    InstructorSessionsResultPageModule,
+    InstructorSessionResultPageModule,
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),
+  ],
+  providers: [
+    {
+      provide: 'canDeactivateHelp',
+      useValue:  (_component: InstructorHelpPageComponent, _currentRoute: ActivatedRouteSnapshot,
+        _currentState: RouterStateSnapshot, nextState: RouterStateSnapshot): boolean =>
+        /^\/web\/instructor\/(home|courses|sessions|students|search|getting-started)$/.test(nextState.url),
+    },
   ],
 })
 export class InstructorPagesModule {}

@@ -808,8 +808,7 @@ public final class CoursesLogic {
             String courseId, String courseName, String courseTimeZone) throws InvalidParametersException {
 
         // Imitate `CourseAttributes.getInvalidityInfo`
-        FieldValidator validator = new FieldValidator();
-        String timeZoneErrorMessage = validator.getInvalidityInfoForTimeZone(courseTimeZone);
+        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
             // Leave validation of other fields to `CourseAttributes.getInvalidityInfo`
             CourseAttributes dummyCourse = CourseAttributes

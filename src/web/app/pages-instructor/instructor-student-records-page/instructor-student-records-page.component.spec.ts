@@ -12,6 +12,11 @@ class StudentProfileStubComponent {
   @Input() studentName: string = '';
   @Input() hideMoreInfo: boolean = false;
 }
+@Component({ selector: 'tm-more-info', template: '' })
+class MoreInfoStubComponent {
+  @Input() studentName: string = '';
+  @Input() moreInfoText: string = '';
+}
 
 describe('InstructorStudentRecordsPageComponent', () => {
   let component: InstructorStudentRecordsPageComponent;
@@ -22,6 +27,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
       declarations: [
         InstructorStudentRecordsPageComponent,
         StudentProfileStubComponent,
+        MoreInfoStubComponent,
       ],
       imports: [
         HttpClientTestingModule,

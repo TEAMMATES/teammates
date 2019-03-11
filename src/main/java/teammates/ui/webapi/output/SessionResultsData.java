@@ -127,8 +127,9 @@ public class SessionResultsData extends ApiOutput {
 
                 // TODO fetch feedback response comments
 
-                output.add(new ResponseOutput(displayedGiverName, response.giverSection,
-                        recipientName, response.recipientSection, response.responseDetails));
+                // Student does not need to know the teams for giver and/or recipient
+                output.add(new ResponseOutput(displayedGiverName, null, response.giverSection,
+                        recipientName, null, response.recipientSection, response.responseDetails));
             }
 
         });
@@ -147,14 +148,16 @@ public class SessionResultsData extends ApiOutput {
 
         responsesMap.forEach((recipient, responsesForRecipient) -> {
             String recipientName = removeAnonymousHash(bundle.getNameForEmail(recipient));
+            String recipientTeam = bundle.getTeamNameForEmail(recipient);
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
                 String giverName = removeAnonymousHash(bundle.getGiverNameForResponse(response));
+                String giverTeam = bundle.getTeamNameForEmail(response.giver);
 
                 // TODO fetch feedback response comments
 
-                output.add(new ResponseOutput(giverName, response.giverSection,
-                        recipientName, response.recipientSection, response.responseDetails));
+                output.add(new ResponseOutput(giverName, giverTeam, response.giverSection,
+                        recipientName, recipientTeam, response.recipientSection, response.responseDetails));
             }
 
         });
@@ -214,16 +217,20 @@ public class SessionResultsData extends ApiOutput {
     private static class ResponseOutput {
 
         private final String giver;
+        private final String giverTeam;
         private final String giverSection;
         private String recipient;
+        private final String recipientTeam;
         private final String recipientSection;
         private final FeedbackResponseDetails responseDetails;
 
-        ResponseOutput(String giver, String giverSection, String recipient,
-                String recipientSection, FeedbackResponseDetails responseDetails) {
+        ResponseOutput(String giver, String giverTeam, String giverSection, String recipient,
+                String recipientTeam, String recipientSection, FeedbackResponseDetails responseDetails) {
             this.giver = giver;
+            this.giverTeam = giverTeam;
             this.giverSection = giverSection;
             this.recipient = recipient;
+            this.recipientTeam = recipientTeam;
             this.recipientSection = recipientSection;
             this.responseDetails = responseDetails;
         }
@@ -232,12 +239,20 @@ public class SessionResultsData extends ApiOutput {
             return giver;
         }
 
+        public String getGiverTeam() {
+            return giverTeam;
+        }
+
         public String getGiverSection() {
             return giverSection;
         }
 
         public String getRecipient() {
             return recipient;
+        }
+
+        public String getRecipientTeam() {
+            return recipientTeam;
         }
 
         public String getRecipientSection() {

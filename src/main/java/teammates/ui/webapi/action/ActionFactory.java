@@ -30,6 +30,9 @@ public class ActionFactory {
     private static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     static {
+        map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
+        // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
+        map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
@@ -44,9 +47,13 @@ public class ActionFactory {
         map(ResourceURIs.ACCOUNT_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
+        map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
+        map(ResourceURIs.COURSE, PUT, UpdateCourseAction.class);
+        map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class);
+        map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
-        map(ResourceURIs.COURSE, PUT, ArchiveCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
+        map(ResourceURIs.COURSE_SECTIONS, GET, GetCourseSectionNamesAction.class);
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
         map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
@@ -89,9 +96,7 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_ENROLL_PAGE_DATA, GET, GetCourseEnrollPageDataAction.class);
         map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSES, POST, AddInstructorCourseAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE_ALL, PUT, RestoreAllInstructorSoftDeletedCoursesAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE, DELETE, DeleteInstructorSoftDeletedCourseAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL, DELETE,
                 DeleteAllInstructorSoftDeletedCoursesAction.class);
         map(ResourceURIs.COURSE_STATS, GET, GetCourseStatsAction.class);
@@ -108,8 +113,6 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS_EDIT, PUT, PutCourseStudentDetailsEditAction.class);
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
-        map(ResourceURIs.COURSE_EDIT_DETAILS_SAVE, PUT, SaveCourseEditDetailsAction.class);
-        map(ResourceURIs.COURSE_DELETE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
         map(ResourceURIs.COURSE_DELETE_INSTRUCTOR, DELETE, DeleteInstructorInCourseAction.class);

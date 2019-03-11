@@ -122,7 +122,7 @@ export abstract class InstructorSessionBasePageComponent {
           strA = String(a.feedbackSession.submissionEndTimestamp);
           strB = String(b.feedbackSession.submissionEndTimestamp);
           break;
-        case SortBy.CREATION_DATE:
+        case SortBy.SESSION_CREATION_DATE:
           strA = String(a.feedbackSession.createdAtTimestamp);
           strB = String(b.feedbackSession.createdAtTimestamp);
           break;
@@ -204,8 +204,9 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Views the result of a feedback session.
    */
-  viewSessionResult(): void {
-    this.router.navigateByUrl('/web/instructor/sessions/result');
+  viewSessionResult(model: SessionsTableRowModel): void {
+    this.router.navigateByUrl('/web/instructor/sessions/result'
+        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
   }
 
   /**

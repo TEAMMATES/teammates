@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { JoinStatus, MessageOutput } from '../types/api-output';
+import { Course, CourseArchive, JoinStatus, MessageOutput } from '../types/api-output';
+import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -12,6 +13,46 @@ import { HttpRequestService } from './http-request.service';
 export class CourseService {
 
   constructor(private httpRequestService: HttpRequestService) {
+  }
+
+  /**
+   * Creates a course by calling API.
+   */
+  createCourse(request: CourseCreateRequest): Observable<Course> {
+    const paramMap: { [key: string]: string } = {};
+    return this.httpRequestService.post('/course', paramMap, request);
+  }
+
+  /**
+   * Updates a course by calling API.
+   */
+  updateCourse(courseid: string, request: CourseUpdateRequest): Observable<Course> {
+    const paramMap: { [key: string]: string } = { courseid };
+    return this.httpRequestService.put('/course', paramMap, request);
+  }
+
+  /**
+   * Deletes a course by calling API.
+   */
+  deleteCourse(courseid: string): Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = { courseid };
+    return this.httpRequestService.delete('/course', paramMap);
+  }
+
+  /**
+   * Changes the archive status of a course by calling API.
+   */
+  changeArchiveStatus(courseid: string, request: CourseArchiveRequest): Observable<CourseArchive> {
+    const paramMap: { [key: string]: string } = { courseid };
+    return this.httpRequestService.put('/course/archive', paramMap, request);
+  }
+
+  /**
+   * Bin (soft-delete) a course by calling API.
+   */
+  binCourse(courseid: string): Observable<Course> {
+    const paramMap: { [key: string]: string } = { courseid };
+    return this.httpRequestService.put('/bin/course', paramMap);
   }
 
   /**

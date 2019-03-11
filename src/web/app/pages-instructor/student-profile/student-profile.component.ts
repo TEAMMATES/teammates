@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 import { Gender } from '../../../types/gender';
 import { StudentProfile } from './student-profile';
@@ -17,12 +16,10 @@ export class StudentProfileComponent implements OnInit {
   Gender: typeof Gender = Gender; // enum
 
   @Input() studentProfile: StudentProfile | undefined;
-  @Input() studentName: string = '';
-  @Input() hideMoreInfo: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private ngbModal: NgbModal) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -35,13 +32,6 @@ export class StudentProfileComponent implements OnInit {
       return '/assets/images/profile_picture_default.png';
     }
     return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
-  }
-
-  /**
-   * Open the more info modal.
-   */
-  openModal(content: any): void {
-    this.ngbModal.open(content);
   }
 
 }

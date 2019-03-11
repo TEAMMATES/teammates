@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
@@ -14,14 +12,14 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Url;
 import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
+import teammates.e2e.pageobjects.AdminHomePage;
+import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
+import teammates.e2e.pageobjects.HomePage;
+import teammates.e2e.pageobjects.LoginPage;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
-import teammates.test.pageobjects.AdminHomePage;
-import teammates.test.pageobjects.AppPage;
-import teammates.test.pageobjects.HomePage;
-import teammates.test.pageobjects.LoginPage;
 
 /**
  * Base class for all browser tests.
@@ -33,17 +31,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
     protected Browser browser;
     protected DataBundle testData;
-
-    /**
-     * Ensure that GodMode is not enabled in CI.
-     */
-    @BeforeSuite
-    public void checkIfGodModeEnabledInCi() {
-        if (TestProperties.IS_GODMODE_ENABLED && TestProperties.isCiEnvironment()) {
-            fail("GodMode should only be run locally, not in a CI environment. Please revert the change "
-                    + "to the test properties template file that enabled GodMode in CI.");
-        }
-    }
 
     @BeforeClass
     public void baseClassSetup() throws Exception {
@@ -83,18 +70,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     /**
-     * Reminder to disable GodMode and re-run the test(s).
-     */
-    @AfterSuite
-    public static void remindUserToDisableGodModeIfRequired() {
-        if (TestProperties.IS_GODMODE_ENABLED) {
-            print("=============================================================");
-            print("IMPORTANT: Remember to disable GodMode and rerun the test(s)!");
-            print("=============================================================");
-        }
-    }
-
-    /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
      * The base URL will be the value of test.app.url in test.properties.
      * {@code relativeUrl} must start with a "/".
@@ -128,8 +103,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
             }
         }
 
-        //logout and attempt to load the requested URL. This will be
-        //  redirected to a dev-server/google login page
+        // logout and attempt to load the requested URL. This will be
+        // redirected to a dev-server/google login page
         logout();
         browser.driver.get(url.toAbsoluteString());
 
@@ -142,33 +117,21 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
             instructorId = adminUsername;
         }
 
-        //login based on the login page type
+        // login based on the login page type
         LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
         loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
 
-        //After login, the browser should be redirected to the page requested originally.
-        //  No need to reload. In fact, reloading might results in duplicate request to the server.
+        // After login, the browser should be redirected to the page requested originally.
+        // No need to reload. In fact, reloading might results in duplicate request to the server.
         return AppPage.getNewPageInstance(browser, typeOfPage);
     }
 
     /**
-     * Logs in a page as an instructor.
+     * TODO legacy method to be removed after migration of UI tests.
      */
-    protected <T extends AppPage> T loginInstructorToPage(String instructorGoogleId, String password,
-            AppUrl url, Class<T> typeOfPage) {
-        //logout
-        logout();
-
-        //load the page to be checked
-        browser.driver.get(url.toAbsoluteString());
-
-        //login based on the login page type
-        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
-        loginPage.loginAsInstructor(instructorGoogleId, password, typeOfPage);
-
-        //After login, the browser will redirect to the original page requested
-        return AppPage.getNewPageInstance(browser, typeOfPage);
-
+    @Deprecated
+    protected <T extends teammates.test.pageobjects.AppPage> T loginAdminToPageOld(AppUrl url, Class<T> typeOfPage) {
+        return teammates.test.pageobjects.AppPage.getNewPageInstance(browser, typeOfPage);
     }
 
     /**
@@ -176,15 +139,17 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * and gives the {@link HomePage} instance based on it.
      */
     protected HomePage getHomePage() {
-        return AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
+        HomePage homePage = AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
+        homePage.waitForPageToLoad();
+        return homePage;
     }
 
     /**
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        browser.driver.get(createUrl(Const.ActionURIs.LOGOUT).toAbsoluteString());
-        AppPage.getNewPageInstance(browser).waitForPageToLoad();
+        browser.driver.get(createUrl(Const.ResourceURIs.LOGOUT).toAbsoluteString());
+        AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
         browser.isAdminLoggedIn = false;
     }
 
