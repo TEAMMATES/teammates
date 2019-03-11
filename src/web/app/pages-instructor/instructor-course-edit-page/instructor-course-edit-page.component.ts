@@ -912,8 +912,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.httpRequestService.delete('/instructor', paramsMap)
         .subscribe(() => {
           if (instructorToDelete.googleId === this.instructor.googleId) {
-            this.navigationService.
-            navigateWithSuccessMessage(this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
+            this.navigationService.navigateWithSuccessMessage(
+                    this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
           } else {
             this.removeFromInstructorList(index);
             this.statusMessageService.showSuccessMessage('Instructor is successfully deleted.');
