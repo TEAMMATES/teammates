@@ -435,6 +435,8 @@ public final class Const {
 
         // Mcq
         public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
+        public static final String MCQ_ERROR_WEIGHT_ASSIGNED_TO_EMPTY_MCQ = "Weights cannot be assigned "
+                + "to empty MCQ options";
         public static final String MCQ_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ + ". Minimum number of options is: ";
         public static final String MCQ_ERROR_INVALID_OPTION =
@@ -445,6 +447,7 @@ public final class Const {
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
+        public static final String EMPTY_MCQ_OPTION = "";
         public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION =

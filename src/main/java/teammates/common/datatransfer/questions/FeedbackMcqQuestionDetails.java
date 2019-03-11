@@ -49,6 +49,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.mcqOtherWeight = 0;
+        this.generatedOptionsEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
@@ -566,6 +567,20 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                         + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
             }
 
+            // If there are Empty Mcq options entered, at least two of the Mcq options must be filled, given that the
+            // total number of Mcq options satisfy the minimum requirement
+            int numberOfMcqOptionsFilled = 0;
+            for (String mcqText : mcqChoices) {
+                if (!mcqText.trim().equals(Const.FeedbackQuestion.EMPTY_MCQ_OPTION)) {
+                    numberOfMcqOptionsFilled++;
+                }
+            }
+            if (numberOfMcqOptionsFilled < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES
+                    && numOfMcqChoices >= Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
+                        + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
+            }
+
             // If weights are enabled, number of choices and weights should be same.
             // If user enters an invalid weight for a valid choice,
             // the mcqChoices.size() will be greater than mcqWeights.size(),
@@ -598,6 +613,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 // trigger this error.
                 if (otherEnabled && mcqOtherWeight < 0) {
                     errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
+                }
+
+                // If one of the mcq has a weight assigned but the mcq text is empty trigger this error
+                for (int i = 0; i < numOfMcqChoices; i++) {
+                    if (mcqChoices.get(i).trim()
+                            .equals(Const.FeedbackQuestion.EMPTY_MCQ_OPTION) && (mcqWeights.get(i) >= 0)) {
+                        errors.add(Const.FeedbackQuestion.MCQ_ERROR_WEIGHT_ASSIGNED_TO_EMPTY_MCQ);
+                    }
                 }
             }
         }
