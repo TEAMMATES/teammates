@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FormsModule } from '@angular/forms';
 import { WeightFieldComponent } from './weight-field.component';
 
 describe('WeightFieldComponent', () => {
@@ -9,6 +10,9 @@ describe('WeightFieldComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WeightFieldComponent],
+      imports: [
+        FormsModule,
+      ],
     })
     .compileComponents();
   }));

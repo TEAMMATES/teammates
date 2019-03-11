@@ -314,7 +314,7 @@ export class FeedbackQuestionsService {
             mcqWeights: [],
             mcqOtherWeight: 0,
             numOfMcqChoices: 2,
-            mcqChoices: ['', ''],
+            mcqChoices: [' ', ' '],
             otherEnabled: false,
             generatedOptionsEnabled: false,
             generateOptionsFor: FeedbackParticipantType.NONE,

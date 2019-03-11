@@ -1,21 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { McqQuestionEditDetailsFormComponent } from '../mcq-question-edit-details-form.component';
+import { StatusMessageService } from '../../../../../services/status-message.service';
 
 /**
- * The input field to specify options to choose form.
+ * The input field to specify options to choose from.
  */
 @Component({
   selector: 'tm-mcq-field',
   templateUrl: './mcq-field.component.html',
   styleUrls: ['./mcq-field.component.scss'],
 })
-export class McqFieldComponent extends McqQuestionEditDetailsFormComponent {
+export class McqFieldComponent {
 
   @Input()
   isEditable: boolean = false;
-
-  @Input()
-  index: number = 0;
 
   @Input()
   numberOfMcqChoices: number = 1;
@@ -29,23 +26,23 @@ export class McqFieldComponent extends McqQuestionEditDetailsFormComponent {
   @Output()
   mcqText: EventEmitter<any> = new EventEmitter();
 
-  constructor() {
-    super();
-  }
+  constructor(private statusMessageService: StatusMessageService) {}
 
   /**
    * Deletes a Mcq.
    */
   deleteMcq(): void {
-    if (this.numberOfMcqChoices > 1) {
+    if (this.numberOfMcqChoices > 2) {
       this.elementDeleted.emit();
+    } else {
+      this.statusMessageService.showErrorMessage('There must be at least two Mcq options.');
     }
   }
 
   /**
    * When user enters an mcq, emit the change to parent component.
    */
-  onSearchChange(text: string): void {
+  onMcqOptionEntered(text: string): void {
     this.mcqText.emit(text);
   }
 

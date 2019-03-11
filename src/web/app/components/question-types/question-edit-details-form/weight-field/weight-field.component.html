@@ -1,5 +1,5 @@
 <br>
 <div class="margin-bottom-7px">
-  <input type="number" class="form-control"
-         step=".001" min="1">
+  <input type="number" class="form-control" step=".01" min="0" [(ngModel)]="weight"
+         [disabled]="!isEditable" (blur)="onMcqWeightEntered(weight)">
 </div>
