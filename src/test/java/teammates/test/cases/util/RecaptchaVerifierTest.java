@@ -51,17 +51,17 @@ public class RecaptchaVerifierTest extends BaseTestCase {
 
     /**
      * A subclass to mock successful response and the possible errors and exceptions that could occur in
-     * RecaptchaVerifier#isVerificationSuccessful().
-     * Success responses are mocked to decouple from the Google server for testing purposes. This way, tests will not be
+     * {@link RecaptchaVerifier#isVerificationSuccessful(String, String)}.
+     * Success responses are mocked to decouple from the Google server for testing purposes. This way, tests are not
      * affected by potential issues in the Google server (e.g. server down).
      *
      * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference">reCAPTCHA API error codes</a>
      */
-    static class RecaptchaVerifierStub extends RecaptchaVerifier {
+    private static class RecaptchaVerifierStub extends RecaptchaVerifier {
 
         @Override
         @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
-        protected String getApiResponse(String captchaResponse) throws URISyntaxException, IOException {
+        protected String getApiResponse(String captchaResponse, String secretKey) throws URISyntaxException, IOException {
             switch (captchaResponse) {
             case "success":
                 return "{ success: true }";

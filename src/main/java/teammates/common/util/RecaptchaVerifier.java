@@ -49,7 +49,7 @@ public class RecaptchaVerifier {
         }
 
         try {
-            String response = getApiResponse(captchaResponse);
+            String response = getApiResponse(captchaResponse, secretKey);
             JsonObject responseInJson = JsonUtils.parse(response).getAsJsonObject();
 
             if (responseInJson.has("error-codes")) {
@@ -64,9 +64,9 @@ public class RecaptchaVerifier {
         }
     }
 
-    protected String getApiResponse(String captchaResponse) throws URISyntaxException, IOException {
+    protected String getApiResponse(String captchaResponse, String secretKey) throws URISyntaxException, IOException {
         URIBuilder urlb = new URIBuilder(VERIFY_URL);
-        urlb.setParameter("secret", SECRET_KEY);
+        urlb.setParameter("secret", secretKey);
         urlb.setParameter("response", captchaResponse);
 
         return HttpRequest.executeGetRequest(urlb.build());
