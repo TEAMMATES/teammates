@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -31,6 +32,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
   ],
   imports: [
     CommonModule,
+    DragDropModule,
     FormsModule,
     NgbModule,
   ],

@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import {
   FeedbackMcqQuestionDetails,
@@ -34,6 +35,14 @@ export class McqQuestionEditDetailsFormComponent
       questionText: '',
       questionType: FeedbackQuestionType.MCQ,
     });
+  }
+
+  /**
+   * Reorders the list on dragging the Mcqs.
+   */
+  onMcqDropped(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.model.mcqChoices, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.model.mcqWeights, event.previousIndex, event.currentIndex);
   }
 
   /**

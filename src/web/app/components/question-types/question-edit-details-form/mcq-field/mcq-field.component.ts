@@ -20,6 +20,9 @@ export class McqFieldComponent {
   @Input()
   text: string = '';
 
+  @Input()
+  index: number = 0;
+
   @Output()
   elementDeleted: EventEmitter<any> = new EventEmitter();
 
@@ -33,7 +36,7 @@ export class McqFieldComponent {
    */
   deleteMcq(): void {
     if (this.numberOfMcqChoices > 2) {
-      this.elementDeleted.emit();
+      this.elementDeleted.emit(this.index);
     } else {
       this.statusMessageService.showErrorMessage('There must be at least two Mcq options.');
     }

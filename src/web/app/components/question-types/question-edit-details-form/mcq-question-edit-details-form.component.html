@@ -18,17 +18,14 @@
   <div class="col-sm-6">
     <div *ngIf="!model.generatedOptionsEnabled">
       <div class="row">
-        <div class="col-sm-9">
-          <div class="margin-bottom-7px" *ngFor="let num of model.mcqChoices; let i = index;
-           trackBy: trackMcqOptions">
-            <br>
-            <tm-mcq-field (elementDeleted)="onMcqDeleted($event)"
+        <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onMcqDropped($event)">
+            <tm-mcq-field *ngFor="let num of model.mcqChoices; let i = index; trackBy: trackMcqOptions"
+                          (elementDeleted)="onMcqDeleted($event)"
                           (mcqText)="onMcqEntered($event, i)"
+                          [index]="i"
                           [isEditable]="isEditable"
                           [numberOfMcqChoices]="model.numOfMcqChoices"
-                          [text]="model.mcqChoices[i]"></tm-mcq-field>
-          </div>
-          <br>
+                          [text]="model.mcqChoices[i]" cdkDrag></tm-mcq-field>
         </div>
         <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
           <tm-weight-field *ngFor="let num of model.mcqWeights; let i = index; trackBy: trackMcqWeight"
