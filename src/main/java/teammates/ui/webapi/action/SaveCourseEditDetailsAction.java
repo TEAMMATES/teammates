@@ -45,6 +45,6 @@ public class SaveCourseEditDetailsAction extends Action {
             return new JsonResult(edee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult("The course has been edited.");
+        return new JsonResult("The course has been edited.", HttpStatus.SC_OK);
     }
 }
