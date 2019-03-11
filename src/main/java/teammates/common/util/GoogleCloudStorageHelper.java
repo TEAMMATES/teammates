@@ -5,7 +5,6 @@ import java.nio.ByteBuffer;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -83,12 +82,7 @@ public final class GoogleCloudStorageHelper {
      * Serves the content of the file with the specified {@code fileKey} as the body of the given HTTP response.
      */
     public static void serve(HttpServletResponse resp, String fileKey) throws IOException {
-        BlobKey blobKey = new BlobKey(fileKey);
-        String contentType = new BlobInfoFactory().loadBlobInfo(blobKey).getContentType();
-
-        resp.setContentType(contentType);
-
-        service().serve(blobKey, resp);
+        service().serve(new BlobKey(fileKey), resp);
     }
 
 }

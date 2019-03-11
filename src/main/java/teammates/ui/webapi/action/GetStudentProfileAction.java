@@ -1,7 +1,5 @@
 package teammates.ui.webapi.action;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -21,16 +19,17 @@ public class GetStudentProfileAction extends Action {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
         }
+
+        String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
+
+        if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
+            throw new UnauthorizedAccessException("You are not authorized to view this student's profile.");
+        }
     }
 
     @Override
     public ActionResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
-
-        if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
-            return new JsonResult("You are not authorized to view this student's profile.",
-                    HttpStatus.SC_FORBIDDEN);
-        }
 
         StudentProfileAttributes studentProfile = logic.getStudentProfile(studentId);
         String name = logic.getAccount(studentId).name;
