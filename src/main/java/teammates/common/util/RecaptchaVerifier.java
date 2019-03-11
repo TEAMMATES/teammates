@@ -42,9 +42,11 @@ public class RecaptchaVerifier {
      *         exception occurs or if the API request fails
      */
     public boolean isVerificationSuccessful(String captchaResponse, String secretKey) {
-        if (secretKey == null) {
+        if (secretKey == null || secretKey.isEmpty()) {
             return true;
-        } else if (captchaResponse == null || captchaResponse.isEmpty()) {
+        }
+
+        if (captchaResponse == null || captchaResponse.isEmpty()) {
             return false;
         }
 

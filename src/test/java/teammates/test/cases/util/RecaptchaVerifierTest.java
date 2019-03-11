@@ -25,7 +25,7 @@ public class RecaptchaVerifierTest extends BaseTestCase {
         assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful(null, "testKey"));
         assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("", "testKey"));
 
-        ______TS("empty secret CAPTCHA key");
+        ______TS("empty CAPTCHA secret key");
         assertTrue(new RecaptchaVerifierStub().isVerificationSuccessful("empty secret key", null));
 
         ______TS("Successful verification");
@@ -50,9 +50,9 @@ public class RecaptchaVerifierTest extends BaseTestCase {
     }
 
     /**
-     * A subclass to mock successful response and the possible errors and exceptions that could occur in
-     * {@link RecaptchaVerifier#isVerificationSuccessful(String, String)}.
-     * Success responses are mocked to decouple from the Google server for testing purposes. This way, tests are not
+     * A subclass to mock responses and exceptions that could result in
+     * {@link RecaptchaVerifier#getApiResponse(String, String)}.
+     * Success response is also mocked to decouple from the Google server for testing purposes. This way, tests are not
      * affected by potential issues in the Google server (e.g. server down).
      *
      * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference">reCAPTCHA API error codes</a>
@@ -82,7 +82,7 @@ public class RecaptchaVerifierTest extends BaseTestCase {
                 throw new NullPointerException();
 
             case "invalid uri":
-                throw new URISyntaxException("Invalid URI", "testing invalid uri exception handling");
+                throw new URISyntaxException("Invalid URI", "testing with invalid uri exception");
 
             case "http protocol error":
                 throw new ClientProtocolException();
@@ -94,7 +94,7 @@ public class RecaptchaVerifierTest extends BaseTestCase {
                 throw new ConnectTimeoutException();
 
             case "non 2xx http response":
-                throw new HttpResponseException(101, "testing http failure status code");
+                throw new HttpResponseException(101, "testing with http failure status code");
 
             default:
                 return "{ success: true }";
