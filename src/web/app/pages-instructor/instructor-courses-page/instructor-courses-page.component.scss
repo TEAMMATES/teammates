@@ -9,7 +9,9 @@ button {
 .bold-label {
   font-weight: 700 !important;
 }
-
+.recycle-bin-body {
+  padding: 0;
+}
 .margin-left-10px {
   margin-left: 10px;
 }
@@ -38,4 +40,15 @@ button {
   cursor: default;
   color: #000;
   pointer-events: none;
+}
+
+.recycle-bin-table {
+  margin-bottom: 0;
+}
+
+.margin-top-30px {
+  margin-top: 30px;
+}
+.no-margin {
+  margin: 0;
 }
