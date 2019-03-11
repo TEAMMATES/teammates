@@ -8,7 +8,6 @@ import org.apache.http.client.HttpResponseException;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.test.cases.BaseTestCase;
 
@@ -17,32 +16,37 @@ import teammates.test.cases.BaseTestCase;
  */
 public class RecaptchaVerifierTest extends BaseTestCase {
 
+    /**
+     * Tests the overloaded {@link RecaptchaVerifier#isVerificationSuccessful(String, String)} method.
+     */
     @Test
     public void testIsVerificationSuccessful() {
-        ______TS("null or empty captcha response");
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful(null));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful(""));
+        ______TS("null or empty CAPTCHA response");
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful(null, "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("", "testKey"));
+
+        ______TS("empty secret CAPTCHA key");
+        assertTrue(new RecaptchaVerifierStub().isVerificationSuccessful("empty secret key", null));
 
         ______TS("Successful verification");
         // Use RecaptchaVerifierStub to mimic success response
-        assertTrue(new RecaptchaVerifierStub().isVerificationSuccessful("success"));
+        assertTrue(new RecaptchaVerifierStub().isVerificationSuccessful("success", "testKey"));
 
         ______TS("reCAPTCHA error codes that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic error codes
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("missing recaptcha params"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha secret key"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha response"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha request"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("missing recaptcha params", "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha secret key", "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha response", "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha request", "testKey"));
 
         ______TS("Exceptions that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic runtime exceptions
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("empty secret key"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("null response"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid uri"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("http protocol error"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("i/o exception"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("timeout exception"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("non 2xx http response"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("null response", "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid uri", "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("http protocol error", "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("i/o exception", "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("timeout exception", "testKey"));
+        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("non 2xx http response", "testKey"));
     }
 
     /**
@@ -73,9 +77,6 @@ public class RecaptchaVerifierTest extends BaseTestCase {
 
             case "invalid recaptcha request":
                 return "{ success: false, error-codes: [ 'bad-request' ] }";
-
-            case "empty secret key":
-                throw new NullHttpParameterException("testing unspecified reCAPTCHA secret key");
 
             case "null response":
                 throw new NullPointerException();

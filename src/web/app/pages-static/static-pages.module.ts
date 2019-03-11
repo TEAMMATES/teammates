@@ -79,7 +79,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'session-link-recovery',
+        path: 'session-links-recovery',
         component: SessionLinksRecoveryPageComponent,
       },
     ],
