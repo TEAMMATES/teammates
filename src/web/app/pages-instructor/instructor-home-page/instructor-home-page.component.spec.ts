@@ -27,6 +27,25 @@ const defaultCourse: Course = {
   timeZone: 'Asia/Singapore',
 };
 
+const feedbackSession: any = {
+  courseId: 'CS3281',
+  timeZone: 'Asia/Singapore',
+  feedbackSessionName: 'Feedback',
+  instructions: 'Answer all questions',
+  submissionStartTimestamp: 1552390757,
+  submissionEndTimestamp: 1552590757,
+  gracePeriod: 0,
+  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+  customSessionVisibleTimestamp: 0,
+  responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+  customResponseVisibleTimestamp: 0,
+  submissionStatus: FeedbackSessionSubmissionStatus.NOT_VISIBLE,
+  publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+  isClosingEmailEnabled: true,
+  isPublishedEmailEnabled: true,
+  createdAtTimestamp: 0,
+};
+
 describe('InstructorHomePageComponent', () => {
   let component: InstructorHomePageComponent;
   let fixture: ComponentFixture<InstructorHomePageComponent>;
@@ -79,26 +98,26 @@ describe('InstructorHomePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap with one course with unpopulated feedback sessions', () => {
+    const instructorName: string = '';
+    const courseTabModels: any = {
+      instructorPrivilege,
+      course: defaultCourse,
+      sessionsTableRowModels: [],
+      sessionsTableRowModelsSortBy: SortBy.NONE,
+      sessionsTableRowModelsSortOrder: SortOrder.ASC,
+      hasPopulated: false,
+      isAjaxSuccess: true,
+      isTabExpanded: true,
+    };
+    component.user = instructorName;
+    component.courseTabModels = [courseTabModels];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should snap with one course with one feedback session with instructor privilege', () => {
     const instructorName: string = '';
-    const feedbackSession: any = {
-      courseId: 'CS3281',
-      timeZone: 'Asia/Singapore',
-      feedbackSessionName: 'Feedback',
-      instructions: 'Answer all questions',
-      submissionStartTimestamp: 1552390757,
-      submissionEndTimestamp: 1552590757,
-      gracePeriod: 0,
-      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-      customSessionVisibleTimestamp: 0,
-      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-      customResponseVisibleTimestamp: 0,
-      submissionStatus: FeedbackSessionSubmissionStatus.NOT_VISIBLE,
-      publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-      isClosingEmailEnabled: true,
-      isPublishedEmailEnabled: true,
-      createdAtTimestamp: 0,
-    };
     const sessionsTableRowModel: any = {
       feedbackSession,
       instructorPrivilege,
