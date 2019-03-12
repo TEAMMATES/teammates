@@ -274,7 +274,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    protected void testExecute_adminDeletesFakeCourse_shouldFail() {
+    protected void testExecute_adminDeletesInstructorInFakeCourse_shouldFail() {
         loginAsAdmin();
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
