@@ -40,7 +40,7 @@ export class McqQuestionEditDetailsFormComponent
   /**
    * Reorders the list on dragging the Mcqs.
    */
-  onMcqDropped(event: CdkDragDrop<string[]>): void {
+  onMcqOptionDropped(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.model.mcqChoices, event.previousIndex, event.currentIndex);
     moveItemInArray(this.model.mcqWeights, event.previousIndex, event.currentIndex);
   }
@@ -59,7 +59,7 @@ export class McqQuestionEditDetailsFormComponent
   /**
    * Deletes a Mcq.
    */
-  onMcqDeleted(event: number): void {
+  onMcqOptionDeleted(event: number): void {
     this.model.numOfMcqChoices -= 1;
     this.model.mcqChoices.splice(event, 1);
     if (this.model.hasAssignedWeights) {
@@ -70,7 +70,7 @@ export class McqQuestionEditDetailsFormComponent
   /**
    * Displays new mcq at specified index.
    */
-  onMcqEntered(event: string, index: number): void {
+  onMcqOptionEntered(event: string, index: number): void {
     this.model.mcqChoices[index] = event;
   }
 
@@ -84,7 +84,7 @@ export class McqQuestionEditDetailsFormComponent
   /**
    * Tracks the Mcq option by index.
    */
-  trackMcqOptions(_index: number, item: string[]): string {
+  trackMcqOption(_index: number, item: string[]): string {
     return item[_index];
   }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   FeedbackContributionResponseDetails,
+  FeedbackMcqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
   FeedbackResponse,
@@ -45,6 +46,13 @@ export class FeedbackResponsesService {
           questionType,
           answer: NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
         } as FeedbackNumericalScaleResponseDetails;
+      case FeedbackQuestionType.MCQ:
+        return {
+          questionType,
+          answer: '',
+          isOther: false,
+          otherFieldContent: '',
+        } as FeedbackMcqResponseDetails;
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
@@ -64,6 +72,9 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.NUMSCALE:
         const numScaleDetails: FeedbackNumericalScaleResponseDetails = details as FeedbackNumericalScaleResponseDetails;
         return numScaleDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
+      case FeedbackQuestionType.MCQ:
+        const mcqDetails: FeedbackMcqResponseDetails = details as FeedbackMcqResponseDetails;
+        return mcqDetails.answer.length === 0 && mcqDetails.otherFieldContent.length === 0;
       default:
         return true;
     }

@@ -18,12 +18,12 @@
   <div class="col-sm-6">
     <div *ngIf="!model.generatedOptionsEnabled">
       <div class="row">
-        <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onMcqDropped($event)">
+        <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)">
           <div class="margin-bottom-7px"  *ngFor="let num of model.mcqChoices; let i = index;
-          trackBy: trackMcqOptions" cdkDrag>
+          trackBy: trackMcqOption" cdkDrag>
             <br>
-            <tm-mcq-field (elementDeleted)="onMcqDeleted($event)"
-                          (mcqText)="onMcqEntered($event, i)"
+            <tm-mcq-field (elementDeleted)="onMcqOptionDeleted($event)"
+                          (mcqText)="onMcqOptionEntered($event, i)"
                           [index]="i"
                           [isEditable]="isEditable"
                           [numberOfMcqChoices]="model.numOfMcqChoices"

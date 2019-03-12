@@ -34,7 +34,7 @@ export class McqFieldComponent {
   /**
    * Deletes a Mcq.
    */
-  deleteMcq(): void {
+  deleteMcqOption(): void {
     if (this.numberOfMcqChoices > 2) {
       this.elementDeleted.emit(this.index);
     } else {
