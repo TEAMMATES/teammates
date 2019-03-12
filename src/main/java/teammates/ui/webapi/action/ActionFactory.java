@@ -95,6 +95,7 @@ public class ActionFactory {
         map(ResourceURIs.RESPONSE, POST, CreateFeedbackResponseAction.class);
         map(ResourceURIs.RESPONSE, PUT, SaveFeedbackResponseAction.class);
         map(ResourceURIs.RESPONSE, DELETE, DeleteFeedbackResponseAction.class);
+        map(ResourceURIs.HASRESPONSES, GET, GetHasResponsesAction.class);
         map(ResourceURIs.SUBMISSION_CONFIRMATION, POST, ConfirmFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.LOCAL_DATE_TIME, GET, GetLocalDateTimeInfoAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
