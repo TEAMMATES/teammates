@@ -11,4 +11,4 @@ After doing so, follow these steps to execute a test:
     ```$xslt
     ./runTest.sh <path-to-test-file>
     ```
-1. The test result will be saved as `<test-name>_result.csv` file in the `jmeter/results` directory. 
+1. The test result will be saved as `<test-name>_result.jtl` in the `jmeter/results` directory. 

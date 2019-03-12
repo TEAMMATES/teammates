@@ -1,5 +1,5 @@
 username,isAdmin,googleid
 test@example.com,on,test@example.com
-alice.b.tmms@gmail.tmt,off,alice
-benny.c.tmms@gmail.tmt,off,benny
-danny.e.tmms@gmail.tmt,off,danny
+alice.b.tmms@gmail.tmt,off,alice.b.tmms.sampleData
+benny.c.tmms@gmail.tmt,off,benny.c.tmms.sampleData
+danny.e.tmms@gmail.tmt,off,danny.e.tmms.sampleData
