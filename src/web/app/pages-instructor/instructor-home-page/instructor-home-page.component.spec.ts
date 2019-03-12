@@ -2,15 +2,30 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeedbackSession, FeedbackSessionPublishStatus,
+  Course, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { SessionsTableRowModel, SortBy, SortOrder } from '../../components/sessions-table/sessions-table-model';
+import { SortBy, SortOrder } from '../../components/sessions-table/sessions-table-model';
 import { InstructorPrivilege } from '../../instructor-privilege';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
 import { InstructorHomePageModule } from './instructor-home-page.module';
+
+const instructorPrivilege: InstructorPrivilege = {
+  canModifyCourse: true,
+  canModifySession: true,
+  canModifyStudent: true,
+  canSubmitSessionInSections: true,
+};
+
+const defaultCourse: Course = {
+  courseId: 'CS3281',
+  courseName: 'Thematic Systems',
+  creationDate: '26 Feb 23:59 PM',
+  deletionDate: '',
+  timeZone: 'Asia/Singapore',
+};
 
 describe('InstructorHomePageComponent', () => {
   let component: InstructorHomePageComponent;
@@ -44,17 +59,12 @@ describe('InstructorHomePageComponent', () => {
   it('should snap with one course without feedback session', () => {
     const instructorName: string = '';
     const courseTabModels: any = {
+      instructorPrivilege,
       course: {
-        courseId: 'CS3281',
-        courseName: 'Thematic Systems',
-        creationDate: '26 Feb 23:59 PM',
+        courseId: 'CS3243',
+        courseName: 'Introduction to AI',
+        creationDate: '01 Feb 23:59 PM',
         timeZone: 'Asia/Singapore',
-      },
-      instructorPrivilege: {
-        canModifyCourse: true,
-        canModifySession: true,
-        canModifyStudent: true,
-        canSubmitSessionInSections: true,
       },
       sessionsTableRowModels: [],
       sessionsTableRowModelsSortBy: SortBy.NONE,
@@ -69,9 +79,51 @@ describe('InstructorHomePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with one course with one feedback session', () => {
+  it('should snap with one course with one feedback session with instructor privilege', () => {
     const instructorName: string = '';
     const feedbackSession: any = {
+      courseId: 'CS3281',
+      timeZone: 'Asia/Singapore',
+      feedbackSessionName: 'Feedback',
+      instructions: 'Answer all questions',
+      submissionStartTimestamp: 1552390757,
+      submissionEndTimestamp: 1552590757,
+      gracePeriod: 0,
+      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+      customSessionVisibleTimestamp: 0,
+      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+      customResponseVisibleTimestamp: 0,
+      submissionStatus: FeedbackSessionSubmissionStatus.NOT_VISIBLE,
+      publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+      isClosingEmailEnabled: true,
+      isPublishedEmailEnabled: true,
+      createdAtTimestamp: 0,
+    };
+    const sessionsTableRowModel: any = {
+      feedbackSession,
+      instructorPrivilege,
+      responseRate: '0 / 6',
+      isLoadingResponseRate: false,
+    };
+    const courseTabModels: any = {
+      instructorPrivilege,
+      course: defaultCourse,
+      sessionsTableRowModels: [sessionsTableRowModel],
+      sessionsTableRowModelsSortBy: SortBy.NONE,
+      sessionsTableRowModelsSortOrder: SortOrder.ASC,
+      hasPopulated: true,
+      isAjaxSuccess: true,
+      isTabExpanded: true,
+    };
+    component.user = instructorName;
+    component.courseTabModels = [courseTabModels];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with one course with two feedback sessions with tutor privilege', () => {
+    const instructorName: string = '';
+    const feedbackSession1: any = {
       courseId: 'CS3281',
       timeZone: 'Asia/Singapore',
       feedbackSessionName: 'Feedback 1',
@@ -84,33 +136,52 @@ describe('InstructorHomePageComponent', () => {
       responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
       customResponseVisibleTimestamp: 0,
       submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
-      publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+      publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
     };
-    const instructorPrivilege: any = {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canSubmitSessionInSections: true,
+    const feedbackSession2: any = {
+      courseId: 'CS3281',
+      timeZone: 'Asia/Singapore',
+      feedbackSessionName: 'Feedback 2',
+      instructions: 'Answer all questions',
+      submissionStartTimestamp: 10000,
+      submissionEndTimestamp: 15000,
+      gracePeriod: 100,
+      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+      customSessionVisibleTimestamp: 0,
+      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+      customResponseVisibleTimestamp: 0,
+      submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+      publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+      isClosingEmailEnabled: true,
+      isPublishedEmailEnabled: true,
+      createdAtTimestamp: 1000,
     };
-    const sessionsTableRowModels: any = {
-      feedbackSession,
-      instructorPrivilege,
+    const tutorPrivilege: any = {
+      canModifyCourse: false,
+      canModifySession: false,
+      canModifyStudent: false,
+      canSubmitSessionInSections: false,
+    };
+    const sessionsTableRowModel1: any = {
+      feedbackSession: feedbackSession1,
+      instructorPrivilege: tutorPrivilege,
       responseRate: '0 / 6',
       isLoadingResponseRate: false,
     };
+    const sessionsTableRowModel2: any = {
+      feedbackSession: feedbackSession2,
+      instructorPrivilege: tutorPrivilege,
+      responseRate: '5 / 6',
+      isLoadingResponseRate: false,
+    };
     const courseTabModels: any = {
-      instructorPrivilege,
-      course: {
-        courseId: 'CS3281',
-        courseName: 'Thematic Systems',
-        creationDate: '26 Feb 23:59 PM',
-        timeZone: 'Asia/Singapore',
-      },
-      sessionsTableRowModels: [sessionsTableRowModels],
-      sessionsTableRowModelsSortBy: SortBy.NONE,
+      instructorPrivilege: tutorPrivilege,
+      course: defaultCourse,
+      sessionsTableRowModels: [sessionsTableRowModel1, sessionsTableRowModel2],
+      sessionsTableRowModelsSortBy: SortBy.COURSE_CREATION_DATE,
       sessionsTableRowModelsSortOrder: SortOrder.ASC,
       hasPopulated: true,
       isAjaxSuccess: true,
