@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Course, FeedbackSessionPublishStatus,
+  Course, FeedbackSession, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -27,7 +27,7 @@ const defaultCourse: Course = {
   timeZone: 'Asia/Singapore',
 };
 
-const feedbackSession: any = {
+const feedbackSession: FeedbackSession = {
   courseId: 'CS3281',
   timeZone: 'Asia/Singapore',
   feedbackSessionName: 'Feedback',
@@ -109,6 +109,42 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: false,
       isAjaxSuccess: true,
       isTabExpanded: true,
+    };
+    component.user = instructorName;
+    component.courseTabModels = [courseTabModels];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with one course with error loading feedback sessions', () => {
+    const instructorName: string = 'Jon Snow';
+    const courseTabModels: any = {
+      instructorPrivilege,
+      course: defaultCourse,
+      sessionsTableRowModels: [],
+      sessionsTableRowModelsSortBy: SortBy.NONE,
+      sessionsTableRowModelsSortOrder: SortOrder.ASC,
+      hasPopulated: false,
+      isAjaxSuccess: false,
+      isTabExpanded: true,
+    };
+    component.user = instructorName;
+    component.courseTabModels = [courseTabModels];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with one course with unexpanded course tab', () => {
+    const instructorName: string = 'Shaun';
+    const courseTabModels: any = {
+      instructorPrivilege,
+      course: defaultCourse,
+      sessionsTableRowModels: [],
+      sessionsTableRowModelsSortBy: SortBy.NONE,
+      sessionsTableRowModelsSortOrder: SortOrder.ASC,
+      hasPopulated: false,
+      isAjaxSuccess: true,
+      isTabExpanded: false,
     };
     component.user = instructorName;
     component.courseTabModels = [courseTabModels];
