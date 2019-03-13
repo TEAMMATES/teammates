@@ -1,9 +1,10 @@
 package teammates.e2e.pageobjects;
 
-import org.openqa.selenium.By;
-import teammates.common.util.SanitizationHelper;
-
 import static org.junit.Assert.assertEquals;
+
+import org.openqa.selenium.By;
+
+import teammates.common.util.SanitizationHelper;
 
 /**
  * Page Object Model for student profile picture page.

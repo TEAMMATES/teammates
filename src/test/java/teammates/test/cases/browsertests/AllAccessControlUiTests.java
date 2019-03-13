@@ -90,7 +90,7 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
         ______TS("incorrect URL");
 
-        AppUrl nonExistentActionUrl = createUrl("/page/nonExistentAction");
+        // AppUrl nonExistentActionUrl = createUrl("/page/nonExistentAction");
         // AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
 
     }
