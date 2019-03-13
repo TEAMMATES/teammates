@@ -1,5 +1,8 @@
 package teammates.e2e.pageobjects;
 
+/**
+ * Page Object Model for not found page.
+ */
 public class NotFoundPage extends AppPage {
 
     public NotFoundPage(Browser browser) {

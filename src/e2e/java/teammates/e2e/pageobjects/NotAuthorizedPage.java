@@ -1,5 +1,8 @@
 package teammates.e2e.pageobjects;
 
+/**
+ * Page Object Model for not authorized page.
+ */
 public class NotAuthorizedPage extends AppPage {
 
     public NotAuthorizedPage(Browser browser) {
