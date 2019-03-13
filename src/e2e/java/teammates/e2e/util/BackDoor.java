@@ -226,6 +226,15 @@ public final class BackDoor {
     }
 
     /**
+     * Gets a student's profile from the datastore.
+     */
+    public static String getStudentProfile(String userId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.STUDENT_ID, new String[] { userId });
+        return executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params).responseBody;
+    }
+
+    /**
      * Deletes a student from the datastore.
      */
     public static void deleteStudent(String unregUserId) {
