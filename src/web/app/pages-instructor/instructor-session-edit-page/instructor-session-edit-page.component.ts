@@ -352,6 +352,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
+   * Handles canceling existing session event without saving changes.
+   */
+  cancelExistingSessionHandler(): void {
+    this.sessionEditFormModel.isEditable = false;
+    this.loadFeedbackSession();
+  }
+
+  /**
    * Resolves the local date time to an UNIX timestamp.
    */
   private resolveLocalDateTime(

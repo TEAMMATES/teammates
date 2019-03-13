@@ -1,4 +1,4 @@
-<tm-session-edit-form [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()"
+<tm-session-edit-form [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()" (cancelExistingSessionEvent)="cancelExistingSessionHandler()"
                       (deleteExistingSessionEvent)="deleteExistingSessionHandler()" (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
 
 <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" class="margin-top-30px">
