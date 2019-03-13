@@ -3,13 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GenderFormatPipe } from './student-profile-gender.pipe';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { environment } from '../../../environments/environment.prod';
+import { Gender } from '../../../types/gender';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentProfilePageComponent } from './student-profile-page.component';
-import {Gender} from "../../../types/gender";
-import { FormGroup } from '@angular/forms';
-import {environment} from "../../../environments/environment.prod";
 
 describe('StudentProfilePageComponent', () => {
   let component: StudentProfilePageComponent;
@@ -73,36 +72,8 @@ describe('StudentProfilePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with a populated student field', () => {
+  it('should snap with values and a profile photo', () => {
     const studentDetails: any = {
-      studentProfile: {
-        shortName: 'Ash',
-        email: 'ayush@nus.com',
-        institute: 'NUS',
-        nationality: 'Indian',
-        gender: Gender.MALE,
-        moreInfo: '',
-        pictureKey: '',
-      },
-      name: 'Ayush',
-      requestId: '12',
-    };
-    component.student = studentDetails;
-    component.editForm = new FormGroup({
-      studentshortname: new FormControl('Ash'),
-      studentprofileemail: new FormControl('ayush@nus.com'),
-      studentprofileinstitute: new FormControl('NUS'),
-      studentnationality: new FormControl('Indian'),
-      existingNationality: new FormControl('Indian'),
-      studentgender: new FormControl(Gender.MALE),
-      studentprofilemoreinfo: new FormControl(''),
-    });
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it ('should snap with a profile photo', () => {
-     const studentDetails: any = {
       studentProfile: {
         shortName: 'Ash',
         email: 'ayush@nus.com',
@@ -114,11 +85,11 @@ describe('StudentProfilePageComponent', () => {
       },
       name: 'Ayush',
       requestId: '16',
-
     };
     component.student = studentDetails;
     component.pictureKey = 'photo.jpg';
-    component.profilePicLink = `${environment.backendUrl}/webapi/students/profilePic?blob-key=$photo.jpg&time=1552509888215`;
+    component.profilePicLink = `${environment.backendUrl}/webapi/
+    students/profilePic?blob-key=$photo.jpg&time=1552509888215`;
     component.editForm = new FormGroup({
       studentshortname: new FormControl('Ash'),
       studentprofileemail: new FormControl('ayush@nus.com'),
