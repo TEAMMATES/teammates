@@ -1,7 +1,7 @@
 <div class="row">
   <br>
   <div class="col-sm-12 margin-bottom-7px">
-    <div class="form-check form-check-inline" *ngIf="!model.generatedOptionsEnabled">
+    <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
       <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
              container="body">
         <input class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
@@ -10,13 +10,13 @@
         <b>Choices are weighted</b>
       </label>
     </div>
-    <div *ngIf="model.hasAssignedWeights && !model.generatedOptionsEnabled"
+    <div *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled"
          class="form-check form-check-inline padding-left-260px align-center">Weights&#8595;
     </div>
   </div>
   <br>
   <div class="col-sm-6">
-    <div *ngIf="!model.generatedOptionsEnabled">
+    <div *ngIf="!isGeneratedOptionsEnabled">
       <div class="row">
         <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)">
           <div class="margin-bottom-7px"  *ngFor="let num of model.mcqChoices; let i = index;
@@ -66,12 +66,11 @@
   <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox"  [disabled]="!isEditable"
-             [ngModel]="model.generatedOptionsEnabled"
-             (ngModelChange)="triggerModelChange('generatedOptionsEnabled', $event)"
-             (change)="triggerGenerateOptionsFor($event)">
+             [ngModel]="isGeneratedOptionsEnabled"
+             (change)="triggerGeneratedOptionsChange($event)">
       <b>Or, generate options from the list of all</b>
     </label>
-    <select class="form-control width-auto inline" [disabled]="!model.generatedOptionsEnabled"
+    <select class="form-control width-auto inline" [disabled]="!isGeneratedOptionsEnabled"
             [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
       <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option }}</option>
     </select>

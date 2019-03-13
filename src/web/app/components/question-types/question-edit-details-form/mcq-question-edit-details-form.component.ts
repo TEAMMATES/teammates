@@ -30,7 +30,6 @@ export class McqQuestionEditDetailsFormComponent
       numOfMcqChoices: 2,
       mcqChoices: [' ', ' '],
       otherEnabled: false,
-      generatedOptionsEnabled: false,
       generateOptionsFor: FeedbackParticipantType.NONE,
       questionText: '',
       questionType: FeedbackQuestionType.MCQ,
@@ -96,15 +95,6 @@ export class McqQuestionEditDetailsFormComponent
   }
 
   /**
-   * Displays no feedback participant if option is disabled.
-   */
-  triggerGenerateOptionsFor(event: any): void {
-    if (!event.target.checked) {
-      this.model.generateOptionsFor = FeedbackParticipantType.NONE;
-    }
-  }
-
-  /**
    * Triggers the display of the weight column for the Mcq options according if weights option is checked/unchecked.
    */
   triggerWeightsColumn(event: any): void {
@@ -123,5 +113,23 @@ export class McqQuestionEditDetailsFormComponent
     if (!event.target.checked) {
       this.model.mcqOtherWeight = 0;
     }
+  }
+
+  /**
+   * Assigns a default value to generateOptionsFor when checkbox is clicked.
+   */
+  triggerGeneratedOptionsChange(event: any): void {
+    if (!event.target.checked) {
+      this.model.generateOptionsFor = FeedbackParticipantType.NONE;
+    } else {
+      this.model.generateOptionsFor = FeedbackParticipantType.STUDENTS;
+    }
+  }
+
+  /**
+   * Checks if the generated Options for option is enabled.
+   */
+  get isGeneratedOptionsEnabled(): boolean {
+    return this.model.generateOptionsFor !== FeedbackParticipantType.NONE;
   }
 }

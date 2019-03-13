@@ -37,7 +37,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private int numOfMcqChoices;
     private List<String> mcqChoices;
     private boolean otherEnabled;
-    private boolean generatedOptionsEnabled;
     private FeedbackParticipantType generateOptionsFor;
 
     public FeedbackMcqQuestionDetails() {
@@ -49,7 +48,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.mcqOtherWeight = 0;
-        this.generatedOptionsEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
@@ -571,7 +569,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // total number of Mcq options satisfy the minimum requirement
             int numberOfMcqOptionsFilled = 0;
             for (String mcqText : mcqChoices) {
-                if (!mcqText.trim().equals(Const.FeedbackQuestion.EMPTY_MCQ_OPTION)) {
+                if (!mcqText.trim().equals("")) {
                     numberOfMcqOptionsFilled++;
                 }
             }
@@ -617,8 +615,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
                 // If one of the mcq has a weight assigned but the mcq text is empty trigger this error
                 for (int i = 0; i < numOfMcqChoices; i++) {
-                    if (mcqChoices.get(i).trim()
-                            .equals(Const.FeedbackQuestion.EMPTY_MCQ_OPTION) && (mcqWeights.get(i) >= 0)) {
+                    if (mcqChoices.get(i).trim().equals("") && (mcqWeights.get(i) >= 0)) {
                         errors.add(Const.FeedbackQuestion.MCQ_ERROR_WEIGHT_ASSIGNED_TO_EMPTY_MCQ);
                     }
                 }
@@ -654,10 +651,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
-    }
-
-    public boolean isGeneratedOptionsEnabled() {
-        return generatedOptionsEnabled;
     }
 
     /**

@@ -316,7 +316,6 @@ export class FeedbackQuestionsService {
             numOfMcqChoices: 2,
             mcqChoices: [' ', ' '],
             otherEnabled: false,
-            generatedOptionsEnabled: false,
             generateOptionsFor: FeedbackParticipantType.NONE,
             questionText: '',
             questionType: FeedbackQuestionType.MCQ,
