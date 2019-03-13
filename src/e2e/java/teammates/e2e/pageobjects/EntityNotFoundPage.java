@@ -1,6 +1,4 @@
-package teammates.test.pageobjects;
-
-import teammates.e2e.pageobjects.Browser;
+package teammates.e2e.pageobjects;
 
 public class EntityNotFoundPage extends AppPage {
 
