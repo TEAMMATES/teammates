@@ -24,15 +24,12 @@ public class SessionLinksRecoveryAction extends Action {
     @Override
     public ActionResult execute() {
         String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL);
-        boolean hasStudentsWithRecoveryEmail = !logic.getAllStudentForEmail(recoveryEmailAddress).isEmpty();
 
-        if (hasStudentsWithRecoveryEmail) {
-            EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmail(recoveryEmailAddress);
-            emailSender.sendEmail(email);
-        }
+        EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmail(recoveryEmailAddress);
+        emailSender.sendEmail(email);
 
         // Keep this status flag here for recaptcha
-        return new JsonResult(new SessionLinksRecoveryResponseData(hasStudentsWithRecoveryEmail,
+        return new JsonResult(new SessionLinksRecoveryResponseData(true,
                 "The recovery links for your feedback sessions have been sent to the "
                         + "specified email address: " + recoveryEmailAddress));
     }
