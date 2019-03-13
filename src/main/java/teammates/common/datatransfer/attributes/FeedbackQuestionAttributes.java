@@ -28,7 +28,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public FeedbackQuestionDetails questionDetails;
     public String questionDescription;
     public int questionNumber;
-    public FeedbackQuestionType questionType;
     public FeedbackParticipantType giverType;
     public FeedbackParticipantType recipientType;
     public int numberOfEntitiesToGiveFeedbackTo;
@@ -54,7 +53,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                 .withQuestionDetails(deserializeFeedbackQuestionDetails(fq.getQuestionMetaData(), fq.getQuestionType()))
                 .withQuestionDescription(fq.getQuestionDescription())
                 .withQuestionNumber(fq.getQuestionNumber())
-                .withQuestionType(fq.getQuestionType())
                 .withGiverType(fq.getGiverType())
                 .withRecipientType(fq.getRecipientType())
                 .withNumOfEntitiesToGiveFeedbackTo(fq.getNumberOfEntitiesToGiveFeedbackTo())
@@ -89,7 +87,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public FeedbackQuestion toEntity() {
         return new FeedbackQuestion(feedbackSessionName, courseId,
                                     getSerializedQuestionDetails(), questionDescription,
-                                    questionNumber, questionType, giverType,
+                                    questionNumber, getQuestionType(), giverType,
                                     recipientType, numberOfEntitiesToGiveFeedbackTo,
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
@@ -101,7 +99,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                 .withQuestionDetails(getQuestionDetails())
                 .withQuestionDescription(getQuestionDescription())
                 .withQuestionNumber(getQuestionNumber())
-                .withQuestionType(getQuestionType())
                 .withGiverType(getGiverType())
                 .withRecipientType(getRecipientType())
                 .withNumOfEntitiesToGiveFeedbackTo(getNumberOfEntitiesToGiveFeedbackTo())
@@ -121,7 +118,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                + ", questionText="
                + getSerializedQuestionDetails() + ", questionDescription=" + questionDescription
                + ", questionNumber=" + questionNumber
-               + ", questionType=" + questionType + ", giverType=" + giverType
+               + ", questionType=" + getQuestionType() + ", giverType=" + giverType
                + ", recipientType=" + recipientType
                + ", numberOfEntitiesToGiveFeedbackTo="
                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
@@ -152,16 +149,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public List<String> getInvalidityInfo() {
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(validator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForFeedbackSessionName(feedbackSessionName), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(courseId), errors);
 
-        errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
+        errors.addAll(FieldValidator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 
-        errors.addAll(validator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo,
+        errors.addAll(FieldValidator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo,
                                                                              showGiverNameTo,
                                                                              showRecipientNameTo));
 
@@ -323,8 +319,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         result = prime * result + (questionDescription == null ? 0 : questionDescription.hashCode());
 
-        result = prime * result + (questionType == null ? 0 : questionType.hashCode());
-
         result = prime * result + (recipientType == null ? 0 : recipientType.hashCode());
 
         result = prime * result + (showGiverNameTo == null ? 0 : showGiverNameTo.hashCode());
@@ -396,10 +390,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return false;
         }
 
-        if (questionType != other.questionType) {
-            return false;
-        }
-
         if (recipientType != other.recipientType) {
             return false;
         }
@@ -442,10 +432,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         if (newAttributes.questionDescription == null) {
             newAttributes.questionDescription = this.questionDescription;
-        }
-
-        if (newAttributes.questionType == null) {
-            newAttributes.questionType = this.questionType;
         }
 
         if (newAttributes.giverType == null) {
@@ -563,7 +549,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     }
 
     public FeedbackQuestionType getQuestionType() {
-        return questionType;
+        return questionDetails.getQuestionType();
     }
 
     public FeedbackParticipantType getGiverType() {
@@ -612,10 +598,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     public void setShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
-    }
-
-    public String getQuestionAdditionalInfoHtml() {
-        return getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
     }
 
     private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(String questionDetailsInJson,
@@ -701,13 +683,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         public Builder withQuestionNumber(int questionNumber) {
             feedbackQuestionAttributes.questionNumber = questionNumber;
-            return this;
-        }
-
-        public Builder withQuestionType(FeedbackQuestionType questionType) {
-            if (questionType != null) {
-                feedbackQuestionAttributes.questionType = questionType;
-            }
             return this;
         }
 

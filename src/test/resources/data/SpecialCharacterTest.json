@@ -171,7 +171,6 @@
         "questionText": "Give feedback to 3 other teams."
       },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 3,

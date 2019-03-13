@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../../services/auth.service';
@@ -11,8 +11,13 @@ import { AuthInfo, MessageOutput, Nationalities } from '../../../types/api-outpu
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentProfileService } from '../../../services/student-profile.service';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
+
+import {
+  UploadEditProfilePictureModalComponent,
+} from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 interface StudentProfile {
   shortName: string;
@@ -24,6 +29,9 @@ interface StudentProfile {
   pictureKey: string;
 }
 
+/**
+ * Represents detailed data for student profile.
+ */
 interface StudentDetails {
   studentProfile: StudentProfile;
   name: string;
@@ -43,10 +51,14 @@ export class StudentProfilePageComponent implements OnInit {
   Gender: typeof Gender = Gender; // enum
   user: string = '';
   id: string = '';
-  student?: StudentDetails;
+  student!: StudentDetails;
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
+
+  profilePicLink!: string;
+  pictureKey!: string;
+  currentTime?: number;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -54,7 +66,9 @@ export class StudentProfilePageComponent implements OnInit {
               private ngbModal: NgbModal,
               private httpRequestService: HttpRequestService,
               private authService: AuthService,
-              private statusMessageService: StatusMessageService) {}
+              private statusMessageService: StatusMessageService,
+              private studentProfileService: StudentProfileService) {
+  }
 
   ngOnInit(): void {
     // populate drop-down menu for nationality list
@@ -73,7 +87,8 @@ export class StudentProfilePageComponent implements OnInit {
     if (!pictureKey) {
       return '/assets/images/profile_picture_default.png';
     }
-    return `${this.backendUrl}/students/profilePic?blob-key=${pictureKey}`;
+    this.currentTime = (new Date()).getTime(); // forces image reload in HTML template
+    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}&time=${this.currentTime}`;
   }
 
   /**
@@ -102,6 +117,10 @@ export class StudentProfilePageComponent implements OnInit {
           if (response) {
             this.student = response;
             this.name = response.name;
+
+            this.pictureKey = this.student.studentProfile.pictureKey;
+            this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
+
             this.initStudentProfileForm(this.student.studentProfile);
           } else {
             this.statusMessageService.showErrorMessage('Error retrieving student profile');
@@ -136,22 +155,67 @@ export class StudentProfilePageComponent implements OnInit {
   }
 
   /**
+   * Opens a modal box to upload/edit profile picture.
+   */
+  onUploadEdit(): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
+    modalRef.componentInstance.profilePicLink = this.profilePicLink;
+    modalRef.componentInstance.pictureKey = this.pictureKey;
+
+    // When a new image is uploaded/edited in the modal box, update the profile pic link in the page too
+    modalRef.componentInstance.imageUpdated.subscribe((pictureKey: string) => {
+      this.pictureKey = pictureKey;
+      this.profilePicLink =
+          this.getProfilePictureUrl(this.pictureKey); // Retrieves the profile picture link again
+    });
+  }
+
+  /**
    * Submits the form data to edit the student profile details.
    */
   submitEditForm(): void {
-    const paramsMap: { [key: string]: string } = {
+    this.studentProfileService.updateStudentProfile(this.user, this.id, {
+      shortName: this.editForm.controls.studentshortname.value,
+      email: this.editForm.controls.studentprofileemail.value,
+      institute: this.editForm.controls.studentprofileinstitute.value,
+      nationality: this.editForm.controls.studentnationality.value,
+      gender: this.editForm.controls.studentgender.value,
+      moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
+      existingNationality: this.editForm.controls.existingNationality.value,
+    }).subscribe((response: MessageOutput) => {
+      if (response) {
+        this.statusMessageService.showSuccessMessage(response.message);
+      }
+    }, (response: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(`Could not save your profile! ${response.error.message}`);
+    });
+  }
+
+  /**
+   * Prompts the user with a modal box to confirm deleting the profile picture.
+   */
+  onDelete(confirmDeleteProfilePicture: any): void {
+    this.ngbModal.open(confirmDeleteProfilePicture);
+  }
+
+  /**
+   * Deletes the profile picture and the profile picture key
+   */
+  deleteProfilePicture(): void {
+    const paramMap: { [key: string]: string } = {
       user: this.user,
       googleid: this.id,
-      ...this.editForm.value,
     };
-
-    this.httpRequestService.put('/student/profile', paramsMap)
+    this.httpRequestService.delete('/students/profilePic', paramMap)
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);
+            this.pictureKey = '';
+            this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
           }
         }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(`Could not save your profile! ${response.error.message}`);
+          this.statusMessageService.
+            showErrorMessage(`Could not delete your profile picture! ${response.error.message}`);
         });
   }
 }

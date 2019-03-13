@@ -1,13 +1,12 @@
 package teammates.test.cases;
 
 import java.io.IOException;
+import java.net.URLConnection;
 import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
@@ -58,10 +57,11 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static String writeFileToGcs(String googleId, String filename) throws IOException {
         byte[] image = FileHelper.readFileAsBytes(filename);
-        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image);
+        String contentType = URLConnection.guessContentTypeFromName(filename);
+        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image, contentType);
     }
 
-    protected static boolean doesFileExistInGcs(BlobKey fileKey) {
+    protected static boolean doesFileExistInGcs(String fileKey) {
         return GoogleCloudStorageHelper.doesFileExistInGcs(fileKey);
     }
 

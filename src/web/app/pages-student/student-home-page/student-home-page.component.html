@@ -11,7 +11,7 @@
     </div>
 
     <div class="table-responsive">
-      <table class="table table-striped table-bordered margin-0" *ngIf="studentCourse.feedbackSessions">
+      <table class="table table-striped table-bordered margin-0" *ngIf="studentCourse.feedbackSessions && studentCourse.feedbackSessions.length">
         <thead>
         <tr>
           <th>Session Name</th>
@@ -74,7 +74,7 @@
         </tbody>
       </table>
 
-      <table class="table table-striped table-bordered margin-0" *ngIf="!studentCourse.feedbackSessions">
+      <table class="table table-striped table-bordered margin-0" *ngIf="!(studentCourse.feedbackSessions && studentCourse.feedbackSessions.length)">
         <tbody>
         <tr>
           <th class="align-center white">
