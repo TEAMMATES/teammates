@@ -26,8 +26,8 @@ public final class TestProperties {
     /** The value of "test.persistence.timeout" in test.properties file. */
     public static final int PERSISTENCE_RETRY_PERIOD_IN_S;
 
-    /** Indicates whether "God mode" is activated. */
-    public static final boolean IS_GODMODE_ENABLED;
+    /** Indicates whether auto-update snapshot mode is activated. */
+    public static final boolean IS_SNAPSHOT_UPDATE;
 
     private TestProperties() {
         // access static fields directly
@@ -40,7 +40,7 @@ public final class TestProperties {
                 prop.load(testPropStream);
             }
 
-            IS_GODMODE_ENABLED = Boolean.parseBoolean(prop.getProperty("test.godmode.enabled", "false"));
+            IS_SNAPSHOT_UPDATE = Boolean.parseBoolean(prop.getProperty("test.snapshot.update", "false"));
 
             PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
 

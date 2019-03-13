@@ -14,6 +14,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  Courses,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestions,
@@ -37,7 +38,6 @@ import {
   SessionEditFormModel,
   TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
-import { Courses } from '../../course';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
@@ -205,7 +205,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
-    this.httpRequestService.get('/courses').subscribe((courses: Courses) => {
+    this.httpRequestService.get('/courses', {
+      entitytype: 'instructor',
+      coursestatus: 'active',
+    }).subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.modalService.open(CopySessionModalComponent);
       modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
       modalRef.componentInstance.courseCandidates = courses.courses;
