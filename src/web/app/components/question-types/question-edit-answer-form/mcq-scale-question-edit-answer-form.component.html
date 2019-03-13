@@ -1,10 +1,21 @@
 <tr>
   <td>
-    <div class="radio">
+    <div class="radio" *ngFor="let num of questionDetails.mcqChoices; let i = index;">
       <label class="margin-right-15px">
-        <input type="radio" class="margin-right-15px">
-         <strong>Random Text</strong>
+        <input type="radio" class="margin-right-15px" name="check_{{ id }}" [checked]="isMcqOptionSelected[i]"
+        (click)="updateSelectedMcqOption(i)">
+         <strong>{{ questionDetails.mcqChoices[i] }}</strong>
       </label>
+    </div>
+    <div class="radio" *ngIf="questionDetails.otherEnabled">
+      <label class="margin-right-15px">
+        <input type="radio" class="margin-right-15px" name="check_{{ id }}" [checked]="responseDetails.isOther"
+        (click)="updateIsOtherOption()">
+        <strong>Random Text Other</strong>
+      </label>
+      <input class="form-control" type="text" [disabled]="!responseDetails.isOther"
+             [(ngModel)]="responseDetails.otherFieldContent" #otherText
+             (blur)="updateOtherOptionText(otherText.value)">
     </div>
   </td>
 </tr>
