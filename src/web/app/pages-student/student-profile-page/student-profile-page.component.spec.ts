@@ -9,6 +9,7 @@ import { TeammatesCommonModule } from '../../components/teammates-common/teammat
 import { StudentProfilePageComponent } from './student-profile-page.component';
 import {Gender} from "../../../types/gender";
 import { FormGroup } from '@angular/forms';
+import {environment} from "../../../environments/environment.prod";
 
 describe('StudentProfilePageComponent', () => {
   let component: StudentProfilePageComponent;
@@ -87,6 +88,37 @@ describe('StudentProfilePageComponent', () => {
       requestId: '12',
     };
     component.student = studentDetails;
+    component.editForm = new FormGroup({
+      studentshortname: new FormControl('Ash'),
+      studentprofileemail: new FormControl('ayush@nus.com'),
+      studentprofileinstitute: new FormControl('NUS'),
+      studentnationality: new FormControl('Indian'),
+      existingNationality: new FormControl('Indian'),
+      studentgender: new FormControl(Gender.MALE),
+      studentprofilemoreinfo: new FormControl(''),
+    });
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it ('should snap with a profile photo', () => {
+     const studentDetails: any = {
+      studentProfile: {
+        shortName: 'Ash',
+        email: 'ayush@nus.com',
+        institute: 'NUS',
+        nationality: 'Indian',
+        gender: Gender.MALE,
+        moreInfo: '',
+        pictureKey: 'photo.jpg',
+      },
+      name: 'Ayush',
+      requestId: '16',
+
+    };
+    component.student = studentDetails;
+    component.pictureKey = 'photo.jpg';
+    component.profilePicLink = `${environment.backendUrl}/webapi/students/profilePic?blob-key=$photo.jpg&time=1552509888215`;
     component.editForm = new FormGroup({
       studentshortname: new FormControl('Ash'),
       studentprofileemail: new FormControl('ayush@nus.com'),
