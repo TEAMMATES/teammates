@@ -57,6 +57,7 @@
     "jsonlint-cli": "^1.0.1",
     "lintspaces-cli": "^0.6.1",
     "move-cli": "^1.2.0",
+    "node-sass": "^4.11.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.2",
     "stylelint": "^9.9.0",

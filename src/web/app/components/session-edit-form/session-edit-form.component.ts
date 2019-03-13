@@ -204,10 +204,10 @@ export class SessionEditFormComponent implements OnInit {
   /**
    * Handles cancel button click event.
    */
-  cancelHandler(): void {
-    if (this.formMode === SessionEditFormMode.EDIT) {
+  cancelHandler(modal: any): void {
+    this.modalService.open(modal).result.then(() => {
       this.cancelExistingSessionEvent.emit();
-    }
+    }, () => {});
   }
 
   /**
