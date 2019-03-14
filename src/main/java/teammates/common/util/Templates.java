@@ -49,9 +49,9 @@ public final class Templates {
         public static final String USER_FEEDBACK_SUBMISSION_CONFIRMATION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSubmissionConfirmation.html");
         public static final String FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION =
-                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-feedbackSessionAccessLinks.html");
+                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-sessionAccessLinksBySession.html");
         public static final String FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE =
-                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-courseSessionsAccessLinks.html");
+                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-sessionAccessLinksByCourse.html");
         public static final String SESSION_LINKS_RECOVERY_ACCESS_LINKS =
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-feedbackSessionAccessLinks.html");
         public static final String SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE =

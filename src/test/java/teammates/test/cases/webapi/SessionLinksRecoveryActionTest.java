@@ -4,7 +4,6 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -44,31 +43,30 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
     @Override
     public void beforeTestMethodSetup() {
         // change start time of one feedback session in the data bundle for the purpose of this testing.
-        DataBundle dataBundle = typicalBundle;
 
         // opened and unpublished.
         session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
-        dataBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
+        typicalBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
 
         // closed and unpublished
         session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
         session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session2InCourse3.resetDeletedTime();
-        dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
+        typicalBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
 
         // opened and published.
         session1InCourse1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
         session1InCourse1.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        dataBundle.feedbackSessions.put("session1InCourse1", session1InCourse1);
+        typicalBundle.feedbackSessions.put("session1InCourse1", session1InCourse1);
 
         // closed and published
-        session2InCourse1 = dataBundle.feedbackSessions.get("session2InCourse1");
+        session2InCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
         session2InCourse1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
         session2InCourse1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session2InCourse1.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        dataBundle.feedbackSessions.put("session2InCourse1", session2InCourse1);
+        typicalBundle.feedbackSessions.put("session2InCourse1", session2InCourse1);
 
-        removeAndRestoreDataBundle(dataBundle);
+        removeAndRestoreDataBundle(typicalBundle);
     }
 
     @Test
@@ -96,6 +94,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 
+        String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals("non-existent email address", emailSent.getRecipient());
@@ -103,11 +102,12 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml("non-existent email address"),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${teammateHomePageLink}", Config.APP_URL), emailSent.getContent());
+                "${teammateHomePageLink}", Config.APP_URL,
+                "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent());
     }
 
     @Test
-    protected void testExecute_noFeedbakcSessionsFound() {
+    protected void testExecute_noFeedbackSessionsFound() {
         StudentAttributes student1InCourse2 = typicalBundle.students.get("student1InCourse2");
         ______TS("Typical case: successfully sent recovery link email: No feedback sessions found");
 
@@ -129,10 +129,13 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse2.getEmail(), emailSent.getRecipient());
+        String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         assertEquals(Templates.populateTemplate(
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse2.getEmail()),
-                "${supportEmail}", Config.SUPPORT_EMAIL), emailSent.getContent());
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+                "${teammateHomePageLink}", Config.APP_URL,
+                "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent());
     }
 
     @Test
@@ -202,13 +205,15 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 "${sessionFragment}", linksFragmentValue.toString(),
                 "${courseName}", course3.getName());
 
+        String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         assertEquals(Templates.populateTemplate(
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getName()),
                 "${linksFragment}", courseBody,
                 "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getEmail()),
                 "${teammateHomePageLink}", Config.APP_URL,
-                "${supportEmail}", Config.SUPPORT_EMAIL), emailSent.getContent());
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+                "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent(), emailSent.getContent());
     }
 
     @Test
@@ -288,13 +293,15 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 "${sessionFragment}", linksFragmentValue.toString(),
                 "${courseName}", course1.getName());
 
+        String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         assertEquals(Templates.populateTemplate(
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getName()),
                 "${linksFragment}", courseBody,
                 "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getEmail()),
                 "${teammateHomePageLink}", Config.APP_URL,
-                "${supportEmail}", Config.SUPPORT_EMAIL), emailSent.getContent());
+                "${supportEmail}", Config.SUPPORT_EMAIL,
+                "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent());
     }
 
     @Override

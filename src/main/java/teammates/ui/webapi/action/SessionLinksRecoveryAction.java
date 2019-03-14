@@ -1,6 +1,7 @@
 package teammates.ui.webapi.action;
 
 import teammates.common.util.Const;
+import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.output.SessionLinksRecoveryResponseData;
@@ -26,10 +27,10 @@ public class SessionLinksRecoveryAction extends Action {
         String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL);
 
         EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmail(recoveryEmailAddress);
-        emailSender.sendEmail(email);
+        EmailSendingStatus status = emailSender.sendEmail(email);
 
         // Keep this status flag here for recaptcha
-        return new JsonResult(new SessionLinksRecoveryResponseData(true,
+        return new JsonResult(new SessionLinksRecoveryResponseData(status.isSuccess(),
                 "The recovery links for your feedback sessions have been sent to the "
                         + "specified email address: " + recoveryEmailAddress));
     }
