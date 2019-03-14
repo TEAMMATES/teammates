@@ -88,8 +88,8 @@ describe('StudentProfilePageComponent', () => {
     };
     component.student = studentDetails;
     component.pictureKey = 'photo.jpg';
-    component.profilePicLink = `${environment.backendUrl}/webapi/
-    students/profilePic?blob-key=$photo.jpg&time=1552509888215`;
+    component.profilePicLink = `${environment.backendUrl}/webapi/students/` +
+        'profilePic?blob-key=$photo.jpg&time=1552509888215';
     component.editForm = new FormGroup({
       studentshortname: new FormControl('Ash'),
       studentprofileemail: new FormControl('ayush@nus.com'),
