@@ -32,7 +32,7 @@ export class McqFieldComponent {
   constructor(private statusMessageService: StatusMessageService) {}
 
   /**
-   * Deletes a Mcq.
+   * Deletes a Mcq option.
    */
   deleteMcqOption(): void {
     if (this.numberOfMcqChoices > 2) {
@@ -43,7 +43,7 @@ export class McqFieldComponent {
   }
 
   /**
-   * When user enters an mcq, emit the change to parent component.
+   * When user enters an Mcq option text, emit the change to parent component.
    */
   onMcqOptionEntered(text: string): void {
     this.mcqText.emit(text);

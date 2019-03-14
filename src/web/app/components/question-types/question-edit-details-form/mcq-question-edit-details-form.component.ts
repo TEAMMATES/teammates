@@ -8,7 +8,7 @@ import {
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
- * Question details edit form component for mcq scale question.
+ * Question details edit form component for Mcq question.
  */
 @Component({
   selector: 'tm-mcq-question-edit-details-form',
@@ -37,7 +37,7 @@ export class McqQuestionEditDetailsFormComponent
   }
 
   /**
-   * Reorders the list on dragging the Mcqs.
+   * Reorders the list on dragging the Mcq options.
    */
   onMcqOptionDropped(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.model.mcqChoices, event.previousIndex, event.currentIndex);
@@ -56,7 +56,7 @@ export class McqQuestionEditDetailsFormComponent
   }
 
   /**
-   * Deletes a Mcq.
+   * Deletes a Mcq option.
    */
   onMcqOptionDeleted(event: number): void {
     this.model.numOfMcqChoices -= 1;
@@ -67,14 +67,14 @@ export class McqQuestionEditDetailsFormComponent
   }
 
   /**
-   * Displays new mcq at specified index.
+   * Displays new Mcq option at specified index.
    */
   onMcqOptionEntered(event: string, index: number): void {
     this.model.mcqChoices[index] = event;
   }
 
   /**
-   * Displays new mcq weight at specified index.
+   * Displays new Mcq weight at specified index.
    */
   onMcqWeightEntered(event: number, index: number): void {
     this.model.mcqWeights[index] = event;
@@ -83,19 +83,19 @@ export class McqQuestionEditDetailsFormComponent
   /**
    * Tracks the Mcq option by index.
    */
-  trackMcqOption(_index: number, item: string[]): string {
-    return item[_index];
+  trackMcqOption(index: number, item: string[]): string {
+    return item[index];
   }
 
   /**
    * Tracks the Mcq weight by index.
    */
-  trackMcqWeight(_index: number, item: number[]): number {
-    return item[_index];
+  trackMcqWeight(index: number, item: number[]): number {
+    return item[index];
   }
 
   /**
-   * Triggers the display of the weight column for the Mcq options according if weights option is checked/unchecked.
+   * Triggers the display of the weight column for the Mcq options if weights option is checked/unchecked.
    */
   triggerWeightsColumn(event: any): void {
     if (!event.target.checked) {
@@ -127,7 +127,7 @@ export class McqQuestionEditDetailsFormComponent
   }
 
   /**
-   * Checks if the generated Options for option is enabled.
+   * Checks if the generatedOptionsFor checkbox is enabled.
    */
   get isGeneratedOptionsEnabled(): boolean {
     return this.model.generateOptionsFor !== FeedbackParticipantType.NONE;

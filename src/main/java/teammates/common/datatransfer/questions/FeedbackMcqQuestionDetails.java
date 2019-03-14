@@ -565,18 +565,16 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                         + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
             }
 
-            // If there are Empty Mcq options entered, at least two of the Mcq options must be filled, given that the
-            // total number of Mcq options satisfy the minimum requirement
-            int numberOfMcqOptionsFilled = 0;
+            // If there are Empty Mcq options entered trigger this error
+            boolean isEmptyMcqOptionEntered = false;
             for (String mcqText : mcqChoices) {
-                if (!mcqText.trim().equals("")) {
-                    numberOfMcqOptionsFilled++;
+                if (mcqText.trim().equals("")) {
+                    isEmptyMcqOptionEntered = true;
+                    break;
                 }
             }
-            if (numberOfMcqOptionsFilled < Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES
-                    && numOfMcqChoices >= Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES) {
-                errors.add(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
-                        + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
+            if (isEmptyMcqOptionEntered) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_EMPTY_MCQ_OPTION);
             }
 
             // If weights are enabled, number of choices and weights should be same.

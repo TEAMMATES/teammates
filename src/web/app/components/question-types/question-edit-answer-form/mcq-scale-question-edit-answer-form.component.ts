@@ -8,7 +8,7 @@ import { DEFAULT_MCQ_QUESTION_DETAILS, DEFAULT_MCQ_RESPONSE_DETAILS } from '../.
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
- * The MCQ question submission form for a recipient.
+ * The Mcq question submission form for a recipient.
  */
 @Component({
   selector: 'tm-mcq-scale-question-edit-answer-form',
@@ -29,7 +29,7 @@ export class McqScaleQuestionEditAnswerFormComponent
   }
 
   ngOnInit(): void {
-    if (this.responseDetails.answer !== '') {
+    if (this.responseDetails.answer !== '' && !this.responseDetails.isOther) {
       const indexOfAnswerInPreviousSubmission: number =
           this.questionDetails.mcqChoices.indexOf(this.responseDetails.answer);
       this.isMcqOptionSelected[indexOfAnswerInPreviousSubmission] = true;
@@ -38,14 +38,15 @@ export class McqScaleQuestionEditAnswerFormComponent
   }
 
   /**
-   * Updates the other option box when clicked.
+   * Updates the other option radio box when clicked.
    */
   updateIsOtherOption(): void {
     this.responseDetails.isOther = !this.responseDetails.isOther;
+    this.isMcqOptionSelected[this.indexOfPreviousOptionSelected] = false;
     if (!this.responseDetails.isOther) {
       this.responseDetails.otherFieldContent = '';
     } else {
-      this.responseDetails.answer = '';
+      this.responseDetails.answer = ' ';
     }
   }
 
@@ -57,7 +58,7 @@ export class McqScaleQuestionEditAnswerFormComponent
   }
 
   /**
-   * Updates the answer to Mcq option specified by the index.
+   * Updates the answer to the Mcq option specified by the index.
    */
   updateSelectedMcqOption(index: number): void {
     this.responseDetails.isOther = false;
