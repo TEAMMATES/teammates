@@ -46,7 +46,7 @@ export class McqScaleQuestionEditAnswerFormComponent
     if (!this.responseDetails.isOther) {
       this.responseDetails.otherFieldContent = '';
     } else {
-      this.responseDetails.answer = ' ';
+      this.responseDetails.answer = '';
     }
   }
 

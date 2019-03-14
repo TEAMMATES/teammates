@@ -74,7 +74,7 @@ export class FeedbackResponsesService {
         return numScaleDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
       case FeedbackQuestionType.MCQ:
         const mcqDetails: FeedbackMcqResponseDetails = details as FeedbackMcqResponseDetails;
-        return mcqDetails.answer.length === 0 && mcqDetails.otherFieldContent.length === 0;
+        return mcqDetails.answer.length === 0 && !mcqDetails.isOther;
       default:
         return true;
     }
