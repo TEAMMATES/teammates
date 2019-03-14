@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
+<tm-student-course-details-page
+  Gender={[Function Object]}
+  backendUrl={[Function String]}
+  httpRequestService={[Function HttpRequestService]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  user="undefined"
+>
+  
+</tm-student-course-details-page>
+`;
