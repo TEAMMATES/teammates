@@ -17,6 +17,7 @@ import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SessionLinksRecoveryAction;
+import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.output.SessionLinksRecoveryResponseData;
 
 /**
@@ -77,11 +78,26 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
     }
 
     @Test
+    protected void testExecute_invalidEmail_shouldFail() {
+        ______TS("email address is not valid");
+        String[] nonExistingParam = new String[] {
+                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "invalid-email-address",
+        };
+
+        SessionLinksRecoveryAction a = getAction(nonExistingParam);
+        JsonResult result = getJsonResult(a);
+        MessageOutput output = (MessageOutput) result.getOutput();
+
+        assertEquals("invalid email address", output.getMessage());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+    }
+
+    @Test
     protected void testExecute_nonExistingEmail() {
         ______TS("Typical case: non-existing email address");
 
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "non-existent email address",
+                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "non-existent@abc.com",
         };
 
         SessionLinksRecoveryAction a = getAction(nonExistingParam);
@@ -90,17 +106,17 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
 
         assertEquals("The recovery links for your feedback sessions have been sent to "
-                + "the specified email address: non-existent email address", output.getMessage());
+                + "the specified email address: non-existent@abc.com", output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyNumberOfEmailsSent(a, 1);
 
         String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
-        assertEquals("non-existent email address", emailSent.getRecipient());
+        assertEquals("non-existent@abc.com", emailSent.getRecipient());
         assertEquals(Templates.populateTemplate(
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
-                "${userEmail}", SanitizationHelper.sanitizeForHtml("non-existent email address"),
+                "${userEmail}", SanitizationHelper.sanitizeForHtml("non-existent@abc.com"),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${teammateHomePageLink}", Config.APP_URL,
                 "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent());
