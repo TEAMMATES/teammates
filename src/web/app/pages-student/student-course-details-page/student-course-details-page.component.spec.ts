@@ -32,7 +32,15 @@ describe('StudentCourseDetailsPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with default fields', () => {
+  it('should snap with a single course', () => {
+    const courseAttributes = {
+      createdAt: '1552509888215',
+      id: 'CS3281',
+      name: 'Thematic Systems',
+      timeZone: 'Asia/Singapore',
+    };
+    component.course = courseAttributes;
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 });
