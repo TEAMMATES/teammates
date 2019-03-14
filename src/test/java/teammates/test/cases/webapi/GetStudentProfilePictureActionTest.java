@@ -144,7 +144,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
     protected void testAccessControl() throws Exception {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
-        StudentAttributes student2InCourse2 = typicalBundle.students.get("student2InCourse2");
+        StudentAttributes student1InCourse3 = typicalBundle.students.get("student1InCourse3");
         StudentAttributes student5InCourse1 = typicalBundle.students.get("student5InCourse1");
 
         ______TS("Failure case: student can only view his own team in the course");
@@ -162,7 +162,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         //student from another course
         gaeSimulation.logoutUser();
-        loginAsStudent(student2InCourse2.googleId);
+        loginAsStudent(student1InCourse3.googleId);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
