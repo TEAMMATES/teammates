@@ -369,7 +369,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   cancelExistingSessionHandler(): void {
     this.sessionEditFormModel.isEditable = false;
-    this.loadFeedbackSession();
   }
 
   /**

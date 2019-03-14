@@ -75,6 +75,12 @@ export class SessionEditFormComponent implements OnInit {
   @Input()
   formMode: SessionEditFormMode = SessionEditFormMode.ADD;
 
+  //stores session data to revert to after clicking discard changes
+  @Input()
+  beforeEdit = {
+    instructions: ''
+  }
+
   // add mode specific
   @Input()
   courseCandidates: Course[] = [];
@@ -109,6 +115,9 @@ export class SessionEditFormComponent implements OnInit {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
+    if(!this.model.isEditable){
+      this.beforeEdit.instructions = this.model.instructions;
+    }
     this.modelChange.emit({
       ...this.model,
       [field]: data,
@@ -207,6 +216,10 @@ export class SessionEditFormComponent implements OnInit {
   cancelHandler(modal: any): void {
     this.modalService.open(modal).result.then(() => {
       this.cancelExistingSessionEvent.emit();
+      this.modelChange.emit({
+        ...this.model,
+        instructions: this.beforeEdit.instructions
+      });
     }, () => {});
   }
 
