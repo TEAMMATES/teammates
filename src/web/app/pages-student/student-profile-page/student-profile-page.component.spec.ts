@@ -80,7 +80,7 @@ describe('StudentProfilePageComponent', () => {
         institute: 'NUS',
         nationality: 'Indian',
         gender: Gender.MALE,
-        moreInfo: '',
+        moreInfo: 'I like to party',
         pictureKey: 'photo.jpg',
       },
       name: 'Ayush',
@@ -97,7 +97,7 @@ describe('StudentProfilePageComponent', () => {
       studentnationality: new FormControl('Indian'),
       existingNationality: new FormControl('Indian'),
       studentgender: new FormControl(Gender.MALE),
-      studentprofilemoreinfo: new FormControl(''),
+      studentprofilemoreinfo: new FormControl('I like to party'),
     });
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
