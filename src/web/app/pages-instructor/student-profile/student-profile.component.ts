@@ -25,13 +25,13 @@ export class StudentProfileComponent implements OnInit {
   }
 
   /**
-   * Construct the url for the profile picture from the given key.
+   * Construct the url for the profile picture from the profile.
    */
-  getPictureUrl(pictureKey: string): string {
+  getPictureUrl(pictureKey?: string): string {
     if (!pictureKey) {
       return '/assets/images/profile_picture_default.png';
     }
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
+    return `${this.backendUrl}/webapi/student/profilePic`;
   }
 
 }

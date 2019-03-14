@@ -8,12 +8,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentProfile } from '../student-profile/student-profile';
 import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
-
-interface StudentDetails {
-  studentProfile: StudentProfile;
-}
 
 /**
  * A table displaying a list of students from a course, with buttons to view/edit/delete students etc.
@@ -62,23 +57,17 @@ export class StudentListComponent implements OnInit {
    * Load the profile picture of a student
    */
   loadPhoto(student: StudentListStudentData): void {
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, studentemail: student.email };
-    this.httpRequestService.get('/courses/students/details', paramMap).subscribe((resp: StudentDetails) => {
-      student.photoUrl = resp.studentProfile ? this.getPictureUrl(resp.studentProfile.pictureKey)
-          : '/assets/images/profile_picture_default.png';
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(`Error retrieving student photo: ${resp.error.message}`);
-    });
-  }
+    const paramMap: { [key: string]: string } = {
+      courseid: this.courseId,
+      studentemail: student.email,
+    };
 
-  /**
-   * Construct the url for the profile picture from the given key.
-   */
-  getPictureUrl(pictureKey: string): string {
-    if (!pictureKey) {
-      return '/assets/images/profile_picture_default.png';
-    }
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
+    this.httpRequestService.get('/student/profilePic', paramMap)
+        .subscribe(() => {}, (resp: any) => {
+          student.photoUrl = (resp.status === 200)
+                ? `${this.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${student.email}`
+                : '/assets/images/profile_picture_default.png';
+        });
   }
 
   /**
