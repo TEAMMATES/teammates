@@ -75,11 +75,42 @@ export class SessionEditFormComponent implements OnInit {
   @Input()
   formMode: SessionEditFormMode = SessionEditFormMode.ADD;
 
-  //stores session data to revert to after clicking discard changes
+  // stores session data to revert to after clicking discard changes
   @Input()
-  beforeEdit = {
-    instructions: ''
-  }
+  beforeEditModel: SessionEditFormModel = {
+    courseId: '',
+    timeZone: 'UTC',
+    courseName: '',
+    feedbackSessionName: '',
+    instructions: '',
+
+    submissionStartTime: { hour: 0, minute: 0 },
+    submissionStartDate: { year: 0, month: 0, day: 0 },
+    submissionEndTime: { hour: 0, minute: 0 },
+    submissionEndDate: { year: 0, month: 0, day: 0 },
+    gracePeriod: 0,
+
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    customSessionVisibleTime: { hour: 0, minute: 0 },
+    customSessionVisibleDate: { year: 0, month: 0, day: 0 },
+
+    responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+    customResponseVisibleTime: { hour: 0, minute: 0 },
+    customResponseVisibleDate: { year: 0, month: 0, day: 0 },
+
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+
+    templateSessionName: '',
+
+    isSaving: false,
+    isEditable: true,
+    hasVisibleSettingsPanelExpanded: false,
+    hasEmailSettingsPanelExpanded: false,
+  };
 
   // add mode specific
   @Input()
@@ -115,8 +146,8 @@ export class SessionEditFormComponent implements OnInit {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
-    if(!this.model.isEditable){
-      this.beforeEdit.instructions = this.model.instructions;
+    if (!this.model.isEditable) {
+      this.beforeEditModel.instructions = this.model.instructions;
     }
     this.modelChange.emit({
       ...this.model,
@@ -211,14 +242,14 @@ export class SessionEditFormComponent implements OnInit {
   }
 
   /**
-   * Handles cancel button click event.
+   * Handles cancel button click event by updating instructions
    */
   cancelHandler(modal: any): void {
     this.modalService.open(modal).result.then(() => {
       this.cancelExistingSessionEvent.emit();
       this.modelChange.emit({
         ...this.model,
-        instructions: this.beforeEdit.instructions
+        instructions: this.beforeEditModel.instructions,
       });
     }, () => {});
   }
