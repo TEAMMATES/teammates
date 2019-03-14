@@ -7,7 +7,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.output.CourseData;
 
 /**
- * Get a course.
+ * Get a course for an instructor.
  */
 public class GetCourseAction extends Action {
 

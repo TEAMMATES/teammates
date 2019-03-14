@@ -29,6 +29,11 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     @Override
     protected void testExecute() throws Exception {
+        //See test cases below
+    }
+
+    @Test
+    protected void testExecute_typicalUsage_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes expectedCourse = logic.getCourse(instructor1OfCourse1.getCourseId());
 
@@ -82,10 +87,6 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        ______TS("must be logged in");
-
-        verifyInaccessibleWithoutLogin();
-
         ______TS("non-existent course");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
