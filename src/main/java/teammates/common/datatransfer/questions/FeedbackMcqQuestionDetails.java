@@ -612,13 +612,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                 if (otherEnabled && mcqOtherWeight < 0) {
                     errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
                 }
-
-                // If one of the mcq has a weight assigned but the mcq text is empty trigger this error
-                for (int i = 0; i < numOfMcqChoices; i++) {
-                    if (mcqChoices.get(i).trim().equals("") && (mcqWeights.get(i) >= 0)) {
-                        errors.add(Const.FeedbackQuestion.MCQ_ERROR_WEIGHT_ASSIGNED_TO_EMPTY_MCQ);
-                    }
-                }
             }
         }
         //TODO: check that mcq options do not repeat. needed?
