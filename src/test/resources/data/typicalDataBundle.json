@@ -700,8 +700,8 @@
       "section": "None"
     },
     "student2InCourse2": {
-      "googleId": "student2InCourse1",
-      "email": "student2InCourse1@gmail.tmt",
+      "googleId": "student2InCourse2",
+      "email": "student2InCourse2@gmail.tmt",
       "course": "idOfTypicalCourse2",
       "name": "student2 In Course2",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
