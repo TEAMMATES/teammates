@@ -85,7 +85,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
 
         ______TS("Typical case: picture upload and edit");
 
-        profilePage.fillProfilePic("src/e2e/resources/images/profile_pic.png");
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
         profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
 
