@@ -68,8 +68,9 @@ export class StudentProfilePageComponent implements OnInit {
     if (!pictureKey) {
       return '/assets/images/profile_picture_default.png';
     }
-    this.currentTime = (new Date()).getTime(); // forces image reload in HTML template
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}&time=${this.currentTime}`;
+    // this.currentTime = (new Date()).getTime(); // forces image reload in HTML template
+
+    return `${this.backendUrl}/webapi/student/profilePic`;
   }
 
   /**
@@ -183,7 +184,7 @@ export class StudentProfilePageComponent implements OnInit {
       user: this.user,
       googleid: this.id,
     };
-    this.httpRequestService.delete('/students/profilePic', paramMap)
+    this.httpRequestService.delete('/student/profilePic', paramMap)
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);

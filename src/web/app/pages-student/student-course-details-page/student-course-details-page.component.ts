@@ -108,11 +108,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   /**
    * Construct the url for the profile picture from the given key.
    */
-  getPictureUrl(pictureKey: string): string {
-    if (!pictureKey) {
+  getPictureUrl(pictureKey: string, email: string): string {
+    if (!pictureKey || !this.course) {
       return '/assets/images/profile_picture_default.png';
     }
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
+    return `${this.backendUrl}/webapi/student/profilePic?courseid=${this.course.id}&studentemail=${email}`;
   }
 
 }
