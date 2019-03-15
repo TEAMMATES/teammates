@@ -65,8 +65,7 @@ public class ActionFactory {
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
-        map(ResourceURIs.STUDENTS, DELETE,
-                DeleteStudentsAction.class);
+        map(ResourceURIs.STUDENTS, DELETE, DeleteStudentsAction.class);
 
         //STUDENT APIs
         map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
