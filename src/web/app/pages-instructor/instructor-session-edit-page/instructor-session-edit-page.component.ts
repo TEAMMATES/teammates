@@ -289,7 +289,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
-    
     this.feedbackSessionModels.set(feedbackSession.feedbackSessionName, feedbackSession);
 
     return model;
@@ -373,7 +372,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles canceling existing session event without saving changes.
    */
   cancelExistingSessionHandler(): void {
-    const feedbackSession: FeedbackSession = this.feedbackSessionModels.get(this.feedbackSessionName)!;
+    const feedbackSession: FeedbackSession =
+        // tslint:disable-next-line:no-non-null-assertion
+        this.feedbackSessionModels.get(this.feedbackSessionName)!;
     this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
   }
 
