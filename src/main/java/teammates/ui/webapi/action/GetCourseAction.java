@@ -3,11 +3,12 @@ package teammates.ui.webapi.action;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.CourseData;
 
 /**
- * Get a course for an instructor.
+ * Get a course for an instructor or student.
  */
 public class GetCourseAction extends Action {
 
@@ -18,11 +19,26 @@ public class GetCourseAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        if (!(userInfo.isInstructor || userInfo.isStudent)) {
+            throw new UnauthorizedAccessException("Student or instructor account is required to access this resource.");
+        }
+
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        gateKeeper.verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                logic.getCourse(courseId));
+        if (userInfo.isInstructor) {
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                    logic.getCourse(courseId));
+        }
+
+        if (userInfo.isStudent) {
+            if (!hasStudentJoinedCourse(courseId)) {
+                throw new UnauthorizedAccessException("The student is yet to join the course.");
+            }
+
+            CourseAttributes course = logic.getCourse(courseId);
+            gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.id), course);
+        }
     }
 
     @Override
@@ -33,5 +49,12 @@ public class GetCourseAction extends Action {
             return new JsonResult("No course with id: " + courseId, HttpStatus.SC_NOT_FOUND);
         }
         return new JsonResult(new CourseData(courseAttributes));
+    }
+
+    private boolean hasStudentJoinedCourse(String courseId) {
+        if (userInfo != null && userInfo.isStudent) {
+            return logic.getStudentForGoogleId(courseId, userInfo.id) != null;
+        }
+        return false;
     }
 }

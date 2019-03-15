@@ -97,15 +97,28 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
+
         verifyCannotAccess(submissionParams);
 
-        ______TS("only instructors of the same course can access");
+        ______TS("Inaccessible without being an instructor or student");
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseAttributes.getId(),
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForAdmin(submissionParams);
+
+        ______TS("instructors of the same course can access");
+
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        ______TS("students of the same course can access");
+
+        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
     }
 
 }
