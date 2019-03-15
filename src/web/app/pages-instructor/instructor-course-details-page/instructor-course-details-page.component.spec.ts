@@ -44,4 +44,8 @@ describe('InstructorCourseDetailsPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should snap with default fields', () => {
+    expect(fixture).toMatchSnapshot();
+  });
 });

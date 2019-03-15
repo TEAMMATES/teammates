@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
+<tm-instructor-course-details-page
+  clipboardService={[Function ClipboardService]}
+  courseService={[Function CourseService]}
+  courseStudentListAsCsv=""
+  httpRequestService={[Function HttpRequestService]}
+  instructors={[Function Array]}
+  isAjaxSuccess={[Function Boolean]}
+  loading="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sections={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  user="undefined"
+>
+  
+</tm-instructor-course-details-page>
+`;
