@@ -55,8 +55,8 @@ public class ActionFactory {
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
         map(ResourceURIs.COURSE_SECTIONS, GET, GetCourseSectionNamesAction.class);
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
-        map(ResourceURIs.INSTRUCTORS, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
+        map(ResourceURIs.INSTRUCTOR, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, POST, CreateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
@@ -115,7 +115,6 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
-        map(ResourceURIs.COURSE_DELETE_INSTRUCTOR, DELETE, DeleteInstructorInCourseAction.class);
         map(ResourceURIs.COURSE_ENROLL_SAVE, POST, PostCourseEnrollSaveAction.class);
         map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
