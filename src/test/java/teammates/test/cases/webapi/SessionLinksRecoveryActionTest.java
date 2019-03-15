@@ -37,7 +37,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
 
     @Override
     protected String getRequestMethod() {
-        return GET;
+        return POST;
     }
 
     @BeforeMethod
