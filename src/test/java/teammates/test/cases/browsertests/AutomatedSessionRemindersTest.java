@@ -60,25 +60,25 @@ public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
     @Test
     public void testFeedbackSessionOpeningReminders() {
         AppUrl openingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
-        loginAdminToPage(openingRemindersUrl, GenericAppPage.class);
+        loginAdminToPageOld(openingRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionClosingReminders() {
         AppUrl closingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
-        loginAdminToPage(closingRemindersUrl, GenericAppPage.class);
+        loginAdminToPageOld(closingRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionClosedReminders() {
         AppUrl closedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
-        loginAdminToPage(closedRemindersUrl, GenericAppPage.class);
+        loginAdminToPageOld(closedRemindersUrl, GenericAppPage.class);
     }
 
     @Test
     public void testFeedbackSessionPublishedReminders() {
         AppUrl publishedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
-        loginAdminToPage(publishedRemindersUrl, GenericAppPage.class);
+        loginAdminToPageOld(publishedRemindersUrl, GenericAppPage.class);
     }
 
 }

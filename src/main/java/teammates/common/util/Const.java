@@ -1,17 +1,16 @@
 package teammates.common.util;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.ui.webapi.output.InstructorPrivilegeData;
 
 /**
  * Stores constants that are widely used across classes.
@@ -64,12 +63,13 @@ public final class Const {
 
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
 
+    public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
+
     /*
      * These constants are used as variable values to mean that the variable
      * is in a 'special' state.
      */
     public static final int INT_UNINITIALIZED = -9999;
-    public static final double DOUBLE_UNINITIALIZED = -9999.0;
 
     public static final int MAX_POSSIBLE_RECIPIENTS = -100;
 
@@ -116,9 +116,6 @@ public final class Const {
          * Must be within the range of int */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
 
-        /** This is the limit given to Blobstore API, beyond which an ugly error page is shown. */
-        public static final long MAX_FILE_LIMIT_FOR_BLOBSTOREAPI = 11000000;
-
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
 
@@ -136,16 +133,11 @@ public final class Const {
         @Deprecated
         public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
                 Arrays.asList(
-                        ActionURIs.CREATE_IMAGE_UPLOAD_URL,
-                        ActionURIs.IMAGE_UPLOAD,
                         ActionURIs.INSTRUCTOR_COURSE_REMIND,
                         ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
                         ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
                         ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH,
-                        ActionURIs.STUDENT_PROFILE_CREATEUPLOADFORMURL,
-                        ActionURIs.STUDENT_PROFILE_PICTURE_EDIT,
-                        ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD));
+                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH));
 
     }
 
@@ -527,6 +519,9 @@ public final class Const {
                 "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
+
+        // Text Question
+        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
     }
 
     public static class FeedbackQuestionTypeNames {
@@ -580,6 +575,7 @@ public final class Const {
         public static final String COURSE_INDEX = "courseidx";
         public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
+        public static final String COURSE_STATUS = "coursestatus";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
@@ -851,6 +847,16 @@ public final class Const {
         public static final String COURSE_ID = "courseId";
     }
 
+    /**
+     * The course status respect to the instructor's point of view.
+     * This parameter is used to get a course list for instructor.
+     */
+    public static class CourseStatus {
+        public static final String ACTIVE = "active";
+        public static final String ARCHIVED = "archived";
+        public static final String SOFT_DELETED = "softDeleted";
+    }
+
     public static class EntityType {
 
         public static final String STUDENT = "student";
@@ -911,7 +917,9 @@ public final class Const {
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/course";
         public static final String STUDENT_PROFILE_PAGE = STUDENT_PAGE + "/profile";
+        public static final String STUDENT_SESSION_RESULTS_PAGE = STUDENT_PAGE + "/sessions/result";
 
+        public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
 
@@ -920,16 +928,22 @@ public final class Const {
     public static class ResourceURIs {
 
         public static final String URI_PREFIX = "/webapi";
+        public static final String LOGOUT = "/logout";
 
+        public static final String DATABUNDLE = "/databundle";
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
+        public static final String ACCOUNT = "/account";
         public static final String ACCOUNTS = "/accounts";
         public static final String ACCOUNTS_SEARCH = "/accounts/search";
-        public static final String ACCOUNTS_RESET = "/accounts/reset";
-        public static final String ACCOUNTS_DOWNGRADE = "/accounts/downgrade";
+        public static final String ACCOUNT_RESET = "/account/reset";
+        public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
         public static final String RESPONSE_COMMENT = "/responsecomment";
         public static final String COURSE = "/course";
+        public static final String COURSE_ARCHIVE = "/course/archive";
+        public static final String BIN_COURSE = "/bin/course";
+        public static final String COURSE_SECTIONS = "/course/sections";
         public static final String COURSES = "/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
@@ -937,7 +951,7 @@ public final class Const {
         public static final String RESULT = "/result";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
-        public static final String SESSIONS_ADMIN = "/sessions/admin";
+        public static final String SESSIONS_ONGOING = "/sessions/ongoing";
         public static final String SESSION = "/session";
         public static final String SESSION_PUBLISH = "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
@@ -953,22 +967,20 @@ public final class Const {
         public static final String RESPONSES = "/responses";
         public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
         public static final String JOIN = "/join";
+        public static final String JOIN_REMIND = "/join/remind";
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";
         public static final String NATIONALITIES = "/nationalities";
 
         public static final String INSTRUCTOR_HOME = "/instrutor/home";
         public static final String INSTRUCTOR_COURSES = "/instructor/courses";
-        public static final String INSTRUCTOR_COURSES_RESTORE = "/instructor/courses/restore";
         public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE = "/instructor/courses/permanentlyDelete";
         public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL = "/instructor/courses/permanentlyDeleteAll";
         public static final String INSTRUCTOR_COURSES_RESTORE_ALL = "/instructor/courses/restoreAll";
         public static final String COURSE_STATS = "/course/stats";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
-        public static final String INSTRUCTOR_COURSE_DETAILS_ALL_STUDENTS_CSV = "/courses/details/allStudentsCsv";
         public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";
-        public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/courses/edit";
 
         public static final String INSTRUCTOR_STUDENTS_COURSES = "/instructor/students/courses";
         public static final String INSTRUCTOR_STUDENTS = "/instructor/students";
@@ -977,17 +989,16 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSES = "/student/courses";
+        public static final String STUDENTS_CSV = "/students/csv";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
 
         public static final String COURSE_STUDENT_DETAILS_EDIT = "/courses/students/details/edit";
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
         public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
-        public static final String COURSE_EDIT_DETAILS_SAVE = "/instructors/course/details/save";
-        public static final String COURSE_DELETE = "/instructors/course/delete";
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
         public static final String COURSE_DELETE_INSTRUCTOR = "/instructors/course/details/deleteInstructor";
-        public static final String COURSE_SEND_REMINDER_EMAILS = "/instructors/course/details/sendReminders";
+
         public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
         public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
         public static final String STUDENT_RECORDS = "/students/records";
@@ -998,8 +1009,6 @@ public final class Const {
     public static class ActionURIs {
 
         /* _PAGE/Page in the Action URI name means 'show page' */
-
-        public static final String LOGOUT = "/logout";
 
         public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
         public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
@@ -1014,14 +1023,7 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
 
-        public static final String CREATE_IMAGE_UPLOAD_URL = "/page/createImageUploadUrl";
-        public static final String IMAGE_UPLOAD = "/page/imageUpload";
-
-        public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
-        public static final String STUDENT_PROFILE_PICTURE_UPLOAD = "/page/studentProfilePictureUpload";
-        public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
-        public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
 
         public static final String PUBLIC_IMAGE_SERVE = "/public/publicImageServe";
 
@@ -1099,8 +1101,6 @@ public final class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp";
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
-
-        public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
 
         public static final String MASHUP = "/test/mashup.jsp";
         public static final String TABLE_SORT = "/test/tableSort.jsp";
@@ -1422,6 +1422,9 @@ public final class Const {
 
         // HTTP parameter null message
         public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
+
+        // body parameter null message
+        public static final String NULL_BODY_PARAMETER = "The body parameter is null";
     }
 
     /**
@@ -1454,74 +1457,6 @@ public final class Const {
 
         public static final String MESSAGE_ERROR_ACTION_NAME = "Error when getting ActionName for requestUrl : %1$s";
         public static final String MESSAGE_ERROR_LOG_MESSAGE_FORMAT = "Log message format not as expected: %1$s";
-    }
-
-    public static class InstructorPrivilegesMap {
-        public static final Map<String, InstructorPrivilegeData> INSTRUCTOR_PRIVILEGES = new HashMap<>();
-
-        static {
-            InstructorPrivilegeData coOwnerPrivilegeData = new InstructorPrivilegeData();
-            InstructorPrivilegeData managerPrivilegeData = new InstructorPrivilegeData();
-            InstructorPrivilegeData observerPrivilegeData = new InstructorPrivilegeData();
-            InstructorPrivilegeData tutorPrivilegeData = new InstructorPrivilegeData();
-            InstructorPrivilegeData customPrivilegeData = new InstructorPrivilegeData();
-
-            coOwnerPrivilegeData.setCanModifyCourse(true);
-            coOwnerPrivilegeData.setCanModifyInstructor(true);
-            coOwnerPrivilegeData.setCanModifySession(true);
-            coOwnerPrivilegeData.setCanModifyStudent(true);
-            coOwnerPrivilegeData.setCanViewStudentInSections(true);
-            coOwnerPrivilegeData.setCanViewSessionInSections(true);
-            coOwnerPrivilegeData.setCanSubmitSessionInSections(true);
-            coOwnerPrivilegeData.setCanModifySessionCommentsInSections(true);
-
-            managerPrivilegeData.setCanModifyCourse(false);
-            managerPrivilegeData.setCanModifyInstructor(true);
-            managerPrivilegeData.setCanModifySession(true);
-            managerPrivilegeData.setCanModifyStudent(true);
-            managerPrivilegeData.setCanViewStudentInSections(true);
-            managerPrivilegeData.setCanViewSessionInSections(true);
-            managerPrivilegeData.setCanSubmitSessionInSections(true);
-            managerPrivilegeData.setCanModifySessionCommentsInSections(true);
-
-            observerPrivilegeData.setCanModifyCourse(false);
-            observerPrivilegeData.setCanModifyInstructor(false);
-            observerPrivilegeData.setCanModifySession(false);
-            observerPrivilegeData.setCanModifyStudent(false);
-            observerPrivilegeData.setCanViewStudentInSections(true);
-            observerPrivilegeData.setCanViewSessionInSections(true);
-            observerPrivilegeData.setCanSubmitSessionInSections(false);
-            observerPrivilegeData.setCanModifySessionCommentsInSections(false);
-
-            tutorPrivilegeData.setCanModifyCourse(false);
-            tutorPrivilegeData.setCanModifyInstructor(false);
-            tutorPrivilegeData.setCanModifySession(false);
-            tutorPrivilegeData.setCanModifyStudent(false);
-            tutorPrivilegeData.setCanViewStudentInSections(true);
-            tutorPrivilegeData.setCanViewSessionInSections(true);
-            tutorPrivilegeData.setCanSubmitSessionInSections(true);
-            tutorPrivilegeData.setCanModifySessionCommentsInSections(false);
-
-            customPrivilegeData.setCanModifyCourse(false);
-            customPrivilegeData.setCanModifyInstructor(false);
-            customPrivilegeData.setCanModifySession(false);
-            customPrivilegeData.setCanModifyStudent(false);
-            customPrivilegeData.setCanViewStudentInSections(false);
-            customPrivilegeData.setCanViewSessionInSections(false);
-            customPrivilegeData.setCanSubmitSessionInSections(false);
-            customPrivilegeData.setCanModifySessionCommentsInSections(false);
-
-            INSTRUCTOR_PRIVILEGES.put(
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, coOwnerPrivilegeData);
-            INSTRUCTOR_PRIVILEGES.put(
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, managerPrivilegeData);
-            INSTRUCTOR_PRIVILEGES.put(
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, observerPrivilegeData);
-            INSTRUCTOR_PRIVILEGES.put(
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, tutorPrivilegeData);
-            INSTRUCTOR_PRIVILEGES.put(
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, customPrivilegeData);
-        }
     }
 
 }

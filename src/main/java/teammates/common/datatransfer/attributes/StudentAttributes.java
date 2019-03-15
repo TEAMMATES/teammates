@@ -176,24 +176,23 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         Assumption.assertNotNull(team);
         Assumption.assertNotNull(comments);
 
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
         if (isRegistered()) {
-            addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseId(course), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(course), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForTeamName(team), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTeamName(team), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForSectionName(section), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForSectionName(section), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForStudentRoleComments(comments), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForStudentRoleComments(comments), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
 
         return errors;
     }

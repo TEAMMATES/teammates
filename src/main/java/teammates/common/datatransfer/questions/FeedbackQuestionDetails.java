@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,11 +11,9 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 /**
  * A class holding the details for a specific question type.
@@ -55,9 +52,6 @@ public abstract class FeedbackQuestionDetails {
 
     @Deprecated
     public abstract String getNewQuestionSpecificEditFormHtml();
-
-    @Deprecated
-    public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
 
     @Deprecated
     public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
@@ -200,27 +194,8 @@ public abstract class FeedbackQuestionDetails {
     public abstract boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                                    FeedbackQuestionType questionType);
 
-    public static FeedbackQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters,
-                                                                FeedbackQuestionType questionType) {
-        String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                                     Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
-        Assumption.assertNotNull("Null question text", questionText);
-        Assumption.assertNotEmpty("Empty question text", questionText);
-
-        return questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters);
-    }
-
     // The following function handle the display of rows between possible givers
     // and recipients who did not respond to a question in feedback sessions
-
-    @Deprecated
-    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
-                                          FeedbackSessionResultsBundle bundle,
-                                          FeedbackQuestionAttributes question) {
-        return "<i>"
-               + SanitizationHelper.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
-               + "</i>";
-    }
 
     /**
      * Returns true if 'No Response' is to be displayed in the Response rows.
@@ -267,12 +242,6 @@ public abstract class FeedbackQuestionDetails {
         }
         return Arrays.stream(answers).noneMatch(answer -> answer != null && !answer.trim().isEmpty());
     }
-
-    public boolean isQuestionSpecificSortingRequired() {
-        return getResponseRowsSortOrder() != null;
-    }
-
-    public abstract Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder();
 
     public FeedbackQuestionType getQuestionType() {
         return questionType;

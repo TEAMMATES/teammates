@@ -1,0 +1,23 @@
+<div class="card border-{{ isSelfResponses ? 'info' : 'primary' }}" style="margin-top: 20px;">
+  <div class="card-header bg-{{ isSelfResponses ? 'info' : 'primary' }} text-white">
+    <b>To:</b> {{ recipient }}
+  </div>
+  <div class="card-body" style="padding: 0;">
+    <table class="table">
+      <tbody>
+        <ng-container *ngFor="let response of responses">
+          <tr>
+            <td>
+              <strong>From:</strong> {{ response.giver }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails" [isStudentPage]="true"></tm-single-response>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

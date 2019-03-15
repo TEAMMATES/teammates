@@ -466,6 +466,20 @@
                     </deny>
                 </access-rule>
             </ruleset>
+            <ruleset name="Blobstore API and data types can only be accessed via GoogleCloudStorageHelper and entity classes">
+                <access-rule>
+                    <deny>
+                        <to class="com.google.appengine.api.blobstore.**" />
+                        <allow>
+                            <from class="${common}.util.GoogleCloudStorageHelper" />
+                        </allow>
+                        <allow>
+                            <from class="${storage}.entity.**" />
+                            <to class="com.google.appengine.api.blobstore.BlobKey" />
+                        </allow>
+                    </deny>
+                </access-rule>
+            </ruleset>
             <ruleset name="Task Queue API can only be accessed via TaskQueuesLogic">
                 <access-rule>
                     <deny>
@@ -522,6 +536,7 @@
                         <allow>
                             <from>
                                 <include class="${common}.util.ActivityLogEntry" />
+                                <include class="${common}.util.GoogleCloudStorageHelper" />
                                 <include class="${common}.util.HttpRequestHelper" />
                                 <include class="${storage}.api.OfyHelper" />
                                 <include class="${ui}.automated.**" />
@@ -532,6 +547,7 @@
                                 <include class="${test}.driver.MockHttpServletRequest" />
                                 <include class="${test}.driver.MockHttpServletRequest$**" />
                                 <include class="${test}.driver.MockHttpServletResponse" />
+                                <include class="${test}.driver.MockPart" />
                             </from>
                         </allow>
                     </deny>
@@ -564,6 +580,7 @@
                                 <include class="${test}.driver.AssertHelper" />
                                 <include class="${test}.driver.CsvChecker" />
                                 <include class="${test}.driver.EmailChecker" />
+                                <include class="${e2e}.pageobjects.**" />
                                 <include class="${e2e}.util.HtmlHelper" />
                             </from>
                         </allow>

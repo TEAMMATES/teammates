@@ -20,12 +20,12 @@
       </ng-template>
     </ul>
     <ul class="nav navbar-nav mr-auto" *ngIf="!isValidUser"></ul>
-    <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo">
+    <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo && !isFetchingAuthDetails">
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="!user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
         <div class="dropdown-menu" ngbDropdownMenu>
-          <a class="dropdown-item" [href]="studentLoginUrl">Student Login</a>
-          <a class="dropdown-item" [href]="instructorLoginUrl">Instructor Login</a>
+          <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
+          <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
         </div>
       </li>
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
@@ -35,13 +35,14 @@
           <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor">To instructor pages</a>
           <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin">To admin pages</a>
           <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
-          <a class="dropdown-item" [href]="logoutUrl">Log Out</a>
+          <a class="dropdown-item" id="logout-btn" [href]="logoutUrl">Log Out</a>
         </div>
       </li>
     </ul>
   </div>
 </nav>
-<div id="main-content" class="container main-content">
+<tm-loading-spinner *ngIf="isFetchingAuthDetails"></tm-loading-spinner>
+<div *ngIf="!isFetchingAuthDetails" id="main-content" class="container main-content">
   <div *ngIf="isUnsupportedBrowser">
     <div class="alert alert-danger" role="alert">
       <i class="fas fa-exclamation-circle"></i>&nbsp;You are currently using {{ browser }}. This web browser is not officially supported by TEAMMATES.

@@ -21,7 +21,7 @@ public class TableSortTest extends BaseE2ETestCase {
 
     @BeforeClass
     public void classSetup() {
-        loginAdmin();
+        // loginAdmin();
         page = AppPage.getNewPageInstance(browser).navigateTo(createUrl(Const.ViewURIs.TABLE_SORT));
     }
 

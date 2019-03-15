@@ -7,7 +7,6 @@ import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -31,7 +30,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.EmailChecker;
-import teammates.test.driver.TestProperties;
 
 /**
  * SUT: {@link EmailGenerator}.
@@ -47,18 +45,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
     public void prepareTestData() {
         dataBundle = loadDataBundle("/EmailGeneratorTest.json");
         removeAndRestoreDataBundle(dataBundle);
-    }
-
-    /**
-     * Reminder to disable GodMode and re-run the test.
-     */
-    @AfterSuite
-    public static void remindUserToDisableGodModeIfRequired() {
-        if (TestProperties.IS_GODMODE_ENABLED) {
-            print("==========================================================");
-            print("IMPORTANT: Remember to disable GodMode and rerun the test!");
-            print("==========================================================");
-        }
     }
 
     @Test

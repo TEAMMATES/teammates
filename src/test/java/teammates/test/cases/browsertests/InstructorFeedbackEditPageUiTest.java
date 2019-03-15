@@ -22,8 +22,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -1222,7 +1222,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName)
                                     .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPageOfCourseWithoutQuestions() {
@@ -1235,7 +1235,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions)
                                     .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPageOfSessionIndDstCourse() {
@@ -1244,7 +1244,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                 .withCourseId(testData.courses.get("courseWithDstTimeZone").getId())
                 .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName())
                 .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
 }
