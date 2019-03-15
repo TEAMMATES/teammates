@@ -15,6 +15,11 @@ class StudentListStubComponent {
 @Component({ selector: 'tm-ajax-preload', template: '' })
 class AjaxPreloadComponent {}
 
+const course: any = {
+  id: 'CS101',
+  name: 'Introduction to CS',
+};
+
 describe('InstructorCourseDetailsPageComponent', () => {
   let component: InstructorCourseDetailsPageComponent;
   let fixture: ComponentFixture<InstructorCourseDetailsPageComponent>;
@@ -46,6 +51,32 @@ describe('InstructorCourseDetailsPageComponent', () => {
   });
 
   it('should snap with default fields', () => {
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with a course with one co-owner and no students', () => {
+    const stats: any = {
+      sectionsTotal: 0,
+      teamsTotal: 0,
+      studentsTotal: 0,
+    };
+    const coOwner: any = {
+      googleId: 'Hodor',
+      name: 'Hodor',
+      email: 'hodor@gmail.com',
+      key: 'hodor@gmail.com%CS1012345',
+      role: 'Co-owner',
+      displayedName: 'Hodor',
+      isArchived: false,
+      isDisplayedToStudents: true,
+    };
+    const courseDetails: any = {
+      course,
+      stats,
+    };
+    component.courseDetails = courseDetails;
+    component.instructors = [coOwner];
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 });

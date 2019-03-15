@@ -17,9 +17,9 @@ interface CourseAttributes {
 }
 
 interface CourseStats {
-  sectionsTotal: string;
-  teamsTotal: string;
-  studentsTotal: string;
+  sectionsTotal: number;
+  teamsTotal: number;
+  studentsTotal: number;
 }
 
 interface CourseDetailsBundle {
