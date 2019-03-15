@@ -67,42 +67,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
         Add New Course
       </a>
     </div>
-    <div
-      class="col-8"
-    >
-      <div
-        class="float-right"
-      >
-        <h5
-          class="d-inline"
-        >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
-        <div
-          class="btn-group"
-          data-toggle="buttons"
-        >
-          <button
-            class="btn btn-light"
-          >
-            Course ID
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Course Name
-          </button>
-          <button
-            class="btn btn-light"
-            disabled=""
-          >
-            Creation Date
-          </button>
-        </div>
-      </div>
-    </div>
+    
   </div> New to TEAMMATES? You may wish to have a look at our <a
     href="/web/front/help/instructor"
     ng-reflect-router-link="/web/front/help/instructor"
@@ -187,6 +152,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         Add New Course
       </a>
     </div>
+    
     <div
       class="col-8"
     >
@@ -431,6 +397,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         Add New Course
       </a>
     </div>
+    
     <div
       class="col-8"
     >
@@ -994,6 +961,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         Add New Course
       </a>
     </div>
+    
     <div
       class="col-8"
     >
@@ -1704,6 +1672,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         Add New Course
       </a>
     </div>
+    
     <div
       class="col-8"
     >
@@ -2001,6 +1970,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         Add New Course
       </a>
     </div>
+    
     <div
       class="col-8"
     >
@@ -2404,6 +2374,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         Add New Course
       </a>
     </div>
+    
     <div
       class="col-8"
     >
