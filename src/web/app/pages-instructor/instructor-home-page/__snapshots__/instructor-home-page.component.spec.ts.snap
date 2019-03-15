@@ -222,108 +222,12 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       <div
         class="card-body padding-0"
       >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
+        
+        <div
+          class="no-session-message"
         >
-          <div
-            class="row"
-          >
-            <div
-              class="col-12"
-            >
-              <table
-                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-              >
-                <thead>
-                  <tr
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Session Name 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Start Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       End Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    <th>
-                      Submissions
-                    </th>
-                    <th>
-                      Responses
-                    </th>
-                    <th
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Number of students submitted /"
-                      ngbtooltip="Number of students submitted / Class size"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Response Rate
-                      </span>
-                    </th>
-                    <th>
-                      Action(s)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </tm-sessions-table>
+           There are no feedback sessions in this course. 
+        </div>
       </div>
     </div>
   </div>
@@ -626,6 +530,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       <div
         class="card-body padding-0"
       >
+        
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
           ng-reflect-course-candidates="[object Object]"
@@ -1168,6 +1073,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       <div
         class="card-body padding-0"
       >
+        
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
           ng-reflect-course-candidates="[object Object]"
@@ -2199,108 +2105,12 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       <div
         class="card-body padding-0"
       >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
+        
+        <div
+          class="no-session-message"
         >
-          <div
-            class="row"
-          >
-            <div
-              class="col-12"
-            >
-              <table
-                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-              >
-                <thead>
-                  <tr
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Session Name 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Start Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       End Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    <th>
-                      Submissions
-                    </th>
-                    <th>
-                      Responses
-                    </th>
-                    <th
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Number of students submitted /"
-                      ngbtooltip="Number of students submitted / Class size"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Response Rate
-                      </span>
-                    </th>
-                    <th>
-                      Action(s)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </tm-sessions-table>
+           There are no feedback sessions in this course. 
+        </div>
       </div>
     </div>
   </div>
@@ -2603,108 +2413,12 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       <div
         class="card-body padding-0"
       >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
+        
+        <div
+          class="no-session-message"
         >
-          <div
-            class="row"
-          >
-            <div
-              class="col-12"
-            >
-              <table
-                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-              >
-                <thead>
-                  <tr
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Session Name 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Start Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       End Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    <th>
-                      Submissions
-                    </th>
-                    <th>
-                      Responses
-                    </th>
-                    <th
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Number of students submitted /"
-                      ngbtooltip="Number of students submitted / Class size"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Response Rate
-                      </span>
-                    </th>
-                    <th>
-                      Action(s)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </tm-sessions-table>
+           There are no feedback sessions in this course. 
+        </div>
       </div>
     </div>
   </div>

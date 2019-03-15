@@ -18,6 +18,12 @@
   A video tour is also available in our <a routerLink="/web">home page</a>.
 </ng-template>
 
+<ng-template #noSessionMessage>
+  <div class="no-session-message">
+    There are no feedback sessions in this course.
+  </div>
+</ng-template>
+
 <div class="row height-60px">
   <div class="col-4">
     <a routerLink="/web/instructor/courses" class="btn btn-primary text-white">Add New Course</a>
@@ -140,17 +146,17 @@
     </ng-template>
 
     <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
-      <tm-sessions-table [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
-                         [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
-                         [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE"
-                         [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
-                         (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
-                         (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
-                         (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
-                         (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
-                         (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
-                         (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(idx, $event)"
-                         (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(idx, $event)"></tm-sessions-table>
+      <tm-sessions-table *ngIf="courseTabModel.sessionsTableRowModels.length > 0; else noSessionMessage"
+          [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
+          [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
+          [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+          (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
+          (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
+          (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
+          (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
+          (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+          (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(idx, $event)"
+          (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(idx, $event)"></tm-sessions-table>
     </div>
   </div>
 </div>
