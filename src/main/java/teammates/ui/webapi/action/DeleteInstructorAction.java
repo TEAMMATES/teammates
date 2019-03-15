@@ -23,14 +23,16 @@ public class DeleteInstructorAction extends Action {
         //allow access to admins or instructor with modify permission
         if (userInfo.isAdmin) {
             return;
-        } else if (userInfo.isInstructor) {
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            gateKeeper.verifyAccessible(
-                    instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        } else {
+        }
+
+        if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Admin or Instructor privilege is required to access this resource.");
         }
+
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        gateKeeper.verifyAccessible(
+                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
     }
 
     @Override
