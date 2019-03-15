@@ -8,7 +8,13 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { FeedbackSession, FeedbackSessions, MessageOutput } from '../../../types/api-output';
+import {
+  Course,
+  Courses,
+  FeedbackSession,
+  FeedbackSessions,
+  MessageOutput,
+} from '../../../types/api-output';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -17,7 +23,6 @@ import {
   SortBy,
   SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
-import { Course, Courses } from '../../course';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { defaultInstructorPrivilege, InstructorPrivilege } from '../../instructor-privilege';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
@@ -145,7 +150,10 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   loadCourses(): void {
     this.courseTabModels = [];
-    this.httpRequestService.get('/courses').subscribe((courses: Courses) => {
+    this.httpRequestService.get('/courses', {
+      entitytype: 'instructor',
+      coursestatus: 'active',
+    }).subscribe((courses: Courses) => {
       courses.courses.forEach((course: Course) => {
         const model: CourseTabModel = {
           course,

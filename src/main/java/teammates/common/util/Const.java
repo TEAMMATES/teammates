@@ -575,6 +575,7 @@ public final class Const {
         public static final String COURSE_INDEX = "courseidx";
         public static final String COURSE_TIME_ZONE = "coursetimezone";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
+        public static final String COURSE_STATUS = "coursestatus";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
@@ -844,6 +845,16 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
         public static final String SEARCHABLE_TEXT = "searchableText";
         public static final String COURSE_ID = "courseId";
+    }
+
+    /**
+     * The course status respect to the instructor's point of view.
+     * This parameter is used to get a course list for instructor.
+     */
+    public static class CourseStatus {
+        public static final String ACTIVE = "active";
+        public static final String ARCHIVED = "archived";
+        public static final String SOFT_DELETED = "softDeleted";
     }
 
     public static class EntityType {
