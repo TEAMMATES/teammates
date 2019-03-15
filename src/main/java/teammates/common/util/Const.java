@@ -5,11 +5,13 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.ui.webapi.output.InstructorPrivilegeData;
 
 /**
  * Stores constants that are widely used across classes.
@@ -1452,6 +1454,74 @@ public final class Const {
 
         public static final String MESSAGE_ERROR_ACTION_NAME = "Error when getting ActionName for requestUrl : %1$s";
         public static final String MESSAGE_ERROR_LOG_MESSAGE_FORMAT = "Log message format not as expected: %1$s";
+    }
+
+    public static class InstructorPrivilegesMap {
+        public static final Map<String, InstructorPrivilegeData> INSTRUCTOR_PRIVILEGES = new HashMap<>();
+
+        static {
+            InstructorPrivilegeData coOwnerPrivilegeData = new InstructorPrivilegeData();
+            InstructorPrivilegeData managerPrivilegeData = new InstructorPrivilegeData();
+            InstructorPrivilegeData observerPrivilegeData = new InstructorPrivilegeData();
+            InstructorPrivilegeData tutorPrivilegeData = new InstructorPrivilegeData();
+            InstructorPrivilegeData customPrivilegeData = new InstructorPrivilegeData();
+
+            coOwnerPrivilegeData.setCanModifyCourse(true);
+            coOwnerPrivilegeData.setCanModifyInstructor(true);
+            coOwnerPrivilegeData.setCanModifySession(true);
+            coOwnerPrivilegeData.setCanModifyStudent(true);
+            coOwnerPrivilegeData.setCanViewStudentInSections(true);
+            coOwnerPrivilegeData.setCanViewSessionInSections(true);
+            coOwnerPrivilegeData.setCanSubmitSessionInSections(true);
+            coOwnerPrivilegeData.setCanModifySessionCommentsInSections(true);
+
+            managerPrivilegeData.setCanModifyCourse(false);
+            managerPrivilegeData.setCanModifyInstructor(true);
+            managerPrivilegeData.setCanModifySession(true);
+            managerPrivilegeData.setCanModifyStudent(true);
+            managerPrivilegeData.setCanViewStudentInSections(true);
+            managerPrivilegeData.setCanViewSessionInSections(true);
+            managerPrivilegeData.setCanSubmitSessionInSections(true);
+            managerPrivilegeData.setCanModifySessionCommentsInSections(true);
+
+            observerPrivilegeData.setCanModifyCourse(false);
+            observerPrivilegeData.setCanModifyInstructor(false);
+            observerPrivilegeData.setCanModifySession(false);
+            observerPrivilegeData.setCanModifyStudent(false);
+            observerPrivilegeData.setCanViewStudentInSections(true);
+            observerPrivilegeData.setCanViewSessionInSections(true);
+            observerPrivilegeData.setCanSubmitSessionInSections(false);
+            observerPrivilegeData.setCanModifySessionCommentsInSections(false);
+
+            tutorPrivilegeData.setCanModifyCourse(false);
+            tutorPrivilegeData.setCanModifyInstructor(false);
+            tutorPrivilegeData.setCanModifySession(false);
+            tutorPrivilegeData.setCanModifyStudent(false);
+            tutorPrivilegeData.setCanViewStudentInSections(true);
+            tutorPrivilegeData.setCanViewSessionInSections(true);
+            tutorPrivilegeData.setCanSubmitSessionInSections(true);
+            tutorPrivilegeData.setCanModifySessionCommentsInSections(false);
+
+            customPrivilegeData.setCanModifyCourse(false);
+            customPrivilegeData.setCanModifyInstructor(false);
+            customPrivilegeData.setCanModifySession(false);
+            customPrivilegeData.setCanModifyStudent(false);
+            customPrivilegeData.setCanViewStudentInSections(false);
+            customPrivilegeData.setCanViewSessionInSections(false);
+            customPrivilegeData.setCanSubmitSessionInSections(false);
+            customPrivilegeData.setCanModifySessionCommentsInSections(false);
+
+            INSTRUCTOR_PRIVILEGES.put(
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, coOwnerPrivilegeData);
+            INSTRUCTOR_PRIVILEGES.put(
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, managerPrivilegeData);
+            INSTRUCTOR_PRIVILEGES.put(
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, observerPrivilegeData);
+            INSTRUCTOR_PRIVILEGES.put(
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, tutorPrivilegeData);
+            INSTRUCTOR_PRIVILEGES.put(
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, customPrivilegeData);
+        }
     }
 
 }

@@ -1,8 +1,5 @@
 package teammates.ui.webapi.action;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -14,71 +11,6 @@ import teammates.ui.webapi.output.InstructorPrivilegeData;
  * Get the instructor privilege.
  */
 public class GetInstructorPrivilegeAction extends Action {
-    static final Map<String, InstructorPrivilegeData> INSTRUCTOR_PRIVILEGES = new HashMap<>();
-
-    static {
-        InstructorPrivilegeData coOwnerPrivilegeData = new InstructorPrivilegeData();
-        InstructorPrivilegeData managerPrivilegeData = new InstructorPrivilegeData();
-        InstructorPrivilegeData observerPrivilegeData = new InstructorPrivilegeData();
-        InstructorPrivilegeData tutorPrivilegeData = new InstructorPrivilegeData();
-        InstructorPrivilegeData customPrivilegeData = new InstructorPrivilegeData();
-
-        coOwnerPrivilegeData.setCanModifyCourse(true);
-        coOwnerPrivilegeData.setCanModifyInstructor(true);
-        coOwnerPrivilegeData.setCanModifySession(true);
-        coOwnerPrivilegeData.setCanModifyStudent(true);
-        coOwnerPrivilegeData.setCanViewStudentInSections(true);
-        coOwnerPrivilegeData.setCanViewSessionInSections(true);
-        coOwnerPrivilegeData.setCanSubmitSessionInSections(true);
-        coOwnerPrivilegeData.setCanModifySessionCommentsInSections(true);
-
-        managerPrivilegeData.setCanModifyCourse(false);
-        managerPrivilegeData.setCanModifyInstructor(true);
-        managerPrivilegeData.setCanModifySession(true);
-        managerPrivilegeData.setCanModifyStudent(true);
-        managerPrivilegeData.setCanViewStudentInSections(true);
-        managerPrivilegeData.setCanViewSessionInSections(true);
-        managerPrivilegeData.setCanSubmitSessionInSections(true);
-        managerPrivilegeData.setCanModifySessionCommentsInSections(true);
-
-        observerPrivilegeData.setCanModifyCourse(false);
-        observerPrivilegeData.setCanModifyInstructor(false);
-        observerPrivilegeData.setCanModifySession(false);
-        observerPrivilegeData.setCanModifyStudent(false);
-        observerPrivilegeData.setCanViewStudentInSections(true);
-        observerPrivilegeData.setCanViewSessionInSections(true);
-        observerPrivilegeData.setCanSubmitSessionInSections(false);
-        observerPrivilegeData.setCanModifySessionCommentsInSections(false);
-
-        tutorPrivilegeData.setCanModifyCourse(false);
-        tutorPrivilegeData.setCanModifyInstructor(false);
-        tutorPrivilegeData.setCanModifySession(false);
-        tutorPrivilegeData.setCanModifyStudent(false);
-        tutorPrivilegeData.setCanViewStudentInSections(true);
-        tutorPrivilegeData.setCanViewSessionInSections(true);
-        tutorPrivilegeData.setCanSubmitSessionInSections(true);
-        tutorPrivilegeData.setCanModifySessionCommentsInSections(false);
-
-        customPrivilegeData.setCanModifyCourse(false);
-        customPrivilegeData.setCanModifyInstructor(false);
-        customPrivilegeData.setCanModifySession(false);
-        customPrivilegeData.setCanModifyStudent(false);
-        customPrivilegeData.setCanViewStudentInSections(false);
-        customPrivilegeData.setCanViewSessionInSections(false);
-        customPrivilegeData.setCanSubmitSessionInSections(false);
-        customPrivilegeData.setCanModifySessionCommentsInSections(false);
-
-        INSTRUCTOR_PRIVILEGES.put(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, coOwnerPrivilegeData);
-        INSTRUCTOR_PRIVILEGES.put(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, managerPrivilegeData);
-        INSTRUCTOR_PRIVILEGES.put(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, observerPrivilegeData);
-        INSTRUCTOR_PRIVILEGES.put(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, tutorPrivilegeData);
-        INSTRUCTOR_PRIVILEGES.put(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, customPrivilegeData);
-    }
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -100,7 +32,8 @@ public class GetInstructorPrivilegeAction extends Action {
 
         if (instructorRole != null) {
             // fetching privilege for a particular instructor role.
-            InstructorPrivilegeData rolePrivilege = INSTRUCTOR_PRIVILEGES.getOrDefault(instructorRole, null);
+            InstructorPrivilegeData rolePrivilege = Const.InstructorPrivilegesMap
+                    .INSTRUCTOR_PRIVILEGES.getOrDefault(instructorRole, null);
             if (rolePrivilege == null) {
                 return new JsonResult("Invalid instructor role.", HttpStatus.SC_BAD_REQUEST);
             }

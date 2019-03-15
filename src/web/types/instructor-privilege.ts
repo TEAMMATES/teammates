@@ -1,9 +1,9 @@
-import { InstructorPrivilege } from '../types/api-output';
+import { InstructorPrivilege } from './api-output';
 
 /**
  * The default instructor privilege.
  */
-export const defaultInstructorPrivilege: InstructorPrivilege = {
+export const DEFAULT_INSTRUCTOR_PRIVILEGE: InstructorPrivilege = {
   canModifyCourse: true,
   canModifySession: true,
   canModifyStudent: true,

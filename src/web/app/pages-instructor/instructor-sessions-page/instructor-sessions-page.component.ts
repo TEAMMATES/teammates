@@ -35,7 +35,7 @@ import {
 } from '../../components/sessions-table/sessions-table-model';
 import { Course, Courses } from '../../course';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { defaultInstructorPrivilege } from '../../instructor-privilege';
+import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
 import {
@@ -353,7 +353,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
           responseRate: '',
           isLoadingResponseRate: false,
 
-          instructorPrivilege: defaultInstructorPrivilege,
+          instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
         };
         this.sessionsTableRowModels.push(model);
         this.updateInstructorPrivilege(model);
@@ -504,7 +504,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
             feedbackSession,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: defaultInstructorPrivilege,
+            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
           };
           this.sessionsTableRowModels.push(m);
           this.updateInstructorPrivilege(m);
@@ -532,7 +532,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
           feedbackSession: session,
           responseRate: '',
           isLoadingResponseRate: false,
-          instructorPrivilege: defaultInstructorPrivilege,
+          instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
         };
         this.sessionsTableRowModels.push(m);
         this.updateInstructorPrivilege(m);
