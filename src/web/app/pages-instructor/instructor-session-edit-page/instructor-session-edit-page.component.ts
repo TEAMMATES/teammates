@@ -106,6 +106,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     hasEmailSettingsPanelExpanded: false,
   };
 
+  // to get the original session model on discard changes
+  feedbackSessionModels: Map<string, FeedbackSession> = new Map();
+
   // to get the original question model
   feedbackQuestionModels: Map<string, FeedbackQuestion> = new Map();
 
@@ -286,6 +289,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
+    
+    this.feedbackSessionModels.set(feedbackSession.feedbackSessionName, feedbackSession);
 
     return model;
   }
@@ -368,7 +373,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles canceling existing session event without saving changes.
    */
   cancelExistingSessionHandler(): void {
-    this.sessionEditFormModel.isEditable = false;
+    const feedbackSession: FeedbackSession = this.feedbackSessionModels.get(this.feedbackSessionName)!;
+    this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
   }
 
   /**
