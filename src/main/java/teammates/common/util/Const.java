@@ -813,6 +813,7 @@ public final class Const {
         public static final String RESPONDENT_IS_TO_BE_REMOVED = "respondentistoberemoved";
 
         public static final String SESSION_LINKS_RECOVERY_EMAIL = "sessionlinksrecoveryemail";
+        public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
