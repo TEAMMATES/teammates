@@ -28,22 +28,14 @@ public class GetFeedbackSessionsAction extends Action {
         }
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if (userInfo.isInstructor) {
-            if (courseId == null) {
-                gateKeeper.verifyInstructorPrivileges(logic.getAccount(userInfo.getId()));
-            } else {
-                CourseAttributes courseAttributes = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), courseAttributes);
-            }
+        if (userInfo.isInstructor && courseId != null) {
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), courseAttributes);
         }
 
-        if (userInfo.isStudent) {
-            if (courseId == null) {
-                gateKeeper.verifyStudentPrivileges(logic.getAccount(userInfo.getId()));
-            } else {
-                CourseAttributes courseAttributes = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), courseAttributes);
-            }
+        if (userInfo.isStudent && courseId != null) {
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
+            gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), courseAttributes);
         }
     }
 

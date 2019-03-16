@@ -1,18 +1,25 @@
-
 package teammates.test.cases.webapi;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetFeedbackSessionsAction;
+import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.FeedbackSessionsData;
 
 /**
  * SUT: {@link GetFeedbackSessionsAction}.
  */
 public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSessionsAction> {
+
+    private List<FeedbackSessionAttributes> sessions;
 
     @Override
     protected String getActionUri() {
@@ -22,6 +29,20 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     @Override
     protected String getRequestMethod() {
         return GET;
+    }
+
+    @Override
+    protected void prepareTestData() {
+        sessions = new ArrayList<>();
+        sessions.add(typicalBundle.feedbackSessions.get("session2InCourse1"));
+        sessions.add(typicalBundle.feedbackSessions.get("gracePeriodSession"));
+        sessions.add(typicalBundle.feedbackSessions.get("closedSession"));
+        sessions.add(typicalBundle.feedbackSessions.get("empty.session"));
+        sessions.add(typicalBundle.feedbackSessions.get("awaiting.session"));
+
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        session1InCourse1.setDeletedTime(Instant.now());
+        removeAndRestoreDataBundle(typicalBundle);
     }
 
     @Override
@@ -38,29 +59,41 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        GetFeedbackSessionsAction a = getAction(submissionParam);
-        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+        GetFeedbackSessionsAction action = getAction(submissionParam);
+        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(6, fsData.getFeedbackSessions().size());
+        assertEquals(5, fsData.getFeedbackSessions().size());
+        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
+            assertEquals(instructor1OfCourse1.getCourseId(), sessionData.getCourseId());
+            assertNull(sessionData.getDeletedAtTimestamp());
+            assertTrue(sessions.stream().anyMatch(session
+                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
+        }
     }
 
     @Test
-    protected void testExecute_asInstructorWithRecycleBinFlagTrue_shouldReturnAllSoftDeletedSessionsForCourse() {
+    protected void testExecute_asInstructorWithRecycleBinFlagTrue_shouldReturnAllSoftDeletedSessionsForInstructor() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+
         loginAsInstructor(instructor1OfCourse1.googleId);
 
         String[] submissionParam = {
                 Const.ParamsNames.IS_IN_RECYCLE_BIN, "true",
         };
 
-        GetFeedbackSessionsAction a = getAction(submissionParam);
-        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+        GetFeedbackSessionsAction action = getAction(submissionParam);
+        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(0, fsData.getFeedbackSessions().size());
+        assertEquals(1, fsData.getFeedbackSessions().size());
+        FeedbackSessionData fs = fsData.getFeedbackSessions().get(0);
+        assertNotNull(fs.getDeletedAtTimestamp());
+        assertEquals(session1InCourse1.getCourseId(), fs.getCourseId());
+        assertEquals(session1InCourse1.getFeedbackSessionName(), fs.getFeedbackSessionName());
     }
 
     @Test
-    protected void testExecute_asInstructorWithRecycleBinFlagFalse_shouldReturnAllSoftDeletedSessionsForCourse() {
+    protected void testExecute_asInstructorWithRecycleBinFlagFalse_shouldReturnAllSoftDeletedSessionsForInstructor() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.googleId);
 
@@ -68,10 +101,16 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
         };
 
-        GetFeedbackSessionsAction a = getAction(submissionParam);
-        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+        GetFeedbackSessionsAction action = getAction(submissionParam);
+        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(6, fsData.getFeedbackSessions().size());
+        assertEquals(5, fsData.getFeedbackSessions().size());
+        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
+            assertEquals(instructor1OfCourse1.getCourseId(), sessionData.getCourseId());
+            assertNull(sessionData.getDeletedAtTimestamp());
+            assertTrue(sessions.stream().anyMatch(session
+                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
+        }
     }
 
     @Test
@@ -91,10 +130,16 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
         };
 
-        GetFeedbackSessionsAction a = getAction(submissionParam);
-        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
+        GetFeedbackSessionsAction action = getAction(submissionParam);
+        FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(6, fsData.getFeedbackSessions().size());
+        assertEquals(5, fsData.getFeedbackSessions().size());
+        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
+            assertEquals(student1InCourse1.getCourse(), sessionData.getCourseId());
+            assertNull(sessionData.getDeletedAtTimestamp());
+            assertTrue(sessions.stream().anyMatch(session
+                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
+        }
     }
 
     @Test
@@ -105,7 +150,13 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         GetFeedbackSessionsAction a = getAction();
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
 
-        assertEquals(6, fsData.getFeedbackSessions().size());
+        assertEquals(5, fsData.getFeedbackSessions().size());
+        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
+            assertEquals(student1InCourse1.getCourse(), sessionData.getCourseId());
+            assertNull(sessionData.getDeletedAtTimestamp());
+            assertTrue(sessions.stream().anyMatch(session
+                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
+        }
     }
 
     @Test
