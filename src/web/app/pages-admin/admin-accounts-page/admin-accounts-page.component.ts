@@ -129,7 +129,7 @@ export class AdminAccountsPageComponent implements OnInit {
       instructorid: id,
       courseid: courseId,
     };
-    this.httpRequestService.delete('/instructors', paramMap).subscribe(() => {
+    this.httpRequestService.delete('/instructor', paramMap).subscribe(() => {
       this.instructorCourses = this.instructorCourses.filter((course: CourseAttributes) => course.id !== courseId);
       this.statusMessageService.showSuccessMessage(`Instructor is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {
