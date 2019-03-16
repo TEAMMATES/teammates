@@ -29,8 +29,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.ui.webapi.action.GetStudentProfileAction;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -228,10 +230,14 @@ public final class BackDoor {
     /**
      * Gets a student's profile from the datastore.
      */
-    public static String getStudentProfile(String userId) {
+    public static StudentProfileAttributes getStudentProfile(String userId) {
         Map<String, String[]> params = new HashMap<>();
         params.put(Const.ParamsNames.STUDENT_ID, new String[] { userId });
-        return executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params).responseBody;
+        String jsonString = executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params).responseBody;
+
+        GetStudentProfileAction.StudentProfile studentProfile = JsonUtils.fromJson(
+                jsonString, GetStudentProfileAction.StudentProfile.class);
+        return studentProfile.getStudentProfile();
     }
 
     /**

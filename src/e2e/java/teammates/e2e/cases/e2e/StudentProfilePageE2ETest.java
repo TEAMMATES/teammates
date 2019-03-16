@@ -1,6 +1,5 @@
 package teammates.e2e.cases.e2e;
 
-import org.json.JSONObject;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -8,7 +7,6 @@ import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.e2e.pageobjects.StudentProfilePage;
 import teammates.e2e.util.BackDoor;
-import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -90,16 +88,9 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
         profilePage.verifyPhotoSize("295px", "295px");
 
-        JSONObject studentProfileAttributes = new JSONObject(
-                BackDoor.getStudentProfile(TestProperties.TEST_STUDENT2_ACCOUNT));
-        String prevPictureKey = studentProfileAttributes.getJSONObject("studentProfile").getString("pictureKey");
-        verifyPictureIsPresent(prevPictureKey);
-
-    }
-
-    private void verifyPictureIsPresent(String pictureKey) {
-        // TODO: how to check the validity of this picturekey value?
-        assertEquals("encoded_gs_key", pictureKey.split(":")[0]);
-        // assertTrue(BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
+        StudentProfileAttributes studentProfileAttributes =
+                BackDoor.getStudentProfile(TestProperties.TEST_STUDENT2_ACCOUNT);
+        // checks that the pictureKey value is within the newly uploaded profile picture link
+        assertTrue(profilePage.getProfilePicLink().contains(studentProfileAttributes.pictureKey));
     }
 }
