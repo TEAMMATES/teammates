@@ -34,7 +34,7 @@ public class SessionLinksRecoveryAction extends Action {
             return new JsonResult("invalid email address", HttpStatusCodes.STATUS_CODE_BAD_REQUEST);
         }
 
-        EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmail(recoveryEmailAddress);
+        EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmailStudent(recoveryEmailAddress);
         EmailSendingStatus status = emailSender.sendEmail(email);
 
         // Keep this status flag here for recaptcha

@@ -222,13 +222,13 @@ public class EmailGenerator {
      * under {@code recoveryEmailAddress} in the past 180 days. If no feedback sessions are found, generate an email
      * stating no feedback sessions found.
      */
-    public EmailWrapper generateSessionLinksRecoveryEmail(String recoveryEmailAddress) {
+    public EmailWrapper generateSessionLinksRecoveryEmailStudent(String recoveryEmailAddress) {
         boolean hasStudentsWithRecoveryEmail = !studentsLogic.getAllStudentsForEmail(recoveryEmailAddress).isEmpty();
 
         if (hasStudentsWithRecoveryEmail) {
-            return generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
+            return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress);
         } else {
-            return generateSessionLinksRecoveryNonExistingEmailForStudent(recoveryEmailAddress);
+            return generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress);
         }
     }
 
@@ -268,7 +268,7 @@ public class EmailGenerator {
 
     }
 
-    private EmailWrapper generateSessionLinksRecoveryNonExistingEmailForStudent(String recoveryEmailAddress) {
+    private EmailWrapper generateSessionLinksRecoveryEmailForNonExistentStudent(String recoveryEmailAddress) {
         String emailBody;
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
         String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
@@ -284,7 +284,7 @@ public class EmailGenerator {
         return email;
     }
 
-    private EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress) {
+    private EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(String recoveryEmailAddress) {
         String emailBody;
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
@@ -322,11 +322,14 @@ public class EmailGenerator {
                 }
 
                 if (session.isPublished()) {
-                    String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+                    String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getFeedbackSessionName())
+                            .withRegistrationKey(StringHelper.encrypt(student.key))
+                            .withStudentEmail(student.email)
                             .toAbsoluteString();
                     reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
+
                 }
 
                 linksFragmentValue.append(Templates.populateTemplate(

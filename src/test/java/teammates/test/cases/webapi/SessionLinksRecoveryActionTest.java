@@ -43,8 +43,6 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
     @BeforeMethod
     @Override
     public void beforeTestMethodSetup() {
-        // change start time of one feedback session in the data bundle for the purpose of this testing.
-
         // opened and unpublished.
         session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
         typicalBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
