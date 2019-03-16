@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 /**
  * Action: deletes all students in a course.
  */
-public class DeleteInstructorCourseAllStudentsAction extends Action {
+public class DeleteStudentsAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

@@ -62,9 +62,16 @@ public class ActionFactory {
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
+
+        //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
-        map(ResourceURIs.STUDENTS, DELETE, DeleteStudentAction.class);
+        map(ResourceURIs.STUDENTS, DELETE, DeleteStudentsAction.class);
+
+        //STUDENT APIs
+        map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
+        map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
+
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);
@@ -111,15 +118,12 @@ public class ActionFactory {
         map(ResourceURIs.STUDENTS_CSV, GET, GetStudentsAsCsvAction.class);
         map(ResourceURIs.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, GET, SearchStudentsAndFeedbackSessionDataAction.class);
         map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
-        map(ResourceURIs.COURSE_STUDENT_DETAILS_EDIT, PUT, PutCourseStudentDetailsEditAction.class);
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
         map(ResourceURIs.COURSE_ENROLL_SAVE, POST, PostCourseEnrollSaveAction.class);
         map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS, DELETE,
-                DeleteInstructorCourseAllStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_STUDENTS, GET, GetCourseStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_STUDENTS_COURSES, GET, InstructorGetCoursesAction.class);
     }
