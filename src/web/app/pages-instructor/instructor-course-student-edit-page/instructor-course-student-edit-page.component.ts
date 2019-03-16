@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
+import { StudentUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentAttributes {
@@ -177,11 +178,18 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       user: this.user,
       courseid: this.courseid,
       studentemail: this.studentemail,
-      sessionsummarysendemail: this.isSessionSummarySendEmail.toString(),
-      ...this.editForm.value,
     };
 
-    this.httpRequestService.put('/courses/students/details/edit', paramsMap)
+    const reqBody: StudentUpdateRequest = {
+      name: this.editForm.value.studentname,
+      email: this.editForm.value.newstudentemail,
+      team: this.editForm.value.teamname,
+      section: this.editForm.value.sectionname,
+      comments: this.editForm.value.comments,
+      isSessionSummarySendEmail: this.isSessionSummarySendEmail,
+    };
+
+    this.httpRequestService.put('/student', paramsMap, reqBody)
       .subscribe((resp: MessageOutput) => {
         this.router.navigate(['/web/instructor/courses/details'], {
           queryParams: { courseid: this.courseid },
