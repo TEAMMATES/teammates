@@ -14,7 +14,6 @@ import teammates.e2e.util.TestProperties;
 /**
  * SUT: {@link teammates.common.util.Const.WebPageURIs#STUDENT_PROFILE_PAGE}.
  */
-@Priority(-3)
 public class StudentProfilePageE2ETest extends BaseE2ETestCase {
     private StudentProfilePage profilePage;
 
@@ -56,21 +55,15 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
 
     @Test
     public void allTests() throws Exception {
-        // Do not change the order
-        testNavLinkToPage();
         testContent();
     }
 
-    private void testNavLinkToPage() {
+    private void testContent() throws Exception {
+        ______TS("Typical case: Log in with filled profile values");
+
         StudentHomePage shp = getHomePage().clickStudentLogin().loginAsStudent(
                 TestProperties.TEST_STUDENT2_ACCOUNT, TestProperties.TEST_STUDENT2_PASSWORD);
         profilePage = shp.loadProfileTab();
-    }
-
-    private void testContent() throws Exception {
-        // assumes it is run after NavLinks Test
-        // (ie already logged in as studentWithExistingProfile
-        ______TS("Typical case: Log in with filled profile values");
 
         profilePage.ensureProfileContains("Ben", "i.m.benny@gmail.tmt", "TEAMMATES Test Institute 4",
                 "Singaporean", StudentProfileAttributes.Gender.MALE, "I am just another student :P");

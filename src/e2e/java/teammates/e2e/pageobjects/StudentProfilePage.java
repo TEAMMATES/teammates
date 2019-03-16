@@ -86,15 +86,15 @@ public class StudentProfilePage extends AppPage {
         return changePageType(StudentProfilePage.class);
     }
 
-    public void fillShortName(String shortName) {
+    private void fillShortName(String shortName) {
         fillTextBox(shortNameBox, shortName);
     }
 
-    public void fillEmail(String studentEmail) {
+    private void fillEmail(String studentEmail) {
         fillTextBox(emailBox, studentEmail);
     }
 
-    public void fillInstitution(String studentInstitution) {
+    private void fillInstitution(String studentInstitution) {
         fillTextBox(institutionBox, studentInstitution);
     }
 
@@ -102,7 +102,7 @@ public class StudentProfilePage extends AppPage {
      * Selects student nationality from the dropdown list if the nationality is
      * valid, otherwise it fails with a message.
      */
-    public void selectNationality(String studentNationality) {
+    private void selectNationality(String studentNationality) {
         if (NationalityHelper.getNationalities().contains(studentNationality) || "".equals(studentNationality)) {
             Select dropdown = new Select(studentNationalityDropdown);
             dropdown.selectByValue(studentNationality);
@@ -111,11 +111,11 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    public void fillMoreInfo(String moreInfo) {
+    private void fillMoreInfo(String moreInfo) {
         fillTextBox(moreInfoBox, moreInfo);
     }
 
-    public void selectGender(StudentProfileAttributes.Gender gender) {
+    private void selectGender(StudentProfileAttributes.Gender gender) {
         switch (gender) {
         case MALE:
             click(genderRadio.get(0));
@@ -176,7 +176,6 @@ public class StudentProfilePage extends AppPage {
         assertEquals(width, browser.driver.findElement(By.className("cropper")).getCssValue("width"));
     }
 
-    // this works completely
     public void ensureProfileContains(String shortName, String email, String institute, String nationality,
                                        StudentProfileAttributes.Gender gender, String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));

@@ -343,8 +343,8 @@ public abstract class AppPage {
             fileBoxElement.clear();
         } else {
             fileBoxElement.setFileDetector(new UselessFileDetector());
-            String newFilePath = new File(fileName).getAbsolutePath();
-            fileBoxElement.sendKeys(newFilePath);
+            String filePath = new File(fileName).getAbsolutePath();
+            fileBoxElement.sendKeys(filePath);
         }
     }
 
