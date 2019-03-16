@@ -1,0 +1,53 @@
+<div class="card border-primary">
+  <div class="card-body fill-plain">
+    <div class="form form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-12">
+          <h4 class="font-weight-bold">Enrollment Details</h4>
+        </div>
+      </div>
+      <div class="form-group student-info-row row">
+        <div class="col-4 text-right">
+          <label>Course</label>
+        </div>
+        <div class="col-8">
+          <a routerLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.course}">
+            <span>{{student?.course}}</span>
+          </a>
+        </div>
+      </div>
+      <div class="form-group student-info-row row" *ngIf="student?.section">
+        <div class="col-4 text-right">
+          <label>Section Name</label>
+        </div>
+        <div class="col-8">
+          <span>{{student?.section}}</span>
+        </div>
+      </div>
+      <div class="form-group student-info-row row">
+        <div class="col-4 text-right">
+          <label>Team Name</label>
+        </div>
+        <div class="col-8">
+          <span>{{student?.team}}</span>
+        </div>
+      </div>
+      <div class="form-group student-info-row row">
+        <div class="col-4 text-right">
+          <label>Official Email</label>
+        </div>
+        <div class="col-8">
+          <span>{{student?.email}}</span>
+        </div>
+      </div>
+      <div class="form-group student-info-row row">
+        <div class="col-4 text-right">
+          <label>Comments</label>
+        </div>
+        <div class="col-8">
+          <span>{{student?.comments}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

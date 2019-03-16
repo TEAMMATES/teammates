@@ -10,7 +10,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.e2e.util.NewBackDoor;
+import teammates.e2e.util.BackDoor;
 
 /**
  * Verifies that various system error report emails should or should not be sent to the admin.
@@ -46,7 +46,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeGetRequest(url);
+        BackDoor.executeGetRequest(url, null);
 
         print("AssertionError triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
 
@@ -60,7 +60,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeGetRequest(url);
+        BackDoor.executeGetRequest(url, null);
 
         print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
 
@@ -74,7 +74,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeGetRequest(url);
+        BackDoor.executeGetRequest(url, null);
 
         print("DeadlineExceededException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
 
@@ -88,7 +88,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeGetRequest(url);
+        BackDoor.executeGetRequest(url, null);
 
         print("DatastoreTimeoutException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
 
@@ -102,7 +102,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeGetRequest(url);
+        BackDoor.executeGetRequest(url, null);
 
         print("This exception is handled by system, make sure you don't receive any emails");
 
@@ -116,7 +116,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeGetRequest(url);
+        BackDoor.executeGetRequest(url, null);
 
         print("This exception is handled by system, make sure you don't receive any emails");
 
@@ -130,7 +130,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName())
                 .toString();
 
-        NewBackDoor.executeGetRequest(url);
+        BackDoor.executeGetRequest(url, null);
 
         print("This exception is handled by system, make sure you don't receive any emails");
 

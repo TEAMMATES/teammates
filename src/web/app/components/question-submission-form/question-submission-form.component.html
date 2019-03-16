@@ -28,8 +28,10 @@
 
     <tm-contribution-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-instruction>
     <tm-text-question-instruction *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-instruction>
+    <tm-num-scale-question-instruction *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-instruction>
     <tm-contribution-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-constraint>
     <tm-text-question-constraint *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-constraint>
+    <tm-num-scale-question-constraint *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-constraint>
 
     <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
       <span class="evaluee-span" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
@@ -74,6 +76,11 @@
                                               (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                               [isDisabled]="isDisabled"
             ></tm-text-question-edit-answer-form>
+            <tm-num-scale-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="model.questionDetails"
+                                                    [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                    (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                    [isDisabled]="isDisabled"
+            ></tm-num-scale-question-edit-answer-form>
           </div>
         </div>
       </div>

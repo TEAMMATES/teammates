@@ -6,9 +6,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.CourseInfo;
 import teammates.ui.webapi.action.GetCourseAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * SUT: {@link GetCourseAction}.
@@ -46,7 +46,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        CourseInfo.CourseResponse response = (CourseInfo.CourseResponse) r.getOutput();
+        CourseData response = (CourseData) r.getOutput();
 
         assertEquals(courseAttributes.getId(), response.getCourseId());
         assertEquals(courseAttributes.getName(), response.getCourseName());

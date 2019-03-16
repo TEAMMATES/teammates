@@ -66,7 +66,7 @@
           <div ngbDropdown class="d-inline-block" ngbTooltip="View the submitted responses for this feedback session">
             <button class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
-              <button class="dropdown-item clickable" (click)="viewSessionResultEvent.emit()">View Results</button>
+              <button class="dropdown-item clickable" (click)="viewSessionResultEvent.emit(idx)">View Results</button>
               <button class="dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
                       *ngIf="![FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
                         && sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED; else publishButton"

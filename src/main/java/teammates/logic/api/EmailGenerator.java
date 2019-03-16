@@ -153,7 +153,7 @@ public class EmailGenerator {
             }
 
             if (fsa.isPublished()) {
-                String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
                         .withRegistrationKey(StringHelper.encrypt(student.key))
@@ -558,7 +558,7 @@ public class EmailGenerator {
                 .withStudentEmail(student.email)
                 .toAbsoluteString();
 
-        String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+        String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
                 .withRegistrationKey(StringHelper.encrypt(student.key))

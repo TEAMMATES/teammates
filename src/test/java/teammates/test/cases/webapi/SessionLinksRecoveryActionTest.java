@@ -86,7 +86,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         JsonResult result = getJsonResult(a);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        assertEquals("invalid email address", output.getMessage());
+        assertEquals("Invalid email address: invalid-email-address", output.getMessage());
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
     }
 

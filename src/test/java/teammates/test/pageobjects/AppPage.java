@@ -46,12 +46,9 @@ import teammates.common.util.Url;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
-import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.e2e.pageobjects.Browser;
-import teammates.e2e.util.HtmlHelper;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.FileHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -63,9 +60,6 @@ import teammates.test.driver.FileHelper;
  * @see <a href="https://code.google.com/p/selenium/wiki/PageObjects">https://code.google.com/p/selenium/wiki/PageObjects</a>
  */
 public abstract class AppPage {
-    private static final By MAIN_CONTENT = By.id("mainContent");
-    private static final int VERIFICATION_RETRY_COUNT = 5;
-    private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
 
     /** Browser instance the page is loaded into. */
     protected Browser browser;
@@ -103,9 +97,6 @@ public abstract class AppPage {
 
     @FindBy(id = "studentProfileNavLink")
     private WebElement studentProfileTab;
-
-    @FindBy(id = "studentHelpLink")
-    private WebElement studentHelpTab;
 
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
@@ -555,17 +546,6 @@ public abstract class AppPage {
     }
 
     /**
-     * Equivalent of clicking the 'Help' tab on the top menu of the page.
-     * @return the loaded page
-     */
-    public StudentHelpPage loadStudentHelpTab() {
-        click(studentHelpTab);
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(StudentHelpPage.class);
-    }
-
-    /**
      * Click the 'logout' link in the top menu of the page.
      */
     public AppPage logout() {
@@ -579,13 +559,6 @@ public abstract class AppPage {
      */
     public String getPageSource() {
         return browser.driver.getPageSource();
-    }
-
-    private String getPageSource(By by) {
-        waitForAjaxLoaderGifToDisappear();
-        String actual = by == null ? browser.driver.findElement(By.tagName("html")).getAttribute("innerHTML")
-                                   : browser.driver.findElement(by).getAttribute("outerHTML");
-        return HtmlHelper.processPageSourceForHtmlComparison(actual);
     }
 
     public void click(By by) {
@@ -1158,6 +1131,7 @@ public abstract class AppPage {
      *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
+    @Deprecated
     public AppPage verifyHtml(String filePath) throws IOException {
         return verifyHtmlPart(null, filePath);
     }
@@ -1171,52 +1145,9 @@ public abstract class AppPage {
      *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
+    @Deprecated
     public AppPage verifyHtmlPart(By by, String filePathParam) throws IOException {
-        String filePath = (filePathParam.charAt(0) == '/' ? TestProperties.TEST_PAGES_FOLDER : "") + filePathParam;
-        boolean isPart = by != null;
-        String actual = getPageSource(by);
-        try {
-            String expected = FileHelper.readFile(filePath);
-            expected = HtmlHelper.injectTestProperties(expected);
-
-            // The check is done multiple times with waiting times in between to account for
-            // certain elements to finish loading (e.g ajax load, panel collapsing/expanding).
-            for (int i = 0; i < VERIFICATION_RETRY_COUNT; i++) {
-                if (i == VERIFICATION_RETRY_COUNT - 1) {
-                    // Last retry count: do one last attempt and if it still fails,
-                    // throw assertion error and show the differences
-                    HtmlHelper.assertSameHtml(expected, actual, isPart);
-                    break;
-                }
-                if (HtmlHelper.areSameHtml(expected, actual, isPart)) {
-                    break;
-                }
-                ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
-                actual = getPageSource(by);
-            }
-
-        } catch (IOException | AssertionError e) {
-            if (!testAndRunGodMode(filePath, actual, isPart)) {
-                throw e;
-            }
-        }
-
         return this;
-    }
-
-    private boolean testAndRunGodMode(String filePath, String content, boolean isPart) throws IOException {
-        return TestProperties.IS_GODMODE_ENABLED && regenerateHtmlFile(filePath, content, isPart);
-    }
-
-    private boolean regenerateHtmlFile(String filePath, String content, boolean isPart) throws IOException {
-        if (content == null || content.isEmpty()) {
-            return false;
-        }
-
-        TestProperties.verifyReadyForGodMode();
-        String processedPageSource = HtmlHelper.processPageSourceForExpectedHtmlRegeneration(content, isPart);
-        FileHelper.saveFile(filePath, processedPageSource);
-        return true;
     }
 
     /**
@@ -1229,24 +1160,9 @@ public abstract class AppPage {
      *         folder is assumed to be {@link TestProperties#TEST_PAGES_FOLDER}.
      * @return The page (for chaining method calls).
      */
+    @Deprecated
     public AppPage verifyHtmlMainContent(String filePath) throws IOException {
-        return verifyHtmlPart(MAIN_CONTENT, filePath);
-    }
-
-    public AppPage verifyHtmlMainContentWithReloadRetry(String filePath)
-            throws IOException, MaximumRetriesExceededException {
-        return persistenceRetryManager.runUntilNoRecognizedException(new RetryableTaskReturnsThrows<AppPage, IOException>(
-                "HTML verification") {
-            @Override
-            public AppPage run() throws IOException {
-                return verifyHtmlPart(MAIN_CONTENT, filePath);
-            }
-
-            @Override
-            public void beforeRetry() {
-                reloadPage();
-            }
-        }, AssertionError.class);
+        return verifyHtmlPart(By.id("mainContent"), filePath);
     }
 
     /**

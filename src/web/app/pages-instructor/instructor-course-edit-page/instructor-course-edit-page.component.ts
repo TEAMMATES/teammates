@@ -5,11 +5,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import moment from 'moment-timezone';
 
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { MessageOutput } from '../../../types/api-output';
+import { Course, MessageOutput } from '../../../types/api-output';
+import { InstructorCreateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface CourseAttributes {
@@ -117,6 +119,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
               private timezoneService: TimezoneService,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
+              private courseService: CourseService,
               private fb: FormBuilder,
               private ngbModal: NgbModal) { }
 
@@ -347,14 +350,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Deletes the current course and redirects to 'Courses' page if action is successful.
    */
   deleteCourse(): void {
-    const paramsMap: { [key: string]: string } = { courseid: this.courseToEdit.id };
-
-    this.httpRequestService.delete('/instructors/course/delete', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+    this.courseService.binCourse(this.courseToEdit.id).subscribe((course: Course) => {
+      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses',
+        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -364,20 +365,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const newName: string = formEditCourse.controls.name.value;
     const newTimeZone: string = formEditCourse.controls.timeZone.value;
 
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
-      coursename: newName,
-      coursetimezone: newTimeZone,
-    };
-
-    this.httpRequestService.put('/instructors/course/details/save', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
-          this.updateCourseDetails(newName, newTimeZone);
-          this.toggleIsEditingCourse();
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+    this.courseService.updateCourse(this.courseToEdit.id, {
+      courseName: newName,
+      timeZone: newTimeZone,
+    }).subscribe((course: Course) => {
+      this.statusMessageService.showSuccessMessage(`Updated course [${course.courseId}] details: `
+          + `Name: ${course.courseName}, Time zone: ${course.timeZone}`);
+      this.updateCourseDetails(newName, newTimeZone);
+      this.toggleIsEditingCourse();
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -522,12 +520,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
-      instructorid: editedInstructor.googleId,
-      instructorname: editedInstructor.name,
-      instructoremail: editedInstructor.email,
-      instructorrole: editedInstructor.role,
-      instructordisplayname: editedInstructor.displayedName,
-      instructorisdisplayed: editedInstructor.isDisplayedToStudents.toString(),
+    };
+
+    const reqBody: InstructorCreateRequest = {
+      id: editedInstructor.googleId,
+      name: editedInstructor.name,
+      email: editedInstructor.email,
+      roleName: editedInstructor.role,
+      displayName: editedInstructor.displayedName,
+      isDisplayedToStudent: editedInstructor.isDisplayedToStudents,
     };
 
     if (instr.controls.role.value === 'Custom') {
@@ -613,7 +614,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       editedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
 
-    this.httpRequestService.post('/instructors/course/details/editInstructor', paramsMap)
+    this.httpRequestService.put('/instructor', paramsMap, reqBody)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.updateInstructorDetails(index, editedInstructor);
@@ -751,23 +752,23 @@ export class InstructorCourseEditPageComponent implements OnInit {
       name: formAddInstructor.controls.name.value,
       email: formAddInstructor.controls.email.value,
       role: formAddInstructor.controls.role.value,
-      isDisplayedToStudents: formAddInstructor.controls.isDisplayedToStudents.value,
+      isDisplayedToStudents: formAddInstructor.controls.isDisplayedToStudents.value.value,
       displayedName: formAddInstructor.controls.displayedName.value,
       privileges: this.getPrivilegesForRole(formAddInstructor.controls.role.value),
     };
 
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
-      instructorname: addedInstructor.name,
-      instructoremail: addedInstructor.email,
-      instructorrole: addedInstructor.role,
-      instructordisplayname: addedInstructor.displayedName,
     };
 
-    const instructorIsDisplayed: string = 'instructorisdisplayed';
-    if (addedInstructor.isDisplayedToStudents) {
-      paramsMap[instructorIsDisplayed] = 'true';
-    }
+    const reqBody: InstructorCreateRequest = {
+      id: addedInstructor.googleId,
+      name: addedInstructor.name,
+      email: addedInstructor.email,
+      roleName: addedInstructor.role,
+      displayName: addedInstructor.displayedName,
+      isDisplayedToStudent: addedInstructor.isDisplayedToStudents != null,
+    };
 
     if (formAddInstructor.controls.role.value === 'Custom') {
       const tuneCoursePermissions: (FormGroup | null) = (formAddInstructor.controls.tunePermissions as FormGroup)
@@ -852,7 +853,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       addedInstructor.privileges.sessionLevel = newSessionLevelPrivileges;
     }
 
-    this.httpRequestService.put('/instructors/course/details/addInstructor', paramsMap)
+    this.httpRequestService.post('/instructor', paramsMap, reqBody)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.addToInstructorList(addedInstructor);
@@ -906,17 +907,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
       instructorid: this.instructor.googleId,
-      instructoremail: instructorToDelete.email,
-      instructorisdisplayed: instructorToDelete.isDisplayedToStudents.toString(),
     };
 
-    this.httpRequestService.delete('/instructors/course/details/deleteInstructor', paramsMap)
-        .subscribe((resp: MessageOutput) => {
+    this.httpRequestService.delete('/instructor', paramsMap)
+        .subscribe(() => {
           if (instructorToDelete.googleId === this.instructor.googleId) {
-            this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses', resp.message);
+            this.navigationService.navigateWithSuccessMessage(
+                    this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
           } else {
             this.removeFromInstructorList(index);
-            this.statusMessageService.showSuccessMessage(resp.message);
+            this.statusMessageService.showSuccessMessage('Instructor is successfully deleted.');
           }
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
@@ -1021,12 +1021,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   resendReminderEmail(index: number): void {
     const instructorToResend: InstructorAttributes = this.instructorList[index];
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseToEdit.id,
-      instructoremail: instructorToResend.email,
-    };
 
-    this.httpRequestService.post('/instructors/course/details/sendReminders', paramsMap)
+    this.courseService.remindInstructorForJoin(this.courseToEdit.id, instructorToResend.email)
         .subscribe((resp: MessageOutput) => {
           this.statusMessageService.showSuccessMessage(resp.message);
         }, (resp: ErrorMessageOutput) => {

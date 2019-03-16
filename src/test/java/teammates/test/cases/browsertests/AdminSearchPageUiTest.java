@@ -125,7 +125,7 @@ public class AdminSearchPageUiTest extends BaseE2ETestCase {
 
     private AdminSearchPage getAdminSearchPage() {
         AppUrl searchPageUrl = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
-        return loginAdminToPage(searchPageUrl, AdminSearchPage.class);
+        return loginAdminToPageOld(searchPageUrl, AdminSearchPage.class);
     }
 
     private boolean isPageTitleCorrect() {

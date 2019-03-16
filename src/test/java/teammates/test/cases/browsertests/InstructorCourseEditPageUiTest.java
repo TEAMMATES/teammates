@@ -11,7 +11,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -251,13 +251,13 @@ public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
 
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
         courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
+                FieldValidator.getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
 
         courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
         courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                new FieldValidator().getInvalidityInfoForPersonName(invalidName));
+                FieldValidator.getInvalidityInfoForPersonName(invalidName));
     }
 
     private void testEditInstructorAction() throws Exception {
@@ -447,14 +447,14 @@ public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
         courseEditPage.editInstructor(editInstructorIndex, "New name", invalidEmail, true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                new FieldValidator().getInvalidityInfoForEmail(invalidEmail));
+                FieldValidator.getInvalidityInfoForEmail(invalidEmail));
 
         String invalidName = "";
 
         courseEditPage.editInstructor(editInstructorIndex, invalidName, "teammates@email.tmt", true, "New display name",
                                       Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         courseEditPage.waitForTextsForAllStatusMessagesToUserEquals(
-                new FieldValidator().getInvalidityInfoForPersonName(invalidName));
+                FieldValidator.getInvalidityInfoForPersonName(invalidName));
 
         ______TS("success: test Custom radio button getting other privileges' default values when selected");
         editInstructorIndex = 2;
@@ -840,7 +840,7 @@ public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
                                     .withUserId(instructorId)
                                     .withCourseId(courseId);
 
-        return loginAdminToPage(courseEditPageLink, InstructorCourseEditPage.class);
+        return loginAdminToPageOld(courseEditPageLink, InstructorCourseEditPage.class);
     }
 
 }

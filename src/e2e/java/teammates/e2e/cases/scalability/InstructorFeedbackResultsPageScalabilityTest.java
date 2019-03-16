@@ -60,7 +60,7 @@ public class InstructorFeedbackResultsPageScalabilityTest extends BaseE2ETestCas
         stopwatch.start();
 
         InstructorFeedbackResultsPage resultsPage =
-                loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPageOld(resultsUrl, InstructorFeedbackResultsPage.class);
         resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         log.info("Time taken: " + stopwatch.getTimeElapsedInSeconds());
 

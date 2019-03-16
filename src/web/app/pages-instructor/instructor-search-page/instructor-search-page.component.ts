@@ -14,9 +14,21 @@ interface SearchFeedbackSessionDataTable {
   something: any;
 }
 
-interface SearchStudentsTable {
+/**
+ * Data object for communciation with the child student result component
+ */
+export interface SearchStudentsTable {
   courseId: string;
   sections: StudentListSectionData[];
+}
+
+/**
+ * Data object for communciation with the child search bar component
+ */
+export interface SearchQuery {
+  searchKey: string;
+  searchStudents: boolean;
+  searchFeedbackSessionData: boolean;
 }
 
 /**
@@ -30,9 +42,7 @@ interface SearchStudentsTable {
 export class InstructorSearchPageComponent implements OnInit {
 
   user: string = '';
-  searchQuery: string = '';
-  searchStudents: boolean = true;
-  searchFeedbackSessionData: boolean = false;
+  searchKey: string = '';
   studentTables: SearchStudentsTable[] = [];
   fbSessionDataTables: SearchFeedbackSessionDataTable[] = [];
 
@@ -43,12 +53,14 @@ export class InstructorSearchPageComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
       if (queryParams.studentSearchkey) {
-        this.searchQuery = queryParams.studentSearchkey;
-        this.searchStudents = true;
-        this.searchFeedbackSessionData = false;
+        this.searchKey = queryParams.studentSearchkey;
       }
-      if (this.searchQuery) {
-        this.search();
+      if (this.searchKey) {
+        this.search({
+          searchKey: this.searchKey,
+          searchStudents: true,
+          searchFeedbackSessionData: false,
+        });
       }
     });
   }
@@ -56,11 +68,11 @@ export class InstructorSearchPageComponent implements OnInit {
   /**
    * Searches for students and questions/responses/comments matching the search query.
    */
-  search(): void {
+  search(searchQuery: SearchQuery): void {
     const paramMap: { [key: string]: string } = {
-      searchkey: this.searchQuery,
-      searchstudents: this.searchStudents.toString(),
-      searchfeedbacksessiondata: this.searchFeedbackSessionData.toString(),
+      searchkey: searchQuery.searchKey,
+      searchstudents: searchQuery.searchStudents.toString(),
+      searchfeedbacksessiondata: searchQuery.searchFeedbackSessionData.toString(),
     };
     this.httpRequestService.get('/studentsAndSessionData/search', paramMap).subscribe((resp: SearchResult) => {
       this.studentTables = resp.searchStudentsTables;

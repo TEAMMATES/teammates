@@ -34,14 +34,14 @@ public final class CsvChecker {
                         "<actual>" + System.lineSeparator() + actual + "</actual>");
             }
         } catch (IOException | AssertionError e) {
-            if (!testAndRunGodMode(filePath, actual)) {
+            if (!updateSnapshot(filePath, actual)) {
                 throw e;
             }
         }
     }
 
-    private static boolean testAndRunGodMode(String filePath, String csvContent) throws IOException {
-        return TestProperties.IS_GODMODE_ENABLED && regenerateCsvFile(filePath, csvContent);
+    private static boolean updateSnapshot(String filePath, String csvContent) throws IOException {
+        return TestProperties.IS_SNAPSHOT_UPDATE && regenerateCsvFile(filePath, csvContent);
     }
 
     private static boolean regenerateCsvFile(String filePath, String csvContent) throws IOException {

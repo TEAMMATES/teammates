@@ -5,9 +5,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 
 /**
@@ -37,7 +37,7 @@ public class AdminAccountDetailsPageUiTest extends BaseE2ETestCase {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withInstructorId("AAMgtUiT.instr2")
                 .withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
-        detailsPage = loginAdminToPage(detailsPageUrl, AdminAccountDetailsPage.class);
+        detailsPage = loginAdminToPageOld(detailsPageUrl, AdminAccountDetailsPage.class);
 
         detailsPage.verifyHtml("/adminAccountDetails.html");
     }

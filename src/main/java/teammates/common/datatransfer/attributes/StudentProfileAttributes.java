@@ -4,8 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -55,7 +53,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                 .withGender(Gender.getGenderEnumValue(sp.getGender()))
                 .withNationality(sp.getNationality())
                 .withMoreInfo(sp.getMoreInfo())
-                .withPictureKey(sp.getPictureKey().getKeyString())
+                .withPictureKey(sp.getPictureKey())
                 .withModifiedDate(sp.getModifiedDate())
                 .build();
     }
@@ -83,27 +81,26 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     @Override
     public List<String> getInvalidityInfo() {
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
 
         // accept empty string values as it means the user has not specified anything yet.
 
         if (!StringHelper.isEmpty(shortName)) {
-            addNonEmptyError(validator.getInvalidityInfoForPersonName(shortName), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(shortName), errors);
         }
 
         if (!StringHelper.isEmpty(email)) {
-            addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
         }
 
         if (!StringHelper.isEmpty(institute)) {
-            addNonEmptyError(validator.getInvalidityInfoForInstituteName(institute), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(institute), errors);
         }
 
         if (!StringHelper.isEmpty(nationality)) {
-            addNonEmptyError(validator.getInvalidityInfoForNationality(nationality), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForNationality(nationality), errors);
         }
 
         Assumption.assertNotNull(gender);
@@ -124,7 +121,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     @Override
     public StudentProfile toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, nationality, gender.name().toLowerCase(),
-                                  moreInfo, new BlobKey(this.pictureKey));
+                                  moreInfo, this.pictureKey);
     }
 
     @Override
