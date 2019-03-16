@@ -1028,7 +1028,7 @@ public class FeedbackSessionResultsBundle {
      */
     public String getResponseAnswerHtml(FeedbackResponseAttributes response,
                                         FeedbackQuestionAttributes question) {
-        return response.getResponseDetails().getAnswerHtml(response, question, this);
+        return ""; // response.getResponseDetails().getAnswerHtml(response, question, this);
     }
 
     public String getResponseAnswerCsv(FeedbackResponseAttributes response,

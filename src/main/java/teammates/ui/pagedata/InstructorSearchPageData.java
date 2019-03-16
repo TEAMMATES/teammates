@@ -136,8 +136,8 @@ public class InstructorSearchPageData extends PageData {
         for (FeedbackQuestionAttributes question : questionList) {
             int questionNumber = question.questionNumber;
             String questionText = question.getQuestionDetails().getQuestionText();
-            String additionalInfo = question.getQuestionDetails()
-                                            .getQuestionAdditionalInfoHtml(questionNumber, "");
+            String additionalInfo = "";
+            // question.getQuestionDetails().getQuestionAdditionalInfoHtml(questionNumber, "");
 
             questionTables.add(new QuestionTable(questionNumber, questionText, additionalInfo,
                                             createResponseRows(question, frcSearchResultBundle)));
@@ -155,7 +155,8 @@ public class InstructorSearchPageData extends PageData {
         for (FeedbackResponseAttributes responseEntry : responseList) {
             String giverName = frcSearchResultBundle.responseGiverTable.get(responseEntry.getId());
             String recipientName = frcSearchResultBundle.responseRecipientTable.get(responseEntry.getId());
-            String response = responseEntry.getResponseDetails().getAnswerHtmlInstructorView(question.getQuestionDetails());
+            String response = "";
+            // responseEntry.getResponseDetails().getAnswerHtmlInstructorView(question.getQuestionDetails());
 
             rows.add(new ResponseRow(giverName, recipientName, response,
                                        createFeedbackResponseCommentRows(responseEntry, frcSearchResultBundle, question)));

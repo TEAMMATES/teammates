@@ -183,7 +183,6 @@
         "questionText": "Question without weights attached!"
       },
       "questionNumber": 1,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -218,7 +217,6 @@
         "questionText": "Question with weights attached!"
       },
       "questionNumber": 2,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,

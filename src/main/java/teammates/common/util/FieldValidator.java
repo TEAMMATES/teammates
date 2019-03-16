@@ -16,7 +16,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
  */
-public class FieldValidator {
+public final class FieldValidator {
 
     /////////////////
     // FIELD TYPES //
@@ -139,6 +139,10 @@ public class FieldValidator {
             + "The value of '${fieldName}' field should be no longer than ${maxLength} characters.";
     public static final String INVALID_NAME_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_FOR_INVALID_NAME;
+    public static final String TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE =
+            "The field " + TEAM_NAME_FIELD_NAME + " is not acceptable to TEAMMATES as the suggested value for "
+                    + TEAM_NAME_FIELD_NAME + " can be mis-interpreted as an email.";
+
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
@@ -263,6 +267,11 @@ public class FieldValidator {
             Arrays.asList(
                     new String[] {"comments?", "notes?"}));
 
+    private FieldValidator() {
+        // utility class
+        // Intentional private constructor to prevent instantiation.
+    }
+
     /////////////////////////////////////////
     // VALIDATION METHODS FOR EXTERNAL USE //
     /////////////////////////////////////////
@@ -272,7 +281,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code emailContent} is not acceptable.
      *         Returns an empty string if the {@code emailContent} is acceptable.
      */
-    public String getInvalidityInfoForEmailContent(String emailContent) {
+    public static String getInvalidityInfoForEmailContent(String emailContent) {
         Assumption.assertNotNull("Non-null value expected", emailContent);
         if (emailContent.isEmpty()) {
             return EMAIL_CONTENT_ERROR_MESSAGE;
@@ -286,7 +295,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code emailSubject} is not acceptable.
      *         Returns an empty string if the {@code emailSubject} is acceptable.
      */
-    public String getInvalidityInfoForEmailSubject(String emailSubject) {
+    public static String getInvalidityInfoForEmailSubject(String emailSubject) {
         return getValidityInfoForAllowedName(
                 EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, emailSubject);
     }
@@ -297,7 +306,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code email} is not acceptable.
      *         Returns an empty string if the {@code email} is acceptable.
      */
-    public String getInvalidityInfoForEmail(String email) {
+    public static String getInvalidityInfoForEmail(String email) {
 
         Assumption.assertNotNull("Non-null value expected", email);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(email);
@@ -322,7 +331,7 @@ public class FieldValidator {
      * @return An explanation why the {@code gracePeriod} is not acceptable.
      *         Returns an empty string if the {@code gracePeriod} is acceptable.
      */
-    public String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
+    public static String getInvalidityInfoForGracePeriod(Duration gracePeriod) {
         if (gracePeriod.isNegative()) {
             return GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE;
         }
@@ -336,7 +345,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code googleId} is not acceptable.
      *         Returns an empty string if the {@code googleId} is acceptable.
      */
-    public String getInvalidityInfoForGoogleId(String googleId) {
+    public static String getInvalidityInfoForGoogleId(String googleId) {
 
         Assumption.assertNotNull("Non-null value expected", googleId);
         Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
@@ -367,7 +376,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code courseId} is not acceptable.
      *         Returns an empty string if the {@code courseId} is acceptable.
      */
-    public String getInvalidityInfoForCourseId(String courseId) {
+    public static String getInvalidityInfoForCourseId(String courseId) {
 
         Assumption.assertNotNull("Non-null value expected", courseId);
 
@@ -397,17 +406,21 @@ public class FieldValidator {
      * @return An explanation of why the {@code sectionName} is not acceptable.
      *         Returns an empty string if the {@code sectionName} is acceptable.
      */
-    public String getInvalidityInfoForSectionName(String sectionName) {
+    public static String getInvalidityInfoForSectionName(String sectionName) {
         return getValidityInfoForAllowedName(SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, sectionName);
     }
 
     /**
      * Checks if {@code teamName} is a non-null non-empty string no longer than the specified length
-     * {@code TEAM_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * {@code TEAM_NAME_MAX_LENGTH}, does not contain any invalid characters (| or %) and is not a valid email.
      * @return An explanation of why the {@code teamName} is not acceptable.
      *         Returns an empty string if the {@code teamName} is acceptable.
      */
-    public String getInvalidityInfoForTeamName(String teamName) {
+    public static String getInvalidityInfoForTeamName(String teamName) {
+        boolean isValidEmail = StringHelper.isMatching(teamName, REGEX_EMAIL);
+        if (isValidEmail) {
+            return TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE;
+        }
         return getValidityInfoForAllowedName(TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, teamName);
     }
 
@@ -417,7 +430,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code studentRoleComments} is not acceptable.
      *         Returns an empty string "" if the {@code studentRoleComments} is acceptable.
      */
-    public String getInvalidityInfoForStudentRoleComments(String studentRoleComments) {
+    public static String getInvalidityInfoForStudentRoleComments(String studentRoleComments) {
         return getValidityInfoForSizeCappedPossiblyEmptyString(STUDENT_ROLE_COMMENTS_FIELD_NAME,
                                                                STUDENT_ROLE_COMMENTS_MAX_LENGTH,
                                                                studentRoleComments);
@@ -430,7 +443,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code feedbackSessionName} is not acceptable.
      *         Returns an empty string if the {@code feedbackSessionName} is acceptable.
      */
-    public String getInvalidityInfoForFeedbackSessionName(String feedbackSessionName) {
+    public static String getInvalidityInfoForFeedbackSessionName(String feedbackSessionName) {
         String errorsFromAllowedNameValidation = getValidityInfoForAllowedName(
                 FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, feedbackSessionName);
 
@@ -449,7 +462,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code courseName} is not acceptable.
      *         Returns an empty string if the {@code courseName} is acceptable.
      */
-    public String getInvalidityInfoForCourseName(String courseName) {
+    public static String getInvalidityInfoForCourseName(String courseName) {
         return getValidityInfoForAllowedName(COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, courseName);
     }
 
@@ -459,7 +472,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code nationality} is not acceptable.
      *         Returns an empty string if the {@code nationality} is acceptable.
      */
-    public String getInvalidityInfoForNationality(String nationality) {
+    public static String getInvalidityInfoForNationality(String nationality) {
         Assumption.assertNotNull("Non-null value expected", nationality);
         if (!NationalityHelper.getNationalities().contains(nationality)) {
             return String.format(NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(nationality));
@@ -473,7 +486,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code instituteName} is not acceptable.
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
-    public String getInvalidityInfoForInstituteName(String instituteName) {
+    public static String getInvalidityInfoForInstituteName(String instituteName) {
         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
                                              instituteName);
     }
@@ -484,7 +497,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code personName} is not acceptable.
      *         Returns an empty string if the {@code personName} is acceptable.
      */
-    public String getInvalidityInfoForPersonName(String personName) {
+    public static String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
     }
 
@@ -494,7 +507,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code timeZoneValue} is not acceptable.
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
-    public String getInvalidityInfoForTimeZone(String timeZoneValue) {
+    public static String getInvalidityInfoForTimeZone(String timeZoneValue) {
         Assumption.assertNotNull("Non-null value expected", timeZoneValue);
         if (!ZoneId.getAvailableZoneIds().contains(timeZoneValue)) {
             String sanitizedValue = SanitizationHelper.sanitizeForHtml(timeZoneValue);
@@ -510,7 +523,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code role} is not acceptable.
      *         Returns an empty string if the {@code role} is acceptable.
      */
-    public String getInvalidityInfoForRole(String role) {
+    public static String getInvalidityInfoForRole(String role) {
         Assumption.assertNotNull("Non-null value expected", role);
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(role);
 
@@ -534,7 +547,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
-    public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
+    public static String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
 
         Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
@@ -588,7 +601,7 @@ public class FieldValidator {
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
-    public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
+    public static String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
         Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (isUntrimmed(value)) {
@@ -607,7 +620,7 @@ public class FieldValidator {
      * @return Error string if {@code sessionStart} is before {@code sessionEnd}
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
      */
-    public String getInvalidityInfoForTimeForSessionStartAndEnd(Instant sessionStart, Instant sessionEnd) {
+    public static String getInvalidityInfoForTimeForSessionStartAndEnd(Instant sessionStart, Instant sessionEnd) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 sessionStart, sessionEnd, SESSION_START_TIME_FIELD_NAME, SESSION_END_TIME_FIELD_NAME);
     }
@@ -617,7 +630,7 @@ public class FieldValidator {
      * @return Error string if {@code visibilityStart} is before {@code sessionStart}
      *         Empty string if {@code visibilityStart} is after {@code sessionStart}
      */
-    public String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+    public static String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
             Instant visibilityStart, Instant sessionStart) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(
                 visibilityStart, sessionStart, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
@@ -628,13 +641,13 @@ public class FieldValidator {
      * @return Error string if {@code visibilityStart} is before {@code resultsPublish}
      *         Empty string if {@code visibilityStart} is after {@code resultsPublish}
      */
-    public String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+    public static String getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
             Instant visibilityStart, Instant resultsPublish) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, resultsPublish,
                 SESSION_VISIBLE_TIME_FIELD_NAME, RESULTS_VISIBLE_TIME_FIELD_NAME);
     }
 
-    private String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
+    private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
             Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
         Assumption.assertNotNull("Non-null value expected", earlierTime);
         Assumption.assertNotNull("Non-null value expected", laterTime);
@@ -647,7 +660,7 @@ public class FieldValidator {
         return "";
     }
 
-    public List<String> getValidityInfoForFeedbackParticipantType(
+    public static List<String> getValidityInfoForFeedbackParticipantType(
             FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
 
         Assumption.assertNotNull("Non-null value expected", giverType);
@@ -677,7 +690,7 @@ public class FieldValidator {
      * @param commentGiverType comment giver type to be checked.
      * @return Error string if type is invalid, otherwise empty string.
      */
-    public String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
+    public static String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
         Assumption.assertNotNull("Non-null value expected", commentGiverType);
         if (!commentGiverType.equals(FeedbackParticipantType.STUDENTS)
                    && !commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)
@@ -694,7 +707,8 @@ public class FieldValidator {
      * @param isVisibilityFollowingFeedbackQuestion true if visibility of comment follows question.
      * @return Error string if condition is not met, otherwise empty string.
      */
-    public String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(boolean isCommentFromFeedbackParticipant,
+    public static String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
+            boolean isCommentFromFeedbackParticipant,
             boolean isVisibilityFollowingFeedbackQuestion) {
         if (isCommentFromFeedbackParticipant && !isVisibilityFollowingFeedbackQuestion) {
             return "Comment by feedback participant not following visibility setting of the question.";
@@ -702,7 +716,7 @@ public class FieldValidator {
         return "";
     }
 
-    public List<String> getValidityInfoForFeedbackResponseVisibility(
+    public static List<String> getValidityInfoForFeedbackResponseVisibility(
             List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo,
             List<FeedbackParticipantType> showRecipientNameTo) {
@@ -750,13 +764,13 @@ public class FieldValidator {
         return errors;
     }
 
-    public String getValidityInfoForNonHtmlField(String fieldName, String value) {
+    public static String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         //Fails if sanitized value is not same as value
         return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
     }
 
-    public String getValidityInfoForNonNullField(String fieldName, Object value) {
+    public static String getValidityInfoForNonNullField(String fieldName, Object value) {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 

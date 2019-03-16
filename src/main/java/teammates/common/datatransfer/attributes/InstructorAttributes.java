@@ -113,22 +113,21 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public List<String> getInvalidityInfo() {
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
         if (googleId != null) {
-            addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseId(courseId), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(courseId), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForPersonName(displayedName), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(displayedName), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForRole(role), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role), errors);
 
         return errors;
     }

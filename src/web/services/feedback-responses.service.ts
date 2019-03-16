@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   FeedbackContributionResponseDetails,
-  FeedbackQuestionType, FeedbackResponse,
+  FeedbackNumericalScaleResponseDetails,
+  FeedbackQuestionType,
+  FeedbackResponse,
   FeedbackResponseDetails,
   FeedbackTextResponseDetails,
 } from '../types/api-output';
 import { FeedbackResponseCreateRequest, FeedbackResponseSaveRequest } from '../types/api-request';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
+  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
 } from '../types/feedback-response-details';
 import { HttpRequestService } from './http-request.service';
 
@@ -37,6 +40,11 @@ export class FeedbackResponsesService {
           questionType,
           answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
         } as FeedbackContributionResponseDetails;
+      case FeedbackQuestionType.NUMSCALE:
+        return {
+          questionType,
+          answer: NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
+        } as FeedbackNumericalScaleResponseDetails;
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
@@ -53,6 +61,9 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.CONTRIB:
         const contributionDetails: FeedbackContributionResponseDetails = details as FeedbackContributionResponseDetails;
         return contributionDetails.answer === CONTRIBUTION_POINT_NOT_SUBMITTED;
+      case FeedbackQuestionType.NUMSCALE:
+        const numScaleDetails: FeedbackNumericalScaleResponseDetails = details as FeedbackNumericalScaleResponseDetails;
+        return numScaleDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
       default:
         return true;
     }

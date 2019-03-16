@@ -1,20 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { StudentAttributes } from '../student-profile/student-attributes';
 import { StudentProfile } from '../student-profile/student-profile';
-
-interface StudentAttributes {
-  email: string;
-  course: string;
-  name: string;
-  lastName: string;
-  comments: string;
-  team: string;
-  section: string;
-}
 
 interface StudentDetails {
   student: StudentAttributes;
@@ -37,7 +27,7 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   studentProfile?: StudentProfile;
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
-    private statusMessageService: StatusMessageService, private ngbModal: NgbModal) { }
+    private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -66,13 +56,6 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-  }
-
-  /**
-   * Open the more info modal.
-   */
-  openModal(content: any): void {
-    this.ngbModal.open(content);
   }
 
 }

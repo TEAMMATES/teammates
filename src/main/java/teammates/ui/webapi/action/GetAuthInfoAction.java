@@ -47,8 +47,7 @@ public class GetAuthInfoAction extends Action {
             if (accountInfo != null) {
                 institute = accountInfo.getInstitute();
             }
-            output = new AuthInfo(userInfo, institute, authType == AuthType.MASQUERADE,
-                    gateKeeper.getLogoutUrl(frontendUrl + "/web"));
+            output = new AuthInfo(userInfo, institute, authType == AuthType.MASQUERADE);
         }
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());

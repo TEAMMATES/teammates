@@ -8,6 +8,12 @@ import {
 } from '../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component';
 import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
 import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
+import {
+  SessionLinksRecoveryPageComponent,
+} from '../pages-help/session-links-recovery/session-links-recovery-page.component';
+import {
+  SessionLinksRecoveryPageModule,
+} from '../pages-help/session-links-recovery/session-links-recovery-page.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
 import { StudentHelpPageModule } from '../pages-help/student-help-page/student-help-page.module';
 import { AboutPageComponent } from './about-page/about-page.component';
@@ -68,12 +74,15 @@ const routes: Routes = [
       {
         path: 'getting-started',
         component: InstructorHelpGettingStartedComponent,
+        data: {
+          instructorHelpPath: '/web/front/help/instructor',
+        },
+      },
+      {
+        path: 'session-links-recovery',
+        component: SessionLinksRecoveryPageComponent,
       },
     ],
-  },
-  {
-    path: 'getting-started',
-    component: InstructorHelpGettingStartedComponent,
   },
   {
     path: '',
@@ -103,6 +112,7 @@ const routes: Routes = [
     UsermapPageModule,
     StudentHelpPageModule,
     InstructorHelpPageModule,
+    SessionLinksRecoveryPageModule,
     RouterModule.forChild(routes),
   ],
 })

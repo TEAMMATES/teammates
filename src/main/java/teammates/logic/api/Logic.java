@@ -5,8 +5,6 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -37,7 +35,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -134,10 +131,21 @@ public class Logic {
      *
      * <p>Fails silently if the {@code key} doesn't exist.</p>
      */
-    public void deletePicture(BlobKey key) {
+    public void deletePicture(String key) {
         Assumption.assertNotNull(key);
 
         profilesLogic.deletePicture(key);
+    }
+
+    /**
+     * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
+     *
+     * <p>If the associated profile doesn't exist, create a new one.</p>
+     */
+    public void deletePictureKey(String googleId) {
+        Assumption.assertNotNull(googleId);
+
+        profilesLogic.deletePictureKey(googleId);
     }
 
     /**
@@ -361,17 +369,6 @@ public class Logic {
         Assumption.assertNotNull(encryptedKey);
 
         return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
-    }
-
-    public void verifyInputForAdminHomePage(String name, String institute, String email)
-            throws InvalidParametersException {
-
-        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(name,
-                                                                                              institute, email);
-
-        if (!invalidityInfo.isEmpty()) {
-            throw new InvalidParametersException(invalidityInfo);
-        }
     }
 
     /**
@@ -1612,21 +1609,6 @@ public class Logic {
     }
 
     /**
-     * Generates template feedback questions for an instructor in the session.<br>
-     * Returns an empty list if there are no questions for the template
-     * for the session.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public List<FeedbackQuestionAttributes> populateFeedbackSessionTemplateQuestions(String templateType, String courseId,
-            String feedbackSessionName) {
-        Assumption.assertNotNull(templateType);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
-        return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(templateType, courseId, feedbackSessionName);
-    }
-
-    /**
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.
@@ -2010,15 +1992,6 @@ public class Logic {
     public void deleteFeedbackResponseCommentById(Long commentId) {
         Assumption.assertNotNull(commentId);
         feedbackResponseCommentsLogic.deleteFeedbackResponseCommentById(commentId);
-    }
-
-    /**
-     * Deletes uploaded file.
-     * @param key the GCS blobkey used to fetch the file in Google Cloud Storage
-     */
-    public void deleteUploadedFile(BlobKey key) {
-        Assumption.assertNotNull(key);
-        GoogleCloudStorageHelper.deleteFile(key);
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,

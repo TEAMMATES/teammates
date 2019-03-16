@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import teammates.common.util.GoogleCloudStorageHelper;
 
 /**
  * Action result in form of an image.
@@ -25,10 +23,8 @@ public class ImageResult extends ActionResult {
 
     @Override
     public void send(HttpServletResponse resp) throws IOException {
-        // TODO do not hardcode PNG format
         resp.setContentType("image/png");
-        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-        blobstoreService.serve(new BlobKey(blobKey), resp);
+        GoogleCloudStorageHelper.serve(resp, blobKey);
     }
 
 }

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
 import {
   FeedbackContributionQuestionDetails,
+  FeedbackNumericalScaleQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionDetails,
@@ -45,6 +46,7 @@ export class FeedbackQuestionsService {
         paths.set(FeedbackParticipantType.STUDENTS, [FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         break;
       case FeedbackQuestionType.TEXT:
+      case FeedbackQuestionType.NUMSCALE:
         paths.set(FeedbackParticipantType.SELF,
           [FeedbackParticipantType.SELF, FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS,
             FeedbackParticipantType.TEAMS, FeedbackParticipantType.OWN_TEAM, FeedbackParticipantType.NONE]);
@@ -78,6 +80,7 @@ export class FeedbackQuestionsService {
         paths.set(FeedbackParticipantType.STUDENTS, [FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         break;
       case FeedbackQuestionType.TEXT:
+      case FeedbackQuestionType.NUMSCALE:
         paths.set(FeedbackParticipantType.SELF,
             [FeedbackParticipantType.NONE, FeedbackParticipantType.SELF, FeedbackParticipantType.INSTRUCTORS]);
         paths.set(FeedbackParticipantType.STUDENTS,
@@ -128,6 +131,7 @@ export class FeedbackQuestionsService {
         });
         break;
       case FeedbackQuestionType.TEXT:
+      case FeedbackQuestionType.NUMSCALE:
         settings.push({
           name: 'Shown anonymously to recipient and instructors',
           visibilitySettings: {
@@ -212,6 +216,8 @@ export class FeedbackQuestionsService {
         return true;
       case FeedbackQuestionType.CONTRIB:
         return false;
+      case FeedbackQuestionType.NUMSCALE:
+        return true;
       default:
         throw new Error(`Unsupported question type: ${type}`);
     }
@@ -257,6 +263,30 @@ export class FeedbackQuestionsService {
 
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+
+          numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+          showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
+            FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+          showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+          showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+        };
+      case FeedbackQuestionType.NUMSCALE:
+        return {
+          questionBrief: '',
+          questionDescription: '',
+
+          questionType: FeedbackQuestionType.NUMSCALE,
+          questionDetails: {
+            minScale: 1,
+            maxScale: 5,
+            step: 1,
+            questionType: FeedbackQuestionType.NUMSCALE,
+            questionText: '',
+          } as FeedbackNumericalScaleQuestionDetails,
+
+          giverType: FeedbackParticipantType.STUDENTS,
+          recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
           numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 

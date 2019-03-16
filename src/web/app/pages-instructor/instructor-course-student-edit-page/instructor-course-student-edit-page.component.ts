@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
+import { StudentUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentAttributes {
@@ -34,6 +35,7 @@ interface StudentEditDetails {
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 
   user: string = '';
+  @Input() isEnabled: boolean = true;
   courseid: string = '';
   studentemail: string = '';
   student!: StudentAttributes;
@@ -55,6 +57,21 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
               private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
+    if (!this.isEnabled) {
+      this.student = {
+        email: 'alice@email.com',
+        course: '',
+        name: 'Alice Betsy',
+        lastName: '',
+        comments: 'Alice is a transfer student.',
+        team: 'Team A',
+        section: 'Section A',
+      };
+      this.studentemail = this.student.email;
+      this.initEditForm();
+      return;
+    }
+
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
       this.courseid = queryParams.courseid;
@@ -116,6 +133,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * upon submission of the form. Submits the form otherwise.
    */
   onSubmit(confirmDelModal: any, resendPastLinksModal: any): void {
+    if (!this.isEnabled) {
+      return;
+    }
+
     if (this.isTeamnameFieldChanged) {
       this.ngbModal.open(confirmDelModal);
     } else if (this.isEmailFieldChanged) {
@@ -157,11 +178,18 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       user: this.user,
       courseid: this.courseid,
       studentemail: this.studentemail,
-      sessionsummarysendemail: this.isSessionSummarySendEmail.toString(),
-      ...this.editForm.value,
     };
 
-    this.httpRequestService.put('/courses/students/details/edit', paramsMap)
+    const reqBody: StudentUpdateRequest = {
+      name: this.editForm.value.studentname,
+      email: this.editForm.value.newstudentemail,
+      team: this.editForm.value.teamname,
+      section: this.editForm.value.sectionname,
+      comments: this.editForm.value.comments,
+      isSessionSummarySendEmail: this.isSessionSummarySendEmail,
+    };
+
+    this.httpRequestService.put('/student', paramsMap, reqBody)
       .subscribe((resp: MessageOutput) => {
         this.router.navigate(['/web/instructor/courses/details'], {
           queryParams: { courseid: this.courseid },

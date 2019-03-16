@@ -2,8 +2,6 @@ package teammates.test.cases.logic;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.core.ProfilesLogic;
 
@@ -93,15 +91,14 @@ public class ProfilesLogicTest extends BaseLogicTest {
         profilesLogic.deleteStudentProfile("sp.logic.test");
         // check that profile get deleted and picture get deleted
         verifyAbsentInDatastore(savedProfile);
-        assertFalse(doesFileExistInGcs(new BlobKey(savedProfile.pictureKey)));
+        assertFalse(doesFileExistInGcs(savedProfile.pictureKey));
     }
 
     @Test
     public void testDeletePicture() throws Exception {
         String keyString = writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png");
-        BlobKey key = new BlobKey(keyString);
-        profilesLogic.deletePicture(key);
-        assertFalse(doesFileExistInGcs(key));
+        profilesLogic.deletePicture(keyString);
+        assertFalse(doesFileExistInGcs(keyString));
     }
 
 }
