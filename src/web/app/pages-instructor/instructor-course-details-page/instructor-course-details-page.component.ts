@@ -121,7 +121,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       user: this.user,
       courseid: courseId,
     };
-    this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
+    this.httpRequestService.delete('/students', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.loadCourseDetails(courseId);
         this.statusMessageService.showSuccessMessage(resp.message);

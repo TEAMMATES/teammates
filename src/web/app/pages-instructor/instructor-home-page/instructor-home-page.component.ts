@@ -13,8 +13,10 @@ import {
   Courses,
   FeedbackSession,
   FeedbackSessions,
+  InstructorPrivilege,
   MessageOutput,
 } from '../../../types/api-output';
+import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -24,7 +26,6 @@ import {
   SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { defaultInstructorPrivilege, InstructorPrivilege } from '../../instructor-privilege';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 
 interface CourseTabModel {
@@ -157,7 +158,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
       courses.courses.forEach((course: Course) => {
         const model: CourseTabModel = {
           course,
-          instructorPrivilege: defaultInstructorPrivilege,
+          instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
           sessionsTableRowModels: [],
           isTabExpanded: false,
           isAjaxSuccess: true,
@@ -199,7 +200,7 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
             feedbackSession,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: defaultInstructorPrivilege,
+            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
           };
           model.sessionsTableRowModels.push(m);
           this.updateInstructorPrivilege(m);
