@@ -1,83 +1,15 @@
 {
   "accounts": {
-    "SProfileUiT.instr": {
-      "googleId": "${value.injected.in.testfile}",
-      "name": "Teammates Test",
-      "isInstructor": true,
-      "email": "${value.injected.in.testfile}",
-      "institute": "TEAMMATES Test Institute 1"
-    },
-    "SProfileUiT.helper": {
-      "googleId": "SProfileUiT.helper",
-      "name": "Teammates Test Helper",
-      "isInstructor": true,
-      "email": "SProfileUiT.helper@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
-    },
     "studentWithExistingProfile": {
       "googleId": "${value.injected.in.testfile}",
       "name": "Benny C",
       "isInstructor": false,
       "email": "${value.injected.in.testfile}",
       "institute": "TEAMMATES Test Institute 7"
-    },
-    "studentForHelperCourse": {
-      "googleId": "${value.injected.in.testfile}",
-      "name": "Ash Ketchum",
-      "isInstructor": false,
-      "email": "${value.injected.in.testfile}",
-      "institute": "TEAMMATES Test Institute 7"
-    },
-    "studentWithEmptyProfile": {
-      "googleId": "SProfileUiT.benny.c",
-      "name": "Benny Charles",
-      "isInstructor": false,
-      "email": "SProfileUiT.benny.c@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
     }
   },
-  "courses": {
-    "SProfileUiT.CS2104": {
-      "id": "SProfileUiT.CS2104",
-      "name": "Programming Language Concepts",
-      "timeZone": "UTC"
-    },
-    "SProfileUiT.CS2103": {
-      "id": "SProfileUiT.CS2103",
-      "name": "Software Engineering",
-      "timeZone": "UTC"
-    }
-  },
-  "instructors": {
-    "SProfileUiT.instr.CS2104": {
-      "googleId": "${value.injected.in.testfile}",
-      "courseId": "SProfileUiT.CS2104",
-      "name": "Teammates Test",
-      "email": "${value.injected.in.testfile}",
-      "isDisplayedToStudents": false
-    },
-    "SProfileUiT.instr.CS2103": {
-      "googleId": "${value.injected.in.testfile}",
-      "courseId": "SProfileUiT.CS2103",
-      "name": "Teammates Test Helper",
-      "email": "${value.injected.in.testfile}",
-      "isDisplayedToStudents": false,
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": false,
-          "cansubmitsessioninsection": false,
-          "canmodifysessioncommentinsection": false,
-          "canmodifycourse": false,
-          "canviewsessioninsection": false,
-          "canmodifysession": false,
-          "canmodifystudent": false,
-          "canmodifyinstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    }
-  },
+  "courses": {},
+  "instructors": {},
   "students": {
     "studentWithExistingProfile": {
       "googleId": "${value.injected.in.testfile}",
@@ -85,24 +17,6 @@
       "course": "SProfileUiT.CS2104",
       "name": "Benny C",
       "comments": "This student's name is BC",
-      "team": "Team 1",
-      "section": "None"
-    },
-    "studentForHelperCourse": {
-      "googleId": "${value.injected.in.testfile}",
-      "email": "${value.injected.in.testfile}",
-      "course": "SProfileUiT.CS2103",
-      "name": "Ash Ketchum",
-      "comments": "This student's name is AK",
-      "team": "Team 1",
-      "section": "None"
-    },
-    "SProfileUiT.benny.c@SProfileUiT.CS2104": {
-      "googleId": "SProfileUiT.benny.c",
-      "email": "SProfileUiT.benny.c@gmail.tmt",
-      "course": "SProfileUiT.CS2104",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     }
@@ -120,16 +34,6 @@
       "nationality": "Singaporean",
       "gender": "MALE",
       "moreInfo": "I am just another student :P",
-      "pictureKey": ""
-    },
-    "studentForHelperCourse": {
-      "googleId": "${value.injected.in.testfile}",
-      "shortName": "Ash",
-      "email": "ash.ketchum@pokemon.com",
-      "institute": "TEAMMATES Test Institute 4",
-      "nationality": "Singaporean",
-      "gender": "MALE",
-      "moreInfo": "Gotta catch 'em all!",
       "pictureKey": ""
     }
   }

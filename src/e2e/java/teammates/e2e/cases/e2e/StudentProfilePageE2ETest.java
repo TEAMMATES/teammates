@@ -13,41 +13,18 @@ import teammates.e2e.util.TestProperties;
  * SUT: {@link teammates.common.util.Const.WebPageURIs#STUDENT_PROFILE_PAGE}.
  */
 public class StudentProfilePageE2ETest extends BaseE2ETestCase {
-    private StudentProfilePage profilePage;
 
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/StudentProfilePageE2ETest.json");
 
-        // inject the 1st student account as student of the course where instructor is only the helper
-        String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
-        String student1Email = student1GoogleId + "@gmail.com";
-        testData.accounts.get("studentForHelperCourse").googleId = student1GoogleId;
-        testData.profiles.get("studentForHelperCourse").googleId = student1GoogleId;
-        testData.accounts.get("studentForHelperCourse").email = student1Email;
-        testData.students.get("studentForHelperCourse").googleId = student1GoogleId;
-        testData.students.get("studentForHelperCourse").email = student1Email;
-
-        // use the 2nd student account injected for this test
-
-        String student2GoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
-        String student2Email = student2GoogleId + "@gmail.com";
-        testData.accounts.get("studentWithExistingProfile").googleId = student2GoogleId;
-        testData.profiles.get("studentWithExistingProfile").googleId = student2GoogleId;
-        testData.accounts.get("studentWithExistingProfile").email = student2Email;
-        testData.students.get("studentWithExistingProfile").googleId = student2GoogleId;
-        testData.students.get("studentWithExistingProfile").email = student2Email;
-
-        // also inject instructor account for this test
-        String instructorGoogleId = TestProperties.TEST_INSTRUCTOR_ACCOUNT;
-        String instructorEmail = instructorGoogleId + "@gmail.com";
-        testData.accounts.get("SProfileUiT.instr").googleId = instructorGoogleId;
-        testData.accounts.get("SProfileUiT.instr").email = instructorEmail;
-        testData.instructors.get("SProfileUiT.instr.CS2104").googleId = instructorGoogleId;
-        testData.instructors.get("SProfileUiT.instr.CS2104").email = instructorEmail;
-        testData.instructors.get("SProfileUiT.instr.CS2103").googleId = instructorGoogleId;
-        testData.instructors.get("SProfileUiT.instr.CS2103").email = instructorEmail;
-
+        String studentGoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
+        String studentEmail = studentGoogleId + "@gmail.com";
+        testData.accounts.get("studentWithExistingProfile").googleId = studentGoogleId;
+        testData.profiles.get("studentWithExistingProfile").googleId = studentGoogleId;
+        testData.accounts.get("studentWithExistingProfile").email = studentEmail;
+        testData.students.get("studentWithExistingProfile").googleId = studentGoogleId;
+        testData.students.get("studentWithExistingProfile").email = studentEmail;
         removeAndRestoreDataBundle(testData);
     }
 
@@ -60,8 +37,8 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: Log in with filled profile values");
 
         StudentHomePage shp = getHomePage().clickStudentLogin().loginAsStudent(
-                TestProperties.TEST_STUDENT2_ACCOUNT, TestProperties.TEST_STUDENT2_PASSWORD);
-        profilePage = shp.loadProfileTab();
+                TestProperties.TEST_STUDENT1_ACCOUNT, TestProperties.TEST_STUDENT1_PASSWORD);
+        StudentProfilePage profilePage = shp.loadProfileTab();
 
         profilePage.ensureProfileContains("Ben", "i.m.benny@gmail.tmt", "TEAMMATES Test Institute 4",
                 "Singaporean", StudentProfileAttributes.Gender.MALE, "I am just another student :P");
@@ -89,7 +66,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.verifyPhotoSize("295px", "295px");
 
         StudentProfileAttributes studentProfileAttributes =
-                BackDoor.getStudentProfile(TestProperties.TEST_STUDENT2_ACCOUNT);
+                BackDoor.getStudentProfile(TestProperties.TEST_STUDENT1_ACCOUNT);
         // checks that the pictureKey value is within the newly uploaded profile picture link
         assertTrue(profilePage.getProfilePicLink().contains(studentProfileAttributes.pictureKey));
     }
