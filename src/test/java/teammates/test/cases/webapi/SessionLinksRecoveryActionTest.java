@@ -270,9 +270,11 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 .toAbsoluteString();
         String submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
 
-        String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(course1.getId())
                 .withSessionName(session1InCourse1.getFeedbackSessionName())
+                .withRegistrationKey(StringHelper.encrypt(registrationKey))
+                .withStudentEmail(student1InCourse1.email)
                 .toAbsoluteString();
         String reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
 
@@ -290,9 +292,11 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 .withStudentEmail(student1InCourse1.getEmail())
                 .toAbsoluteString();
         submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
-        reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(course1.getId())
                 .withSessionName(session2InCourse1.getFeedbackSessionName())
+                .withRegistrationKey(StringHelper.encrypt(registrationKey))
+                .withStudentEmail(student1InCourse1.email)
                 .toAbsoluteString();
         reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
 

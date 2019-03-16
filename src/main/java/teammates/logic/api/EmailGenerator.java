@@ -322,7 +322,7 @@ public class EmailGenerator {
                 }
 
                 if (session.isPublished()) {
-                    String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                    String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getFeedbackSessionName())
                             .withRegistrationKey(StringHelper.encrypt(student.key))
