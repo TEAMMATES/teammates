@@ -101,7 +101,6 @@ public class ActionFactory {
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
         map(ResourceURIs.JOIN_REMIND, POST, SendJoinReminderEmailAction.class);
-        map(ResourceURIs.COURSE_ENROLL_PAGE_DATA, GET, GetCourseEnrollPageDataAction.class);
         map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE_ALL, PUT, RestoreAllInstructorSoftDeletedCoursesAction.class);
