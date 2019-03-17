@@ -13,19 +13,20 @@ import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.StringHelperExtension;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.PutCourseStudentDetailsEditAction;
+import teammates.ui.webapi.action.UpdateStudentAction;
 import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.StudentUpdateRequest;
 
 /**
- * SUT: {@link PutCourseStudentDetailsEditAction}.
+ * SUT: {@link UpdateStudentAction}.
  */
-public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCourseStudentDetailsEditAction> {
+public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction> {
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.COURSE_STUDENT_DETAILS_EDIT;
+        return Const.ResourceURIs.STUDENT;
     }
 
     @Override
@@ -40,9 +41,6 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
         String instructorId = instructor1OfCourse1.googleId;
-        String newStudentEmail = "newemail@gmail.tmt";
-        String newStudentTeam = "new student's team";
-        String newStudentComments = "this is new comment after editing";
         loginAsInstructor(instructorId);
 
         ______TS("Invalid parameters");
@@ -63,56 +61,50 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
         verifyHttpParameterFailure(invalidParams);
 
         ______TS("Typical case, successful edit and save student detail");
+        String newStudentEmail = "newemail@gmail.tmt";
+        String newStudentTeam = "new student's team";
+        String newStudentComments = "this is new comment after editing";
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.name, newStudentEmail,
+                newStudentTeam, student1InCourse1.section, newStudentComments, true);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
-                Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
-                Const.ParamsNames.NEW_STUDENT_EMAIL, newStudentEmail,
-                Const.ParamsNames.COMMENTS, newStudentComments,
-                Const.ParamsNames.TEAM_NAME, newStudentTeam,
-                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "true",
         };
 
-        PutCourseStudentDetailsEditAction a = getAction(submissionParams);
-        JsonResult r = getJsonResult(a);
+        UpdateStudentAction updateAction = getAction(updateRequest, submissionParams);
+        JsonResult actionOutput = getJsonResult(updateAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        MessageOutput msgOutput = (MessageOutput) r.getOutput();
-        assertEquals(Const.StatusMessages.STUDENT_EDITED_AND_EMAIL_SENT,
-                msgOutput.getMessage());
-        verifyNumberOfEmailsSent(a, 1);
+        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
+        assertEquals("Student has been updated and email sent", msgOutput.getMessage());
+        verifyNumberOfEmailsSent(updateAction, 1);
 
-        EmailWrapper email = getEmailsSent(a).get(0);
+        EmailWrapper email = getEmailsSent(updateAction).get(0);
         String courseName = coursesLogic.getCourse(instructor1OfCourse1.courseId).getName();
-        assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName, instructor1OfCourse1.courseId),
-                email.getSubject());
+        assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
+                instructor1OfCourse1.courseId), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
 
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
-
         String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   "; // after trim, this is equal to newStudentEmail
         String newStudentTeamToBeTrimmed = "  New team   ";
         String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
+        updateRequest = new StudentUpdateRequest(student1InCourse1.name, newStudentEmailToBeTrimmed,
+                newStudentTeamToBeTrimmed, student1InCourse1.section, newStudentCommentsToBeTrimmed, true);
 
         String[] submissionParamsToBeTrimmed = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
-                Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
-                Const.ParamsNames.NEW_STUDENT_EMAIL, newStudentEmailToBeTrimmed,
-                Const.ParamsNames.COMMENTS, newStudentCommentsToBeTrimmed,
-                Const.ParamsNames.TEAM_NAME, newStudentTeamToBeTrimmed,
-                Const.ParamsNames.SESSION_SUMMARY_EMAIL_SEND_CHECK, "true",
         };
 
-        PutCourseStudentDetailsEditAction aToBeTrimmed = getAction(submissionParamsToBeTrimmed);
-        JsonResult rToBeTrimmed = getJsonResult(aToBeTrimmed);
+        UpdateStudentAction actionToBeTrimmed = getAction(updateRequest, submissionParamsToBeTrimmed);
+        JsonResult outputToBeTrimmed = getJsonResult(actionToBeTrimmed);
 
-        assertEquals(HttpStatus.SC_OK, rToBeTrimmed.getStatusCode());
-        MessageOutput msgTrimmedOutput = (MessageOutput) rToBeTrimmed.getOutput();
-        assertEquals(Const.StatusMessages.STUDENT_EDITED,
-                msgTrimmedOutput.getMessage());
-        verifyNoEmailsSent(aToBeTrimmed);
+        assertEquals(HttpStatus.SC_OK, outputToBeTrimmed.getStatusCode());
+        MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
+        assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
+        verifyNoEmailsSent(actionToBeTrimmed);
 
         ______TS("Error case, invalid email parameter (email has too many characters)");
 
@@ -120,21 +112,19 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
                 + "@gmail.tmt";
         assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
 
+        updateRequest = new StudentUpdateRequest(student1InCourse1.name, invalidStudentEmail,
+                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail, //Use the new email as the previous email have been changed
-                Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
-                Const.ParamsNames.NEW_STUDENT_EMAIL, invalidStudentEmail,
-                Const.ParamsNames.COMMENTS, student1InCourse1.comments,
-                Const.ParamsNames.TEAM_NAME, student1InCourse1.team,
+                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
-        loginAsInstructor(instructorId);
-        a = getAction(submissionParams);
-        JsonResult result = getJsonResult(a);
+        UpdateStudentAction invalidEmailAction = getAction(updateRequest, submissionParams);
+        JsonResult invalidEmailOutput = getJsonResult(invalidEmailAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        MessageOutput invalidParamsOutput = (MessageOutput) result.getOutput();
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, invalidEmailOutput.getStatusCode());
+        MessageOutput invalidParamsOutput = (MessageOutput) invalidEmailOutput.getOutput();
 
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
@@ -146,23 +136,21 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         String takenStudentEmail = student2InCourse1.email;
 
+        updateRequest = new StudentUpdateRequest(student1InCourse1.name, takenStudentEmail,
+                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
+
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail, //Use the new email as the previous email have been changed
-                Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
-                Const.ParamsNames.NEW_STUDENT_EMAIL, takenStudentEmail,
-                Const.ParamsNames.COMMENTS, student1InCourse1.comments,
-                Const.ParamsNames.TEAM_NAME, student1InCourse1.team,
+                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
-        loginAsInstructor(instructorId);
-        a = getAction(submissionParams);
-        result = getJsonResult(a);
+        UpdateStudentAction takenEmailAction = getAction(updateRequest, submissionParams);
+        JsonResult takenEmailOutput = getJsonResult(takenEmailAction);
 
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        invalidParamsOutput = (MessageOutput) result.getOutput();
+        assertEquals(HttpStatus.SC_CONFLICT, takenEmailOutput.getStatusCode());
+        invalidParamsOutput = (MessageOutput) takenEmailOutput.getOutput();
 
-        assertEquals("Trying to update to an email that is already used", invalidParamsOutput.getMessage());
+        assertEquals("Trying to update to an email that is already in use", invalidParamsOutput.getMessage());
 
         // deleting edited student
         AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);
@@ -171,22 +159,19 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
         ______TS("Error case, student does not exist");
 
         String nonExistentEmailForStudent = "notinuseemail@gmail.tmt";
+        updateRequest = new StudentUpdateRequest(student1InCourse1.name, student1InCourse1.email,
+                student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
-                Const.ParamsNames.STUDENT_NAME, student1InCourse1.name,
-                Const.ParamsNames.NEW_STUDENT_EMAIL, student1InCourse1.email,
-                Const.ParamsNames.COMMENTS, student1InCourse1.comments,
-                Const.ParamsNames.TEAM_NAME, student1InCourse1.team,
         };
 
-        loginAsInstructor(instructorId);
-        a = getAction(submissionParams);
-        result = getJsonResult(a);
+        UpdateStudentAction nonExistentStudentAction = getAction(updateRequest, submissionParams);
+        JsonResult nonExistentStudentOuput = getJsonResult(nonExistentStudentAction);
 
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        invalidParamsOutput = (MessageOutput) result.getOutput();
+        assertEquals(HttpStatus.SC_NOT_FOUND, nonExistentStudentOuput.getStatusCode());
+        invalidParamsOutput = (MessageOutput) nonExistentStudentOuput.getOutput();
 
         assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT,
                 invalidParamsOutput.getMessage());
@@ -203,7 +188,13 @@ public class PutCourseStudentDetailsEditActionTest extends BaseActionTest<PutCou
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
+        ______TS("Only instructors of same course can access");
+
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyInaccessibleWithoutModifyStudentPrivilege(submissionParams);
+
+        ______TS("Instructors of other courses cannot access");
+
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
     }
 }
