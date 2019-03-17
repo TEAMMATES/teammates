@@ -18,7 +18,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/StudentProfilePageE2ETest.json");
 
-        String studentGoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
+        String studentGoogleId = TestProperties.TEST_STUDENT2_ACCOUNT;
         String studentEmail = studentGoogleId + "@gmail.com";
         testData.accounts.get("studentWithExistingProfile").googleId = studentGoogleId;
         testData.profiles.get("studentWithExistingProfile").googleId = studentGoogleId;
@@ -37,7 +37,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: Log in with filled profile values");
 
         StudentHomePage shp = getHomePage().clickStudentLogin().loginAsStudent(
-                TestProperties.TEST_STUDENT1_ACCOUNT, TestProperties.TEST_STUDENT1_PASSWORD);
+                TestProperties.TEST_STUDENT2_ACCOUNT, TestProperties.TEST_STUDENT2_PASSWORD);
         StudentProfilePage profilePage = shp.loadProfileTab();
 
         profilePage.ensureProfileContains("Ben", "i.m.benny@gmail.tmt", "TEAMMATES Test Institute 4",
@@ -66,7 +66,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.verifyPhotoSize("295px", "295px");
 
         StudentProfileAttributes studentProfileAttributes =
-                BackDoor.getStudentProfile(TestProperties.TEST_STUDENT1_ACCOUNT);
+                BackDoor.getStudentProfile(TestProperties.TEST_STUDENT2_ACCOUNT);
         // checks that the pictureKey value is within the newly uploaded profile picture link
         assertTrue(profilePage.getProfilePicLink().contains(studentProfileAttributes.pictureKey));
     }
