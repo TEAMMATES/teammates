@@ -22,7 +22,7 @@
   <div class="col-4">
     <a routerLink="/web/instructor/courses" class="btn btn-primary text-white">Add New Course</a>
   </div>
-  <div class="col-8">
+  <div class="col-8" *ngIf="courseTabModels.length > 0">
     <div class="float-right">
       <h5 class="d-inline"><strong> Sort By: </strong></h5>
       <div class="btn-group" data-toggle="buttons">
@@ -140,17 +140,17 @@
     </ng-template>
 
     <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
-      <tm-sessions-table [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
-                         [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
-                         [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE"
-                         [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
-                         (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
-                         (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
-                         (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
-                         (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
-                         (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
-                         (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(idx, $event)"
-                         (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(idx, $event)"></tm-sessions-table>
+      <tm-sessions-table
+          [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
+          [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
+          [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+          (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
+          (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
+          (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
+          (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
+          (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+          (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(idx, $event)"
+          (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(idx, $event)"></tm-sessions-table>
     </div>
   </div>
 </div>
