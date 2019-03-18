@@ -18,12 +18,6 @@
   A video tour is also available in our <a routerLink="/web">home page</a>.
 </ng-template>
 
-<ng-template #noSessionMessage>
-  <div class="no-session-message">
-    There are no feedback sessions in this course.
-  </div>
-</ng-template>
-
 <div class="row height-60px">
   <div class="col-4">
     <a routerLink="/web/instructor/courses" class="btn btn-primary text-white">Add New Course</a>
@@ -146,7 +140,7 @@
     </ng-template>
 
     <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
-      <tm-sessions-table *ngIf="courseTabModel.sessionsTableRowModels.length > 0; else noSessionMessage"
+      <tm-sessions-table
           [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
           [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
           [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
