@@ -92,14 +92,19 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         return InstructorSearchDocument.fromResults(results);
     }
 
-    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
+    /**
+     * Creates an instructor.
+     *
+     * @return the created instructor
+     * @throws InvalidParametersException if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     */
+    @Override
+    public InstructorAttributes createEntity(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Instructor instructor = createEntity(instructorToAdd);
-        if (instructor == null) {
-            throw new InvalidParametersException("Created instructor is null.");
-        }
-        InstructorAttributes createdInstructor = makeAttributes(instructor);
+        InstructorAttributes createdInstructor = super.createEntity(instructorToAdd);
         putDocument(createdInstructor);
+
         return createdInstructor;
     }
 
@@ -394,6 +399,17 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                 .filter("courseId =", attributes.courseId)
                 .filter("email =", attributes.email)
                 .keys();
+    }
+
+    @Override
+    protected boolean hasExistingEntities(InstructorAttributes entityToCreate) {
+        // cannot use direct key query as email of an instructor can be changed
+        return !load()
+                .filter("courseId =", entityToCreate.getCourseId())
+                .filter("email =", entityToCreate.getEmail())
+                .keys()
+                .list()
+                .isEmpty();
     }
 
     @Override

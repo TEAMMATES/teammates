@@ -6,6 +6,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.storage.api.StudentsDb;
@@ -85,6 +86,31 @@ public class StudentSearchTest extends BaseSearchTest {
         assertEquals(0, bundle.numberOfResults);
         assertTrue(bundle.studentList.isEmpty());
 
+    }
+
+    @Test
+    public void testSearchStudent_createNewStudent_studentShouldBeSearchable() throws Exception {
+
+        StudentsDb studentsDb = new StudentsDb();
+        CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
+
+        StudentSearchResultBundle bundle =
+                studentsDb.searchStudentsInWholeSystem("studentABCDE");
+
+        assertEquals(0, bundle.numberOfResults);
+
+        // create a new student
+        studentsDb.createEntity(
+                StudentAttributes.builder(courseAttributes.getId(), "studentABCDE@email.com")
+                        .withName("studentABCDE")
+                        .withTeamName("TEAM-ABCDE")
+                        .withComment("")
+                        .build());
+
+        // the newly created student is searchable
+        bundle = studentsDb.searchStudentsInWholeSystem("studentABCDE");
+        assertEquals(1, bundle.numberOfResults);
+        assertEquals("studentABCDE", bundle.studentList.get(0).getName());
     }
 
 }

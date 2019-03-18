@@ -49,9 +49,16 @@ public final class FeedbackResponsesLogic {
         return instance;
     }
 
-    public void createFeedbackResponses(List<FeedbackResponseAttributes> fra)
-            throws InvalidParametersException {
-        frDb.createEntities(fra);
+    /**
+     * Creates a feedback response.
+     *
+     * @return created feedback response
+     * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
+     */
+    public FeedbackResponseAttributes createFeedbackResponse(FeedbackResponseAttributes fra)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return frDb.createEntity(fra);
     }
 
     public FeedbackResponseAttributes getFeedbackResponse(
@@ -590,7 +597,7 @@ public final class FeedbackResponsesLogic {
                                 .build());
             } catch (EntityAlreadyExistsException e) {
                 Assumption
-                        .fail("Feedback response failed to update successfully"
+                        .fail("Feedback response failed to update successfully "
                             + "as email was already in use.");
             }
         }

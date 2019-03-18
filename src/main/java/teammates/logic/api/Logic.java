@@ -1,7 +1,6 @@
 package teammates.logic.api;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -73,19 +72,6 @@ public class Logic {
         Assumption.assertNotNull(googleId);
 
         return accountsLogic.getAccount(googleId);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Details of accounts with instruction privileges. Returns empty
-     *         list if no such accounts are found.
-     */
-    @Deprecated //Not scalable.
-    public List<AccountAttributes> getInstructorAccounts() {
-
-        return accountsLogic.getInstructorAccounts();
     }
 
     /**
@@ -161,14 +147,28 @@ public class Logic {
         Assumption.assertNotNull(name);
         Assumption.assertNotNull(email);
 
-        InstructorAttributes instructor = InstructorAttributes.builder(null, courseId, name, email)
-                .withRole(role).withPrivileges(new InstructorPrivileges(role))
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withRole(role)
+                .withPrivileges(new InstructorPrivileges(role))
                 .build();
         instructorsLogic.createInstructor(instructor);
     }
 
+    /**
+     * Creates an instructor.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the created instructor
+     * @throws InvalidParametersException if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     */
     public InstructorAttributes createInstructor(InstructorAttributes instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(instructor);
+
         return instructorsLogic.createInstructor(instructor);
     }
 
@@ -399,21 +399,18 @@ public class Logic {
     }
 
     /**
-     * Creates a course and an instructor for it. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * * {@code instructorGoogleId} already has instructor privileges.
+     * Creates a course and an associated instructor for the course.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null. <br/>
+     * * {@code instructorGoogleId} already has an account and instructor privileges.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName,
-                                          String courseTimeZone)
+    public void createCourseAndInstructor(String instructorGoogleId, CourseAttributes courseAttributes)
             throws EntityAlreadyExistsException, InvalidParametersException {
-
         Assumption.assertNotNull(instructorGoogleId);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(courseName);
-        Assumption.assertNotNull(courseTimeZone);
+        Assumption.assertNotNull(courseAttributes);
 
-        coursesLogic.createCourseAndInstructor(instructorGoogleId, courseId, courseName, courseTimeZone);
+        coursesLogic.createCourseAndInstructor(instructorGoogleId, courseAttributes);
     }
 
     /**
@@ -657,18 +654,6 @@ public class Logic {
         Assumption.assertNotNull(instructorList);
 
         coursesLogic.restoreAllCoursesFromRecycleBin(instructorList);
-    }
-
-    /**
-     * Creates a student. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void createStudent(StudentAttributes student)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(student);
-        studentsLogic.createStudentCascade(student);
     }
 
     /**
@@ -1028,32 +1013,20 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Creates a feedback session.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return created feedback session
+     * @throws InvalidParametersException if the session is not valid
+     * @throws EntityAlreadyExistsException if the session already exist
      */
-    public void createFeedbackSession(FeedbackSessionAttributes feedbackSession)
+    public FeedbackSessionAttributes createFeedbackSession(FeedbackSessionAttributes feedbackSession)
             throws EntityAlreadyExistsException, InvalidParametersException {
         Assumption.assertNotNull(feedbackSession);
-        feedbackSessionsLogic.createFeedbackSession(feedbackSession);
-    }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName, String newCourseId,
-            ZoneId newTimeZone, String feedbackSessionName, String courseId, String instructorEmail)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(newFeedbackSessionName);
-        Assumption.assertNotNull(newCourseId);
-        Assumption.assertNotNull(newTimeZone);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(instructorEmail);
-
-        return feedbackSessionsLogic.copyFeedbackSession(newFeedbackSessionName, newCourseId, newTimeZone,
-                feedbackSessionName, courseId, instructorEmail);
+        return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
     }
 
     /**
@@ -1499,44 +1472,17 @@ public class Logic {
     /**
      * Creates a new feedback question.
      *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
      * @return the created question
+     * @throws InvalidParametersException if the question is invalid
      */
     public FeedbackQuestionAttributes createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
             throws InvalidParametersException {
         Assumption.assertNotNull(feedbackQuestion);
+
         return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
-    }
-
-    /**
-     * Used for creating initial questions for template sessions only.
-     * Does not check if feedback session exists.
-     * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * * questionNumber is > 0
-     */
-    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
-            FeedbackQuestionAttributes feedbackQuestion, int questionNumber)
-            throws InvalidParametersException {
-
-        Assumption.assertNotNull(feedbackQuestion);
-        Assumption.assertTrue(questionNumber > 0);
-        return feedbackQuestionsLogic.createFeedbackQuestionNoIntegrityCheck(feedbackQuestion, questionNumber);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName,
-                                                           String courseId)
-            throws InvalidParametersException {
-
-        Assumption.assertNotNull(feedbackQuestionId);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId);
     }
 
     /**
@@ -1818,11 +1764,21 @@ public class Logic {
         return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
 
-    public void createFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponses)
-            throws InvalidParametersException {
+    /**
+     * Creates a feedback response.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return created feedback response
+     * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
+     */
+    public FeedbackResponseAttributes createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(feedbackResponse);
 
-        Assumption.assertNotNull(feedbackResponses);
-        feedbackResponsesLogic.createFeedbackResponses(feedbackResponses);
+        return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
     }
 
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
@@ -1886,6 +1842,7 @@ public class Logic {
             FeedbackResponseCommentAttributes feedbackResponseComment)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Assumption.assertNotNull(feedbackResponseComment);
+
         return feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
     }
 

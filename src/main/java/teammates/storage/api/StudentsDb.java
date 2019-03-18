@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 import com.googlecode.objectify.cmd.QueryKeys;
@@ -93,12 +94,21 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKey);
     }
 
-    public void createStudent(StudentAttributes student)
+    /**
+     * Creates a student.
+     *
+     * @return the created student
+     * @throws InvalidParametersException if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
+     */
+    @Override
+    public StudentAttributes createEntity(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        CourseStudent createdStudent = createEntity(student);
-        putDocument(makeAttributes(createdStudent));
+        StudentAttributes createdStudent = super.createEntity(student);
+        putDocument(createdStudent);
 
+        return createdStudent;
     }
 
     /**
@@ -254,13 +264,11 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         boolean isEmailChanged = !student.getEmail().equals(newAttributes.email);
 
         if (isEmailChanged) {
-            CourseStudent createdStudent = createEntity(newAttributes);
+            newAttributes = createEntity(newAttributes);
             // delete the old student
             deleteStudent(student.getCourseId(), student.getEmail());
 
-            newAttributes = makeAttributes(createdStudent);
             putDocument(newAttributes);
-
             return newAttributes;
         } else {
             student.setName(newAttributes.name);
@@ -406,6 +414,15 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     @Override
     protected QueryKeys<CourseStudent> getEntityQueryKeys(StudentAttributes attributes) {
         return getCourseStudentForEmailQuery(attributes.course, attributes.email).keys();
+    }
+
+    @Override
+    protected boolean hasExistingEntities(StudentAttributes entityToCreate) {
+        return !load()
+                .filterKey(Key.create(CourseStudent.class,
+                        CourseStudent.generateId(entityToCreate.getEmail(), entityToCreate.getCourse())))
+                .list()
+                .isEmpty();
     }
 
     private void deleteStudentsCascadeDocuments(List<CourseStudent> students) {
