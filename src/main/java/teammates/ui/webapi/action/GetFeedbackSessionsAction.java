@@ -28,12 +28,18 @@ public class GetFeedbackSessionsAction extends Action {
         }
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if (userInfo.isInstructor && courseId != null) {
-            CourseAttributes courseAttributes = logic.getCourse(courseId);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), courseAttributes);
+        boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
+
+        if (userInfo.isInstructor) {
+            if (isRequestAsStudent) {
+                gateKeeper.verifyStudentPrivileges(logic.getAccount(userInfo.getId()));
+            } else if (courseId != null) {
+                CourseAttributes courseAttributes = logic.getCourse(courseId);
+                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), courseAttributes);
+            }
         }
 
-        if (userInfo.isStudent && courseId != null) {
+        if ((userInfo.isStudent || isRequestAsStudent) && courseId != null) {
             CourseAttributes courseAttributes = logic.getCourse(courseId);
             gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), courseAttributes);
         }
@@ -45,7 +51,9 @@ public class GetFeedbackSessionsAction extends Action {
 
         List<FeedbackSessionAttributes> feedbackSessionAttributes;
         if (courseId == null) {
-            if (userInfo.isInstructor) {
+            boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
+
+            if (userInfo.isInstructor && !isRequestAsStudent) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
                 List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.getId(), true);
