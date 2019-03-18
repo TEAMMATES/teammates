@@ -248,6 +248,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   editForm={[Function FormGroup]}
   httpRequestService={[Function HttpRequestService]}
   id=""
+  nationalities={[Function Array]}
   ngbModal={[Function NgbModal]}
   pictureKey={[Function String]}
   profilePicLink={[Function String]}
@@ -369,6 +370,18 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               ng-reflect-name="studentnationality"
             >
               
+              <option
+                ng-reflect-value="Derpistan"
+                value="Derpistan"
+              >
+                 Derpistan 
+              </option>
+              <option
+                ng-reflect-value="Blablaland"
+                value="Blablaland"
+              >
+                 Blablaland 
+              </option>
             </select>
           </div>
           <label>
