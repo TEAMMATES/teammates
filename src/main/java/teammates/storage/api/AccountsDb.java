@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -107,12 +106,6 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     @Override
     protected Account getEntity(AccountAttributes entity) {
         return getAccountEntity(entity.googleId);
-    }
-
-    @Override
-    protected QueryKeys<Account> getEntityQueryKeys(AccountAttributes attributes) {
-        Key<Account> keyToFind = Key.create(Account.class, attributes.googleId);
-        return load().filterKey(keyToFind).keys();
     }
 
     @Override

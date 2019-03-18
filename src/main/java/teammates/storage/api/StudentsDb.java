@@ -10,7 +10,6 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -323,12 +322,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         }
     }
 
-    private Query<CourseStudent> getCourseStudentForEmailQuery(String courseId, String email) {
-        return load()
-                .filter("courseId =", courseId)
-                .filter("email =", email);
-    }
-
     private CourseStudent getCourseStudentEntityForEmail(String courseId, String email) {
         return load().id(CourseStudent.generateId(email, courseId)).now();
     }
@@ -390,11 +383,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     @Override
     protected CourseStudent getEntity(StudentAttributes studentToGet) {
         return getCourseStudentEntityForEmail(studentToGet.course, studentToGet.email);
-    }
-
-    @Override
-    protected QueryKeys<CourseStudent> getEntityQueryKeys(StudentAttributes attributes) {
-        return getCourseStudentForEmailQuery(attributes.course, attributes.email).keys();
     }
 
     @Override

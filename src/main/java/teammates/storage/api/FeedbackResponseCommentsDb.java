@@ -14,7 +14,6 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
@@ -409,24 +408,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         }
 
         return getFeedbackResponseCommentEntity(attributes.courseId, attributes.createdAt, attributes.commentGiver);
-    }
-
-    @Override
-    protected QueryKeys<FeedbackResponseComment> getEntityQueryKeys(FeedbackResponseCommentAttributes attributes) {
-        Long id = attributes.getId();
-
-        if (id != null) {
-            return getEntityQueryKeys(id);
-        }
-        return load()
-                .filter("feedbackResponseId =", attributes.feedbackResponseId)
-                .filter("createdAt =", attributes.createdAt)
-                .filter("giverEmail =", attributes.commentGiver)
-                .keys();
-    }
-
-    private QueryKeys<FeedbackResponseComment> getEntityQueryKeys(long commentId) {
-        return load().filterKey(Key.create(FeedbackResponseComment.class, commentId)).keys();
     }
 
     @Override

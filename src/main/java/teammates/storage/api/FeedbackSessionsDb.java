@@ -10,7 +10,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -354,13 +353,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     @Override
     protected FeedbackSession getEntity(FeedbackSessionAttributes attributes) {
         return getFeedbackSessionEntity(attributes.getFeedbackSessionName(), attributes.getCourseId());
-    }
-
-    @Override
-    protected QueryKeys<FeedbackSession> getEntityQueryKeys(FeedbackSessionAttributes attributes) {
-        return load()
-                .filter("feedbackSessionName =", attributes.getFeedbackSessionName())
-                .filter("courseId =", attributes.getCourseId()).keys();
     }
 
     @Override

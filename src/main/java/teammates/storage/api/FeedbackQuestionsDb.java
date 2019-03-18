@@ -7,7 +7,6 @@ import java.util.List;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -200,23 +199,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         }
 
         return getFeedbackQuestionEntity(attributes.feedbackSessionName, attributes.courseId, attributes.questionNumber);
-    }
-
-    @Override
-    protected QueryKeys<FeedbackQuestion> getEntityQueryKeys(FeedbackQuestionAttributes attributes) {
-        Key<FeedbackQuestion> key = makeKeyOrNullFromWebSafeString(attributes.getId());
-
-        Query<FeedbackQuestion> query;
-        if (key == null) {
-            query = load()
-                    .filter("feedbackSessionName =", attributes.feedbackSessionName)
-                    .filter("courseId =", attributes.courseId)
-                    .filter("questionNumber =", attributes.questionNumber);
-        } else {
-            query = load().filterKey(key);
-        }
-
-        return query.keys();
     }
 
     @Override

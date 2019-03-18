@@ -6,7 +6,6 @@ import java.time.Instant;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -149,13 +148,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     protected StudentProfile getEntity(StudentProfileAttributes attributes) {
         // this method is never used and is here only for future expansion and completeness
         return getStudentProfileEntityFromDb(attributes.googleId);
-    }
-
-    @Override
-    protected QueryKeys<StudentProfile> getEntityQueryKeys(StudentProfileAttributes attributes) {
-        Key<Account> parentKey = Key.create(Account.class, attributes.googleId);
-        Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, attributes.googleId);
-        return load().filterKey(childKey).keys();
     }
 
     @Override

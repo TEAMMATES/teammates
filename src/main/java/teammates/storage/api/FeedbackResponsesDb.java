@@ -13,7 +13,6 @@ import java.util.Set;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.SectionDetail;
@@ -725,23 +724,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         }
 
         return getFeedbackResponseEntity(attributes.feedbackQuestionId, attributes.giver, attributes.recipient);
-    }
-
-    @Override
-    protected QueryKeys<FeedbackResponse> getEntityQueryKeys(FeedbackResponseAttributes attributes) {
-        String id = attributes.getId();
-
-        Query<FeedbackResponse> query;
-        if (id == null) {
-            query = load()
-                    .filter("feedbackQuestionId =", attributes.feedbackQuestionId)
-                    .filter("giverEmail =", attributes.giver)
-                    .filter("receiver =", attributes.recipient);
-        } else {
-            query = load().filterKey(Key.create(FeedbackResponse.class, id));
-        }
-
-        return query.keys();
     }
 
     @Override

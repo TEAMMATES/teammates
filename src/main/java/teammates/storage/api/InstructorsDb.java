@@ -9,7 +9,6 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
@@ -372,14 +371,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     @Override
     protected Instructor getEntity(InstructorAttributes instructorToGet) {
         return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
-    }
-
-    @Override
-    protected QueryKeys<Instructor> getEntityQueryKeys(InstructorAttributes attributes) {
-        return load()
-                .filter("courseId =", attributes.courseId)
-                .filter("email =", attributes.email)
-                .keys();
     }
 
     @Override

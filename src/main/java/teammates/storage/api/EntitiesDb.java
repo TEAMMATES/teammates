@@ -13,7 +13,6 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -175,11 +174,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
      *             based on the default key identifiers.
      */
     protected abstract E getEntity(A attributes);
-
-    /**
-     * Gets the key query for entities which matches the given {@code attributes}.
-     */
-    protected abstract QueryKeys<E> getEntityQueryKeys(A attributes);
 
     protected abstract A makeAttributes(E entity);
 

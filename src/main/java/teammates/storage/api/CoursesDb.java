@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -133,12 +132,6 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     @Override
     protected Course getEntity(CourseAttributes attributes) {
         return getCourseEntity(attributes.getId());
-    }
-
-    @Override
-    protected QueryKeys<Course> getEntityQueryKeys(CourseAttributes attributes) {
-        Key<Course> keyToFind = Key.create(Course.class, attributes.getId());
-        return load().filterKey(keyToFind).keys();
     }
 
     @Override
