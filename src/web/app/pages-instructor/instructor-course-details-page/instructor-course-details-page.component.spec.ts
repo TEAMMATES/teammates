@@ -61,7 +61,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with a course with one co-owner and no students', () => {
+  it('should snap with a course with one co-owner and no students, and populated course student list', () => {
     const stats: any = {
       sectionsTotal: 0,
       teamsTotal: 0,
@@ -83,11 +83,12 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
+    component.courseStudentListAsCsv = 'a,b';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with a course with one co-owner and one student', () => {
+  it('should snap with a course with one co-owner and one student, and ajax failure', () => {
     const stats: any = {
       sectionsTotal: 1,
       teamsTotal: 1,
@@ -116,6 +117,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.sections = [studentListSectionData];
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
+    component.isAjaxSuccess = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students 1`] = `
+exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
 <tm-instructor-course-details-page
   clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv=""
+  courseStudentListAsCsv={[Function String]}
   httpRequestService={[Function HttpRequestService]}
   instructors={[Function Array]}
   isAjaxSuccess={[Function Boolean]}
@@ -172,7 +172,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 </tm-instructor-course-details-page>
 `;
 
-exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student 1`] = `
+exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
   clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
@@ -180,7 +180,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   courseStudentListAsCsv=""
   httpRequestService={[Function HttpRequestService]}
   instructors={[Function Array]}
-  isAjaxSuccess={[Function Boolean]}
+  isAjaxSuccess="false"
   loading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
