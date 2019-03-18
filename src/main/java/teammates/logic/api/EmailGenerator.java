@@ -219,10 +219,11 @@ public class EmailGenerator {
 
     /**
      * Generate for the student an recovery email listing the links to submit/view responses for all feedback sessions
-     * under {@code recoveryEmailAddress} in the past 180 days. If no feedback sessions are found, generate an email
-     * stating no feedback sessions found.
+     * under {@code recoveryEmailAddress} in the past 180 days. If no student with {@code recoveryEmailAddress} is
+     * found, generate an email stating that there is no such student in the system. If no feedback sessions are found,
+     * generate an email stating no feedback sessions found.
      */
-    public EmailWrapper generateSessionLinksRecoveryEmailStudent(String recoveryEmailAddress) {
+    public EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress) {
         boolean hasStudentsWithRecoveryEmail = !studentsLogic.getAllStudentsForEmail(recoveryEmailAddress).isEmpty();
 
         if (hasStudentsWithRecoveryEmail) {
@@ -276,7 +277,7 @@ public class EmailGenerator {
                 EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${teammateHomePageLink}", Config.APP_URL,
+                "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                 "${sessionsRecoveryLink}", recoveryUrl);
         EmailWrapper email = getEmptyEmailAddressedToEmail(recoveryEmailAddress);
         email.setSubject(subject);
@@ -341,11 +342,12 @@ public class EmailGenerator {
                 linkFragmentsMap.putIfAbsent(courseId, linksFragmentValue);
             }
         }
+
         String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         if (linkFragmentsMap.isEmpty()) {
             emailBody = Templates.populateTemplate(
                     EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
-                    "${teammateHomePageLink}", Config.APP_URL,
+                    "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                     "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
                     "${supportEmail}", Config.SUPPORT_EMAIL,
                     "${sessionsRecoveryLink}", recoveryUrl);
@@ -363,7 +365,7 @@ public class EmailGenerator {
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
                     "${linksFragment}", courseFragments.toString(),
                     "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
-                    "${teammateHomePageLink}", Config.APP_URL,
+                    "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                     "${supportEmail}", Config.SUPPORT_EMAIL,
                     "${sessionsRecoveryLink}", recoveryUrl);
         }

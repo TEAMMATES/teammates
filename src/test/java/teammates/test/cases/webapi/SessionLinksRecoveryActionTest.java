@@ -116,7 +116,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml("non-existent@abc.com"),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${teammateHomePageLink}", Config.APP_URL,
+                "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                 "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent());
     }
 
@@ -148,7 +148,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse2.getEmail()),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${teammateHomePageLink}", Config.APP_URL,
+                "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                 "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent());
     }
 
@@ -225,7 +225,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getName()),
                 "${linksFragment}", courseBody,
                 "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getEmail()),
-                "${teammateHomePageLink}", Config.APP_URL,
+                "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent(), emailSent.getContent());
     }
@@ -317,7 +317,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getName()),
                 "${linksFragment}", courseBody,
                 "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getEmail()),
-                "${teammateHomePageLink}", Config.APP_URL,
+                "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent());
     }

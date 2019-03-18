@@ -42,7 +42,7 @@ public class SessionLinksRecoveryAction extends Action {
                     + "the reCAPTCHA verification. Please try again."));
         }
 
-        EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmailStudent(recoveryEmailAddress);
+        EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
         EmailSendingStatus status = emailSender.sendEmail(email);
 
         if (status.isSuccess()) {
