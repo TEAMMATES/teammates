@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.CreateCourseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.CourseData;
@@ -73,7 +74,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         MessageOutput message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_CONFLICT, result.getStatusCode());
-        assertEquals("Trying to create a Course that exists: " + courseId, message.getMessage());
+        AssertHelper.assertContains("Trying to create an entity that exists", message.getMessage());
 
         ______TS("Typical case missing course id");
 

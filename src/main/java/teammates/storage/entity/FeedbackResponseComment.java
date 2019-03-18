@@ -137,7 +137,11 @@ public class FeedbackResponseComment extends BaseEntity {
         this.feedbackQuestionId = feedbackQuestionId;
     }
 
-    public Boolean getIsVisibilityFollowingFeedbackQuestion() {
+    public boolean getIsVisibilityFollowingFeedbackQuestion() {
+        if (this.isVisibilityFollowingFeedbackQuestion == null) {
+            // true as the default value if the field is null
+            return true;
+        }
         return this.isVisibilityFollowingFeedbackQuestion;
     }
 

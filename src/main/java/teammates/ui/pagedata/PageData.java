@@ -211,8 +211,11 @@ public class PageData {
     public FeedbackResponseCommentRow buildFeedbackResponseCommentFormForAdding(FeedbackQuestionAttributes question,
             String responseId, String giverName, String recipientName, ZoneId timezone,
             boolean isCommentFromFeedbackParticipant) {
-        FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes
-                .builder(question.courseId, question.feedbackSessionName, "", "")
+        FeedbackResponseCommentAttributes frca = FeedbackResponseCommentAttributes.builder()
+                .withCourseId(question.courseId)
+                .withFeedbackSessionName(question.feedbackSessionName)
+                .withCommentGiver("")
+                .withCommentText("")
                 .withFeedbackResponseId(responseId)
                 .withFeedbackQuestionId(question.getFeedbackQuestionId())
                 .withCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant)

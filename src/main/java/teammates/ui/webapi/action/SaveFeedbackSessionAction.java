@@ -1,7 +1,5 @@
 package teammates.ui.webapi.action;
 
-import java.time.Duration;
-
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -48,7 +46,7 @@ public class SaveFeedbackSessionAction extends Action {
                             .withInstructions(saveRequest.getInstructions())
                             .withStartTime(saveRequest.getSubmissionStartTime())
                             .withEndTime(saveRequest.getSubmissionEndTime())
-                            .withGracePeriod(Duration.ofMinutes(saveRequest.getGracePeriod()))
+                            .withGracePeriod(saveRequest.getGracePeriod())
                             .withSessionVisibleFromTime(saveRequest.getSessionVisibleFromTime())
                             .withResultsVisibleFromTime(saveRequest.getResultsVisibleFromTime())
                             .withIsClosingEmailEnabled(saveRequest.isClosingEmailEnabled())

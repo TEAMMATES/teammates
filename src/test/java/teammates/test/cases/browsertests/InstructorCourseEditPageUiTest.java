@@ -730,7 +730,9 @@ public class InstructorCourseEditPageUiTest extends BaseE2ETestCase {
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         privilege.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
         InstructorAttributes instructor = InstructorAttributes
-                .builder("InsCrsEdit.reg", courseId, "Teammates Reg", "InsCrsEdit.reg@gmail.tmt")
+                .builder(courseId, "InsCrsEdit.reg@gmail.tmt")
+                .withGoogleId("InsCrsEdit.reg")
+                .withName("Teammates Reg")
                 .withDisplayedName("Teammates Reg")
                 .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
                 .withPrivileges(privilege)

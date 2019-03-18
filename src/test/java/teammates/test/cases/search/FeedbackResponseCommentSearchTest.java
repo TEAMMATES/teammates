@@ -1,12 +1,16 @@
 package teammates.test.cases.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -136,5 +140,49 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         assertEquals(0, bundle.responses.size());
         assertEquals(0, bundle.questions.size());
         assertEquals(0, bundle.sessions.size());
+    }
+
+    @Test
+    public void testSearchComment_createNewComment_commentShouldBeSearchable() throws Exception {
+
+        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
+        InstructorAttributes instructor3OfCourse1 = dataBundle.instructors.get("instructor3OfCourse1");
+        FeedbackResponseAttributes response1ForQ1S1C1 = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        // get response1ForQ1S1C1 from the datastore
+        FeedbackQuestionAttributes correspondingQuestion =
+                logic.getFeedbackQuestion(response1ForQ1S1C1.getFeedbackSessionName(),
+                        response1ForQ1S1C1.getCourseId(), Integer.parseInt(response1ForQ1S1C1.getFeedbackQuestionId()));
+        response1ForQ1S1C1 = logic.getFeedbackResponse(correspondingQuestion.getId(),
+                response1ForQ1S1C1.getGiver(), response1ForQ1S1C1.getRecipient());
+        assertNotNull(response1ForQ1S1C1);
+
+        FeedbackResponseCommentSearchResultBundle bundle =
+                feedbackResponseCommentsDb.search("commentABCDE", Arrays.asList(instructor3OfCourse1));
+
+        assertEquals(0, bundle.numberOfResults);
+
+        // create a new comment
+        feedbackResponseCommentsDb.createEntity(
+                FeedbackResponseCommentAttributes.builder()
+                        .withCourseId(response1ForQ1S1C1.getCourseId())
+                        .withFeedbackSessionName(response1ForQ1S1C1.getFeedbackSessionName())
+                        .withCommentText("commentABCDE")
+                        .withCommentGiver(response1ForQ1S1C1.getGiver())
+                        .withCommentGiverType(FeedbackParticipantType.STUDENTS)
+                        .withGiverSection(response1ForQ1S1C1.getGiverSection())
+                        .withReceiverSection(response1ForQ1S1C1.getRecipientSection())
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withShowCommentTo(new ArrayList<>())
+                        .withFeedbackQuestionId(response1ForQ1S1C1.getFeedbackQuestionId())
+                        .withFeedbackResponseId(response1ForQ1S1C1.getId())
+                        .withCommentFromFeedbackParticipant(true)
+                        .withVisibilityFollowingFeedbackQuestion(true)
+                        .build());
+
+        // the newly created comment is searchable
+        bundle = feedbackResponseCommentsDb.search("commentABCDE", Arrays.asList(instructor3OfCourse1));
+        assertEquals(1, bundle.numberOfResults);
+        assertEquals("commentABCDE",
+                bundle.comments.get(response1ForQ1S1C1.getId()).get(0).getCommentText());
     }
 }

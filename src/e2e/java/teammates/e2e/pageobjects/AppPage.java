@@ -3,6 +3,7 @@ package teammates.e2e.pageobjects;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -15,6 +16,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.remote.UselessFileDetector;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -56,6 +60,9 @@ public abstract class AppPage {
 
     /** Firefox change handler for handling when `change` events are not fired in Firefox. */
     private final FirefoxChangeHandler firefoxChangeHandler;
+
+    @FindBy(linkText = "Profile")
+    private WebElement studentProfileTab;
 
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
@@ -331,6 +338,16 @@ public abstract class AppPage {
         firefoxChangeHandler.fireChangeEventIfNotFired(textBoxElement);
     }
 
+    protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
+        if (fileName.isEmpty()) {
+            fileBoxElement.clear();
+        } else {
+            fileBoxElement.setFileDetector(new UselessFileDetector());
+            String filePath = new File(fileName).getAbsolutePath();
+            fileBoxElement.sendKeys(filePath);
+        }
+    }
+
     /**
      * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
@@ -371,6 +388,16 @@ public abstract class AppPage {
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
         return this;
+    }
+
+    /**
+     * Equivalent of clicking the 'Profile' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentProfilePage loadProfileTab() {
+        click(studentProfileTab);
+        waitForPageToLoad();
+        return changePageType(StudentProfilePage.class);
     }
 
     /**

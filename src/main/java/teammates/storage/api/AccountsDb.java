@@ -10,7 +10,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -24,14 +23,6 @@ import teammates.storage.entity.Account;
  * @see AccountAttributes
  */
 public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
-    /**
-     * Preconditions:
-     * <br> * {@code accountToAdd} is not null and has valid data.
-     */
-    public void createAccount(AccountAttributes accountToAdd)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        createEntity(accountToAdd);
-    }
 
     /**
      * Gets the data transfer version of the account.
@@ -138,6 +129,12 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     protected QueryKeys<Account> getEntityQueryKeys(AccountAttributes attributes) {
         Key<Account> keyToFind = Key.create(Account.class, attributes.googleId);
         return load().filterKey(keyToFind).keys();
+    }
+
+    @Override
+    protected boolean hasExistingEntities(AccountAttributes entityToCreate) {
+        Key<Account> keyToFind = Key.create(Account.class, entityToCreate.getGoogleId());
+        return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 
     @Override
