@@ -98,9 +98,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testIsQuestionHasResponses();
         testIsQuestionAnswered();
         testAddQuestion();
-        testCopyQuestion();
         testDeleteQuestion();
-        testAddQuestionNoIntegrityCheck();
         testDeleteQuestionsForCourse();
     }
 
@@ -265,22 +263,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     private void testAddQuestion() throws Exception {
 
-        ______TS("Add question for feedback session that does not exist");
-        FeedbackQuestionAttributes question = getQuestionFromDatastore("qn1InSession1InCourse1");
-        question.feedbackSessionName = "non-existent Feedback Session";
-        question.setId(null);
-        FeedbackQuestionAttributes[] finalFq = new FeedbackQuestionAttributes[] { question };
-        AssertionError ae = assertThrows(AssertionError.class, () -> fqLogic.createFeedbackQuestion(finalFq[0]));
-        assertEquals("Session disappeared.", ae.getMessage());
-
-        ______TS("Add question for course that does not exist");
-        question = getQuestionFromDatastore("qn1InSession1InCourse1");
-        question.courseId = "non-existent course id";
-        question.setId(null);
-        finalFq[0] = question;
-        ae = assertThrows(AssertionError.class, () -> fqLogic.createFeedbackQuestion(finalFq[0]));
-        assertEquals("Session disappeared.", ae.getMessage());
-
         ______TS("Add questions sequentially");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<>();
         FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -368,27 +350,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         for (int i = 0; i < actualList.size(); i++) {
             assertEquals(actualList.get(i), expectedList.get(i));
         }
-    }
-
-    private void testCopyQuestion() throws Exception {
-
-        ______TS("Typical case: copy question successfully");
-
-        FeedbackQuestionAttributes question1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        question1 = fqLogic.getFeedbackQuestion(question1.feedbackSessionName, question1.courseId, question1.questionNumber);
-
-        FeedbackQuestionAttributes copiedQuestion =
-                fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId);
-
-        FeedbackQuestionDetails question1Details = question1.getQuestionDetails();
-        FeedbackQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
-
-        assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, copiedQuestion.numberOfEntitiesToGiveFeedbackTo);
-        assertEquals(question1.getQuestionType(), copiedQuestion.getQuestionType());
-        assertEquals(question1.giverType, copiedQuestion.giverType);
-        assertEquals(question1.recipientType, copiedQuestion.recipientType);
-        assertEquals(question1Details.getQuestionText(), copiedQuestionDetails.getQuestionText());
-
     }
 
     @Test
@@ -685,30 +646,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(fqLogic.isQuestionFullyAnsweredByUser(question, "student1InCourse1@gmail.tmt"));
 
         assertFalse(fqLogic.isQuestionFullyAnsweredByUser(question, "studentWithNoResponses@gmail.tmt"));
-    }
-
-    private void testAddQuestionNoIntegrityCheck() throws InvalidParametersException, EntityDoesNotExistException {
-
-        ______TS("Add questions sequentially - test for initial template question");
-        FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
-        q1.questionNumber = 1;
-
-        int initialNumQuestions = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId).size();
-
-        //Appends a question to the back of the current question list
-        FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
-        newQuestion.questionNumber = initialNumQuestions + 1;
-        newQuestion.setId(null); //new question should not have an ID.
-        fqLogic.createFeedbackQuestionNoIntegrityCheck(newQuestion, newQuestion.questionNumber);
-
-        List<FeedbackQuestionAttributes> actualList =
-                fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
-
-        assertEquals(actualList.size(), initialNumQuestions + 1);
-
-        //The list starts from 0, so no need to + 1 here.
-        assertEquals(actualList.get(initialNumQuestions), newQuestion);
-
     }
 
     private FeedbackQuestionAttributes getQuestionFromDatastore(String questionKey) {

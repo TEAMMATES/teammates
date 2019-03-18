@@ -59,7 +59,7 @@ public final class FeedbackResponseCommentsLogic {
                 frComment.isCommentFromFeedbackParticipant);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
-        return frcDb.createFeedbackResponseComment(frComment);
+        return frcDb.createEntity(frComment);
     }
 
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.QueryKeys;
@@ -347,6 +348,15 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load()
                 .filter("feedbackSessionName =", attributes.getFeedbackSessionName())
                 .filter("courseId =", attributes.getCourseId()).keys();
+    }
+
+    @Override
+    protected boolean hasExistingEntities(FeedbackSessionAttributes entityToCreate) {
+        return !load()
+                .filterKey(Key.create(FeedbackSession.class,
+                        FeedbackSession.generateId(entityToCreate.getFeedbackSessionName(), entityToCreate.getCourseId())))
+                .list()
+                .isEmpty();
     }
 
     @Override

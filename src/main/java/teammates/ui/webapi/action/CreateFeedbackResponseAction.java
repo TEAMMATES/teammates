@@ -1,6 +1,5 @@
 package teammates.ui.webapi.action;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -9,6 +8,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -75,41 +75,40 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
-        // TODO use builder pattern
-        FeedbackResponseAttributes feedbackResponse = new FeedbackResponseAttributes();
+        String giverIdentifier;
+        String giverSection;
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
-            feedbackResponse.giver =
-                    feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
+            giverIdentifier = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
-            feedbackResponse.giverSection = studentAttributes.getSection();
+            giverSection = studentAttributes.getSection();
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
-            feedbackResponse.giver = instructorAttributes.getEmail();
-            feedbackResponse.giverSection = Const.DEFAULT_SECTION;
+            giverIdentifier = instructorAttributes.getEmail();
+            giverSection = Const.DEFAULT_SECTION;
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         FeedbackResponseCreateRequest createRequest = getAndValidateRequestBody(FeedbackResponseCreateRequest.class);
-        feedbackResponse.recipient = createRequest.getRecipientIdentifier();
-        feedbackResponse.recipientSection =
-                getRecipientSection(feedbackQuestion.getCourseId(),
-                        feedbackQuestion.getRecipientType(), createRequest.getRecipientIdentifier());
-
-        feedbackResponse.courseId = feedbackQuestion.getCourseId();
-        feedbackResponse.feedbackSessionName = feedbackQuestion.getFeedbackSessionName();
-        feedbackResponse.feedbackQuestionId = feedbackQuestion.getId();
-
-        feedbackResponse.responseDetails = createRequest.getResponseDetails();
+        FeedbackResponseAttributes feedbackResponse =
+                FeedbackResponseAttributes
+                        .builder(feedbackQuestion.getId(), giverIdentifier, createRequest.getRecipientIdentifier())
+                .withGiverSection(giverSection)
+                .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(),
+                        feedbackQuestion.getRecipientType(), createRequest.getRecipientIdentifier()))
+                .withCourseId(feedbackQuestion.getCourseId())
+                .withFeedbackSessionName(feedbackQuestion.getFeedbackSessionName())
+                .withResponseDetails(createRequest.getResponseDetails())
+                .build();
 
         validResponseOfQuestion(feedbackQuestion, feedbackResponse);
         try {
-            logic.createFeedbackResponses(Arrays.asList(feedbackResponse));
-        } catch (InvalidParametersException e) {
+            logic.createFeedbackResponse(feedbackResponse);
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
 

@@ -11,7 +11,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -21,8 +20,6 @@ import teammates.storage.api.AccountsDb;
  * @see AccountsDb
  */
 public final class AccountsLogic {
-
-    private static final Logger log = Logger.getLogger();
 
     private static AccountsLogic instance = new AccountsLogic();
 
@@ -41,17 +38,16 @@ public final class AccountsLogic {
         return instance;
     }
 
-    public void createAccount(AccountAttributes accountData)
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the Datastore.
+     */
+    public AccountAttributes createAccount(AccountAttributes accountData)
             throws InvalidParametersException, EntityAlreadyExistsException {
-
-        List<String> invalidityInfo = accountData.getInvalidityInfo();
-        if (!invalidityInfo.isEmpty()) {
-            throw new InvalidParametersException(invalidityInfo);
-        }
-
-        log.info("going to create account :\n" + accountData.toString());
-
-        accountsDb.createAccount(accountData);
+        return accountsDb.createEntity(accountData);
     }
 
     public AccountAttributes getAccount(String googleId) {
@@ -65,10 +61,6 @@ public final class AccountsLogic {
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
         return a != null && a.isInstructor;
-    }
-
-    public List<AccountAttributes> getInstructorAccounts() {
-        return accountsDb.getInstructorAccounts();
     }
 
     public String getCourseInstitute(String courseId) {
@@ -144,8 +136,7 @@ public final class AccountsLogic {
 
         if (account == null) {
             try {
-                createAccount(AccountAttributes.builder()
-                        .withGoogleId(googleId)
+                createAccount(AccountAttributes.builder(googleId)
                         .withName(instructor.name)
                         .withEmail(instructor.email)
                         .withInstitute(instituteToSave)
@@ -273,18 +264,20 @@ public final class AccountsLogic {
         //TODO: deal with orphan courses, submissions etc.
     }
 
+    /**
+     * Creates a student account.
+     */
     private void createStudentAccount(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        AccountAttributes account = AccountAttributes.builder()
-                .withGoogleId(student.googleId)
+        AccountAttributes account = AccountAttributes.builder(student.googleId)
                 .withEmail(student.email)
                 .withName(student.name)
                 .withIsInstructor(false)
                 .withInstitute(getCourseInstitute(student.course))
                 .build();
 
-        accountsDb.createAccount(account);
+        accountsDb.createEntity(account);
     }
 
 }

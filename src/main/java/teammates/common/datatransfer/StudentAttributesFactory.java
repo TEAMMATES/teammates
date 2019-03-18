@@ -112,10 +112,11 @@ public class StudentAttributesFactory {
         }
 
         return StudentAttributes
-                .builder(courseId, paramName, paramEmail)
-                .withTeam(paramTeam)
-                .withSection(paramSection)
-                .withComments(paramComment)
+                .builder(courseId, paramEmail)
+                .withName(paramName)
+                .withTeamName(paramTeam)
+                .withSectionName(paramSection)
+                .withComment(paramComment)
                 .build();
     }
 

@@ -57,8 +57,7 @@ public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCourse
         // we keep it because the situation is rare and not worth extra coding.
 
         // Create a student account without courses
-        AccountAttributes studentWithoutCourses = AccountAttributes.builder()
-                .withGoogleId("googleId.without.courses")
+        AccountAttributes studentWithoutCourses = AccountAttributes.builder("googleId.without.courses")
                 .withName("Student Without Courses")
                 .withEmail("googleId.without.courses@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 5")
@@ -66,7 +65,7 @@ public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCourse
                 .build();
 
         AccountsDb accountsDb = new AccountsDb();
-        accountsDb.createAccount(studentWithoutCourses);
+        accountsDb.createEntity(studentWithoutCourses);
         assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));
 
         loginAsUnregistered(studentWithoutCourses.googleId);

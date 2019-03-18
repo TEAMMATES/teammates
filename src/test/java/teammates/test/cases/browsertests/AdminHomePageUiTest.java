@@ -68,12 +68,13 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
     private void testCreateInstructorAction() throws Exception {
 
-        InstructorAttributes instructor = new InstructorAttributes();
-
-        instructor.name = "AHPUiT Instrúctör WithPlusInEmail";
-        instructor.email = "AHPUiT+++_.instr1!@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT____.instr1_.gma-demo";
+
+        InstructorAttributes instructor =
+                InstructorAttributes.builder(demoCourseId, "AHPUiT+++_.instr1!@gmail.tmt")
+                        .withName("AHPUiT Instrúctör WithPlusInEmail")
+                        .build();
 
         String instructorDetails = instructor.name + " | " + instructor.email + "\n"
                                  + instructor.name + " | " + instructor.email + " | " + institute;
@@ -107,12 +108,13 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         ______TS("action success: displayed instructor details are properly HTML-encoded");
 
-        InstructorAttributes dangerousInstructor = new InstructorAttributes();
-
-        dangerousInstructor.name = "Malicious <script>alert('dangerous');</script>Instrúctör";
-        dangerousInstructor.email = "malicious.instr1<>!@gmail.tmt";
         String dangerousInstitute = "TEAMMATES Malicious Institute <!@!@!>";
         String dangerousDemoCourseId = "malicious.instr1___.gma-demo";
+
+        InstructorAttributes dangerousInstructor =
+                InstructorAttributes.builder(dangerousDemoCourseId, "malicious.instr1<>!@gmail.tmt")
+                        .withName("Malicious <script>alert('dangerous');</script>Instrúctör")
+                        .build();
 
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(dangerousDemoCourseId);

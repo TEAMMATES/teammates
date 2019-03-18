@@ -54,10 +54,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
     public void testCreateStudent() throws Exception {
 
         StudentAttributes s = StudentAttributes
-                .builder("course id", "valid student", "valid-fresh@email.com")
-                .withComments("")
-                .withTeam("validTeamName")
-                .withSection("validSectionName")
+                .builder("course id", "valid-fresh@email.com")
+                .withName("valid student")
+                .withComment("")
+                .withTeamName("validTeamName")
+                .withSectionName("validSectionName")
                 .withGoogleId("validGoogleId")
                 .withLastName("student")
                 .build();
@@ -90,10 +91,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ______TS("fail : duplicate");
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> studentsDb.createEntity(s));
-        AssertHelper.assertContains(
-                String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.getEntityTypeAsString())
-                        + s.getIdentificationString(),
-                eaee.getMessage());
+        assertEquals(
+                String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.toString()), eaee.getMessage());
 
         ______TS("null params check");
         AssertionError ae = assertThrows(AssertionError.class, () -> studentsDb.createEntity(null));
@@ -186,7 +185,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         StudentAttributes.updateOptionsBuilder(null, s.email)
                                 .withName("new-name")
                                 .build()));
-        assertEquals(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, ae.getMessage());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
 
         ______TS("null email case");
         ae = assertThrows(AssertionError.class,
@@ -194,7 +193,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         StudentAttributes.updateOptionsBuilder(s.course, null)
                                 .withName("new-name")
                                 .build()));
-        assertEquals(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, ae.getMessage());
+        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
 
         ______TS("duplicate email case");
         StudentAttributes duplicate = createNewStudent();
@@ -278,10 +277,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
     private StudentAttributes createNewStudent() throws InvalidParametersException {
         StudentAttributes s = StudentAttributes
-                .builder("valid-course", "valid student", "valid@email.com")
-                .withComments("")
-                .withTeam("validTeamName")
-                .withSection("validSectionName")
+                .builder("valid-course", "valid@email.com")
+                .withName("valid student")
+                .withComment("")
+                .withTeamName("validTeamName")
+                .withSectionName("validSectionName")
                 .withGoogleId("")
                 .build();
 
@@ -297,10 +297,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
     private StudentAttributes createNewStudent(String email) throws InvalidParametersException {
         StudentAttributes s = StudentAttributes
-                .builder("valid-course", "valid student 2", email)
-                .withComments("")
-                .withTeam("valid team name")
-                .withSection("valid section name")
+                .builder("valid-course", email)
+                .withName("valid student 2")
+                .withComment("")
+                .withTeamName("valid team name")
+                .withSectionName("valid section name")
                 .withGoogleId("")
                 .build();
 

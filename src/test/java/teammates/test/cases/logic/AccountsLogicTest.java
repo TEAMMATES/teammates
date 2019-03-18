@@ -1,7 +1,5 @@
 package teammates.test.cases.logic;
 
-import java.util.List;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -30,38 +28,12 @@ public class AccountsLogicTest extends BaseLogicTest {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testGetInstructorAccounts() throws Exception {
-
-        ______TS("success case");
-
-        List<AccountAttributes> instructorAccounts = logic.getInstructorAccounts();
-        int size = instructorAccounts.size();
-
-        accountsLogic.createAccount(
-                AccountAttributes.builder()
-                        .withGoogleId("test.account")
-                        .withName("Test Account")
-                        .withIsInstructor(true)
-                        .withEmail("test@account.com")
-                        .withInstitute("Foo University")
-                        .build());
-        instructorAccounts = logic.getInstructorAccounts();
-        assertEquals(instructorAccounts.size(), size + 1);
-
-        accountsLogic.deleteAccountCascade("test.account");
-        instructorAccounts = logic.getInstructorAccounts();
-        assertEquals(instructorAccounts.size(), size);
-    }
-
     @Test
     public void testCreateAccount() throws Exception {
 
         ______TS("typical success case");
 
-        AccountAttributes accountToCreate = AccountAttributes.builder()
-                .withGoogleId("id")
+        AccountAttributes accountToCreate = AccountAttributes.builder("id")
                 .withName("name")
                 .withEmail("test@email.com")
                 .withInstitute("dev")
@@ -75,8 +47,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters exception case");
 
-        accountToCreate = AccountAttributes.builder()
-                .withGoogleId("")
+        accountToCreate = AccountAttributes.builder("")
                 .withName("name")
                 .withEmail("test@email.com")
                 .withInstitute("dev")
@@ -103,14 +74,6 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         assertFalse(accountsLogic.isAccountAnInstructor("student1InCourse1"));
         assertFalse(accountsLogic.isAccountAnInstructor("id-does-not-exist"));
-
-        ______TS("test getInstructorAccounts");
-
-        for (AccountAttributes aa : accountsLogic.getInstructorAccounts()) {
-            ______TS(aa.toString());
-        }
-
-        assertEquals(16, accountsLogic.getInstructorAccounts().size());
 
         ______TS("test downgradeInstructorToStudentCascade");
 
@@ -144,12 +107,13 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         // Create correct student with original@email.com
         StudentAttributes studentData = StudentAttributes
-                .builder(courseId, "name", originalEmail)
-                .withSection("sectionName")
-                .withTeam("teamName")
-                .withComments("")
+                .builder(courseId, originalEmail)
+                .withName("name")
+                .withSectionName("sectionName")
+                .withTeamName("teamName")
+                .withComment("")
                 .build();
-        studentsLogic.createStudentCascade(studentData);
+        studentsLogic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
         StudentAttributes finalStudent = studentData;
@@ -173,13 +137,14 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         String existingId = "AccLogicT.existing.studentId";
         StudentAttributes existingStudent = StudentAttributes
-                .builder(courseId, "name", "differentEmail@email.com")
-                .withSection("sectionName")
-                .withTeam("teamName")
-                .withComments("")
+                .builder(courseId, "differentEmail@email.com")
+                .withName("name")
+                .withSectionName("sectionName")
+                .withTeamName("teamName")
+                .withComment("")
                 .withGoogleId(existingId)
                 .build();
-        studentsLogic.createStudentCascade(existingStudent);
+        studentsLogic.createStudent(existingStudent);
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), existingId));
@@ -187,8 +152,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         ______TS("success: without encryption and account already exists");
 
-        AccountAttributes accountData = AccountAttributes.builder()
-                .withGoogleId(correctStudentId)
+        AccountAttributes accountData = AccountAttributes.builder(correctStudentId)
                 .withName("nameABC")
                 .withEmail("real@gmail.com")
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -222,12 +186,13 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         originalEmail = "email2@gmail.com";
         studentData = StudentAttributes
-                .builder(courseId, "name", originalEmail)
-                .withSection("sectionName")
-                .withTeam("teamName")
-                .withComments("")
+                .builder(courseId, originalEmail)
+                .withName("name")
+                .withSectionName("sectionName")
+                .withTeamName("teamName")
+                .withComment("")
                 .build();
-        studentsLogic.createStudentCascade(studentData);
+        studentsLogic.createStudent(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
 
@@ -320,7 +285,8 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         InstructorAttributes newIns = InstructorAttributes
-                .builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+                .builder(instructor.courseId, nonInstrAccount.email)
+                .withName(nonInstrAccount.name)
                 .build();
 
         instructorsLogic.createInstructor(newIns);
@@ -338,7 +304,8 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         instructor = dataBundle.instructors.get("instructor4");
         newIns = InstructorAttributes
-                .builder(null, instructor.courseId, "anInstructorWithoutGoogleId", "anInstructorWithoutGoogleId@gmail.com")
+                .builder(instructor.courseId, "anInstructorWithoutGoogleId@gmail.com")
+                .withName("anInstructorWithoutGoogleId")
                 .build();
 
         instructorsLogic.createInstructor(newIns);
@@ -347,7 +314,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         nonInstrAccount.email = "newInstructor@gmail.com";
         nonInstrAccount.name = " newInstructor";
         nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = InstructorAttributes.builder(null, instructor.courseId, nonInstrAccount.name, nonInstrAccount.email)
+        newIns = InstructorAttributes.builder(instructor.courseId, nonInstrAccount.email)
+                .withName(nonInstrAccount.name)
                 .build();
 
         instructorsLogic.createInstructor(newIns);
@@ -409,13 +377,14 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         // Make instructor account id a student too.
         StudentAttributes student = StudentAttributes
-                .builder(instructor.courseId, instructor.name, "email@com")
-                .withSection("section")
-                .withTeam("team")
-                .withComments("")
+                .builder(instructor.courseId, "email@com")
+                .withName(instructor.name)
+                .withSectionName("section")
+                .withTeamName("team")
+                .withComment("")
                 .withGoogleId(instructor.googleId)
                 .build();
-        studentsLogic.createStudentCascade(student);
+        studentsLogic.createStudent(student);
         verifyPresentInDatastore(account);
         verifyPresentInDatastore(studentProfile);
         verifyPresentInDatastore(instructor);

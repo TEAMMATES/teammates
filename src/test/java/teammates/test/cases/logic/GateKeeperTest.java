@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.core.StudentsLogic;
 
 /**
  * SUT: {@link GateKeeper}.
@@ -39,13 +40,14 @@ public class GateKeeperTest extends BaseLogicTest {
         gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = StudentAttributes
-                .builder(course.getId(), "Instructor As Student", "instructorasstudent@yahoo.com")
-                .withSection("Section 1")
-                .withTeam("Team 1")
-                .withComments("")
+                .builder(course.getId(), "instructorasstudent@yahoo.com")
+                .withName("Instructor As Student")
+                .withSectionName("Section 1")
+                .withTeamName("Team 1")
+                .withComment("")
                 .build();
         instructorAsStudent.googleId = instructor.googleId;
-        logic.createStudent(instructorAsStudent);
+        StudentsLogic.inst().createStudent(instructorAsStudent);
 
         UserInfo user = gateKeeper.getCurrentUser();
         assertEquals(instructor.googleId, user.id);

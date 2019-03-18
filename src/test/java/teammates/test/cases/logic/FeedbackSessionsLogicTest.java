@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -142,7 +142,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testIsFeedbackSessionViewableToStudents();
 
         testCreateAndDeleteFeedbackSession();
-        testCopyFeedbackSession();
 
         testUpdateFeedbackSession();
         testPublishUnpublishFeedbackSession();
@@ -250,7 +249,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         fsLogic.createFeedbackSession(session);
-        coursesLogic.createCourse(session.getCourseId(), "Test Course", "UTC");
+        coursesLogic.createCourse(
+                CourseAttributes.builder(session.getCourseId())
+                        .withName("Test Course")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
@@ -486,11 +489,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .withFeedbackSessionName(fs.getFeedbackSessionName())
                 .withCourseId(fs.getCourseId())
                 .withQuestionNumber(1)
-                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
+                .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withGiverType(FeedbackParticipantType.STUDENTS)
                 .withRecipientType(FeedbackParticipantType.TEAMS)
                 .withQuestionDetails(new FeedbackTextQuestionDetails("question to be deleted through cascade"))
-                .withShowResponseTo(new ArrayList<>())
+                .withShowResponsesTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
                 .withShowGiverNameTo(new ArrayList<>())
                 .build();
@@ -500,54 +503,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsLogic.deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
         verifyAbsentInDatastore(fs);
         verifyAbsentInDatastore(fq);
-    }
-
-    private void testCopyFeedbackSession() throws Exception {
-
-        ______TS("Test copy");
-
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        InstructorAttributes instructor2OfCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
-        CourseAttributes typicalCourse2 = dataBundle.courses.get("typicalCourse2");
-        FeedbackSessionAttributes copiedSession = fsLogic.copyFeedbackSession(
-                "Copied Session", typicalCourse2.getId(), typicalCourse2.getTimeZone(),
-                session1InCourse1.getFeedbackSessionName(),
-                session1InCourse1.getCourseId(), instructor2OfCourse1.email);
-        verifyPresentInDatastore(copiedSession);
-
-        assertEquals("Copied Session", copiedSession.getFeedbackSessionName());
-        assertEquals(typicalCourse2.getId(), copiedSession.getCourseId());
-        List<FeedbackQuestionAttributes> questions1 =
-                fqLogic.getFeedbackQuestionsForSession(session1InCourse1.getFeedbackSessionName(),
-                                                       session1InCourse1.getCourseId());
-        List<FeedbackQuestionAttributes> questions2 =
-                fqLogic.getFeedbackQuestionsForSession(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
-
-        assertEquals(questions1.size(), questions2.size());
-        for (int i = 0; i < questions1.size(); i++) {
-            FeedbackQuestionAttributes question1 = questions1.get(i);
-            FeedbackQuestionDetails questionDetails1 = question1.getQuestionDetails();
-            FeedbackQuestionAttributes question2 = questions2.get(i);
-            FeedbackQuestionDetails questionDetails2 = question2.getQuestionDetails();
-
-            assertEquals(questionDetails1.getQuestionText(), questionDetails2.getQuestionText());
-            assertEquals(question1.giverType, question2.giverType);
-            assertEquals(question1.recipientType, question2.recipientType);
-            assertEquals(question1.getQuestionType(), question2.getQuestionType());
-            assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, question2.numberOfEntitiesToGiveFeedbackTo);
-        }
-        assertEquals(0, copiedSession.getRespondingInstructorList().size());
-        assertEquals(0, copiedSession.getRespondingStudentList().size());
-
-        ______TS("Failure case: duplicate session");
-
-        assertThrows(EntityAlreadyExistsException.class,
-                () -> fsLogic.copyFeedbackSession(
-                        session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(),
-                        session1InCourse1.getTimeZone(), session1InCourse1.getFeedbackSessionName(),
-                        session1InCourse1.getCourseId(), instructor2OfCourse1.email));
-
-        fsLogic.deleteFeedbackSessionCascade(copiedSession.getFeedbackSessionName(), copiedSession.getCourseId());
     }
 
     private void testGetFeedbackSessionDetailsForInstructor() throws Exception {
@@ -1606,15 +1561,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
-        return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.tmt")
-                .withCreatedTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-2))
+        return FeedbackSessionAttributes.builder("fsTest1", "testCourse")
+                .withCreatorEmail("valid@email.tmt")
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-62))
                 .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(0))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(1))
-                .withGracePeriodMinutes(5)
-                .withSentOpenEmail(true)
-                .withSentPublishedEmail(true)
+                .withGracePeriod(Duration.ofMinutes(5))
                 .withInstructions("Give feedback.")
                 .build();
     }
