@@ -26,6 +26,11 @@ export class AdminSearchPageComponent {
    */
   search(): void {
     this.accountService.searchAccounts(this.searchQuery).subscribe((resp: AdminSearchResult) => {
+      const hasStudents: boolean = !!(resp.students && resp.students.length);
+      const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+      if (!hasStudents && !hasInstructors) {
+        this.statusMessageService.showWarningMessage('No results found.');
+      }
       this.instructors = resp.instructors;
       for (const instructor of this.instructors) {
         instructor.showLinks = false;
