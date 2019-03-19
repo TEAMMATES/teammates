@@ -1,3 +1,18 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.5"
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
+        classpath "cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.11.472"
+        classpath "gradle.plugin.net.foragerr.jmeter:jmeter-gradle-plugin:1.1.0-4.0"
+    }
+}
+
 apply plugin: "eclipse"
 apply plugin: "eclipse-wtp"
 apply plugin: "idea"
@@ -13,25 +28,13 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
+apply plugin: "net.foragerr.jmeter"
+
 def appengineVersion = "1.9.+"
 def checkstyleVersion = "8.16"
 def pmdVersion = "6.11.0"
 def spotbugsVersion = "3.1.10"
 def jacocoVersion = "0.8.1"
-
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.5"
-        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
-        classpath "cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.11.472"
-    }
-}
 
 configurations {
     staticAnalysis
@@ -692,6 +695,26 @@ task e2eTests {
         ignoreExitValue = true
         outputs.upToDateWhen { false }
     }
+}
+
+// PERFORMANCE TEST TASKS
+
+jmeter {
+    testFileDir = file("src/test/jmeter/tests")
+    // ignoreErrors=true
+    // ignoreFailures=true
+    enableReports = true
+    csvLogFile = false
+    resultsLog = new File(project.buildDir, "jmeter-report/loadtest-results.xml")
+}
+
+afterEvaluate {
+    def jMeterExt = project.extensions.findByName("jmeter")
+    jMeterExt.metaClass.enableReports = true
+    jMeterExt.metaClass.enableExtendedReports = false
+    jMeterExt.metaClass.reportTitle = null
+    jMeterExt.metaClass.reportPostfix = ""
+    jMeterExt.metaClass.reportXslt = "$project.projectDir/jmeter-results-detail-report_21.xsl"
 }
 
 // COVERAGE TASKS
