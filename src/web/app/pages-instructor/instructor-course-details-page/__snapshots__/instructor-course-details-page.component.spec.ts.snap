@@ -9,7 +9,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   httpRequestService={[Function HttpRequestService]}
   instructors={[Function Array]}
   isAjaxSuccess={[Function Boolean]}
-  loading="false"
+  loading={[Function Boolean]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
