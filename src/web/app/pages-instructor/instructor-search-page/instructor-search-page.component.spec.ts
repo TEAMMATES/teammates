@@ -47,6 +47,12 @@ describe('InstructorSearchPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap with a search key', () => {
+    component.searchKey = 'TEST';
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should snap with a student table', () => {
     component.studentTables = [
       {
@@ -86,6 +92,12 @@ describe('InstructorSearchPageComponent', () => {
         ],
       },
     ];
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with a feedback session table', () => {
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
