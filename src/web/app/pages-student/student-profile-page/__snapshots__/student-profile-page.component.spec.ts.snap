@@ -204,7 +204,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             class="text-center"
           >
             <input
-              class="btn btn-primary"
+              class="btn btn-primary student-save-profile"
               type="submit"
               value="Save Profile"
             />
@@ -298,6 +298,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             
             <button
               class="btn btn-danger"
+              id="profile-delete-photo"
               ngbtooltip="Delete your profile picture"
             >
                Delete Photo 
@@ -465,7 +466,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             class="text-center"
           >
             <input
-              class="btn btn-primary"
+              class="btn btn-primary student-save-profile"
               type="submit"
               value="Save Profile"
             />
