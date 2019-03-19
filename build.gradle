@@ -31,7 +31,7 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
 jmeter {
-    jmTestFiles = [file("src/test/jmeter/testTemplate.jmx")]
+    testFileDir = file("src/test/jmeter/tests")
     ignoreErrors=true
     ignoreFailures=true
 }
