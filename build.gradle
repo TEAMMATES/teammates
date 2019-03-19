@@ -34,6 +34,18 @@ jmeter {
     testFileDir = file("src/test/jmeter/tests")
     ignoreErrors=true
     ignoreFailures=true
+    enableReports = true
+    csvLogFile = false
+    resultsLog = new File(project.buildDir, "jmeter-report/loadtest-results.xml")
+}
+
+afterEvaluate {
+    def jMeterExt = project.extensions.findByName("jmeter")
+    jMeterExt.metaClass.enableReports = true
+    jMeterExt.metaClass.enableExtendedReports = false
+    jMeterExt.metaClass.reportTitle = null
+    jMeterExt.metaClass.reportPostfix = ""
+    jMeterExt.metaClass.reportXslt = "$project.projectDir/jmeter-results-detail-report_21.xsl"
 }
 
 def appengineVersion = "1.9.+"
