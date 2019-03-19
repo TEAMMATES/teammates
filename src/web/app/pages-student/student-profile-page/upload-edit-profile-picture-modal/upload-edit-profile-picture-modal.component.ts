@@ -100,6 +100,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
   saveEditedPhoto(): void {
     this.populateFormData(this.croppedImage);
     this.uploadPicture();
+    this.activeModal.close();
   }
 
   /**
