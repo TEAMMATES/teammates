@@ -43,4 +43,40 @@ describe('InstructorStudentListPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should snap with default fields', () => {
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with some courses', () => {
+    component.courses = [
+      {
+        id: '1.1.c-demo2',
+        name: 'Sample Course 101',
+        isArchived: false,
+        isInstructorAllowedToModify: true,
+      },
+      {
+        id: 'RR.rah-demo',
+        name: 'Sample Course 101',
+        isArchived: false,
+        isInstructorAllowedToModify: true,
+      },
+      {
+        id: 'david.d.c-demo',
+        name: 'Sample Course 101',
+        isArchived: false,
+        isInstructorAllowedToModify: true,
+      },
+      {
+        id: 'test.tes-demo',
+        name: 'Sample Course 101',
+        isArchived: false,
+        isInstructorAllowedToModify: true,
+      },
+    ];
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
 });
