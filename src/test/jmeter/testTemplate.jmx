@@ -80,7 +80,7 @@
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">_ah/login?action=Log+In&amp;email=${email}&amp;isAdmin=${isAdmin}&amp;continue=http://localhost:4200/web/student/home</stringProp>
+          <stringProp name="HTTPSampler.path">_ah/login?action=Log+In&amp;email=${email}&amp;isAdmin=${isAdmin}&amp;continue=http://localhost:8080/webapi/auth?frontendUrl=http://localhost:4200</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
