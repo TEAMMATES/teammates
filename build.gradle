@@ -701,6 +701,7 @@ task e2eTests {
 
 jmeter {
     testFileDir = file("src/test/jmeter/tests")
+    // jmTestFiles = [file("src/test/jmeter/tests/testName.jmx")] // use for running specific test(s)
     // ignoreErrors=true
     // ignoreFailures=true
     enableReports = true
