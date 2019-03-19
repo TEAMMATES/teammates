@@ -705,7 +705,7 @@ jmeter {
     // ignoreFailures=true
     enableReports = true
     csvLogFile = false
-    resultsLog = new File(project.buildDir, "jmeter-report/loadtest-results.xml")
+    resultsLog = new File(project.buildDir, "jmeter-report/loadtest-results-" + getDate() + ".xml")
 }
 
 afterEvaluate {
@@ -747,6 +747,11 @@ task jacocoReport(type: JacocoReport) {
 }
 
 // Helper methods
+
+def getDate() {
+    return new Date().format('yyyyMMdd-HHmmss')
+}
+
 import groovy.xml.StreamingMarkupBuilder
 import java.nio.charset.StandardCharsets
 
