@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
 import { AccountService } from '../../../services/account.service';
+import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AdminSearchResult, InstructorAccountSearchResult,
-  StudentAccountSearchResult } from '../../../types/api-output';
+import {
+  AdminSearchResult,
+  InstructorAccountSearchResult,
+  MessageOutput,
+  StudentAccountSearchResult,
+} from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -19,7 +24,9 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
 
-  constructor(private statusMessageService: StatusMessageService, private accountService: AccountService) {}
+  constructor(private statusMessageService: StatusMessageService,
+              private accountService: AccountService,
+              private httpRequestService: HttpRequestService) {}
 
   /**
    * Searches for students and instructors matching the search query.
@@ -109,6 +116,28 @@ export class AdminSearchPageComponent {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Regenerates the student's submission link for the specified session.
+   */
+  regenerateFeedbackSessionLinks(student: StudentAccountSearchResult, event: any): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    const paramsMap: { [key: string]: string } = {
+      courseid: student.courseId,
+      studentemail: student.email,
+    };
+
+    this.httpRequestService.post('/regeneratefeedbacksessionlinks', paramsMap)
+        .subscribe((resp: MessageOutput) => {
+          this.statusMessageService.showSuccessMessage(resp.message);
+        }, (response: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(response.error.message);
+        });
   }
 
 }

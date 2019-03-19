@@ -107,6 +107,9 @@
               <a href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
+              <br>
+              <!-- TODO: Only show button if links exist/ disable it otherwise and show tooltip. -->
+              <button class="btn btn-danger" (click)="regenerateFeedbackSessionLinks(student, $event)">Regenerate links</button>
             </td>
           </tr>
           <tr *ngIf="student.showLinks">
