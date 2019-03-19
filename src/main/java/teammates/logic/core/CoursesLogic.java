@@ -659,17 +659,17 @@ public final class CoursesLogic {
             return;
         }
 
-        coursesDb.deleteCourse(courseId);
-
         AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                 .withCourseId(courseId)
                 .build();
-        instructorsLogic.deleteInstructors(query);
-        studentsLogic.deleteStudents(query);
-        feedbackSessionsLogic.deleteFeedbackSessions(query);
-        fqLogic.deleteFeedbackQuestions(query);
-        frLogic.deleteFeedbackResponses(query);
         frcLogic.deleteFeedbackResponseComments(query);
+        frLogic.deleteFeedbackResponses(query);
+        fqLogic.deleteFeedbackQuestions(query);
+        feedbackSessionsLogic.deleteFeedbackSessions(query);
+        studentsLogic.deleteStudents(query);
+        instructorsLogic.deleteInstructors(query);
+
+        coursesDb.deleteCourse(courseId);
     }
 
     /**

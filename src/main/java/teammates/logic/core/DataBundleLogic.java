@@ -431,17 +431,17 @@ public final class DataBundleLogic {
         }
         if (!courseIds.isEmpty()) {
             courseIds.forEach(courseId -> {
-                coursesDb.deleteCourse(courseId);
-
                 AttributesDeletionQuery query = AttributesDeletionQuery.builder()
                         .withCourseId(courseId)
                         .build();
-                frDb.deleteFeedbackResponses(query);
                 fcDb.deleteFeedbackResponseComments(query);
+                frDb.deleteFeedbackResponses(query);
                 fqDb.deleteFeedbackQuestions(query);
                 fbDb.deleteFeedbackSessions(query);
                 studentsDb.deleteStudents(query);
                 instructorsDb.deleteInstructors(query);
+
+                coursesDb.deleteCourse(courseId);
             });
         }
     }

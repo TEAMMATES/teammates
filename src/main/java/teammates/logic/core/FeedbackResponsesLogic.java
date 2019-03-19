@@ -723,8 +723,7 @@ public final class FeedbackResponsesLogic {
      *
      * <p>The respondent lists will also be updated.
      */
-    public void deleteFeedbackResponsesInvolvedStudentOfCourseCascade(String courseId, String studentEmail,
-                                                                      String studentTeam) {
+    public void deleteFeedbackResponsesInvolvedStudentOfCourseCascade(String courseId, String studentEmail) {
         // key is feedback session name, value is a set of student emails that need respondents update
         Map<String, Set<String>> studentEmailsNeedRespondentsUpdate = new HashMap<>();
         // key is feedback session name, value is a set of student emails that need respondents update
@@ -732,12 +731,6 @@ public final class FeedbackResponsesLogic {
 
         deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail,
                 studentEmailsNeedRespondentsUpdate, instructorEmailsNeedRespondentsUpdate);
-
-        // Delete responses to team as well if there is no student in team.
-        if (studentsLogic.getStudentsForTeam(studentTeam, courseId).size() == 0) {
-            deleteResponsesInvolvedTeam(courseId, studentTeam,
-                    studentEmailsNeedRespondentsUpdate, instructorEmailsNeedRespondentsUpdate);
-        }
 
         // update respondents
         studentEmailsNeedRespondentsUpdate.forEach((sessionName, emails) -> {
@@ -748,6 +741,27 @@ public final class FeedbackResponsesLogic {
         });
 
         fsLogic.deleteStudentFromRespondentsList(courseId, studentEmail);
+    }
+
+    /**
+     * Deletes all feedback responses involved a team cascade its associated comments.
+     */
+    public void deleteFeedbackResponsesInvolvedTeamOfCourseCascade(String courseId, String teamName) {
+        // key is feedback session name, value is a set of student emails that need respondents update
+        Map<String, Set<String>> studentEmailsNeedRespondentsUpdate = new HashMap<>();
+        // key is feedback session name, value is a set of student emails that need respondents update
+        Map<String, Set<String>> instructorEmailsNeedRespondentsUpdate = new HashMap<>();
+
+        deleteResponsesInvolvedTeam(courseId, teamName,
+                studentEmailsNeedRespondentsUpdate, instructorEmailsNeedRespondentsUpdate);
+
+        // update respondents
+        studentEmailsNeedRespondentsUpdate.forEach((sessionName, emails) -> {
+            deleteStudentFromRespondentsIfNecessary(courseId, sessionName, emails.toArray(new String[0]));
+        });
+        instructorEmailsNeedRespondentsUpdate.forEach((sessionName, emails) -> {
+            deleteInstructorFromRespondentsIfNecessary(courseId, sessionName, emails.toArray(new String[0]));
+        });
     }
 
     /**

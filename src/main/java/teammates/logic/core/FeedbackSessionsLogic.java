@@ -1375,9 +1375,9 @@ public final class FeedbackSessionsLogic {
                 .withCourseId(courseId)
                 .withFeedbackSessionName(feedbackSessionName)
                 .build();
-        fqLogic.deleteFeedbackQuestions(query);
-        frLogic.deleteFeedbackResponses(query);
         frcLogic.deleteFeedbackResponseComments(query);
+        frLogic.deleteFeedbackResponses(query);
+        fqLogic.deleteFeedbackQuestions(query);
 
         fsDb.deleteFeedbackSession(feedbackSessionName, courseId);
     }

@@ -404,8 +404,12 @@ public final class StudentsLogic {
             return;
         }
 
+        frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(courseId, studentEmail);
+        if (studentsDb.getStudentsForTeam(student.getTeam(), student.getCourse()).size() == 1) {
+            // the student is the only student in the team
+            frLogic.deleteFeedbackResponsesInvolvedTeamOfCourseCascade(student.getCourse(), student.getTeam());
+        }
         studentsDb.deleteStudent(courseId, studentEmail);
-        frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(courseId, studentEmail, student.getTeam());
     }
 
     /**

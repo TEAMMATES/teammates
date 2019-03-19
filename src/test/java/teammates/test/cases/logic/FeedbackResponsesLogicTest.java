@@ -610,7 +610,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertFalse(responsesForStudent1.isEmpty());
 
         frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(
-                studentToDelete.getCourse(), studentToDelete.getEmail(), studentToDelete.getTeam());
+                studentToDelete.getCourse(), studentToDelete.getEmail());
 
         // responses should be deleted
         remainingResponses = new ArrayList<>();
@@ -763,7 +763,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         // after the recipient is moved from the course
         frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(
-                student2InCourse1.getCourse(), student2InCourse1.getEmail(), student2InCourse1.getTeam());
+                student2InCourse1.getCourse(), student2InCourse1.getEmail());
 
         Set<String> studentRespondentsAfter =
                 fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId).getRespondingStudentList();
@@ -801,7 +801,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         // after the recipient is moved from the course
         frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(
-                student1InCourse2.getCourse(), student1InCourse2.getEmail(), student1InCourse2.getTeam());
+                student1InCourse2.getCourse(), student1InCourse2.getEmail());
 
         Set<String> studentRespondentsAfter =
                 fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId).getRespondingStudentList();
@@ -811,6 +811,171 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertEquals(studentRespondentsBefore, studentRespondentsAfter);
         // there is not instructor X in instructor respondents
         assertFalse(instructorRespondentsAfter.contains(fra.giver));
+    }
+
+    @Test
+    public void testDeleteFeedbackResponsesInvolvedTeamOfCourseCascade_shouldDeleteRelevantResponsesAsRecipient()
+            throws Exception {
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+
+        FeedbackResponseAttributes fra1ReceivedByTeam = getResponseFromDatastore("response1ForQ1S2C1");
+        frcLogic.createFeedbackResponseComment(
+                FeedbackResponseCommentAttributes
+                        .builder()
+                        .withCourseId(fra1ReceivedByTeam.getCourseId())
+                        .withFeedbackSessionName(fra1ReceivedByTeam.getFeedbackSessionName())
+                        .withCommentGiver(instructor1OfCourse1.getEmail())
+                        .withCommentText("Comment 1")
+                        .withFeedbackQuestionId(fra1ReceivedByTeam.getFeedbackQuestionId())
+                        .withFeedbackResponseId(fra1ReceivedByTeam.getId())
+                        .withGiverSection(fra1ReceivedByTeam.getGiverSection())
+                        .withReceiverSection(fra1ReceivedByTeam.getRecipientSection())
+                        .withCommentFromFeedbackParticipant(false)
+                        .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                        .withVisibilityFollowingFeedbackQuestion(false)
+                        .build());
+        FeedbackResponseAttributes fra2ReceivedByTeam = getResponseFromDatastore("response1GracePeriodFeedback");
+        frcLogic.createFeedbackResponseComment(
+                FeedbackResponseCommentAttributes
+                        .builder()
+                        .withCourseId(fra2ReceivedByTeam.getCourseId())
+                        .withFeedbackSessionName(fra2ReceivedByTeam.getFeedbackSessionName())
+                        .withCommentGiver(instructor1OfCourse1.getEmail())
+                        .withCommentText("Comment 2")
+                        .withFeedbackQuestionId(fra2ReceivedByTeam.getFeedbackQuestionId())
+                        .withFeedbackResponseId(fra2ReceivedByTeam.getId())
+                        .withGiverSection(fra2ReceivedByTeam.getGiverSection())
+                        .withReceiverSection(fra2ReceivedByTeam.getRecipientSection())
+                        .withCommentFromFeedbackParticipant(false)
+                        .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                        .withVisibilityFollowingFeedbackQuestion(false)
+                        .build());
+
+        String teamName = "Team 1.2";
+        assertEquals(teamName, fra1ReceivedByTeam.getRecipient());
+        assertEquals(teamName, fra2ReceivedByTeam.getRecipient());
+
+        // both responses got some comments
+        assertFalse(frcLogic.getFeedbackResponseCommentForResponse(fra1ReceivedByTeam.getId()).isEmpty());
+        assertFalse(frcLogic.getFeedbackResponseCommentForResponse(fra2ReceivedByTeam.getId()).isEmpty());
+
+        frLogic.deleteFeedbackResponsesInvolvedTeamOfCourseCascade(fra1ReceivedByTeam.getCourseId(), teamName);
+
+        // responses received by the team should be deleted
+        assertNull(frLogic.getFeedbackResponse(fra1ReceivedByTeam.getId()));
+        assertNull(frLogic.getFeedbackResponse(fra2ReceivedByTeam.getId()));
+
+        // their associated comments should be deleted
+        assertTrue(frcLogic.getFeedbackResponseCommentForResponse(fra1ReceivedByTeam.getId()).isEmpty());
+        assertTrue(frcLogic.getFeedbackResponseCommentForResponse(fra2ReceivedByTeam.getId()).isEmpty());
+    }
+
+    @Test
+    public void testDeleteFeedbackResponsesInvolvedTeamOfCourseCascade_shouldDeleteRelevantResponsesAsGiver()
+            throws Exception {
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
+
+        // the following two responses are given by student4InCourse1 as a representative of his team
+        FeedbackResponseAttributes fra1GivenByTeam = getResponseFromDatastore("response1ForQ1S2C1");
+        // update the response's giver to the team name
+        fra1GivenByTeam = frLogic.updateFeedbackResponseCascade(
+                FeedbackResponseAttributes.updateOptionsBuilder(fra1GivenByTeam.getId())
+                        .withGiver(student4InCourse1.getTeam())
+                        .build());
+        frcLogic.createFeedbackResponseComment(
+                FeedbackResponseCommentAttributes
+                        .builder()
+                        .withCourseId(fra1GivenByTeam.getCourseId())
+                        .withFeedbackSessionName(fra1GivenByTeam.getFeedbackSessionName())
+                        .withCommentGiver(instructor1OfCourse1.getEmail())
+                        .withCommentText("Comment 1")
+                        .withFeedbackQuestionId(fra1GivenByTeam.getFeedbackQuestionId())
+                        .withFeedbackResponseId(fra1GivenByTeam.getId())
+                        .withGiverSection(fra1GivenByTeam.getGiverSection())
+                        .withReceiverSection(fra1GivenByTeam.getRecipientSection())
+                        .withCommentFromFeedbackParticipant(false)
+                        .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                        .withVisibilityFollowingFeedbackQuestion(false)
+                        .build());
+        FeedbackResponseAttributes fra2GivenByTeam = getResponseFromDatastore("response1GracePeriodFeedback");
+        // update the response's giver to the team name
+        fra2GivenByTeam = frLogic.updateFeedbackResponseCascade(
+                FeedbackResponseAttributes.updateOptionsBuilder(fra2GivenByTeam.getId())
+                        .withGiver(student4InCourse1.getTeam())
+                        .build());
+        frcLogic.createFeedbackResponseComment(
+                FeedbackResponseCommentAttributes
+                        .builder()
+                        .withCourseId(fra2GivenByTeam.getCourseId())
+                        .withFeedbackSessionName(fra2GivenByTeam.getFeedbackSessionName())
+                        .withCommentGiver(instructor1OfCourse1.getEmail())
+                        .withCommentText("Comment 2")
+                        .withFeedbackQuestionId(fra2GivenByTeam.getFeedbackQuestionId())
+                        .withFeedbackResponseId(fra2GivenByTeam.getId())
+                        .withGiverSection(fra2GivenByTeam.getGiverSection())
+                        .withReceiverSection(fra2GivenByTeam.getRecipientSection())
+                        .withCommentFromFeedbackParticipant(false)
+                        .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                        .withVisibilityFollowingFeedbackQuestion(false)
+                        .build());
+
+        String teamName = student4InCourse1.getTeam();
+        assertEquals(teamName, fra1GivenByTeam.getGiver());
+        assertEquals(teamName, fra2GivenByTeam.getGiver());
+
+        // both responses got some comments
+        assertFalse(frcLogic.getFeedbackResponseCommentForResponse(fra1GivenByTeam.getId()).isEmpty());
+        assertFalse(frcLogic.getFeedbackResponseCommentForResponse(fra2GivenByTeam.getId()).isEmpty());
+
+        frLogic.deleteFeedbackResponsesInvolvedTeamOfCourseCascade(fra1GivenByTeam.getCourseId(), teamName);
+
+        // responses received by the team should be deleted
+        assertNull(frLogic.getFeedbackResponse(fra1GivenByTeam.getId()));
+        assertNull(frLogic.getFeedbackResponse(fra2GivenByTeam.getId()));
+
+        // their associated comments should be deleted
+        assertTrue(frcLogic.getFeedbackResponseCommentForResponse(fra1GivenByTeam.getId()).isEmpty());
+        assertTrue(frcLogic.getFeedbackResponseCommentForResponse(fra2GivenByTeam.getId()).isEmpty());
+    }
+
+    @Test
+    public void testDeleteFeedbackResponsesInvolvedTeamOfCourseCascade_shouldUpdateInstructorRespondentsCorrectly()
+            throws Exception {
+        String teamName = "Team 2.1";
+        FeedbackResponseAttributes fra = getResponseFromDatastore("response1ForQ1S1C2");
+        InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
+        // giver is instructor
+        assertEquals(FeedbackParticipantType.INSTRUCTORS,
+                fqLogic.getFeedbackQuestion(fra.getFeedbackQuestionId()).getGiverType());
+        assertEquals(fra.getGiver(), instructor1OfCourse2.getEmail());
+        // team is the recipient
+        assertEquals(fra.getRecipient(), teamName);
+
+        // this is the only response the giver has given for the session
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.getCourseId(), fra.getGiver()).stream()
+                .filter(response -> response.getFeedbackSessionName().equals(fra.getFeedbackSessionName()))
+                .count());
+        // suppose the instructor is in the respondent list
+        fsLogic.addInstructorRespondent(fra.getGiver(), fra.getFeedbackSessionName(), fra.getCourseId());
+        assertTrue(
+                fsLogic.getFeedbackSession(fra.getFeedbackSessionName(), fra.getCourseId())
+                        .getRespondingInstructorList().contains(fra.getGiver()));
+
+        Set<String> studentRespondentsBefore =
+                fsLogic.getFeedbackSession(fra.getFeedbackSessionName(), fra.getCourseId()).getRespondingStudentList();
+
+        // after the team's responses are deleted
+        frLogic.deleteFeedbackResponsesInvolvedTeamOfCourseCascade(instructor1OfCourse2.getCourseId(), teamName);
+
+        Set<String> studentRespondentsAfter =
+                fsLogic.getFeedbackSession(fra.getFeedbackSessionName(), fra.getCourseId()).getRespondingStudentList();
+        Set<String> instructorRespondentsAfter =
+                fsLogic.getFeedbackSession(fra.getFeedbackSessionName(), fra.getCourseId()).getRespondingInstructorList();
+        // student respondents not change
+        assertEquals(studentRespondentsBefore, studentRespondentsAfter);
+        // there is no instructor1OfCourse2 in instructor respondents
+        assertFalse(instructorRespondentsAfter.contains(fra.getGiver()));
     }
 
     @Test
