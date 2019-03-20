@@ -73,7 +73,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         };
 
         InstructorPrivilegeUpdateRequest reqBody = new InstructorPrivilegeUpdateRequest();
-        reqBody.setCanViewStudentInSections(true);
+        reqBody.setCanViewStudentInSections(false);
         reqBody.setCanSubmitSessionInSections(true);
         reqBody.setSectionName("TUT1");
 
@@ -83,12 +83,12 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
-        assertNull(response.isCanModifyCourse());
-        assertNull(response.isCanModifySession());
-        assertNull(response.isCanModifyStudent());
-        assertNull(response.isCanModifyInstructor());
+        assertTrue(response.isCanModifyCourse());
+        assertTrue(response.isCanModifySession());
+        assertTrue(response.isCanModifyStudent());
+        assertTrue(response.isCanModifyInstructor());
 
-        assertTrue(response.isCanViewStudentInSections());
+        assertFalse(response.isCanViewStudentInSections());
 
         assertTrue(response.isCanSubmitSessionInSections());
         assertFalse(response.isCanViewSessionInSections());
@@ -115,12 +115,12 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
-        assertNull(response.isCanModifyCourse());
-        assertNull(response.isCanModifySession());
-        assertNull(response.isCanModifyStudent());
-        assertNull(response.isCanModifyInstructor());
+        assertTrue(response.isCanModifyCourse());
+        assertTrue(response.isCanModifySession());
+        assertTrue(response.isCanModifyStudent());
+        assertTrue(response.isCanModifyInstructor());
 
-        assertNull(response.isCanViewStudentInSections());
+        assertTrue(response.isCanViewStudentInSections());
 
         assertTrue(response.isCanSubmitSessionInSections());
         assertFalse(response.isCanViewSessionInSections());
@@ -146,10 +146,10 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
-        assertNull(response.isCanModifyCourse());
-        assertNull(response.isCanModifySession());
-        assertNull(response.isCanModifyStudent());
-        assertNull(response.isCanModifyInstructor());
+        assertTrue(response.isCanModifyCourse());
+        assertTrue(response.isCanModifySession());
+        assertTrue(response.isCanModifyStudent());
+        assertTrue(response.isCanModifyInstructor());
 
         assertFalse(response.isCanViewStudentInSections());
 

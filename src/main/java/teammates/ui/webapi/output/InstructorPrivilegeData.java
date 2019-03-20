@@ -4,16 +4,16 @@ package teammates.ui.webapi.output;
  * The output format for privilege of an instructor.
  */
 public class InstructorPrivilegeData extends ApiOutput {
-    private Boolean canModifyCourse;
-    private Boolean canModifySession;
-    private Boolean canModifyStudent;
-    private Boolean canModifyInstructor;
+    private boolean canModifyCourse;
+    private boolean canModifySession;
+    private boolean canModifyStudent;
+    private boolean canModifyInstructor;
 
-    private Boolean canViewStudentInSections;
+    private boolean canViewStudentInSections;
 
-    private Boolean canModifySessionCommentsInSections;
-    private Boolean canViewSessionInSections;
-    private Boolean canSubmitSessionInSections;
+    private boolean canModifySessionCommentsInSections;
+    private boolean canViewSessionInSections;
+    private boolean canSubmitSessionInSections;
 
     public void setCanModifyCourse(boolean canModifyCourse) {
         this.canModifyCourse = canModifyCourse;
@@ -47,35 +47,35 @@ public class InstructorPrivilegeData extends ApiOutput {
         this.canSubmitSessionInSections = canSubmitSessionInSections;
     }
 
-    public Boolean isCanModifyCourse() {
+    public boolean isCanModifyCourse() {
         return canModifyCourse;
     }
 
-    public Boolean isCanModifyInstructor() {
+    public boolean isCanModifyInstructor() {
         return canModifyInstructor;
     }
 
-    public Boolean isCanModifySession() {
+    public boolean isCanModifySession() {
         return canModifySession;
     }
 
-    public Boolean isCanModifySessionCommentsInSections() {
+    public boolean isCanModifySessionCommentsInSections() {
         return canModifySessionCommentsInSections;
     }
 
-    public Boolean isCanModifyStudent() {
+    public boolean isCanModifyStudent() {
         return canModifyStudent;
     }
 
-    public Boolean isCanSubmitSessionInSections() {
+    public boolean isCanSubmitSessionInSections() {
         return canSubmitSessionInSections;
     }
 
-    public Boolean isCanViewSessionInSections() {
+    public boolean isCanViewSessionInSections() {
         return canViewSessionInSections;
     }
 
-    public Boolean isCanViewStudentInSections() {
+    public boolean isCanViewStudentInSections() {
         return canViewStudentInSections;
     }
 }
