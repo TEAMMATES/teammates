@@ -28,13 +28,14 @@ export class AdminSearchPageComponent {
     this.accountService.searchAccounts(this.searchQuery).subscribe((resp: AdminSearchResult) => {
       const hasStudents: boolean = !!(resp.students && resp.students.length);
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+
       if (!hasStudents && !hasInstructors) {
         this.statusMessageService.showWarningMessage('No results found.');
       } else {
-          this.instructors = resp.instructors;
-          this.students = resp.students;
-          this.hideAllInstructorsLinks();
-          this.hideAllStudentsLinks();
+        this.instructors = resp.instructors;
+        this.students = resp.students;
+        this.hideAllInstructorsLinks();
+        this.hideAllStudentsLinks();
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
