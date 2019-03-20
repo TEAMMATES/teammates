@@ -30,15 +30,11 @@ export class AdminSearchPageComponent {
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
       if (!hasStudents && !hasInstructors) {
         this.statusMessageService.showWarningMessage('No results found.');
-      }
-      this.instructors = resp.instructors;
-      for (const instructor of this.instructors) {
-        instructor.showLinks = false;
-      }
-
-      this.students = resp.students;
-      for (const student of this.students) {
-        student.showLinks = false;
+      } else {
+          this.instructors = resp.instructors;
+          this.students = resp.students;
+          this.hideAllInstructorsLinks();
+          this.hideAllStudentsLinks();
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
