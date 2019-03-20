@@ -35,7 +35,7 @@ describe('StudentCourseDetailsPageComponent', () => {
 
   it('should snap with populated fields', () => {
     const courseAttributes: any = {
-      createdAt: '1552509888215',
+      createdAt: '2019-03-12T09:13:29.272Z',
       id: 'CS3281',
       name: 'Thematic Systems',
       timeZone: 'Asia/Singapore',
