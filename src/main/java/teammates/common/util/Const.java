@@ -997,8 +997,6 @@ public final class Const {
         public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
-        public static final String COURSE_DELETE_INSTRUCTOR = "/instructors/course/details/deleteInstructor";
-
         public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
         public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
         public static final String STUDENT_RECORDS = "/students/records";
@@ -1410,9 +1408,6 @@ public final class Const {
 
         // General Error codes
         public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
-
-        // Error message for update options
-        public static final String UPDATE_OPTIONS_NULL_INPUT = "Field to update is null";
 
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";

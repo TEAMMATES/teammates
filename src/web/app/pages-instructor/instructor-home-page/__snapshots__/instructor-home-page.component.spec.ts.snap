@@ -1,0 +1,2458 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorHomePageComponent should snap with default fields 1`] = `
+<tm-instructor-home-page
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseTabModels={[Function Array]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  httpRequestService={[Function HttpRequestService]}
+  instructorCoursesSortBy={[Function Number]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  statusMessageService={[Function StatusMessageService]}
+  studentSearchkey=""
+  timezoneService={[Function TimezoneService]}
+  user="undefined"
+>
+  <h1>
+    Home
+  </h1><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            ng-reflect-model=""
+            placeholder="e.g. Charles Shultz, charles@gmail.com"
+            type="text"
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-primary"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row height-60px"
+  >
+    <div
+      class="col-4"
+    >
+      <a
+        class="btn btn-primary text-white"
+        href="/web/instructor/courses"
+        ng-reflect-router-link="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
+      >
+        Add New Course
+      </a>
+    </div>
+    
+  </div> New to TEAMMATES? You may wish to have a look at our <a
+    href="/web/front/help/instructor"
+    ng-reflect-router-link="/web/front/help/instructor"
+    routerlink="/web/front/help/instructor"
+  >
+    Getting Started Guide
+  </a>. A video tour is also available in our <a
+    href="/web"
+    ng-reflect-router-link="/web"
+    routerlink="/web"
+  >
+    home page
+  </a>.
+  
+</tm-instructor-home-page>
+`;
+
+exports[`InstructorHomePageComponent should snap with one course with error loading feedback sessions 1`] = `
+<tm-instructor-home-page
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseTabModels={[Function Array]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  httpRequestService={[Function HttpRequestService]}
+  instructorCoursesSortBy={[Function Number]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  statusMessageService={[Function StatusMessageService]}
+  studentSearchkey=""
+  timezoneService={[Function TimezoneService]}
+  user={[Function String]}
+>
+  <h1>
+    Home
+  </h1><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            ng-reflect-model=""
+            placeholder="e.g. Charles Shultz, charles@gmail.com"
+            type="text"
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-primary"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row height-60px"
+  >
+    <div
+      class="col-4"
+    >
+      <a
+        class="btn btn-primary text-white"
+        href="/web/instructor/courses"
+        ng-reflect-router-link="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
+      >
+        Add New Course
+      </a>
+    </div>
+    
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            disabled=""
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div>
+    
+    <div
+      class="card margin-bottom-15px"
+    >
+      <div
+        class="card-header bg-primary text-white course-tab-header"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-6"
+          >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+          </div>
+          <div
+            class="col-sm-6"
+          >
+            
+             Error loading feedback sessions. Click here to retry. 
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+      <div
+        class="card-body padding-0"
+      >
+        <tm-sessions-table
+          ng-reflect-columns-to-show="1,2"
+          ng-reflect-course-candidates="[object Object]"
+          ng-reflect-header-color-scheme="1"
+          ng-reflect-sessions-table-row-models=""
+          ng-reflect-sessions-table-row-models-sort-by="0"
+          ng-reflect-sessions-table-row-models-sort-order="1"
+        >
+          
+          <div
+            class="no-session-message"
+          >
+             There are no feedback sessions in this course. 
+          </div>
+          
+        </tm-sessions-table>
+      </div>
+    </div>
+  </div>
+</tm-instructor-home-page>
+`;
+
+exports[`InstructorHomePageComponent should snap with one course with one feedback session with instructor privilege 1`] = `
+<tm-instructor-home-page
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseTabModels={[Function Array]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  httpRequestService={[Function HttpRequestService]}
+  instructorCoursesSortBy={[Function Number]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  statusMessageService={[Function StatusMessageService]}
+  studentSearchkey=""
+  timezoneService={[Function TimezoneService]}
+  user=""
+>
+  <h1>
+    Home
+  </h1><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            ng-reflect-model=""
+            placeholder="e.g. Charles Shultz, charles@gmail.com"
+            type="text"
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-primary"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row height-60px"
+  >
+    <div
+      class="col-4"
+    >
+      <a
+        class="btn btn-primary text-white"
+        href="/web/instructor/courses"
+        ng-reflect-router-link="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
+      >
+        Add New Course
+      </a>
+    </div>
+    
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            disabled=""
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div>
+    
+    <div
+      class="card margin-bottom-15px"
+    >
+      <div
+        class="card-header bg-primary text-white course-tab-header"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-6"
+          >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+          </div>
+          <div
+            class="col-sm-6"
+          >
+            
+            <div
+              class="float-right"
+            >
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Enroll student into the course"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/enroll"
+                    ngbtooltip="Enroll student into the course"
+                    routerlink="/web/instructor/courses/enroll"
+                  >
+                     Enroll 
+                  </a>
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Add a feedback session for the"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/sessions"
+                    ngbtooltip="Add a feedback session for the course"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
+              
+              
+              <i
+                class="fas fa-chevron-up"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+      <div
+        class="card-body padding-0"
+      >
+        <tm-sessions-table
+          ng-reflect-columns-to-show="1,2"
+          ng-reflect-course-candidates="[object Object]"
+          ng-reflect-header-color-scheme="1"
+          ng-reflect-sessions-table-row-models="[object Object]"
+          ng-reflect-sessions-table-row-models-sort-by="0"
+          ng-reflect-sessions-table-row-models-sort-order="1"
+        >
+          
+          <div
+            class="row"
+          >
+            <div
+              class="col-12"
+            >
+              <table
+                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+              >
+                <thead>
+                  <tr
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    
+                    <th
+                      class="sortable-header"
+                    >
+                       Session Name 
+                      
+                      <span
+                        class="text-secondary"
+                        ng-reflect-ng-class="[object Object]"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                      
+                      
+                    </th>
+                    
+                    <th
+                      class="sortable-header"
+                    >
+                       Start Date 
+                      
+                      <span
+                        class="text-secondary"
+                        ng-reflect-ng-class="[object Object]"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                      
+                      
+                    </th>
+                    
+                    <th
+                      class="sortable-header"
+                    >
+                       End Date 
+                      
+                      <span
+                        class="text-secondary"
+                        ng-reflect-ng-class="[object Object]"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                      
+                      
+                    </th>
+                    <th>
+                      Submissions
+                    </th>
+                    <th>
+                      Responses
+                    </th>
+                    <th
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="Number of students submitted /"
+                      ngbtooltip="Number of students submitted / Class size"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        Response Rate
+                      </span>
+                    </th>
+                    <th>
+                      Action(s)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr>
+                    
+                    <td>
+                      Feedback
+                    </td>
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 06:43 AM +07"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        19 Jan 6:43 AM
+                      </span>
+                    </td>
+                    
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 06:46 AM +07"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        19 Jan 6:46 AM
+                      </span>
+                    </td>
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="The feedback session has been "
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        Awaiting
+                      </span>
+                    </td>
+                    <td
+                      class="tool-tip-decorate"
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="The responses for this session"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        Not Published
+                      </span>
+                    </td>
+                    <td>
+                      
+                      
+                      <div>
+                        0 / 6
+                      </div>
+                      
+                    </td>
+                    <td
+                      class="actions-cell"
+                    >
+                      <button
+                        class="btn btn-light btn-sm"
+                        ng-reflect-ngb-tooltip="Edit feedback session details"
+                        ngbtooltip="Edit feedback session details"
+                        type="button"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        ng-reflect-ngb-tooltip="Delete the feedback session"
+                        ngbtooltip="Delete the feedback session"
+                        type="button"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        ng-reflect-ngb-tooltip="Copy feedback session details"
+                        ngbtooltip="Copy feedback session details"
+                        type="button"
+                      >
+                        Copy
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Start submitting feedback"
+                        ngbtooltip="Start submitting feedback"
+                        type="button"
+                      >
+                        Submit
+                      </button>
+                      <div
+                        class="d-inline-block dropdown"
+                        ng-reflect-ngb-tooltip="View the submitted responses f"
+                        ngbdropdown=""
+                        ngbtooltip="View the submitted responses for this feedback session"
+                      >
+                        <button
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="btn btn-light btn-sm dropdown-toggle"
+                          ngbdropdowntoggle=""
+                        >
+                          Results
+                        </button>
+                        <div
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom-left"
+                        >
+                          <button
+                            class="dropdown-item clickable"
+                          >
+                            View Results
+                          </button>
+                          
+                          <button
+                            class="dropdown-item clickable"
+                            container="body"
+                            disabled=""
+                            ng-reflect-container="body"
+                            ng-reflect-ngb-tooltip="Make session responses availab"
+                            ng-reflect-placement="left"
+                            ngbtooltip="Make session responses available for viewing"
+                            placement="left"
+                          >
+                            Publish Results
+                          </button>
+                          
+                          
+                          
+                          <button
+                            class="dropdown-item clickable"
+                          >
+                            Download Results
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        class="d-inline-block"
+                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                        ngbdropdown=""
+                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                      >
+                        <button
+                          class="btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          Remind
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+        </tm-sessions-table>
+      </div>
+    </div>
+  </div>
+</tm-instructor-home-page>
+`;
+
+exports[`InstructorHomePageComponent should snap with one course with two feedback sessions with tutor privilege 1`] = `
+<tm-instructor-home-page
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseTabModels={[Function Array]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  httpRequestService={[Function HttpRequestService]}
+  instructorCoursesSortBy={[Function Number]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  statusMessageService={[Function StatusMessageService]}
+  studentSearchkey=""
+  timezoneService={[Function TimezoneService]}
+  user=""
+>
+  <h1>
+    Home
+  </h1><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            ng-reflect-model=""
+            placeholder="e.g. Charles Shultz, charles@gmail.com"
+            type="text"
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-primary"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row height-60px"
+  >
+    <div
+      class="col-4"
+    >
+      <a
+        class="btn btn-primary text-white"
+        href="/web/instructor/courses"
+        ng-reflect-router-link="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
+      >
+        Add New Course
+      </a>
+    </div>
+    
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            disabled=""
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div>
+    
+    <div
+      class="card margin-bottom-15px"
+    >
+      <div
+        class="card-header bg-primary text-white course-tab-header"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-6"
+          >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+          </div>
+          <div
+            class="col-sm-6"
+          >
+            
+            <div
+              class="float-right"
+            >
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Add a feedback session for the"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/sessions"
+                    ngbtooltip="Add a feedback session for the course"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                </div>
+              </span>
+              
+              
+              <i
+                class="fas fa-chevron-up"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+      <div
+        class="card-body padding-0"
+      >
+        <tm-sessions-table
+          ng-reflect-columns-to-show="1,2"
+          ng-reflect-course-candidates="[object Object]"
+          ng-reflect-header-color-scheme="1"
+          ng-reflect-sessions-table-row-models="[object Object],[object Object"
+          ng-reflect-sessions-table-row-models-sort-by="3"
+          ng-reflect-sessions-table-row-models-sort-order="1"
+        >
+          
+          <div
+            class="row"
+          >
+            <div
+              class="col-12"
+            >
+              <table
+                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+              >
+                <thead>
+                  <tr
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    
+                    <th
+                      class="sortable-header"
+                    >
+                       Session Name 
+                      
+                      <span
+                        class="text-secondary"
+                        ng-reflect-ng-class="[object Object]"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                      
+                      
+                    </th>
+                    
+                    <th
+                      class="sortable-header"
+                    >
+                       Start Date 
+                      
+                      <span
+                        class="text-secondary"
+                        ng-reflect-ng-class="[object Object]"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                      
+                      
+                    </th>
+                    
+                    <th
+                      class="sortable-header"
+                    >
+                       End Date 
+                      
+                      <span
+                        class="text-secondary"
+                        ng-reflect-ng-class="[object Object]"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                      
+                      
+                    </th>
+                    <th>
+                      Submissions
+                    </th>
+                    <th>
+                      Responses
+                    </th>
+                    <th
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="Number of students submitted /"
+                      ngbtooltip="Number of students submitted / Class size"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        Response Rate
+                      </span>
+                    </th>
+                    <th>
+                      Action(s)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr>
+                    
+                    <td>
+                      Feedback 1
+                    </td>
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        1 Jan 7:30 AM
+                      </span>
+                    </td>
+                    
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        1 Jan 7:30 AM
+                      </span>
+                    </td>
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="The feedback session has been "
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        Closed
+                      </span>
+                    </td>
+                    <td
+                      class="tool-tip-decorate"
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="The responses for this session"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        Published
+                      </span>
+                    </td>
+                    <td>
+                      
+                      
+                      <div>
+                        0 / 6
+                      </div>
+                      
+                    </td>
+                    <td
+                      class="actions-cell"
+                    >
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Edit feedback session details"
+                        ngbtooltip="Edit feedback session details"
+                        type="button"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Delete the feedback session"
+                        ngbtooltip="Delete the feedback session"
+                        type="button"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        ng-reflect-ngb-tooltip="Copy feedback session details"
+                        ngbtooltip="Copy feedback session details"
+                        type="button"
+                      >
+                        Copy
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Start submitting feedback"
+                        ngbtooltip="Start submitting feedback"
+                        type="button"
+                      >
+                        Submit
+                      </button>
+                      <div
+                        class="d-inline-block dropdown"
+                        ng-reflect-ngb-tooltip="View the submitted responses f"
+                        ngbdropdown=""
+                        ngbtooltip="View the submitted responses for this feedback session"
+                      >
+                        <button
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="btn btn-light btn-sm dropdown-toggle"
+                          ngbdropdowntoggle=""
+                        >
+                          Results
+                        </button>
+                        <div
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom-left"
+                        >
+                          <button
+                            class="dropdown-item clickable"
+                          >
+                            View Results
+                          </button>
+                          
+                          <button
+                            class="dropdown-item clickable"
+                            container="body"
+                            disabled=""
+                            ng-reflect-container="body"
+                            ng-reflect-ngb-tooltip="Make responses no longer visib"
+                            ng-reflect-placement="left"
+                            ngbtooltip="Make responses no longer visible"
+                            placement="left"
+                          >
+                            Unpublish Results
+                          </button>
+                          
+                          
+                          
+                          <button
+                            class="dropdown-item clickable"
+                          >
+                            Resend link to view results
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                          >
+                            Download Results
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        class="d-inline-block"
+                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                        ngbdropdown=""
+                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                      >
+                        <button
+                          class="btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          Remind
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>
+                      Feedback 2
+                    </td>
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        1 Jan 7:30 AM
+                      </span>
+                    </td>
+                    
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        1 Jan 7:30 AM
+                      </span>
+                    </td>
+                    
+                    <td
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="The feedback session has been "
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        Open
+                      </span>
+                    </td>
+                    <td
+                      class="tool-tip-decorate"
+                      container="body"
+                      ng-reflect-container="body"
+                      ng-reflect-ngb-tooltip="The responses for this session"
+                    >
+                      <span
+                        class="tool-tip-decorate"
+                      >
+                        Not Published
+                      </span>
+                    </td>
+                    <td>
+                      
+                      
+                      <div>
+                        5 / 6
+                      </div>
+                      
+                    </td>
+                    <td
+                      class="actions-cell"
+                    >
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Edit feedback session details"
+                        ngbtooltip="Edit feedback session details"
+                        type="button"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Delete the feedback session"
+                        ngbtooltip="Delete the feedback session"
+                        type="button"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        ng-reflect-ngb-tooltip="Copy feedback session details"
+                        ngbtooltip="Copy feedback session details"
+                        type="button"
+                      >
+                        Copy
+                      </button>
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Start submitting feedback"
+                        ngbtooltip="Start submitting feedback"
+                        type="button"
+                      >
+                        Submit
+                      </button>
+                      <div
+                        class="d-inline-block dropdown"
+                        ng-reflect-ngb-tooltip="View the submitted responses f"
+                        ngbdropdown=""
+                        ngbtooltip="View the submitted responses for this feedback session"
+                      >
+                        <button
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="btn btn-light btn-sm dropdown-toggle"
+                          ngbdropdowntoggle=""
+                        >
+                          Results
+                        </button>
+                        <div
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom-left"
+                        >
+                          <button
+                            class="dropdown-item clickable"
+                          >
+                            View Results
+                          </button>
+                          
+                          <button
+                            class="dropdown-item clickable"
+                            container="body"
+                            disabled=""
+                            ng-reflect-container="body"
+                            ng-reflect-ngb-tooltip="Make session responses availab"
+                            ng-reflect-placement="left"
+                            ngbtooltip="Make session responses available for viewing"
+                            placement="left"
+                          >
+                            Publish Results
+                          </button>
+                          
+                          
+                          
+                          <button
+                            class="dropdown-item clickable"
+                          >
+                            Download Results
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        class="d-inline-block"
+                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                        ngbdropdown=""
+                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                      >
+                        <button
+                          class="btn btn-light btn-sm"
+                          disabled=""
+                        >
+                          Remind
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+        </tm-sessions-table>
+      </div>
+    </div>
+  </div>
+</tm-instructor-home-page>
+`;
+
+exports[`InstructorHomePageComponent should snap with one course with unexpanded course tab 1`] = `
+<tm-instructor-home-page
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseTabModels={[Function Array]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  httpRequestService={[Function HttpRequestService]}
+  instructorCoursesSortBy={[Function Number]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  statusMessageService={[Function StatusMessageService]}
+  studentSearchkey=""
+  timezoneService={[Function TimezoneService]}
+  user={[Function String]}
+>
+  <h1>
+    Home
+  </h1><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            ng-reflect-model=""
+            placeholder="e.g. Charles Shultz, charles@gmail.com"
+            type="text"
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-primary"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row height-60px"
+  >
+    <div
+      class="col-4"
+    >
+      <a
+        class="btn btn-primary text-white"
+        href="/web/instructor/courses"
+        ng-reflect-router-link="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
+      >
+        Add New Course
+      </a>
+    </div>
+    
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            disabled=""
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div>
+    
+    <div
+      class="card margin-bottom-15px"
+    >
+      <div
+        class="card-header bg-primary text-white course-tab-header"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-6"
+          >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+          </div>
+          <div
+            class="col-sm-6"
+          >
+            
+            <div
+              class="float-right"
+            >
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Enroll student into the course"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/enroll"
+                    ngbtooltip="Enroll student into the course"
+                    routerlink="/web/instructor/courses/enroll"
+                  >
+                     Enroll 
+                  </a>
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Add a feedback session for the"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/sessions"
+                    ngbtooltip="Add a feedback session for the course"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
+              
+              <i
+                class="fas fa-chevron-down"
+              />
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+    </div>
+  </div>
+</tm-instructor-home-page>
+`;
+
+exports[`InstructorHomePageComponent should snap with one course with unpopulated feedback sessions 1`] = `
+<tm-instructor-home-page
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseTabModels={[Function Array]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  httpRequestService={[Function HttpRequestService]}
+  instructorCoursesSortBy={[Function Number]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  statusMessageService={[Function StatusMessageService]}
+  studentSearchkey=""
+  timezoneService={[Function TimezoneService]}
+  user=""
+>
+  <h1>
+    Home
+  </h1><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            ng-reflect-model=""
+            placeholder="e.g. Charles Shultz, charles@gmail.com"
+            type="text"
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-primary"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row height-60px"
+  >
+    <div
+      class="col-4"
+    >
+      <a
+        class="btn btn-primary text-white"
+        href="/web/instructor/courses"
+        ng-reflect-router-link="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
+      >
+        Add New Course
+      </a>
+    </div>
+    
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            disabled=""
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div>
+    
+    <div
+      class="card margin-bottom-15px"
+    >
+      <div
+        class="card-header bg-primary text-white course-tab-header"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-6"
+          >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+          </div>
+          <div
+            class="col-sm-6"
+          >
+            
+            <div
+              class="float-right"
+            >
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Enroll student into the course"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/enroll"
+                    ngbtooltip="Enroll student into the course"
+                    routerlink="/web/instructor/courses/enroll"
+                  >
+                     Enroll 
+                  </a>
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Add a feedback session for the"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/sessions"
+                    ngbtooltip="Add a feedback session for the course"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
+              
+              
+              <i
+                class="fas fa-chevron-up"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+      <div
+        class="card-body padding-0"
+      >
+        <tm-sessions-table
+          ng-reflect-columns-to-show="1,2"
+          ng-reflect-course-candidates="[object Object]"
+          ng-reflect-header-color-scheme="1"
+          ng-reflect-sessions-table-row-models=""
+          ng-reflect-sessions-table-row-models-sort-by="0"
+          ng-reflect-sessions-table-row-models-sort-order="1"
+        >
+          
+          <div
+            class="no-session-message"
+          >
+             There are no feedback sessions in this course. 
+          </div>
+          
+        </tm-sessions-table>
+      </div>
+    </div>
+  </div>
+</tm-instructor-home-page>
+`;
+
+exports[`InstructorHomePageComponent should snap with one course without feedback session 1`] = `
+<tm-instructor-home-page
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseTabModels={[Function Array]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  httpRequestService={[Function HttpRequestService]}
+  instructorCoursesSortBy={[Function Number]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  statusMessageService={[Function StatusMessageService]}
+  studentSearchkey=""
+  timezoneService={[Function TimezoneService]}
+  user=""
+>
+  <h1>
+    Home
+  </h1><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            ng-reflect-model=""
+            placeholder="e.g. Charles Shultz, charles@gmail.com"
+            type="text"
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-primary"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row height-60px"
+  >
+    <div
+      class="col-4"
+    >
+      <a
+        class="btn btn-primary text-white"
+        href="/web/instructor/courses"
+        ng-reflect-router-link="/web/instructor/courses"
+        routerlink="/web/instructor/courses"
+      >
+        Add New Course
+      </a>
+    </div>
+    
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            disabled=""
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div>
+    
+    <div
+      class="card margin-bottom-15px"
+    >
+      <div
+        class="card-header bg-primary text-white course-tab-header"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-6"
+          >
+            <b>
+              [CS3243]: Introduction to AI
+            </b>
+          </div>
+          <div
+            class="col-sm-6"
+          >
+            
+            <div
+              class="float-right"
+            >
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3243"
+                    ng-reflect-ngb-tooltip="Enroll student into the course"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/enroll"
+                    ngbtooltip="Enroll student into the course"
+                    routerlink="/web/instructor/courses/enroll"
+                  >
+                     Enroll 
+                  </a>
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3243"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3243"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3243"
+                    ng-reflect-ngb-tooltip="Add a feedback session for the"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/sessions"
+                    ngbtooltip="Add a feedback session for the course"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="padding-right-10px dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3243"
+                    ng-reflect-ngb-tooltip="Edit course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
+              
+              
+              <i
+                class="fas fa-chevron-up"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+      <div
+        class="card-body padding-0"
+      >
+        <tm-sessions-table
+          ng-reflect-columns-to-show="1,2"
+          ng-reflect-course-candidates="[object Object]"
+          ng-reflect-header-color-scheme="1"
+          ng-reflect-sessions-table-row-models=""
+          ng-reflect-sessions-table-row-models-sort-by="0"
+          ng-reflect-sessions-table-row-models-sort-order="1"
+        >
+          
+          <div
+            class="no-session-message"
+          >
+             There are no feedback sessions in this course. 
+          </div>
+          
+        </tm-sessions-table>
+      </div>
+    </div>
+  </div>
+</tm-instructor-home-page>
+`;

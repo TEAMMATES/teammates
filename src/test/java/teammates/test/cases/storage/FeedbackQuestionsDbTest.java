@@ -79,13 +79,11 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqDb.createEntity(fqa);
         verifyPresentInDatastore(fqa);
 
-        ______TS("duplicate - with same id.");
+        ______TS("duplicate - with same question number.");
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class, () -> fqDb.createEntity(fqa));
-        AssertHelper.assertContains(
-                String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                        fqa.getEntityTypeAsString()) + fqa.getIdentificationString(),
-                eaee.getMessage());
+        assertEquals(
+                String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fqa.toString()), eaee.getMessage());
 
         ______TS("delete - with id specified");
 
@@ -322,12 +320,12 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                 .withFeedbackSessionName("testFeedbackSession")
                 .withGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withRecipientType(FeedbackParticipantType.SELF)
-                .withNumOfEntitiesToGiveFeedbackTo(1)
+                .withNumberOfEntitiesToGiveFeedbackTo(1)
                 .withQuestionNumber(1)
                 .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(new ArrayList<>())
                 .withShowRecipientNameTo(new ArrayList<>())
-                .withShowResponseTo(new ArrayList<>())
+                .withShowResponsesTo(new ArrayList<>())
                 .build();
     }
 

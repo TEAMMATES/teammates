@@ -47,15 +47,16 @@ public final class StudentsLogic {
         return instance;
     }
 
-    public void createStudentCascade(StudentAttributes studentData)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        studentsDb.createStudent(studentData);
-
-        if (!coursesLogic.isCoursePresent(studentData.course)) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + studentData.course + "]");
-        }
-
+    /**
+     * Creates a student.
+     *
+     * @return the created student
+     * @throws InvalidParametersException if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
+     */
+    public StudentAttributes createStudent(StudentAttributes studentData)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return studentsDb.createEntity(studentData);
     }
 
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -221,9 +222,9 @@ public final class StudentsLogic {
             throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
         }
 
-        List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
-        List<StudentAttributes> returnList = new ArrayList<>();
-        List<StudentEnrollDetails> enrollmentList = new ArrayList<>();
+        List<StudentAttributes> studentList = buildStudents(enrollLines, courseId);
+        ArrayList<StudentAttributes> returnList = new ArrayList<>();
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSectionsAndTeams(studentList, courseId);
@@ -454,7 +455,7 @@ public final class StudentsLogic {
                 enrollmentDetails.oldSection = originalStudentAttributes.section;
             }
         } else {
-            createStudentCascade(validStudentAttributes);
+            createStudent(validStudentAttributes);
             enrollmentDetails.updateStatus = StudentUpdateStatus.NEW;
         }
 
@@ -469,7 +470,7 @@ public final class StudentsLogic {
      * @throws EnrollException if some of the student instances created are invalid. The exception message contains
      *         invalidity info for all invalid student instances in HTML format.
      */
-    public List<StudentAttributes> createStudents(String lines, String courseId) throws EnrollException {
+    public List<StudentAttributes> buildStudents(String lines, String courseId) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<>();
         String[] linesArray = lines.split(System.lineSeparator());
         List<StudentAttributes> studentList = new ArrayList<>();

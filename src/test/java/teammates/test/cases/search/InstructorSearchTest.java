@@ -5,7 +5,9 @@ import java.util.Arrays;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
 
@@ -118,7 +120,7 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         ______TS("success: search for instructors in whole system; instructors created without searchability unsearchable");
 
-        instructorsDb.createEntitiesWithoutExistenceCheck(Arrays.asList(ins1InCourse1));
+        instructorsDb.putEntity(ins1InCourse1);
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
         verifySearchResults(results, ins1InCourse2, ins1InCourse3, ins1InCourse4, ins1InTestingSanitizationCourse);
 
@@ -128,6 +130,31 @@ public class InstructorSearchTest extends BaseSearchTest {
         instructorsDb.deleteEntity(ins2InCourse1);
         results = instructorsDb.searchInstructorsInWholeSystem("instructor2");
         verifySearchResults(results, ins2InCourse2, ins2InCourse3);
+    }
+
+    @Test
+    public void testSearchInstructor_createNewInstructor_instructorShouldBeSearchable() throws Exception {
+
+        InstructorsDb instructorsDb = new InstructorsDb();
+        CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
+
+        InstructorSearchResultBundle bundle =
+                instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
+
+        assertEquals(0, bundle.numberOfResults);
+
+        // create a new instructor
+        instructorsDb.createEntity(
+                InstructorAttributes.builder(courseAttributes.getId(), "instructorABCDE@email.com")
+                        .withName("instructorABCDE")
+                        .withDisplayedName("Instructor")
+                        .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                        .build());
+
+        // the newly created instructor is searchable
+        bundle = instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
+        assertEquals(1, bundle.numberOfResults);
+        assertEquals("instructorABCDE", bundle.instructorList.get(0).getName());
     }
 
     /*

@@ -98,12 +98,16 @@ public final class FeedbackSessionsLogic {
         return instance;
     }
 
-    // TODO: in general, try to reduce method length and nesting-level in
-    // Feedback*Logic classes.
-
-    public void createFeedbackSession(FeedbackSessionAttributes fsa)
+    /**
+     * Creates a feedback session.
+     *
+     * @return created feedback session
+     * @throws InvalidParametersException if the session is not valid
+     * @throws EntityAlreadyExistsException if the session already exist
+     */
+    public FeedbackSessionAttributes createFeedbackSession(FeedbackSessionAttributes fsa)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        fsDb.createEntity(fsa);
+        return fsDb.createEntity(fsa);
     }
 
     public List<FeedbackSessionAttributes> getAllOngoingSessions(Instant rangeStart, Instant rangeEnd) {
@@ -131,30 +135,6 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(
             String courseId) {
         return fsDb.getFeedbackSessionsForCourse(courseId);
-    }
-
-    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName, String newCourseId,
-            ZoneId newTimeZone, String feedbackSessionName, String courseId, String instructorEmail)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(feedbackSessionName, courseId);
-        copiedFeedbackSession.setCreatorEmail(instructorEmail);
-        copiedFeedbackSession.setFeedbackSessionName(newFeedbackSessionName);
-        copiedFeedbackSession.setCourseId(newCourseId);
-        copiedFeedbackSession.setTimeZone(newTimeZone);
-        copiedFeedbackSession.setCreatedTime(Instant.now());
-        copiedFeedbackSession.setRespondingInstructorList(new HashSet<>());
-        copiedFeedbackSession.setRespondingStudentList(new HashSet<>());
-        fsDb.createEntity(copiedFeedbackSession);
-
-        List<FeedbackQuestionAttributes> feedbackQuestions =
-                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        for (FeedbackQuestionAttributes question : feedbackQuestions) {
-            question.courseId = newCourseId;
-            question.feedbackSessionName = newFeedbackSessionName;
-            fqLogic.createFeedbackQuestionNoIntegrityCheck(question, question.questionNumber);
-        }
-
-        return copiedFeedbackSession;
     }
 
     /**
@@ -1422,8 +1402,8 @@ public final class FeedbackSessionsLogic {
 
         fqLogic.deleteFeedbackQuestionsCascadeForSession(feedbackSessionName, courseId);
 
-        FeedbackSessionAttributes sessionToDelete = FeedbackSessionAttributes
-                .builder(feedbackSessionName, courseId, "").build();
+        FeedbackSessionAttributes sessionToDelete =
+                FeedbackSessionAttributes.builder(feedbackSessionName, courseId).build();
 
         fsDb.deleteEntity(sessionToDelete);
     }

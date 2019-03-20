@@ -42,13 +42,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     private static final Logger log = Logger.getLogger();
 
     /**
-     * Preconditions:
-     * <br> * {@code entityToAdd} is not null and has valid data.
+     * Creates a feedback response comment.
+     *
+     * @return the created comment
+     * @throws InvalidParametersException if the comment is not valid
+     * @throws EntityAlreadyExistsException if the comment already exists in the Datastore
      */
-    public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes entityToAdd)
+    @Override
+    public FeedbackResponseCommentAttributes createEntity(FeedbackResponseCommentAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return makeAttributesOrNull(createEntity(entityToAdd),
-                "Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
+        FeedbackResponseCommentAttributes createdComment = super.createEntity(entityToAdd);
+        putDocument(createdComment);
+
+        return createdComment;
     }
 
     /**
@@ -423,6 +429,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     private QueryKeys<FeedbackResponseComment> getEntityQueryKeys(long commentId) {
         return load().filterKey(Key.create(FeedbackResponseComment.class, commentId)).keys();
+    }
+
+    @Override
+    protected boolean hasExistingEntities(FeedbackResponseCommentAttributes entityToCreate) {
+        // comment does not have unique constraint
+        return false;
     }
 
     @Override

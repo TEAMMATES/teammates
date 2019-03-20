@@ -2,9 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.time.DateTimeException;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,7 +96,9 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
         // only the courseId is important here, everything else are placeholders
         deleteEntity(CourseAttributes
-                .builder(courseId, "Non-existent course", Const.DEFAULT_TIME_ZONE)
+                .builder(courseId)
+                .withName("Non-existent course")
+                .withTimezone(Const.DEFAULT_TIME_ZONE)
                 .build());
     }
 
@@ -151,6 +151,12 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         return load().filterKey(keyToFind).keys();
     }
 
+    @Override
+    protected boolean hasExistingEntities(CourseAttributes entityToCreate) {
+        Key<Course> keyToFind = Key.create(Course.class, entityToCreate.getId());
+        return !load().filterKey(keyToFind).keys().list().isEmpty();
+    }
+
     private Course getCourseEntity(String courseId) {
         return load().id(courseId).now();
     }
@@ -168,17 +174,6 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     protected CourseAttributes makeAttributes(Course entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        ZoneId courseTimeZone;
-        try {
-            courseTimeZone = ZoneId.of(entity.getTimeZone());
-        } catch (DateTimeException e) {
-            log.severe("Timezone '" + entity.getTimeZone() + "' of course '" + entity.getUniqueId()
-                    + "' is not supported. UTC will be used instead.");
-            courseTimeZone = Const.DEFAULT_TIME_ZONE;
-        }
-        return CourseAttributes.builder(entity.getUniqueId(), entity.getName(), courseTimeZone)
-                .withCreatedAt(entity.getCreatedAt())
-                .withDeletedAt(entity.getDeletedAt())
-                .build();
+        return CourseAttributes.valueOf(entity);
     }
 }

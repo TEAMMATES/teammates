@@ -28,9 +28,9 @@ public class CourseDetailsBundle {
         //TODO: [CourseAttribute] remove desanitization after data migration
         //creating a new course with possibly desanitized name as course name cannot be accessed directly
         this.course = CourseAttributes
-                .builder(courseData.getId(),
-                        SanitizationHelper.desanitizeIfHtmlSanitized(courseData.getName()),
-                        courseData.getTimeZone())
+                .builder(courseData.getId())
+                .withName(SanitizationHelper.desanitizeIfHtmlSanitized(courseData.getName()))
+                .withTimezone(courseData.getTimeZone())
                 .build();
         this.course.createdAt = courseData.createdAt;
     }
