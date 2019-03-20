@@ -13,6 +13,13 @@
       "isInstructor": false,
       "email": "alice.b.tmms@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "bob.tmms": {
+      "googleId": "CFeedbackEditUiT.bob.tmms",
+      "name": "Bob1 Betsy",
+      "isInstructor": false,
+      "email": "bob.b.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
@@ -54,6 +61,15 @@
       "course": "FContribQnUiT.CS2104",
       "name": "Alice1 Betsy</td></div>'\"",
       "comments": "This student's name is Alice1 Betsy</td></div>'\"",
+      "team": "Team </option><option value=\"dump\">1'",
+      "section": "None"
+    },
+    "bob.tmms@FContribQnUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.bob.tmms",
+      "email": "bob.b.tmms@gmail.tmt",
+      "course": "FContribQnUiT.CS2104",
+      "name": "Bob1 Betsy</td></div>'\"",
+      "comments": "This student's name is Bob1 Betsy</td></div>'\"",
       "team": "Team </option><option value=\"dump\">1'",
       "section": "None"
     }

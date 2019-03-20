@@ -29,7 +29,7 @@ If you want to execute specific test file(s):
 
 ### Using JMeter GUI
 
-You can also use the JMeter GUI to run performance tests. This is particularly useful when debugging or validating that the test does what is expected.
+You can also use the JMeter GUI (`./gradlew jmGui`) to run performance tests. This is particularly useful when debugging or validating that the test does what is expected.
 However, you should not use the GUI to run large scale tests as it is very resource intensive.
 
 ### Using `jmeter` in the command line

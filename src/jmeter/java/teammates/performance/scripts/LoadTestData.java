@@ -12,7 +12,7 @@ import teammates.test.driver.FileHelper;
  */
 public final class LoadTestData {
 
-    private static final String JMETER_DATA_FOLDER = "src/test/jmeter/resources/data";
+    private static final String JMETER_DATA_FOLDER = "src/jmeter/resources/data";
 
     private LoadTestData() {
         // Utility class
