@@ -119,12 +119,14 @@ sourceSets {
             srcDir "src/test/java"
             srcDir "src/e2e/java"
             srcDir "src/client/java"
+            srcDir "src/jmeter/java"
             include "**/*.java"
         }
         resources {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
             srcDir "src/client/resources"
+            srcDir "src/jmeter/resources"
             exclude "**/*.java"
         }
     }
