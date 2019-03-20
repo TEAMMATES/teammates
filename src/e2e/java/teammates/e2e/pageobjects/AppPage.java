@@ -64,9 +64,6 @@ public abstract class AppPage {
     @FindBy(linkText = "Profile")
     private WebElement studentProfileTab;
 
-    @FindBy(linkText = "View team")
-    private WebElement studentViewTeamBtn;
-
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -401,16 +398,6 @@ public abstract class AppPage {
         click(studentProfileTab);
         waitForPageToLoad();
         return changePageType(StudentProfilePage.class);
-    }
-
-    /**
-     * Equivalent of clicking the 'View team' button on course panel.
-     * @return the loaded page
-     */
-    public StudentCourseDetailsPage loadStudentCourseDetails() {
-        click(studentViewTeamBtn);
-        waitForPageToLoad();
-        return changePageType(StudentCourseDetailsPage.class);
     }
 
     /**
