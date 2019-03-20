@@ -15,10 +15,10 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponseData;
-import teammates.ui.webapi.request.FeedbackResponseSaveRequest;
+import teammates.ui.webapi.request.FeedbackResponseUpdateRequest;
 
 /**
- * Save a feedback response.
+ * Updates a feedback response.
  */
 public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction {
 
@@ -67,8 +67,8 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseSaveRequest saveRequest = getAndValidateRequestBody(FeedbackResponseSaveRequest.class);
-        if (!recipientsOfTheQuestion.containsKey(saveRequest.getRecipientIdentifier())) {
+        FeedbackResponseUpdateRequest updateRequest = getAndValidateRequestBody(FeedbackResponseUpdateRequest.class);
+        if (!recipientsOfTheQuestion.containsKey(updateRequest.getRecipientIdentifier())) {
             throw new UnauthorizedAccessException("The recipient is not a valid recipient of the question");
         }
     }
@@ -99,14 +99,14 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseSaveRequest saveRequest = getAndValidateRequestBody(FeedbackResponseSaveRequest.class);
+        FeedbackResponseUpdateRequest updateRequest = getAndValidateRequestBody(FeedbackResponseUpdateRequest.class);
         feedbackResponse.giver = giverIdentifier;
         feedbackResponse.giverSection = giverSection;
-        feedbackResponse.recipient = saveRequest.getRecipientIdentifier();
+        feedbackResponse.recipient = updateRequest.getRecipientIdentifier();
         feedbackResponse.recipientSection =
                 getRecipientSection(feedbackQuestion.getCourseId(),
-                        feedbackQuestion.getRecipientType(), saveRequest.getRecipientIdentifier());
-        feedbackResponse.responseDetails = saveRequest.getResponseDetails();
+                        feedbackQuestion.getRecipientType(), updateRequest.getRecipientIdentifier());
+        feedbackResponse.responseDetails = updateRequest.getResponseDetails();
 
         validResponseOfQuestion(feedbackQuestion, feedbackResponse);
 

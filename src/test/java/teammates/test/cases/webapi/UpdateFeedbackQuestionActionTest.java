@@ -25,7 +25,7 @@ import teammates.ui.webapi.action.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
-import teammates.ui.webapi.request.FeedbackQuestionSaveRequest;
+import teammates.ui.webapi.request.FeedbackQuestionUpdateRequest;
 
 /**
  * SUT: {@link UpdateFeedbackQuestionAction}.
@@ -62,9 +62,9 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
 
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -109,7 +109,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     }
 
     @Test
-    public void testExecute_customerNumberOfRecipient_shouldSaveSuccessfully() {
+    public void testExecute_customizedNumberOfRecipient_shouldUpdateSuccessfully() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes typicalQuestion =
@@ -120,11 +120,11 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
-        saveRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(10);
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
+        updateRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(10);
 
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -134,7 +134,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     }
 
     @Test
-    public void testExecute_anonymousTeamSession_shouldSaveSuccessfully() {
+    public void testExecute_anonymousTeamSession_shouldUpdateSuccessfully() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes typicalQuestion =
@@ -145,14 +145,14 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        saveRequest.setRecipientType(FeedbackParticipantType.TEAMS);
-        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
-        saveRequest.setShowGiverNameTo(Arrays.asList());
-        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
+        updateRequest.setRecipientType(FeedbackParticipantType.TEAMS);
+        updateRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
+        updateRequest.setShowGiverNameTo(Arrays.asList());
+        updateRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -166,7 +166,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     }
 
     @Test
-    public void testExecute_selfFeedback_shouldSaveSuccessfully() {
+    public void testExecute_selfFeedback_shouldUpdateSuccessfully() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes typicalQuestion =
@@ -177,14 +177,14 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        saveRequest.setRecipientType(FeedbackParticipantType.SELF);
-        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
-        saveRequest.setShowGiverNameTo(Arrays.asList());
-        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
+        updateRequest.setRecipientType(FeedbackParticipantType.SELF);
+        updateRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
+        updateRequest.setShowGiverNameTo(Arrays.asList());
+        updateRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -198,7 +198,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     }
 
     @Test
-    public void testExecute_editingContributionTypeQuestion_shouldSaveSuccessfully() {
+    public void testExecute_editingContributionTypeQuestion_shouldUpdateSuccessfully() {
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
@@ -216,16 +216,16 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         // There are already responses for this question
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
-        FeedbackQuestionSaveRequest saveRequest = getTypicalContributionQuestionSaveRequest();
-        saveRequest.setQuestionNumber(fq.getQuestionNumber());
-        saveRequest.setGiverType(fq.getGiverType());
-        saveRequest.setRecipientType(fq.getRecipientType());
-        saveRequest.setQuestionDetails(fq.getQuestionDetails());
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalContributionQuestionUpdateRequest();
+        updateRequest.setQuestionNumber(fq.getQuestionNumber());
+        updateRequest.setGiverType(fq.getGiverType());
+        updateRequest.setRecipientType(fq.getRecipientType());
+        updateRequest.setQuestionDetails(fq.getQuestionDetails());
 
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -236,7 +236,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         ______TS("Edit: Invalid recipient type");
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionSaveRequest request = getTypicalContributionQuestionSaveRequest();
+            FeedbackQuestionUpdateRequest request = getTypicalContributionQuestionUpdateRequest();
             request.setQuestionNumber(fq.getQuestionNumber());
             request.setRecipientType(FeedbackParticipantType.STUDENTS);
             getJsonResult(getAction(request, param));
@@ -255,10 +255,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setQuestionNumber(-1);
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setQuestionNumber(-1);
 
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             getJsonResult(a);
@@ -283,12 +283,12 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
 
-        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
         // set recommended length as a negative integer
         textQuestionDetails.setRecommendedLength(-1);
-        saveRequest.setQuestionDetails(textQuestionDetails);
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        updateRequest.setQuestionDetails(textQuestionDetails);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> getJsonResult(a));
 
@@ -313,11 +313,11 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
-        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setGiverType(FeedbackParticipantType.TEAMS);
-        saveRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setGiverType(FeedbackParticipantType.TEAMS);
+        updateRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             getJsonResult(a);
@@ -354,17 +354,17 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         FeedbackQuestionAttributes fq =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
-        FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setQuestionNumber(fq.getQuestionNumber());
-        saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        saveRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
-        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
-        saveRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(1);
+        FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setQuestionNumber(fq.getQuestionNumber());
+        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
+        updateRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
+        updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
+        updateRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(1);
 
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
-        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
         getJsonResult(a);
 
         // TODO first comment was there before, but the second one seems to be the one happening?
@@ -380,15 +380,15 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
                 + "response rate changed");
 
         fq = logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 3);
-        saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setQuestionNumber(fq.getQuestionNumber());
-        saveRequest.setGiverType(fq.getGiverType());
-        saveRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
+        updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setQuestionNumber(fq.getQuestionNumber());
+        updateRequest.setGiverType(fq.getGiverType());
+        updateRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
 
         param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
-        a = getAction(saveRequest, param);
+        a = getAction(updateRequest, param);
         getJsonResult(a);
 
         // Response rate should decrease by 1 because the response of the unique instructor respondent is deleted
@@ -400,15 +400,15 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         ______TS("Change the feedback path of a question so that some possible respondents are removed");
 
         fq = logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 4);
-        saveRequest = getTypicalTextQuestionSaveRequest();
-        saveRequest.setQuestionNumber(fq.getQuestionNumber());
-        saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        saveRequest.setRecipientType(FeedbackParticipantType.NONE);
+        updateRequest = getTypicalTextQuestionUpdateRequest();
+        updateRequest.setQuestionNumber(fq.getQuestionNumber());
+        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
+        updateRequest.setRecipientType(FeedbackParticipantType.NONE);
 
         param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
-        a = getAction(saveRequest, param);
+        a = getAction(updateRequest, param);
         getJsonResult(a);
 
         // Total possible respondents should decrease because instructors
@@ -419,44 +419,44 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         assertEquals(totalStudents + 1, details.stats.expectedTotal);
     }
 
-    private FeedbackQuestionSaveRequest getTypicalTextQuestionSaveRequest() {
-        FeedbackQuestionSaveRequest saveRequest = new FeedbackQuestionSaveRequest();
-        saveRequest.setQuestionNumber(2);
-        saveRequest.setQuestionBrief("this is the brief");
-        saveRequest.setQuestionDescription("this is the description");
+    private FeedbackQuestionUpdateRequest getTypicalTextQuestionUpdateRequest() {
+        FeedbackQuestionUpdateRequest updateRequest = new FeedbackQuestionUpdateRequest();
+        updateRequest.setQuestionNumber(2);
+        updateRequest.setQuestionBrief("this is the brief");
+        updateRequest.setQuestionDescription("this is the description");
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
         textQuestionDetails.setRecommendedLength(800);
-        saveRequest.setQuestionDetails(textQuestionDetails);
-        saveRequest.setQuestionType(FeedbackQuestionType.TEXT);
-        saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        saveRequest.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
-        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
+        updateRequest.setQuestionDetails(textQuestionDetails);
+        updateRequest.setQuestionType(FeedbackQuestionType.TEXT);
+        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
+        updateRequest.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
+        updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
 
-        saveRequest.setShowResponsesTo(new ArrayList<>());
-        saveRequest.setShowGiverNameTo(new ArrayList<>());
-        saveRequest.setShowRecipientNameTo(new ArrayList<>());
+        updateRequest.setShowResponsesTo(new ArrayList<>());
+        updateRequest.setShowGiverNameTo(new ArrayList<>());
+        updateRequest.setShowRecipientNameTo(new ArrayList<>());
 
-        return saveRequest;
+        return updateRequest;
     }
 
-    private FeedbackQuestionSaveRequest getTypicalContributionQuestionSaveRequest() {
-        FeedbackQuestionSaveRequest saveRequest = new FeedbackQuestionSaveRequest();
-        saveRequest.setQuestionNumber(1);
-        saveRequest.setQuestionBrief("this is the brief for contribution question");
-        saveRequest.setQuestionDescription("this is the description for contribution question");
+    private FeedbackQuestionUpdateRequest getTypicalContributionQuestionUpdateRequest() {
+        FeedbackQuestionUpdateRequest updateRequest = new FeedbackQuestionUpdateRequest();
+        updateRequest.setQuestionNumber(1);
+        updateRequest.setQuestionBrief("this is the brief for contribution question");
+        updateRequest.setQuestionDescription("this is the description for contribution question");
         FeedbackContributionQuestionDetails textQuestionDetails = new FeedbackContributionQuestionDetails();
         textQuestionDetails.setNotSureAllowed(false);
-        saveRequest.setQuestionDetails(textQuestionDetails);
-        saveRequest.setQuestionType(FeedbackQuestionType.CONTRIB);
-        saveRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        saveRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-        saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
+        updateRequest.setQuestionDetails(textQuestionDetails);
+        updateRequest.setQuestionType(FeedbackQuestionType.CONTRIB);
+        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
+        updateRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
 
-        saveRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
-        saveRequest.setShowGiverNameTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
-        saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
+        updateRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
+        updateRequest.setShowGiverNameTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
+        updateRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS));
 
-        return saveRequest;
+        return updateRequest;
     }
 
     @Override

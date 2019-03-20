@@ -8,10 +8,10 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackSessionData;
-import teammates.ui.webapi.request.FeedbackSessionSaveRequest;
+import teammates.ui.webapi.request.FeedbackSessionUpdateRequest;
 
 /**
- * Save a feedback session.
+ * Updates a feedback session.
  */
 public class UpdateFeedbackSessionAction extends Action {
 
@@ -37,20 +37,20 @@ public class UpdateFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionSaveRequest saveRequest =
-                getAndValidateRequestBody(FeedbackSessionSaveRequest.class);
+        FeedbackSessionUpdateRequest updateRequest =
+                getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
 
         try {
             FeedbackSessionAttributes updateFeedbackSession = logic.updateFeedbackSession(
                     FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                            .withInstructions(saveRequest.getInstructions())
-                            .withStartTime(saveRequest.getSubmissionStartTime())
-                            .withEndTime(saveRequest.getSubmissionEndTime())
-                            .withGracePeriod(saveRequest.getGracePeriod())
-                            .withSessionVisibleFromTime(saveRequest.getSessionVisibleFromTime())
-                            .withResultsVisibleFromTime(saveRequest.getResultsVisibleFromTime())
-                            .withIsClosingEmailEnabled(saveRequest.isClosingEmailEnabled())
-                            .withIsPublishedEmailEnabled(saveRequest.isPublishedEmailEnabled())
+                            .withInstructions(updateRequest.getInstructions())
+                            .withStartTime(updateRequest.getSubmissionStartTime())
+                            .withEndTime(updateRequest.getSubmissionEndTime())
+                            .withGracePeriod(updateRequest.getGracePeriod())
+                            .withSessionVisibleFromTime(updateRequest.getSessionVisibleFromTime())
+                            .withResultsVisibleFromTime(updateRequest.getResultsVisibleFromTime())
+                            .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
+                            .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
                             .build());
 
             return new JsonResult(new FeedbackSessionData(updateFeedbackSession));

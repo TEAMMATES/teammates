@@ -15,7 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponseCommentData;
-import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
+import teammates.ui.webapi.request.FeedbackResponseCommentUpdateRequest;
 
 /**
  * Creates a new feedback response comment.
@@ -52,7 +52,7 @@ public class CreateFeedbackResponseCommentAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
-        FeedbackResponseCommentSaveRequest comment = getAndValidateRequestBody(FeedbackResponseCommentSaveRequest.class);
+        FeedbackResponseCommentUpdateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentUpdateRequest.class);
 
         // String giverEmail = response.giver;
         // String recipientEmail = response.recipient;
