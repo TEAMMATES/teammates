@@ -30,18 +30,20 @@ public class GetFeedbackSessionsAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
 
-        if (userInfo.isInstructor) {
-            if (isRequestAsStudent) {
+        if (isRequestAsStudent) {
+            if (courseId == null) {
                 gateKeeper.verifyStudentPrivileges(logic.getAccount(userInfo.getId()));
-            } else if (courseId != null) {
+            } else {
+                CourseAttributes courseAttributes = logic.getCourse(courseId);
+                gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), courseAttributes);
+            }
+        } else {
+            if (courseId == null) {
+                gateKeeper.verifyInstructorPrivileges(logic.getAccount(userInfo.getId()));
+            } else {
                 CourseAttributes courseAttributes = logic.getCourse(courseId);
                 gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), courseAttributes);
             }
-        }
-
-        if ((userInfo.isStudent || isRequestAsStudent) && courseId != null) {
-            CourseAttributes courseAttributes = logic.getCourse(courseId);
-            gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), courseAttributes);
         }
     }
 
@@ -50,10 +52,17 @@ public class GetFeedbackSessionsAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         List<FeedbackSessionAttributes> feedbackSessionAttributes;
+
         if (courseId == null) {
             boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
 
-            if (userInfo.isInstructor && !isRequestAsStudent) {
+            if (isRequestAsStudent) {
+                List<StudentAttributes> students = logic.getStudentsForGoogleId(userInfo.getId());
+                feedbackSessionAttributes = new ArrayList<>();
+                for (StudentAttributes student : students) {
+                    feedbackSessionAttributes.addAll(logic.getFeedbackSessionsForCourse(student.getCourse()));
+                }
+            } else {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
                 List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.getId(), true);
@@ -62,12 +71,6 @@ public class GetFeedbackSessionsAction extends Action {
                     feedbackSessionAttributes = logic.getSoftDeletedFeedbackSessionsListForInstructors(instructors);
                 } else {
                     feedbackSessionAttributes = logic.getFeedbackSessionsListForInstructor(instructors);
-                }
-            } else {
-                List<StudentAttributes> students = logic.getStudentsForGoogleId(userInfo.getId());
-                feedbackSessionAttributes = new ArrayList<>();
-                for (StudentAttributes student : students) {
-                    feedbackSessionAttributes.addAll(logic.getFeedbackSessionsForCourse(student.getCourse()));
                 }
             }
         } else {
