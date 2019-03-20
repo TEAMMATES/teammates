@@ -1,4 +1,4 @@
-package scripts;
+package teammates.performance.scripts;
 
 import java.io.IOException;
 
@@ -8,15 +8,18 @@ import teammates.e2e.util.BackDoor;
 import teammates.test.driver.FileHelper;
 
 /**
- * Script to create test data for performance test.
+ * Script for performance tests to manage the data in the local datastore.
  */
-public class CreateTestData {
+public class LoadTestData {
 
     private static final String JMETER_DATA_FOLDER = "src/test/jmeter/resources/data";
 
     public static void main(String[] args) {
-        DataBundle dataBundle =
-                loadDataBundle("/testData.json");
+        add("/testData.json");
+    }
+
+    public static void add(String path) {
+        DataBundle dataBundle = loadDataBundle(path);
         BackDoor.removeAndRestoreDataBundle(dataBundle);
     }
 
