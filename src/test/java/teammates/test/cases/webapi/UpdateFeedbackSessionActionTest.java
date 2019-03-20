@@ -11,16 +11,16 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SaveFeedbackSessionAction;
+import teammates.ui.webapi.action.UpdateFeedbackSessionAction;
 import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.ResponseVisibleSetting;
 import teammates.ui.webapi.output.SessionVisibleSetting;
 import teammates.ui.webapi.request.FeedbackSessionSaveRequest;
 
 /**
- * SUT: {@link SaveFeedbackSessionAction}.
+ * SUT: {@link UpdateFeedbackSessionAction}.
  */
-public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSessionAction> {
+public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedbackSessionAction> {
 
     @Override
     protected String getActionUri() {
@@ -54,7 +54,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         };
         FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
 
-        SaveFeedbackSessionAction a = getAction(saveRequest, param);
+        UpdateFeedbackSessionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -117,7 +117,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         saveRequest.setCustomSessionVisibleTimestamp(saveRequest.getSubmissionStartTime().plusSeconds(10).toEpochMilli());
 
         InvalidHttpRequestBodyException ihrbe = assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            SaveFeedbackSessionAction a = getAction(saveRequest, param);
+            UpdateFeedbackSessionAction a = getAction(saveRequest, param);
             getJsonResult(a);
         });
 
@@ -149,7 +149,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         saveRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
         saveRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
-        SaveFeedbackSessionAction a = getAction(saveRequest, param);
+        UpdateFeedbackSessionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -197,7 +197,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         FeedbackSessionSaveRequest saveRequest = getTypicalFeedbackSessionSaveRequest();
         saveRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
-        SaveFeedbackSessionAction a = getAction(saveRequest, param);
+        UpdateFeedbackSessionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -218,7 +218,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         saveRequest.setInstructions(null);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            SaveFeedbackSessionAction a = getAction(saveRequest, param);
+            UpdateFeedbackSessionAction a = getAction(saveRequest, param);
             getJsonResult(a);
         });
     }

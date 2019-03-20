@@ -16,7 +16,7 @@ import teammates.ui.webapi.request.FeedbackQuestionSaveRequest;
 /**
  * Save a feedback question.
  */
-public class SaveFeedbackQuestionAction extends Action {
+public class UpdateFeedbackQuestionAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

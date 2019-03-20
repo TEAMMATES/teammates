@@ -13,7 +13,7 @@ import teammates.ui.webapi.request.FeedbackSessionSaveRequest;
 /**
  * Save a feedback session.
  */
-public class SaveFeedbackSessionAction extends Action {
+public class UpdateFeedbackSessionAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {

@@ -20,7 +20,7 @@ import teammates.ui.webapi.request.FeedbackResponseSaveRequest;
 /**
  * Save a feedback response.
  */
-public class SaveFeedbackResponseAction extends BasicFeedbackSubmissionAction {
+public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction {
 
     @Override
     protected AuthType getMinAuthLevel() {

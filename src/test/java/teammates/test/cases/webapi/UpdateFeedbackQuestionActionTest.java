@@ -21,16 +21,16 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SaveFeedbackQuestionAction;
+import teammates.ui.webapi.action.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.webapi.request.FeedbackQuestionSaveRequest;
 
 /**
- * SUT: {@link SaveFeedbackQuestionAction}.
+ * SUT: {@link UpdateFeedbackQuestionAction}.
  */
-public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQuestionAction> {
+public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedbackQuestionAction> {
 
     @Override
     protected String getActionUri() {
@@ -64,7 +64,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         };
         FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
 
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -124,7 +124,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
         saveRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(10);
 
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -152,7 +152,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setShowGiverNameTo(Arrays.asList());
         saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -184,7 +184,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setShowGiverNameTo(Arrays.asList());
         saveRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -225,7 +225,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -258,7 +258,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         FeedbackQuestionSaveRequest saveRequest = getTypicalTextQuestionSaveRequest();
         saveRequest.setQuestionNumber(-1);
 
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             getJsonResult(a);
@@ -288,7 +288,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         // set recommended length as a negative integer
         textQuestionDetails.setRecommendedLength(-1);
         saveRequest.setQuestionDetails(textQuestionDetails);
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> getJsonResult(a));
 
@@ -317,7 +317,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         saveRequest.setGiverType(FeedbackParticipantType.TEAMS);
         saveRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             getJsonResult(a);
@@ -364,7 +364,7 @@ public class SaveFeedbackQuestionActionTest extends BaseActionTest<SaveFeedbackQ
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
-        SaveFeedbackQuestionAction a = getAction(saveRequest, param);
+        UpdateFeedbackQuestionAction a = getAction(saveRequest, param);
         getJsonResult(a);
 
         // TODO first comment was there before, but the second one seems to be the one happening?
