@@ -137,7 +137,7 @@
     <div class="modal-body">
       <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
       <div [innerHTML]="convertToHtmlTable(courseStudentListAsCsv)"></div>
-      <b>{{ isAjaxSuccess ? '' : 'There was an error Loading this file.' }}</b>
+      <b>{{ isAjaxSuccess ? '' : 'There was an error Loading this file. Please try again.' }}</b>
     </div>
   </ng-template>
 </div>
