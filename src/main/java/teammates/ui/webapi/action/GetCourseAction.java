@@ -32,10 +32,6 @@ public class GetCourseAction extends Action {
         }
 
         if (userInfo.isStudent) {
-            if (!hasStudentJoinedCourse(courseId)) {
-                throw new UnauthorizedAccessException("The student is yet to join the course.");
-            }
-
             CourseAttributes course = logic.getCourse(courseId);
             gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.id), course);
         }
@@ -49,12 +45,5 @@ public class GetCourseAction extends Action {
             return new JsonResult("No course with id: " + courseId, HttpStatus.SC_NOT_FOUND);
         }
         return new JsonResult(new CourseData(courseAttributes));
-    }
-
-    private boolean hasStudentJoinedCourse(String courseId) {
-        if (userInfo != null && userInfo.isStudent) {
-            return logic.getStudentForGoogleId(courseId, userInfo.id) != null;
-        }
-        return false;
     }
 }
