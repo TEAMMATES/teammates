@@ -90,16 +90,8 @@ dependencies {
                     // For using Gmail API
                     "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0"
 
-    compile         "org.apache.jmeter:ApacheJMeter:4.0",
-                    "org.apache.jmeter:jorphan:4.0",
-                    "org.apache.jmeter:ApacheJMeter_core:4.0",
-                    "org.apache.jmeter:ApacheJMeter_components:4.0",
-                    "org.apache.jmeter:ApacheJMeter_config:4.0",
-                    "org.apache.jmeter:ApacheJMeter_functions:4.0",
-                    "org.apache.jmeter:ApacheJMeter_java:4.0",
-                    "org.apache.jmeter:ApacheJMeter_http:4.0",
-                    "org.apache.jmeter:ApacheJMeter_tcp:4.0",
-                    "org.apache.jmeter:ApacheJMeter_parent:4.0"
+    compile         "org.apache.jmeter:ApacheJMeter_core:5.1.1"
+                    "org.apache.jmeter:jorphan:5.1.1"
 
 }
 
