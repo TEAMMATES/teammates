@@ -49,25 +49,25 @@ def testng = "org.testng:testng:6.14.3"
 
 dependencies {
     staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
-            "net.sourceforge.pmd:pmd-java:${pmdVersion}",
-            "com.github.spotbugs:spotbugs:${spotbugsVersion}",
-            "de.andrena.tools.macker:macker:1.0.1",
-            "org.jacoco:org.jacoco.build:${jacocoVersion}"
+                    "net.sourceforge.pmd:pmd-java:${pmdVersion}",
+                    "com.github.spotbugs:spotbugs:${spotbugsVersion}",
+                    "de.andrena.tools.macker:macker:1.0.1",
+                    "org.jacoco:org.jacoco.build:${jacocoVersion}"
 
     annotationProcessor objectify
 
     compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
-            "com.google.code.gson:gson:2.8.5",
-            "com.google.guava:guava:27.0.1-jre",
-            objectify,
-            "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1",
-            "com.mailjet:mailjet-client:4.1.1",
-            "com.sendgrid:sendgrid-java:4.2.1",
-            "com.sun.jersey:jersey-client:1.19.4",
-            "com.sun.jersey:jersey-core:1.19.4",
-            "com.sun.jersey.contribs:jersey-multipart:1.19.4",
-            "javax.servlet:javax.servlet-api:3.1.0",
-            "org.jsoup:jsoup:1.11.3"
+                    "com.google.code.gson:gson:2.8.5",
+                    "com.google.guava:guava:27.0.1-jre",
+                    objectify,
+                    "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1",
+                    "com.mailjet:mailjet-client:4.1.1",
+                    "com.sendgrid:sendgrid-java:4.2.1",
+                    "com.sun.jersey:jersey-client:1.19.4",
+                    "com.sun.jersey:jersey-core:1.19.4",
+                    "com.sun.jersey.contribs:jersey-multipart:1.19.4",
+                    "javax.servlet:javax.servlet-api:3.1.0",
+                    "org.jsoup:jsoup:1.11.3"
 
     compile("com.google.appengine.tools:appengine-gcs-client:0.7") {
         // Use the newer servlet library instead
@@ -77,29 +77,29 @@ dependencies {
     testAnnotationProcessor testng
 
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
-            "com.google.appengine:appengine-remote-api:${appengineVersion}",
-            "com.google.appengine:appengine-testing:${appengineVersion}",
-            "org.httpunit:httpunit:1.7.2",
-            "org.seleniumhq.selenium:selenium-java:3.141.59",
-            testng,
-            "org.kohsuke:wordnet-random-name:1.3",
-            // For access of Google APIs such as HTTP transport, authentication and JSON parsing
-            "com.google.api-client:google-api-client:1.27.0",
-            // For supporting authorization code flow locally
-            "com.google.oauth-client:google-oauth-client-jetty:1.27.0",
-            // For using Gmail API
-            "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0"
+                    "com.google.appengine:appengine-remote-api:${appengineVersion}",
+                    "com.google.appengine:appengine-testing:${appengineVersion}",
+                    "org.httpunit:httpunit:1.7.2",
+                    "org.seleniumhq.selenium:selenium-java:3.141.59",
+                    testng,
+                    "org.kohsuke:wordnet-random-name:1.3",
+                    // For access of Google APIs such as HTTP transport, authentication and JSON parsing
+                    "com.google.api-client:google-api-client:1.27.0",
+                    // For supporting authorization code flow locally
+                    "com.google.oauth-client:google-oauth-client-jetty:1.27.0",
+                    // For using Gmail API
+                    "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0"
 
-    compile "org.apache.jmeter:ApacheJMeter:4.0",
-            "org.apache.jmeter:jorphan:4.0",
-            "org.apache.jmeter:ApacheJMeter_core:4.0",
-            "org.apache.jmeter:ApacheJMeter_components:4.0",
-            "org.apache.jmeter:ApacheJMeter_config:4.0",
-            "org.apache.jmeter:ApacheJMeter_functions:4.0",
-            "org.apache.jmeter:ApacheJMeter_java:4.0",
-            "org.apache.jmeter:ApacheJMeter_http:4.0",
-            "org.apache.jmeter:ApacheJMeter_tcp:4.0",
-            "org.apache.jmeter:ApacheJMeter_parent:4.0"
+    compile         "org.apache.jmeter:ApacheJMeter:4.0",
+                    "org.apache.jmeter:jorphan:4.0",
+                    "org.apache.jmeter:ApacheJMeter_core:4.0",
+                    "org.apache.jmeter:ApacheJMeter_components:4.0",
+                    "org.apache.jmeter:ApacheJMeter_config:4.0",
+                    "org.apache.jmeter:ApacheJMeter_functions:4.0",
+                    "org.apache.jmeter:ApacheJMeter_java:4.0",
+                    "org.apache.jmeter:ApacheJMeter_http:4.0",
+                    "org.apache.jmeter:ApacheJMeter_tcp:4.0",
+                    "org.apache.jmeter:ApacheJMeter_parent:4.0"
 
 }
 
@@ -135,17 +135,17 @@ sourceSets {
 tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     jsonLibrary = "jackson2"
     optionalAnnotations = [
-            "javax.annotation.Nullable"
+        "javax.annotation.Nullable"
     ]
     outputFileType = "implementationFile"
     outputKind = "module"
     indentString = "  "
     jackson2Configuration = [
-            fieldVisibility: "ANY",
-            getterVisibility: "NONE",
-            isGetterVisibility: "NONE",
-            setterVisibility: "NONE",
-            creatorVisibility: "NONE",
+        fieldVisibility: "ANY",
+        getterVisibility: "NONE",
+        isGetterVisibility: "NONE",
+        setterVisibility: "NONE",
+        creatorVisibility: "NONE",
     ]
     mapEnum = "asEnum"
     nonConstEnums = true
@@ -153,8 +153,8 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
 
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-            "teammates.ui.webapi.output.**",
-            "teammates.common.datatransfer.questions.**"
+        "teammates.ui.webapi.output.**",
+        "teammates.common.datatransfer.questions.**"
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
@@ -162,7 +162,7 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-            "teammates.ui.webapi.request.**"
+        "teammates.ui.webapi.request.**"
     ]
     outputFile = "src/web/types/api-request.ts"
 }
@@ -182,13 +182,13 @@ task createConfigs {
     group "Setup"
     doLast {
         def templatesToCopy = [
-                "gradle.template.properties",
-                "src/main/resources/build.template.properties",
-                "src/web/environments/config.template.ts",
-                "src/test/resources/test.template.properties",
-                "src/e2e/resources/test.template.properties",
-                "src/client/resources/client.template.properties",
-                "src/main/webapp/WEB-INF/appengine-web.template.xml"
+            "gradle.template.properties",
+            "src/main/resources/build.template.properties",
+            "src/web/environments/config.template.ts",
+            "src/test/resources/test.template.properties",
+            "src/e2e/resources/test.template.properties",
+            "src/client/resources/client.template.properties",
+            "src/main/webapp/WEB-INF/appengine-web.template.xml"
         ]
         templatesToCopy.findAll {
             !(new File(it.replace(".template", ""))).exists()
@@ -232,7 +232,7 @@ eclipse {
     }
     classpath {
         containers "org.eclipse.buildship.core.gradleclasspathcontainer",
-                "org.eclipse.jst.server.core.container/com.google.cloud.tools.eclipse.appengine.standard.runtimeClasspathProvider/App Engine Standard Runtime"
+                   "org.eclipse.jst.server.core.container/com.google.cloud.tools.eclipse.appengine.standard.runtimeClasspathProvider/App Engine Standard Runtime"
         defaultOutputDir = file("build-eclipse/classes")
         file {
             whenMerged { cp ->
@@ -411,10 +411,10 @@ appengine {
     run {
         port = 8080
         jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
-                    // Absolute paths are not supported, the following is relative to the project directory
-                    // These only specify the datastore/blobstore paths, but search indexes are still generated in WEB-INF/appengine-generated
-                    "-Ddatastore.backing_store=../../appengine-generated/local_db.bin",
-                    "-Dblobstore.backing_store=../../appengine-generated"]
+                // Absolute paths are not supported, the following is relative to the project directory
+                // These only specify the datastore/blobstore paths, but search indexes are still generated in WEB-INF/appengine-generated
+                "-Ddatastore.backing_store=../../appengine-generated/local_db.bin",
+                "-Dblobstore.backing_store=../../appengine-generated"]
     }
     deploy {
         String buildPropertiesPath = "${projectDir}/src/main/resources/build.properties"

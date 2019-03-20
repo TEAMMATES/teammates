@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.Url;
-
 /**
  * Represents properties in test.properties file.
  */
@@ -21,6 +19,10 @@ public final class TestProperties {
 
     /** The value of "test.jmeter.properties" in test.properties file. */
     public static final String JMETER_PROPERTIES_PATH;
+
+    private TestProperties() {
+        // access static fields directly
+    }
 
     static {
         Properties prop = new Properties();
@@ -40,10 +42,6 @@ public final class TestProperties {
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private TestProperties() {
-        // access static fields directly
     }
 
 }

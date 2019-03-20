@@ -10,15 +10,24 @@ import teammates.test.driver.FileHelper;
 /**
  * Script for performance tests to manage the data in the local datastore.
  */
-public class LoadTestData {
+public final class LoadTestData {
 
     private static final String JMETER_DATA_FOLDER = "src/test/jmeter/resources/data";
 
-    public static void main(String[] args) {
-        add("/testData.json");
+    private LoadTestData() {
+        // Utility class
+        // Intentional private constructor to prevent instantiation
     }
 
-    public static void add(String path) {
+    public static void main(String[] args) {
+        addToDatastore("/studentProfile.json");
+    }
+
+    /**
+     * Adds the data bundle specified by {@code path} to the datastore.
+     * @param path Path to the data bundle to be added
+     */
+    public static void addToDatastore(String path) {
         DataBundle dataBundle = loadDataBundle(path);
         BackDoor.removeAndRestoreDataBundle(dataBundle);
     }
