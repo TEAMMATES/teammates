@@ -1,14 +1,16 @@
 package teammates.ui.webapi.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.InstructorPrivilegeData;
 import teammates.ui.webapi.request.InstructorPrivilegeUpdateRequest;
 
 /**
@@ -26,10 +28,6 @@ public class UpdateInstructorPrivilegeAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
-        if (instructor == null) {
-            throw new UnauthorizedAccessException("Not instructor of the course");
-        }
-
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
     }
@@ -38,7 +36,7 @@ public class UpdateInstructorPrivilegeAction extends Action {
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        String idOfInstructorToUpdate = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String idOfInstructorToUpdate = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         InstructorAttributes instructorToUpdate = logic.getInstructorForGoogleId(courseId, idOfInstructorToUpdate);
 
         if (instructorToUpdate == null) {
@@ -46,60 +44,35 @@ public class UpdateInstructorPrivilegeAction extends Action {
         }
 
         InstructorPrivilegeUpdateRequest request = getAndValidateRequestBody(InstructorPrivilegeUpdateRequest.class);
+
         String sectionName = request.getSectionName();
         String sessionName = request.getFeedbackSessionName();
+        Map<String, Boolean> courseLevelPrivilegesMap = request.getAllPresentCourseLevelPriviledges();
+        Map<String, Boolean> sectionLevelPrivilegesMap = request.getAllPresentSectionLevelPriviledges();
+        Map<String, Boolean> sessionLevelPrivilegesMap = request.getAllPresentSessionLevelPriviledges();
 
-        // general course level privilege for instructor
-        instructorToUpdate.privileges.updatePrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, request.isCanModifyCourse());
-        instructorToUpdate.privileges.updatePrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, request.isCanModifySession());
-        instructorToUpdate.privileges.updatePrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, request.isCanModifyStudent());
-        instructorToUpdate.privileges.updatePrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, request.isCanModifyInstructor());
-
-        if (sectionName == null) {
-            // updates course level privilege for instructor
-            instructorToUpdate.privileges.updatePrivilege(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
-                    request.isCanViewStudentInSections());
-            instructorToUpdate.privileges.updatePrivilege(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
-                    request.isCanViewSessionInSections());
-            instructorToUpdate.privileges.updatePrivilege(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                    request.isCanModifySessionCommentsInSections());
-            instructorToUpdate.privileges.updatePrivilege(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
-                    request.isCanSubmitSessionInSections());
+        if (sectionName == null && sessionName == null) {
+            // update all privileges in
+            for (HashMap.Entry<String, Boolean> entry : courseLevelPrivilegesMap.entrySet()) {
+                instructorToUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
+            }
+            for (HashMap.Entry<String, Boolean> entry : sectionLevelPrivilegesMap.entrySet()) {
+                instructorToUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
+            }
+            for (HashMap.Entry<String, Boolean> entry : sessionLevelPrivilegesMap.entrySet()) {
+                instructorToUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
+            }
+        } else if (sessionName == null) {
+            for (HashMap.Entry<String, Boolean> entry : sectionLevelPrivilegesMap.entrySet()) {
+                instructorToUpdate.privileges.updatePrivilege(sectionName, entry.getKey(), entry.getValue());
+            }
+            for (HashMap.Entry<String, Boolean> entry : sessionLevelPrivilegesMap.entrySet()) {
+                instructorToUpdate.privileges.updatePrivilege(sectionName, entry.getKey(), entry.getValue());
+            }
         } else {
-            // updates section level privileges for instructor
-            instructorToUpdate.privileges.updatePrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
-                    request.isCanViewStudentInSections());
-
-            // updates session level privileges
-            if (sessionName == null) {
+            for (HashMap.Entry<String, Boolean> entry : sessionLevelPrivilegesMap.entrySet()) {
                 instructorToUpdate.privileges.updatePrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
-                        request.isCanSubmitSessionInSections());
-                instructorToUpdate.privileges.updatePrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
-                        request.isCanViewSessionInSections());
-                instructorToUpdate.privileges.updatePrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                        request.isCanModifySessionCommentsInSections());
-            } else {
-                instructorToUpdate.privileges.updatePrivilege(sectionName, sessionName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
-                        request.isCanSubmitSessionInSections());
-                instructorToUpdate.privileges.updatePrivilege(sectionName, sessionName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
-                        request.isCanViewSessionInSections());
-                instructorToUpdate.privileges.updatePrivilege(sectionName, sessionName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                        request.isCanModifySessionCommentsInSections());
+                        sectionName, sessionName, entry.getKey(), entry.getValue());
             }
         }
 
@@ -118,10 +91,47 @@ public class UpdateInstructorPrivilegeAction extends Action {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult("The instructor " + instructorToUpdate.getName()
-                + "'s privilege has been updated.", HttpStatus.SC_OK);
-    }
+        InstructorPrivilegeData response = new InstructorPrivilegeData();
 
+        if (sessionName == null && sectionName == null) {
+            // return all general privileges
+            response.setCanModifyInstructor(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+            response.setCanModifyStudent(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+            response.setCanModifySession(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+            response.setCanModifyCourse(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+            response.setCanViewStudentInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+            response.setCanViewSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            response.setCanSubmitSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+            response.setCanModifySessionCommentsInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        } else if (sessionName == null) {
+            // return section and session level privileges
+            response.setCanViewStudentInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+            response.setCanViewSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            response.setCanSubmitSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+            response.setCanModifySessionCommentsInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        } else {
+            response.setCanViewSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            response.setCanSubmitSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+            response.setCanModifySessionCommentsInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
+                    sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        }
+
+        return new JsonResult(response);
+    }
 
     /**
      * Checks if there are any other registered instructors that can modify instructors.
