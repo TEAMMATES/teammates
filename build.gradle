@@ -13,6 +13,8 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
+apply plugin: "net.foragerr.jmeter"
+
 def appengineVersion = "1.9.+"
 def checkstyleVersion = "8.16"
 def pmdVersion = "6.11.0"
@@ -30,6 +32,7 @@ buildscript {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.5"
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
         classpath "cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.11.472"
+        classpath "gradle.plugin.net.foragerr.jmeter:jmeter-gradle-plugin:1.1.0-4.0"
     }
 }
 
@@ -703,6 +706,23 @@ task e2eTests {
         ignoreExitValue = true
         outputs.upToDateWhen { false }
     }
+}
+
+// PERFORMANCE TEST TASKS
+
+jmeter {
+    testFileDir = file("src/jmeter/tests")
+    //jmTestFiles = [file("src/jmeter/tests/test1.jmx"), file("src/jmeter/tests/test2.jmx")] // for running specific test(s)
+    csvLogFile = false
+}
+
+afterEvaluate {
+    def jMeterExt = project.extensions.findByName("jmeter")
+    jMeterExt.metaClass.enableReports = true
+    jMeterExt.metaClass.enableExtendedReports = false
+    jMeterExt.metaClass.reportTitle = null
+    jMeterExt.metaClass.reportPostfix = ""
+    jMeterExt.metaClass.reportXslt = "$project.projectDir/jmeter-results-detail-report_21.xsl"
 }
 
 // COVERAGE TASKS
