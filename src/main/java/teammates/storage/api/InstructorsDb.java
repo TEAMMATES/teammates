@@ -7,9 +7,10 @@ import java.util.List;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -92,14 +93,19 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         return InstructorSearchDocument.fromResults(results);
     }
 
-    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
+    /**
+     * Creates an instructor.
+     *
+     * @return the created instructor
+     * @throws InvalidParametersException if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     */
+    @Override
+    public InstructorAttributes createEntity(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Instructor instructor = createEntity(instructorToAdd);
-        if (instructor == null) {
-            throw new InvalidParametersException("Created instructor is null.");
-        }
-        InstructorAttributes createdInstructor = makeAttributes(instructor);
+        InstructorAttributes createdInstructor = super.createEntity(instructorToAdd);
         putDocument(createdInstructor);
+
         return createdInstructor;
     }
 
@@ -268,6 +274,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     /**
      * Deletes the instructor specified by courseId and email.
+     *
+     * <p>Fails silently if the student does not exist.
      */
     public void deleteInstructor(String courseId, String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -279,48 +287,29 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return;
         }
 
-        InstructorAttributes instructorToDeleteAttributes = makeAttributes(instructorToDelete);
-
         deleteDocumentByEncryptedInstructorKey(StringHelper.encrypt(instructorToDelete.getRegistrationKey()));
-        deleteEntityDirect(instructorToDelete, instructorToDeleteAttributes);
 
-        Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
-        if (instructorCheck != null) {
-            putDocument(makeAttributes(instructorCheck));
-        }
-
-        //TODO: reuse the method in the parent class instead
-    }
-
-    public void deleteInstructorsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
-
-        deleteInstructors(getInstructorEntitiesForCourses(courseIds));
+        deleteEntity(Key.create(Instructor.class, instructorToDelete.getUniqueId()));
     }
 
     /**
-     * Deletes all instructors with the given googleId.
+     * Deletes instructors using {@link AttributesDeletionQuery}.
      */
-    public void deleteInstructorsForGoogleId(String googleId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+    public void deleteInstructors(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
-        deleteInstructors(getInstructorEntitiesForGoogleId(googleId));
-    }
+        if (query.isCourseIdPresent()) {
+            List<Instructor> instructorsToDelete =
+                    load().filter("courseId =", query.getCourseId()).project("registrationKey").list();
+            deleteDocument(Const.SearchIndex.INSTRUCTOR,
+                    instructorsToDelete.stream()
+                            .map(i -> StringHelper.encrypt(i.getRegistrationKey()))
+                            .toArray(String[]::new));
 
-    /**
-     * Deletes all instructors for the course specified by courseId.
-     */
-    public void deleteInstructorsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        deleteInstructors(getInstructorEntitiesForCourse(courseId));
-    }
-
-    private void deleteInstructors(List<Instructor> instructors) {
-        for (Instructor instructor : instructors) {
-            deleteDocumentByEncryptedInstructorKey(StringHelper.encrypt(instructor.getRegistrationKey()));
+            deleteEntity(instructorsToDelete.stream()
+                    .map(s -> Key.create(Instructor.class, s.getUniqueId()))
+                    .toArray(Key[]::new));
         }
-        ofy().delete().entities(instructors).now();
     }
 
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
@@ -338,11 +327,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     private Instructor getInstructorEntityById(String courseId, String email) {
-        return load().id(email + '%' + courseId).now();
-    }
-
-    private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
-        return load().filter("courseId in", courseIds).list();
+        return load().id(Instructor.generateId(email, courseId)).now();
     }
 
     private List<Instructor> getInstructorEntitiesThatAreDisplayedInCourse(String courseId) {
@@ -389,11 +374,14 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     @Override
-    protected QueryKeys<Instructor> getEntityQueryKeys(InstructorAttributes attributes) {
-        return load()
-                .filter("courseId =", attributes.courseId)
-                .filter("email =", attributes.email)
-                .keys();
+    protected boolean hasExistingEntities(InstructorAttributes entityToCreate) {
+        // cannot use direct key query as email of an instructor can be changed
+        return !load()
+                .filter("courseId =", entityToCreate.getCourseId())
+                .filter("email =", entityToCreate.getEmail())
+                .keys()
+                .list()
+                .isEmpty();
     }
 
     @Override

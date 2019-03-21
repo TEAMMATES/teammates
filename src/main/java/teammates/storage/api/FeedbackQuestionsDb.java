@@ -2,15 +2,13 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -27,19 +25,6 @@ import teammates.storage.entity.FeedbackQuestion;
  */
 public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
-
-    /**
-     * Creates multiple questions without checking for existence. Also calls {@link #flush()},
-     * leading to any previously deferred operations being written immediately. This is needed
-     * to update the question entities with actual question IDs.
-     *
-     * @returns list of created {@link FeedbackQuestionAttributes} containing actual question IDs.
-     */
-    public List<FeedbackQuestionAttributes> createFeedbackQuestionsWithoutExistenceCheck(
-            Collection<FeedbackQuestionAttributes> questions) throws InvalidParametersException {
-        List<FeedbackQuestion> createdQuestions = createEntitiesWithoutExistenceCheck(questions);
-        return makeAttributes(createdQuestions);
-    }
 
     /**
      * Preconditions: <br>
@@ -68,11 +53,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
         return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber),
                 "Trying to get non-existent Question: " + questionNumber + "." + feedbackSessionName + "/" + courseId);
-    }
-
-    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(
-            FeedbackQuestionAttributes entityToAdd) throws InvalidParametersException {
-        return makeAttributes(createEntityWithoutExistenceCheck(entityToAdd));
     }
 
     /**
@@ -141,16 +121,31 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         return makeAttributes(feedbackQuestion);
     }
 
-    public void deleteFeedbackQuestionsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        deleteFeedbackQuestionsForCourses(Arrays.asList(courseId));
+    /**
+     * Deletes a feedback question.
+     */
+    public void deleteFeedbackQuestion(String feedbackQuestionId) {
+        Key<FeedbackQuestion> feedbackQuestionKey = makeKeyOrNullFromWebSafeString(feedbackQuestionId);
+        if (feedbackQuestionKey != null) {
+            deleteEntity(feedbackQuestionKey);
+        }
     }
 
-    public void deleteFeedbackQuestionsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+    /**
+     * Deletes questions using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackQuestions(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
-        ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
+        Query<FeedbackQuestion> entitiesToDelete = load().project();
+        if (query.isCourseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+
+        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
     }
 
     // Gets a question entity if its Key (feedbackQuestionId) is known.
@@ -207,20 +202,14 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     @Override
-    protected QueryKeys<FeedbackQuestion> getEntityQueryKeys(FeedbackQuestionAttributes attributes) {
-        Key<FeedbackQuestion> key = makeKeyOrNullFromWebSafeString(attributes.getId());
-
-        Query<FeedbackQuestion> query;
-        if (key == null) {
-            query = load()
-                    .filter("feedbackSessionName =", attributes.feedbackSessionName)
-                    .filter("courseId =", attributes.courseId)
-                    .filter("questionNumber =", attributes.questionNumber);
-        } else {
-            query = load().filterKey(key);
-        }
-
-        return query.keys();
+    protected boolean hasExistingEntities(FeedbackQuestionAttributes entityToCreate) {
+        return !load()
+                .filter("feedbackSessionName =", entityToCreate.getFeedbackSessionName())
+                .filter("courseId =", entityToCreate.getCourseId())
+                .filter("questionNumber =", entityToCreate.getQuestionNumber())
+                .keys()
+                .list()
+                .isEmpty();
     }
 
     @Override

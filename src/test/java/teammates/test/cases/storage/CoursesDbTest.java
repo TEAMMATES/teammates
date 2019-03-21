@@ -13,7 +13,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.StringHelperExtension;
@@ -37,7 +36,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
         ______TS("Success: typical case");
 
         CourseAttributes c = CourseAttributes
-                .builder("CDbT.tCC.newCourse", "Basic Computing", ZoneId.of("UTC"))
+                .builder("CDbT.tCC.newCourse")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesDb.createEntity(c);
         verifyPresentInDatastore(c);
@@ -46,14 +47,15 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesDb.createEntity(c));
-        AssertHelper.assertContains(
-                String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, "Course"),
-                eaee.getMessage());
+        assertEquals(
+                String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.toString()), eaee.getMessage());
 
         ______TS("Failure: create a course with invalid parameter");
 
         CourseAttributes invalidIdCourse = CourseAttributes
-                .builder("Invalid id", "Basic Computing", ZoneId.of("UTC"))
+                .builder("Invalid id")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidIdCourse));
@@ -63,7 +65,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         String longCourseName = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_NAME_MAX_LENGTH + 1);
         CourseAttributes invalidNameCourse = CourseAttributes
-                .builder("CDbT.tCC.newCourse", longCourseName, ZoneId.of("UTC"))
+                .builder("CDbT.tCC.newCourse")
+                .withName(longCourseName)
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         ipe = assertThrows(InvalidParametersException.class, () -> coursesDb.createEntity(invalidNameCourse));
         AssertHelper.assertContains("not acceptable to TEAMMATES as a/an course name because it is too long",
@@ -167,6 +171,13 @@ public class CoursesDbTest extends BaseComponentTestCase {
     @Test
     public void testDeleteCourse() throws InvalidParametersException {
         CourseAttributes c = createNewCourse();
+        assertNotNull(coursesDb.getCourse(c.getId()));
+
+        ______TS("Failure: delete a non-existent courses");
+
+        // Should fail silently
+        coursesDb.deleteCourse("not_exist");
+        assertNotNull(coursesDb.getCourse(c.getId()));
 
         ______TS("Success: delete an existing course");
 
@@ -175,10 +186,10 @@ public class CoursesDbTest extends BaseComponentTestCase {
         CourseAttributes deleted = coursesDb.getCourse(c.getId());
         assertNull(deleted);
 
-        ______TS("Failure: delete a non-existent courses");
+        ______TS("Delete it again");
 
-        // Should fail silently
         coursesDb.deleteCourse(c.getId());
+        assertNull(coursesDb.getCourse(c.getId()));
 
         ______TS("Failure: null parameter");
 
@@ -212,7 +223,9 @@ public class CoursesDbTest extends BaseComponentTestCase {
     private CourseAttributes createNewCourse() throws InvalidParametersException {
 
         CourseAttributes c = CourseAttributes
-                .builder("Computing101", "Basic Computing", ZoneId.of("UTC"))
+                .builder("Computing101")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         try {

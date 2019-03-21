@@ -114,7 +114,8 @@ public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
         instrDisplayedName = SanitizationHelper.sanitizeName(instrDisplayedName);
         InstructorPrivileges privileges = new InstructorPrivileges(instructorRole);
 
-        return InstructorAttributes.builder(null, courseId, instrName, instrEmail)
+        return InstructorAttributes.builder(courseId, instrEmail)
+                .withName(instrName)
                 .withRole(instrRole)
                 .withIsDisplayedToStudents(isDisplayedToStudents)
                 .withDisplayedName(instrDisplayedName)

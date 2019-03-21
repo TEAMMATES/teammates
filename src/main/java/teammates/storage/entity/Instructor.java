@@ -17,7 +17,9 @@ import com.googlecode.objectify.annotation.Unindex;
 public class Instructor extends BaseEntity {
 
     /**
-     * The primary key. Format: email%courseId e.g., adam@gmail.com%cs1101
+     * The unique id of the entity.
+     *
+     * @see #generateId(String, String)
      */
     @Id
     private String id;
@@ -30,8 +32,8 @@ public class Instructor extends BaseEntity {
     /** The foreign key to locate the Course object. */
     private String courseId;
 
-    /** new attribute. Default value: Old Entity--null  New Entity--false*/
-    private Boolean isArchived;
+    /** Whether the associated course is archived. */
+    private boolean isArchived;
 
     /** The instructor's name used for this course. */
     private String name;
@@ -57,7 +59,7 @@ public class Instructor extends BaseEntity {
         // required by Objectify
     }
 
-    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
+    public Instructor(String instructorGoogleId, String courseId, boolean isArchived, String instructorName,
                       String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
@@ -70,28 +72,13 @@ public class Instructor extends BaseEntity {
         this.setDisplayedName(displayedName);
         this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
         // setId should be called after setting email and courseId
-        this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
+        this.setUniqueId(generateId(this.getEmail(), this.getCourseId()));
         this.setRegistrationKey(generateRegistrationKey());
     }
 
-    /**
-     * Constructor used for testing purpose only.
-     */
-    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName,
-                      String instructorEmail, String key, String role, boolean isDisplayedToStudents,
-                      String displayedName, String instructorPrivilegesAsText) {
-        this.setGoogleId(instructorGoogleId);
-        this.setCourseId(courseId);
-        this.setIsArchived(isArchived);
-        this.setName(instructorName);
-        this.setEmail(instructorEmail);
-        this.setRole(role);
-        this.setIsDisplayedToStudents(isDisplayedToStudents);
-        this.setDisplayedName(displayedName);
-        this.setInstructorPrivilegeAsText(instructorPrivilegesAsText);
-        // setId should be called after setting email and courseId
-        this.setUniqueId(this.getEmail() + '%' + this.getCourseId());
-        this.setRegistrationKey(key);
+    public static String generateId(String email, String courseId) {
+        // Format: email%courseId e.g., adam@gmail.com%cs1101
+        return email + '%' + courseId;
     }
 
     /**
@@ -127,11 +114,11 @@ public class Instructor extends BaseEntity {
         this.courseId = courseId;
     }
 
-    public Boolean getIsArchived() {
+    public boolean getIsArchived() {
         return isArchived;
     }
 
-    public void setIsArchived(Boolean isArchived) {
+    public void setIsArchived(boolean isArchived) {
         this.isArchived = isArchived;
     }
 
@@ -157,12 +144,6 @@ public class Instructor extends BaseEntity {
 
     public void setRegistrationKey(String key) {
         this.registrationKey = key;
-    }
-
-    public void setGeneratedKeyIfNull() {
-        if (this.registrationKey == null) {
-            setRegistrationKey(generateRegistrationKey());
-        }
     }
 
     /**

@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -14,7 +13,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -24,9 +22,9 @@ import teammates.storage.entity.FeedbackResponseComment;
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
     private static final String FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MSG = "Recently modified feedback response comment::";
-    private static final String ATTRIBUTE_NAME = "Feedback Response Comment";
 
-    // Required fields
+    public Long feedbackResponseCommentId;
+
     public String courseId;
     public String feedbackSessionName;
     /**
@@ -35,8 +33,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      */
     public String commentGiver;
     public String commentText;
-
-    // Optional fields
     public String feedbackResponseId;
     public String feedbackQuestionId;
     public List<FeedbackParticipantType> showCommentTo;
@@ -45,7 +41,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     public Instant createdAt;
     public String lastEditorEmail;
     public Instant lastEditedAt;
-    public Long feedbackResponseCommentId;
     public String giverSection;
     public String receiverSection;
     // Determines the type of comment giver- instructor, student, or team
@@ -65,38 +60,51 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
-        return builder(comment.getCourseId(), comment.getFeedbackSessionName(),
-                    comment.getGiverEmail(), comment.getCommentText())
-                .withFeedbackResponseId(comment.getFeedbackResponseId())
-                .withFeedbackQuestionId(comment.getFeedbackQuestionId())
-                .withFeedbackResponseCommentId(comment.getFeedbackResponseCommentId())
-                .withCreatedAt(comment.getCreatedAt())
-                .withGiverSection(comment.getGiverSection())
-                .withReceiverSection(comment.getReceiverSection())
-                .withCommentGiverType(comment.getCommentGiverType())
-                .withLastEditorEmail(comment.getLastEditorEmail())
-                .withLastEditedAt(comment.getLastEditedAt())
-                .withVisibilityFollowingFeedbackQuestion(comment.getIsVisibilityFollowingFeedbackQuestion())
-                .withShowCommentTo(comment.getShowCommentTo())
-                .withShowGiverNameTo(comment.getShowGiverNameTo())
-                .withCommentFromFeedbackParticipant(comment.getIsCommentFromFeedbackParticipant())
-                .build();
+        FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes();
+        frca.courseId = comment.getCourseId();
+        frca.feedbackSessionName = comment.getFeedbackSessionName();
+        frca.commentGiver = comment.getGiverEmail();
+        frca.commentText = comment.getCommentText();
+        frca.feedbackResponseId = comment.getFeedbackResponseId();
+        frca.feedbackQuestionId = comment.getFeedbackQuestionId();
+        if (comment.getShowCommentTo() != null) {
+            frca.showCommentTo = comment.getShowCommentTo();
+        }
+        if (comment.getShowGiverNameTo() != null) {
+            frca.showGiverNameTo = comment.getShowGiverNameTo();
+        }
+        frca.isVisibilityFollowingFeedbackQuestion = comment.getIsVisibilityFollowingFeedbackQuestion();
+        if (comment.getCreatedAt() != null) {
+            frca.createdAt = comment.getCreatedAt();
+        }
+        if (comment.getLastEditorEmail() == null) {
+            frca.lastEditorEmail = frca.getCommentGiver();
+        } else {
+            frca.lastEditorEmail = comment.getLastEditorEmail();
+        }
+        if (comment.getLastEditedAt() == null) {
+            frca.lastEditedAt = frca.getCreatedAt();
+        } else {
+            frca.lastEditedAt = comment.getLastEditedAt();
+        }
+        frca.feedbackResponseCommentId = comment.getFeedbackResponseCommentId();
+        if (comment.getGiverSection() != null) {
+            frca.giverSection = comment.getGiverSection();
+        }
+        if (comment.getReceiverSection() != null) {
+            frca.receiverSection = comment.getReceiverSection();
+        }
+        frca.commentGiverType = comment.getCommentGiverType();
+        frca.isCommentFromFeedbackParticipant = comment.getIsCommentFromFeedbackParticipant();
+
+        return frca;
     }
 
     /**
-     * Returns new builder instance with default values for optional fields.
-     *
-     * <p>Following default values are set to corresponding attributes:
-     * <ul>
-     * <li>{@code giverSection = "None"}</li>
-     * <li>{@code receiverSection = "None"}</li>
-     * <li>{@code showCommentTo = new ArrayList<>()}</li>
-     * <li>{@code showGiverNameTo = new ArrayList<>()}</li>
-     * <li>{@code isVisibilityFollowingFeedbackQuestion = true}</li>
-     * </ul>
+     * Returns a builder for {@link FeedbackResponseCommentAttributes}.
      */
-    public static Builder builder(String courseId, String feedbackSessionName, String commentGiver, String commentText) {
-        return new Builder(courseId, feedbackSessionName, commentGiver, commentText);
+    public static Builder builder() {
+        return new Builder();
     }
 
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
@@ -105,6 +113,70 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     public Long getId() {
         return feedbackResponseCommentId;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
+    }
+
+    public String getCommentGiver() {
+        return commentGiver;
+    }
+
+    public String getCommentText() {
+        return commentText;
+    }
+
+    public String getFeedbackResponseId() {
+        return feedbackResponseId;
+    }
+
+    public String getFeedbackQuestionId() {
+        return feedbackQuestionId;
+    }
+
+    public List<FeedbackParticipantType> getShowCommentTo() {
+        return showCommentTo;
+    }
+
+    public List<FeedbackParticipantType> getShowGiverNameTo() {
+        return showGiverNameTo;
+    }
+
+    public boolean isVisibilityFollowingFeedbackQuestion() {
+        return isVisibilityFollowingFeedbackQuestion;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getLastEditorEmail() {
+        return lastEditorEmail;
+    }
+
+    public Instant getLastEditedAt() {
+        return lastEditedAt;
+    }
+
+    public String getGiverSection() {
+        return giverSection;
+    }
+
+    public String getReceiverSection() {
+        return receiverSection;
+    }
+
+    public FeedbackParticipantType getCommentGiverType() {
+        return commentGiverType;
+    }
+
+    public boolean isCommentFromFeedbackParticipant() {
+        return isCommentFromFeedbackParticipant;
     }
 
     /**
@@ -178,23 +250,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     @Override
-    public String getIdentificationString() {
-        return feedbackResponseId + "/" + createdAt + ":" + commentGiver;
-    }
-
-    @Override
-    public String getEntityTypeAsString() {
-        return ATTRIBUTE_NAME;
-    }
-
-    @Override
     public String getBackupIdentifier() {
         return FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MSG + getId();
-    }
-
-    @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, FeedbackResponseCommentAttributes.class);
     }
 
     @Override
@@ -251,98 +308,54 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     /**
-     * A Builder for {@link FeedbackResponseCommentAttributes}.
+     * A builder for {@link FeedbackResponseCommentAttributes}.
      */
-    public static class Builder {
-        private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Required field cannot be null";
-
+    public static class Builder extends BasicBuilder<FeedbackResponseCommentAttributes, Builder> {
         private final FeedbackResponseCommentAttributes frca;
 
-        public Builder(String courseId, String feedbackSessionName, String giverEmail, String commentText) {
+        private Builder() {
+            super(new UpdateOptions(0L));
+            thisBuilder = this;
+
             frca = new FeedbackResponseCommentAttributes();
-
-            validateRequiredFields(courseId, feedbackSessionName, giverEmail, commentText);
-
-            frca.courseId = courseId;
-            frca.feedbackSessionName = feedbackSessionName;
-            frca.commentGiver = giverEmail;
-            frca.commentText = commentText;
         }
 
-        public Builder withFeedbackResponseId(String feedbackResponseId) {
-            if (feedbackResponseId != null) {
-                frca.feedbackResponseId = feedbackResponseId;
-            }
+        public Builder withCourseId(String courseId) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            frca.courseId = courseId;
+
+            return this;
+        }
+
+        public Builder withFeedbackSessionName(String feedbackSessionName) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+            frca.feedbackSessionName = feedbackSessionName;
+
+            return this;
+        }
+
+        public Builder withCommentGiver(String commentGiver) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, commentGiver);
+            frca.commentGiver = commentGiver;
 
             return this;
         }
 
         public Builder withFeedbackQuestionId(String feedbackQuestionId) {
-            if (feedbackQuestionId != null) {
-                frca.feedbackQuestionId = feedbackQuestionId;
-            }
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackQuestionId);
+            frca.feedbackQuestionId = feedbackQuestionId;
 
             return this;
         }
 
-        public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-            frca.showCommentTo = showCommentTo == null ? new ArrayList<>() : showCommentTo;
-            return this;
-        }
-
-        public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            frca.showGiverNameTo = showGiverNameTo == null ? new ArrayList<>() : showGiverNameTo;
-            return this;
-        }
-
-        public Builder withVisibilityFollowingFeedbackQuestion(Boolean visibilityFollowingFeedbackQuestion) {
-            frca.isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion == null
-                    || visibilityFollowingFeedbackQuestion; // true as default value if param is null
-            return this;
-        }
-
-        public Builder withCreatedAt(Instant createdAt) {
-            if (createdAt != null) {
-                frca.createdAt = createdAt;
-            }
-
-            return this;
-        }
-
-        public Builder withLastEditorEmail(String lastEditorEmail) {
-            frca.lastEditorEmail = lastEditorEmail == null
-                    ? frca.commentGiver
-                    : lastEditorEmail;
-            return this;
-        }
-
-        public Builder withLastEditedAt(Instant lastEditedAt) {
-            frca.lastEditedAt = lastEditedAt == null
-                    ? frca.createdAt
-                    : lastEditedAt;
-            return this;
-        }
-
-        public Builder withFeedbackResponseCommentId(Long feedbackResponseCommentId) {
-            if (feedbackResponseCommentId != null) {
-                frca.feedbackResponseCommentId = feedbackResponseCommentId;
-            }
-            return this;
-        }
-
-        public Builder withGiverSection(String giverSection) {
-            frca.giverSection = giverSection == null ? Const.DEFAULT_SECTION : giverSection;
-            return this;
-        }
-
-        public Builder withReceiverSection(String receiverSection) {
-            frca.receiverSection = receiverSection == null
-                    ? Const.DEFAULT_SECTION
-                    : receiverSection;
+        public Builder withVisibilityFollowingFeedbackQuestion(boolean visibilityFollowingFeedbackQuestion) {
+            frca.isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion;
             return this;
         }
 
         public Builder withCommentGiverType(FeedbackParticipantType commentGiverType) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, commentGiverType);
+
             frca.commentGiverType = commentGiverType;
             return this;
         }
@@ -352,14 +365,11 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             return this;
         }
 
+        @Override
         public FeedbackResponseCommentAttributes build() {
-            return frca;
-        }
+            frca.update(updateOptions);
 
-        private void validateRequiredFields(Object... objects) {
-            for (Object object : objects) {
-                Objects.requireNonNull(object, REQUIRED_FIELD_CANNOT_BE_NULL);
-            }
+            return frca;
         }
     }
 
@@ -379,7 +389,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         private UpdateOption<String> receiverSectionOption = UpdateOption.empty();
 
         private UpdateOptions(long feedbackResponseCommentId) {
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackResponseCommentId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseCommentId);
 
             this.feedbackResponseCommentId = feedbackResponseCommentId;
         }
@@ -404,75 +414,94 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         /**
          * Builder class to build {@link UpdateOptions}.
          */
-        public static class Builder {
-
-            private UpdateOptions updateOptions;
+        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(Long feedbackResponseCommentId) {
-                updateOptions = new UpdateOptions(feedbackResponseCommentId);
-            }
-
-            public Builder withFeedbackResponseId(String feedbackResponseId) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, feedbackResponseId);
-
-                updateOptions.feedbackResponseIdOption = UpdateOption.of(feedbackResponseId);
-                return this;
-            }
-
-            public Builder withCommentText(String commentText) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, commentText);
-
-                updateOptions.commentTextOption = UpdateOption.of(commentText);
-                return this;
-            }
-
-            public Builder withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showCommentTo);
-
-                updateOptions.showCommentToOption = UpdateOption.of(showCommentTo);
-                return this;
-            }
-
-            public Builder withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, showGiverNameTo);
-
-                updateOptions.showGiverNameToOption = UpdateOption.of(showGiverNameTo);
-                return this;
+                super(new UpdateOptions(feedbackResponseCommentId));
+                thisBuilder = this;
             }
 
             public Builder withLastEditorEmail(String lastEditorEmail) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, lastEditorEmail);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, lastEditorEmail);
 
                 updateOptions.lastEditorEmailOption = UpdateOption.of(lastEditorEmail);
                 return this;
             }
 
             public Builder withLastEditorAt(Instant lastEditedAt) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, lastEditedAt);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, lastEditedAt);
 
                 updateOptions.lastEditedAtOption = UpdateOption.of(lastEditedAt);
                 return this;
             }
 
-            public Builder withGiverSection(String giverSection) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, giverSection);
-
-                updateOptions.giverSectionOption = UpdateOption.of(giverSection);
-                return this;
-            }
-
-            public Builder withReceiverSection(String receiverSection) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, receiverSection);
-
-                updateOptions.receiverSectionOption = UpdateOption.of(receiverSection);
-                return this;
-            }
-
+            @Override
             public UpdateOptions build() {
                 return updateOptions;
             }
 
         }
+
+    }
+
+    /**
+     * Basic builder to build {@link FeedbackResponseCommentAttributes} related classes.
+     *
+     * @param <T> type to be built
+     * @param <B> type of the builder
+     */
+    private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
+
+        protected UpdateOptions updateOptions;
+        protected B thisBuilder;
+
+        protected BasicBuilder(UpdateOptions updateOptions) {
+            this.updateOptions = updateOptions;
+        }
+
+        public B withFeedbackResponseId(String feedbackResponseId) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseId);
+
+            updateOptions.feedbackResponseIdOption = UpdateOption.of(feedbackResponseId);
+            return thisBuilder;
+        }
+
+        public B withCommentText(String commentText) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, commentText);
+
+            updateOptions.commentTextOption = UpdateOption.of(commentText);
+            return thisBuilder;
+        }
+
+        public B withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showCommentTo);
+
+            updateOptions.showCommentToOption = UpdateOption.of(showCommentTo);
+            return thisBuilder;
+        }
+
+        public B withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showGiverNameTo);
+
+            updateOptions.showGiverNameToOption = UpdateOption.of(showGiverNameTo);
+            return thisBuilder;
+        }
+
+        public B withGiverSection(String giverSection) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverSection);
+
+            updateOptions.giverSectionOption = UpdateOption.of(giverSection);
+            return thisBuilder;
+        }
+
+        public B withReceiverSection(String receiverSection) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, receiverSection);
+
+            updateOptions.receiverSectionOption = UpdateOption.of(receiverSection);
+            return thisBuilder;
+        }
+
+        public abstract T build();
 
     }
 }

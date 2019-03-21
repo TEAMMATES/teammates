@@ -28,8 +28,6 @@ public class Account extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
-    // TODO remove studentProfile attribute in Datastore
-
     @SuppressWarnings("unused")
     private Account() {
         // required by Objectify

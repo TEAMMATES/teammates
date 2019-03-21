@@ -20,9 +20,11 @@ import teammates.common.util.Const;
 @Index
 public class FeedbackResponse extends BaseEntity {
 
-    // Format is feedbackQuestionId%giverEmail%receiver
-    // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
-    //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
+    /**
+     * The unique id of the entity.
+     *
+     * @see #generateId(String, String, String)
+     */
     @Id
     private String feedbackResponseId;
 
@@ -74,9 +76,16 @@ public class FeedbackResponse extends BaseEntity {
         this.receiverSection = recipientSection;
         setAnswer(answer);
 
-        this.feedbackResponseId = feedbackQuestionId + "%" + giverEmail + "%" + receiver;
+        this.feedbackResponseId = generateId(feedbackQuestionId, giverEmail, receiver);
 
         this.setCreatedAt(Instant.now());
+    }
+
+    public static String generateId(String feedbackQuestionId, String giver, String receiver) {
+        // Format is feedbackQuestionId%giverEmail%receiver
+        // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
+        //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
+        return feedbackQuestionId + '%' + giver + '%' + receiver;
     }
 
     public String getId() {

@@ -48,8 +48,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     @AfterMethod
     public void deleteTypicalData() {
         // delete entity
-        profilesDb.deleteEntity(typicalProfileWithPicture);
-        profilesDb.deleteEntity(typicalProfileWithoutPicture);
+        profilesDb.deleteStudentProfile(typicalProfileWithPicture.googleId);
+        profilesDb.deleteStudentProfile(typicalProfileWithoutPicture.googleId);
         verifyAbsentInDatastore(typicalProfileWithPicture);
         verifyAbsentInDatastore(typicalProfileWithoutPicture);
 
@@ -86,7 +86,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertEquals("Test", createdSpa.shortName);
 
         // tear down
-        profilesDb.deleteEntity(spa);
+        profilesDb.deleteStudentProfile(spa.googleId);
     }
 
     @Test
