@@ -27,6 +27,8 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         browser.waitForPageLoad();
         verifyContent();
+
+        logout();
     }
 
     private void verifyContent() {
