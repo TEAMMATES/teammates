@@ -58,9 +58,6 @@ public class GetStudentProfilePictureAction extends Action {
             studentProfile = logic.getStudentProfile(userInfo.id);
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-            if (student == null) {
-                return new JsonResult(STUDENT_NOT_FOUND, HttpStatus.SC_NOT_FOUND);
-            }
             studentProfile = logic.getStudentProfile(student.googleId);
         }
 

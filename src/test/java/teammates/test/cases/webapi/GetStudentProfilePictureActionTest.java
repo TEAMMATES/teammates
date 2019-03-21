@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetStudentProfilePictureAction;
 import teammates.ui.webapi.action.ImageResult;
@@ -40,6 +41,10 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
 
+        // check image key is the same as well
+        StudentProfileAttributes student1Profile = logic.getStudentProfile(student1InCourse1.googleId);
+        assertEquals(student1Profile.pictureKey, imageResult.blobKey);
+
         ______TS("Success case: student passes in incomplete params but still gets his own image");
 
         String[] submissionParams = new String[] {
@@ -59,6 +64,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
+        assertEquals(student1Profile.pictureKey, imageResult.blobKey);
 
         ______TS("Success case: student gets his teammate's image");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
@@ -74,6 +80,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
+        assertEquals(student1Profile.pictureKey, imageResult.blobKey);
 
         ______TS("Success case: instructor with privilege views image of his student");
         gaeSimulation.logoutUser();
@@ -89,6 +96,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
+        assertEquals(student1Profile.pictureKey, imageResult.blobKey);
 
         ______TS("Failure case: instructor passes in incomplete params");
 
