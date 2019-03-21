@@ -11,6 +11,7 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -415,11 +416,12 @@ public final class DataBundleLogic {
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
-        accountsDb.deleteAccounts(dataBundle.accounts.values());
-        // delete associated profiles
-        // TODO: Remove the following line after tests have been run against LIVE server
-        dataBundle.accounts.values().forEach(account -> profilesDb.deleteStudentProfile(account.googleId));
-        profilesDb.deleteEntities(dataBundle.profiles.values());
+        dataBundle.accounts.values().forEach(account -> {
+            accountsDb.deleteAccount(account.getGoogleId());
+        });
+        dataBundle.profiles.values().forEach(profile -> {
+            profilesDb.deleteStudentProfile(profile.googleId);
+        });
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
@@ -428,13 +430,19 @@ public final class DataBundleLogic {
             courseIds.add(course.getId());
         }
         if (!courseIds.isEmpty()) {
-            coursesDb.deleteEntities(courses);
-            instructorsDb.deleteInstructorsForCourses(courseIds);
-            studentsDb.deleteStudentsForCourses(courseIds);
-            fbDb.deleteFeedbackSessionsForCourses(courseIds);
-            fqDb.deleteFeedbackQuestionsForCourses(courseIds);
-            frDb.deleteFeedbackResponsesForCourses(courseIds);
-            fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
+            courseIds.forEach(courseId -> {
+                AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                        .withCourseId(courseId)
+                        .build();
+                fcDb.deleteFeedbackResponseComments(query);
+                frDb.deleteFeedbackResponses(query);
+                fqDb.deleteFeedbackQuestions(query);
+                fbDb.deleteFeedbackSessions(query);
+                studentsDb.deleteStudents(query);
+                instructorsDb.deleteInstructors(query);
+
+                coursesDb.deleteCourse(courseId);
+            });
         }
     }
 

@@ -14,6 +14,9 @@ import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -23,6 +26,9 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
@@ -92,8 +98,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         testMoveCourseToRecycleBin();
         testRestoreCourseFromRecycleBin();
         testRestoreAllCoursesFromRecycleBin();
-        testDeleteCourse();
-        testDeleteAllCourses();
         testUpdateCourseCascade();
     }
 
@@ -115,7 +119,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(c.getId(), coursesLogic.getCourse(c.getId()).getId());
         assertEquals(c.getName(), coursesLogic.getCourse(c.getId()).getName());
 
-        coursesDb.deleteEntity(c);
+        coursesDb.deleteCourse(c.getId());
         ______TS("Null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourse(null));
@@ -1042,7 +1046,12 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
-    private void testDeleteCourse() {
+    @Test
+    public void testDeleteCourseCascade() {
+
+        ______TS("non-existent");
+
+        coursesLogic.deleteCourseCascade("not_exist");
 
         ______TS("typical case");
 
@@ -1060,7 +1069,21 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
         verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        assertEquals(course1OfInstructor.getId(), studentInCourse.course);
+        verifyPresentInDatastore(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
+        FeedbackResponseAttributes typicalResponse = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackQuestionAttributes typicalQuestion =
+                FeedbackQuestionsLogic.inst()
+                        .getFeedbackQuestion(typicalResponse.feedbackSessionName, typicalResponse.courseId,
+                                Integer.parseInt(typicalResponse.feedbackQuestionId));
+        typicalResponse = FeedbackResponsesLogic.inst()
+                .getFeedbackResponse(typicalQuestion.getId(), typicalResponse.giver, typicalResponse.recipient);
+        verifyPresentInDatastore(typicalResponse);
+        FeedbackResponseCommentAttributes typicalComment =
+                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+        typicalComment = FeedbackResponseCommentsLogic.inst()
+                .getFeedbackResponseComment(typicalResponse.getId(),
+                        typicalComment.commentGiver, typicalComment.createdAt);
+        verifyPresentInDatastore(typicalComment);
 
         coursesLogic.deleteCourseCascade(course1OfInstructor.getId());
 
@@ -1073,42 +1096,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-
-        ______TS("non-existent");
-
-        // try to delete again. Should fail silently.
-        coursesLogic.deleteCourseCascade(course1OfInstructor.getId());
+        verifyAbsentInDatastore(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
+        verifyAbsentInDatastore(typicalQuestion);
+        verifyAbsentInDatastore(typicalResponse);
+        verifyAbsentInDatastore(typicalComment);
 
         ______TS("null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.deleteCourseCascade(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-    }
-
-    private void testDeleteAllCourses() {
-
-        ______TS("typical case");
-
-        InstructorAttributes instructor1OfCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
-
-        List<InstructorAttributes> instructors = new ArrayList<>();
-        instructors.add(instructor1OfCourse3);
-
-        // Ensure there are entities in the datastore under this course
-        verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse3"));
-        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
-
-        coursesLogic.deleteAllCoursesCascade(instructors);
-
-        // Ensure the course and related entities are deleted
-        verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse3"));
-        verifyAbsentInDatastore(dataBundle.students.get("student1InCourse3"));
-        verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
-
-        ______TS("null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.deleteAllCoursesCascade(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 

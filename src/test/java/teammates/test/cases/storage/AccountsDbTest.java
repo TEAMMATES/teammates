@@ -127,6 +127,11 @@ public class AccountsDbTest extends BaseComponentTestCase {
     public void testDeleteAccount() throws Exception {
         AccountAttributes a = createNewAccount();
 
+        ______TS("silent deletion of non-existent account");
+
+        accountsDb.deleteAccount("not_exist");
+        assertNotNull(accountsDb.getAccount(a.googleId));
+
         ______TS("typical success case");
         AccountAttributes newAccount = accountsDb.getAccount(a.googleId);
         assertNotNull(newAccount);
@@ -139,7 +144,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
 
-        ______TS("failure null paramter");
+        ______TS("failure null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class,
                 () -> accountsDb.deleteAccount(null));

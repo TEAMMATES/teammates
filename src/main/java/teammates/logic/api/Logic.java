@@ -95,14 +95,13 @@ public class Logic {
      * Deletes both instructor and student privileges, as long as the account and associated student profile.
      *
      * <ul>
-     * <li>Does not delete courses, which can result in orphan courses.</li>
      * <li>Fails silently if no such account.</li>
      * </ul>
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
-    public void deleteAccount(String googleId) {
+    public void deleteAccountCascade(String googleId) {
 
         Assumption.assertNotNull(googleId);
 
@@ -386,11 +385,14 @@ public class Logic {
     }
 
     /**
-     * Fails silently if no match found.
-     * Preconditions: <br>
+     * Deletes an instructor cascade its associated feedback responses and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteInstructor(String courseId, String email) {
+    public void deleteInstructorCascade(String courseId, String email) {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(email);
@@ -591,24 +593,16 @@ public class Logic {
     }
 
     /**
-     * Permanently deletes a course and all data related to the course
-     * (instructors, students, feedback sessions) from Recycle Bin.
-     * Fails silently if no such account. <br>
-     * Preconditions: <br>
+     * Deletes a course cascade its students, instructors, sessions, responses and comments.
+     *
+     * <p>Fails silently if no such course.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteCourse(String courseId) {
+    public void deleteCourseCascade(String courseId) {
         Assumption.assertNotNull(courseId);
         coursesLogic.deleteCourseCascade(courseId);
-    }
-
-    /**
-     * Permanently deletes all courses and all data related to these courses
-     * (instructors, students, feedback sessions) from Recycle Bin.
-     */
-    public void deleteAllCourses(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull(instructorList);
-        coursesLogic.deleteAllCoursesCascade(instructorList);
     }
 
     /**
@@ -915,14 +909,14 @@ public class Logic {
     }
 
     /**
-     * Deletes the student from the course including any submissions to/from
-     * for this student in this course.
-     * Fails silently if no match found. <br>
-     * Preconditions: <br>
+     * Deletes a student cascade its associated feedback responses and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteStudent(String courseId, String studentEmail) {
-
+    public void deleteStudentCascade(String courseId, String studentEmail) {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);
 
@@ -930,14 +924,15 @@ public class Logic {
     }
 
     /**
-     * Deletes all the students in the course.
+     * Deletes all the students in the course cascade their associated responses and comments.
      *
-     * @param courseId course id for the students
+     * <br/>Preconditions: <br>
+     * * All parameters are non-null.
      */
-    public void deleteAllStudentsInCourse(String courseId) {
-
+    public void deleteStudentsInCourseCascade(String courseId) {
         Assumption.assertNotNull(courseId);
-        studentsLogic.deleteAllStudentsInCourse(courseId);
+
+        studentsLogic.deleteStudentsInCourseCascade(courseId);
     }
 
     /**
@@ -1406,32 +1401,17 @@ public class Logic {
     }
 
     /**
-     * Permanently deletes the feedback session in Recycle Bin, but not the questions and
-     * responses associated to it.
-     * Fails silently if no such feedback session. <br>
-     * Preconditions: <br>
+     * Deletes a feedback session cascade to its associated questions, responses and comments.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
-    }
-
-    /**
-     * Permanently deletes feedback sessions in Recycle Bin, but not the questions and
-     * responses associated to them.
-     * Fails silently if no such feedback session. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void deleteAllFeedbackSessions(List<InstructorAttributes> instructorList) {
-
-        Assumption.assertNotNull(instructorList);
-
-        feedbackSessionsLogic.deleteAllFeedbackSessionsCascade(instructorList);
     }
 
     /**
@@ -1507,12 +1487,16 @@ public class Logic {
     }
 
     /**
-     * Deletes the feedback question and the responses associated to it. Fails
-     * silently if there is no such feedback question. <br>
-     * Preconditions: <br>
+     * Deletes a feedback question cascade its responses and comments.
+     *
+     * <p>Silently fail if question does not exist.
+     *
+     * <p>The respondent lists will also be updated due the deletion of question.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackQuestion(String questionId) {
+    public void deleteFeedbackQuestionCascade(String questionId) {
         Assumption.assertNotNull(questionId);
         feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
     }
@@ -1824,12 +1808,16 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Deletes a feedback response cascade its associated comments.
+     *
+     * <p>The respondent lists will NOT be updated.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        Assumption.assertNotNull(feedbackResponse);
-        feedbackResponsesLogic.deleteFeedbackResponseAndCascade(feedbackResponse);
+    public void deleteFeedbackResponseCascade(String responseId) {
+        Assumption.assertNotNull(responseId);
+        feedbackResponsesLogic.deleteFeedbackResponseCascade(responseId);
     }
 
     /**
@@ -1891,15 +1879,6 @@ public class Logic {
     }
 
     /**
-     * Removes document for the comment by given id.
-     *
-     * @see FeedbackResponseCommentsLogic#deleteDocumentByCommentId(long)
-     */
-    public void deleteDocumentByCommentId(long commentId) {
-        feedbackResponseCommentsLogic.deleteDocumentByCommentId(commentId);
-    }
-
-    /**
      * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
@@ -1931,12 +1910,10 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * Id of comment is not null.
+     * Deletes a comment.
      */
-    public void deleteFeedbackResponseCommentById(Long commentId) {
-        Assumption.assertNotNull(commentId);
-        feedbackResponseCommentsLogic.deleteFeedbackResponseCommentById(commentId);
+    public void deleteFeedbackResponseComment(long commentId) {
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(commentId);
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,

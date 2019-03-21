@@ -26,7 +26,7 @@ public class DeleteAccountAction extends Action {
     @Override
     public ActionResult execute() {
         String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        logic.deleteAccount(instructorId);
+        logic.deleteAccountCascade(instructorId);
         return new JsonResult("Account is successfully deleted.", HttpStatus.SC_OK);
     }
 
