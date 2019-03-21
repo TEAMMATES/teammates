@@ -68,7 +68,7 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseE2ETestCase {
                 .withCourseId(courseId)
                 .withStudentEmail(testData.students.get(studentStr).email);
 
-        return loginAdminToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
+        return loginAdminToPageOld(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
     }
 
 }

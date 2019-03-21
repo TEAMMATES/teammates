@@ -7,7 +7,6 @@ import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
-import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -31,7 +30,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.EmailChecker;
-import teammates.test.driver.TestProperties;
 
 /**
  * SUT: {@link EmailGenerator}.
@@ -47,18 +45,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
     public void prepareTestData() {
         dataBundle = loadDataBundle("/EmailGeneratorTest.json");
         removeAndRestoreDataBundle(dataBundle);
-    }
-
-    /**
-     * Reminder to disable GodMode and re-run the test.
-     */
-    @AfterSuite
-    public static void remindUserToDisableGodModeIfRequired() {
-        if (TestProperties.IS_GODMODE_ENABLED) {
-            print("==========================================================");
-            print("IMPORTANT: Remember to disable GodMode and rerun the test!");
-            print("==========================================================");
-        }
     }
 
     @Test
@@ -290,13 +276,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String instructorName = "Instr";
         String regkey = "skxxxxxxxxxks";
 
-        @SuppressWarnings("deprecation")
         InstructorAttributes instructor = InstructorAttributes
-                .builder("googleId", "courseId", "Instructor Name", instructorEmail)
-                .withKey(regkey)
+                .builder("courseId", instructorEmail)
+                .withGoogleId("googleId")
+                .withName("Instructor Name")
                 .build();
+        instructor.key = regkey;
 
-        AccountAttributes inviter = AccountAttributes.builder()
+        AccountAttributes inviter = AccountAttributes.builder("otherGoogleId")
                 .withEmail("instructor-joe@gmail.com")
                 .withName("Joe Wilson")
                 .build();
@@ -317,7 +304,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("instructor course join email");
 
         CourseAttributes course = CourseAttributes
-                .builder("course-id", "Course Name", ZoneId.of("UTC"))
+                .builder("course-id")
+                .withName("Course Name")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
@@ -385,13 +374,16 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("student course join email");
 
         CourseAttributes course = CourseAttributes
-                .builder("idOfTypicalCourse1", "Course Name", ZoneId.of("UTC"))
+                .builder("idOfTypicalCourse1")
+                .withName("Course Name")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
-        StudentAttributes student = StudentAttributes
-                .builder("", "Student Name", "student@email.tmt")
-                .withKey("skxxxxxxxxxks")
-                .build();
+        StudentAttributes student =
+                StudentAttributes.builder("", "student@email.tmt")
+                        .withName("Student Name")
+                        .build();
+        student.key = "skxxxxxxxxxks";
 
         EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -408,7 +400,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("student course (without co-owners) join email");
 
-        course = CourseAttributes.builder("course-id", "Course Name", ZoneId.of("UTC")).build();
+        course = CourseAttributes.builder("course-id")
+                .withName("Course Name")
+                .withTimezone(ZoneId.of("UTC"))
+                .build();
 
         email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
@@ -452,7 +447,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("student course register email");
 
         CourseAttributes course = CourseAttributes
-                .builder("idOfTypicalCourse1", "Course Name", ZoneId.of("UTC"))
+                .builder("idOfTypicalCourse1")
+                .withName("Course Name")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         String name = "User Name";
         String emailAddress = "user@email.tmt";

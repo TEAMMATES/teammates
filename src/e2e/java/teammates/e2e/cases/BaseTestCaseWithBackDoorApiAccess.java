@@ -21,6 +21,7 @@ import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
  */
+@SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
 public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWithDatastoreAccess {
 
     @Override
@@ -53,7 +54,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected AccountAttributes getAccount(String googleId) {
-        return BackDoor.getAccount(googleId);
+        return null; // BackDoor.getAccount(googleId);
     }
 
     @Override
@@ -63,7 +64,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
-        return BackDoor.getStudentProfile(studentProfileAttributes.googleId);
+        return null; // BackDoor.getStudentProfile(studentProfileAttributes.googleId);
     }
 
     protected AccountAttributes getAccountWithRetry(String googleId) throws MaximumRetriesExceededException {
@@ -76,7 +77,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getCourse(String courseId) {
-        return BackDoor.getCourse(courseId);
+        return null; // BackDoor.getCourse(courseId);
     }
 
     @Override
@@ -94,7 +95,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
-        return BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
+        return null; // BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
     }
 
     @Override
@@ -121,11 +122,11 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return BackDoor.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
+        return null; // BackDoor.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
     }
 
     protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        return BackDoor.getFeedbackSession(courseId, feedbackSessionName);
+        return null; // BackDoor.getFeedbackSession(courseId, feedbackSessionName);
     }
 
     @Override
@@ -145,7 +146,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {
-        return BackDoor.getInstructorByEmail(instructorEmail, courseId);
+        return null; // BackDoor.getInstructorByEmail(instructorEmail, courseId);
     }
 
     @Override
@@ -164,7 +165,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
-        return BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
+        return null; // BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
     }
 
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail)
@@ -184,7 +185,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return BackDoor.getStudent(student.course, student.email);
+        return null; // BackDoor.getStudent(student.course, student.email);
     }
 
     @Override
@@ -194,7 +195,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected String doPutDocuments(DataBundle testData) {
-        return BackDoor.putDocuments(testData);
+        return null; // BackDoor.putDocuments(testData);
     }
 
 }

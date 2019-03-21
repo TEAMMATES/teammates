@@ -1,11 +1,8 @@
 package teammates.logic.api;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
-
-import com.google.appengine.api.blobstore.BlobKey;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
@@ -18,8 +15,8 @@ import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.SectionDetailsBundle;
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -37,8 +34,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.SectionDetail;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -80,75 +75,33 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Details of accounts with instruction privileges. Returns empty
-     *         list if no such accounts are found.
-     */
-    @Deprecated //Not scalable.
-    public List<AccountAttributes> getInstructorAccounts() {
-
-        return accountsLogic.getInstructorAccounts();
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.<br>
-     * * {@code newAccountAttributes} represents an existing account.
-     */
-    public void updateAccount(AccountAttributes newAccountAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(newAccountAttributes);
-
-        accountsLogic.updateAccount(newAccountAttributes);
-    }
-
-    /**
-     * Updates/Creates student profile based on the given new profile attributes.
+     * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
      * <br/> Preconditions: <br/>
      * * All parameters are non-null.
      *
-     * @throws InvalidParametersException if attributes in {@code newStudentProfileAttributes} are not valid
+     * @return updated student profile
+     * @throws InvalidParametersException if attributes to update are not valid
      */
-    public void updateOrCreateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
+    public StudentProfileAttributes updateOrCreateStudentProfile(StudentProfileAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException {
 
-        Assumption.assertNotNull(newStudentProfileAttributes);
+        Assumption.assertNotNull(updateOptions);
 
-        profilesLogic.updateOrCreateStudentProfile(newStudentProfileAttributes);
-    }
-
-    /**
-     * Updates {@code pictureKey} for the student profile associated with {@code googleId}.
-     *
-     * <br/> Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * <p>If the associated profile doesn't exist, create a new one.</p>
-     */
-    public void updateStudentProfilePicture(String googleId, String newPictureKey) {
-
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(newPictureKey);
-
-        profilesLogic.updateStudentProfilePicture(googleId, newPictureKey);
+        return profilesLogic.updateOrCreateStudentProfile(updateOptions);
     }
 
     /**
      * Deletes both instructor and student privileges, as long as the account and associated student profile.
      *
      * <ul>
-     * <li>Does not delete courses, which can result in orphan courses.</li>
      * <li>Fails silently if no such account.</li>
      * </ul>
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
-    public void deleteAccount(String googleId) {
+    public void deleteAccountCascade(String googleId) {
 
         Assumption.assertNotNull(googleId);
 
@@ -163,52 +116,21 @@ public class Logic {
      *
      * <p>Fails silently if the {@code key} doesn't exist.</p>
      */
-    public void deletePicture(BlobKey key) {
+    public void deletePicture(String key) {
         Assumption.assertNotNull(key);
 
         profilesLogic.deletePicture(key);
     }
 
     /**
-     * Creates an instructor and an new account if the instructor doesn't not have account yet.<br>
-     * Used as a shorthand when the account entity is not important and is
-     * only needed for completeness<br>
-     * <b>Note: Now used for the purpose of testing only.</b><br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
+     *
+     * <p>If the associated profile doesn't exist, create a new one.</p>
      */
-    @Deprecated
-    public void createInstructorAccount(String googleId, String courseId, String name, String email,
-                                        Boolean isArchived, String roleParam, boolean isDisplayedToStudents,
-                                        String displayedNameParam, String privileges, String institute)
-            throws EntityAlreadyExistsException, InvalidParametersException {
-
+    public void deletePictureKey(String googleId) {
         Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(name);
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(institute);
 
-        if (accountsLogic.getAccount(googleId) == null) {
-            AccountAttributes account = AccountAttributes.builder()
-                    .withGoogleId(googleId)
-                    .withName(name)
-                    .withEmail(email)
-                    .withInstitute(institute)
-                    .withIsInstructor(true)
-                    .build();
-            accountsLogic.createAccount(account);
-        }
-
-        // In case when roleParam is null, default values used both for role and for privileges.
-        // If privileges is null and roleParam is not null, for privileges will be created value based on roleParam
-        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
-                .withRole(roleParam).withDisplayedName(displayedNameParam)
-                .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents)
-                .withIsArchived(isArchived)
-                .build();
-
-        instructorsLogic.createInstructor(instructor);
+        profilesLogic.deletePictureKey(googleId);
     }
 
     /**
@@ -224,14 +146,28 @@ public class Logic {
         Assumption.assertNotNull(name);
         Assumption.assertNotNull(email);
 
-        InstructorAttributes instructor = InstructorAttributes.builder(null, courseId, name, email)
-                .withRole(role).withPrivileges(new InstructorPrivileges(role))
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withRole(role)
+                .withPrivileges(new InstructorPrivileges(role))
                 .build();
         instructorsLogic.createInstructor(instructor);
     }
 
+    /**
+     * Creates an instructor.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the created instructor
+     * @throws InvalidParametersException if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     */
     public InstructorAttributes createInstructor(InstructorAttributes instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(instructor);
+
         return instructorsLogic.createInstructor(instructor);
     }
 
@@ -384,27 +320,39 @@ public class Logic {
     }
 
     /**
-     * Update the name and email address of an instructor with the specific Google ID.
-     * Preconditions: <br>
+     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithGoogleId}.
+     *
+     * <p>Cascade update the comments and responses given by the instructor.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
-     * @param instr InstructorAttributes object containing the details to be updated
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the instructor cannot be found
      */
-    public void updateInstructorByGoogleId(String googleId, InstructorAttributes instr)
+    public InstructorAttributes updateInstructorCascade(InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(instr);
-
-        instructorsLogic.updateInstructorByGoogleId(googleId, instr);
+        return instructorsLogic.updateInstructorByGoogleIdCascade(updateOptions);
     }
 
-    public void updateInstructorByEmail(String email, InstructorAttributes instr)
+    /**
+     * Updates an instructor by {@link InstructorAttributes.UpdateOptionsWithEmail}.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the instructor cannot be found
+     */
+    public InstructorAttributes updateInstructor(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(instr);
-
-        instructorsLogic.updateInstructorByEmail(email, instr);
+        return instructorsLogic.updateInstructorByEmail(updateOptions);
     }
 
     /**
@@ -422,37 +370,29 @@ public class Logic {
         return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
     }
 
-    public void verifyInputForAdminHomePage(String name, String institute, String email)
-            throws InvalidParametersException {
-
-        List<String> invalidityInfo = instructorsLogic.getInvalidityInfoForNewInstructorData(name,
-                                                                                              institute, email);
-
-        if (!invalidityInfo.isEmpty()) {
-            throw new InvalidParametersException(invalidityInfo);
-        }
-    }
-
     /**
-     * Removes instructor access but does not delete the account.
-     * The account will continue to have student access. <br>
-     * Fails silently if no match found.<br>
-     * Preconditions: <br>
+     * Downgrades an instructor account to student account.
+     *
+     * <p>Cascade deletes all instructors associated with the account.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void downgradeInstructorToStudentCascade(String googleId) {
-
+    public void downgradeInstructorToStudentCascade(String googleId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(googleId);
 
         accountsLogic.downgradeInstructorToStudentCascade(googleId);
     }
 
     /**
-     * Fails silently if no match found.
-     * Preconditions: <br>
+     * Deletes an instructor cascade its associated feedback responses and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteInstructor(String courseId, String email) {
+    public void deleteInstructorCascade(String courseId, String email) {
 
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(email);
@@ -461,21 +401,18 @@ public class Logic {
     }
 
     /**
-     * Creates a course and an instructor for it. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * * {@code instructorGoogleId} already has instructor privileges.
+     * Creates a course and an associated instructor for the course.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null. <br/>
+     * * {@code instructorGoogleId} already has an account and instructor privileges.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, String courseId, String courseName,
-                                          String courseTimeZone)
+    public void createCourseAndInstructor(String instructorGoogleId, CourseAttributes courseAttributes)
             throws EntityAlreadyExistsException, InvalidParametersException {
-
         Assumption.assertNotNull(instructorGoogleId);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(courseName);
-        Assumption.assertNotNull(courseTimeZone);
+        Assumption.assertNotNull(courseAttributes);
 
-        coursesLogic.createCourseAndInstructor(instructorGoogleId, courseId, courseName, courseTimeZone);
+        coursesLogic.createCourseAndInstructor(instructorGoogleId, courseAttributes);
     }
 
     /**
@@ -617,22 +554,30 @@ public class Logic {
     }
 
     /**
-     * Updates the details of a course.
+     * Updates a course by {@link CourseAttributes.UpdateOptions}.
      *
-     * @see CoursesLogic#updateCourse(String, String, String)
+     * <p>If the {@code timezone} of the course is changed, cascade the change to its corresponding feedback sessions.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated course
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the course cannot be found
      */
-    public void updateCourse(String courseId, String courseName, String courseTimeZone)
+    public CourseAttributes updateCourseCascade(CourseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(courseName);
-        Assumption.assertNotNull(courseTimeZone);
-        coursesLogic.updateCourse(courseId, courseName, courseTimeZone);
+        Assumption.assertNotNull(updateOptions);
+
+        return coursesLogic.updateCourseCascade(updateOptions);
     }
 
     /**
-     * Change the archive status of a course for a instructor.<br>
-     * Preconditions: <br>
+     * Changes the archive status of a course for an instructor.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
      * @param courseId The course of which the archive status is to be changed
      * @param archiveStatus The archive status to be set
      */
@@ -648,24 +593,16 @@ public class Logic {
     }
 
     /**
-     * Permanently deletes a course and all data related to the course
-     * (instructors, students, feedback sessions) from Recycle Bin.
-     * Fails silently if no such account. <br>
-     * Preconditions: <br>
+     * Deletes a course cascade its students, instructors, sessions, responses and comments.
+     *
+     * <p>Fails silently if no such course.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteCourse(String courseId) {
+    public void deleteCourseCascade(String courseId) {
         Assumption.assertNotNull(courseId);
         coursesLogic.deleteCourseCascade(courseId);
-    }
-
-    /**
-     * Permanently deletes all courses and all data related to these courses
-     * (instructors, students, feedback sessions) from Recycle Bin.
-     */
-    public void deleteAllCourses(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull(instructorList);
-        coursesLogic.deleteAllCoursesCascade(instructorList);
     }
 
     /**
@@ -677,9 +614,11 @@ public class Logic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
-     * All data related will not be deleted.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
      */
-    public void moveCourseToRecycleBin(String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+    public void moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
         coursesLogic.moveCourseToRecycleBin(courseId);
     }
@@ -687,32 +626,28 @@ public class Logic {
     /**
      * Restores a course and all data related to the course from Recycle Bin by
      * its given corresponding ID.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
      */
     public void restoreCourseFromRecycleBin(String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
+
         coursesLogic.restoreCourseFromRecycleBin(courseId);
     }
 
     /**
      * Restores all courses and all data related to these courses from Recycle Bin.
-     */
-    public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(instructorList);
-        coursesLogic.restoreAllCoursesFromRecycleBin(instructorList);
-    }
-
-    /**
-     * Creates a student. <br>
-     * Preconditions: <br>
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void createStudent(StudentAttributes student)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+    public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
+            throws EntityDoesNotExistException {
+        Assumption.assertNotNull(instructorList);
 
-        Assumption.assertNotNull(student);
-        studentsLogic.createStudentCascade(student);
+        coursesLogic.restoreAllCoursesFromRecycleBin(instructorList);
     }
 
     /**
@@ -866,35 +801,53 @@ public class Logic {
         return studentsLogic.getEncryptedKeyForStudent(courseId, email);
     }
 
+    /**
+     * Resets the googleId associated with the student.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
     public void resetStudentGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
+
         studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
+    /**
+     * Resets the associated googleId of an instructor.
+     */
     public void resetInstructorGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(originalEmail);
         Assumption.assertNotNull(courseId);
+
         instructorsLogic.resetInstructorGoogleId(originalEmail, courseId);
     }
 
     /**
-     * All attributes except courseId be changed. Trying to change courseId will
-     * be treated as trying to edit a student in a different course.<br>
-     * Changing team name will not delete existing submissions under that team <br>
-     * Cascade logic: Email changed-> changes email in all existing submissions <br>
-     * Team changed-> creates new submissions for the new team, deletes
-     * submissions for previous team structure. <br>
-     * Preconditions: <br>
+     * Updates a student by {@link StudentAttributes.UpdateOptions}.
+     *
+     * <p>If email changed, update by recreating the student and cascade update all responses the student gives/receives.
+     *
+     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     *
+     * <p>If section changed, cascade update all responses the student gives/receives.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return updated student
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws EntityAlreadyExistsException if the student cannot be updated
+     *         by recreation because of an existent student
      */
-    public void updateStudent(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public StudentAttributes updateStudentCascade(StudentAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        Assumption.assertNotNull(originalEmail);
-        Assumption.assertNotNull(student);
+        Assumption.assertNotNull(updateOptions);
 
-        studentsLogic.updateStudentCascade(originalEmail, student);
+        return studentsLogic.updateStudentCascade(updateOptions);
     }
 
     /**
@@ -956,14 +909,14 @@ public class Logic {
     }
 
     /**
-     * Deletes the student from the course including any submissions to/from
-     * for this student in this course.
-     * Fails silently if no match found. <br>
-     * Preconditions: <br>
+     * Deletes a student cascade its associated feedback responses and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteStudent(String courseId, String studentEmail) {
-
+    public void deleteStudentCascade(String courseId, String studentEmail) {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(studentEmail);
 
@@ -971,14 +924,15 @@ public class Logic {
     }
 
     /**
-     * Deletes all the students in the course.
+     * Deletes all the students in the course cascade their associated responses and comments.
      *
-     * @param courseId course id for the students
+     * <br/>Preconditions: <br>
+     * * All parameters are non-null.
      */
-    public void deleteAllStudentsInCourse(String courseId) {
-
+    public void deleteStudentsInCourseCascade(String courseId) {
         Assumption.assertNotNull(courseId);
-        studentsLogic.deleteAllStudentsInCourse(courseId);
+
+        studentsLogic.deleteStudentsInCourseCascade(courseId);
     }
 
     /**
@@ -1054,32 +1008,20 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Creates a feedback session.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return created feedback session
+     * @throws InvalidParametersException if the session is not valid
+     * @throws EntityAlreadyExistsException if the session already exist
      */
-    public void createFeedbackSession(FeedbackSessionAttributes feedbackSession)
+    public FeedbackSessionAttributes createFeedbackSession(FeedbackSessionAttributes feedbackSession)
             throws EntityAlreadyExistsException, InvalidParametersException {
         Assumption.assertNotNull(feedbackSession);
-        feedbackSessionsLogic.createFeedbackSession(feedbackSession);
-    }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName, String newCourseId,
-            ZoneId newTimeZone, String feedbackSessionName, String courseId, String instructorEmail)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(newFeedbackSessionName);
-        Assumption.assertNotNull(newCourseId);
-        Assumption.assertNotNull(newTimeZone);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(instructorEmail);
-
-        return feedbackSessionsLogic.copyFeedbackSession(newFeedbackSessionName, newCourseId, newTimeZone,
-                feedbackSessionName, courseId, instructorEmail);
+        return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
     }
 
     /**
@@ -1354,26 +1296,28 @@ public class Logic {
     }
 
     /**
-     * Updates the details of a feedback session <br>
-     * Does not affect the questions and responses associated with it.
-     * Preconditions: <br>
+     * Updates the details of a feedback session by {@link FeedbackSessionAttributes.UpdateOptions}.
+     *
+     * <p>Adjust email sending status if necessary.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return updated feedback session
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public void updateFeedbackSession(FeedbackSessionAttributes updatedSession) throws InvalidParametersException,
-                                                                                       EntityDoesNotExistException {
+    public FeedbackSessionAttributes updateFeedbackSession(FeedbackSessionAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(updatedSession);
-        feedbackSessionsLogic.updateFeedbackSession(updatedSession);
+        return feedbackSessionsLogic.updateFeedbackSession(updateOptions);
     }
 
-    public void updateRespondents(String feedbackSessionName, String courseId) throws InvalidParametersException,
-                                                                                      EntityDoesNotExistException {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.updateRespondentsForSession(feedbackSessionName, courseId);
-    }
-
+    /**
+     * Adds an instructor with {@code email} in the instructor respondent set
+     * in feedback session {@code feedbackSessionName} in {@code courseId}.
+     */
     public void addInstructorRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
@@ -1384,6 +1328,10 @@ public class Logic {
         feedbackSessionsLogic.addInstructorRespondent(email, feedbackSessionName, courseId);
     }
 
+    /**
+     * Adds a student with {@code email} in the student respondent set
+     * in feedback session {@code feedbackSessionName} in {@code courseId}.
+     */
     public void addStudentRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
@@ -1394,6 +1342,10 @@ public class Logic {
         feedbackSessionsLogic.addStudentRespondent(email, feedbackSessionName, courseId);
     }
 
+    /**
+     * Deletes an instructor with {@code email} in the instructor respondent set
+     * in session {@code feedbackSessionName} of course {@code courseId}.
+     */
     public void deleteInstructorRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
@@ -1404,6 +1356,10 @@ public class Logic {
         feedbackSessionsLogic.deleteInstructorRespondent(email, feedbackSessionName, courseId);
     }
 
+    /**
+     * Deletes a student with {@code email} in the student respondent set
+     * in session {@code feedbackSessionName} of course {@code courseId}.
+     */
     public void deleteStudentRespondent(String email, String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
@@ -1415,11 +1371,12 @@ public class Logic {
     }
 
     /**
-     * Publishes the feedback session and send email alerts to students.
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * @throws InvalidParametersException
-     *             if the feedback session is not ready to be published.
+     * Publishes a feedback session.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @throws InvalidParametersException if session is already published
      */
     public void publishFeedbackSession(FeedbackSessionAttributes session)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -1444,32 +1401,17 @@ public class Logic {
     }
 
     /**
-     * Permanently deletes the feedback session in Recycle Bin, but not the questions and
-     * responses associated to it.
-     * Fails silently if no such feedback session. <br>
-     * Preconditions: <br>
+     * Deletes a feedback session cascade to its associated questions, responses and comments.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
-    }
-
-    /**
-     * Permanently deletes feedback sessions in Recycle Bin, but not the questions and
-     * responses associated to them.
-     * Fails silently if no such feedback session. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void deleteAllFeedbackSessions(List<InstructorAttributes> instructorList) {
-
-        Assumption.assertNotNull(instructorList);
-
-        feedbackSessionsLogic.deleteAllFeedbackSessionsCascade(instructorList);
     }
 
     /**
@@ -1510,80 +1452,51 @@ public class Logic {
     /**
      * Creates a new feedback question.
      *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
      * @return the created question
+     * @throws InvalidParametersException if the question is invalid
      */
     public FeedbackQuestionAttributes createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
             throws InvalidParametersException {
         Assumption.assertNotNull(feedbackQuestion);
+
         return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
     }
 
     /**
-     * Used for creating initial questions for template sessions only.
-     * Does not check if feedback session exists.
-     * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
-     * Preconditions: <br>
+     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     *
+     * <p>Cascade adjust the question number of questions in the same session.
+     *
+     * <p>Cascade adjust the existing response of the question.
+     *
+     * <br/> Preconditions: <br/>
      * * All parameters are non-null.
-     * * questionNumber is > 0
+     *
+     * @return updated feedback question
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback question cannot be found
      */
-    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
-            FeedbackQuestionAttributes feedbackQuestion, int questionNumber)
-            throws InvalidParametersException {
-
-        Assumption.assertNotNull(feedbackQuestion);
-        Assumption.assertTrue(questionNumber > 0);
-        return feedbackQuestionsLogic.createFeedbackQuestionNoIntegrityCheck(feedbackQuestion, questionNumber);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId, String feedbackSessionName,
-                                                           String courseId)
-            throws InvalidParametersException {
-
-        Assumption.assertNotNull(feedbackQuestionId);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        return feedbackQuestionsLogic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId);
-    }
-
-    /**
-     * Updates the question number of a Feedback Question.<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void updateFeedbackQuestionNumber(FeedbackQuestionAttributes updatedQuestion)
+    public FeedbackQuestionAttributes updateFeedbackQuestionCascade(FeedbackQuestionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestionNumber(updatedQuestion);
+        return feedbackQuestionsLogic.updateFeedbackQuestionCascade(updateOptions);
     }
 
     /**
-     * Updates the details of a Feedback Question.<br>
-     * The FeedbackQuestionAttributes should have the updated attributes
-     * together with the original ID of the question. Preserves null
-     * attributes.
-     * Preconditions: <br>
+     * Deletes a feedback question cascade its responses and comments.
+     *
+     * <p>Silently fail if question does not exist.
+     *
+     * <p>The respondent lists will also be updated due the deletion of question.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void updateFeedbackQuestion(FeedbackQuestionAttributes updatedQuestion)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        Assumption.assertNotNull(updatedQuestion);
-        feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
-    }
-
-    /**
-     * Deletes the feedback question and the responses associated to it. Fails
-     * silently if there is no such feedback question. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void deleteFeedbackQuestion(String questionId) {
+    public void deleteFeedbackQuestionCascade(String questionId) {
         Assumption.assertNotNull(questionId);
         feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
     }
@@ -1611,21 +1524,6 @@ public class Logic {
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(googleId);
         return feedbackQuestionsLogic.getCopiableFeedbackQuestionsForInstructor(googleId);
-    }
-
-    /**
-     * Generates template feedback questions for an instructor in the session.<br>
-     * Returns an empty list if there are no questions for the template
-     * for the session.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public List<FeedbackQuestionAttributes> populateFeedbackSessionTemplateQuestions(String templateType, String courseId,
-            String feedbackSessionName) {
-        Assumption.assertNotNull(templateType);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
-        return feedbackQuestionsLogic.getFeedbackSessionTemplateQuestions(templateType, courseId, feedbackSessionName);
     }
 
     /**
@@ -1850,11 +1748,21 @@ public class Logic {
         return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
 
-    public void createFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponses)
-            throws InvalidParametersException {
+    /**
+     * Creates a feedback response.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return created feedback response
+     * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
+     */
+    public FeedbackResponseAttributes createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(feedbackResponse);
 
-        Assumption.assertNotNull(feedbackResponses);
-        feedbackResponsesLogic.createFeedbackResponses(feedbackResponses);
+        return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
     }
 
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
@@ -1875,34 +1783,54 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Updates a feedback response by {@link FeedbackResponseAttributes.UpdateOptions}.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     * (e.g. associated response ID, giverSection and recipientSection).
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     * @throws EntityAlreadyExistsException if the response cannot be updated
+     *         by recreation because of an existent response
      */
-    public void updateFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
+    public FeedbackResponseAttributes updateFeedbackResponseCascade(FeedbackResponseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(feedbackResponse);
-        feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);
+        return feedbackResponsesLogic.updateFeedbackResponseCascade(updateOptions);
     }
 
     /**
-     * Preconditions: <br>
+     * Deletes a feedback response cascade its associated comments.
+     *
+     * <p>The respondent lists will NOT be updated.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-    public void deleteFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        Assumption.assertNotNull(feedbackResponse);
-        feedbackResponsesLogic.deleteFeedbackResponseAndCascade(feedbackResponse);
+    public void deleteFeedbackResponseCascade(String responseId) {
+        Assumption.assertNotNull(responseId);
+        feedbackResponsesLogic.deleteFeedbackResponseCascade(responseId);
     }
 
     /**
-     * Create a feedback response comment, and return the created comment
-     * Preconditions: <br>
+     * Create a feedback response comment, and return the created comment.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Assumption.assertNotNull(feedbackResponseComment);
+
         return feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
     }
 
@@ -1951,15 +1879,6 @@ public class Logic {
     }
 
     /**
-     * Removes document for the comment by given id.
-     *
-     * @see FeedbackResponseCommentsLogic#deleteDocumentByCommentId(long)
-     */
-    public void deleteDocumentByCommentId(long commentId) {
-        feedbackResponseCommentsLogic.deleteDocumentByCommentId(commentId);
-    }
-
-    /**
      * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
      * @param instructors   a list of InstructorAttributes associated to a googleId,
      *                      used for filtering of search result
@@ -1973,34 +1892,28 @@ public class Logic {
     }
 
     /**
-     * Update a feedback response comment and return the updated feedback response comment
-     * Preconditions: <br>
+     * Updates a feedback response comment by {@link FeedbackResponseCommentAttributes.UpdateOptions}.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return updated comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
-            FeedbackResponseCommentAttributes feedbackResponseComment)
+            FeedbackResponseCommentAttributes.UpdateOptions updateOptions)
             throws EntityDoesNotExistException, InvalidParametersException {
+        Assumption.assertNotNull(updateOptions);
 
-        Assumption.assertNotNull(feedbackResponseComment);
-        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(feedbackResponseComment);
+        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(updateOptions);
     }
 
     /**
-     * Preconditions: <br>
-     * * Id of comment is not null.
+     * Deletes a comment.
      */
-    public void deleteFeedbackResponseCommentById(Long commentId) {
-        Assumption.assertNotNull(commentId);
-        feedbackResponseCommentsLogic.deleteFeedbackResponseCommentById(commentId);
-    }
-
-    /**
-     * Deletes uploaded file.
-     * @param key the GCS blobkey used to fetch the file in Google Cloud Storage
-     */
-    public void deleteUploadedFile(BlobKey key) {
-        Assumption.assertNotNull(key);
-        GoogleCloudStorageHelper.deleteFile(key);
+    public void deleteFeedbackResponseComment(long commentId) {
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(commentId);
     }
 
     public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
@@ -2015,14 +1928,6 @@ public class Logic {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         return feedbackResponsesLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
-    }
-
-    public void adjustFeedbackResponseForEnrollments(List<StudentEnrollDetails> enrollmentList,
-                                                     FeedbackResponseAttributes response)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(enrollmentList);
-        Assumption.assertNotNull(response);
-        studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
     }
 
     /**

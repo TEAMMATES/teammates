@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +25,6 @@ import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
 import teammates.ui.pagedata.PageData;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionDetails {
 
@@ -225,20 +223,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 + "</div>";
     }
 
-    @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber,
-            String additionalInfoId) {
-        String additionalInfo = this.getQuestionTypeDisplayName() + "<br>";
-
-        return Templates.populateTemplate(
-                        FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                        Slots.MORE, "[more]",
-                        Slots.LESS, "[less]",
-                        Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                        Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                        Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-    }
-
     /**
      * Constructs results statistics for each student.
      * Statistics to student is only shown when visibility setting is permissive enough
@@ -370,6 +354,14 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
                 Slots.RANK_OPTION_RECIPIENT_DISPLAY_NAME, "Recipient",
                 Slots.FRAGMENTS, fragments.toString());
 
+    }
+
+    @Override
+    public String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent) {
+        // TODO
+        return "";
     }
 
     @Override
@@ -563,15 +555,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         }
 
         return errors;
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return Comparator.comparing(InstructorFeedbackResultsResponseRow::getGiverTeam)
-                .thenComparing(InstructorFeedbackResultsResponseRow::getGiverDisplayableIdentifier)
-                .thenComparing(InstructorFeedbackResultsResponseRow::getDisplayableResponse)
-                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientTeam)
-                .thenComparing(InstructorFeedbackResultsResponseRow::getRecipientDisplayableIdentifier);
     }
 
     @Override

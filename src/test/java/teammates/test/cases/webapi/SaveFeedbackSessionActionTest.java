@@ -1,5 +1,7 @@
 package teammates.test.cases.webapi;
 
+import java.time.ZoneId;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
@@ -134,7 +136,10 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         ______TS("success: Custom time zone, At open show session, 'later' show results");
 
-        logic.updateCourse(course.getId(), course.getName(), "Asia/Kathmandu");
+        logic.updateCourseCascade(
+                CourseAttributes.updateOptionsBuilder(course.getId())
+                        .withTimezone(ZoneId.of("Asia/Kathmandu"))
+                        .build());
 
         String[] param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -155,7 +160,10 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         ______TS("success: At open session visible time, custom results visible time, UTC");
 
-        logic.updateCourse(course.getId(), course.getName(), "UTC");
+        logic.updateCourseCascade(
+                CourseAttributes.updateOptionsBuilder(course.getId())
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         param = new String[] {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),

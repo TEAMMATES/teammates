@@ -17,8 +17,8 @@ import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDet
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -873,7 +873,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
-        return loginAdminToPage(editUrl, FeedbackSubmitPage.class);
+        return loginAdminToPageOld(editUrl, FeedbackSubmitPage.class);
     }
 
     private FeedbackSessionNotVisiblePage
@@ -883,7 +883,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
                                         .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                         .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
 
-        return loginAdminToPage(editUrl, FeedbackSessionNotVisiblePage.class);
+        return loginAdminToPageOld(editUrl, FeedbackSessionNotVisiblePage.class);
     }
 
     private void moveToTeam(StudentAttributes student, String newTeam) {

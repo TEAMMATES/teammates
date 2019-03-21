@@ -8,28 +8,23 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EmailSendingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.logic.api.EmailGenerator;
-import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.JoinLinkData;
+import teammates.ui.webapi.request.AccountCreateRequest;
 
 /**
- * Action: creates a new instructor account with sample courses.
+ * Creates a new instructor account with sample courses.
  */
 public class CreateAccountAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -46,16 +41,10 @@ public class CreateAccountAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String instructorName = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME).trim();
-        String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL).trim();
-        String instructorInstitution = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION).trim();
+        AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
-        try {
-            logic.verifyInputForAdminHomePage(instructorName, instructorInstitution, instructorEmail);
-        } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
-        }
-
+        String instructorName = createRequest.getInstructorName().trim();
+        String instructorEmail = createRequest.getInstructorEmail().trim();
         String courseId = null;
 
         try {
@@ -63,22 +52,18 @@ public class CreateAccountAction extends Action {
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
-
+        String instructorInstitution = createRequest.getInstructorInstitution().trim();
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
                 .withInstructorInstitution(instructorInstitution)
                 .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
-        EmailWrapper email = new EmailGenerator().generateNewInstructorAccountJoinEmail(
+        EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                 instructorList.get(0).email, instructorName, joinLink);
-        try {
-            emailSender.sendEmail(email);
-        } catch (EmailSendingException e) {
-            log.severe("Instructor welcome email failed to send: " + TeammatesException.toStringWithStackTrace(e));
-        }
+        emailSender.sendEmail(email);
 
-        JoinLink output = new JoinLink(joinLink);
+        JoinLinkData output = new JoinLinkData(joinLink);
         return new JsonResult(output);
     }
 
@@ -200,23 +185,6 @@ public class CreateAccountAction extends Action {
         int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
 
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
-    }
-
-    /**
-     * Output format for {@link CreateAccountAction}.
-     */
-    public static class JoinLink extends ApiOutput {
-
-        private final String joinLink;
-
-        public JoinLink(String joinLink) {
-            this.joinLink = joinLink;
-        }
-
-        public String getJoinLink() {
-            return joinLink;
-        }
-
     }
 
 }

@@ -1,15 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { AdminAccountsPageComponent } from './admin-accounts-page/admin-accounts-page.component';
+import { AdminAccountsPageModule } from './admin-accounts-page/admin-accounts-page.module';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
+import { AdminHomePageModule } from './admin-home-page/admin-home-page.module';
 import { AdminSearchPageComponent } from './admin-search-page/admin-search-page.component';
+import { AdminSearchPageModule } from './admin-search-page/admin-search-page.module';
 import { AdminSessionsPageComponent } from './admin-sessions-page/admin-sessions-page.component';
+import { AdminSessionsPageModule } from './admin-sessions-page/admin-sessions-page.module';
 import { AdminTimezonePageComponent } from './admin-timezone-page/admin-timezone-page.component';
+import { AdminTimezonePageModule } from './admin-timezone-page/admin-timezone-page.module';
 
 const routes: Routes = [
   {
@@ -62,17 +65,13 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
-    NgbModule,
+    AdminAccountsPageModule,
+    AdminHomePageModule,
+    AdminSearchPageModule,
+    AdminSessionsPageModule,
+    AdminTimezonePageModule,
     PageNotFoundModule,
     RouterModule.forChild(routes),
-  ],
-  declarations: [
-    AdminAccountsPageComponent,
-    AdminHomePageComponent,
-    AdminSearchPageComponent,
-    AdminSessionsPageComponent,
-    AdminTimezonePageComponent,
   ],
 })
 export class AdminPagesModule {}

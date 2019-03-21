@@ -1,6 +1,7 @@
 package teammates.ui.webapi.action;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -40,7 +41,14 @@ public class DeleteAllInstructorSoftDeletedCoursesAction extends Action {
 
         instructorList = logic.getInstructorsForGoogleId(userInfo.id);
 
-        logic.deleteAllCourses(instructorList);
+        List<String> softDeletedCourseIdList = instructorList.stream()
+                .filter(instructor -> logic.getCourse(instructor.courseId).isCourseDeleted())
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
+
+        for (String courseId : softDeletedCourseIdList) {
+            logic.deleteCourseCascade(courseId);
+        }
 
         String statusMessage = "All courses in Recycle Bin have been permanently deleted.";
         return new JsonResult(statusMessage);

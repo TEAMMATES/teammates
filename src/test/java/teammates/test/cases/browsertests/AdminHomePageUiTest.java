@@ -13,9 +13,9 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminHomePage;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
@@ -61,19 +61,20 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         ______TS("content: typical page");
 
         AppUrl homeUrl = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE).withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
-        homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
+        homePage = loginAdminToPageOld(homeUrl, AdminHomePage.class);
 
         homePage.verifyHtml("/adminHomePage.html");
     }
 
     private void testCreateInstructorAction() throws Exception {
 
-        InstructorAttributes instructor = new InstructorAttributes();
-
-        instructor.name = "AHPUiT Instrúctör WithPlusInEmail";
-        instructor.email = "AHPUiT+++_.instr1!@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT____.instr1_.gma-demo";
+
+        InstructorAttributes instructor =
+                InstructorAttributes.builder(demoCourseId, "AHPUiT+++_.instr1!@gmail.tmt")
+                        .withName("AHPUiT Instrúctör WithPlusInEmail")
+                        .build();
 
         String instructorDetails = instructor.name + " | " + instructor.email + "\n"
                                  + instructor.name + " | " + instructor.email + " | " + institute;
@@ -107,12 +108,13 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         ______TS("action success: displayed instructor details are properly HTML-encoded");
 
-        InstructorAttributes dangerousInstructor = new InstructorAttributes();
-
-        dangerousInstructor.name = "Malicious <script>alert('dangerous');</script>Instrúctör";
-        dangerousInstructor.email = "malicious.instr1<>!@gmail.tmt";
         String dangerousInstitute = "TEAMMATES Malicious Institute <!@!@!>";
         String dangerousDemoCourseId = "malicious.instr1___.gma-demo";
+
+        InstructorAttributes dangerousInstructor =
+                InstructorAttributes.builder(dangerousDemoCourseId, "malicious.instr1<>!@gmail.tmt")
+                        .withName("Malicious <script>alert('dangerous');</script>Instrúctör")
+                        .build();
 
         BackDoor.deleteAccount(TestProperties.TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(dangerousDemoCourseId);
@@ -210,7 +212,7 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         ______TS("action failure : trying to create instructor with an invalid email");
 
         AppUrl homeUrl = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE);
-        homePage = loginAdminToPage(homeUrl, AdminHomePage.class);
+        homePage = loginAdminToPageOld(homeUrl, AdminHomePage.class);
 
         instructor.email = "AHPUiT.email.tmt";
         homePage.createInstructor(instructor, institute);
@@ -232,9 +234,9 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
 
         //verify sample course is accessible for newly joined instructor as an student
 
-        StudentHomePage studentHomePage =
-                getHomePage().clickStudentLogin().loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                                                                 TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        StudentHomePage studentHomePage = null;
+        // getHomePage().clickStudentLogin().loginAsStudent(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+        //                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
@@ -260,9 +262,9 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         studentHomePage.logout();
 
         //login in as instructor again to test sample course deletion
-        instructorHomePage =
-                getHomePage().clickInstructorLogin().loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
-                                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
+        instructorHomePage = null;
+        // getHomePage().clickInstructorLogin().loginAsInstructor(TestProperties.TEST_INSTRUCTOR_ACCOUNT,
+        //                                                       TestProperties.TEST_INSTRUCTOR_PASSWORD);
 
         instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
         assertTrue(instructorHomePage.getTextsForAllStatusMessagesToUser()

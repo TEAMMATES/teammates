@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -13,6 +14,10 @@ import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -21,6 +26,9 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
@@ -38,6 +46,32 @@ public class CoursesLogicTest extends BaseLogicTest {
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final AccountsDb accountsDb = new AccountsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
+
+    @Override
+    protected void prepareTestData() {
+        // test data is refreshed before each test case
+    }
+
+    @BeforeMethod
+    public void refreshTestData() {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreTypicalDataBundle();
+    }
+
+    @Test
+    public void testUpdateCourseCascade_shouldCascadeUpdateTimezoneOfFeedbackSessions() throws Exception {
+        CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
+        assertNotEquals(ZoneId.of("UTC"), typicalCourse1.getTimeZone());
+
+        coursesLogic.updateCourseCascade(
+                CourseAttributes.updateOptionsBuilder(typicalCourse1.getId())
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
+
+        List<FeedbackSessionAttributes> sessionsOfCourse = logic.getFeedbackSessionsForCourse(typicalCourse1.getId());
+        assertFalse(sessionsOfCourse.isEmpty());
+        assertTrue(sessionsOfCourse.stream().allMatch(s -> s.getTimeZone().equals(ZoneId.of("UTC"))));
+    }
 
     @Test
     public void testAll() throws Exception {
@@ -64,9 +98,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         testMoveCourseToRecycleBin();
         testRestoreCourseFromRecycleBin();
         testRestoreAllCoursesFromRecycleBin();
-        testDeleteCourse();
-        testDeleteAllCourses();
-        testUpdateCourse();
+        testUpdateCourseCascade();
     }
 
     private void testGetCourse() throws Exception {
@@ -78,14 +110,16 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("success: typical case");
 
         CourseAttributes c = CourseAttributes
-                .builder("Computing101-getthis", "Basic Computing Getting", ZoneId.of("UTC"))
+                .builder("Computing101-getthis")
+                .withName("Basic Computing Getting")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesDb.createEntity(c);
 
         assertEquals(c.getId(), coursesLogic.getCourse(c.getId()).getId());
         assertEquals(c.getName(), coursesLogic.getCourse(c.getId()).getName());
 
-        coursesDb.deleteEntity(c);
+        coursesDb.deleteCourse(c.getId());
         ______TS("Null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourse(null));
@@ -185,7 +219,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case: not a sample course");
 
         CourseAttributes notSampleCourse = CourseAttributes
-                .builder("course.id", "not sample course", ZoneId.of("UTC"))
+                .builder("course.id")
+                .withName("not sample course")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         assertFalse(coursesLogic.isSampleCourse(notSampleCourse.getId()));
@@ -193,14 +229,18 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case: is a sample course");
 
         CourseAttributes sampleCourse = CourseAttributes
-                .builder("course.id-demo3", "sample course", ZoneId.of("UTC"))
+                .builder("course.id-demo3")
+                .withName("sample course")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         assertTrue(coursesLogic.isSampleCourse(sampleCourse.getId()));
 
         ______TS("typical case: is a sample course with '-demo' in the middle of its id");
 
         CourseAttributes sampleCourse2 = CourseAttributes
-                .builder("course.id-demo3-demo33", "sample course with additional -demo", ZoneId.of("UTC"))
+                .builder("course.id-demo3-demo33")
+                .withName("sample course with additional -demo")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         assertTrue(coursesLogic.isSampleCourse(sampleCourse2.getId()));
 
@@ -215,7 +255,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case: not an existent course");
 
         CourseAttributes nonExistentCourse = CourseAttributes
-                .builder("non-existent-course", "non existent course", ZoneId.of("UTC"))
+                .builder("non-existent-course")
+                .withName("non existent course")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         assertFalse(coursesLogic.isCoursePresent(nonExistentCourse.getId()));
@@ -223,7 +265,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case: an existent course");
 
         CourseAttributes existingCourse = CourseAttributes
-                .builder("idOfTypicalCourse1", "existing course", ZoneId.of("UTC"))
+                .builder("idOfTypicalCourse1")
+                .withName("existing course")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         assertTrue(coursesLogic.isCoursePresent(existingCourse.getId()));
@@ -239,7 +283,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case: verify a non-existent course");
 
         CourseAttributes nonExistentCourse = CourseAttributes
-                .builder("non-existent-course", "non existent course", ZoneId.of("UTC"))
+                .builder("non-existent-course")
+                .withName("non existent course")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
@@ -249,7 +295,9 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case: verify an existent course");
 
         CourseAttributes existingCourse = CourseAttributes
-                .builder("idOfTypicalCourse1", "existing course", ZoneId.of("UTC"))
+                .builder("idOfTypicalCourse1")
+                .withName("existing course")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesLogic.verifyCourseIsPresent(existingCourse.getId());
 
@@ -303,14 +351,17 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleId("instructor1")
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .build());
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Asia/Singapore");
+        coursesLogic.createCourseAndInstructor("instructor1",
+                CourseAttributes.builder("course1")
+                        .withName("course 1")
+                        .withTimezone(ZoneId.of("Asia/Singapore"))
+                        .build());
         courseSummary = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseSummary.course.getId());
         assertEquals("course 1", courseSummary.course.getName());
@@ -351,14 +402,17 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleId("instructor1")
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .build());
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "America/Los_Angeles");
+        coursesLogic.createCourseAndInstructor("instructor1",
+                CourseAttributes.builder("course1")
+                        .withName("course 1")
+                        .withTimezone(ZoneId.of("America/Los_Angeles"))
+                        .build());
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
         assertEquals("course1", courseSummary.course.getId());
         assertEquals("course 1", courseSummary.course.getName());
@@ -403,14 +457,17 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleId("instructor1")
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .build());
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "Australia/Adelaide");
+        coursesLogic.createCourseAndInstructor("instructor1",
+                CourseAttributes.builder("course1")
+                        .withName("course 1")
+                        .withTimezone(ZoneId.of("Australia/Adelaide"))
+                        .build());
         courseDetails = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseDetails.course.getId());
         assertEquals("course 1", courseDetails.course.getName());
@@ -450,14 +507,17 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder()
-                .withGoogleId("instructor1")
+        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .build());
-        coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1", "UTC");
+        coursesLogic.createCourseAndInstructor("instructor1",
+                CourseAttributes.builder("course1")
+                        .withName("course 1")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
         teams = coursesLogic.getTeamsForCourse("course1");
 
         assertEquals(0, teams.size());
@@ -711,25 +771,23 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case");
 
         CourseAttributes c = CourseAttributes
-                .builder("Computing101-fresh", "Basic Computing", ZoneId.of("Asia/Singapore"))
+                .builder("Computing101-fresh")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("Asia/Singapore"))
                 .build();
-        coursesLogic.createCourse(c.getId(), c.getName(), c.getTimeZone().getId());
+        coursesLogic.createCourse(
+                CourseAttributes.builder(c.getId())
+                        .withName(c.getName())
+                        .withTimezone(c.getTimeZone())
+                        .build());
         verifyPresentInDatastore(c);
         coursesLogic.deleteCourseCascade(c.getId());
+
         ______TS("Null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourse(null, c.getName(), c.getTimeZone().getId()));
-        assertEquals("Non-null value expected", ae.getMessage());
-        ______TS("Invalid time zone");
-
-        String invalidTimeZone = "Invalid Timezone";
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.createCourse(c.getId(), c.getName(), invalidTimeZone));
-        String expectedErrorMessage = getPopulatedErrorMessage(
-                FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
-                FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
-        assertEquals(expectedErrorMessage, ipe.getMessage());
+                () -> coursesLogic.createCourse(null));
+        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testCreateCourseAndInstructor() throws Exception {
@@ -746,44 +804,59 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("fails: account doesn't exist");
 
         CourseAttributes c = CourseAttributes
-                .builder("fresh-course-tccai", "Fresh course for tccai", ZoneId.of("America/Los_Angeles"))
+                .builder("fresh-course-tccai")
+                .withName("Fresh course for tccai")
+                .withTimezone(ZoneId.of("America/Los_Angeles"))
                 .build();
 
-        @SuppressWarnings("deprecation")
         InstructorAttributes i = InstructorAttributes
-                .builder("instructor-for-tccai", c.getId(), "Instructor for tccai", "ins.for.iccai@gmail.tmt")
+                .builder(c.getId(), "ins.for.iccai@gmail.tmt")
+                .withGoogleId("instructor-for-tccai")
+                .withName("Instructor for tccai")
                 .build();
 
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone().getId()));
+                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                        CourseAttributes.builder(c.getId())
+                                .withName(c.getName())
+                                .withTimezone(c.getTimeZone())
+                                .build()));
         AssertHelper.assertContains("for a non-existent instructor", ae.getMessage());
         verifyAbsentInDatastore(c);
         verifyAbsentInDatastore(i);
 
         ______TS("fails: account doesn't have instructor privileges");
 
-        AccountAttributes a = AccountAttributes.builder()
-                .withGoogleId(i.googleId)
+        AccountAttributes a = AccountAttributes.builder(i.googleId)
                 .withName(i.name)
                 .withIsInstructor(false)
                 .withEmail(i.email)
                 .withInstitute("TEAMMATES Test Institute 5")
                 .build();
 
-        accountsDb.createAccount(a);
+        accountsDb.createEntity(a);
         ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(i.googleId, c.getId(), c.getName(), c.getTimeZone().getId()));
+                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                        CourseAttributes.builder(c.getId())
+                                .withName(c.getName())
+                                .withTimezone(c.getTimeZone())
+                                .build()));
         AssertHelper.assertContains("doesn't have instructor privileges", ae.getMessage());
         verifyAbsentInDatastore(c);
         verifyAbsentInDatastore(i);
 
         ______TS("fails: error during course creation");
 
-        a.isInstructor = true;
-        accountsDb.updateAccount(a);
+        accountsDb.updateAccount(
+                AccountAttributes.updateOptionsBuilder(a.googleId)
+                        .withIsInstructor(true)
+                        .build()
+        );
 
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("invalid id", "Fresh course for tccai", ZoneId.of("UTC"))
+                .builder("invalid id")
+                .withName("Fresh course for tccai")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         String expectedError =
@@ -793,8 +866,11 @@ public class CoursesLogicTest extends BaseLogicTest {
                 + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces.";
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.createCourseAndInstructor(
-                        i.googleId, invalidCourse.getId(), invalidCourse.getName(), invalidCourse.getTimeZone().getId()));
+                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                        CourseAttributes.builder(invalidCourse.getId())
+                                .withName(invalidCourse.getName())
+                                .withTimezone(invalidCourse.getTimeZone())
+                                .build()));
         assertEquals(expectedError, ipe.getMessage());
         verifyAbsentInDatastore(invalidCourse);
         verifyAbsentInDatastore(i);
@@ -802,14 +878,18 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("fails: error during instructor creation due to duplicate instructor");
 
         CourseAttributes courseWithDuplicateInstructor = CourseAttributes
-                .builder("fresh-course-tccai", "Fresh course for tccai", ZoneId.of("UTC"))
+                .builder("fresh-course-tccai")
+                .withName("Fresh course for tccai")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         instructorsDb.createEntity(i); //create a duplicate instructor
 
         ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(
-                        i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName(),
-                        courseWithDuplicateInstructor.getTimeZone().getId()));
+                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                        CourseAttributes.builder(courseWithDuplicateInstructor.getId())
+                                .withName(courseWithDuplicateInstructor.getName())
+                                .withTimezone(courseWithDuplicateInstructor.getTimeZone())
+                                .build()));
         AssertHelper.assertContains(
                 "Unexpected exception while trying to create instructor for a new course",
                 ae.getMessage());
@@ -820,9 +900,11 @@ public class CoursesLogicTest extends BaseLogicTest {
         i.email = "ins.for.iccai.gmail.tmt";
 
         ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(
-                        i.googleId, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName(),
-                        courseWithDuplicateInstructor.getTimeZone().getId()));
+                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                        CourseAttributes.builder(courseWithDuplicateInstructor.getId())
+                                .withName(courseWithDuplicateInstructor.getName())
+                                .withTimezone(courseWithDuplicateInstructor.getTimeZone())
+                                .build()));
         AssertHelper.assertContains(
                 "Unexpected exception while trying to create instructor for a new course",
                 ae.getMessage());
@@ -835,18 +917,22 @@ public class CoursesLogicTest extends BaseLogicTest {
         //remove the duplicate instructor object from the datastore.
         instructorsDb.deleteInstructor(i.courseId, i.email);
 
-        coursesLogic.createCourseAndInstructor(i.googleId, courseWithDuplicateInstructor.getId(),
-                                               courseWithDuplicateInstructor.getName(),
-                                               courseWithDuplicateInstructor.getTimeZone().getId());
+        coursesLogic.createCourseAndInstructor(i.googleId,
+                CourseAttributes.builder(courseWithDuplicateInstructor.getId())
+                        .withName(courseWithDuplicateInstructor.getName())
+                        .withTimezone(courseWithDuplicateInstructor.getTimeZone())
+                        .build());
         verifyPresentInDatastore(courseWithDuplicateInstructor);
         verifyPresentInDatastore(i);
 
         ______TS("Null parameter");
 
         ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(
-                        null, courseWithDuplicateInstructor.getId(), courseWithDuplicateInstructor.getName(),
-                        courseWithDuplicateInstructor.getTimeZone().getId()));
+                () -> coursesLogic.createCourseAndInstructor(null,
+                        CourseAttributes.builder(courseWithDuplicateInstructor.getId())
+                                .withName(courseWithDuplicateInstructor.getName())
+                                .withTimezone(courseWithDuplicateInstructor.getTimeZone())
+                                .build()));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
@@ -960,7 +1046,12 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
-    private void testDeleteCourse() {
+    @Test
+    public void testDeleteCourseCascade() {
+
+        ______TS("non-existent");
+
+        coursesLogic.deleteCourseCascade("not_exist");
 
         ______TS("typical case");
 
@@ -978,7 +1069,21 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
         verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        assertEquals(course1OfInstructor.getId(), studentInCourse.course);
+        verifyPresentInDatastore(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
+        FeedbackResponseAttributes typicalResponse = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackQuestionAttributes typicalQuestion =
+                FeedbackQuestionsLogic.inst()
+                        .getFeedbackQuestion(typicalResponse.feedbackSessionName, typicalResponse.courseId,
+                                Integer.parseInt(typicalResponse.feedbackQuestionId));
+        typicalResponse = FeedbackResponsesLogic.inst()
+                .getFeedbackResponse(typicalQuestion.getId(), typicalResponse.giver, typicalResponse.recipient);
+        verifyPresentInDatastore(typicalResponse);
+        FeedbackResponseCommentAttributes typicalComment =
+                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+        typicalComment = FeedbackResponseCommentsLogic.inst()
+                .getFeedbackResponseComment(typicalResponse.getId(),
+                        typicalComment.commentGiver, typicalComment.createdAt);
+        verifyPresentInDatastore(typicalComment);
 
         coursesLogic.deleteCourseCascade(course1OfInstructor.getId());
 
@@ -991,11 +1096,10 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-
-        ______TS("non-existent");
-
-        // try to delete again. Should fail silently.
-        coursesLogic.deleteCourseCascade(course1OfInstructor.getId());
+        verifyAbsentInDatastore(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
+        verifyAbsentInDatastore(typicalQuestion);
+        verifyAbsentInDatastore(typicalResponse);
+        verifyAbsentInDatastore(typicalComment);
 
         ______TS("null parameter");
 
@@ -1003,61 +1107,42 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
-    private void testDeleteAllCourses() {
-
-        ______TS("typical case");
-
-        InstructorAttributes instructor1OfCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
-
-        List<InstructorAttributes> instructors = new ArrayList<>();
-        instructors.add(instructor1OfCourse3);
-
-        // Ensure there are entities in the datastore under this course
-        verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse3"));
-        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
-
-        coursesLogic.deleteAllCoursesCascade(instructors);
-
-        // Ensure the course and related entities are deleted
-        verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse3"));
-        verifyAbsentInDatastore(dataBundle.students.get("student1InCourse3"));
-        verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
-
-        ______TS("null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.deleteAllCoursesCascade(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-    }
-
-    private void testUpdateCourse() throws Exception {
+    private void testUpdateCourseCascade() throws Exception {
         CourseAttributes c = CourseAttributes
-                .builder("Computing101-getthis", "Basic Computing Getting", ZoneId.of("UTC"))
+                .builder("Computing101-getthis")
+                .withName("Basic Computing Getting")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesDb.createEntity(c);
 
         ______TS("Typical case");
         String newName = "New Course Name";
         String validTimeZone = "Asia/Singapore";
-        coursesLogic.updateCourse(c.getId(), newName, validTimeZone);
+        CourseAttributes updateCourse = coursesLogic.updateCourseCascade(
+                CourseAttributes.updateOptionsBuilder(c.getId())
+                        .withName(newName)
+                        .withTimezone(ZoneId.of(validTimeZone))
+                        .build()
+        );
         c.setName(newName);
         c.setTimeZone(ZoneId.of(validTimeZone));
         verifyPresentInDatastore(c);
+        assertEquals(newName, updateCourse.getName());
+        assertEquals(validTimeZone, updateCourse.getTimeZone().getId());
 
-        ______TS("Invalid time zone and name");
+        ______TS("Invalid name (empty course name)");
 
         String emptyName = "";
-        String invalidTimeZone = "Invalid Timezone";
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.updateCourse(c.getId(), emptyName, invalidTimeZone));
+                () -> coursesLogic.updateCourseCascade(
+                        CourseAttributes.updateOptionsBuilder(c.getId())
+                                .withName(emptyName)
+                                .build()
+                ));
         String expectedErrorMessage =
                 getPopulatedEmptyStringErrorMessage(
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                        FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH)
-                        + System.lineSeparator()
-                        + getPopulatedErrorMessage(
-                        FieldValidator.TIME_ZONE_ERROR_MESSAGE, invalidTimeZone,
-                        FieldValidator.TIME_ZONE_FIELD_NAME, FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
+                        FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(expectedErrorMessage, ipe.getMessage());
         verifyPresentInDatastore(c);
     }

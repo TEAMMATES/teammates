@@ -23,7 +23,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.ui.template.InstructorFeedbackResultsResponseRow;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
@@ -136,7 +135,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (weight != null && choice != null) {
                     if (!rowAdded) {
                         weightRows++;
-                        rubricWeightsForEachCell.add(new ArrayList<Double>());
+                        rubricWeightsForEachCell.add(new ArrayList<>());
                         rowAdded = true;
                     }
                     try {
@@ -191,7 +190,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 if (description != null) {
                     if (!rowAdded) {
                         descRows++;
-                        rubricDescriptions.add(new ArrayList<String>());
+                        rubricDescriptions.add(new ArrayList<>());
                         rowAdded = true;
                     }
                     rubricDescriptions.get(descRows).add(description);
@@ -554,36 +553,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return rubricDescriptions.get(subQuestion).get(choice);
     }
 
-    @Override
-    public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        StringBuilder subQuestionListHtml = new StringBuilder();
-
-        if (numOfRubricSubQuestions > 0) {
-            subQuestionListHtml.append("<p>");
-            for (int i = 0; i < numOfRubricSubQuestions; i++) {
-                String subQuestionFragment =
-                        StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1)
-                        + ") " + SanitizationHelper.sanitizeForHtml(rubricSubQuestions.get(i));
-                subQuestionListHtml.append(subQuestionFragment);
-                subQuestionListHtml.append("<br>");
-            }
-            subQuestionListHtml.append("</p>");
-        }
-
-        String additionalInfo = Templates.populateTemplate(
-                FormTemplates.RUBRIC_ADDITIONAL_INFO,
-                Slots.QUESTION_TYPE_NAME, this.getQuestionTypeDisplayName(),
-                Slots.RUBRIC_ADDITIONAL_INFO_FRAGMENTS, subQuestionListHtml.toString());
-
-        return Templates.populateTemplate(
-                FormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
-                Slots.MORE, "[more]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.ADDITIONAL_INFO_ID, additionalInfoId,
-                Slots.QUESTION_ADDITIONAL_INFO, additionalInfo);
-    }
-
     private String getRecipientStatsHeaderFragmentHtml(String header) {
         return Templates.populateTemplate(
                 FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_HEADER_FRAGMENT,
@@ -804,6 +773,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 ? df.format(rubricStats[subQnIndex][choiceIndex] * 100) + "%" : STATISTICS_NO_VALUE_STRING)
                 + " (" + responseFrequency[subQnIndex][choiceIndex] + ")"
                 + (hasAssignedWeights ? " [" + dfWeight.format(weights.get(subQnIndex).get(choiceIndex)) + "]" : "");
+    }
+
+    @Override
+    public String getQuestionResultStatisticsJson(
+            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
+            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent) {
+        // TODO
+        return "";
     }
 
     @Override
@@ -1069,11 +1046,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             int numRecipients) {
         return new ArrayList<>();
-    }
-
-    @Override
-    public Comparator<InstructorFeedbackResultsResponseRow> getResponseRowsSortOrder() {
-        return null;
     }
 
     @Override

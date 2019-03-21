@@ -35,11 +35,6 @@ public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        return SanitizationHelper.sanitizeForRichText(answer);
-    }
-
-    @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return SanitizationHelper.sanitizeForCsv(Jsoup.parse(answer).text());
     }

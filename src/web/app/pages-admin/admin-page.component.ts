@@ -14,7 +14,6 @@ import { AuthInfo } from '../../types/api-output';
 })
 export class AdminPageComponent implements OnInit {
 
-  logoutUrl: string = '';
   user: string = '';
   institute?: string = '';
   isInstructor: boolean = false;
@@ -38,16 +37,15 @@ export class AdminPageComponent implements OnInit {
       display: 'Timezone Listing',
     },
   ];
+  isFetchingAuthDetails: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
   constructor(private router: Router, private authService: AuthService, private navigationService: NavigationService) {}
 
   ngOnInit(): void {
+    this.isFetchingAuthDetails = true;
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
-      if (res.logoutUrl) {
-        this.logoutUrl = `${this.backendUrl}${res.logoutUrl}`;
-      }
       if (res.user) {
         this.user = res.user.id;
         this.institute = res.institute;
@@ -64,6 +62,7 @@ export class AdminPageComponent implements OnInit {
       } else {
         window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
       }
+      this.isFetchingAuthDetails = false;
     }, () => {
       // TODO
     });

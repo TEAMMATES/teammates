@@ -13,6 +13,23 @@ class StudentProfileStubComponent {
   @Input() studentName: string = '';
   @Input() hideMoreInfo: boolean = false;
 }
+@Component({ selector: 'tm-course-related-info', template: '' })
+class CourseRelatedInfoStubComponent {
+  @Input() student: StudentAttributes = {
+    email: '',
+    course: '',
+    name: '',
+    lastName: '',
+    comments: '',
+    team: '',
+    section: '',
+  };
+}
+@Component({ selector: 'tm-more-info', template: '' })
+class MoreInfoStubComponent {
+  @Input() studentName: string = '';
+  @Input() moreInfoText: string = '';
+}
 
 describe('InstructorCourseStudentDetailsPageComponent', () => {
   let component: InstructorCourseStudentDetailsPageComponent;
@@ -23,6 +40,8 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
       declarations: [
         InstructorCourseStudentDetailsPageComponent,
         StudentProfileStubComponent,
+        CourseRelatedInfoStubComponent,
+        MoreInfoStubComponent,
       ],
       imports: [
         HttpClientTestingModule,

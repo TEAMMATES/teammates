@@ -2,20 +2,16 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.storage.entity.Account;
 
 /**
@@ -25,27 +21,6 @@ import teammates.storage.entity.Account;
  * @see AccountAttributes
  */
 public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
-    /**
-     * Preconditions:
-     * <br> * {@code accountToAdd} is not null and has valid data.
-     */
-    public void createAccount(AccountAttributes accountToAdd)
-            throws InvalidParametersException {
-        // TODO: use createEntity once there is a proper way to add instructor accounts.
-        try {
-            createEntity(accountToAdd);
-        } catch (EntityAlreadyExistsException e) {
-            // We update the account instead if it already exists. This is due to how
-            // adding of instructor accounts work.
-            try {
-                updateAccount(accountToAdd);
-            } catch (EntityDoesNotExistException edne) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Account found to be already existing and not existing simultaneously");
-            }
-        }
-    }
 
     /**
      * Gets the data transfer version of the account.
@@ -70,56 +45,48 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     /**
-     * Preconditions:
-     * <br> * {@code accountToAdd} is not null and has valid data.
+     * Updates an account with {@link AccountAttributes.UpdateOptions}.
+     *
+     * <br/> Preconditions: <br/>
+     * * {@code accountToAdd} is not null and has valid data.
+     *
+     * @return updated account
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if account cannot be found
      */
-    public void updateAccount(AccountAttributes a)
+    public AccountAttributes updateAccount(AccountAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, a);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
-        if (!a.isValid()) {
-            throw new InvalidParametersException(a.getInvalidityInfo());
+        Account account = getAccountEntity(updateOptions.getGoogleId());
+        if (account == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + updateOptions);
         }
 
-        Account accountToUpdate = getAccountEntity(a.googleId);
+        AccountAttributes newAttributes = makeAttributes(account);
+        newAttributes.update(updateOptions);
 
-        if (accountToUpdate == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + a.googleId
-                + ThreadHelper.getCurrentThreadStack());
+        newAttributes.sanitizeForSaving();
+        if (!newAttributes.isValid()) {
+            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        a.sanitizeForSaving();
-        accountToUpdate.setName(a.name);
-        accountToUpdate.setEmail(a.email);
-        accountToUpdate.setIsInstructor(a.isInstructor);
-        accountToUpdate.setInstitute(a.institute);
-        saveEntity(accountToUpdate, a);
+        account.setIsInstructor(newAttributes.isInstructor);
+
+        saveEntity(account, newAttributes);
+
+        return makeAttributes(account);
     }
 
     /**
-     * Note: This is a non-cascade delete. <br>
-     *   <br> Fails silently if there is no such account.
-     * <br> Preconditions:
-     * <br> * {@code googleId} is not null.
+     * Deletes an account.
+     *
+     * <p>Fails silently if there is no such account.
      */
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        Account accountToDelete = getAccountEntity(googleId);
-
-        if (accountToDelete == null) {
-            return;
-        }
-
-        deleteEntityDirect(accountToDelete);
-    }
-
-    public void deleteAccounts(Collection<AccountAttributes> accounts) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, accounts);
-
-        for (AccountAttributes accountToDelete : accounts) {
-            deleteAccount(accountToDelete.googleId);
-        }
+        deleteEntity(Key.create(Account.class, googleId));
     }
 
     private Account getAccountEntity(String googleId) {
@@ -142,9 +109,9 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     @Override
-    protected QueryKeys<Account> getEntityQueryKeys(AccountAttributes attributes) {
-        Key<Account> keyToFind = Key.create(Account.class, attributes.googleId);
-        return load().filterKey(keyToFind).keys();
+    protected boolean hasExistingEntities(AccountAttributes entityToCreate) {
+        Key<Account> keyToFind = Key.create(Account.class, entityToCreate.getGoogleId());
+        return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 
     @Override
