@@ -2,14 +2,13 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -122,16 +121,31 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         return makeAttributes(feedbackQuestion);
     }
 
-    public void deleteFeedbackQuestionsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        deleteFeedbackQuestionsForCourses(Arrays.asList(courseId));
+    /**
+     * Deletes a feedback question.
+     */
+    public void deleteFeedbackQuestion(String feedbackQuestionId) {
+        Key<FeedbackQuestion> feedbackQuestionKey = makeKeyOrNullFromWebSafeString(feedbackQuestionId);
+        if (feedbackQuestionKey != null) {
+            deleteEntity(feedbackQuestionKey);
+        }
     }
 
-    public void deleteFeedbackQuestionsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+    /**
+     * Deletes questions using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackQuestions(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
-        ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
+        Query<FeedbackQuestion> entitiesToDelete = load().project();
+        if (query.isCourseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+
+        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
     }
 
     // Gets a question entity if its Key (feedbackQuestionId) is known.
@@ -185,23 +199,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         }
 
         return getFeedbackQuestionEntity(attributes.feedbackSessionName, attributes.courseId, attributes.questionNumber);
-    }
-
-    @Override
-    protected QueryKeys<FeedbackQuestion> getEntityQueryKeys(FeedbackQuestionAttributes attributes) {
-        Key<FeedbackQuestion> key = makeKeyOrNullFromWebSafeString(attributes.getId());
-
-        Query<FeedbackQuestion> query;
-        if (key == null) {
-            query = load()
-                    .filter("feedbackSessionName =", attributes.feedbackSessionName)
-                    .filter("courseId =", attributes.courseId)
-                    .filter("questionNumber =", attributes.questionNumber);
-        } else {
-            query = load().filterKey(key);
-        }
-
-        return query.keys();
     }
 
     @Override

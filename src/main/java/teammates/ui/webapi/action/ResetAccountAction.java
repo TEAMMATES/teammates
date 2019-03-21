@@ -75,7 +75,7 @@ public class ResetAccountAction extends Action {
         if (wrongGoogleId != null
                 && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
-            logic.deleteAccount(wrongGoogleId);
+            logic.deleteAccountCascade(wrongGoogleId);
         }
 
         return new JsonResult("Account is successfully reset.", HttpStatus.SC_OK);

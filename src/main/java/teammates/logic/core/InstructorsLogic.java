@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -303,25 +304,38 @@ public final class InstructorsLogic {
         return instructorsDb.updateInstructorByEmail(updateOptions);
     }
 
+    /**
+     * Deletes instructors using {@link AttributesDeletionQuery}.
+     */
+    public void deleteInstructors(AttributesDeletionQuery query) {
+        instructorsDb.deleteInstructors(query);
+    }
+
+    /**
+     * Deletes an instructor cascade its associated feedback responses and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     */
     public void deleteInstructorCascade(String courseId, String email) {
-        fsLogic.deleteInstructorFromRespondentsList(getInstructorForEmail(courseId, email));
+        InstructorAttributes instructorAttributes = getInstructorForEmail(courseId, email);
+        if (instructorAttributes == null) {
+            return;
+        }
+
+        frLogic.deleteFeedbackResponsesInvolvedInstructorOfCourseCascade(courseId, email);
         instructorsDb.deleteInstructor(courseId, email);
     }
 
-    public void deleteInstructorsForGoogleIdAndCascade(String googleId) {
+    /**
+     * Deletes all instructors associated with a googleId and cascade delete its associated feedback responses and comments.
+     */
+    public void deleteInstructorsForGoogleIdCascade(String googleId) {
         List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
 
-        //Cascade delete instructors
+        // cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
             deleteInstructorCascade(instructor.courseId, instructor.email);
         }
-    }
-
-    // this method is only being used in course logic. cascade to comments is therefore not necessary
-    // as it it taken care of when deleting course
-    public void deleteInstructorsForCourse(String courseId) {
-
-        instructorsDb.deleteInstructorsForCourse(courseId);
     }
 
     public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
