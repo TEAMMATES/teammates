@@ -330,7 +330,6 @@ public class EmailGenerator {
                             .withStudentEmail(student.email)
                             .toAbsoluteString();
                     reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
-
                 }
 
                 linksFragmentValue.append(Templates.populateTemplate(
