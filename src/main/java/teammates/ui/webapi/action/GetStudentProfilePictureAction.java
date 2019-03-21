@@ -31,8 +31,12 @@ public class GetStudentProfilePictureAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
-        //viewing someone else's photo
-        if (studentEmail != null && courseId != null) {
+        if (studentEmail == null || courseId == null) {
+            if (!userInfo.isStudent) {
+                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
+            }
+        } else {
+            //viewing someone else's photo
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
             if (student == null) {
@@ -52,9 +56,6 @@ public class GetStudentProfilePictureAction extends Action {
         StudentProfileAttributes studentProfile = null;
 
         if (studentEmail == null || courseId == null) {
-            if (!userInfo.isStudent) {
-                return new JsonResult(STUDENT_NOT_FOUND, HttpStatus.SC_NOT_FOUND);
-            }
             studentProfile = logic.getStudentProfile(userInfo.id);
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);

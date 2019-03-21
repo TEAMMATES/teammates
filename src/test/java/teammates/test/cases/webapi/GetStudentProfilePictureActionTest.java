@@ -98,40 +98,6 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
         assertEquals(student1Profile.pictureKey, imageResult.blobKey);
 
-        ______TS("Failure case: instructor passes in incomplete params");
-
-        // no params
-        action = getAction();
-        JsonResult jsonResult = getJsonResult(action);
-        MessageOutput message = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals(GetStudentProfilePictureAction.STUDENT_NOT_FOUND, message.getMessage());
-
-        // no course id
-        submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
-        };
-
-        action = getAction(submissionParams);
-        jsonResult = getJsonResult(action);
-        message = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals(GetStudentProfilePictureAction.STUDENT_NOT_FOUND, message.getMessage());
-
-        // no email
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
-        };
-
-        action = getAction(submissionParams);
-        jsonResult = getJsonResult(action);
-        message = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals(GetStudentProfilePictureAction.STUDENT_NOT_FOUND, message.getMessage());
-
         ______TS("Failure case: requested student has no profile picture");
 
         submissionParams = new String[] {
@@ -140,8 +106,8 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         };
 
         action = getAction(submissionParams);
-        jsonResult = getJsonResult(action);
-        message = (MessageOutput) jsonResult.getOutput();
+        JsonResult jsonResult = getJsonResult(action);
+        MessageOutput message = (MessageOutput) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
         assertEquals(GetStudentProfilePictureAction.PROFILE_PIC_NOT_FOUND, message.getMessage());
@@ -191,12 +157,14 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         verifyCanAccess(submissionParams);
 
-        ______TS("Success case: student can view his own photo");
+        ______TS("Success case: student can view his own photo but instructor or admin canno");
 
         gaeSimulation.logoutUser();
         loginAsStudent(student1InCourse1.googleId);
 
         verifyCanAccess();
+        verifyInaccessibleForInstructors();
+        verifyInaccessibleForAdmin();
 
         ______TS("Success/Failure case: only instructors with privilege can view photo");
 
