@@ -43,7 +43,7 @@ public class GetStudentProfilePictureAction extends Action {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
-            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(logic.getAccount(userInfo.id),
+            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(userInfo.id,
                     courseId, student.getSection(), student.getEmail());
         }
     }
