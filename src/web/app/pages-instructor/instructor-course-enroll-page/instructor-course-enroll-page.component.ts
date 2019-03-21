@@ -285,7 +285,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
-    this.courseService.getResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
+    this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
       this.courseid = courseid;
       if (resp.hasResponses) {

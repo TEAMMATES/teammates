@@ -965,7 +965,7 @@ public final class Const {
         public static final String QUESTION_RECIPIENTS = "/question/recipients";
         public static final String RESPONSE = "/response";
         public static final String RESPONSES = "/responses";
-        public static final String HASRESPONSES = "/hasResponses";
+        public static final String HAS_RESPONSES = "/hasResponses";
         public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
         public static final String JOIN = "/join";
         public static final String JOIN_REMIND = "/join/remind";

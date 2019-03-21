@@ -59,9 +59,9 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Gets the amount of responses for a specific question in a feedback session.
+   * Checks if there are responses for a specific question in a feedback session.
    */
-  getResponsesCountForQuestion(questionId: string): Observable<HasResponses> {
+  hasResponsesForQuestion(questionId: string): Observable<HasResponses> {
     const paramMap: { [key: string]: string } = {
       questionid: questionId,
     };

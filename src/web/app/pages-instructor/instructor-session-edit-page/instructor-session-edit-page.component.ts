@@ -464,8 +464,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads the isQuestionHasResponses value for a question edit for model.
    */
   private loadResponseStatusForQuestion(model: QuestionEditFormModel): void {
-    this.feedbackSessionsService.getResponsesCountForQuestion(model.feedbackQuestionId).subscribe(
-      (resp: HasResponses) => {
+    this.feedbackSessionsService.hasResponsesForQuestion(model.feedbackQuestionId)
+      .subscribe((resp: HasResponses) => {
         model.isQuestionHasResponses = resp.hasResponses;
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }

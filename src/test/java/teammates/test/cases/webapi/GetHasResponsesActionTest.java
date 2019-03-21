@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetHasResponsesAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -23,7 +22,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.HASRESPONSES;
+        return Const.ResourceURIs.HAS_RESPONSES;
     }
 
     @Override
@@ -137,7 +136,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    protected void getRespondentsForQuestion_shouldPass() throws EntityDoesNotExistException {
+    protected void getRespondentsForQuestion_shouldPass() {
         ______TS("Question with more than 1 response");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");

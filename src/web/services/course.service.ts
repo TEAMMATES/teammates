@@ -99,9 +99,9 @@ export class CourseService {
   }
 
   /**
-   * Get the total amount of responses for a course.
+   * Checks if there are responses for a course.
    */
-  getResponsesForCourse(courseId: string): Observable<HasResponses> {
+  hasResponsesForCourse(courseId: string): Observable<HasResponses> {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
     };
