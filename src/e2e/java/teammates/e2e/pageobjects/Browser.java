@@ -1,6 +1,8 @@
 package teammates.e2e.pageobjects;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Stack;
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -10,6 +12,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.e2e.util.TestProperties;
@@ -48,11 +53,19 @@ public class Browser {
     boolean isInUse;
 
     /**
+     * Name of the browser session.
+     *
+     * <p>This is only used for identification in SauceLabs.
+     */
+    private final String name;
+
+    /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
      */
     private final Stack<String> windowHandles = new Stack<>();
 
-    public Browser() {
+    public Browser(String name) {
+        this.name = name;
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
         this.isInUse = false;
@@ -135,6 +148,59 @@ public class Browser {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--allow-file-access-from-files");
             return new ChromeDriver(options);
+        }
+
+        if (TestProperties.BROWSER_SAUCELABS.equals(browser)) {
+            String[] settings = System.getenv("SAUCELABS_SETTINGS").split("; ");
+            String browserName = settings[0];
+
+            DesiredCapabilities caps;
+            switch (browserName) {
+            case "firefox":
+                caps = DesiredCapabilities.firefox();
+                break;
+            case "chrome":
+                caps = DesiredCapabilities.chrome();
+                break;
+            case "edge":
+                caps = DesiredCapabilities.edge();
+                break;
+            case "safari":
+                caps = DesiredCapabilities.safari();
+                break;
+            case "ie":
+                caps = DesiredCapabilities.internetExplorer();
+                break;
+            case "opera":
+                caps = DesiredCapabilities.operaBlink();
+                break;
+            default:
+                throw new RuntimeException("Using " + browserName + " is not supported!");
+            }
+
+            String browserVersion = settings[1];
+            String os = settings[2];
+            String tunnelId = System.getenv("TUNNEL_ID");
+            String buildId = System.getenv("BUILD_ID");
+
+            caps.setCapability("version", browserVersion);
+            caps.setCapability("platform", os);
+            caps.setCapability("tunnel-identifier", tunnelId);
+            caps.setCapability("build", buildId);
+            caps.setCapability("name", buildId + " - " + name);
+
+            try {
+                String username = System.getenv("SAUCE_USERNAME");
+                String accessKey = System.getenv("SAUCE_ACCESS_KEY");
+                String url = "https://" + username + ":" + accessKey + "@ondemand.saucelabs.com:443/wd/hub";
+
+                RemoteWebDriver rwd = new RemoteWebDriver(new URL(url), caps);
+                rwd.setFileDetector(new LocalFileDetector());
+                return rwd;
+            } catch (MalformedURLException e) {
+                System.out.println("Error while instantiating SauceLabs driver: " + e.getMessage());
+                return null;
+            }
         }
 
         throw new RuntimeException("Using " + browser + " is not supported!");

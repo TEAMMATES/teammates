@@ -17,7 +17,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
-import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -345,7 +344,6 @@ public abstract class AppPage {
         if (fileName.isEmpty()) {
             fileBoxElement.clear();
         } else {
-            fileBoxElement.setFileDetector(new UselessFileDetector());
             String filePath = new File(fileName).getAbsolutePath();
             fileBoxElement.sendKeys(filePath);
         }

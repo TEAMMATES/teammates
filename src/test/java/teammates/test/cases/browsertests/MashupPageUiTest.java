@@ -38,7 +38,7 @@ public class MashupPageUiTest extends BaseE2ETestCase {
     }
 
     @Override
-    protected void releaseBrowser() {
+    protected void releaseBrowser(boolean isSuccess) {
         // We do not release the browser instance here because we want the tester to see the loaded page.
     }
 
