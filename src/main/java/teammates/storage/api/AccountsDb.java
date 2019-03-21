@@ -2,8 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.List;
-
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
@@ -23,32 +21,16 @@ import teammates.storage.entity.Account;
 public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
 
     /**
-     * Gets the data transfer version of the account.
-     *
-     * <br/> Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return Null if not found.
+     * Gets an account.
      */
     public AccountAttributes getAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+
         return googleId.isEmpty() ? null : makeAttributesOrNull(getAccountEntity(googleId));
     }
 
     /**
-     * Returns {@link AccountAttributes} objects for all accounts with instructor privileges.
-     *         Returns an empty list if no such accounts are found.
-     */
-    public List<AccountAttributes> getInstructorAccounts() {
-        return makeAttributes(
-                load().filter("isInstructor =", true).list());
-    }
-
-    /**
      * Updates an account with {@link AccountAttributes.UpdateOptions}.
-     *
-     * <br/> Preconditions: <br/>
-     * * {@code accountToAdd} is not null and has valid data.
      *
      * @return updated account
      * @throws InvalidParametersException if attributes to update are not valid
