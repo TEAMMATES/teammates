@@ -7,7 +7,7 @@
             [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
       <option [ngValue]="CONTRIBUTION_POINT_NOT_SUBMITTED"></option>
       <option *ngFor="let point of contributionQuestionPoints" [ngValue]="point">{{ point | contributionPointDescription }}</option>
-      <option [ngValue]="CONTRIBUTION_POINT_NOT_SURE">Not Sure</option>
+      <option *ngIf="questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE">Not Sure</option>
     </select>
   </div>
   <div class="col-7" *ngIf="shouldShowHelpLink">
