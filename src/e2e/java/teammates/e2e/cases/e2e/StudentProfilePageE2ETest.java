@@ -8,7 +8,6 @@ import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.e2e.pageobjects.StudentProfilePage;
-import teammates.e2e.util.BackDoor;
 
 /**
  * SUT: {@link teammates.common.util.Const.WebPageURIs#STUDENT_PROFILE_PAGE}.
@@ -54,12 +53,5 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
         profilePage.verifyPhotoSize("295px", "295px");
-
-        StudentProfileAttributes studentProfileAttributes =
-                BackDoor.getStudentProfile("SProfUiT.CS2104", "SProfUiT.student@gmail.tmt");
-        // checks that the pictureKey value is within the newly uploaded profile picture link
-        assertTrue(profilePage.getProfilePicLink().contains(studentProfileAttributes.pictureKey));
-
-        logout();
     }
 }
