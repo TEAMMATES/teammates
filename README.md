@@ -3,7 +3,10 @@
 [![Travis Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/dvr6t33lqg6hsmxw/branch/master?svg=true)](https://ci.appveyor.com/project/damithc/teammates/branch/master)
 [![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
+[![Sauce Test Status](https://saucelabs.com/buildstatus/teammates-bot)](https://saucelabs.com/u/teammates-bot)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
+
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/teammates-bot.svg)](https://saucelabs.com/u/teammates-bot)
 
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
