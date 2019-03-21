@@ -1,10 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType,
 } from '../../../../types/api-output';
+import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
@@ -16,24 +16,21 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
   styleUrls: ['./mcq-question-edit-details-form.component.scss'],
 })
 export class McqQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {
+    extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> implements OnInit {
 
   readonly PARTICIPANT_TYPES: string[] = [FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS,
     FeedbackParticipantType.TEAMS_EXCLUDING_SELF, FeedbackParticipantType.INSTRUCTORS];
 
   constructor() {
-    super({
-      hasAssignedWeights: false,
-      mcqWeights: [],
-      mcqOtherWeight: 0,
-      numOfMcqChoices: 2,
-      mcqChoices: [' ', ' '],
-      otherEnabled: false,
-      generateOptionsFor: FeedbackParticipantType.NONE,
-      questionText: '',
-      questionType: FeedbackQuestionType.MCQ,
-    });
+    super(DEFAULT_MCQ_QUESTION_DETAILS());
+  }
+
+  ngOnInit(): void {
+    if (this.model.numOfMcqChoices === 0) {
+      this.model.mcqChoices = [' ', ' '];
+      this.model.numOfMcqChoices = 2;
+    }
   }
 
   /**

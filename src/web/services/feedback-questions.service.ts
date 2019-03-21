@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
 import {
-  FeedbackContributionQuestionDetails,
-  FeedbackMcqQuestionDetails,
-  FeedbackNumericalScaleQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
-  FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
 import { FeedbackQuestionCreateRequest, FeedbackQuestionSaveRequest } from '../types/api-request';
+import {
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS, DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_NUMSCALE_QUESTION_DETAILS,
+  DEFAULT_TEXT_QUESTION_DETAILS,
+} from '../types/default-question-structs';
 import { VisibilityControl } from '../types/visibility-control';
 import { HttpRequestService } from './http-request.service';
 import { VisibilityStateMachine } from './visibility-state-machine';
@@ -240,11 +241,7 @@ export class FeedbackQuestionsService {
           questionDescription: '',
 
           questionType: FeedbackQuestionType.TEXT,
-          questionDetails: {
-            recommendedLength: 0,
-            questionType: FeedbackQuestionType.TEXT,
-            questionText: '',
-          } as FeedbackTextQuestionDetails,
+          questionDetails: DEFAULT_TEXT_QUESTION_DETAILS(),
 
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -261,11 +258,7 @@ export class FeedbackQuestionsService {
           questionDescription: '',
 
           questionType: FeedbackQuestionType.CONTRIB,
-          questionDetails: {
-            isNotSureAllowed: true,
-            questionType: FeedbackQuestionType.CONTRIB,
-            questionText: '',
-          } as FeedbackContributionQuestionDetails,
+          questionDetails: DEFAULT_CONTRIBUTION_QUESTION_DETAILS(),
 
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
@@ -285,13 +278,7 @@ export class FeedbackQuestionsService {
           questionDescription: '',
 
           questionType: FeedbackQuestionType.NUMSCALE,
-          questionDetails: {
-            minScale: 1,
-            maxScale: 5,
-            step: 1,
-            questionType: FeedbackQuestionType.NUMSCALE,
-            questionText: '',
-          } as FeedbackNumericalScaleQuestionDetails,
+          questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
@@ -309,17 +296,7 @@ export class FeedbackQuestionsService {
           questionDescription: '',
 
           questionType: FeedbackQuestionType.MCQ,
-          questionDetails: {
-            hasAssignedWeights: false,
-            mcqWeights: [],
-            mcqOtherWeight: 0,
-            numOfMcqChoices: 2,
-            mcqChoices: [' ', ' '],
-            otherEnabled: false,
-            generateOptionsFor: FeedbackParticipantType.NONE,
-            questionText: '',
-            questionType: FeedbackQuestionType.MCQ,
-          } as FeedbackMcqQuestionDetails,
+          questionDetails: DEFAULT_MCQ_QUESTION_DETAILS(),
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 

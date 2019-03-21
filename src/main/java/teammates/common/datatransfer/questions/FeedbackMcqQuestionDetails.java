@@ -566,13 +566,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             // If there are Empty Mcq options entered trigger this error
-            boolean isEmptyMcqOptionEntered = false;
-            for (String mcqText : mcqChoices) {
-                if (mcqText.trim().equals("")) {
-                    isEmptyMcqOptionEntered = true;
-                    break;
-                }
-            }
+            boolean isEmptyMcqOptionEntered = mcqChoices.stream().anyMatch(mcqText -> mcqText.trim().equals(""));
             if (isEmptyMcqOptionEntered) {
                 errors.add(Const.FeedbackQuestion.MCQ_ERROR_EMPTY_MCQ_OPTION);
             }

@@ -11,6 +11,11 @@ import {
 } from '../types/api-output';
 import { FeedbackResponseCreateRequest, FeedbackResponseSaveRequest } from '../types/api-request';
 import {
+  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
+  DEFAULT_MCQ_RESPONSE_DETAILS,
+  DEFAULT_NUMSCALE_RESPONSE_DETAILS, DEFAULT_TEXT_RESPONSE_DETAILS,
+} from '../types/default-question-structs';
+import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
 } from '../types/feedback-response-details';
@@ -32,27 +37,13 @@ export class FeedbackResponsesService {
   getDefaultFeedbackResponseDetails(questionType: FeedbackQuestionType): FeedbackResponseDetails {
     switch (questionType) {
       case FeedbackQuestionType.TEXT:
-        return {
-          questionType,
-          answer: '',
-        } as FeedbackTextResponseDetails;
+        return DEFAULT_TEXT_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONTRIB:
-        return {
-          questionType,
-          answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
-        } as FeedbackContributionResponseDetails;
+        return DEFAULT_CONTRIBUTION_RESPONSE_DETAILS();
       case FeedbackQuestionType.NUMSCALE:
-        return {
-          questionType,
-          answer: NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
-        } as FeedbackNumericalScaleResponseDetails;
+        return DEFAULT_NUMSCALE_RESPONSE_DETAILS();
       case FeedbackQuestionType.MCQ:
-        return {
-          questionType,
-          answer: '',
-          isOther: false,
-          otherFieldContent: '',
-        } as FeedbackMcqResponseDetails;
+        return DEFAULT_MCQ_RESPONSE_DETAILS();
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
