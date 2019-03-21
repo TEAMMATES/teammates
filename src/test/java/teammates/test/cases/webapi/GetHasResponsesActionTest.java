@@ -213,12 +213,16 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     @Test
     @Override
     protected void testAccessControl() throws Exception {
+        ______TS("Only instructors of the course can check if there are responses.");
+
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
-        verifyAnyLoggedInUserCanAccess(params);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
+
+        ______TS("Only instructors of the feedback session can check if there are responses for a question within.");
 
         List<FeedbackSessionAttributes> feedbackSessionAttributesList =
                 logic.getFeedbackSessionsForCourse(instructor1OfCourse1.getCourseId());

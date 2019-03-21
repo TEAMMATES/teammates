@@ -19,8 +19,7 @@ public class GetHasResponsesAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        // Anyone can check whether a course has responses
-
+        //Only an instructor of the feedback session can check responses for questions within it.
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         if (questionId != null) {
             FeedbackQuestionAttributes feedbackQuestionAttributes = logic.getFeedbackQuestion(questionId);
@@ -31,6 +30,16 @@ public class GetHasResponsesAction extends Action {
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackQuestionAttributes.getCourseId(), userInfo.getId()),
                     feedbackSession);
+
+            //prefer question check over course checks
+            return;
+        }
+
+        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        if (courseId != null) {
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                    logic.getCourse(courseId));
         }
     }
 
