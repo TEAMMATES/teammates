@@ -27,6 +27,7 @@
     "@angular/service-worker": "~7.1.4",
     "@fortawesome/fontawesome-free": "^5.5.0",
     "@handsontable/angular": "^3.0.0",
+    "@material/snackbar": "^1.0.1",
     "@ng-bootstrap/ng-bootstrap": "^4.0.1",
     "@tinymce/tinymce-angular": "^2.5.0",
     "bootstrap": "^4.1.3",
