@@ -707,17 +707,28 @@ task e2eTests {
 jmeter {
     testFileDir = file("src/jmeter/tests")
     //jmTestFiles = [file("src/jmeter/tests/test1.jmx"), file("src/jmeter/tests/test2.jmx")] // for running specific test(s)
-    csvLogFile = false
+    csvLogFile = true
 }
 
+// Work around for not able to enable report bug in jmeter gradle plugin
+// https://github.com/jmeter-gradle-plugin/jmeter-gradle-plugin/issues/103
 afterEvaluate {
     def jMeterExt = project.extensions.findByName("jmeter")
     jMeterExt.metaClass.enableReports = true
     jMeterExt.metaClass.enableExtendedReports = false
     jMeterExt.metaClass.reportTitle = null
     jMeterExt.metaClass.reportPostfix = ""
-    jMeterExt.metaClass.reportXslt = "$project.projectDir/jmeter-results-detail-report_21.xsl"
+    jMeterExt.metaClass.reportXslt = "$project.projectDir/src/jmeter/resources/jmeter-results-detail-report_21.xsl"
 }
+
+task copyToBin(type: Copy) {
+    into "$buildDir/jmeter/bin"
+    from "$projectDir/src/jmeter/resources"
+    include "log4j2.xml"
+}
+
+jmRun.dependsOn copyToBin
+jmGui.dependsOn copyToBin
 
 // COVERAGE TASKS
 
