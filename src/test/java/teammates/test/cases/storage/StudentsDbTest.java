@@ -179,7 +179,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         .build();
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> studentsDb.updateStudent(updateOptions));
-        assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + updateOptions, ednee.getMessage());
+        assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT + updateOptions, ednee.getMessage());
 
         ______TS("null course case");
         AssertionError ae = assertThrows(AssertionError.class,

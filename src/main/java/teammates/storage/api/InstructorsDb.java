@@ -62,7 +62,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                 instructorDocuments.add(new InstructorSearchDocument(inst));
             }
         }
-        putDocuments(Const.SearchIndex.INSTRUCTOR, instructorDocuments);
+        putDocument(Const.SearchIndex.INSTRUCTOR, instructorDocuments.toArray(new SearchDocument[0]));
     }
 
     /**
@@ -116,8 +116,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributesOrNull(getInstructorEntityForEmail(courseId, email),
-                "Trying to get non-existent Instructor: " + courseId + "/" + email);
+        return makeAttributesOrNull(getInstructorEntityForEmail(courseId, email));
     }
 
     /**
@@ -127,8 +126,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributesOrNull(getInstructorEntityById(courseId, email),
-                "Trying to get non-existent Instructor: " + courseId + "/" + email);
+        return makeAttributesOrNull(getInstructorEntityById(courseId, email));
     }
 
     /**
@@ -138,8 +136,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributesOrNull(getInstructorEntityForGoogleId(courseId, googleId),
-                "Trying to get non-existent Instructor: " + googleId);
+        return makeAttributesOrNull(getInstructorEntityForGoogleId(courseId, googleId));
     }
 
     /**
@@ -224,7 +221,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         instructor.setDisplayedName(newAttributes.displayedName);
         instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
 
-        saveEntity(instructor, newAttributes);
+        saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
         putDocument(newAttributes);
@@ -264,7 +261,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         instructor.setDisplayedName(newAttributes.displayedName);
         instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
 
-        saveEntity(instructor, newAttributes);
+        saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
         putDocument(newAttributes);
@@ -365,11 +362,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     @Override
     protected LoadType<Instructor> load() {
         return ofy().load().type(Instructor.class);
-    }
-
-    @Override
-    protected Instructor getEntity(InstructorAttributes instructorToGet) {
-        return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
     }
 
     @Override

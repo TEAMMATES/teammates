@@ -145,12 +145,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     }
 
     @Override
-    protected StudentProfile getEntity(StudentProfileAttributes attributes) {
-        // this method is never used and is here only for future expansion and completeness
-        return getStudentProfileEntityFromDb(attributes.googleId);
-    }
-
-    @Override
     protected boolean hasExistingEntities(StudentProfileAttributes entityToCreate) {
         Key<Account> parentKey = Key.create(Account.class, entityToCreate.getGoogleId());
         Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, entityToCreate.getGoogleId());

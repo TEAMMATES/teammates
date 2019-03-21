@@ -75,8 +75,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseCommentId);
 
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseCommentId),
-                "Trying to get non-existent response comment: " + feedbackResponseCommentId + ".");
+        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseCommentId));
     }
 
     /**
@@ -90,9 +89,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
 
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, commentGiver, createdAt),
-                "Trying to get non-existent response comment: " + feedbackResponseId + "/from: " + commentGiver
-                + "created at: " + createdAt);
+        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, commentGiver, createdAt));
     }
 
     /**
@@ -106,9 +103,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
 
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver),
-                "Trying to get non-existent response comment: from: " + commentGiver + " in the course " + courseId
-                + " created at: " + createdAt);
+        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver));
     }
 
     /**
@@ -191,7 +186,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         frc.setGiverSection(newAttributes.giverSection);
         frc.setReceiverSection(newAttributes.receiverSection);
 
-        saveEntity(frc, newAttributes);
+        saveEntity(frc);
 
         newAttributes = makeAttributes(frc);
         putDocument(newAttributes);
@@ -260,7 +255,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         for (FeedbackResponseCommentAttributes comment : comments) {
             frcSearchDocuments.add(new FeedbackResponseCommentSearchDocument(comment));
         }
-        putDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments);
+        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments.toArray(new SearchDocument[0]));
     }
 
     /**
@@ -399,15 +394,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     @Override
     protected LoadType<FeedbackResponseComment> load() {
         return ofy().load().type(FeedbackResponseComment.class);
-    }
-
-    @Override
-    protected FeedbackResponseComment getEntity(FeedbackResponseCommentAttributes attributes) {
-        if (attributes.getId() != null) {
-            return getFeedbackResponseCommentEntity(attributes.getId());
-        }
-
-        return getFeedbackResponseCommentEntity(attributes.courseId, attributes.createdAt, attributes.commentGiver);
     }
 
     @Override

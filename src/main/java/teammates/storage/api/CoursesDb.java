@@ -77,7 +77,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         course.setDeletedAt(newAttributes.deletedAt);
         course.setTimeZone(newAttributes.getTimeZone().getId());
 
-        saveEntity(course, newAttributes);
+        saveEntity(course);
 
         return makeAttributes(course);
     }
@@ -127,11 +127,6 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     @Override
     protected LoadType<Course> load() {
         return ofy().load().type(Course.class);
-    }
-
-    @Override
-    protected Course getEntity(CourseAttributes attributes) {
-        return getCourseEntity(attributes.getId());
     }
 
     @Override

@@ -71,8 +71,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         FeedbackSessionAttributes feedbackSession =
-                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
-                "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
+                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId));
 
         if (feedbackSession != null && feedbackSession.isSessionDeleted()) {
             log.info("Trying to access soft-deleted session: " + feedbackSessionName + "/" + courseId);
@@ -94,8 +93,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         FeedbackSessionAttributes feedbackSession =
-                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
-                "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
+                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId));
 
         if (feedbackSession != null && !feedbackSession.isSessionDeleted()) {
             log.info(feedbackSessionName + "/" + courseId + " is not soft-deleted!");
@@ -227,7 +225,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     feedbackSession.setRespondingStudentList(newAttributes.getRespondingStudentList());
                     feedbackSession.setRespondingInstructorList(newAttributes.getRespondingInstructorList());
 
-                    saveEntity(feedbackSession, newAttributes);
+                    saveEntity(feedbackSession);
 
                     newAttributesFinal[0] = makeAttributes(feedbackSession);
                 }
@@ -348,11 +346,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     @Override
     protected LoadType<FeedbackSession> load() {
         return ofy().load().type(FeedbackSession.class);
-    }
-
-    @Override
-    protected FeedbackSession getEntity(FeedbackSessionAttributes attributes) {
-        return getFeedbackSessionEntity(attributes.getFeedbackSessionName(), attributes.getCourseId());
     }
 
     @Override

@@ -388,7 +388,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             oldResponse.setRecipientSection(newAttributes.recipientSection);
             oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
 
-            saveEntity(oldResponse, newAttributes);
+            saveEntity(oldResponse);
 
             return makeAttributes(oldResponse);
         } else {
@@ -715,15 +715,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     @Override
     protected LoadType<FeedbackResponse> load() {
         return ofy().load().type(FeedbackResponse.class);
-    }
-
-    @Override
-    protected FeedbackResponse getEntity(FeedbackResponseAttributes attributes) {
-        if (attributes.getId() != null) {
-            return getFeedbackResponseEntity(attributes.getId());
-        }
-
-        return getFeedbackResponseEntity(attributes.feedbackQuestionId, attributes.giver, attributes.recipient);
     }
 
     @Override

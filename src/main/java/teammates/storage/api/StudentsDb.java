@@ -50,7 +50,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         for (StudentAttributes student : students) {
             studentDocuments.add(new StudentSearchDocument(student));
         }
-        putDocuments(Const.SearchIndex.STUDENT, studentDocuments);
+        putDocument(Const.SearchIndex.STUDENT, studentDocuments.toArray(new SearchDocument[0]));
     }
 
     /**
@@ -249,7 +249,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         CourseStudent student = getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (student == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT + updateOptions);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
 
         }
 
@@ -280,8 +280,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
             putDocument(newAttributes);
 
-            // Set true to prevent changes to last update timestamp
-            saveEntity(student, newAttributes);
+            saveEntity(student);
 
             newAttributes = makeAttributes(student);
             putDocument(newAttributes);
@@ -377,11 +376,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     @Override
     protected LoadType<CourseStudent> load() {
         return ofy().load().type(CourseStudent.class);
-    }
-
-    @Override
-    protected CourseStudent getEntity(StudentAttributes studentToGet) {
-        return getCourseStudentEntityForEmail(studentToGet.course, studentToGet.email);
     }
 
     @Override

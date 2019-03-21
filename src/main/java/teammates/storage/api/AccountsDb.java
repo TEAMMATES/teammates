@@ -60,7 +60,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
 
         Account account = getAccountEntity(updateOptions.getGoogleId());
         if (account == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + updateOptions);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
 
         AccountAttributes newAttributes = makeAttributes(account);
@@ -73,7 +73,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
 
         account.setIsInstructor(newAttributes.isInstructor);
 
-        saveEntity(account, newAttributes);
+        saveEntity(account);
 
         return makeAttributes(account);
     }
@@ -101,11 +101,6 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     @Override
     protected LoadType<Account> load() {
         return ofy().load().type(Account.class);
-    }
-
-    @Override
-    protected Account getEntity(AccountAttributes entity) {
-        return getAccountEntity(entity.googleId);
     }
 
     @Override

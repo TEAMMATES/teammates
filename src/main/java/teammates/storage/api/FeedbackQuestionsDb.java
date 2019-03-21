@@ -34,8 +34,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackQuestionId),
-                "Trying to get non-existent Question: " + feedbackQuestionId);
+        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackQuestionId));
     }
 
     /**
@@ -51,8 +50,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionNumber);
 
-        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber),
-                "Trying to get non-existent Question: " + questionNumber + "." + feedbackSessionName + "/" + courseId);
+        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber));
     }
 
     /**
@@ -116,7 +114,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         feedbackQuestion.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         feedbackQuestion.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
 
-        saveEntity(feedbackQuestion, newAttributes);
+        saveEntity(feedbackQuestion);
 
         return makeAttributes(feedbackQuestion);
     }
@@ -125,10 +123,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      * Deletes a feedback question.
      */
     public void deleteFeedbackQuestion(String feedbackQuestionId) {
-        Key<FeedbackQuestion> feedbackQuestionKey = makeKeyOrNullFromWebSafeString(feedbackQuestionId);
-        if (feedbackQuestionKey != null) {
-            deleteEntity(feedbackQuestionKey);
-        }
+        makeKeyFromWebSafeString(feedbackQuestionId).ifPresent(this::deleteEntity);
     }
 
     /**
@@ -152,12 +147,9 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        Key<FeedbackQuestion> key = makeKeyOrNullFromWebSafeString(feedbackQuestionId);
-        if (key == null) {
-            return null;
-        }
-
-        return ofy().load().key(key).now();
+        return makeKeyFromWebSafeString(feedbackQuestionId)
+                .map(key -> ofy().load().key(key).now())
+                .orElse(null);
     }
 
     // Gets a feedbackQuestion based on feedbackSessionName and questionNumber.
@@ -190,15 +182,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     @Override
     protected LoadType<FeedbackQuestion> load() {
         return ofy().load().type(FeedbackQuestion.class);
-    }
-
-    @Override
-    protected FeedbackQuestion getEntity(FeedbackQuestionAttributes attributes) {
-        if (attributes.getId() != null) {
-            return getFeedbackQuestionEntity(attributes.getId());
-        }
-
-        return getFeedbackQuestionEntity(attributes.feedbackSessionName, attributes.courseId, attributes.questionNumber);
     }
 
     @Override
