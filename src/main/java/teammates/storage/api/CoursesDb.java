@@ -24,17 +24,8 @@ import teammates.storage.entity.Course;
  */
 public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
-    /*
-     * Explanation: Based on our policies for the storage component, this class does not handle cascading.
-     * It treats invalid values as an exception.
-     */
-
-    public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
-
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets a course.
      */
     public CourseAttributes getCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -42,8 +33,12 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         return makeAttributesOrNull(getCourseEntity(courseId));
     }
 
+    /**
+     * Gets a list of courses.
+     */
     public List<CourseAttributes> getCourses(List<String> courseIds) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds.toArray());
 
         return makeAttributes(getCourseEntities(courseIds));
     }
@@ -62,7 +57,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         Course course = getCourseEntity(updateOptions.getCourseId());
 
         if (course == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
         CourseAttributes newAttributes = makeAttributes(course);
@@ -100,7 +95,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         Course courseEntity = getCourseEntity(courseId);
 
         if (courseEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
         courseEntity.setDeletedAt(Instant.now());
@@ -110,14 +105,14 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     /**
-     * Restores a soft deleted course by its given corresponding ID.
+     * Restores a soft-deleted course by its given corresponding ID.
      */
     public void restoreDeletedCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Course courseEntity = getCourseEntity(courseId);
 
         if (courseEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_COURSE);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
         courseEntity.setDeletedAt(null);
