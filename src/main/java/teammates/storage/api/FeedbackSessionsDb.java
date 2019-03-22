@@ -28,8 +28,6 @@ import teammates.storage.entity.FeedbackSession;
  */
 public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
 
-    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
-
     /**
      * Gets a list of feedback sessions that is ongoing, i.e. starting before {@code rangeEnd}
      * and ending after {@code rangeStart}.
@@ -61,9 +59,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Gets a feedback session that is not soft-deleted.
      *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
      * @return null if not found or soft-deleted.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
@@ -83,9 +78,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Gets a soft-deleted feedback session.
      *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
      * @return null if not found or not soft-deleted.
      */
     public FeedbackSessionAttributes getSoftDeletedFeedbackSession(String courseId, String feedbackSessionName) {
@@ -104,9 +96,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of all sessions for the given course expect those in the Recycle Bin. Otherwise returns an empty list.
+     * Gets a list of all sessions for the given course except those are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -117,9 +107,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of sessions for the given course in the Recycle Bin. Otherwise returns an empty list.
+     * Gets a list of sessions for the given course that are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -244,6 +232,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     /**
      * Soft-deletes a specific feedback session by its name and course id.
+     *
      * @return Soft-deletion time of the feedback session.
      */
     public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
