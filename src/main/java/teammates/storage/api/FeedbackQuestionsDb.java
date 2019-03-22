@@ -24,12 +24,9 @@ import teammates.storage.entity.FeedbackQuestion;
  * @see FeedbackQuestionAttributes
  */
 public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
-    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets a feedback question by using {@code feedbackQuestionId}.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
@@ -38,14 +35,10 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets a feedback question by using unique constrain: course-session-questionNumber.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(
-            String feedbackSessionName,
-            String courseId,
-            int questionNumber) {
+            String feedbackSessionName, String courseId, int questionNumber) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionNumber);
@@ -54,9 +47,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return An empty list if no such questions are found.
+     * Gets all feedback questions of a session.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
             String feedbackSessionName, String courseId) {
@@ -67,9 +58,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return An empty list if no such questions are found.
+     * Gets all feedback questions of a session that has certain giver type.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
@@ -143,7 +132,9 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
     }
 
-    // Gets a question entity if its Key (feedbackQuestionId) is known.
+    /**
+     * Gets a question entity if its string key can be decoded.
+     */
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
@@ -152,7 +143,9 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
                 .orElse(null);
     }
 
-    // Gets a feedbackQuestion based on feedbackSessionName and questionNumber.
+    /**
+     * Gets a feedback question by using unique constrain: course-session-questionNumber.
+     */
     private FeedbackQuestion getFeedbackQuestionEntity(
             String feedbackSessionName, String courseId, int questionNumber) {
         return load()
