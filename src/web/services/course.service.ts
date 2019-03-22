@@ -16,6 +16,16 @@ export class CourseService {
   }
 
   /**
+   * Get course data by calling API.
+   */
+  getCourse(courseId: string): Observable<Course> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+    return this.httpRequestService.get('/course', paramMap);
+  }
+
+  /**
    * Creates a course by calling API.
    */
   createCourse(request: CourseCreateRequest): Observable<Course> {
