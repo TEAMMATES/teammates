@@ -32,11 +32,10 @@ import teammates.storage.search.SearchDocument;
  */
 public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
-    /* =========================================================================
-     * Methods related to Google Search API
-     * =========================================================================
-     */
 
+    /**
+     * Creates or updates search document for the given instructor.
+     */
     public void putDocument(InstructorAttributes instructorParam) {
         InstructorAttributes instructor = instructorParam;
         if (instructor.key == null) {
@@ -49,7 +48,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Batch creates or updates documents for the given instructors.
+     * Batch creates or updates search documents for the given instructors.
      */
     public void putDocuments(List<InstructorAttributes> instructorParams) {
         List<SearchDocument> instructorDocuments = new ArrayList<>();
@@ -68,19 +67,19 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     /**
      * Removes search document for the given instructor by using {@code encryptedRegistrationKey}.
      *
-     * <p>See {@link InstructorSearchDocument#toDocument()} for more details.</p>
+     * <p>See {@link InstructorSearchDocument} for more details.</p>
      */
     public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
         deleteDocument(Const.SearchIndex.INSTRUCTOR, encryptedRegistrationKey);
     }
 
     /**
-     * This method should be used by admin only since the searching does not restrict the
+     * Searches all instructors in the system.
+     *
+     * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
-     * @return null if no result found
      */
-
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
 
         if (queryString.trim().isEmpty()) {
@@ -110,7 +109,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Returns null if no matching objects.
+     * Gets an instructor by unique constraint courseId-email.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -120,7 +119,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Returns null if no matching objects.
+     * Gets an instructor by unique ID.
      */
     public InstructorAttributes getInstructorById(String courseId, String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -130,7 +129,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Returns null if no matching objects.
+     * Gets an instructor by unique constraint courseId-googleId.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -140,7 +139,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Returns null if no matching instructor.
+     * Gets an instructor by unique constraint encryptedKey.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
@@ -156,10 +155,9 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
+     * Gets all instructors associated with a googleId.
      *
-     * @return empty list if no matching objects.
+     * @param omitArchived whether archived instructors should be omitted or not
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -168,9 +166,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     * @return empty list if no matching objects.
+     * Gets all instructors of a course.
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -179,9 +175,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     * @return empty list if no matching objects.
+     * Gets all instructors that will be displayed to students of a course.
      */
     public List<InstructorAttributes> getInstructorsDisplayedToStudents(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
