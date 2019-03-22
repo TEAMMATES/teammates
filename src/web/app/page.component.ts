@@ -112,11 +112,11 @@ export class PageComponent implements OnInit {
 }
 
 /**
- * Directive to emit an event if the element was not clicked
+ * Directive to emit an event if a click occurred outside the element.
  */
-@Directive({ selector: '[tmClickElsewhere]' })
-export class ClickElsewhereDirective {
-  @Output() tmClickElsewhere: any = new EventEmitter<MouseEvent>();
+@Directive({ selector: '[tmClickOutside]' })
+export class ClickOutsideDirective {
+  @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   constructor(private elementRef: ElementRef) {}
 
@@ -129,7 +129,7 @@ export class ClickElsewhereDirective {
 
     // Check if the click was outside the element
     if (targetElement && !this.elementRef.nativeElement.contains(targetElement)) {
-      this.tmClickElsewhere.emit(event);
+      this.tmClickOutside.emit(event);
     }
   }
 }
