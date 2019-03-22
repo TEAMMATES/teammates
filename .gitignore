@@ -37,6 +37,10 @@ build-eclipse/
 /out/
 /.stylelintrc.yml
 
+# JMeter (with Java API)
+jmeter.log
+src/jmeter/results/
+
 # TEAMMATES
 gradle.properties
 build.properties

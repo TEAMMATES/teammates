@@ -53,7 +53,7 @@ public final class TestProperties {
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
             JMETER_HOME = prop.getProperty("test.jmeter.home").toLowerCase();
-            JMETER_PROPERTIES_PATH = prop.getProperty("test.jmeter.properties").toLowerCase();
+            JMETER_PROPERTIES_PATH = prop.getProperty("test.jmeter.properties", "").toLowerCase();
 
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);

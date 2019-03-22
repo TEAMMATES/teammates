@@ -13,11 +13,14 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
 
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Logger;
 
 /**
  * Script to execute a JMeter performance test.
  */
 public final class RunPerformanceTest {
+
+    private static final Logger log = Logger.getLogger();
 
     private RunPerformanceTest() {
         // Utility class
@@ -30,7 +33,7 @@ public final class RunPerformanceTest {
         try {
             runJmeterTest(filename);
         } catch (Exception ex) {
-            TeammatesException.toStringWithStackTrace(ex);
+            log.severe(TeammatesException.toStringWithStackTrace(ex));
         }
     }
 
@@ -44,7 +47,9 @@ public final class RunPerformanceTest {
         StandardJMeterEngine jmeter = new StandardJMeterEngine();
 
         // Initialize Properties, logging, locale, etc.
-        JMeterUtils.loadJMeterProperties(JMETER_PROPERTIES_PATH);
+        if (!JMETER_PROPERTIES_PATH.isEmpty()) {
+            JMeterUtils.loadJMeterProperties(JMETER_PROPERTIES_PATH);
+        }
         JMeterUtils.setJMeterHome(JMETER_HOME);
         JMeterUtils.initLocale();
 
@@ -52,6 +57,7 @@ public final class RunPerformanceTest {
         SaveService.loadProperties();
 
         // Load existing .jmx Test Plan
+        // CSV Config file path should be absolute, or relative to the project (eg. src/main/jmeter/resources/data/test.csv)
         File testFile = new File("src/jmeter/tests/" + filename);
         HashTree testPlanTree = SaveService.loadTree(testFile);
 
