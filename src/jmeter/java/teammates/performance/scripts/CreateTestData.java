@@ -16,9 +16,15 @@ import com.google.gson.JsonParser;
 import teammates.performance.util.TestProperties;
 
 /**
- * Base class for creating test data for performance tests.
+ * Base class to create test data for performance tests.
  */
 public abstract class CreateTestData {
+
+    protected String pathToOutputJson;
+
+    public String getPathToOutputJson() {
+        return pathToOutputJson;
+    }
 
     /**
      * Creates a JSON file with the necessary test data.

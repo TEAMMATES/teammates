@@ -12,12 +12,13 @@ public class CreateStudentProfileTestData extends CreateTestData {
 
     private CreateStudentProfileTestData() {
         // Intentional private constructor to prevent external instantiation
+        pathToOutputJson = "/studentProfile.json";
     }
 
     public static void main(String[] args) {
         CreateTestData dataCreator = new CreateStudentProfileTestData();
         JSONObject jsonData = dataCreator.createJsonData();
-        writeJsonDataToFile(jsonData, "/studentProfile.json");
+        writeJsonDataToFile(jsonData, dataCreator.getPathToOutputJson());
     }
 
     @Override

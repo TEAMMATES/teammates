@@ -1,17 +1,18 @@
 package teammates.performance.scripts;
 
 /**
- *  Script to delete the student profile test data that was created in the datastore.
+ *  Script to delete the Student Profile performance test data that is present in the datastore.
  */
-public class DeleteStudentProfileTestData extends DeleteTestData {
+public final class DeleteStudentProfileTestData extends DeleteTestData {
 
     private DeleteStudentProfileTestData() {
         // Intentional private constructor to prevent external instantiation
+        pathToJson = "/studentProfile.json";
     }
 
     public static void main(String[] args) {
         DeleteTestData dataDeleter = new DeleteStudentProfileTestData();
-        dataDeleter.deleteTestData("/studentProfile.json");
+        dataDeleter.deleteTestData(dataDeleter.getPathToJson());
     }
 
 }

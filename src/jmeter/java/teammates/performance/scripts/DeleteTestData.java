@@ -9,9 +9,15 @@ import teammates.performance.util.TestProperties;
 import teammates.test.driver.FileHelper;
 
 /**
- * Script to delete the test data that was created in the datastore.
+ * Base class to delete the performance test data that is present in the datastore.
  */
 public abstract class DeleteTestData {
+
+    protected String pathToJson;
+
+    public String getPathToJson() {
+        return pathToJson;
+    }
 
     /**
      * Deletes the data from the datastore.
