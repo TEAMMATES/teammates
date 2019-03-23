@@ -189,7 +189,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     }
 
     @Test
-    protected void testExecute_withCourseIdAndSessionName_shouldFail() {
+    protected void testExecute_withCourseIdAndSessionName_missingSectionNameShouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
@@ -209,7 +209,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     }
 
     @Test
-    protected void testExecute_withCourseIdAndSectionNameAndCourseLevelPrivilege_shouldFail() {
+    protected void testExecute_withCourseIdAndSectionNameAndWrongGranularity_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
@@ -228,7 +228,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     }
 
     @Test
-    protected void testExecute_withCourseIdAndSectionNameAndSessionNameAndSectionLevelPrivilege_shouldFail() {
+    protected void testExecute_withCourseIdAndSectionNameAndSessionNameAndWrongGranularity_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
@@ -248,7 +248,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     }
 
     @Test
-    protected void testExecute_noPrivilegesInRequestBody_shouldFail() {
+    protected void testExecute_noPrivilegesInRequestBody_nothingToUpdateShouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
@@ -293,7 +293,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     protected void testAccessControl() throws Exception {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor3OfCourse1");
 
-        ______TS("only instructors of the same course can access");
+        ______TS("only instructors of the same course with modify permission can access");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,

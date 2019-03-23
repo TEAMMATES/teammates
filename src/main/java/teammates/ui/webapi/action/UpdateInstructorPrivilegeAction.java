@@ -14,7 +14,7 @@ import teammates.ui.webapi.output.InstructorPrivilegeData;
 import teammates.ui.webapi.request.InstructorPrivilegeUpdateRequest;
 
 /**
- * Update instructor privilege.
+ * Update instructor privilege by someone with instructor modify permission.
  */
 public class UpdateInstructorPrivilegeAction extends Action {
 
