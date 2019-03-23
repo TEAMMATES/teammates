@@ -11,9 +11,9 @@ import teammates.test.driver.FileHelper;
 /**
  * Script to delete existing data in the datastore.
  */
-public class DeleteExistingData {
+public final class DeleteExistingData {
 
-    public DeleteExistingData() {
+    private DeleteExistingData() {
         // Utility class
         // Intentional private constructor to prevent instantiation
     }

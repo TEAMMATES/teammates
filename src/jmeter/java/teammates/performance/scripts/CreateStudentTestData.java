@@ -1,7 +1,10 @@
 package teammates.performance.scripts;
 
-import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.json.JSONObject;
 
@@ -20,7 +23,7 @@ public final class CreateStudentTestData {
     private static final int NUMBER_OF_USER_ACCOUNTS = 5;
     private static final String USER_ID = "userid";
 
-    public CreateStudentTestData() {
+    private CreateStudentTestData() {
         // Utility class
         // Intentional private constructor to prevent instantiation
     }
@@ -32,7 +35,7 @@ public final class CreateStudentTestData {
     /**
      * Creates a Json file with multiple user accounts.
      */
-    public static void createJsonData() {
+    private static void createJsonData() {
         JSONObject studentData = new JSONObject();
 
         // course data
@@ -142,15 +145,25 @@ public final class CreateStudentTestData {
     /**
      * Writes the JSON data to the file.
      */
-    public static void writeJsonDataToFile(JSONObject studentData) {
+    private static void writeJsonDataToFile(JSONObject studentData) {
 
-        try (FileWriter file = new FileWriter(TestProperties.TEST_DATA_FOLDER + "/studentProfile.json")) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(studentData.toString());
-            String prettyJsonString = gson.toJson(element);
-            file.write(prettyJsonString);
-            file.flush();
+        String fileName = TestProperties.TEST_DATA_FOLDER + "/studentProfile.json";
+        File file = new File(fileName);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(studentData.toString());
+        String prettyJsonString = gson.toJson(element);
+
+        // if file doesnt exists, then create it
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(fileName))) {
+                bw.write(prettyJsonString);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
