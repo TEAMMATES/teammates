@@ -1,20 +1,20 @@
 <p>Hello ${userName},</p>
 
 <p>
-    You are receiving this email because a request to resend TEAMMATES links related to this email address <strong>${recoveryEmail}</strong> was made on <a href="${teammateHomePageLink}">TEAMMATES</a>.
+    You are receiving this email because a request to resend TEAMMATES links associated with the email address <strong>${userEmail}</strong> was made on <a href="${teammateHomePageLink}">TEAMMATES</a>.
 </p>
 
 <p>
-    Below are the sessions that are associated with the email <strong>${recoveryEmail}</strong> within the past 180 days:
+    Here are the sessions associated with the email <strong>${recoveryEmail}</strong> within the past 180 days:
 </p>
 
 ${linksFragment}
 
 <p>
-    If the course you expected to see is missing, it may be associated with a different email address. You can try <a href=${sessionsRecoveryLink}>
-    using a different email address</a> or contact your course instructor(s) to check whether this email address
-    is the one used to enroll you in TEAMMATES.
+    If a session that you expected to see is missing, it may be because it is associated with a different email address. In that case, you can <a href=${sessionsRecoveryLink}>try again</a> with a different email address or contact your course instructor(s) to check whether this email address is the one used to enroll you in TEAMMATES.
+    Also, sessions that have been not opened or closed in the past 180 days are not shown. If you want the links to those sessions, contact the TEAMMATES support team mentioned below.
 </p>
+
 <p>
     <strong>Technical help regarding TEAMMATES</strong>:
     Email TEAMMATES support team at ${supportEmail}.
