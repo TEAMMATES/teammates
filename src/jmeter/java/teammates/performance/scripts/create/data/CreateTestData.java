@@ -27,12 +27,12 @@ public abstract class CreateTestData {
     }
 
     /**
-     * Creates a JSON file with the necessary test data.
+     * Creates a JSON file with the relevant data for the performance test.
      */
     public abstract JSONObject createJsonData();
 
     /**
-     * Writes the JSON data to the file.
+     * Writes the JSON data to the file specified by {@code pathToOutputJson}.
      */
     public void writeJsonDataToFile(JSONObject data) throws IOException {
 
