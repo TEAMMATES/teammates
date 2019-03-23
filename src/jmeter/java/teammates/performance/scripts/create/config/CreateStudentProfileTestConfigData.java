@@ -2,8 +2,8 @@ package teammates.performance.scripts.create.config;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -36,10 +36,9 @@ public final class CreateStudentProfileTestConfigData extends CreateTestConfigDa
         JSONObject studentsJson = (JSONObject) jsonObject.get("students");
         List<List<String>> csvData = new ArrayList<>();
 
-        Iterator iterator = studentsJson.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = (String) iterator.next();
-            JSONObject studentJson = (JSONObject) studentsJson.get(key);
+        for (Object e : studentsJson.entrySet()) {
+            Map.Entry entry = (Map.Entry) e;
+            JSONObject studentJson = (JSONObject) entry.getValue();
 
             List<String> csvRow = new ArrayList<>();
 

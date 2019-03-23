@@ -74,13 +74,13 @@ public abstract class CreateTestConfigData {
     protected void writeDataToCsvFile(List<String> headers, List<List<String>> valuesList, String pathToResultFileParam)
             throws IOException {
 
-        String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
-                + pathToResultFileParam;
-        File file = new File(pathToResultFile);
-
         if (!TestProperties.createTestDataFolder()) {
             throw new IOException("Test data direcory does not exist");
         }
+
+        String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
+                + pathToResultFileParam;
+        File file = new File(pathToResultFile);
 
         // Write data to the file (overwrite if it already exists)
         if (!file.exists()) {
