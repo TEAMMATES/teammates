@@ -13,12 +13,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import teammates.common.util.Logger;
 import teammates.performance.util.TestProperties;
 
 /**
  * Base class to create test data for performance tests.
  */
 public abstract class CreateTestData {
+
+    protected static final Logger log = Logger.getLogger();
 
     protected String pathToOutputJson;
 
@@ -34,7 +37,7 @@ public abstract class CreateTestData {
     /**
      * Writes the JSON data to the file.
      */
-    protected static void writeJsonDataToFile(JSONObject data, String pathToResultFileParam) {
+    protected void writeJsonDataToFile(JSONObject data, String pathToResultFileParam) throws IOException {
 
         String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
                 + pathToResultFileParam;
@@ -45,18 +48,12 @@ public abstract class CreateTestData {
         JsonElement element = parser.parse(data.toString());
         String prettyJsonString = gson.toJson(element);
 
-        // if file doesnt exists, then create it
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile))) {
-                bw.write(prettyJsonString);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Write data to file
+        if (!file.exists()) {
+            file.createNewFile();
         }
 
+        BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile));
+        bw.write(prettyJsonString);
     }
 }

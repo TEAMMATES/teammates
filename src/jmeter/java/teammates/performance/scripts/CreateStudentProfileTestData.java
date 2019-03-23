@@ -1,6 +1,10 @@
 package teammates.performance.scripts;
 
+import java.io.IOException;
+
 import org.json.JSONObject;
+
+import teammates.common.exception.TeammatesException;
 
 /**
  * Script to create data for Student Profile endpoint.
@@ -18,7 +22,12 @@ public class CreateStudentProfileTestData extends CreateTestData {
     public static void main(String[] args) {
         CreateTestData dataCreator = new CreateStudentProfileTestData();
         JSONObject jsonData = dataCreator.createJsonData();
-        writeJsonDataToFile(jsonData, dataCreator.getPathToOutputJson());
+
+        try {
+            dataCreator.writeJsonDataToFile(jsonData, dataCreator.getPathToOutputJson());
+        } catch (IOException ex) {
+            log.severe(TeammatesException.toStringWithStackTrace(ex));
+        }
     }
 
     @Override
