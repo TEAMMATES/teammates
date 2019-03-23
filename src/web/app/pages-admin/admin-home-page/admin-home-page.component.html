@@ -74,7 +74,7 @@
               <span *ngIf="instructor.status === 'SUCCESS'">
                 Instructor "{{ instructor.name }}" has been successfully created. [<a href="{{ instructor.joinLink }}">join link</a>]
               </span>
-              <span *ngIf="instructor.status !== 'SUCCESS'">{{ instructor.message }}</span>
+              <span *ngIf="instructor.status === 'FAIL'">{{ instructor.message }}</span>
             </td>
           </tr>
         </tbody>
