@@ -277,5 +277,4 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         verifyInaccessibleForUnregisteredUsers();
         verifyInaccessibleWithoutLogin();
     }
-
 }

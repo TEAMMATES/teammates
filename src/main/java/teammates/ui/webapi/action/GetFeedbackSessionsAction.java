@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.FeedbackSessionsData;
 
 /**
@@ -31,16 +32,22 @@ public class GetFeedbackSessionsAction extends Action {
         boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
 
         if (isRequestAsStudent) {
-            if (courseId == null) {
-                gateKeeper.verifyStudentPrivileges(logic.getAccount(userInfo.getId()));
-            } else {
+            if (!userInfo.isStudent) {
+                throw new UnauthorizedAccessException("User " + userInfo.getId()
+                        + " does not have student privileges");
+            }
+
+            if (courseId != null) {
                 CourseAttributes courseAttributes = logic.getCourse(courseId);
                 gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), courseAttributes);
             }
         } else {
-            if (courseId == null) {
-                gateKeeper.verifyInstructorPrivileges(logic.getAccount(userInfo.getId()));
-            } else {
+            if (!userInfo.isInstructor) {
+                throw new UnauthorizedAccessException("User " + userInfo.getId()
+                        + " does not have instructor privileges");
+            }
+
+            if (courseId != null) {
                 CourseAttributes courseAttributes = logic.getCourse(courseId);
                 gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), courseAttributes);
             }
@@ -52,10 +59,9 @@ public class GetFeedbackSessionsAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         List<FeedbackSessionAttributes> feedbackSessionAttributes;
+        boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
 
         if (courseId == null) {
-            boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
-
             if (isRequestAsStudent) {
                 List<StudentAttributes> students = logic.getStudentsForGoogleId(userInfo.getId());
                 feedbackSessionAttributes = new ArrayList<>();
@@ -77,7 +83,22 @@ public class GetFeedbackSessionsAction extends Action {
             feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
         }
 
-        return new JsonResult(new FeedbackSessionsData(feedbackSessionAttributes));
+        FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessionAttributes);
+        if (isRequestAsStudent) {
+            for (FeedbackSessionData response : responseData.getFeedbackSessions()) {
+                // hide some attributes for student.
+                response.setGracePeriod(null);
+                response.setSessionVisibleSetting(null);
+                response.setCustomSessionVisibleTimestamp(null);
+                response.setResponseVisibleSetting(null);
+                response.setCustomResponseVisibleTimestamp(null);
+                response.setPublishStatus(null);
+                response.setClosingEmailEnabled(null);
+                response.setPublishedEmailEnabled(null);
+            }
+        }
+
+        return new JsonResult(responseData);
     }
 
 }
