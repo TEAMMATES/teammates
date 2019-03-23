@@ -298,12 +298,14 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
                   <button
                     class="btn btn-sm btn-primary"
                     disabled=""
+                    id="add-instructor-1"
                     style="margin-right: 10px;"
                   >
                     Add Instructor
                   </button>
                   <button
                     class="btn btn-sm btn-danger"
+                    id="cancel-instructor-1"
                   >
                     Cancel
                   </button>
@@ -498,12 +500,14 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 <div>
                   <button
                     class="btn btn-sm btn-primary"
+                    id="add-instructor-0"
                     style="margin-right: 10px;"
                   >
                     Add Instructor
                   </button>
                   <button
                     class="btn btn-sm btn-danger"
+                    id="cancel-instructor-0"
                   >
                     Cancel
                   </button>
@@ -568,12 +572,14 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 <div>
                   <button
                     class="btn btn-sm btn-primary"
+                    id="add-instructor-2"
                     style="margin-right: 10px;"
                   >
                     Add Instructor
                   </button>
                   <button
                     class="btn btn-sm btn-danger"
+                    id="cancel-instructor-2"
                   >
                     Cancel
                   </button>
