@@ -80,10 +80,10 @@ public abstract class CreateTestConfigData {
         String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
                 + pathToResultFileParam;
         File file = new File(pathToResultFile);
-        if (!file.exists()) {
-            file.delete();
-        }
-        file.createNewFile();
+        // if (!file.exists()) {
+        //     file.delete();
+        // }
+        // file.createNewFile();
 
         BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile));
 
@@ -94,6 +94,9 @@ public abstract class CreateTestConfigData {
         for (List<String> values : valuesList) {
             bw.write(convertToCsv(values));
         }
+
+        bw.flush();
+        bw.close();
     }
 
     /**
