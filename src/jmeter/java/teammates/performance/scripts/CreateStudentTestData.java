@@ -144,7 +144,7 @@ public final class CreateStudentTestData {
      */
     public static void writeJsonDataToFile(JSONObject studentData) {
 
-        try (FileWriter file = new FileWriter(TestProperties.TEST_DATA_FOLDER + "/studentData.json")) {
+        try (FileWriter file = new FileWriter(TestProperties.TEST_DATA_FOLDER + "/studentProfile.json")) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(studentData.toString());
