@@ -2,7 +2,6 @@ package teammates.performance.scripts.create.config;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -58,14 +57,12 @@ public abstract class CreateTestConfigData {
      * Returns the JSON object that is parsed from {@code pathToJsonInputFile}.
      */
     protected JSONObject getJsonObjectFromFile() throws IOException, ParseException {
-        String pathToJsonFile = getPathToJsonInputFile();
-        pathToJsonFile = (pathToJsonFile.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
-                + pathToJsonFile;
+        String pathToJsonFile = (getPathToJsonInputFile().charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
+                + getPathToJsonInputFile();
 
         JSONParser parser = new JSONParser();
 
-        Object obj = parser.parse(new FileReader(pathToJsonFile));
-        return (JSONObject) obj;
+        return (JSONObject) parser.parse(Files.newBufferedReader(Paths.get(pathToJsonFile)));
     }
 
     /**

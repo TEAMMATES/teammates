@@ -7,7 +7,6 @@ import org.json.simple.parser.ParseException;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
-import teammates.performance.scripts.LoadTestDataInDatastore;
 import teammates.performance.scripts.create.config.CreateStudentProfileTestConfigData;
 import teammates.performance.scripts.create.config.CreateTestConfigData;
 import teammates.performance.scripts.create.data.CreateStudentProfileTestData;
@@ -18,7 +17,11 @@ import teammates.performance.scripts.create.data.CreateTestData;
  */
 public final class SetupStudentProfileTest {
 
-    protected static final Logger log = Logger.getLogger();
+    private static final Logger log = Logger.getLogger();
+
+    private SetupStudentProfileTest() {
+        // Intentional private constructor to prevent instantiation
+    }
 
     public static void main(String[] args) {
         CreateTestData dataCreator = new CreateStudentProfileTestData();
@@ -27,13 +30,13 @@ public final class SetupStudentProfileTest {
         JSONObject jsonData = dataCreator.createJsonData();
 
         try {
-            dataCreator.writeJsonDataToFile(jsonData, dataCreator.getPathToOutputJson());
+            dataCreator.writeJsonDataToFile(jsonData);
             configDataCreator.createConfigDataCsvFile();
         } catch (IOException | ParseException ex) {
             log.severe(TeammatesException.toStringWithStackTrace(ex));
         }
 
-        LoadTestDataInDatastore.addToDatastore(dataCreator.getPathToOutputJson());
+        // LoadTestDataInDatastore.addToDatastore(dataCreator.getPathToOutputJson());
     }
 
 }

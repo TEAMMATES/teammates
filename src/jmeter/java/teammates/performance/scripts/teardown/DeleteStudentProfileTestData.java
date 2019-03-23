@@ -12,7 +12,7 @@ public final class DeleteStudentProfileTestData extends DeleteTestData {
 
     public static void main(String[] args) {
         DeleteTestData dataDeleter = new DeleteStudentProfileTestData();
-        dataDeleter.deleteTestData(dataDeleter.getPathToJson());
+        dataDeleter.deleteTestData();
     }
 
 }

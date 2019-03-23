@@ -11,7 +11,7 @@ import teammates.test.driver.FileHelper;
 /**
  * Base class to delete the performance test data that is present in the datastore.
  */
-public abstract class DeleteTestData {
+public class DeleteTestData {
 
     protected String pathToJson;
 
@@ -20,17 +20,17 @@ public abstract class DeleteTestData {
     }
 
     /**
-     * Deletes the data from the datastore.
+     * Deletes the data that was created from the file at {@code pathToJson} from the datastore.
      */
-    public void deleteTestData(String pathToJsonFileParam) {
-        DataBundle dataBundle = loadDataBundle(pathToJsonFileParam);
+    public void deleteTestData() {
+        DataBundle dataBundle = loadDataBundle();
         BackDoor.removeDataBundle(dataBundle);
     }
 
-    protected DataBundle loadDataBundle(String pathToJsonFileParam) {
+    protected DataBundle loadDataBundle() {
         try {
-            String pathToJsonFile = (pathToJsonFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
-                    + pathToJsonFileParam;
+            String pathToJsonFile = (getPathToJson().charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
+                    + getPathToJson();
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return JsonUtils.fromJson(jsonString, DataBundle.class);
         } catch (IOException e) {

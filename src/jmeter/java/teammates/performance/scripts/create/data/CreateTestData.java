@@ -34,20 +34,20 @@ public abstract class CreateTestData {
     /**
      * Writes the JSON data to the file.
      */
-    public void writeJsonDataToFile(JSONObject data, String pathToResultFileParam) throws IOException {
+    public void writeJsonDataToFile(JSONObject data) throws IOException {
 
-        String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
-                + pathToResultFileParam;
+        if (!TestProperties.createTestDataFolder()) {
+            throw new IOException("Test data direcory does not exist");
+        }
+
+        String pathToResultFile = (getPathToOutputJson().charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
+                + getPathToOutputJson();
         File file = new File(pathToResultFile);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(data.toString());
         String prettyJsonString = gson.toJson(element);
-
-        if (!TestProperties.createTestDataFolder()) {
-            throw new IOException("Test data direcory does not exist");
-        }
 
         // Write data to the file (overwrite if it already exists)
         if (!file.exists()) {
