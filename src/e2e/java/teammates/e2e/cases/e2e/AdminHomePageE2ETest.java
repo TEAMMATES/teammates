@@ -14,12 +14,12 @@ import teammates.e2e.util.BackDoor;
 public class AdminHomePageE2ETest extends BaseE2ETestCase {
 
     @Override
-    protected void prepareTestData() throws Exception {
+    protected void prepareTestData() {
         // no test data used in this test
     }
 
     @Test
-    public void testAll() throws Exception {
+    public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE);
         AdminHomePage homePage = loginAdminToPage(url, AdminHomePage.class);
 
