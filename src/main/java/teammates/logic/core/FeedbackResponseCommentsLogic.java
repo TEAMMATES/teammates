@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
@@ -59,7 +60,7 @@ public final class FeedbackResponseCommentsLogic {
                 frComment.isCommentFromFeedbackParticipant);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
-        return frcDb.createFeedbackResponseComment(frComment);
+        return frcDb.createEntity(frComment);
     }
 
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
@@ -149,23 +150,18 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.search(queryString, instructors);
     }
 
-    public void deleteFeedbackResponseCommentsForCourse(String courseId) {
-        frcDb.deleteFeedbackResponseCommentsForCourse(courseId);
-    }
-
-    public void deleteFeedbackResponseCommentsForResponse(String responseId) {
-        frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
-    }
-
-    public void deleteFeedbackResponseCommentById(Long commentId) {
-        frcDb.deleteCommentById(commentId);
+    /**
+     * Deletes a comment.
+     */
+    public void deleteFeedbackResponseComment(long commentId) {
+        frcDb.deleteFeedbackResponseComment(commentId);
     }
 
     /**
-     * Removes document for the comment with given id.
+     * Deletes comments using {@link AttributesDeletionQuery}.
      */
-    public void deleteDocumentByCommentId(long commentId) {
-        frcDb.deleteDocumentByCommentId(commentId);
+    public void deleteFeedbackResponseComments(AttributesDeletionQuery query) {
+        frcDb.deleteFeedbackResponseComments(query);
     }
 
     /**

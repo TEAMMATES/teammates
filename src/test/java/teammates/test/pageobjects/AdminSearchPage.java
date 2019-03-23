@@ -48,7 +48,7 @@ public class AdminSearchPage extends AppPage {
      * Generates the id of the row for the {@code student}.
      */
     private static String createId(StudentAttributes student) {
-        String id = SanitizationHelper.sanitizeForSearch(student.getIdentificationString());
+        String id = SanitizationHelper.sanitizeForSearch(student.getCourse() + "/" + student.getEmail());
         id = id.replace(" ", "").replace("@", "");
         return "student_" + id;
     }
@@ -57,7 +57,7 @@ public class AdminSearchPage extends AppPage {
      * Generates the id of the row for the {@code instructor}.
      */
     private static String createId(InstructorAttributes instructor) {
-        String id = SanitizationHelper.sanitizeForSearch(instructor.getIdentificationString());
+        String id = SanitizationHelper.sanitizeForSearch(instructor.getCourseId() + "/" + instructor.getEmail());
         id = StringHelper.removeExtraSpace(id);
         id = id.replace(" ", "").replace("@", "");
 

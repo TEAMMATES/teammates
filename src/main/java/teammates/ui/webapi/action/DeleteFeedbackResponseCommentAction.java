@@ -88,8 +88,7 @@ public class DeleteFeedbackResponseCommentAction extends Action {
     public ActionResult execute() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
-        logic.deleteDocumentByCommentId(feedbackResponseCommentId);
-        logic.deleteFeedbackResponseCommentById(feedbackResponseCommentId);
+        logic.deleteFeedbackResponseComment(feedbackResponseCommentId);
 
         return new JsonResult("Successfully deleted feedback response comment.");
     }

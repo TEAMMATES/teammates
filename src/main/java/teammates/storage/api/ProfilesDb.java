@@ -6,7 +6,6 @@ import java.time.Instant;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -95,7 +94,9 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         if (!sp.getPictureKey().equals("")) {
             deletePicture(sp.getPictureKey());
         }
-        deleteEntityDirect(sp);
+        Key<Account> parentKey = Key.create(Account.class, googleId);
+        Key<StudentProfile> profileKey = Key.create(parentKey, StudentProfile.class, googleId);
+        deleteEntity(profileKey);
     }
 
     /**
@@ -150,10 +151,10 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     }
 
     @Override
-    protected QueryKeys<StudentProfile> getEntityQueryKeys(StudentProfileAttributes attributes) {
-        Key<Account> parentKey = Key.create(Account.class, attributes.googleId);
-        Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, attributes.googleId);
-        return load().filterKey(childKey).keys();
+    protected boolean hasExistingEntities(StudentProfileAttributes entityToCreate) {
+        Key<Account> parentKey = Key.create(Account.class, entityToCreate.getGoogleId());
+        Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, entityToCreate.getGoogleId());
+        return !load().filterKey(childKey).keys().list().isEmpty();
     }
 
     @Override

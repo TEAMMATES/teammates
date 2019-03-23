@@ -27,8 +27,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 
@@ -223,6 +225,17 @@ public final class BackDoor {
      */
     public static void removeDataBundle(DataBundle dataBundle) {
         executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+    }
+
+    /**
+     * Gets a student's profile from the datastore.
+     */
+    public static StudentProfileAttributes getStudentProfile(String userId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.STUDENT_ID, new String[] { userId });
+        JSONObject jsonObj = new JSONObject(executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params).responseBody);
+
+        return JsonUtils.fromJson(jsonObj.getJSONObject("studentProfile").toString(), StudentProfileAttributes.class);
     }
 
     /**

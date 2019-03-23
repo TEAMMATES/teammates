@@ -3,14 +3,15 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
+import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -282,16 +283,28 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         saveEntity(sessionEntity);
     }
 
-    public void deleteFeedbackSessionsForCourse(String courseId) {
+    /**
+     * Deletes a feedback session.
+     */
+    public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        deleteFeedbackSessionsForCourses(Arrays.asList(courseId));
+        deleteEntity(Key.create(FeedbackSession.class, FeedbackSession.generateId(feedbackSessionName, courseId)));
     }
 
-    public void deleteFeedbackSessionsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+    /**
+     * Deletes sessions using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackSessions(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
-        ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
+        Query<FeedbackSession> entitiesToDelete = load().project();
+        if (query.isCourseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
+        }
+
+        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
@@ -329,7 +342,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {
-        return load().id(feedbackSessionName + "%" + courseId).now();
+        return load().id(FeedbackSession.generateId(feedbackSessionName, courseId)).now();
     }
 
     @Override
@@ -343,10 +356,12 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     @Override
-    protected QueryKeys<FeedbackSession> getEntityQueryKeys(FeedbackSessionAttributes attributes) {
-        return load()
-                .filter("feedbackSessionName =", attributes.getFeedbackSessionName())
-                .filter("courseId =", attributes.getCourseId()).keys();
+    protected boolean hasExistingEntities(FeedbackSessionAttributes entityToCreate) {
+        return !load()
+                .filterKey(Key.create(FeedbackSession.class,
+                        FeedbackSession.generateId(entityToCreate.getFeedbackSessionName(), entityToCreate.getCourseId())))
+                .list()
+                .isEmpty();
     }
 
     @Override

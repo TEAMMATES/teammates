@@ -20,6 +20,7 @@
             Upload/Edit Photo
           </button>
           <button *ngIf="this.pictureKey"
+              id="profile-delete-photo"
               class="btn btn-danger"
               ngbTooltip="Delete your profile picture"
               (click)="onDelete(confirmDeleteProfilePicture)">
@@ -90,7 +91,7 @@
         <div class="text-center">
           <input
               type="submit"
-              class="btn btn-primary"
+              class="btn btn-primary student-save-profile"
               value="Save Profile">
         </div>
         <div class="whisper">This profile will be visible to all your instructors and coursemates.</div>
@@ -108,10 +109,10 @@
           Are you sure you want to make changes to your profile?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="submitEditForm(); modal.dismiss()">
+          <button type="button" class="btn btn-primary modal-btn-ok" (click)="submitEditForm(); modal.dismiss()">
             Yes, save changes
           </button>
-          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">
+          <button type="button" class="btn btn-outline-secondary modal-btn-cancel" (click)="modal.dismiss()">
             Cancel
           </button>
         </div>

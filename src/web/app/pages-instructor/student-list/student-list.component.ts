@@ -109,7 +109,7 @@ export class StudentListComponent implements OnInit {
       courseid: this.courseId,
       studentemail: studentEmail,
     };
-    this.httpRequestService.delete('/students', paramMap).subscribe(() => {
+    this.httpRequestService.delete('/student', paramMap).subscribe(() => {
       this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${this.courseId}"`);
       this.sections.forEach(
         (section: StudentListSectionData) => {

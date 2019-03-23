@@ -146,8 +146,7 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
                         .withGoogleId(testStudent.googleId)
                         .build());
         AccountsLogic.inst().createAccount(
-                AccountAttributes.builder()
-                        .withGoogleId(testStudent.googleId)
+                AccountAttributes.builder(testStudent.googleId)
                         .withName(testStudent.name)
                         .withIsInstructor(false)
                         .withEmail(testStudent.email)
@@ -192,13 +191,14 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
     private StudentAttributes createStudentInTypicalDataBundleForCourseWithNoSession()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = StudentAttributes
-                .builder("idOfCourseNoEvals", "nameOfStudent", "emailTemp@gmail.tmt")
-                .withSection("section")
-                .withTeam("team")
-                .withComments("No comment")
+                .builder("idOfCourseNoEvals", "emailTemp@gmail.tmt")
+                .withName("nameOfStudent")
+                .withSectionName("section")
+                .withTeamName("team")
+                .withComment("No comment")
                 .build();
 
-        logic.createStudent(student);
+        StudentsLogic.inst().createStudent(student);
         return student;
     }
 

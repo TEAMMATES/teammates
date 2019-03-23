@@ -193,9 +193,7 @@ public abstract class Action {
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserInfo currentUser,
             AccountAttributes loggedInUser) {
         if (loggedInUser == null) { // Unregistered but loggedin user
-            return AccountAttributes.builder()
-                    .withGoogleId(currentUser.id)
-                    .build();
+            return AccountAttributes.builder(currentUser.id).build();
         }
         return loggedInUser;
     }
@@ -242,7 +240,7 @@ public abstract class Action {
             throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
         } else {
             // Unregistered and not logged in access given to page
-            loggedInUser = AccountAttributes.builder()
+            loggedInUser = AccountAttributes.builder("")
                     .withEmail(student.email)
                     .build();
         }
@@ -278,8 +276,7 @@ public abstract class Action {
                         // since admin is masquerading, fabricate a regkey
                         regkey = "any-non-null-value";
                     }
-                    account = AccountAttributes.builder()
-                            .withGoogleId(paramRequestedUserId)
+                    account = AccountAttributes.builder(paramRequestedUserId)
                             .build();
                 }
                 return account;
