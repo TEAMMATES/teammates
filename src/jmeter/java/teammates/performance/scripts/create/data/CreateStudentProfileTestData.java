@@ -1,10 +1,6 @@
-package teammates.performance.scripts;
-
-import java.io.IOException;
+package teammates.performance.scripts.create.data;
 
 import org.json.JSONObject;
-
-import teammates.common.exception.TeammatesException;
 
 /**
  * Script to create data for Student Profile endpoint.
@@ -14,20 +10,8 @@ public class CreateStudentProfileTestData extends CreateTestData {
     private static final int NUMBER_OF_USER_ACCOUNTS = 100;
     private static final String USER_NAME = "DummyUser";
 
-    private CreateStudentProfileTestData() {
-        // Intentional private constructor to prevent external instantiation
+    public CreateStudentProfileTestData() {
         pathToOutputJson = "/studentProfile.json";
-    }
-
-    public static void main(String[] args) {
-        CreateTestData dataCreator = new CreateStudentProfileTestData();
-        JSONObject jsonData = dataCreator.createJsonData();
-
-        try {
-            dataCreator.writeJsonDataToFile(jsonData, dataCreator.getPathToOutputJson());
-        } catch (IOException ex) {
-            log.severe(TeammatesException.toStringWithStackTrace(ex));
-        }
     }
 
     @Override

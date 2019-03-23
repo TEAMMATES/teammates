@@ -1,4 +1,4 @@
-package teammates.performance.scripts;
+package teammates.performance.scripts.create.data;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,15 +13,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import teammates.common.util.Logger;
 import teammates.performance.util.TestProperties;
 
 /**
  * Base class to create test data for performance tests.
  */
 public abstract class CreateTestData {
-
-    protected static final Logger log = Logger.getLogger();
 
     protected String pathToOutputJson;
 
@@ -37,7 +34,7 @@ public abstract class CreateTestData {
     /**
      * Writes the JSON data to the file.
      */
-    protected void writeJsonDataToFile(JSONObject data, String pathToResultFileParam) throws IOException {
+    public void writeJsonDataToFile(JSONObject data, String pathToResultFileParam) throws IOException {
 
         String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
                 + pathToResultFileParam;
@@ -47,6 +44,10 @@ public abstract class CreateTestData {
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(data.toString());
         String prettyJsonString = gson.toJson(element);
+
+        if (!TestProperties.createTestDataFolder()) {
+            throw new IOException("Test data direcory does not exist");
+        }
 
         // Write data to the file (overwrite if it already exists)
         if (!file.exists()) {

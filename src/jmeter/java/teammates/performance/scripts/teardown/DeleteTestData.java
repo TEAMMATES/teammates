@@ -1,4 +1,4 @@
-package teammates.performance.scripts;
+package teammates.performance.scripts.teardown;
 
 import java.io.IOException;
 

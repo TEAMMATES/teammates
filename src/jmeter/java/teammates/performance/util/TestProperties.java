@@ -1,5 +1,6 @@
 package teammates.performance.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -62,6 +63,17 @@ public final class TestProperties {
 
     public static boolean isDevServer() {
         return TEAMMATES_URL.matches("^https?://localhost:[0-9]+(/.*)?");
+    }
+
+    /**
+     * Creates the test data folder if it does not exist.
+     */
+    public static boolean createTestDataFolder() {
+        File testDataDirectory = new File(TestProperties.TEST_DATA_FOLDER);
+        if (!testDataDirectory.exists()) {
+            return testDataDirectory.mkdir();
+        }
+        return true;
     }
 
 }

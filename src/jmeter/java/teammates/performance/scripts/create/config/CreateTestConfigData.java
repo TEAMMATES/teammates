@@ -1,4 +1,4 @@
-package teammates.performance.scripts;
+package teammates.performance.scripts.create.config;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,15 +13,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import teammates.common.util.Logger;
 import teammates.performance.util.TestProperties;
 
 /**
  *  Base class to create the CSV config data for JMeter performance tests from the corresponding JSON data.
  */
 public abstract class CreateTestConfigData {
-
-    protected static final Logger log = Logger.getLogger();
 
     protected String pathToCsvResultFile;
     protected String pathToJsonInputFile;
@@ -50,7 +47,7 @@ public abstract class CreateTestConfigData {
     /**
      * Creates the CSV data and writes it to the file specified by {@code pathToCsvResultFile}.
      */
-    protected void createConfigDataCsvFile() throws IOException, ParseException {
+    public void createConfigDataCsvFile() throws IOException, ParseException {
         List<String> headers = getCsvHeaders();
         List<List<String>> data = getCsvData();
 
@@ -80,10 +77,16 @@ public abstract class CreateTestConfigData {
         String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
                 + pathToResultFileParam;
         File file = new File(pathToResultFile);
-        // if (!file.exists()) {
-        //     file.delete();
-        // }
-        // file.createNewFile();
+
+        if (!TestProperties.createTestDataFolder()) {
+            throw new IOException("Test data direcory does not exist");
+        }
+
+        // Write data to the file (overwrite if it already exists)
+        if (!file.exists()) {
+            file.delete();
+        }
+        file.createNewFile();
 
         BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile));
 

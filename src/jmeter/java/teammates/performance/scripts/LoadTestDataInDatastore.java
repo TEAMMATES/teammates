@@ -17,10 +17,6 @@ public final class LoadTestDataInDatastore {
         // Intentional private constructor to prevent instantiation
     }
 
-    public static void main(String[] args) {
-        addToDatastore("/studentProfile.json");
-    }
-
     /**
      * Adds the data bundle specified by {@code path} to the datastore.
      * @param path Path to the data bundle to be added

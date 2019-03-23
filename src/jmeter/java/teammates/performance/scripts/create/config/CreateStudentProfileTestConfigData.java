@@ -1,4 +1,4 @@
-package teammates.performance.scripts;
+package teammates.performance.scripts.create.config;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,27 +8,14 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import teammates.common.exception.TeammatesException;
-
 /**
  * Base class to create the CSV config data for Student Profile performance test.
  */
 public final class CreateStudentProfileTestConfigData extends CreateTestConfigData {
 
-    private CreateStudentProfileTestConfigData() {
-        // Intentional private constructor to prevent external instantiation
+    public CreateStudentProfileTestConfigData() {
         pathToCsvResultFile = "/studentProfileConfig.csv";
         pathToJsonInputFile = "/studentProfile.json";
-    }
-
-    public static void main(String[] args) {
-        CreateTestConfigData configDataCreator = new CreateStudentProfileTestConfigData();
-
-        try {
-            configDataCreator.createConfigDataCsvFile();
-        } catch (IOException | ParseException ex) {
-            log.severe(TeammatesException.toStringWithStackTrace(ex));
-        }
     }
 
     @Override
