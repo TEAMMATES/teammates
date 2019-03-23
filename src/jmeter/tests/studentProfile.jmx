@@ -27,15 +27,15 @@
       </ThreadGroup>
       <hashTree>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Config: User details" enabled="true">
-          <stringProp name="delimiter">,</stringProp>
+          <stringProp name="delimiter">|</stringProp>
           <stringProp name="fileEncoding"></stringProp>
-          <stringProp name="filename">../resources/data/studentProfileData.csv</stringProp>
+          <stringProp name="filename">../resources/data/studentProfileConfig.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">true</boolProp>
           <boolProp name="recycle">true</boolProp>
           <stringProp name="shareMode">shareMode.all</stringProp>
           <boolProp name="stopThread">false</boolProp>
-          <stringProp name="variableNames">email,isAdmin,googleid</stringProp>
+          <stringProp name="variableNames"></stringProp>
         </CSVDataSet>
         <hashTree/>
         <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
