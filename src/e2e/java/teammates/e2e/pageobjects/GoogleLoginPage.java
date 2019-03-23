@@ -43,8 +43,7 @@ public class GoogleLoginPage extends LoginPage {
     }
 
     @Override
-    public void loginAdminAsInstructor(
-            String adminUsername, String adminPassword, String instructorUsername) {
+    public void loginAsAdmin(String adminUsername, String adminPassword) {
         completeGoogleLoginSteps(adminUsername, adminPassword);
         browser.isAdminLoggedIn = true;
     }
