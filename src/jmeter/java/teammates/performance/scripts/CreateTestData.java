@@ -48,12 +48,15 @@ public abstract class CreateTestData {
         JsonElement element = parser.parse(data.toString());
         String prettyJsonString = gson.toJson(element);
 
-        // Write data to file
+        // Write data to the file (overwrite if it already exists)
         if (!file.exists()) {
-            file.createNewFile();
+            file.delete();
         }
+        file.createNewFile();
 
         BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile));
         bw.write(prettyJsonString);
+        bw.flush();
+        bw.close();
     }
 }
