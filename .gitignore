@@ -37,7 +37,7 @@ build-eclipse/
 /out/
 /.stylelintrc.yml
 
-# JMeter (with Java API)
+# JMeter API
 jmeter.log
 src/jmeter/results/
 

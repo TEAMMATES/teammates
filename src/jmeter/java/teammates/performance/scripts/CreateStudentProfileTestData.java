@@ -1,47 +1,33 @@
 package teammates.performance.scripts;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
-import teammates.performance.util.TestProperties;
-
 /**
- * Script to create data for student profile endpoint.
+ * Script to create data for Student Profile endpoint.
  */
-public final class CreateStudentTestData {
+public class CreateStudentProfileTestData extends CreateTestData {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 5;
-    private static final String USER_ID = "userid";
+    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
+    private static final String USER_NAME = "DummyUser";
 
-    private CreateStudentTestData() {
-        // Utility class
-        // Intentional private constructor to prevent instantiation
+    private CreateStudentProfileTestData() {
+        // Intentional private constructor to prevent external instantiation
     }
 
     public static void main(String[] args) {
-        createJsonData();
+        CreateTestData dataCreator = new CreateStudentProfileTestData();
+        JSONObject jsonData = dataCreator.createJsonData();
+        writeJsonDataToFile(jsonData, "/studentProfile.json");
     }
 
-    /**
-     * Creates a Json file with multiple user accounts.
-     */
-    private static void createJsonData() {
+    @Override
+    public JSONObject createJsonData() {
         JSONObject studentData = new JSONObject();
 
         // course data
         JSONObject courseData = new JSONObject();
-        courseData.put("id", "FContribQnUiT.CS2104");
-        courseData.put("name", "Programming Language Concepts");
+        courseData.put("id", "TestData.CS101");
+        courseData.put("name", "Intro To Programming");
         courseData.put("timeZone", "UTC");
         studentData.put("courses", new JSONObject().put("course", courseData));
 
@@ -49,17 +35,17 @@ public final class CreateStudentTestData {
         JSONObject user = new JSONObject();
         for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
             JSONObject userAccountData = new JSONObject();
-            userAccountData.put("googleId", USER_ID + i + ".tmms");
-            userAccountData.put("name", USER_ID + i + " Betsy");
+            userAccountData.put("googleId", USER_NAME + i + ".tmms");
+            userAccountData.put("name", USER_NAME + i);
             userAccountData.put("isInstructor", false);
-            userAccountData.put("email", USER_ID + i + ".tmms@gmail.tmt");
+            userAccountData.put("email", USER_NAME + i + ".tmms@gmail.tmt");
             userAccountData.put("institute", "TEAMMATES Test Institute 1");
-            user.put(USER_ID + i, userAccountData);
+            user.put(USER_NAME + i, userAccountData);
         }
 
         JSONObject instructorAccount = new JSONObject();
-        instructorAccount.put("googleId", "FContribQnUiT.instructor");
-        instructorAccount.put("name", "Teammates Test");
+        instructorAccount.put("googleId", "TestData.instructor");
+        instructorAccount.put("name", "TEAMMATES Test Instructor");
         instructorAccount.put("isInstructor", true);
         instructorAccount.put("email", "tmms.test@gmail.tmt");
         instructorAccount.put("institute", "TEAMMATES Test Institute 1");
@@ -74,13 +60,13 @@ public final class CreateStudentTestData {
         // open feedback session
         JSONObject session = new JSONObject();
         session.put("feedbackSessionName", "First Session");
-        session.put("courseId", "FContribQnUiT.CS2104");
+        session.put("courseId", "TestData.CS101");
         session.put("creatorEmail", "tmms.test@gmail.tmt");
         session.put("instructions", "Instructions for first session");
-        session.put("createdTime", "2012-04-01T23:59:00Z");
-        session.put("startTime", "2012-04-01T21:59:00Z");
+        session.put("createdTime", "2018-04-01T23:59:00Z");
+        session.put("startTime", "2018-04-01T21:59:00Z");
         session.put("endTime", "2026-04-30T21:59:00Z");
-        session.put("sessionVisibleFromTime", "2012-04-01T21:59:00Z");
+        session.put("sessionVisibleFromTime", "2018-04-01T21:59:00Z");
         session.put("resultsVisibleFromTime", "2026-05-01T21:59:00Z");
         session.put("timeZone", "Africa/Johannesburg");
         session.put("gracePeriod", 10);
@@ -98,14 +84,14 @@ public final class CreateStudentTestData {
         JSONObject students = new JSONObject();
         for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
             JSONObject studentAccountData = new JSONObject();
-            studentAccountData.put("googleId", USER_ID + i + ".tmms");
-            studentAccountData.put("email", USER_ID + i + ".tmms@gmail.tmt");
-            studentAccountData.put("course", "FContribQnUiT.CS2104");
-            studentAccountData.put("name", USER_ID + i + " Betsy");
-            studentAccountData.put("comments", "This student name is " + USER_ID + i + " Betsy");
+            studentAccountData.put("googleId", USER_NAME + i + ".tmms");
+            studentAccountData.put("email", USER_NAME + i + ".tmms@gmail.tmt");
+            studentAccountData.put("course", "TestData.CS101");
+            studentAccountData.put("name", USER_NAME + i);
+            studentAccountData.put("comments", "This student's name is " + USER_NAME + i);
             studentAccountData.put("team", "Team 1");
             studentAccountData.put("section", "None");
-            students.put(USER_ID + i, studentAccountData);
+            students.put(USER_NAME + i, studentAccountData);
         }
         studentData.put("students", students);
 
@@ -113,8 +99,8 @@ public final class CreateStudentTestData {
 
         JSONObject instructor = new JSONObject();
         JSONObject instructorDetails = new JSONObject();
-        instructorDetails.put("googleId", "FContribQnUiT.instructor");
-        instructorDetails.put("courseId", "FContribQnUiT.CS2104");
+        instructorDetails.put("googleId", "TestData.instructor");
+        instructorDetails.put("courseId", "TestData.CS101");
         instructorDetails.put("name", "Teammates Test");
         instructorDetails.put("email", "tmms.test@gmail.tmt");
         instructorDetails.put("role", "Co-owner");
@@ -139,34 +125,7 @@ public final class CreateStudentTestData {
         instructor.put("teammates.test.instructor", instructorDetails);
         studentData.put("instructors", instructor);
 
-        writeJsonDataToFile(studentData);
+        return studentData;
     }
 
-    /**
-     * Writes the JSON data to the file.
-     */
-    private static void writeJsonDataToFile(JSONObject studentData) {
-
-        String fileName = TestProperties.TEST_DATA_FOLDER + "/studentProfile.json";
-        File file = new File(fileName);
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(studentData.toString());
-        String prettyJsonString = gson.toJson(element);
-
-        // if file doesnt exists, then create it
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(fileName))) {
-                bw.write(prettyJsonString);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 }

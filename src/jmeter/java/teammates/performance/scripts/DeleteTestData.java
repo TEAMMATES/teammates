@@ -9,28 +9,19 @@ import teammates.performance.util.TestProperties;
 import teammates.test.driver.FileHelper;
 
 /**
- * Script to delete existing data in the datastore.
+ * Script to delete the test data that was created in the datastore.
  */
-public final class DeleteExistingData {
-
-    private DeleteExistingData() {
-        // Utility class
-        // Intentional private constructor to prevent instantiation
-    }
-
-    public static void main(String[] args) {
-        deleteExistingData();
-    }
+public abstract class DeleteTestData {
 
     /**
      * Deletes the data from the datastore.
      */
-    public static void deleteExistingData() {
-        DataBundle dataBundle = loadDataBundle("/studentProfile.json");
+    public void deleteTestData(String pathToJsonFileParam) {
+        DataBundle dataBundle = loadDataBundle(pathToJsonFileParam);
         BackDoor.removeDataBundle(dataBundle);
     }
 
-    private static DataBundle loadDataBundle(String pathToJsonFileParam) {
+    protected DataBundle loadDataBundle(String pathToJsonFileParam) {
         try {
             String pathToJsonFile = (pathToJsonFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
                     + pathToJsonFileParam;

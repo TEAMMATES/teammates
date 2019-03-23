@@ -11,9 +11,9 @@ import teammates.test.driver.FileHelper;
 /**
  * Script for performance tests to manage the data in the local datastore.
  */
-public final class LoadTestData {
+public final class LoadTestDataInDatastore {
 
-    private LoadTestData() {
+    private LoadTestDataInDatastore() {
         // Utility class
         // Intentional private constructor to prevent instantiation
     }
