@@ -26,10 +26,42 @@ public abstract class CreateTestData {
         return pathToOutputJson;
     }
 
+    protected abstract JSONObject generateAccountsJson();
+
+    protected abstract JSONObject generateCoursesJson();
+
+    protected abstract JSONObject generateInstructorsJson();
+
+    protected abstract JSONObject generateStudentsJson();
+
+    protected abstract JSONObject generateFeedbackSessionsJson();
+
+    protected abstract JSONObject generateFeedbackQuestionsJson();
+
+    protected abstract JSONObject generateFeedbackResponsesJson();
+
+    protected abstract JSONObject generateFeedbackResponseCommentsJson();
+
+    protected abstract JSONObject generateProfilesJson();
+
     /**
      * Creates a JSON file with the relevant data for the performance test.
      */
-    public abstract JSONObject createJsonData();
+    public JSONObject createJsonData() {
+        JSONObject dataJson = new JSONObject();
+
+        dataJson.put("accounts", generateAccountsJson());
+        dataJson.put("courses", generateCoursesJson());
+        dataJson.put("instructors", generateInstructorsJson());
+        dataJson.put("students", generateStudentsJson());
+        dataJson.put("feedbackSessions", generateFeedbackSessionsJson());
+        dataJson.put("feedbackQuestions", generateFeedbackQuestionsJson());
+        dataJson.put("feedbackResponses", generateFeedbackResponsesJson());
+        dataJson.put("feedbackResponseComments", generateFeedbackResponseCommentsJson());
+        dataJson.put("profiles", generateProfilesJson());
+
+        return dataJson;
+    }
 
     /**
      * Writes the JSON data to the file specified by {@code pathToOutputJson}.
