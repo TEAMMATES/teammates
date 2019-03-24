@@ -711,7 +711,7 @@ jmeter {
     csvLogFile = true
 }
 
-// Work around for not able to enable report bug in jmeter gradle plugin
+// Workaround for not being able to enable reports in jmeter-gradle-plugin
 // https://github.com/jmeter-gradle-plugin/jmeter-gradle-plugin/issues/103
 afterEvaluate {
     def jMeterExt = project.extensions.findByName("jmeter")
@@ -722,6 +722,8 @@ afterEvaluate {
     jMeterExt.metaClass.reportXslt = "$project.projectDir/src/jmeter/resources/jmeter-results-detail-report_21.xsl"
 }
 
+// Workaround for not being able to generate jmeter.log file through jmeter-gradle-plugin
+// https://github.com/jmeter-gradle-plugin/jmeter-gradle-plugin/issues/109
 task copyToBin(type: Copy) {
     into "$buildDir/jmeter/bin"
     from "$projectDir/src/jmeter/resources"

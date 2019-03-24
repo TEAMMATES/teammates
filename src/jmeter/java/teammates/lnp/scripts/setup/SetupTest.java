@@ -27,11 +27,12 @@ public class SetupTest {
         try {
             dataCreator.writeJsonDataToFile(jsonData);
             configDataCreator.createConfigDataCsvFile();
+            return dataCreator.getPathToOutputJson();
         } catch (IOException | ParseException ex) {
             log.severe(TeammatesException.toStringWithStackTrace(ex));
-        } finally {
-            return dataCreator.getPathToOutputJson();
         }
+
+        return null;
     }
 
     /**

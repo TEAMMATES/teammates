@@ -31,18 +31,22 @@ To run the JMeter tests, execute this command from the main project directory:
 ./gradlew clean jmRun
 ```
 
-If it runs without any errors:
-- A log file is generated as `build/jmeter/jmeter.log`.
-- The JMeter test results are stored as XML files with the same name as the test file `build/jmeter-report/TEST_FILE_NAME.jmx-TIMESTAMP.xml`. 
-
-> Note: If you want to retain the result files, do not include the `clean` task when running the command.
-<br/>
-
 If you want to execute specific test file(s):
 - Navigate to the `jmeter` configuration in `build.gradle`:
   - Uncomment the `jmTestFiles` parameter.
   - Replace the dummy values with the path to the test file(s) that you want to run.
 - Then, follow the same steps mentioned above.
+
+If the tests run without any errors:
+- A log file is generated as `build/jmeter/jmeter.log`.
+- The JMeter test results are stored as CSV files (by default) with the same name as the test file `build/jmeter-report/TEST_FILE_NAME.jmx-TIMESTAMP.csv`. 
+
+> Note: If you want to retain the result files, do not include the `clean` task when running the command.
+<br/>
+
+If the build failed:
+- Check the `jmeter.log` file to see if there were any errors or exceptions thrown. If so, take the necessary steps to fix them.
+- Check the generated CSV result files to see whether the `success` value of any row is `false`. If so, make sure that you have [set up the data](#performance-test-workflow) and take any other necessary steps to resolve it.
 
 ### Using the Command Line
 
