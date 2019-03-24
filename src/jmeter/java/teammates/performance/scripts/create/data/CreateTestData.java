@@ -37,7 +37,7 @@ public abstract class CreateTestData {
     public void writeJsonDataToFile(JSONObject data) throws IOException {
 
         if (!TestProperties.createTestDataFolder()) {
-            throw new IOException("Test data direcory does not exist");
+            throw new IOException("Test data directory does not exist");
         }
 
         String pathToResultFile = (getPathToOutputJson().charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")

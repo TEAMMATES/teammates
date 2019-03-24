@@ -72,7 +72,7 @@ public abstract class CreateTestConfigData {
             throws IOException {
 
         if (!TestProperties.createTestDataFolder()) {
-            throw new IOException("Test data direcory does not exist");
+            throw new IOException("Test data directory does not exist");
         }
 
         String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")

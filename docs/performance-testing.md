@@ -1,19 +1,17 @@
 # Performance Testing
 
-TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for performance testing.
+TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for performance testing, and [`jmeter-gradle-plugin`](https://github.com/jmeter-gradle-plugin/jmeter-gradle-plugin) for automating the processes of running performance tests and generating reports.
 The relevant files are located in the `src/jmeter/` directory. The JMeter tests are the `.jmx` files located in the `src/jmeter/tests/` directory.
-
-TEAMMATES uses the [`jmeter-gradle-plugin`](https://github.com/jmeter-gradle-plugin/jmeter-gradle-plugin) for automating the processes of running performance tests and generating reports.
 
 ## Performance Test Workflow
 
-Before running a performance test, you need to setup the relevant data in the GAE datastore. 
-To facilitate this, there are Java scripts in the `teammates.performance.scripts` package (`src/jmeter/java/teammates/performance/scripts/` directory).
+Before running a performance test, you need to setup the relevant data in the datastore. 
+To facilitate this, there are Java scripts in the `teammates.performance.scripts` package.
 
 There are 3 steps involved in doing a performance test:
 
 1. Setting up the data: This is done by executing the relevant Java script in the `setup` package (e.g. `SetupStudentProfileTest`).
-    Executing the scrip will:
+    Executing the script will:
     1. Create the relevant TEAMMATES JSON data for the datastore. It is stored as `src/jmeter/resources/data/testName.json`.
     1. Create the relevant CSV Config data for the JMeter test plan. It is stored as `src/jmeter/resources/data/testNameConfig.csv`.
     1. Create the entities in the datastore using the JSON data. This can be verified by checking your [local datastore](http://localhost:8080/_ah/admin/datastore).
@@ -41,8 +39,7 @@ If it runs without any errors:
 <br/>
 
 If you want to execute specific test file(s):
-- Navigate to the `// PERFORMANCE TEST TASKS` section in `build.gradle`. 
-- Under the `jmeter` configuration:
+- Navigate to the `jmeter` configuration in `build.gradle`:
   - Uncomment the `jmTestFiles` parameter.
   - Replace the dummy values with the path to the test file(s) that you want to run.
 - Then, follow the same steps mentioned above.
@@ -61,7 +58,7 @@ jmeter -n -t PATH_TO_TEST_FILE.jmx -l RESULT_FILE.csv -j LOG_FILE.log
 You can also use the JMeter GUI (`./gradlew jmGui`) to run performance tests. This is particularly useful when debugging or validating that the test does what is expected.
 However, you should not use the GUI to run large scale tests as it is very resource intensive.
 
-> Remember to **disable or remove all `listeners`** if you enabled them while using the GUI since they can have a negative impact on the performance of the test.
+> Remember to **disable or remove all `Listeners`** in the `.jmx` file, unless you are debugging. Having them enabled can have a negative impact on the test performance.
 
 ## Generating Test Reports
 

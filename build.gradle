@@ -83,14 +83,14 @@ dependencies {
                     "org.seleniumhq.selenium:selenium-java:3.141.59",
                     testng,
                     "org.kohsuke:wordnet-random-name:1.3",
-                    // For access of Google APIs such as HTTP transport, authentication and JSON parsing
+                    // For access to Google APIs such as HTTP transport, authentication and JSON parsing
                     "com.google.api-client:google-api-client:1.27.0",
                     // For supporting authorization code flow locally
                     "com.google.oauth-client:google-oauth-client-jetty:1.27.0",
                     // For using Gmail API
-                    "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0"
-
-    compile         "org.apache.jmeter:ApacheJMeter_core:5.1.1",
+                    "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0",
+                    // For access to JMeter APIs
+                    "org.apache.jmeter:ApacheJMeter_core:5.1.1",
                     "org.apache.jmeter:jorphan:5.1.1",
                     "org.apache.jmeter:ApacheJMeter_http:5.1.1"
 }
