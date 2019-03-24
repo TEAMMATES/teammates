@@ -26,7 +26,6 @@ import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorHomePage;
-import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
@@ -241,10 +240,6 @@ public class AdminHomePageUiTest extends BaseE2ETestCase {
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
 
-        StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
-        courseDetailsPage.verifyHtmlMainContent("/newlyJoinedInstructorStudentCourseDetailsPage.html");
-
-        studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
         studentHomePage.clickViewFeedbackButton("First team feedback session");
         StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
         sfrp.verifyHtmlMainContent("/newlyJoinedInstructorStudentFeedbackResultsPage.html");
