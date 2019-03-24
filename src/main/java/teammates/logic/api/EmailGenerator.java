@@ -529,6 +529,22 @@ public class EmailGenerator {
                 EmailType.FEEDBACK_UNPUBLISHED.getSubject());
     }
 
+    /**
+     * Generates new course registration and feedback session links for the given student.
+     */
+    public EmailWrapper regenerateFeedbackSessionLinks(StudentAttributes student) {
+        String subject = EmailType.REGENERATE_FEEDBACK_SESSION_LINKS.getSubject();
+
+        String emailBody = "";
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
+        email.setBcc(Config.SUPPORT_EMAIL);
+        email.setSubject(subject);
+        email.setContent(emailBody);
+
+        return email;
+    }
+
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject) {
