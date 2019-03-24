@@ -42,7 +42,7 @@ public final class CreateStudentProfileTestConfigData extends CreateTestConfigDa
 
             List<String> csvRow = new ArrayList<>();
 
-            csvRow.add((String) studentJson.get("email"));
+            csvRow.add((String) studentJson.get("googleId")); // "googleid" is used for logging in, not "email"
             csvRow.add("no");
             csvRow.add((String) studentJson.get("googleId"));
 

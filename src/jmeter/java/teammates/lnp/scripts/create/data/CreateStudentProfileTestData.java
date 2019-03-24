@@ -5,10 +5,11 @@ import org.json.JSONObject;
 /**
  * Script to create data for Student Profile endpoint.
  */
-public class CreateStudentProfileTestData extends CreateTestData {
+public final class CreateStudentProfileTestData extends CreateTestData {
 
     private static final int NUMBER_OF_USER_ACCOUNTS = 100;
     private static final String USER_NAME = "DummyUser";
+    private static final String USER_EMAIL = "personalEmail";
 
     public CreateStudentProfileTestData() {
         pathToOutputJson = "/studentProfile.json";
@@ -32,7 +33,7 @@ public class CreateStudentProfileTestData extends CreateTestData {
             userAccountData.put("googleId", USER_NAME + i + ".tmms");
             userAccountData.put("name", USER_NAME + i);
             userAccountData.put("isInstructor", false);
-            userAccountData.put("email", USER_NAME + i + ".tmms@gmail.tmt");
+            userAccountData.put("email", USER_EMAIL + i + "@gmail.tmt");
             userAccountData.put("institute", "TEAMMATES Test Institute 1");
             user.put(USER_NAME + i, userAccountData);
         }
@@ -46,12 +47,16 @@ public class CreateStudentProfileTestData extends CreateTestData {
         user.put("instructor", instructorAccount);
         studentData.put("accounts", user);
 
+        // feedbackQuestions
         studentData.put("feedbackQuestions", new JSONObject());
-        studentData.put("feedbackResponses", new JSONObject());
-        studentData.put("feedbackResponseComments", new JSONObject());
-        studentData.put("profiles", new JSONObject());
 
-        // open feedback session
+        // feedbackResponses
+        studentData.put("feedbackResponses", new JSONObject());
+
+        // feedbackResponseComments
+        studentData.put("feedbackResponseComments", new JSONObject());
+
+        // open feedbackSessions
         JSONObject session = new JSONObject();
         session.put("feedbackSessionName", "First Session");
         session.put("courseId", "TestData.CS101");
@@ -74,12 +79,11 @@ public class CreateStudentProfileTestData extends CreateTestData {
         studentData.put("feedbackSessions", new JSONObject().put("openSession", session));
 
         // students
-
         JSONObject students = new JSONObject();
         for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
             JSONObject studentAccountData = new JSONObject();
             studentAccountData.put("googleId", USER_NAME + i + ".tmms");
-            studentAccountData.put("email", USER_NAME + i + ".tmms@gmail.tmt");
+            studentAccountData.put("email", USER_EMAIL + i + "@gmail.tmt");
             studentAccountData.put("course", "TestData.CS101");
             studentAccountData.put("name", USER_NAME + i);
             studentAccountData.put("comments", "This student's name is " + USER_NAME + i);
@@ -89,8 +93,24 @@ public class CreateStudentProfileTestData extends CreateTestData {
         }
         studentData.put("students", students);
 
-        // instructor
+        // student profiles
+        JSONObject profiles = new JSONObject();
+        for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
+            JSONObject profileData = new JSONObject();
+            profileData.put("googleId", USER_NAME + i + ".tmms");
+            profileData.put("email", USER_EMAIL + i + "@gmail.tmt");
+            profileData.put("shortName", i);
+            profileData.put("institute", "TEAMMATES Test Institute 222");
+            profileData.put("moreInfo", "I am " + i);
+            profileData.put("pictureKey", "");
+            profileData.put("gender", "MALE");
+            profileData.put("nationality", "American");
 
+            profiles.put(USER_NAME + i, profileData);
+        }
+        studentData.put("profiles", profiles);
+
+        // instructors
         JSONObject instructor = new JSONObject();
         JSONObject instructorDetails = new JSONObject();
         instructorDetails.put("googleId", "TestData.instructor");
