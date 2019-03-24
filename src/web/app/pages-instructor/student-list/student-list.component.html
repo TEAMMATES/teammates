@@ -74,7 +74,7 @@
               + ' but a joined student can access extra features e.g. set up a user profile'"
                (click)="openModal(remindModal)">Send Invite</button>
             <button class="btn btn-secondary btn-sm mr-2 disabled mouse-hover-only" *ngIf="!section.isAllowedToModifyStudent"
-              ngbTooltip="'You do not have the permissions to access this feature'"></button>
+              ngbTooltip="'You do not have the permissions to access this feature'">Send Invite</button>
           </ng-container>
         </ng-container>
         <ng-template #remindModal let-modal>

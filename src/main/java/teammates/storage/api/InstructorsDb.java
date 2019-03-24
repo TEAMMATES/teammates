@@ -299,8 +299,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
         if (query.isCourseIdPresent()) {
-            List<Instructor> instructorsToDelete =
-                    load().filter("courseId =", query.getCourseId()).project("registrationKey").list();
+            List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
             deleteDocument(Const.SearchIndex.INSTRUCTOR,
                     instructorsToDelete.stream()
                             .map(i -> StringHelper.encrypt(i.getRegistrationKey()))
