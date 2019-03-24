@@ -43,7 +43,7 @@
         <td class="no-print align-center">
           <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
                        let-routerLink="routerLink" let-queryParams="queryParams">
-            <a class="btn btn-secondary btn-sm mr-2"
+            <a class="btn btn-light btn-sm mr-2"
                [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
                [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
                [routerLink]="routerLink"
