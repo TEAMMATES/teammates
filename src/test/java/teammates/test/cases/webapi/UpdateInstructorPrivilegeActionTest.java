@@ -305,5 +305,14 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         ______TS("instructors of other courses cannot access");
 
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        ______TS("invalid course id cannot access");
+
+        String[] invalidCouseIdParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "invalid-course-id",
+        };
+
+        verifyCannotAccess(invalidCouseIdParams);
     }
 }
+

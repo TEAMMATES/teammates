@@ -53,27 +53,14 @@ public class UpdateInstructorPrivilegeAction extends Action {
         Map<String, Boolean> sessionLevelPrivilegesMap = request.getAllPresentSessionLevelPriviledges();
 
         if (sectionName == null && sessionName == null) {
-            for (HashMap.Entry<String, Boolean> entry : courseLevelPrivilegesMap.entrySet()) {
-                instructorToUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
-            }
-            for (HashMap.Entry<String, Boolean> entry : sectionLevelPrivilegesMap.entrySet()) {
-                instructorToUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
-            }
-            for (HashMap.Entry<String, Boolean> entry : sessionLevelPrivilegesMap.entrySet()) {
-                instructorToUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
-            }
+            updateCourseLevelPrivileges(courseLevelPrivilegesMap, instructorToUpdate);
+            updateCourseLevelPrivileges(sectionLevelPrivilegesMap, instructorToUpdate);
+            updateCourseLevelPrivileges(sessionLevelPrivilegesMap, instructorToUpdate);
         } else if (sessionName == null) {
-            for (HashMap.Entry<String, Boolean> entry : sectionLevelPrivilegesMap.entrySet()) {
-                instructorToUpdate.privileges.updatePrivilege(sectionName, entry.getKey(), entry.getValue());
-            }
-            for (HashMap.Entry<String, Boolean> entry : sessionLevelPrivilegesMap.entrySet()) {
-                instructorToUpdate.privileges.updatePrivilege(sectionName, entry.getKey(), entry.getValue());
-            }
+            updateSectionLevelPrivileges(sectionName, sectionLevelPrivilegesMap, instructorToUpdate);
+            updateSectionLevelPrivileges(sectionName, sessionLevelPrivilegesMap, instructorToUpdate);
         } else {
-            for (HashMap.Entry<String, Boolean> entry : sessionLevelPrivilegesMap.entrySet()) {
-                instructorToUpdate.privileges.updatePrivilege(
-                        sectionName, sessionName, entry.getKey(), entry.getValue());
-            }
+            updateSessionLevelPrivileges(sectionName, sessionName, sessionLevelPrivilegesMap, instructorToUpdate);
         }
 
         instructorToUpdate.privileges.validatePrivileges();
@@ -134,6 +121,26 @@ public class UpdateInstructorPrivilegeAction extends Action {
         }
 
         return new JsonResult(response);
+    }
+
+    private void updateCourseLevelPrivileges(Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
+        for (HashMap.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
+            toUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void updateSectionLevelPrivileges(
+            String sectionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
+        for (HashMap.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
+            toUpdate.privileges.updatePrivilege(sectionName, entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void updateSessionLevelPrivileges(
+            String sectionName, String sessionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
+        for (HashMap.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
+            toUpdate.privileges.updatePrivilege(sectionName, sessionName, entry.getKey(), entry.getValue());
+        }
     }
 
     /**
