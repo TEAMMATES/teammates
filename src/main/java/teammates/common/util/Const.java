@@ -768,7 +768,7 @@ public final class Const {
         public static final String RESPONSES = "/responses";
         public static final String HAS_RESPONSES = "/hasResponses";
         public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
-        public static final String REGENERATE_SUBMISSION_LINK = "/regeneratelink";
+        public static final String REGENERATE_FEEDBACK_SESSION_LINKS = "/regeneratefeedbacksessionlinks";
         public static final String JOIN = "/join";
         public static final String JOIN_REMIND = "/join/remind";
         public static final String TIMEZONE = "/timezone";
