@@ -39,11 +39,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() throws Exception {
-        testContentAndLogin();
-    }
-
-    private void testContentAndLogin() {
+    public void testAll() {
 
         ______TS("login successfully");
 
@@ -66,6 +62,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
             assertTrue(verifyVisibleFeedbackSessionToStudents(feedbackSessionName, i));
         }
+
+        logout();
     }
 
     private List<WebElement> getStudentHomeCoursePanels() {
