@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { StatusMessage } from '../app/components/status-message/status-message';
+import { Snackbar } from '../app/components/snackbar/snackbar';
 
 /**
  * Handles operations related to status message provision.
@@ -10,14 +10,14 @@ import { StatusMessage } from '../app/components/status-message/status-message';
 })
 export class StatusMessageService {
 
-  private alertEvent: Subject<StatusMessage> = new Subject();
+  private alertEvent: Subject<Snackbar> = new Subject();
 
   constructor() {}
 
   /**
    * Gets the observable event of status messages.
    */
-  getAlertEvent(): Observable<StatusMessage> {
+  getAlertEvent(): Observable<Snackbar> {
     return this.alertEvent.asObservable();
   }
 
@@ -51,7 +51,7 @@ export class StatusMessageService {
     });
   }
 
-  private showMessage(message: StatusMessage): void {
+  private showMessage(message: Snackbar): void {
     this.alertEvent.next(message);
   }
 

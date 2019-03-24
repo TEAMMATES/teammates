@@ -1,13 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { fromEvent, merge, Observable, of } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
-import { StatusMessage } from './components/status-message/status-message';
-
-import { fromEvent, merge, Observable, of } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { Snackbar } from './components/snackbar/snackbar';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -38,7 +37,7 @@ export class PageComponent implements OnInit {
   isUnsupportedBrowser: boolean = false;
   isCookieDisabled: boolean = false;
   browser: string = '';
-  messageList: StatusMessage[] = [];
+  messageList: Snackbar[] = [];
   isNetworkOnline$: Observable<boolean>;
   version: string = environment.version;
   logoutUrl: string = `${environment.backendUrl}/logout`;
@@ -95,7 +94,7 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.statusMessageService.getAlertEvent().subscribe((result: StatusMessage) => {
+    this.statusMessageService.getAlertEvent().subscribe((result: Snackbar) => {
       this.messageList.push(result);
     });
   }

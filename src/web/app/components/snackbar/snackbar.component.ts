@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MDCSnackbar } from '@material/snackbar';
+import { Snackbar } from './snackbar';
 
 /**
  * Component for snackbar status messages.
@@ -11,19 +12,23 @@ import { MDCSnackbar } from '@material/snackbar';
 })
 export class SnackbarComponent implements OnInit {
 
-  snackbar: Element;
+  @Input() messages: Snackbar[] = [];
+
+  message: string = '';
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
   /**
-   * Opens the snackbar.
+   * Shows the message via snackbar.
    */
-  openSnackbar(): void {
-    this.snackbar = new MDCSnackbar((document.querySelector('.mdc-snackbar')) as Element);
-    this.snackbar.open();
+  showMessage(message: string): void {
+    this.message = message;
+    const snackbar: MDCSnackbar = new MDCSnackbar((document.querySelector('.mdc-snackbar')) as Element);
+    snackbar.open();
   }
 
 }

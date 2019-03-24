@@ -1,16 +1,14 @@
+<div *ngFor="let statusMessage of messages">
+  {{ showMessage(statusMessage.message) }}
+</div>
+
 <div class="mdc-snackbar">
   <div class="mdc-snackbar__surface">
     <div class="mdc-snackbar__label"
          role="status"
          aria-live="polite">
-      Testing snackbar.
-    </div>
-    <div class="mdc-snackbar__actions">
-      <button type="button" class="mdc-button mdc-snackbar__action">Retry</button>
+      {{ message }}
     </div>
   </div>
 </div>
 
-<button (click)="openSnackbar()">
-  click me
-</button>
