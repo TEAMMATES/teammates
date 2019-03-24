@@ -1,5 +1,7 @@
 package teammates.lnp.scripts.teardown;
 
+import teammates.lnp.scripts.create.data.CreateStudentProfileTestData;
+
 /**
  *  Script to delete the Student Profile performance test data that is present in the datastore.
  */
@@ -7,7 +9,7 @@ public final class DeleteStudentProfileTestData extends DeleteTestData {
 
     private DeleteStudentProfileTestData() {
         // Intentional private constructor to prevent external instantiation
-        pathToJson = "/studentProfile.json";
+        pathToJson = new CreateStudentProfileTestData().getPathToOutputJson();
     }
 
     public static void main(String[] args) {

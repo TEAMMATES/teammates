@@ -22,7 +22,7 @@ public class DeleteTestData {
     /**
      * Deletes the data that was created from the file at {@code pathToJson} from the datastore.
      */
-    public void deleteTestData() {
+    protected void deleteTestData() {
         DataBundle dataBundle = loadDataBundle();
         BackDoor.removeDataBundle(dataBundle);
     }

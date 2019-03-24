@@ -23,7 +23,6 @@ public final class RunPerformanceTest {
     private static final Logger log = Logger.getLogger();
 
     private RunPerformanceTest() {
-        // Utility class
         // Intentional private constructor to prevent instantiation
     }
 
