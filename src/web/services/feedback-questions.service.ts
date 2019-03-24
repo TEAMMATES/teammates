@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
 import {
+  FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionDetails,
@@ -11,7 +12,7 @@ import {
 } from '../types/api-output';
 import { FeedbackQuestionCreateRequest, FeedbackQuestionSaveRequest } from '../types/api-request';
 import {
-  DEFAULT_CONTRIBUTION_QUESTION_DETAILS, DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../types/default-question-structs';
@@ -296,7 +297,17 @@ export class FeedbackQuestionsService {
           questionDescription: '',
 
           questionType: FeedbackQuestionType.MCQ,
-          questionDetails: DEFAULT_MCQ_QUESTION_DETAILS(),
+          questionDetails: {
+            hasAssignedWeights: false,
+            mcqWeights: [],
+            mcqOtherWeight: 0,
+            numOfMcqChoices: 2,
+            mcqChoices: [' ', ' '],
+            otherEnabled: false,
+            generateOptionsFor: FeedbackParticipantType.NONE,
+            questionText: '',
+            questionType: FeedbackQuestionType.MCQ,
+          } as FeedbackMcqQuestionDetails,
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
