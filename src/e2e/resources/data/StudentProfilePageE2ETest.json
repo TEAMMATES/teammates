@@ -1,0 +1,40 @@
+{
+  "accounts": {
+    "studentWithExistingProfile": {
+      "googleId": "${value.injected.in.testfile}",
+      "name": "Benny C",
+      "isInstructor": false,
+      "email": "${value.injected.in.testfile}",
+      "institute": "TEAMMATES Test Institute 7"
+    }
+  },
+  "courses": {},
+  "instructors": {},
+  "students": {
+    "studentWithExistingProfile": {
+      "googleId": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}",
+      "course": "SProfileUiT.CS2104",
+      "name": "Benny C",
+      "comments": "This student's name is BC",
+      "team": "Team 1",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {
+    "studentWithExistingProfile": {
+      "googleId": "${value.injected.in.testfile}",
+      "shortName": "Ben",
+      "email": "i.m.benny@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 4",
+      "nationality": "Singaporean",
+      "gender": "MALE",
+      "moreInfo": "I am just another student :P",
+      "pictureKey": ""
+    }
+  }
+}

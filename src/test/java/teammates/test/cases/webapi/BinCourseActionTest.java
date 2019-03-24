@@ -1,5 +1,6 @@
 package teammates.test.cases.webapi;
 
+import java.time.ZoneId;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
@@ -49,7 +50,10 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         CourseAttributes courseToBeDeleted = logic.getCourse(instructor1OfCourse1.getCourseId());
 
-        logic.createCourseAndInstructor(instructorId, "icdct.tpa.id1", "New course", "UTC");
+        logic.createCourseAndInstructor(instructorId,
+                CourseAttributes.builder("icdct.tpa.id1")
+                        .withName("New course")
+                        .withTimezone(ZoneId.of("UTC")).build());
 
         BinCourseAction binCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(binCourseAction);
@@ -134,32 +138,24 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        logic.createCourseAndInstructor(
-                typicalBundle.instructors.get("instructor1OfCourse1").googleId,
-                "icdat.owncourse", "New course", "UTC");
+        logic.createCourseAndInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId,
+                CourseAttributes.builder("icdat.owncourse")
+                        .withName("New course")
+                        .withTimezone(ZoneId.of("UTC")).build());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "icdat.owncourse",
         };
 
-        /*  Test access for users
-         *  This should be separated from testing for admin as we need to recreate the course after being removed
-         */
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-
-        CoursesLogic.inst().deleteCourseCascade("icdat.owncourse");
-
-        /* Test access for admin in masquerade mode */
-        logic.createCourseAndInstructor(
-                typicalBundle.instructors.get("instructor1OfCourse1").googleId,
-                "icdat.owncourse", "New course", "UTC");
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
 
+        // clean up
         CoursesLogic.inst().deleteCourseCascade("icdat.owncourse");
     }
 

@@ -33,12 +33,12 @@ public class JsonUtilsTest extends BaseTestCase {
                 .withFeedbackSessionName("testFeedbackSession")
                 .withGiverType(FeedbackParticipantType.INSTRUCTORS)
                 .withRecipientType(FeedbackParticipantType.SELF)
-                .withNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
+                .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .withQuestionNumber(1)
                 .withQuestionDetails(questionDetails)
                 .withShowGiverNameTo(participants)
                 .withShowRecipientNameTo(participants)
-                .withShowResponseTo(participants)
+                .withShowResponsesTo(participants)
                 .build();
 
         try {
@@ -72,20 +72,24 @@ public class JsonUtilsTest extends BaseTestCase {
 
     @Test
     public void testFeedbackResponseDetailsAdaptor_withComposedResponseDetails_shouldSerializeToConcreteClass() {
-        FeedbackResponseAttributes fra = new FeedbackResponseAttributes(
-                "Session1", "CS3281",
-                "questionId", "giver@email.com", "giverSection",
-                "recipient@email.com", "recipientSection",
-                new FeedbackTextResponseDetails("My answer"));
+        FeedbackResponseAttributes fra =
+                FeedbackResponseAttributes.builder(
+                        "questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
 
         try {
             String serializeString = JsonUtils.toJson(fra);
             assertEquals("{\n"
-                    + "  \"feedbackSessionName\": \"Session1\",\n"
-                    + "  \"courseId\": \"CS3281\",\n"
                     + "  \"feedbackQuestionId\": \"questionId\",\n"
                     + "  \"giver\": \"giver@email.com\",\n"
                     + "  \"recipient\": \"recipient@email.com\",\n"
+                    + "  \"feedbackSessionName\": \"Session1\",\n"
+                    + "  \"courseId\": \"CS3281\",\n"
                     + "  \"responseDetails\": {\n"
                     + "    \"answer\": \"My answer\",\n"
                     + "    \"questionType\": \"TEXT\"\n"

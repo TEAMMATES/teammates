@@ -13,6 +13,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -45,9 +46,11 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     public void deleteSessionsFromDb() {
         Set<String> keys = dataBundle.feedbackSessions.keySet();
         for (String i : keys) {
-            fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));
+            FeedbackSessionAttributes sessionToDelete = dataBundle.feedbackSessions.get(i);
+            fsDb.deleteFeedbackSession(sessionToDelete.getFeedbackSessionName(), sessionToDelete.getCourseId());
         }
-        fsDb.deleteEntity(getNewFeedbackSession());
+        FeedbackSessionAttributes sessionToDelete = getNewFeedbackSession();
+        fsDb.deleteFeedbackSession(sessionToDelete.getFeedbackSessionName(), sessionToDelete.getCourseId());
     }
 
     @Test
@@ -57,6 +60,80 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         List<FeedbackSessionAttributes> actualAttributesList = fsDb.getAllOngoingSessions(rangeStart, rangeEnd);
         assertEquals("should not return more than 13 sessions as there are only 13 distinct sessions in the range",
                 13, actualAttributesList.size());
+    }
+
+    @Test
+    public void testDeleteFeedbackSession() throws Exception {
+        FeedbackSessionAttributes fsa = getNewFeedbackSession();
+        fsDb.createEntity(fsa);
+        fsa = fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName());
+        assertNotNull(fsa);
+
+        ______TS("non-existent course ID");
+
+        fsDb.deleteFeedbackSession(fsa.getFeedbackSessionName(), "not_exist");
+
+        assertNotNull(fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()));
+
+        ______TS("non-existent session name");
+
+        fsDb.deleteFeedbackSession("not_exist", fsa.getCourseId());
+
+        assertNotNull(fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()));
+
+        ______TS("non-existent course ID and session name");
+
+        fsDb.deleteFeedbackSession("not_exist", "not_exist");
+
+        assertNotNull(fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()));
+
+        ______TS("standard success case");
+
+        fsDb.deleteFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
+
+        assertNull(fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()));
+    }
+
+    @Test
+    public void testDeleteFeedbackSessions_byCourseId() throws Exception {
+        FeedbackSessionAttributes fsa = getNewFeedbackSession();
+        fsDb.createEntity(fsa);
+        fsa = fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName());
+        assertNotNull(fsa);
+
+        FeedbackSessionAttributes anotherFas = getNewFeedbackSession();
+        anotherFas.setCourseId("courseId");
+        fsDb.createEntity(anotherFas);
+        anotherFas = fsDb.getFeedbackSession(anotherFas.getCourseId(), anotherFas.getFeedbackSessionName());
+        assertNotNull(anotherFas);
+
+        ______TS("non-existent course ID");
+
+        fsDb.deleteFeedbackSessions(
+                AttributesDeletionQuery.builder()
+                        .withCourseId("non_exist")
+                        .build());
+
+        assertNotNull(fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()));
+        assertNotNull(fsDb.getFeedbackSession(anotherFas.getCourseId(), anotherFas.getFeedbackSessionName()));
+
+        ______TS("standard success case");
+
+        fsDb.deleteFeedbackSessions(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(fsa.getCourseId())
+                        .build());
+
+        assertNull(fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()));
+        assertNotNull(fsDb.getFeedbackSession(anotherFas.getCourseId(), anotherFas.getFeedbackSessionName()));
+
+        fsDb.deleteFeedbackSessions(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(anotherFas.getCourseId())
+                        .build());
+
+        assertNull(fsDb.getFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()));
+        assertNull(fsDb.getFeedbackSession(anotherFas.getCourseId(), anotherFas.getFeedbackSessionName()));
     }
 
     @Test
@@ -71,12 +148,10 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("duplicate");
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class, () -> fsDb.createEntity(fsa));
-        AssertHelper.assertContains(
-                String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.getEntityTypeAsString())
-                        + fsa.getIdentificationString(),
-                eaee.getMessage());
+        assertEquals(
+                String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.toString()), eaee.getMessage());
 
-        fsDb.deleteEntity(fsa);
+        fsDb.deleteFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
         verifyAbsentInDatastore(fsa);
 
         ______TS("null params");
@@ -339,7 +414,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("invalid feedback session attributes");
         FeedbackSessionAttributes invalidFs = getNewFeedbackSession();
-        fsDb.deleteEntity(invalidFs);
+        fsDb.deleteFeedbackSession(invalidFs.getFeedbackSessionName(), invalidFs.getCourseId());
         fsDb.createEntity(invalidFs);
         Instant afterEndTime = invalidFs.getEndTime().plus(Duration.ofDays(30));
         invalidFs.setStartTime(afterEndTime);
@@ -369,7 +444,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("standard success case");
         FeedbackSessionAttributes modifiedSession = getNewFeedbackSession();
-        fsDb.deleteEntity(modifiedSession);
+        fsDb.deleteFeedbackSession(modifiedSession.getFeedbackSessionName(), modifiedSession.getCourseId());
         fsDb.createEntity(modifiedSession);
         verifyPresentInDatastore(modifiedSession);
         modifiedSession.setInstructions("new instructions");
@@ -389,15 +464,13 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
-        return FeedbackSessionAttributes.builder("fsTest1", "testCourse", "valid@email.com")
-                .withCreatedTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-2))
+        return FeedbackSessionAttributes.builder("fsTest1", "testCourse")
+                .withCreatorEmail("valid@email.com")
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-62))
                 .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(0))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(1))
-                .withGracePeriodMinutes(5)
-                .withSentOpenEmail(true)
-                .withSentPublishedEmail(true)
+                .withGracePeriod(Duration.ofMinutes(5))
                 .withInstructions("Give feedback.")
                 .build();
     }

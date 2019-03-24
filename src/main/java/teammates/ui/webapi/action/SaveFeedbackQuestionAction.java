@@ -82,7 +82,7 @@ public class SaveFeedbackQuestionAction extends Action {
                             .withRecipientType(oldQuestion.getRecipientType())
                             .withNumberOfEntitiesToGiveFeedbackTo(oldQuestion.getNumberOfEntitiesToGiveFeedbackTo())
                             .withShowResponsesTo(oldQuestion.getShowResponsesTo())
-                            .withShowGiveNameTo(oldQuestion.getShowGiverNameTo())
+                            .withShowGiverNameTo(oldQuestion.getShowGiverNameTo())
                             .withShowRecipientNameTo(oldQuestion.getShowRecipientNameTo())
                             .build());
         } catch (InvalidParametersException e) {

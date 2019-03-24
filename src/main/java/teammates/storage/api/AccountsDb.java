@@ -2,15 +2,12 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -24,14 +21,6 @@ import teammates.storage.entity.Account;
  * @see AccountAttributes
  */
 public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
-    /**
-     * Preconditions:
-     * <br> * {@code accountToAdd} is not null and has valid data.
-     */
-    public void createAccount(AccountAttributes accountToAdd)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        createEntity(accountToAdd);
-    }
 
     /**
      * Gets the data transfer version of the account.
@@ -90,29 +79,14 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     /**
-     * Note: This is a non-cascade delete. <br>
-     *   <br> Fails silently if there is no such account.
-     * <br> Preconditions:
-     * <br> * {@code googleId} is not null.
+     * Deletes an account.
+     *
+     * <p>Fails silently if there is no such account.
      */
     public void deleteAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
-        Account accountToDelete = getAccountEntity(googleId);
-
-        if (accountToDelete == null) {
-            return;
-        }
-
-        deleteEntityDirect(accountToDelete);
-    }
-
-    public void deleteAccounts(Collection<AccountAttributes> accounts) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, accounts);
-
-        for (AccountAttributes accountToDelete : accounts) {
-            deleteAccount(accountToDelete.googleId);
-        }
+        deleteEntity(Key.create(Account.class, googleId));
     }
 
     private Account getAccountEntity(String googleId) {
@@ -135,9 +109,9 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     @Override
-    protected QueryKeys<Account> getEntityQueryKeys(AccountAttributes attributes) {
-        Key<Account> keyToFind = Key.create(Account.class, attributes.googleId);
-        return load().filterKey(keyToFind).keys();
+    protected boolean hasExistingEntities(AccountAttributes entityToCreate) {
+        Key<Account> keyToFind = Key.create(Account.class, entityToCreate.getGoogleId());
+        return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 
     @Override

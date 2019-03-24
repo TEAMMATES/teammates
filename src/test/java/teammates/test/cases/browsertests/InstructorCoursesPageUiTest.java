@@ -38,7 +38,9 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
 
     private CourseAttributes validCourse =
             CourseAttributes
-                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", ZoneId.of("Asia/Singapore"))
+                    .builder(" CCAddUiTest.course1 ")
+                    .withName(" Software Engineering $^&*() ")
+                    .withTimezone(ZoneId.of("Asia/Singapore"))
                     .build();
 
     @Override
@@ -350,7 +352,7 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
         //after click archive button, new value will be assigned to instructor's isArchive attribute
         //after this, his own archive status for this course will not be affected by other instructors
         //of the same course
-        assertTrue(instructorWithNullArchiveStatus.isArchived.booleanValue());
+        assertTrue(instructorWithNullArchiveStatus.isArchived());
 
         ______TS("archive status of another instructor from same course not affected");
 

@@ -1,5 +1,6 @@
 package teammates.ui.webapi.request;
 
+import java.time.Duration;
 import java.time.Instant;
 
 import javax.annotation.Nullable;
@@ -42,8 +43,8 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         return Instant.ofEpochMilli(submissionEndTimestamp);
     }
 
-    public long getGracePeriod() {
-        return gracePeriod;
+    public Duration getGracePeriod() {
+        return Duration.ofMinutes(gracePeriod);
     }
 
     /**

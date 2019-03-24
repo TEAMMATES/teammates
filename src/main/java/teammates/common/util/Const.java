@@ -1413,9 +1413,6 @@ public final class Const {
         // General Error codes
         public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
 
-        // Error message for update options
-        public static final String UPDATE_OPTIONS_NULL_INPUT = "Field to update is null";
-
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";
 

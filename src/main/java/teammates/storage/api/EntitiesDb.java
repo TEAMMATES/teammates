@@ -13,13 +13,13 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.search.SearchDocument;
@@ -33,7 +33,7 @@ import teammates.storage.search.SearchQuery;
  */
 public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
-    public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
+    public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create an entity that exists: %s";
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
@@ -42,14 +42,17 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     protected static final Logger log = Logger.getLogger();
 
     /**
-     * Preconditions:
-     * <br> * {@code entityToAdd} is not null and has valid data.
+     * Creates the entity in the Datastore.
+     *
+     * @return created entity
+     * @throws InvalidParametersException if the entity to create is invalid
+     * @throws EntityAlreadyExistsException if the entity to create already exists
      */
-    public E createEntity(A entityToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
-        return createEntity(entityToAdd, true);
+    public A createEntity(A entityToCreate) throws InvalidParametersException, EntityAlreadyExistsException {
+        return createEntity(entityToCreate, true);
     }
 
-    private E createEntity(A entityToAdd, boolean shouldCheckExistence)
+    private A createEntity(A entityToAdd, boolean shouldCheckExistence)
             throws InvalidParametersException, EntityAlreadyExistsException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
 
@@ -59,68 +62,50 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
             throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
         }
 
-        // TODO: Do we really need special identifiers? Can just use ToString()?
-        // Answer: Yes. We can use toString.
-        if (shouldCheckExistence && hasEntity(entityToAdd)) {
-            String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.getEntityTypeAsString())
-                    + entityToAdd.getIdentificationString();
-            log.info(error);
+        if (shouldCheckExistence && hasExistingEntities(entityToAdd)) {
+            String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, entityToAdd.toString());
             throw new EntityAlreadyExistsException(error);
         }
 
         E entity = entityToAdd.toEntity();
 
-        saveEntity(entity, entityToAdd);
+        ofy().save().entity(entity).now();
+        log.info("Entity created: " + JsonUtils.toJson(entityToAdd));
 
-        return entity;
+        return makeAttributes(entity);
     }
 
-    public List<A> createEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
+    /**
+     * Checks whether there are existing entities in the Datastore.
+     */
+    protected abstract boolean hasExistingEntities(A entityToCreate);
 
-        List<A> entitiesToUpdate = new ArrayList<>();
-        List<E> entities = new ArrayList<>();
-
-        for (A entityToAdd : entitiesToAdd) {
-            entityToAdd.sanitizeForSaving();
-
-            if (!entityToAdd.isValid()) {
-                throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
-            }
-
-            if (hasEntity(entityToAdd)) {
-                entitiesToUpdate.add(entityToAdd);
-            } else {
-                E entity = entityToAdd.toEntity();
-                entities.add(entity);
-            }
+    /**
+     * Puts an entity in the datastore without existence checking.
+     *
+     * <p>The document of the associated entity (if applicable) WILL NOT be updated.
+     *
+     * @return created entity
+     * @throws InvalidParametersException if entity to put is not valid
+     */
+    public A putEntity(A entityToAdd) throws InvalidParametersException {
+        try {
+            return createEntity(entityToAdd, false);
+        } catch (EntityAlreadyExistsException e) {
+            Assumption.fail("Unreachable branch");
+            return null;
         }
-
-        saveEntities(entities, entitiesToAdd);
-
-        return entitiesToUpdate;
     }
 
     /**
-     * Creates multiple entities without checking for existence. Also calls {@link #flush()},
-     * leading to any previously deferred operations being written immediately.
+     * Puts a collection of entity in the datastore without existence checking.
      *
-     * @return list of created entities.
-     */
-    public List<E> createEntitiesWithoutExistenceCheck(Collection<A> entitiesToAdd) throws InvalidParametersException {
-        List<E> createdEntities = createEntitiesDeferred(entitiesToAdd);
-        flush();
-        return createdEntities;
-    }
-
-    /**
-     * Queues creation of multiple entities. No actual writes are done until {@link #flush()} is called.
-     * Note that there is no check for existence - existing entities will be overwritten.
-     * If multiple entities with the same key are queued, only the last one queued will be created.
+     * <p>The documents of the associated entities (if applicable) WILL NOT be updated.
      *
-     * @return list of created entities.
+     * @return created entities
+     * @throws InvalidParametersException if any of entity to add is not valid
      */
-    public List<E> createEntitiesDeferred(Collection<A> entitiesToAdd) throws InvalidParametersException {
+    public List<A> putEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
 
         List<E> entities = new ArrayList<>();
@@ -136,24 +121,12 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
             entities.add(entity);
         }
 
-        saveEntitiesDeferred(entities, entitiesToAdd);
-
-        return entities;
-    }
-
-    /**
-     * Warning: Do not use this method unless a previous update might cause
-     * adding of the new entity to fail due to EntityAlreadyExists exception
-     * Preconditions:
-     * <br> * {@code entityToAdd} is not null and has valid data.
-     */
-    public E createEntityWithoutExistenceCheck(A entityToAdd) throws InvalidParametersException {
-        try {
-            return createEntity(entityToAdd, false);
-        } catch (EntityAlreadyExistsException e) {
-            Assumption.fail("Caught exception thrown by existence check even with existence check disabled");
-            return null;
+        for (A attributes : entitiesToAdd) {
+            log.info("Entity created: " + JsonUtils.toJson(attributes));
         }
+        ofy().save().entities(entities).now();
+
+        return makeAttributes(entities);
     }
 
     public void saveEntity(E entityToSave) {
@@ -178,59 +151,18 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         ofy().save().entities(entitiesToSave).now();
     }
 
-    protected void saveEntitiesDeferred(Collection<E> entitiesToSave, Collection<A> entitiesToSaveAttributesForLogging) {
-        for (A attributes : entitiesToSaveAttributesForLogging) {
-            log.info(attributes.getBackupIdentifier());
-        }
-        ofy().defer().save().entities(entitiesToSave);
-    }
-
-    public static void flush() {
-        ofy().flush();
-    }
-
-    // TODO: use this method for subclasses.
     /**
-     * Note: This is a non-cascade delete.<br>
-     *   <br> Fails silently if there is no such object.
+     * Deletes entity by key.
      */
-    public void deleteEntity(A entityToDelete) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
+    protected void deleteEntity(Key<?>... keys) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, (Object) keys);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, (Object[]) keys);
 
-        ofy().delete().keys(getEntityQueryKeys(entityToDelete)).now();
-        log.info(entityToDelete.getBackupIdentifier());
-    }
-
-    public void deleteEntities(Collection<A> entitiesToDelete) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
-
-        List<Key<E>> keysToDelete = new ArrayList<>();
-        for (A entityToDelete : entitiesToDelete) {
-            Key<E> keyToDelete = getEntityQueryKeys(entityToDelete).first().now();
-            if (keyToDelete == null) {
-                continue;
-            }
-            keysToDelete.add(keyToDelete);
-            log.info(entityToDelete.getBackupIdentifier());
+        for (Key<?> key : keys) {
+            log.info(String.format("Delete entity %s of key (id: %d, name: %s)",
+                    key.getKind(), key.getId(), key.getName()));
         }
-
-        ofy().delete().keys(keysToDelete).now();
-    }
-
-    protected void deleteEntityDirect(E entityToDelete) {
-        deleteEntityDirect(entityToDelete, makeAttributes(entityToDelete));
-    }
-
-    protected void deleteEntityDirect(E entityToDelete, A entityToDeleteAttributesForLogging) {
-        ofy().delete().entity(entityToDelete).now();
-        log.info(entityToDeleteAttributesForLogging.getBackupIdentifier());
-    }
-
-    protected void deleteEntitiesDirect(Collection<E> entitiesToDelete, Collection<A> entitiesToDeleteAttributesForLogging) {
-        for (A attributes : entitiesToDeleteAttributesForLogging) {
-            log.info(attributes.getBackupIdentifier());
-        }
-        ofy().delete().entities(entitiesToDelete).now();
+        ofy().delete().keys(keys).now();
     }
 
     protected abstract LoadType<E> load();
@@ -242,18 +174,6 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
      *             based on the default key identifiers.
      */
     protected abstract E getEntity(A attributes);
-
-    /**
-     * NOTE: This method must be overriden for all subclasses such that it will return the key query for the
-     * Entity matching the EntityAttributes in the parameter.
-     * @return    the key query for the Entity which matches the given {@link EntityAttributes} {@code attributes}
-     *             based on the default key identifiers.
-     */
-    protected abstract QueryKeys<E> getEntityQueryKeys(A attributes);
-
-    public boolean hasEntity(A attributes) {
-        return getEntityQueryKeys(attributes).first().now() != null;
-    }
 
     protected abstract A makeAttributes(E entity);
 
@@ -323,11 +243,15 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         }
     }
 
-    protected void deleteDocument(String indexName, String documentId) {
+    /**
+     * Deletes document by documentId(s).
+     */
+    protected void deleteDocument(String indexName, String... documentIds) {
         try {
-            SearchManager.deleteDocument(indexName, documentId);
+            SearchManager.deleteDocument(indexName, documentIds);
         } catch (Exception e) {
-            log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);
+            log.info("Unable to delete document in the index: " + indexName
+                    + " with document Ids " + String.join(", ", documentIds));
         }
     }
 

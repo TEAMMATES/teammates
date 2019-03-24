@@ -1,6 +1,6 @@
 package teammates.test.cases.logic;
 
-import java.time.Instant;
+import java.time.Duration;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,6 +10,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.StudentAttributesFactory;
@@ -32,6 +33,8 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.StudentsDb;
@@ -47,6 +50,9 @@ public class StudentsLogicTest extends BaseLogicTest {
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
     private static AccountsLogic accountsLogic = AccountsLogic.inst();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -82,9 +88,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         testUpdateStudentCascade();
         testEnrollLinesChecking();
         testEnrollStudents();
-
-        testDeleteStudent();
-
     }
 
     /*
@@ -126,22 +129,26 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         //create fresh test data
         accountsLogic.createAccount(
-                AccountAttributes.builder()
-                        .withGoogleId(instructorId)
+                AccountAttributes.builder(instructorId)
                         .withName("ICET Instr Name")
                         .withEmail("instructor@icet.tmt")
                         .withInstitute("TEAMMATES Test Institute 1")
                         .withIsInstructor(true)
                         .build());
-        coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing", "UTC");
+        coursesLogic.createCourseAndInstructor(instructorId,
+                CourseAttributes.builder(instructorCourse)
+                        .withName("Course for Enroll Testing")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         ______TS("add student into empty course");
 
         StudentAttributes student1 = StudentAttributes
-                .builder(instructorCourse, "n", "e@g")
-                .withSection("sect 1")
-                .withTeam("t1")
-                .withComments("c")
+                .builder(instructorCourse, "e@g")
+                .withName("n")
+                .withSectionName("sect 1")
+                .withTeamName("t1")
+                .withComment("c")
                 .build();
 
         // check if the course is empty
@@ -164,10 +171,11 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("add student into non-empty course");
         StudentAttributes student2 = StudentAttributes
-                .builder(instructorCourse, "n2", "e2@g")
-                .withSection("sect 1")
-                .withTeam("t1")
-                .withComments("c")
+                .builder(instructorCourse, "e2@g")
+                .withName("n2")
+                .withSectionName("sect 1")
+                .withTeamName("t1")
+                .withComment("c")
                 .build();
         enrollmentResult = enrollStudent(student2);
         verifyEnrollmentDetailsForStudent(student2, null, enrollmentResult,
@@ -176,16 +184,18 @@ public class StudentsLogicTest extends BaseLogicTest {
         //add some more students to the same course (we add more than one
         //  because we can use them for testing cascade logic later in this test case)
         enrollStudent(StudentAttributes
-                .builder(instructorCourse, "n3", "e3@g")
-                .withSection("sect 2")
-                .withTeam("t2")
-                .withComments("c")
+                .builder(instructorCourse, "e3@g")
+                .withName("n3")
+                .withSectionName("sect 2")
+                .withTeamName("t2")
+                .withComment("c")
                 .build());
         enrollStudent(StudentAttributes
-                .builder(instructorCourse, "n4", "e4@g")
-                .withSection("sect 2")
-                .withTeam("t2")
-                .withComments("")
+                .builder(instructorCourse, "e4@g")
+                .withName("n4")
+                .withSectionName("sect 2")
+                .withTeamName("t2")
+                .withComment("")
                 .build());
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
 
@@ -209,16 +219,18 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         List<StudentAttributes> studentList = new ArrayList<>();
         studentList.add(StudentAttributes
-                .builder(courseId, "New Student", "emailNew@com")
-                .withSection("Section 3")
-                .withTeam("Team 1.3")
-                .withComments("")
+                .builder(courseId, "emailNew@com")
+                .withName("New Student")
+                .withSectionName("Section 3")
+                .withTeamName("Team 1.3")
+                .withComment("")
                 .build());
         studentList.add(StudentAttributes
-                .builder(courseId, "student2 In Course1", "student2InCourse1@gmail.tmt")
-                .withSection("Section 2")
-                .withTeam("Team 1.4")
-                .withComments("")
+                .builder(courseId, "student2InCourse1@gmail.tmt")
+                .withName("student2 In Course1")
+                .withSectionName("Section 2")
+                .withTeamName("Team 1.4")
+                .withComment("")
                 .build());
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
@@ -228,10 +240,11 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentList.clear();
         for (int i = 0; i < 100; i++) {
             StudentAttributes addedStudent = StudentAttributes
-                    .builder(courseId, "Name " + i, "email@com" + i)
-                    .withSection("Section 1")
-                    .withTeam("Team " + i)
-                    .withComments("cmt" + i)
+                    .builder(courseId, "email@com" + i)
+                    .withName("Name " + i)
+                    .withSectionName("Section 1")
+                    .withTeamName("Team " + i)
+                    .withComment("cmt" + i)
                     .build();
             studentList.add(addedStudent);
         }
@@ -243,16 +256,18 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         studentList.clear();
         studentList.add(StudentAttributes
-                .builder(courseId, "New Student", "newemail@com")
-                .withSection("Section 2")
-                .withTeam("Team 1.1")
-                .withComments("")
+                .builder(courseId, "newemail@com")
+                .withName("New Student")
+                .withSectionName("Section 2")
+                .withTeamName("Team 1.1")
+                .withComment("")
                 .build());
         studentList.add(StudentAttributes
-                .builder(courseId, "New Student 2", "newemail2@com")
-                .withSection("Section 3")
-                .withTeam("Team 1.1")
-                .withComments("")
+                .builder(courseId, "newemail2@com")
+                .withName("New Student 2")
+                .withSectionName("Section 3")
+                .withTeamName("Team 1.1")
+                .withComment("")
                 .build());
         ee = assertThrows(EnrollException.class, () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
         assertEquals(
@@ -381,7 +396,11 @@ public class StudentsLogicTest extends BaseLogicTest {
         String info;
         String enrollLines;
         String courseId = "CourseID";
-        coursesLogic.createCourse(courseId, "CourseName", "UTC");
+        coursesLogic.createCourse(
+                CourseAttributes.builder(courseId)
+                        .withName("CourseName")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
         String invalidInfoString = null;
         String expectedInvalidInfoString;
         List<String> expectedInvalidInfoList = new ArrayList<>();
@@ -516,7 +535,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 + lineWithCorrectInput + System.lineSeparator()
                 + lineWithCorrectInputWithComment;
         // No exception is supposed be thrown here. Test will fail if Enrollment Exception is thrown
-        studentsLogic.createStudents(enrollLines, courseId);
+        studentsLogic.buildStudents(enrollLines, courseId);
 
         ______TS("enrollLines with only whitespaces");
         // not tested as enroll lines must be trimmed before passing to the method
@@ -572,7 +591,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     /**
      * Returns the error message of EnrollException thrown when trying to call
-     * {@link StudentsLogic#createStudents(String, String)} method with
+     * {@link StudentsLogic#buildStudents(String, String)} method with
      * {@code invalidEnrollLines}. This method assumes that an EnrollException is thrown, else this method fails with
      * {@link AssertionError}
      *
@@ -580,7 +599,7 @@ public class StudentsLogicTest extends BaseLogicTest {
      */
     private String getExceptionMessageOnCreatingStudentsList(String invalidEnrollLines, String courseId) {
         EnrollException ee = assertThrows(EnrollException.class,
-                () -> studentsLogic.createStudents(invalidEnrollLines, courseId));
+                () -> studentsLogic.buildStudents(invalidEnrollLines, courseId));
         return ee.getMessage();
     }
 
@@ -591,8 +610,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         String instructorEmail = "instructor@email.tmt";
         // delete leftover data if any
         accountsLogic.deleteAccountCascade(instructorId);
-        AccountAttributes accountToAdd = AccountAttributes.builder()
-                .withGoogleId(instructorId)
+        AccountAttributes accountToAdd = AccountAttributes.builder(instructorId)
                 .withName("Instructor 1")
                 .withEmail(instructorEmail)
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -600,22 +618,25 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .build();
 
         accountsLogic.createAccount(accountToAdd);
-        coursesLogic.createCourseAndInstructor(instructorId, courseIdForEnrollTest, "Course for Enroll Testing", "UTC");
+        coursesLogic.createCourseAndInstructor(instructorId,
+                CourseAttributes.builder(courseIdForEnrollTest)
+                        .withName("Course for Enroll Testing")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
         FeedbackSessionAttributes fsAttr = FeedbackSessionAttributes
-                .builder("newFeedbackSessionName", courseIdForEnrollTest, instructorEmail)
+                .builder("newFeedbackSessionName", courseIdForEnrollTest)
+                .withCreatorEmail(instructorEmail)
                 .withInstructions("default instructions")
-                .withCreatedTime(Instant.now())
                 .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
                 .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
                 .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
                 .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
                 .withTimeZone(ZoneId.of("Asia/Singapore"))
-                .withGracePeriodMinutes(0)
-                .withOpeningEmailEnabled(false)
-                .withClosingEmailEnabled(false)
-                .withPublishedEmailEnabled(false)
+                .withGracePeriod(Duration.ZERO)
+                .withIsClosingEmailEnabled(false)
+                .withIsPublishedEmailEnabled(false)
                 .build();
         fsLogic.createFeedbackSession(fsAttr);
 
@@ -700,8 +721,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("same student added, modified and unmodified");
 
-        accountToAdd = AccountAttributes.builder()
-                .withGoogleId("tes.instructor")
+        accountToAdd = AccountAttributes.builder("tes.instructor")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -709,7 +729,11 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .build();
 
         accountsLogic.createAccount(accountToAdd);
-        coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course", "UTC");
+        coursesLogic.createCourseAndInstructor("tes.instructor",
+                CourseAttributes.builder("tes.course")
+                        .withName("TES Course")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         String line = headerLine + System.lineSeparator() + "t8|n8|e8@g|c1";
         enrollResults = studentsLogic.enrollStudents(line, "tes.course");
@@ -1020,32 +1044,189 @@ public class StudentsLogicTest extends BaseLogicTest {
                                                         student5InCourse1.email));
     }
 
-    private void testDeleteStudent() {
+    @Test
+    public void testDeleteStudentCascade_lastPersonInTeam_shouldDeleteTeamResponses() throws Exception {
+        StudentAttributes student1InCourse2 = dataBundle.students.get("student1InCourse2");
+        StudentAttributes student2InCourse2 = dataBundle.students.get("student2InCourse2");
+        // they are in the same team
+        assertEquals(student1InCourse2.getTeam(), student2InCourse2.getTeam());
 
-        ______TS("typical delete");
+        // delete the second student
+        studentsLogic.deleteStudentCascade(student1InCourse2.getCourse(), student1InCourse2.getEmail());
+        // there is only one student in the team
+        assertEquals(1,
+                StudentsLogic.inst().getStudentsForTeam(student2InCourse2.getTeam(), student2InCourse2.getCourse()).size());
 
-        // this is the student to be deleted
+        // get the response from DB
+        FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C2");
+        int qnNumber = Integer.parseInt(fra.feedbackQuestionId);
+        String qnId = fqLogic.getFeedbackQuestion(fra.feedbackSessionName, fra.courseId, qnNumber).getId();
+        fra = frLogic.getFeedbackResponse(qnId, fra.giver, fra.recipient);
+        assertNotNull(fra);
+        // the team is the recipient of the response
+        assertEquals(student2InCourse2.getTeam(), fra.recipient);
+        // this is the only response the instructor has given for the session
+        String feedbackSessionName = fra.feedbackSessionName;
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
+                .filter(response -> response.feedbackSessionName.equals(feedbackSessionName))
+                .count());
+        // suppose the instructor is in the respondent list
+        fsLogic.addInstructorRespondent(fra.giver, fra.feedbackSessionName, fra.courseId);
+        assertTrue(
+                fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId)
+                        .getRespondingInstructorList().contains(fra.giver));
+
+        // after the student is moved from the course
+        // team response will also be removed
+        studentsLogic.deleteStudentCascade(student2InCourse2.getCourse(), student2InCourse2.getEmail());
+
+        // this will delete the response to the team
+        assertNull(frLogic.getFeedbackResponse(fra.getId()));
+        // the instructor will be removed from the respondents list
+        assertFalse(
+                fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId)
+                        .getRespondingInstructorList().contains(fra.giver));
+    }
+
+    @Test
+    public void testDeleteStudentCascade() {
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         verifyPresentInDatastore(student2InCourse1);
-
-        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
-        verifyAbsentInDatastore(student2InCourse1);
-
-        // verify that other students in the course are intact
-
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        verifyPresentInDatastore(student1InCourse1);
 
         ______TS("delete non-existent student");
 
         // should fail silently.
         studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
 
+        ______TS("typical delete");
+
+        // the student has response
+        assertTrue(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        student2InCourse1.getCourse(), student2InCourse1.getEmail()).isEmpty());
+        assertTrue(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        student2InCourse1.getCourse(), student2InCourse1.getEmail()).isEmpty());
+
+        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+
+        verifyAbsentInDatastore(student2InCourse1);
+        // verify responses of the student are gone
+        assertTrue(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        student2InCourse1.getCourse(), student2InCourse1.getEmail()).isEmpty());
+        assertTrue(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        student2InCourse1.getCourse(), student2InCourse1.getEmail()).isEmpty());
+
+        // verify that other students in the course are intact
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        verifyPresentInDatastore(student1InCourse1);
+
         ______TS("null parameters");
 
         AssertionError ae = assertThrows(AssertionError.class,
                 () -> studentsLogic.deleteStudentCascade(null, "valid@email.tmt"));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+    }
+
+    @Test
+    public void testDeleteStudentsForGoogleIdCascade_typicalCase_shouldDoCascadeDeletion() {
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+
+        assertNotNull(logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
+        assertNotNull(student1InCourse1.googleId);
+
+        // the student has response
+        assertFalse(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+
+        studentsLogic.deleteStudentsForGoogleIdCascade(student1InCourse1.googleId);
+
+        // verify that the student is deleted
+        assertNull(logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
+
+        // his responses should also be deleted
+        assertTrue(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+        assertTrue(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+    }
+
+    @Test
+    public void testDeleteStudentsForGoogleIdCascade_nonExistentGoogleId_shouldPass() {
+
+        studentsLogic.deleteStudentsForGoogleIdCascade("not_exist");
+
+        // other students are not affected
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        assertNotNull(logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
+    }
+
+    @Test
+    public void testDeleteStudentsInCourseCascade_typicalCase_shouldDoCascadeDeletion() {
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+
+        // there are students in the course
+        assertFalse(logic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
+        // some have give responses
+        assertFalse(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+        assertFalse(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+
+        studentsLogic.deleteStudentsInCourseCascade(student1InCourse1.getCourse());
+
+        // students are deleted
+        assertTrue(logic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
+        // but course exist
+        assertNotNull(logic.getCourse(student1InCourse1.getCourse()));
+        // their responses are gone
+        assertTrue(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
+                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+        assertTrue(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
+                        student1InCourse1.getCourse(), student1InCourse1.getEmail()).isEmpty());
+    }
+
+    @Test
+    public void testDeleteStudents_byCourseId_shouldDeleteAllStudents() {
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student1InArchivedCourse = dataBundle.students.get("student1InArchivedCourse");
+        // the two are in different course
+        assertNotEquals(student1InCourse1.getCourse(), student1InArchivedCourse.getCourse());
+
+        assertNotNull(logic.getStudentForEmail(student1InArchivedCourse.getCourse(), student1InArchivedCourse.getEmail()));
+        // there are students in the course
+        assertFalse(logic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
+
+        studentsLogic.deleteStudents(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(student1InCourse1.getCourse())
+                        .build());
+
+        // students are deleted
+        assertTrue(logic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
+        // students in other courses are not affected
+        assertNotNull(logic.getStudentForEmail(student1InArchivedCourse.getCourse(), student1InArchivedCourse.getEmail()));
+    }
+
+    @Test
+    public void testDeleteStudentsInCourseCascade_nonExistCourse_shouldPass() {
+        studentsLogic.deleteStudentsInCourseCascade("not_exist");
+
+        // other students are not affected
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        assertNotNull(logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
     }
 
     private static StudentEnrollDetails enrollStudent(StudentAttributes student) throws Exception {

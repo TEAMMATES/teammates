@@ -184,8 +184,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-
         int questionNumber = 1;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
@@ -195,7 +193,11 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
-                .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, "")
+                .builder()
+                .withCourseId(fs.getCourseId())
+                .withFeedbackSessionName(fs.getFeedbackSessionName())
+                .withCommentGiver(giverEmail)
+                .withCommentText("")
                 .withFeedbackQuestionId(question.getId())
                 .withFeedbackResponseId(response.getId())
                 .build();
@@ -210,9 +212,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         verifyInaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-
-        // remove the comment
-        frcDb.deleteEntity(comment);
     }
 
     /**

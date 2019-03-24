@@ -129,13 +129,16 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithoutSampleCourse.html");
 
         CourseAttributes newCourse = CourseAttributes
-                .builder("newIns.wit-demo", "Sample Course 101", ZoneId.of("UTC"))
+                .builder("newIns.wit-demo")
+                .withName("Sample Course 101")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")
         InstructorAttributes instr = InstructorAttributes
-                .builder("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
-                        "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt")
+                .builder("newIns.wit-demo", "CHomeUiT.instructor.tmms@gmail.tmt")
+                .withName("Teammates Test New Instructor With Sample")
+                .withGoogleId("CHomeUiT.instructor.tmms.new")
                 .build();
         BackDoor.createInstructor(instr);
 
