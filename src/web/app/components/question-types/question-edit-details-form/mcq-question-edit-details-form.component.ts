@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
@@ -16,7 +16,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
   styleUrls: ['./mcq-question-edit-details-form.component.scss'],
 })
 export class McqQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> implements OnInit {
+    extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {
 
   readonly PARTICIPANT_TYPES: string[] = [FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS,
@@ -24,13 +24,6 @@ export class McqQuestionEditDetailsFormComponent
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
-    if (this.model.numOfMcqChoices === 0) {
-      this.model.mcqChoices = [' ', ' '];
-      this.model.numOfMcqChoices = 2;
-    }
   }
 
   /**

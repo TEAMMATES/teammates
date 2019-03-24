@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
+  FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestionType, FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
@@ -167,6 +168,18 @@ export class QuestionEditFormComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  /**
+   * Modifies the model for Mcq question.
+   */
+  get modifyMcqForm(): any {
+    const mcqDetails: FeedbackMcqQuestionDetails = this.model.questionDetails as FeedbackMcqQuestionDetails;
+    if (mcqDetails.numOfMcqChoices === 0) {
+      mcqDetails.numOfMcqChoices = 2;
+      mcqDetails.mcqChoices = [' ', ' '];
+    }
+    return mcqDetails;
+  }
 
   /**
    * Triggers the change of the model for the form.
