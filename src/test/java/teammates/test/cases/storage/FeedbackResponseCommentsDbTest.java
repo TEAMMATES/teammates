@@ -4,9 +4,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -24,23 +25,41 @@ import teammates.test.driver.AssertHelper;
 public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-    private DataBundle dataBundle = getTypicalDataBundle();
 
-    private FeedbackResponseCommentAttributes frcaData =
-            dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
-    private String frId = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1").feedbackResponseId;
-    private FeedbackResponseCommentAttributes anotherFrcaData =
-            dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
-    private List<FeedbackResponseCommentAttributes> frcasData = new ArrayList<>();
+    private DataBundle dataBundle;
+    private FeedbackResponseCommentAttributes frcaData;
+    private String frId;
+    private FeedbackResponseCommentAttributes anotherFrcaData;
+    private List<FeedbackResponseCommentAttributes> frcasData;
 
-    @BeforeClass
-    public void classSetup() throws Exception {
+    @BeforeMethod
+    public void beforeMethod() throws Exception {
+        dataBundle = getTypicalDataBundle();
+
+        frcaData = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+        frId = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1").feedbackResponseId;
+        anotherFrcaData = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
+        frcasData = new ArrayList<>();
+
+        FeedbackResponseCommentAttributes oldFrcaData =
+                frcDb.getFeedbackResponseComment(frcaData.feedbackResponseId, frcaData.commentGiver, frcaData.createdAt);
+        if (oldFrcaData != null) {
+            frcDb.deleteFeedbackResponseComment(oldFrcaData.getId());
+        }
         frcDb.createEntity(frcaData);
-        frcDb.createEntity(anotherFrcaData);
         frcaData = frcDb.getFeedbackResponseComment(frcaData.feedbackResponseId,
-                                 frcaData.commentGiver, frcaData.createdAt);
+                frcaData.commentGiver, frcaData.createdAt);
+
+        FeedbackResponseCommentAttributes oldAnotherFrcaData =
+                frcDb.getFeedbackResponseComment(
+                        anotherFrcaData.feedbackResponseId, anotherFrcaData.commentGiver, anotherFrcaData.createdAt);
+        if (oldAnotherFrcaData != null) {
+            frcDb.deleteFeedbackResponseComment(oldAnotherFrcaData.getId());
+        }
+        frcDb.createEntity(anotherFrcaData);
         anotherFrcaData = frcDb.getFeedbackResponseComment(anotherFrcaData.feedbackResponseId,
-                                        anotherFrcaData.commentGiver, anotherFrcaData.createdAt);
+                anotherFrcaData.commentGiver, anotherFrcaData.createdAt);
+
         frcasData.add(frcaData);
         frcasData.add(anotherFrcaData);
     }
@@ -63,9 +82,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         testGetFeedbackResponseCommentsForSession();
 
         testUpdateFeedbackResponseCommentsGiverEmail();
-
-        testDeleteFeedbackResponseCommentsForResponse();
-
     }
 
     private void testEntityCreationAndDeletion() throws Exception {
@@ -81,7 +97,10 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("Entity deletion");
 
-        frcDb.deleteEntity(frcaTemp);
+        frcaTemp = frcDb.getFeedbackResponseComment(
+                frcaTemp.feedbackResponseId, frcaTemp.commentGiver, frcaTemp.createdAt);
+        assertNotNull(frcaTemp);
+        frcDb.deleteFeedbackResponseComment(frcaTemp.getId());
         verifyAbsentInDatastore(frcaTemp);
     }
 
@@ -223,7 +242,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertEquals(frcaExpected.courseId, frcaActual.courseId);
         assertEquals(frcaExpected.commentText, frcaActual.commentText);
 
-        frcDb.deleteEntity(frcaTemp);
+        frcDb.deleteFeedbackResponseComment(frcaActual.getId());
 
         ______TS("non-existent comment");
 
@@ -306,8 +325,41 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
-    private void testDeleteFeedbackResponseCommentsForResponse()
+    @Test
+    public void testDeleteFeedbackResponseComment() {
+
+        ______TS("delete non-existent comment");
+
+        assertNull(frcDb.getFeedbackResponseComment(-123L));
+
+        frcDb.deleteDocumentByCommentId(-123L);
+
+        ______TS("typical success case");
+
+        assertNotNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
+
+        frcDb.deleteFeedbackResponseComment(frcaData.getId());
+
+        assertNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
+
+        ______TS("delete again same comment");
+
+        frcDb.deleteFeedbackResponseComment(frcaData.getId());
+
+        assertNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseComments_byResponseId()
             throws InvalidParametersException, EntityAlreadyExistsException {
+
+        ______TS("non-existent response id");
+
+        // should pass silently
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withResponseId("not_exist")
+                        .build());
 
         ______TS("typical success case");
 
@@ -323,12 +375,137 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         tempFrcaData.feedbackResponseId = responseId;
         frcDb.createEntity(tempFrcaData);
 
-        frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
-        assertEquals(frcDb.getFeedbackResponseCommentsForResponse(responseId).size(), 0);
+        // two comments exist in the DB
+        assertFalse(frcDb.getFeedbackResponseCommentsForResponse(responseId).isEmpty());
+        assertNotNull(frcDb.getFeedbackResponseComment(anotherFrcaData.getId()));
 
-        ______TS("null parameter");
+        // delete one
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withResponseId(responseId)
+                        .build());
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseCommentsForResponse(null));
+        assertEquals(0, frcDb.getFeedbackResponseCommentsForResponse(responseId).size());
+        // other irrelevant comment remains
+        assertNotNull(frcDb.getFeedbackResponseComment(anotherFrcaData.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseComments_byQuestionId() {
+        ______TS("non-existent question id");
+
+        // should pass silently
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withQuestionId("not_exist")
+                        .build());
+
+        ______TS("typical success case");
+
+        assertNotNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
+
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withQuestionId(frcaData.feedbackQuestionId)
+                        .build());
+
+        // comment deleted
+        assertNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
+        // other irrelevant comment remains
+        assertNotNull(frcDb.getFeedbackResponseComment(anotherFrcaData.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseComments_byCourseIdAndSessionName() {
+        ______TS("non-existent course");
+
+        // should pass silently
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withCourseId("course_not_exist")
+                        .withFeedbackSessionName(frcaData.feedbackSessionName)
+                        .build());
+
+        ______TS("non-existent session");
+
+        // should pass silently
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(frcaData.courseId)
+                        .withFeedbackSessionName("session_not_exist")
+                        .build());
+
+        ______TS("non-existent course and session");
+
+        // should pass silently
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withCourseId("course_not_exist")
+                        .withFeedbackSessionName("session_not_exist")
+                        .build());
+
+        ______TS("typical success case");
+
+        assertFalse(
+                frcDb.getFeedbackResponseCommentsForSession(frcaData.courseId, frcaData.feedbackSessionName).isEmpty());
+
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(frcaData.courseId)
+                        .withFeedbackSessionName(frcaData.feedbackSessionName)
+                        .build());
+
+        assertEquals(0,
+                frcDb.getFeedbackResponseCommentsForSession(frcaData.courseId, frcaData.feedbackSessionName).size());
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseComments_byCourseId() throws Exception {
+
+        ______TS("non-existent course");
+
+        // should pass silently
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withCourseId("course_not_exist")
+                        .build());
+
+        ______TS("typical success case");
+
+        assertFalse(
+                frcDb.getFeedbackResponseCommentsForSession(frcaData.courseId, frcaData.feedbackSessionName).isEmpty());
+        // the two existing comment are in the same course
+        assertEquals(frcaData.courseId, anotherFrcaData.courseId);
+        assertNotNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
+        assertNotNull(frcDb.getFeedbackResponseComment(anotherFrcaData.getId()));
+
+        // create another comments different course
+        FeedbackResponseCommentAttributes tempFrcaData =
+                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
+        tempFrcaData.feedbackResponseId = "randomId";
+        tempFrcaData.courseId = "anotherCourse";
+        frcDb.createEntity(tempFrcaData);
+        tempFrcaData = frcDb.getFeedbackResponseComment(tempFrcaData.feedbackResponseId,
+                tempFrcaData.commentGiver, tempFrcaData.createdAt);
+        assertNotNull(tempFrcaData);
+
+        frcDb.deleteFeedbackResponseComments(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(frcaData.courseId)
+                        .build());
+
+        assertTrue(
+                frcDb.getFeedbackResponseCommentsForSession(frcaData.courseId, frcaData.feedbackSessionName).isEmpty());
+        // same course's comments are deleted
+        assertNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
+        assertNull(frcDb.getFeedbackResponseComment(anotherFrcaData.getId()));
+        // other course's data is not affected
+        assertNotNull(frcDb.getFeedbackResponseComment(tempFrcaData.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseComments_nullInput_shouldThrowException() {
+        AssertionError ae = assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseComments(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 

@@ -33,7 +33,7 @@ public class DeleteFeedbackQuestionAction extends Action {
     public ActionResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        logic.deleteFeedbackQuestion(feedbackQuestionId);
+        logic.deleteFeedbackQuestionCascade(feedbackQuestionId);
 
         return new JsonResult("Feedback question deleted!");
     }
