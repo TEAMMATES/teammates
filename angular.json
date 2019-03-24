@@ -38,6 +38,11 @@
             "styles": [
               "src/web/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./node_modules"
+              ]
+            },
             "scripts": [
               "node_modules/tinymce/tinymce.min.js",
               "node_modules/tinymce/themes/modern/theme.js",
