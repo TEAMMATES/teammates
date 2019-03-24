@@ -1,4 +1,4 @@
-package teammates.performance.scripts.create.config;
+package teammates.lnp.scripts.create.config;
 
 import java.io.IOException;
 import java.util.ArrayList;

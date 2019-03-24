@@ -1,4 +1,4 @@
-package teammates.performance.util;
+package teammates.lnp.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,31 +45,22 @@ public final class TestProperties {
 
             TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
 
-            Properties buildProperties = new Properties();
-            try (InputStream buildPropStream = Files.newInputStream(Paths.get("src/main/resources/build.properties"))) {
-                buildProperties.load(buildPropStream);
-            }
-
             CSRF_KEY = prop.getProperty("test.csrf.key");
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
             JMETER_HOME = prop.getProperty("test.jmeter.home").toLowerCase();
             JMETER_PROPERTIES_PATH = prop.getProperty("test.jmeter.properties", "").toLowerCase();
 
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static boolean isDevServer() {
-        return TEAMMATES_URL.matches("^https?://localhost:[0-9]+(/.*)?");
     }
 
     /**
      * Creates the test data folder if it does not exist.
      */
     public static boolean createTestDataFolder() {
-        File testDataDirectory = new File(TestProperties.TEST_DATA_FOLDER);
+        File testDataDirectory = new File(TEST_DATA_FOLDER);
         if (!testDataDirectory.exists()) {
             return testDataDirectory.mkdir();
         }

@@ -1,11 +1,11 @@
-package teammates.performance.scripts;
+package teammates.lnp.scripts;
 
 import java.io.IOException;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.JsonUtils;
-import teammates.performance.util.BackDoor;
-import teammates.performance.util.TestProperties;
+import teammates.lnp.util.BackDoor;
+import teammates.lnp.util.TestProperties;
 import teammates.test.driver.FileHelper;
 
 /**

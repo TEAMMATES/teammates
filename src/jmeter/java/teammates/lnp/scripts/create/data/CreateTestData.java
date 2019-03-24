@@ -1,4 +1,4 @@
-package teammates.performance.scripts.create.data;
+package teammates.lnp.scripts.create.data;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,7 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import teammates.performance.util.TestProperties;
+import teammates.lnp.util.TestProperties;
 
 /**
  * Base class to create test data for performance tests.

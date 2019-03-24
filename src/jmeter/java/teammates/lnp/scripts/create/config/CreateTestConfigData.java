@@ -1,4 +1,4 @@
-package teammates.performance.scripts.create.config;
+package teammates.lnp.scripts.create.config;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import teammates.performance.util.TestProperties;
+import teammates.lnp.util.TestProperties;
 
 /**
  *  Base class to create the CSV config data for JMeter performance tests from the corresponding JSON data.

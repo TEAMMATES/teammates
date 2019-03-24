@@ -1,4 +1,4 @@
-package teammates.performance.scripts.create.data;
+package teammates.lnp.scripts.create.data;
 
 import org.json.JSONObject;
 

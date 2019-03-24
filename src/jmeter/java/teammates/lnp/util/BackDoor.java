@@ -1,4 +1,4 @@
-package teammates.performance.util;
+package teammates.lnp.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

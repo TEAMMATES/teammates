@@ -1,7 +1,7 @@
-package teammates.performance.scripts;
+package teammates.lnp.scripts;
 
-import static teammates.performance.util.TestProperties.JMETER_HOME;
-import static teammates.performance.util.TestProperties.JMETER_PROPERTIES_PATH;
+import static teammates.lnp.util.TestProperties.JMETER_HOME;
+import static teammates.lnp.util.TestProperties.JMETER_PROPERTIES_PATH;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package teammates.performance.scripts.teardown;
+package teammates.lnp.scripts.teardown;
 
 /**
  *  Script to delete the Student Profile performance test data that is present in the datastore.
