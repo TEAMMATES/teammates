@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { StatusMessage } from '../app/components/status-message/status-message';
 
@@ -12,7 +13,7 @@ export class StatusMessageService {
 
   private alertEvent: Subject<StatusMessage> = new Subject();
 
-  constructor() {}
+  constructor(private snackBar: MatSnackBar) {}
 
   /**
    * Gets the observable event of status messages.
@@ -27,7 +28,7 @@ export class StatusMessageService {
   showSuccessMessage(message: string): void {
     this.showMessage({
       message,
-      color: 'success',
+      color: 'snackbar-success',
     });
   }
 
@@ -37,7 +38,7 @@ export class StatusMessageService {
   showWarningMessage(message: string): void {
     this.showMessage({
       message,
-      color: 'warning',
+      color: 'snackbar-warning',
     });
   }
 
@@ -47,12 +48,17 @@ export class StatusMessageService {
   showErrorMessage(message: string): void {
     this.showMessage({
       message,
-      color: 'danger',
+      color: 'snackbar-danger',
     });
   }
 
   private showMessage(message: StatusMessage): void {
-    this.alertEvent.next(message);
+    // this.alertEvent.next(message);
+    this.snackBar.open(message.message, '', {
+      duration: 5000,
+      verticalPosition: 'top',
+      panelClass: ['snackbar', message.color],
+    });
   }
 
 }
