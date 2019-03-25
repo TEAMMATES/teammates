@@ -29,11 +29,8 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() throws Exception {
-        testContent();
-    }
+    public void testAll() {
 
-    private void testContent() throws Exception {
         ______TS("Typical case: Log in with filled profile values");
 
         StudentHomePage shp = getHomePage().clickStudentLogin().loginAsStudent(
@@ -69,5 +66,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
                 BackDoor.getStudentProfile(TestProperties.TEST_STUDENT2_ACCOUNT);
         // checks that the pictureKey value is within the newly uploaded profile picture link
         assertTrue(profilePage.getProfilePicLink().contains(studentProfileAttributes.pictureKey));
+
+        logout();
     }
 }
