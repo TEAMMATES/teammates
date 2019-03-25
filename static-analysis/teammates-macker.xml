@@ -556,21 +556,6 @@
                     </deny>
                 </access-rule>
             </ruleset>
-            <ruleset name="java.util.Date/java.util.Calendar should not be used">
-                <access-rule>
-                    <deny>
-                        <to>
-                            <include class="java.util.Date" />
-                            <include class="java.util.Calendar" />
-                        </to>
-                        <allow>
-                            <!-- allow data type translator in BaseEntity -->
-                            <!-- this exception can be removed after upgrading to Objectify V6 -->
-                            <from class="${storage}.entity.BaseEntity$InstantTranslatorFactory**" />
-                        </allow>
-                    </deny>
-                </access-rule>
-            </ruleset>
             <ruleset name="Assertion API can only be accessed via BaseTestCase and few selected classes">
                 <access-rule>
                     <deny>
