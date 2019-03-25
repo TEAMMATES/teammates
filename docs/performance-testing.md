@@ -31,6 +31,8 @@ To run the JMeter tests, execute this command from the main project directory:
 ./gradlew clean jmRun
 ```
 
+> Note: This command is executed using JMeter 4.0.
+
 If you want to execute specific test file(s):
 - Navigate to the `jmeter` configuration in `build.gradle`:
   - Uncomment the `jmTestFiles` parameter.
