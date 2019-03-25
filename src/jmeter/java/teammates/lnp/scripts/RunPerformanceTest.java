@@ -56,7 +56,7 @@ public final class RunPerformanceTest {
         SaveService.loadProperties();
 
         // Load existing .jmx Test Plan
-        // CSV Config file path should be absolute, or relative to the project (eg. src/main/jmeter/resources/data/test.csv)
+        // CSV Config file path should be absolute, or relative to the project (eg. src/jmeter/resources/data/test.csv)
         File testFile = new File("src/jmeter/tests/" + filename);
         HashTree testPlanTree = SaveService.loadTree(testFile);
 
