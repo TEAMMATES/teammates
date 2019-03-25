@@ -77,7 +77,7 @@ public class CourseStudent extends BaseEntity {
         setCreatedAt(Instant.now());
 
         this.id = generateId(getEmail(), getCourseId());
-        registrationKey = generateRegistrationKey();
+        setRegistrationKey(generateRegistrationKey());
     }
 
     /**
@@ -166,6 +166,10 @@ public class CourseStudent extends BaseEntity {
 
     public String getRegistrationKey() {
         return registrationKey;
+    }
+
+    public void setRegistrationKey(String key) {
+        this.registrationKey = key == null ? null : key.trim();
     }
 
     public String getCourseId() {

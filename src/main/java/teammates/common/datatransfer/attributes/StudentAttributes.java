@@ -319,6 +319,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         updateOptions.googleIdOption.ifPresent(s -> googleId = s);
         updateOptions.teamNameOption.ifPresent(s -> team = s);
         updateOptions.sectionNameOption.ifPresent(s -> section = s);
+        updateOptions.registrationKeyOption.ifPresent(s -> key = s);
     }
 
     /**
@@ -351,7 +352,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     /**
-     * Helper class to specific the fields to update in {@link StudentAttributes}.
+     * Helper class to specify the fields to update in {@link StudentAttributes}.
      */
     public static class UpdateOptions {
         private String courseId;
@@ -364,6 +365,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         private UpdateOption<String> googleIdOption = UpdateOption.empty();
         private UpdateOption<String> teamNameOption = UpdateOption.empty();
         private UpdateOption<String> sectionNameOption = UpdateOption.empty();
+        private UpdateOption<String> registrationKeyOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String email) {
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
@@ -393,6 +395,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                     + ", googleId = " + googleIdOption
                     + ", teamName = " + teamNameOption
                     + ", sectionName = " + sectionNameOption
+                    + ", key = " + registrationKeyOption
                     + "]";
         }
 
@@ -410,6 +413,13 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                 Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.newEmailOption = UpdateOption.of(email);
+                return thisBuilder;
+            }
+
+            public Builder withNewRegistrationKey(String key) {
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, key);
+
+                updateOptions.registrationKeyOption = UpdateOption.of(key);
                 return thisBuilder;
             }
 
