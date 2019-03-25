@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" (tmClickOutside)="isCollapsed = true">
-  <a routerLink="/web">
+  <a routerLink="/web" (click)="isCollapsed = true">
     <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
   </a>
   <button class="navbar-toggler d-lg-none" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
