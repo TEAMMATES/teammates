@@ -18,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
+import teammates.storage.entity.CourseStudent;
 
 /**
  * Handles operations related to students.
@@ -158,6 +159,8 @@ public final class StudentsLogic {
      *
      * <p>If section changed, cascade update all responses the student gives/receives.
      *
+     * <p>If registration key changed, update course join link and all session links of the student</p>
+     *
      * @return updated student
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the student cannot be found
@@ -205,6 +208,22 @@ public final class StudentsLogic {
                             .build());
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             Assumption.fail("Resting google ID shall not cause: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Regenerates the session (and course?) links associated with the student.
+     */
+    public void regenerateStudentSessionLinks(StudentAttributes studentAttributes) throws EntityDoesNotExistException {
+        try {
+            CourseStudent studentWithNewKey = studentAttributes.toEntity();
+
+            updateStudentCascade(
+                    StudentAttributes.updateOptionsBuilder(studentAttributes.getCourse(), studentAttributes.email)
+                            .withNewRegistrationKey(studentWithNewKey.getRegistrationKey())
+                            .build());
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+            Assumption.fail("Resting registration key shall not cause: " + e.getMessage());
         }
     }
 

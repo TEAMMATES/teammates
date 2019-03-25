@@ -848,6 +848,12 @@ public class Logic {
         studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
+    public void regenerateStudentSessionLinks(StudentAttributes studentAttributes) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(studentAttributes);
+
+        studentsLogic.regenerateStudentSessionLinks(studentAttributes);
+    }
+
     /**
      * Resets the associated googleId of an instructor.
      */
