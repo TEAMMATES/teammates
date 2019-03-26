@@ -197,4 +197,18 @@ public class FeedbackSessionData extends ApiOutput {
     public Long getDeletedAtTimestamp() {
         return deletedAtTimestamp;
     }
+
+    /**
+     * hide some attributes for student entity.
+     */
+    public void hideInformationForStudent() {
+        setGracePeriod(null);
+        setSessionVisibleSetting(null);
+        setCustomSessionVisibleTimestamp(null);
+        setResponseVisibleSetting(null);
+        setCustomResponseVisibleTimestamp(null);
+        setPublishStatus(null);
+        setClosingEmailEnabled(null);
+        setPublishedEmailEnabled(null);
+    }
 }

@@ -24,14 +24,15 @@ public class GetFeedbackSessionsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (!(userInfo.isStudent || userInfo.isInstructor)) {
-            throw new UnauthorizedAccessException("Student or instructor privilege is required to access this resource.");
+        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+
+        if (!(entityType.equals(Const.EntityType.STUDENT) || entityType.equals(Const.EntityType.INSTRUCTOR))) {
+            throw new UnauthorizedAccessException("entity type not supported.");
         }
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
 
-        if (isRequestAsStudent) {
+        if (entityType.equals(Const.EntityType.STUDENT)) {
             if (!userInfo.isStudent) {
                 throw new UnauthorizedAccessException("User " + userInfo.getId()
                         + " does not have student privileges");
@@ -57,12 +58,12 @@ public class GetFeedbackSessionsAction extends Action {
     @Override
     public ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         List<FeedbackSessionAttributes> feedbackSessionAttributes;
-        boolean isRequestAsStudent = getRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN) == null;
 
         if (courseId == null) {
-            if (isRequestAsStudent) {
+            if (entityType.equals(Const.EntityType.STUDENT)) {
                 List<StudentAttributes> students = logic.getStudentsForGoogleId(userInfo.getId());
                 feedbackSessionAttributes = new ArrayList<>();
                 for (StudentAttributes student : students) {
@@ -84,18 +85,8 @@ public class GetFeedbackSessionsAction extends Action {
         }
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessionAttributes);
-        if (isRequestAsStudent) {
-            for (FeedbackSessionData response : responseData.getFeedbackSessions()) {
-                // hide some attributes for student.
-                response.setGracePeriod(null);
-                response.setSessionVisibleSetting(null);
-                response.setCustomSessionVisibleTimestamp(null);
-                response.setResponseVisibleSetting(null);
-                response.setCustomResponseVisibleTimestamp(null);
-                response.setPublishStatus(null);
-                response.setClosingEmailEnabled(null);
-                response.setPublishedEmailEnabled(null);
-            }
+        if (entityType.equals(Const.EntityType.STUDENT)) {
+            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformationForStudent);
         }
 
         return new JsonResult(responseData);

@@ -69,7 +69,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         // The presence of IS_IN_RECYCLE_BIN flag is just used to indicate perform this request as instructor.
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, instructor2OfCourse1.getCourseId(),
-                Const.ParamsNames.IS_IN_RECYCLE_BIN, "true",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetFeedbackSessionsAction action = getAction(submissionParam);
@@ -93,6 +93,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         String[] submissionParam = {
                 Const.ParamsNames.IS_IN_RECYCLE_BIN, "true",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetFeedbackSessionsAction action = getAction(submissionParam);
@@ -112,6 +113,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         String[] submissionParam = {
                 Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetFeedbackSessionsAction action = getAction(submissionParam);
@@ -132,8 +134,11 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         StudentAttributes student2InCourse2 = typicalBundle.students.get("student2InCourse2");
 
         loginAsStudentInstructor(instructor1OfCourse1.googleId);
+        String[] submissionParam = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
 
-        GetFeedbackSessionsAction action = getAction();
+        GetFeedbackSessionsAction action = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
         assertEquals(2, fsData.getFeedbackSessions().size());
@@ -154,6 +159,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, student2InCourse2.getCourse(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetFeedbackSessionsAction action = getAction(submissionParam);
@@ -176,6 +182,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, "invalid-course-id",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetFeedbackSessionsAction action = getAction(submissionParam);
@@ -191,6 +198,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetFeedbackSessionsAction action = getAction(submissionParam);
@@ -210,7 +218,11 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student1InCourse1.googleId);
 
-        GetFeedbackSessionsAction a = getAction();
+        String[] submissionParam = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        GetFeedbackSessionsAction a = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
 
         assertEquals(5, fsData.getFeedbackSessions().size());
@@ -223,6 +235,14 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     }
 
     @Test
+    protected void testExecute_noEntityType_shouldFail() {
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student1InCourse1.googleId);
+
+        verifyHttpParameterFailure();
+    }
+
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
@@ -230,14 +250,20 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         InstructorAttributes instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
+
         loginAsStudent(student1InCourse1.googleId);
+
         ______TS("student can access");
-        verifyCanAccess();
+        String[] studentEntityParam = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+        verifyCanAccess(studentEntityParam);
 
         ______TS("student of the same course can access");
         loginAsStudent(student1InCourse2.googleId);
         String[] courseParam = {
                 Const.ParamsNames.COURSE_ID, student1InCourse2.getCourse(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         verifyCanAccess(courseParam);
 
@@ -250,6 +276,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         String[] instructorParam = {
                 Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         verifyCanAccess(instructorParam);
@@ -257,7 +284,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         ______TS("instructor of the same course can access");
         String[] instructorAndCourseIdParam = {
                 Const.ParamsNames.COURSE_ID, student1InCourse2.getCourse(),
-                Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         verifyCanAccess(instructorAndCourseIdParam);
 
@@ -267,14 +294,18 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         ______TS("instructor as student can access");
         loginAsStudentInstructor(instructor1OfCourse1.googleId);
-        verifyCanAccess();
+        verifyCanAccess(studentEntityParam);
 
         ______TS("instructor as student can access for course");
         loginAsStudentInstructor(instructor1OfCourse1.googleId);
         verifyCanAccess(courseParam);
 
-        verifyInaccessibleForAdmin();
-        verifyInaccessibleForUnregisteredUsers();
+        String[] adminEntityParam = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
+        };
+
+        verifyInaccessibleForAdmin(adminEntityParam);
+        verifyInaccessibleForUnregisteredUsers(studentEntityParam);
         verifyInaccessibleWithoutLogin();
     }
 }
