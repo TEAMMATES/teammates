@@ -1,0 +1,135 @@
+
+<html>
+<head>
+</head>
+<body>
+<div id="mainContent">
+  <h2>
+    Injected values
+  </h2>
+  <ul>
+    <li>
+      V6-0-0
+    </li>
+    <li>
+      alice.tmms
+    </li>
+    <li>
+      charlie.tmms
+    </li>
+    <li>
+      teammates.coord
+    </li>
+    <li>
+      yourGoogleId
+    </li>
+    <li>
+      app_admin@gmail.com
+    </li>
+  </ul>
+  <h2>
+    Variations in injected values
+  </h2>
+  <ul>
+    <li>
+      alice.tmms
+    </li>
+    <li>
+      charlie.tmms
+    </li>
+    <li>
+      teammates.coord
+    </li>
+    <li>
+      yourGoogleId
+    </li>
+  </ul>
+  <h2>
+    Unpredictable values
+  </h2>
+  <ul>
+    <li>
+      "/_ah"
+    </li>
+    <li>
+      _ah/logout?continue=${continue.url}"
+    </li>
+    <li>
+      /page/studentProfilePic?studentemail=${student.email.enc}&courseid=${course.id.enc}
+    </li>
+    <li>
+      /page/studentProfilePic?blob-key=${blobkey}
+    </li>
+    <li>
+      <input id="blobKey" name="blob-key" type="hidden" value="${blobkey}">
+    </li>
+    <li>
+      key=${regkey.enc}
+    </li>
+    <li>
+      <input name="key" type="hidden" value="${regkey.enc}">
+    </li>
+    <li>
+      Anonymous student ${participant.hash}
+    </li>
+    <li>
+      Anonymous team ${participant.hash}
+    </li>
+    <li>
+      Anonymous instructor ${participant.hash}
+    </li>
+    <li>
+      value="${question.id}"
+    </li>
+    <li>
+      "${question.id}%
+    </li>
+    <li>
+      "${comment.id}"
+    </li>
+    <li>
+      #${comment.id}
+    </li>
+    <li>
+      responseCommentRow-${comment.id}
+    </li>
+    <li>
+      commentBar-${comment.id}
+    </li>
+    <li>
+      plainCommentText-${comment.id}
+    </li>
+    <li>
+      Wed, 13 Mar 2019, 05:02 PM
+    </li>
+    <li>
+      Wed, 13 Mar 2019, 05:02 PM UTC
+    </li>
+    <li>
+      2019-03-13T17:02:40.314Z
+    </li>
+    <li>
+      13 Mar 2019
+    </li>
+    <li>
+      ${datepicker}
+    </li>
+    <li>
+      ${admin.institute}
+    </li>
+    <li>
+      ${admin.institute}
+    </li>
+    <li>
+      <input name="token" type="hidden" value="${sessionToken}">
+    </li>
+    <li>
+      /page/instructorCourseDelete?courseid=abcdef&token=${sessionToken}
+    </li>
+    <li>
+      /page/instructorCourseDelete?token=${sessionToken}
+    </li>
+  </ul>
+</div>
+</body>
+</html>
