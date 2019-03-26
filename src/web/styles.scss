@@ -13,21 +13,23 @@ body {
 .snackbar {
   max-width: 100% !important;
   margin-top: 60px !important;
+  color: white;
+
+  a {
+    color: #3E3E3E;
+  }
 }
 
 .snackbar-danger {
-  background-color: #db4437;
-  color: white;
+  background-color: #DB4437;
 }
 
 .snackbar-success {
-  background-color: #0f9d58;
-  color: white;
+  background-color: #0F9D58;
 }
 
 .snackbar-warning {
-  background-color: #fda50f;
-  color: #212121;
+  background-color: #FD9020;
 }
 
 .btn {

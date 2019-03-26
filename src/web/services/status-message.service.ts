@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { StatusMessage } from '../app/components/status-message/status-message';
 
@@ -47,6 +47,35 @@ export class StatusMessageService {
       duration: 5000,
       verticalPosition: 'top',
       panelClass: ['snackbar', message.color],
+    });
+  }
+
+  /**
+   * Shows a success message containing HTML on the page
+   */
+  showSuccessMessageTemplate(template: TemplateRef<any>): void {
+    this.showTemplate(template, 'snackbar-success');
+  }
+
+  /**
+   * Shows a warning message containing HTML on the page
+   */
+  showWarningMessageTemplate(template: TemplateRef<any>): void {
+    this.showTemplate(template, 'snackbar-warning');
+  }
+
+  /**
+   * Shows an error message containing HTML on the page
+   */
+  showErrorMessageTemplate(template: TemplateRef<any>): void {
+    this.showTemplate(template, 'snackbar-danger');
+  }
+
+  private showTemplate(template: TemplateRef<any>, color: string): void {
+    this.snackBar.openFromTemplate(template, {
+      duration: 5000,
+      verticalPosition: 'top',
+      panelClass: ['snackbar', color],
     });
   }
 
