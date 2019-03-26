@@ -363,7 +363,7 @@ public class EmailGenerator {
                     EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
                     "${linksFragment}", courseFragments.toString(),
-                    "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
+                    "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
                     "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                     "${supportEmail}", Config.SUPPORT_EMAIL,
                     "${sessionsRecoveryLink}", recoveryUrl);

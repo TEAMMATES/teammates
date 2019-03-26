@@ -9,7 +9,6 @@ import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.output.SessionLinksRecoveryResponseData;
 
 /**
@@ -42,7 +41,7 @@ public class SessionLinksRecoveryAction extends Action {
                     + "the reCAPTCHA verification. Please try again."));
         }
 
-        EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
+        EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
         EmailSendingStatus status = emailSender.sendEmail(email);
 
         if (status.isSuccess()) {

@@ -92,7 +92,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
 
     @Test
     protected void testExecute_nonExistingEmail() {
-        ______TS("Typical case: non-existing email address");
+        ______TS("Typical case: non-existent email address");
 
         String[] nonExistingParam = new String[] {
                 Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "non-existent@abc.com",
@@ -224,7 +224,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getName()),
                 "${linksFragment}", courseBody,
-                "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getEmail()),
+                "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse3.getEmail()),
                 "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent(), emailSent.getContent());
@@ -316,7 +316,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 Templates.EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getName()),
                 "${linksFragment}", courseBody,
-                "${recoveryEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getEmail()),
+                "${userEmail}", SanitizationHelper.sanitizeForHtml(student1InCourse1.getEmail()),
                 "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${sessionsRecoveryLink}", recoveryUrl), emailSent.getContent());
