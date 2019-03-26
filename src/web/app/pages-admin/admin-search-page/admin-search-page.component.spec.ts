@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material';
 import { AdminSearchPageComponent } from './admin-search-page.component';
 
 describe('AdminSearchPageComponent', () => {
@@ -13,6 +14,7 @@ describe('AdminSearchPageComponent', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
+        MatSnackBarModule,
       ],
     })
     .compileComponents();
