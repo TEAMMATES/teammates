@@ -333,7 +333,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
           >
             <img
               class="profile-pic float-left"
-              src="http://localhost:8080/webapi/students/profilePic?blob-key=something.jpg"
+              src=""
             />
           </div>
           <div
@@ -426,7 +426,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
           >
             <img
               class="profile-pic float-left"
-              src="http://localhost:8080/webapi/students/profilePic?blob-key=something2.jpg"
+              src=""
             />
           </div>
           <div
