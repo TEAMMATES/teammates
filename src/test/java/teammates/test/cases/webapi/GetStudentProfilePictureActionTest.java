@@ -157,7 +157,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         verifyCanAccess(submissionParams);
 
-        ______TS("Success case: student can view his own photo but instructor or admin canno");
+        ______TS("Success case: student can view his own photo but instructor or admin cannot");
 
         gaeSimulation.logoutUser();
         loginAsStudent(student1InCourse1.googleId);
