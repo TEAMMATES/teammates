@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Gender } from '../../../types/gender';
 import { StudentProfile } from './student-profile';
@@ -12,26 +13,29 @@ import { StudentProfile } from './student-profile';
   styleUrls: ['./student-profile.component.scss'],
 })
 export class StudentProfileComponent implements OnInit {
-
   Gender: typeof Gender = Gender; // enum
+  photoUrl?: string;
 
   @Input() studentProfile: StudentProfile | undefined;
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((queryParams: any) => {
+      const courseId: string = queryParams.course;
+      const studentEmail: string = queryParams.studentemail;
+
+      this.photoUrl
+        = `${this.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;
+    });
   }
 
   /**
-   * Construct the url for the profile picture from the profile.
+   * Sets the profile picture of a student as the default image
    */
-  getPictureUrl(pictureKey?: string): string {
-    if (!pictureKey) {
-      return '/assets/images/profile_picture_default.png';
-    }
-    return `${this.backendUrl}/webapi/student/profilePic`;
+  setDefaultPic(): void {
+    this.photoUrl = '/assets/images/profile_picture_default.png';
   }
-
 }

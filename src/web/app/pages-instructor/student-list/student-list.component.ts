@@ -57,17 +57,15 @@ export class StudentListComponent implements OnInit {
    * Load the profile picture of a student
    */
   loadPhoto(student: StudentListStudentData): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      studentemail: student.email,
-    };
+    student.photoUrl =
+        `${this.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${student.email}`;
+  }
 
-    this.httpRequestService.get('/student/profilePic', paramMap)
-        .subscribe(() => {}, (resp: any) => {
-          student.photoUrl = (resp.status === 200)
-                ? `${this.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${student.email}`
-                : '/assets/images/profile_picture_default.png';
-        });
+  /**
+   * Sets the profile picture of a student as the default image
+   */
+  setDefaultPic(student: StudentListStudentData): void {
+    student.photoUrl = '/assets/images/profile_picture_default.png';
   }
 
   /**

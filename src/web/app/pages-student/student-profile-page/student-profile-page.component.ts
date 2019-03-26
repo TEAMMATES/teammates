@@ -68,7 +68,6 @@ export class StudentProfilePageComponent implements OnInit {
     if (!pictureKey) {
       return '/assets/images/profile_picture_default.png';
     }
-    // this.currentTime = (new Date()).getTime(); // forces image reload in HTML template
 
     return `${this.backendUrl}/webapi/student/profilePic`;
   }

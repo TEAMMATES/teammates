@@ -30,7 +30,7 @@
         <td class="align-center">
           <ng-template #popContent><img class="profile-pic" src="{{student.photoUrl}}"></ng-template>
           <img *ngIf="student.photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{student.photoUrl}}"
-               [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
+               [ngbPopover]="popContent" triggers="mouseenter:mouseleave" (error)="setDefaultPic(student)">
           <ng-template #viewPhotoBtn>
             <a [routerLink]="" role="button" (click)="loadPhoto(student); $event.preventDefault();"
                queryParamsHandling="preserve">

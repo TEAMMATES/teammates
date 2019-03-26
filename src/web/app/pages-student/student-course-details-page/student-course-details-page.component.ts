@@ -34,6 +34,7 @@ interface TeammateProfile {
   nationality: string;
   gender: Gender;
   pictureKey: string;
+  photoUrl?: string;
 }
 
 interface StudentCourseDetails {
@@ -100,19 +101,30 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       if (!this.teammateProfiles) {
         this.statusMessageService.showWarningMessage('You do not have any teammates yet.');
       }
+
+      if (this.teammateProfiles && this.course) {
+        const courseId: string = this.course.id;
+        this.teammateProfiles
+            .forEach((teammateProfile: TeammateProfile) => this.loadPictureUrl(teammateProfile, courseId));
+      }
+
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
   /**
-   * Construct the url for the profile picture from the given key.
+   * Sets the url for the profile picture from the given student details.
    */
-  getPictureUrl(pictureKey: string, email: string): string {
-    if (!pictureKey || !this.course) {
-      return '/assets/images/profile_picture_default.png';
-    }
-    return `${this.backendUrl}/webapi/student/profilePic?courseid=${this.course.id}&studentemail=${email}`;
+  loadPictureUrl(teammateProfile: TeammateProfile, courseId: string): void {
+    teammateProfile.photoUrl
+          = `${this.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${teammateProfile.email}`;
   }
 
+  /**
+   * Sets the profile picture of a student as the default image
+   */
+  setDefaultPic(teammateProfile: TeammateProfile): void {
+    teammateProfile.photoUrl = '/assets/images/profile_picture_default.png';
+  }
 }
