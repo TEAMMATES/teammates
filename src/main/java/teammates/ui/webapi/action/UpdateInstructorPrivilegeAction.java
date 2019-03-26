@@ -1,6 +1,5 @@
 package teammates.ui.webapi.action;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -124,21 +123,21 @@ public class UpdateInstructorPrivilegeAction extends Action {
     }
 
     private void updateCourseLevelPrivileges(Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
-        for (HashMap.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
+        for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
             toUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
         }
     }
 
     private void updateSectionLevelPrivileges(
             String sectionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
-        for (HashMap.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
+        for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
             toUpdate.privileges.updatePrivilege(sectionName, entry.getKey(), entry.getValue());
         }
     }
 
     private void updateSessionLevelPrivileges(
             String sectionName, String sessionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
-        for (HashMap.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
+        for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
             toUpdate.privileges.updatePrivilege(sectionName, sessionName, entry.getKey(), entry.getValue());
         }
     }
