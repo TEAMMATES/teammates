@@ -93,6 +93,167 @@ describe('StudentListComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap with some student list data when not allowed to modify student in section', () => {
+    component.sections = [
+      {
+        students: [
+          {
+            name: 'tester',
+            team: '1',
+            email: 'tester@tester.com',
+            status: 'Yet to join',
+          },
+        ],
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        students: [
+          {
+            name: 'Alice Betsy',
+            team: 'Team 1',
+            email: 'alice.b.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Benny Charles',
+            team: 'Team 1',
+            email: 'benny.c.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Danny Engrid',
+            team: 'Team 1',
+            email: 'danny.e.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Emma Farrell',
+            team: 'Team 1',
+            email: 'emma.f.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+        ],
+        sectionName: 'Tutorial Group 1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: false,
+      },
+    ];
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with enable remind button set to true and one student yet to join', () => {
+    component.sections = [
+      {
+        students: [
+          {
+            name: 'tester',
+            team: '1',
+            email: 'tester@tester.com',
+            status: 'Yet to join',
+          },
+        ],
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        students: [
+          {
+            name: 'Alice Betsy',
+            team: 'Team 1',
+            email: 'alice.b.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Benny Charles',
+            team: 'Team 1',
+            email: 'benny.c.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Danny Engrid',
+            team: 'Team 1',
+            email: 'danny.e.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Emma Farrell',
+            team: 'Team 1',
+            email: 'emma.f.tmms@gmail.tmt',
+            status: 'Yet to join',
+          },
+        ],
+        sectionName: 'Tutorial Group 1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+    ];
+
+    component.enableRemindButton = true;
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with enable remind button set to true, one student yet to join when not allowed to modify' +
+      ' student', () => {
+    component.sections = [
+      {
+        students: [
+          {
+            name: 'tester',
+            team: '1',
+            email: 'tester@tester.com',
+            status: 'Yet to join',
+          },
+        ],
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        students: [
+          {
+            name: 'Alice Betsy',
+            team: 'Team 1',
+            email: 'alice.b.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Benny Charles',
+            team: 'Team 1',
+            email: 'benny.c.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Danny Engrid',
+            team: 'Team 1',
+            email: 'danny.e.tmms@gmail.tmt',
+            status: 'Joined',
+          },
+          {
+            name: 'Emma Farrell',
+            team: 'Team 1',
+            email: 'emma.f.tmms@gmail.tmt',
+            status: 'Yet to join',
+          },
+        ],
+        sectionName: 'Tutorial Group 1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: false,
+      },
+    ];
+
+    component.enableRemindButton = true;
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should snap with some student list data and some students to hide', () => {
     component.sections = [
       {
