@@ -103,7 +103,6 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_ENROLL_PAGE_DATA, GET, GetCourseEnrollPageDataAction.class);
         map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSES_RESTORE_ALL, PUT, RestoreAllInstructorSoftDeletedCoursesAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL, DELETE,
                 DeleteAllInstructorSoftDeletedCoursesAction.class);
         map(ResourceURIs.COURSE_STATS, GET, GetCourseStatsAction.class);
