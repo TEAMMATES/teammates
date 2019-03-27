@@ -74,7 +74,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with enable remind button set to true and one student yet to join 1`] = `
+exports[`StudentListComponent should snap with enable remind button set to true and two students yet to join 1`] = `
 <tm-student-list
   backendUrl={[Function String]}
   courseId=""
@@ -1317,7 +1317,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            Yet to join
+            Joined
           </td>
           <td>
             tester@tester.com
@@ -2280,7 +2280,7 @@ exports[`StudentListComponent should snap with some student list data and some s
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with some student list data when not allowed to modify student in section 1`] = `
+exports[`StudentListComponent should snap with some student list data when not allowed to modify student for a specific section 1`] = `
 <tm-student-list
   backendUrl={[Function String]}
   courseId=""
@@ -2379,7 +2379,7 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            Yet to join
+            Joined
           </td>
           <td>
             tester@tester.com
