@@ -4,18 +4,24 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
-import {
-  InstructorHelpCoursesSectionComponent,
-} from './instructor-help-courses-section/instructor-help-courses-section.component';
-import {
-  InstructorHelpQuestionsSectionComponent,
-} from './instructor-help-questions-section/instructor-help-questions-section.component';
-import {
-  InstructorHelpSessionsSectionComponent,
-} from './instructor-help-sessions-section/instructor-help-sessions-section.component';
-import {
-  InstructorHelpStudentsSectionComponent,
-} from './instructor-help-students-section/instructor-help-students-section.component';
+import { Component, Input } from '@angular/core';
+
+@Component({ selector: 'tm-instructor-help-students-section', template: '' })
+class InstructorHelpStudentsSectionStubComponent {
+  @Input() key: string = '';
+}
+@Component({ selector: 'tm-instructor-help-courses-section', template: '' })
+class InstructorHelpCoursesSectionStubComponent {
+  @Input() key: string = '';
+}
+@Component({ selector: 'tm-instructor-help-sessions-section', template: '' })
+class InstructorHelpSessionsSectionStubComponent {
+  @Input() key: string = '';
+}
+@Component({ selector: 'tm-instructor-help-questions-section', template: '' })
+class InstructorHelpQuestionsSectionStubComponent {
+  @Input() key: string = '';
+}
 
 describe('InstructorHelpPageComponent', () => {
   let component: InstructorHelpPageComponent;
@@ -23,9 +29,9 @@ describe('InstructorHelpPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpPageComponent, InstructorHelpCoursesSectionComponent,
-        InstructorHelpStudentsSectionComponent, InstructorHelpSessionsSectionComponent,
-        InstructorHelpQuestionsSectionComponent],
+      declarations: [InstructorHelpPageComponent, InstructorHelpCoursesSectionStubComponent,
+        InstructorHelpStudentsSectionStubComponent, InstructorHelpSessionsSectionStubComponent,
+        InstructorHelpQuestionsSectionStubComponent],
       imports: [FormsModule, NgbModule, RouterTestingModule],
     })
     .compileComponents();

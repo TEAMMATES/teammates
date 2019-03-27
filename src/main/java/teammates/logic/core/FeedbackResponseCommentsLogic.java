@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
@@ -18,7 +19,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
 /**
@@ -54,32 +54,13 @@ public final class FeedbackResponseCommentsLogic {
      * of the comment is not checked.</p>
      */
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         verifyIsCoursePresent(frComment.courseId);
         verifyIsUserOfCourse(frComment.courseId, frComment.commentGiver, frComment.commentGiverType,
                 frComment.isCommentFromFeedbackParticipant);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
 
-        try {
-            return frcDb.createFeedbackResponseComment(frComment);
-        } catch (EntityAlreadyExistsException e) {
-            try {
-
-                FeedbackResponseCommentAttributes existingComment =
-                                  frcDb.getFeedbackResponseComment(frComment.feedbackResponseId, frComment.commentGiver,
-                                                                   frComment.createdAt);
-                if (existingComment == null) {
-                    existingComment = frcDb.getFeedbackResponseComment(frComment.courseId, frComment.createdAt,
-                                                                       frComment.commentGiver);
-                }
-                frComment.setId(existingComment.getId());
-
-                return frcDb.updateFeedbackResponseComment(frComment);
-            } catch (Exception ex) {
-                Assumption.fail();
-                return null;
-            }
-        }
+        return frcDb.createEntity(frComment);
     }
 
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
@@ -108,17 +89,6 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
 
-    public void updateFeedbackResponseCommentsForChangingResponseId(
-            String oldResponseId, String newResponseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        List<FeedbackResponseCommentAttributes> responseComments =
-                getFeedbackResponseCommentForResponse(oldResponseId);
-        for (FeedbackResponseCommentAttributes responseComment : responseComments) {
-            responseComment.feedbackResponseId = newResponseId;
-            updateFeedbackResponseComment(responseComment);
-        }
-    }
-
     /*
      * Updates all email fields of feedback response comments with the new email
      */
@@ -133,16 +103,27 @@ public final class FeedbackResponseCommentsLogic {
         List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
         FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
         for (FeedbackResponseCommentAttributes comment : comments) {
-            comment.giverSection = response.giverSection;
-            comment.receiverSection = response.recipientSection;
-            frcDb.updateFeedbackResponseComment(comment);
+            frcDb.updateFeedbackResponseComment(
+                    FeedbackResponseCommentAttributes.updateOptionsBuilder(comment.getId())
+                            .withGiverSection(response.giverSection)
+                            .withReceiverSection(response.recipientSection)
+                            .build()
+            );
         }
     }
 
+    /**
+     * Updates a feedback response comment by {@link FeedbackResponseCommentAttributes.UpdateOptions}.
+     *
+     * @return updated comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
-                                                     FeedbackResponseCommentAttributes feedbackResponseComment)
-                                                     throws InvalidParametersException, EntityDoesNotExistException {
-        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseCommentAttributes.UpdateOptions updateOptions)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        return frcDb.updateFeedbackResponseComment(updateOptions);
     }
 
     /**
@@ -169,23 +150,18 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.search(queryString, instructors);
     }
 
-    public void deleteFeedbackResponseCommentsForCourse(String courseId) {
-        frcDb.deleteFeedbackResponseCommentsForCourse(courseId);
-    }
-
-    public void deleteFeedbackResponseCommentsForResponse(String responseId) {
-        frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
-    }
-
-    public void deleteFeedbackResponseCommentById(Long commentId) {
-        frcDb.deleteCommentById(commentId);
+    /**
+     * Deletes a comment.
+     */
+    public void deleteFeedbackResponseComment(long commentId) {
+        frcDb.deleteFeedbackResponseComment(commentId);
     }
 
     /**
-     * Removes document for the comment with given id.
+     * Deletes comments using {@link AttributesDeletionQuery}.
      */
-    public void deleteDocumentByCommentId(long commentId) {
-        frcDb.deleteDocumentByCommentId(commentId);
+    public void deleteFeedbackResponseComments(AttributesDeletionQuery query) {
+        frcDb.deleteFeedbackResponseComments(query);
     }
 
     /**

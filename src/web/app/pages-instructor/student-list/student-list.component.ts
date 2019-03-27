@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -27,13 +28,18 @@ export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';
   @Input() sections: StudentListSectionData[] = [];
   @Input() useGrayHeading: boolean = true;
+  @Input() listOfStudentsToHide: string[] = [];
+  @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private router: Router, private httpRequestService: HttpRequestService,
-    private statusMessageService: StatusMessageService, private navigationService: NavigationService,
-    private ngbModal: NgbModal) { }
+  constructor(private router: Router,
+              private httpRequestService: HttpRequestService,
+              private statusMessageService: StatusMessageService,
+              private navigationService: NavigationService,
+              private courseService: CourseService,
+              private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -72,7 +78,7 @@ export class StudentListComponent implements OnInit {
     if (!pictureKey) {
       return '/assets/images/profile_picture_default.png';
     }
-    return `${this.backendUrl}/students/profilePic?blob-key=${pictureKey}`;
+    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
   }
 
   /**
@@ -86,12 +92,7 @@ export class StudentListComponent implements OnInit {
    * Remind the student from course.
    */
   remindStudentFromCourse(studentEmail: string): void {
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      studentemail: studentEmail,
-    };
-
-    this.httpRequestService.post('/courses/details/remind', paramsMap)
+    this.courseService.remindStudentForJoin(this.courseId, studentEmail)
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
             '/web/instructor/courses/details', resp.message);
@@ -108,7 +109,7 @@ export class StudentListComponent implements OnInit {
       courseid: this.courseId,
       studentemail: studentEmail,
     };
-    this.httpRequestService.delete('/students', paramMap).subscribe(() => {
+    this.httpRequestService.delete('/student', paramMap).subscribe(() => {
       this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${this.courseId}"`);
       this.sections.forEach(
         (section: StudentListSectionData) => {
@@ -120,4 +121,10 @@ export class StudentListComponent implements OnInit {
     });
   }
 
+  /**
+   * Determines which row in the studentTable should be hidden.
+   */
+  isStudentToHide(studentEmail: string): boolean {
+    return this.listOfStudentsToHide.indexOf(studentEmail) > -1;
+  }
 }

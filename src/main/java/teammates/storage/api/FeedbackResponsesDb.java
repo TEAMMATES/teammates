@@ -3,7 +3,6 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,15 +13,16 @@ import java.util.Set;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.SectionDetail;
 import teammates.storage.entity.FeedbackResponse;
 
 /**
@@ -34,20 +34,6 @@ import teammates.storage.entity.FeedbackResponse;
 public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
 
     private static final Logger log = Logger.getLogger();
-
-    public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd)
-            throws InvalidParametersException {
-        List<FeedbackResponseAttributes> responsesToUpdate = createEntities(responsesToAdd);
-        for (FeedbackResponseAttributes response : responsesToUpdate) {
-            try {
-                updateFeedbackResponse(response);
-            } catch (EntityDoesNotExistException e) {
-                // This situation is not tested as replicating such a situation is
-                // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-    }
 
     /**
      * Preconditions: <br>
@@ -73,7 +59,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityWithCheck(String feedbackResponseId) {
+    private FeedbackResponse getFeedbackResponseEntityWithCheck(String feedbackResponseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
 
         FeedbackResponse fr = getFeedbackResponseEntity(feedbackResponseId);
@@ -89,7 +75,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * * All parameters are non-null.
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityWithCheck(
+    private FeedbackResponse getFeedbackResponseEntityWithCheck(
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
@@ -102,15 +88,6 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             return null;
         }
         return fr;
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
-     */
-    public FeedbackResponse getFeedbackResponseEntityOptimized(FeedbackResponseAttributes response) {
-        return getEntity(response);
     }
 
     /**
@@ -375,68 +352,89 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     /**
-     * Updates the feedback response identified by {@code newAttributes.getId()}.<br>
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy).<br>
-     * Preconditions: <br>
-     * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
+     * Updates a feedback response with {@link FeedbackResponseAttributes.UpdateOptions}.
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     * @throws EntityAlreadyExistsException if the response cannot be updated
+     *         by recreation because of an existent response
      */
-    public void updateFeedbackResponse(FeedbackResponseAttributes newAttributes)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
+    public FeedbackResponseAttributes updateFeedbackResponse(FeedbackResponseAttributes.UpdateOptions updateOptions)
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
+        FeedbackResponse oldResponse = getFeedbackResponseEntity(updateOptions.getFeedbackResponseId());
+        if (oldResponse == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        FeedbackResponseAttributes newAttributes = makeAttributes(oldResponse);
+        newAttributes.update(updateOptions);
+
+        newAttributes.sanitizeForSaving();
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        updateFeedbackResponseOptimized(newAttributes, getEntity(newAttributes));
+        if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
+                && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
+            oldResponse.setGiverEmail(newAttributes.giver);
+            oldResponse.setGiverSection(newAttributes.giverSection);
+            oldResponse.setRecipientEmail(newAttributes.recipient);
+            oldResponse.setRecipientSection(newAttributes.recipientSection);
+            oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
+
+            saveEntity(oldResponse, newAttributes);
+
+            return makeAttributes(oldResponse);
+        } else {
+            // need to recreate the entity
+            newAttributes = FeedbackResponseAttributes
+                    .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(), newAttributes.getRecipient())
+                    .withCourseId(newAttributes.getCourseId())
+                    .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
+                    .withResponseDetails(newAttributes.getResponseDetails())
+                    .withGiverSection(newAttributes.getGiverSection())
+                    .withRecipientSection(newAttributes.getRecipientSection())
+                    .build();
+            newAttributes = createEntity(newAttributes);
+            deleteEntity(Key.create(FeedbackResponse.class, oldResponse.getId()));
+
+            return newAttributes;
+        }
     }
 
     /**
-     * Optimized to take in FeedbackResponse entity if available, to prevent reading the entity again.
-     * Updates the feedback response identified by {@code newAttributes.getId()}
-     * For the remaining parameters, the existing value is preserved
-     *   if the parameter is null (due to 'keep existing' policy).<br>
-     * The timestamp for {@code updatedAt} is independent of the {@code newAttributes}.<br>
-     * Preconditions: <br>
-     * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
+     * Deletes a feedback response.
      */
-    public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
+    public void deleteFeedbackResponse(String responseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, responseId);
 
-        //TODO: Sanitize values and update tests accordingly
+        deleteEntity(Key.create(FeedbackResponse.class, responseId));
+    }
 
-        if (!newAttributes.isValid()) {
-            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+    /**
+     * Deletes responses using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackResponses(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
+
+        Query<FeedbackResponse> entitiesToDelete = load().project();
+        if (query.isCourseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+        if (query.isQuestionIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackQuestionId =", query.getQuestionId());
         }
 
-        if (fr == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
-        }
-
-        fr.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
-        fr.setRecipientEmail(newAttributes.recipient);
-        fr.setGiverSection(newAttributes.giverSection);
-        fr.setRecipientSection(newAttributes.recipientSection);
-
-        saveEntity(fr, newAttributes);
-    }
-
-    public void deleteFeedbackResponsesForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        deleteFeedbackResponsesForCourses(Arrays.asList(courseId));
-    }
-
-    public void deleteFeedbackResponsesForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
-
-        ofy().delete().keys(getFeedbackResponsesForCoursesQuery(courseIds).keys()).now();
-    }
-
-    private Query<FeedbackResponse> getFeedbackResponsesForCoursesQuery(List<String> courseIds) {
-        return load().filter("courseId in", courseIds);
+        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
     }
 
     /**
@@ -729,26 +727,19 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     @Override
-    protected QueryKeys<FeedbackResponse> getEntityQueryKeys(FeedbackResponseAttributes attributes) {
-        String id = attributes.getId();
-
-        Query<FeedbackResponse> query;
-        if (id == null) {
-            query = load()
-                    .filter("feedbackQuestionId =", attributes.feedbackQuestionId)
-                    .filter("giverEmail =", attributes.giver)
-                    .filter("receiver =", attributes.recipient);
-        } else {
-            query = load().filterKey(Key.create(FeedbackResponse.class, id));
-        }
-
-        return query.keys();
+    protected boolean hasExistingEntities(FeedbackResponseAttributes entityToCreate) {
+        return !load()
+                .filterKey(Key.create(FeedbackResponse.class,
+                        FeedbackResponse.generateId(entityToCreate.getFeedbackQuestionId(),
+                                entityToCreate.getGiver(), entityToCreate.getRecipient())))
+                .list()
+                .isEmpty();
     }
 
     @Override
     protected FeedbackResponseAttributes makeAttributes(FeedbackResponse entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
-        return new FeedbackResponseAttributes(entity);
+        return FeedbackResponseAttributes.valueOf(entity);
     }
 }

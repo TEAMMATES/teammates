@@ -1,5 +1,6 @@
 package teammates.test.cases.browsertests;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -19,9 +20,9 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -45,19 +46,17 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseE2ETestCase {
         course = testData.courses.get("anotherCourse");
 
         newSession = FeedbackSessionAttributes
-                .builder("New Session ##", course.getId(), "teammates.test1@gmail.tmt")
+                .builder("New Session ##", course.getId())
+                .withCreatorEmail("teammates.test1@gmail.tmt")
                 .withStartTime(TimeHelper.parseInstant("2035-04-01 9:59 PM +0000"))
                 .withEndTime(TimeHelper.parseInstant("2035-04-30 8:00 PM +0000"))
-                .withCreatedTime(TimeHelper.parseInstant("2035-04-01 9:59 PM +0000"))
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
-                .withGracePeriodMinutes(0)
+                .withGracePeriod(Duration.ZERO)
                 .withInstructions("Please fill in the new feedback session.")
-                .withSentOpenEmail(false)
-                .withSentPublishedEmail(false)
                 .withTimeZone(course.getTimeZone())
-                .withClosingEmailEnabled(true)
-                .withPublishedEmailEnabled(true)
+                .withIsClosingEmailEnabled(true)
+                .withIsPublishedEmailEnabled(true)
                 .build();
 
         // the actual test data is refreshed before each test method
@@ -1121,7 +1120,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseE2ETestCase {
 
     private InstructorFeedbackSessionsPage getFeedbackPageForInstructor(String instructorId) {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE).withUserId(instructorId);
-        InstructorFeedbackSessionsPage page = loginAdminToPage(feedbackPageLink, InstructorFeedbackSessionsPage.class);
+        InstructorFeedbackSessionsPage page = loginAdminToPageOld(feedbackPageLink, InstructorFeedbackSessionsPage.class);
         page.waitForElementPresence(By.id("table-sessions"));
         return page;
     }

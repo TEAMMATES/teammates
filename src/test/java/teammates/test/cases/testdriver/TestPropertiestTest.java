@@ -11,8 +11,8 @@ import teammates.test.driver.TestProperties;
 public class TestPropertiestTest extends BaseTestCase {
 
     @Test
-    public void testGodModeFlag() {
-        assertFalse(TestProperties.IS_GODMODE_ENABLED);
+    public void testUpdateSnapshotFlag() {
+        assertFalse(TestProperties.IS_SNAPSHOT_UPDATE);
     }
 
 }

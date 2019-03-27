@@ -22,8 +22,8 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -1068,15 +1068,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
 
         // Create response for the new question
         FeedbackResponseAttributes feedbackResponse =
-                new FeedbackResponseAttributes(
-                        feedbackSessionName,
-                        courseId,
-                        "1",
-                        "tmms.test@gmail.tmt",
-                        Const.DEFAULT_SECTION,
-                        "alice.b.tmms@gmail.tmt",
-                        Const.DEFAULT_SECTION,
-                        new FeedbackTextResponseDetails("Response from instructor to Alice"));
+                FeedbackResponseAttributes.builder("1", "tmms.test@gmail.tmt", "alice.b.tmms@gmail.tmt")
+                .withCourseId(courseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .withGiverSection(Const.DEFAULT_SECTION)
+                .withRecipientSection(Const.DEFAULT_SECTION)
+                .withResponseDetails(new FeedbackTextResponseDetails("Response from instructor to Alice"))
+                .build();
         BackDoor.createFeedbackResponse(feedbackResponse);
 
         ______TS("check response rate before editing question");
@@ -1222,7 +1220,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                                     .withCourseId(courseId)
                                     .withSessionName(feedbackSessionName)
                                     .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPageOfCourseWithoutQuestions() {
@@ -1235,7 +1233,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                                     .withCourseId(courseWithoutQuestion)
                                     .withSessionName(sessionWithoutQuestions)
                                     .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPageOfSessionIndDstCourse() {
@@ -1244,7 +1242,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                 .withCourseId(testData.courses.get("courseWithDstTimeZone").getId())
                 .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName())
                 .withEnableSessionEditDetails(true);
-        return loginAdminToPage(feedbackPageLink, InstructorFeedbackEditPage.class);
+        return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
 }

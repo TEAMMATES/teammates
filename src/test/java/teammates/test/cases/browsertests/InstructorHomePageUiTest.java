@@ -12,7 +12,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -129,13 +129,16 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         homePage.verifyHtmlMainContent("/instructorHomeNewInstructorWithoutSampleCourse.html");
 
         CourseAttributes newCourse = CourseAttributes
-                .builder("newIns.wit-demo", "Sample Course 101", ZoneId.of("UTC"))
+                .builder("newIns.wit-demo")
+                .withName("Sample Course 101")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         BackDoor.createCourse(newCourse);
         @SuppressWarnings("deprecation")
         InstructorAttributes instr = InstructorAttributes
-                .builder("CHomeUiT.instructor.tmms.new", "newIns.wit-demo",
-                        "Teammates Test New Instructor With Sample", "CHomeUiT.instructor.tmms@gmail.tmt")
+                .builder("newIns.wit-demo", "CHomeUiT.instructor.tmms@gmail.tmt")
+                .withName("Teammates Test New Instructor With Sample")
+                .withGoogleId("CHomeUiT.instructor.tmms.new")
                 .build();
         BackDoor.createInstructor(instr);
 
@@ -605,7 +608,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                     .withUserId(googleId);
 
-        homePage = loginAdminToPage(editUrl, InstructorHomePage.class);
+        homePage = loginAdminToPageOld(editUrl, InstructorHomePage.class);
     }
 
     private void loginWithPersistenceProblem() {
@@ -613,7 +616,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
                     .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"))
                     .withUserId("unreg_user");
 
-        homePage = loginAdminToPage(homeUrl, InstructorHomePage.class);
+        homePage = loginAdminToPageOld(homeUrl, InstructorHomePage.class);
 
     }
 

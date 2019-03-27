@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { Sections } from './sections';
 
 /**
  * Instructor help page.
@@ -10,9 +11,13 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./instructor-help-page.component.scss'],
 })
 export class InstructorHelpPageComponent implements OnInit {
+  // enum
+  Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
+
+  @ViewChild('helpPage') bodyRef ?: ElementRef;
 
   constructor() { }
 
@@ -27,6 +32,20 @@ export class InstructorHelpPageComponent implements OnInit {
       this.key = this.searchTerm.toLowerCase();
     } else {
       this.clear();
+    }
+  }
+
+  /**
+   * Scrolls to the section passed in
+   */
+  scroll(section: string): void {
+    if (this.bodyRef) {
+      const el: any = Array.prototype.slice
+          .call(this.bodyRef.nativeElement.childNodes).find((x: any) => x.id === section);
+      if (el) {
+        el.scrollIntoView();
+        window.scrollBy(0, -50);
+      }
     }
   }
 

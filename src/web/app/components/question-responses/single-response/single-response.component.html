@@ -1,0 +1,9 @@
+<tm-contribution-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.CONTRIB" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-contribution-question-response>
+<tm-text-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.TEXT" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-text-question-response>
+<tm-constsum-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.CONSTSUM" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-constsum-question-response>
+<tm-num-scale-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.NUMSCALE" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-num-scale-question-response>
+<tm-rubric-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.RUBRIC" [responseDetails]="responseDetails" [questionDetails]="questionDetails" [isStudentPage]="isStudentPage"></tm-rubric-question-response>
+<tm-rank-options-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.RANK_OPTIONS" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-options-question-response>
+<tm-rank-recipients-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-recipients-question-response>
+<tm-msq-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.MSQ" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-msq-question-response>
+<tm-mcq-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.MCQ" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-mcq-question-response>

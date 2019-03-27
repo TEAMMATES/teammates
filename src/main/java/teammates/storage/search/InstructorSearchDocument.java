@@ -92,9 +92,9 @@ public class InstructorSearchDocument extends SearchDocument {
     private static void sortInstructorResultList(List<InstructorAttributes> instructorList) {
 
         instructorList.sort(Comparator.comparing((InstructorAttributes instructor) -> instructor.courseId)
-                //TODO TO REMOVE AFTER DATA MIGRATION
+                //TODO TO REMOVE AFTER DATA MIGRATION - needed to work with code before the sanitizing was removed
                 .thenComparing(instructor -> SanitizationHelper.desanitizeIfHtmlSanitized(instructor.role))
-                .thenComparing(instructor -> instructor.name)
+                .thenComparing(instructor -> SanitizationHelper.desanitizeIfHtmlSanitized(instructor.name))
                 .thenComparing(instructor -> instructor.email));
 
     }

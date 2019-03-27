@@ -11,7 +11,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
@@ -38,7 +38,9 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
 
     private CourseAttributes validCourse =
             CourseAttributes
-                    .builder(" CCAddUiTest.course1 ", " Software Engineering $^&*() ", ZoneId.of("Asia/Singapore"))
+                    .builder(" CCAddUiTest.course1 ")
+                    .withName(" Software Engineering $^&*() ")
+                    .withTimezone(ZoneId.of("Asia/Singapore"))
                     .build();
 
     @Override
@@ -350,7 +352,7 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
         //after click archive button, new value will be assigned to instructor's isArchive attribute
         //after this, his own archive status for this course will not be affected by other instructors
         //of the same course
-        assertTrue(instructorWithNullArchiveStatus.isArchived.booleanValue());
+        assertTrue(instructorWithNullArchiveStatus.isArchived());
 
         ______TS("archive status of another instructor from same course not affected");
 
@@ -440,7 +442,7 @@ public class InstructorCoursesPageUiTest extends BaseE2ETestCase {
     private InstructorCoursesPage getCoursesPage() {
         AppUrl coursesUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(instructorId);
-        InstructorCoursesPage page = loginAdminToPage(coursesUrl, InstructorCoursesPage.class);
+        InstructorCoursesPage page = loginAdminToPageOld(coursesUrl, InstructorCoursesPage.class);
         page.waitForAjaxLoadCoursesSuccess();
         return page;
     }

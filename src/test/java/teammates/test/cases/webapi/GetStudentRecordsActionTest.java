@@ -19,7 +19,7 @@ import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
 
 /**
- * SUT: {@link GetStudentRecrodsAction}.
+ * SUT: {@link GetStudentRecordsAction}.
  */
 public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecordsAction> {
 
@@ -141,10 +141,12 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
         ______TS("Typical case: student has no records");
 
         testStudent.googleId = "valid.no.sessions";
-        StudentsLogic.inst().updateStudentCascade(testStudent.email, testStudent);
-        AccountsLogic.inst().createAccount(
-                AccountAttributes.builder()
+        StudentsLogic.inst().updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(testStudent.course, testStudent.email)
                         .withGoogleId(testStudent.googleId)
+                        .build());
+        AccountsLogic.inst().createAccount(
+                AccountAttributes.builder(testStudent.googleId)
                         .withName(testStudent.name)
                         .withIsInstructor(false)
                         .withEmail(testStudent.email)
@@ -189,13 +191,14 @@ public class GetStudentRecordsActionTest extends BaseActionTest<GetStudentRecord
     private StudentAttributes createStudentInTypicalDataBundleForCourseWithNoSession()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes student = StudentAttributes
-                .builder("idOfCourseNoEvals", "nameOfStudent", "emailTemp@gmail.tmt")
-                .withSection("section")
-                .withTeam("team")
-                .withComments("No comment")
+                .builder("idOfCourseNoEvals", "emailTemp@gmail.tmt")
+                .withName("nameOfStudent")
+                .withSectionName("section")
+                .withTeamName("team")
+                .withComment("No comment")
                 .build();
 
-        logic.createStudent(student);
+        StudentsLogic.inst().createStudent(student);
         return student;
     }
 

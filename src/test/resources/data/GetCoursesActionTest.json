@@ -1,0 +1,212 @@
+{
+  "accounts": {
+    "instructor1": {
+      "googleId": "idOfInstructor1",
+      "name": "Instructor 1",
+      "isInstructor": true,
+      "email": "instr1@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1": {
+      "googleId": "idOfStudent1",
+      "name": "student 1",
+      "isInstructor": false,
+      "email": "student1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "typicalCourse1": {
+      "createdAt": "2012-04-01T23:58:00Z",
+      "id": "idOfTypicalCourse1",
+      "name": "Typical Course 1",
+      "timeZone": "Africa/Johannesburg"
+    },
+    "typicalCourse2": {
+      "createdAt": "2012-04-01T23:59:00Z",
+      "id": "idOfTypicalCourse2",
+      "name": "Typical Course 2",
+      "timeZone": "UTC"
+    },
+    "typicalCourse3": {
+      "createdAt": "2012-04-02T23:58:00Z",
+      "deletedAt": "2012-04-12T23:58:00Z",
+      "id": "idOfTypicalCourse3",
+      "name": "Typical Course 3",
+      "timeZone": "UTC"
+    },
+    "typicalCourse4": {
+      "createdAt": "2012-04-02T23:58:00Z",
+      "id": "idOfTypicalCourse4",
+      "name": "Typical Course 4",
+      "timeZone": "UTC"
+    },
+    "typicalCourse5": {
+      "createdAt": "2012-04-02T23:58:00Z",
+      "deletedAt": "2012-04-12T23:58:00Z",
+      "id": "idOfTypicalCourse5",
+      "name": "Typical Course 5",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructor1OfCourse1": {
+      "googleId": "idOfInstructor1",
+      "courseId": "idOfTypicalCourse1",
+      "name": "Instructor 1",
+      "email": "instr1@course1.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfCourse2": {
+      "googleId": "idOfInstructor1",
+      "courseId": "idOfTypicalCourse2",
+      "name": "Instructor 1",
+      "email": "instr1@course1.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfCourse3": {
+      "googleId": "idOfInstructor1",
+      "courseId": "idOfTypicalCourse3",
+      "name": "Instructor 1",
+      "email": "instr1@course1.tmt",
+      "isArchived": true,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfCourse4": {
+      "googleId": "idOfInstructor1",
+      "courseId": "idOfTypicalCourse4",
+      "name": "Instructor 1",
+      "email": "instr1@course1.tmt",
+      "isArchived": true,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfCourse5": {
+      "googleId": "idOfInstructor1",
+      "courseId": "idOfTypicalCourse5",
+      "name": "Instructor 1",
+      "email": "instr1@course1.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "student1InCourse1": {
+      "googleId": "idOfStudent1",
+      "email": "student1@gmail.tmt",
+      "course": "idOfTypicalCourse1",
+      "name": "student 1",
+      "comments": "comment for student1",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    },
+    "student1InCourse2": {
+      "googleId": "idOfStudent1",
+      "email": "student1@gmail.tmt",
+      "course": "idOfTypicalCourse2",
+      "name": "student 1",
+      "comments": "",
+      "team": "Team 2.1",
+      "section": "None"
+    },
+    "student1InDeletedCourse": {
+      "googleId": "idOfStudent1",
+      "email": "student1@gmail.tmt",
+      "course": "idOfTypicalCourse3",
+      "name": "student 1",
+      "comments": "comment for student1InCourse3",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    },
+    "student1InArchivedCourse": {
+      "googleId": "idOfStudent1",
+      "email": "student1@gmail.tmt",
+      "course": "idOfTypicalCourse4",
+      "name": "student 1",
+      "comments": "",
+      "team": "Team 2.1",
+      "section": "None"
+    }
+  }
+}

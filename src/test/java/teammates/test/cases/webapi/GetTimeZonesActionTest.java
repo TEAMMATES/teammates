@@ -1,14 +1,12 @@
 package teammates.test.cases.webapi;
 
-import java.util.Map;
-
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetTimeZonesAction;
-import teammates.ui.webapi.action.GetTimeZonesAction.TimezoneData;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.TimeZonesData;
 
 /**
  * SUT: {@link GetTimeZonesAction}.
@@ -28,25 +26,30 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
     @Override
     @Test
     protected void testExecute() throws Exception {
-
         ______TS("Normal case");
 
         GetTimeZonesAction a = getAction();
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        TimeZonesData output = (TimeZonesData) r.getOutput();
 
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         // This test does not check the timezone database used is the latest
         // Only check that the version number is returned, and some sample values for timezone offset
-
-        TimezoneData output = (TimezoneData) r.getOutput();
-        Map<String, Integer> offsets = output.getOffsets();
         assertNotNull(output.getVersion());
-        assertEquals(8 * 60 * 60, offsets.get("Asia/Singapore").intValue());
-        assertEquals(-5 * 60 * 60, offsets.get("America/New_York").intValue());
-        assertEquals(11 * 60 * 60, offsets.get("Australia/Sydney").intValue());
-        assertEquals(0, offsets.get("Europe/London").intValue());
 
+        /**
+         * There is a quirk in the ETC/GMT time zones due to the tzdb using POSIX-style signs in the zone names and the
+         * output abbreviations. POSIX has positive signs west of Greenwich, while we are used to positive signs east
+         * of Greenwich in practice. For example, TZ='Etc/GMT+8' uses the abbreviation "GMT+8" and corresponds to 8
+         * hours behind UTC (i.e. west of Greenwich) even though many people would expect it to mean 8 hours ahead of
+         * UTC (i.e. east of Greenwich; like Singapore or China).
+         * (adapted from tzdb table comments)
+         */
+        assertEquals(8 * 60 * 60, output.getOffsets().get("Etc/GMT-8").intValue());
+        assertEquals(-5 * 60 * 60, output.getOffsets().get("Etc/GMT+5").intValue());
+        assertEquals(11 * 60 * 60, output.getOffsets().get("Etc/GMT-11").intValue());
+        assertEquals(0, output.getOffsets().get("Etc/GMT+0").intValue());
     }
 
     @Override
@@ -54,5 +57,4 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
     protected void testAccessControl() throws Exception {
         verifyOnlyAdminCanAccess();
     }
-
 }

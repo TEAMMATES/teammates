@@ -137,9 +137,11 @@
     "questionForOpeningSession": {
       "feedbackSessionName": "AutSessRem Opening Session",
       "courseId": "AutSessRem.course",
-      "questionMetaData": "This question is so that opening reminders will be sent to students, as the session needs to have question for students.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -156,9 +158,11 @@
     "questionForClosingSession": {
       "feedbackSessionName": "AutSessRem Closing Session",
       "courseId": "AutSessRem.course",
-      "questionMetaData": "This question is so that closing reminders will be sent to students as it is unanswered.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that closing reminders will be sent to students as it is unanswered."
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -175,9 +179,11 @@
     "questionForPublishedSession": {
       "feedbackSessionName": "AutSessRem Published Session",
       "courseId": "AutSessRem.course",
-      "questionMetaData": "This question is so that opening reminders will be sent to students, as the session needs to have question for students.",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+      },
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,

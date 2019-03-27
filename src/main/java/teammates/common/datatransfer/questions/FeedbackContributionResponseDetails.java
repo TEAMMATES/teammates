@@ -58,12 +58,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
-    public String getAnswerHtmlInstructorView(FeedbackQuestionDetails questionDetails) {
-        return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
-    }
-
-    // Not used for contribution question, due to calculations required. See corresponding function below.
-    @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return SanitizationHelper.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
     }
@@ -74,64 +68,8 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         return getContributionQuestionResponseAnswerCsv(response, question, feedbackSessionResultsBundle);
     }
 
-    @Override
-    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getContributionQuestionResponseAnswerHtml(response, question, feedbackSessionResultsBundle);
-    }
-
     private void setAnswer(int answer) {
         this.answer = answer;
-    }
-
-    private String getContributionQuestionResponseAnswerHtml(
-            FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        Map<String, TeamEvalResult> teamResults = getContribQnTeamEvalResult(question, feedbackSessionResultsBundle);
-
-        // Need to get actual team name and giver/recipient emails here,
-        // only for getting the responseAnswer.
-        FeedbackResponseAttributes actualResponse = feedbackSessionResultsBundle.getActualResponse(response);
-        String giverTeamName = feedbackSessionResultsBundle.emailTeamNameTable.get(actualResponse.giver);
-        TeamEvalResult teamResult = teamResults.get(giverTeamName);
-
-        int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giver);
-        int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipient);
-
-        if (giverIndex == -1 || recipientIndex == -1) {
-            if (giverIndex == -1) {
-                log.severe("getContributionQuestionResponseAnswerHtml - giverIndex is -1\n"
-                        + "Cannot find giver: " + actualResponse.giver + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
-                        + "Response Id: " + actualResponse.getId());
-            }
-            if (recipientIndex == -1) {
-                log.severe("getContributionQuestionResponseAnswerHtml - recipientIndex is -1\n"
-                        + "Cannot find recipient: " + actualResponse.recipient + "\n"
-                        + "CourseId: " + feedbackSessionResultsBundle.feedbackSession.getCourseId() + "\n"
-                        + "Session Name: " + feedbackSessionResultsBundle.feedbackSession.getFeedbackSessionName() + "\n"
-                        + "Response Id: " + actualResponse.getId());
-            }
-
-            return "";
-        }
-
-        Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question, feedbackSessionResultsBundle);
-
-        if (response.giver.equals(response.recipient)) {
-            StudentResultSummary studentResult = stats.get(response.giver);
-            String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                                              studentResult.claimedToInstructor);
-
-            //For CONTRIB qns, We want to show PC if giver == recipient.
-            int pc = studentResult.perceivedToInstructor;
-            return responseAnswerHtml
-                 + FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
-        }
-        return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                                        teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]);
     }
 
     private String getContributionQuestionResponseAnswerCsv(
@@ -223,10 +161,13 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         // Valid answers: 0, 10, 20, .... 190, 200
         boolean isValidRange = answer >= 0 && answer <= 200;
         boolean isMultipleOf10 = answer % 10 == 0;
+        boolean isNotSureAllowed = ((FeedbackContributionQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).isNotSureAllowed();
+
         if (isValidRange && isMultipleOf10) {
             validAnswer = true;
         }
-        if (answer == Const.POINTS_NOT_SURE || answer == Const.POINTS_NOT_SUBMITTED) {
+        if (answer == Const.POINTS_NOT_SURE && isNotSureAllowed || answer == Const.POINTS_NOT_SUBMITTED) {
             validAnswer = true;
         }
         if (!validAnswer) {

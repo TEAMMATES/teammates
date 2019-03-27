@@ -7,7 +7,6 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -49,7 +48,7 @@ public class RestoreAllInstructorSoftDeletedCoursesAction extends Action {
             logic.restoreAllCoursesFromRecycleBin(instructorList);
 
             statusMessage = "All courses have been restored.";
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 

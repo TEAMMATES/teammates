@@ -10,7 +10,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.e2e.util.TestProperties;
@@ -79,9 +78,19 @@ public class Browser {
      */
     public void waitForPageLoad() {
         WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
-        ExpectedCondition<Boolean> expectation = driver ->
-                "complete".equals(((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT).toString());
-        wait.until(expectation);
+        wait.until(driver -> {
+            return "complete".equals(((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT));
+        });
+    }
+
+    /**
+     * Waits for the page to load by only looking at the page's readyState.
+     */
+    public void waitForPageReadyState() {
+        WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
+        wait.until(driver -> {
+            return "complete".equals(((JavascriptExecutor) driver).executeScript("return document.readyState"));
+        });
     }
 
     /**

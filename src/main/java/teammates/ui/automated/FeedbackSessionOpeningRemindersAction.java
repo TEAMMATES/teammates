@@ -22,8 +22,11 @@ public class FeedbackSessionOpeningRemindersAction extends AutomatedAction {
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionOpeningEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
-                session.setSentOpenEmail(true);
-                logic.updateFeedbackSession(session);
+                logic.updateFeedbackSession(
+                        FeedbackSessionAttributes
+                                .updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
+                                .withSentOpenEmail(true)
+                                .build());
             } catch (Exception e) {
                 log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));
             }

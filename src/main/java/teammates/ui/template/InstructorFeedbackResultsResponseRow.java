@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -163,13 +162,6 @@ public class InstructorFeedbackResultsResponseRow {
 
     public void setActionsDisplayed(boolean isActionsDisplayed) {
         this.isActionsDisplayed = isActionsDisplayed;
-    }
-
-    public static List<InstructorFeedbackResultsResponseRow> sortListWithDefaultOrder(
-            List<InstructorFeedbackResultsResponseRow> responseRows) {
-        responseRows.sort(Comparator.comparing((InstructorFeedbackResultsResponseRow obj) -> obj.getGiverTeam())
-                .thenComparing(obj -> obj.getGiverDisplayableIdentifier()));
-        return responseRows;
     }
 
     public FeedbackResponseCommentRow getAddCommentButton() {
