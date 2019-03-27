@@ -66,6 +66,14 @@ export class CourseService {
   }
 
   /**
+   * Restore a soft-deleted course by calling API.
+   */
+  restoreCourse(courseid: string): Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = { courseid };
+    return this.httpRequestService.delete('/bin/course', paramMap);
+  }
+
+  /**
    * Join a course by calling API.
    */
   joinCourse(regKey: string, entityType: string): Observable<JoinStatus> {

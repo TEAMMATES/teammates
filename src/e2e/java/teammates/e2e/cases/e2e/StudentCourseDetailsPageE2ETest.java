@@ -3,10 +3,14 @@ package teammates.e2e.cases.e2e;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
+import teammates.common.util.AppUrl;
+import teammates.common.util.Const;
+import teammates.e2e.pageobjects.AppPage;
+import teammates.e2e.pageobjects.StudentCourseDetailsPage;
 import teammates.e2e.pageobjects.StudentHomePage;
 
 /**
- * SUT: {@link teammates.common.util.Const.WebPageURIs#STUDENT_COURSE_DETAILS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#STUDENT_COURSE_DETAILS_PAGE}.
  */
 public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
@@ -19,13 +23,12 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testAll() {
 
-        ______TS("Typical case: Log in with all available student course details");
+        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
+                .withCourseId("SCDetailsUiT.CS2104")
+                .withUserId(testData.students.get("SCDetailsUiT.alice").googleId);
+        loginAdminToPage(url, StudentHomePage.class);
+        AppPage.getNewPageInstance(browser, url, StudentCourseDetailsPage.class);
 
-        StudentHomePage shp = getHomePage().clickStudentLogin().loginAsStudent(
-                testData.students.get("SCDetailsUiT.alice").googleId, "");
-        shp.loadStudentCourseDetails();
-
-        browser.waitForPageLoad();
         verifyContent();
 
         logout();

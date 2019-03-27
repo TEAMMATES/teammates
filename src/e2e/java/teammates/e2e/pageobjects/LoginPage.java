@@ -13,6 +13,6 @@ public abstract class LoginPage extends AppPage {
 
     public abstract <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage);
 
-    public abstract void loginAdminAsInstructor(
-            String adminUsername, String adminPassword, String instructorUsername);
+    public abstract void loginAsAdmin(String adminUsername, String adminPassword);
+
 }
