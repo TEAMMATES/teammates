@@ -868,14 +868,6 @@ public abstract class AppPage {
 
     /**
      * Returns the value of the cell located at {@code (row, column)}
-     *         from the first table (which is of type {@code class=table}) in the page.
-     */
-    public String getCellValueFromDataTable(int row, int column) {
-        return getCellValueFromDataTable(0, row, column);
-    }
-
-    /**
-     * Returns the value of the cell located at {@code (row, column)}
      *         from the nth(0-index-based) table (which is of type {@code class=table}) in the page.
      */
     public String getCellValueFromDataTable(int tableNum, int row, int column) {
