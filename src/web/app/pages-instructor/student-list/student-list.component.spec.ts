@@ -49,7 +49,7 @@ describe('StudentListComponent', () => {
             name: 'tester',
             team: '1',
             email: 'tester@tester.com',
-            status: 'Yet to join',
+            status: 'Joined',
           },
         ],
         sectionName: '1',
@@ -93,7 +93,7 @@ describe('StudentListComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with some student list data when not allowed to modify student in section', () => {
+  it('should snap with some student list data when not allowed to modify student for a specific section', () => {
     component.sections = [
       {
         students: [
@@ -101,7 +101,7 @@ describe('StudentListComponent', () => {
             name: 'tester',
             team: '1',
             email: 'tester@tester.com',
-            status: 'Yet to join',
+            status: 'Joined',
           },
         ],
         sectionName: '1',
@@ -145,7 +145,7 @@ describe('StudentListComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with enable remind button set to true and one student yet to join', () => {
+  it('should snap with enable remind button set to true and two students yet to join', () => {
     component.sections = [
       {
         students: [
