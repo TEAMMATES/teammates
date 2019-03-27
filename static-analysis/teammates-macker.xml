@@ -315,9 +315,9 @@
                         <allow>
                             <from class="${e2e}.**" />
                         </allow>
-                        <!-- Allow lnp.scripts to reuse Backdoor API -->
+                        <!-- Allow L&P Tests to reuse Backdoor API -->
                         <allow>
-                            <from class="${lnp}.scripts.**" />
+                            <from class="${lnp}.tests.**" />
                             <to class="${e2e}.**" />
                         </allow>
 

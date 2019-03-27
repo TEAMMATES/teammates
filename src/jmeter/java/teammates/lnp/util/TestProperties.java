@@ -1,6 +1,5 @@
 package teammates.lnp.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -54,17 +53,6 @@ public final class TestProperties {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Creates the test data folder if it does not exist.
-     */
-    public static boolean createTestDataFolder() {
-        File testDataDirectory = new File(TEST_DATA_FOLDER);
-        if (!testDataDirectory.exists()) {
-            return testDataDirectory.mkdir();
-        }
-        return true;
     }
 
 }
