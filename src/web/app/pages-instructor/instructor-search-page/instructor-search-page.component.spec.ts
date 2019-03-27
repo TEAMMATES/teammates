@@ -96,10 +96,4 @@ describe('InstructorSearchPageComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
-  it('should snap with a feedback session table', () => {
-
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
 });
