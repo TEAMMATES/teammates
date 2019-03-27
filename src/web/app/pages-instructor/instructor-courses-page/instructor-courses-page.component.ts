@@ -258,16 +258,18 @@ export class InstructorCoursesPageComponent implements OnInit {
     const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.isDeleteAll = true;
     modalRef.result.then(() => {
-      const paramMap: { [key: string]: string } = {
-        user: this.user,
-      };
-      this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap)
-          .subscribe((resp: MessageOutput) => {
-            this.loadInstructorCourses();
-            this.statusMessageService.showSuccessMessage(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
-          });
+      const deleteRequests: Observable<MessageOutput>[] = [];
+      this.softDeletedCourses.forEach((courseToDelete: SoftDeletedCourse) => {
+        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.id));
+      });
+
+      forkJoin(deleteRequests).subscribe(() => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage('All courses have been permanently deleted.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+
     }, () => {});
   }
 
