@@ -721,12 +721,13 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
     protected static void addUnregStudentToCourse1() throws Exception {
         StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
         StudentAttributes student = StudentAttributes
-                .builder("idOfTypicalCourse1", "unregistered student6 In Course1", "student6InCourse1@gmail.tmt")
-                .withTeam("Team Unregistered")
-                .withSection("Section 3")
-                .withComments("")
+                .builder("idOfTypicalCourse1", "student6InCourse1@gmail.tmt")
+                .withName("unregistered student6 In Course1")
+                .withTeamName("Team Unregistered")
+                .withSectionName("Section 3")
+                .withComment("")
                 .build();
-        StudentsLogic.inst().createStudentCascade(student);
+        StudentsLogic.inst().createStudent(student);
     }
 
     protected String getPageResultDestination(String parentUri, boolean isError, String userId) {

@@ -1,0 +1,16 @@
+<div *ngFor="let sectionInfo of responses | keyvalue">
+  <div class="card margin-bottom-15px" *ngIf="!section || (sectionInfo.key == section)">
+    <div class="card-header bg-info text-white course-tab-header" (click)="expandSectionTab(sectionInfo.key, sectionInfo.value)">
+      {{ sectionInfo.key }}
+      <div class="float-right">
+        <i class="fas fa-chevron-down" *ngIf="!sectionInfo.value.isTabExpanded"></i>
+        <i class="fas fa-chevron-up" *ngIf="sectionInfo.value.isTabExpanded"></i>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="sectionInfo.value.isTabExpanded">
+      <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="section" [sectionType]="sectionType"
+          [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="false"
+          style="margin-bottom: 20px;"></tm-gqr-rqg-view-responses>
+    </div>
+  </div>
+</div>

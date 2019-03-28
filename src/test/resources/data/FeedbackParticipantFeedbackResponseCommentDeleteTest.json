@@ -176,9 +176,21 @@
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "{\"hasAssignedWeights\": false,\"mcqWeights\": [],\"mcqOtherWeight\": 0.0,\"numOfMcqChoices\": 2,\"mcqChoices\": [\"It's good\",\"It's perfect\"],\"otherEnabled\": false,\"generateOptionsFor\": \"NONE\",\"questionType\": \"MCQ\",\"questionText\": \"What do you like best about the class' product?\"}",
+      "questionDetails": {
+        "hasAssignedWeights": false,
+        "mcqWeights": [],
+        "mcqOtherWeight": 0.0,
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "otherEnabled": false,
+        "generateOptionsFor": "NONE",
+        "questionType": "MCQ",
+        "questionText": "What do you like best about the class' product?"
+      },
       "questionNumber": 1,
-      "questionType": "MCQ",
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": 1,
@@ -195,9 +207,11 @@
     "qn2InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "Rate 3 students' products",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 3 students' products"
+      },
       "questionNumber": 2,
-      "questionType": "TEXT",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
@@ -216,9 +230,18 @@
     "qn3InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"It's good\",\"It's perfect\"],\"questionText\":\"What do you like best about our product?\",\"questionType\":\"MCQ\",\"generateOptionsFor\":\"NONE\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's good",
+          "It's perfect"
+        ],
+        "questionText": "What do you like best about our product?",
+        "questionType": "MCQ",
+        "generateOptionsFor": "NONE",
+        "otherEnabled": false
+      },
       "questionNumber": 3,
-      "questionType": "MCQ",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
@@ -244,9 +267,17 @@
     "qn4InSession1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
-      "questionMetaData": "{\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"questionText\":\"What do you think is the other teams' best feature?\",\"questionType\":\"MCQ\",\"otherEnabled\":false}",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "UI",
+          "Algo"
+        ],
+        "questionText": "What do you think is the other teams' best feature?",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      },
       "questionNumber": 4,
-      "questionType": "MCQ",
       "giverType": "TEAMS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
@@ -334,7 +365,7 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "1%instructor1@course1.tmt%GENERAL",
+      "feedbackResponseId": "1%instructor1@course1.tmt%%GENERAL%",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
@@ -352,7 +383,7 @@
       "commentGiver": "instructor2@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "1%instructor2@course1.tmt%GENERAL",
+      "feedbackResponseId": "1%instructor2@course1.tmt%%GENERAL%",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",

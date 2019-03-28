@@ -50,7 +50,14 @@ public class FeedbackSessionClosingRemindersActionTest
         session1.setTimeZone(ZoneId.of("UTC"));
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
-        fsLogic.updateFeedbackSession(session1);
+        fsLogic.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
+                        .withTimeZone(session1.getTimeZone())
+                        .withStartTime(session1.getStartTime())
+                        .withEndTime(session1.getEndTime())
+                        .build());
+        session1.setSentOpenEmail(true); // fsLogic will set the flag to true
         verifyPresentInDatastore(session1);
 
         // Ditto, but disable the closing reminder
@@ -60,7 +67,15 @@ public class FeedbackSessionClosingRemindersActionTest
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session2.setClosingEmailEnabled(false);
-        fsLogic.updateFeedbackSession(session2);
+        fsLogic.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
+                        .withTimeZone(session2.getTimeZone())
+                        .withStartTime(session2.getStartTime())
+                        .withEndTime(session2.getEndTime())
+                        .withIsClosingEmailEnabled(session2.isClosingEmailEnabled())
+                        .build());
+        session1.setSentOpenEmail(true); // fsLogic will set the flag to true
         verifyPresentInDatastore(session2);
 
         // 1 session not yet opened; do not send the closing reminder
@@ -69,7 +84,14 @@ public class FeedbackSessionClosingRemindersActionTest
         session3.setTimeZone(ZoneId.of("UTC"));
         session3.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1));
         session3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
-        fsLogic.updateFeedbackSession(session3);
+        fsLogic.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(session3.getFeedbackSessionName(), session3.getCourseId())
+                        .withTimeZone(session3.getTimeZone())
+                        .withStartTime(session3.getStartTime())
+                        .withEndTime(session3.getEndTime())
+                        .build());
+        session3.setSentOpenEmail(false); // fsLogic will set the flag to true
         verifyPresentInDatastore(session3);
 
         action = getAction();
@@ -90,7 +112,11 @@ public class FeedbackSessionClosingRemindersActionTest
         ______TS("1 session closing soon with emails sent");
 
         session1.setSentClosingEmail(true);
-        fsLogic.updateFeedbackSession(session1);
+        fsLogic.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(session3.getFeedbackSessionName(), session3.getCourseId())
+                        .withSentClosingEmail(session3.isSentClosingEmail())
+                        .build());
 
         action = getAction();
         action.execute();

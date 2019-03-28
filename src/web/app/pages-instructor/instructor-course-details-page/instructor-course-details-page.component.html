@@ -37,17 +37,15 @@
       <div class="form-group row">
         <label class="col-sm-3 control-label text-right">Instructors:</label>
         <div class="col-sm-6">
-          <div *ngIf="instructors">
-            <div *ngFor="let instructor of instructors">
-              <ng-container *ngIf="instructor.role; else showRole">
-                Co-owner: {{instructor.name}} ({{instructor.email}})
-              </ng-container>
-              <ng-template #showRole >
-                <p>
-                  {{instructor.role}} {{instructor.name}} ({{instructor.email}})
-                </p>
-              </ng-template>
-            </div>
+          <div *ngFor="let instructor of instructors">
+            <ng-container *ngIf="instructor.role; else showRole">
+              Co-owner: {{instructor.name}} ({{instructor.email}})
+            </ng-container>
+            <ng-template #showRole >
+              <p>
+                {{instructor.role}} {{instructor.name}} ({{instructor.email}})
+              </p>
+            </ng-template>
           </div>
         </div>
       </div>
@@ -105,8 +103,8 @@
       <br>
     </div>
     <div class="modal-footer">
-      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">Cancel</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">OK</button>
+      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
+      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
   <ng-template #deleteAllStudentsModal let-modal>
@@ -120,8 +118,8 @@
       <br>
     </div>
     <div class="modal-footer">
-      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">Cancel</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">OK</button>
+      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
+      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
   <ng-template #studentTableModal let-modal>

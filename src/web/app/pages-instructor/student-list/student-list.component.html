@@ -1,5 +1,9 @@
-<table class="table table-bordered table-striped m-0">
-  <thead [ngClass]="{'thead-gray': useGrayHeading, 'text-white bg-primary font-weight-bold': !useGrayHeading}">
+<div class="table-responsive">
+  <table class="table table-bordered table-striped m-0">
+    <thead
+        [ngClass]="{'thead-gray': useGrayHeading, 'text-white bg-primary font-weight-bold': !useGrayHeading}"
+        [hidden]="isHideTableHead"
+    >
     <tr>
       <th>Photo</th>
       <th *ngIf="hasSection()">
@@ -19,40 +23,41 @@
       </th>
       <th>Action(s)</th>
     </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngFor="let section of sections"> <tr *ngFor="let student of section.students; trackBy: trackByFn">
-      <td class="align-center">
-        <ng-template #popContent><img class="profile-pic" src="{{student.photoUrl}}"></ng-template>
-        <img *ngIf="student.photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{student.photoUrl}}"
-          [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
-        <ng-template #viewPhotoBtn>
-          <a href="#" role="button" (click)="loadPhoto(student); $event.preventDefault();">View Photo</a>
-        </ng-template>
-      </td>
-      <td *ngIf="hasSection()">{{section.sectionName}}</td>
-      <td>{{student.team}}</td>
-      <td>{{student.name}}</td>
-      <td class="align-center">{{student.status}}</td>
-      <td>{{student.email}}</td>
-      <td class="no-print align-center">
-        <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
-          let-routerLink="routerLink" let-queryParams="queryParams">
-          <a class="btn btn-secondary btn-sm mr-2"
-            [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
-            [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
-            [routerLink]="routerLink"
-            [queryParams]="queryParams">
-            {{name}}</a>
-        </ng-template>
-        <ng-container *ngTemplateOutlet="actionButton; context: {
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let section of sections">
+      <tr *ngFor="let student of section.students; trackBy: trackByFn" [hidden]="isStudentToHide(student.email)"s>
+        <td class="align-center">
+          <ng-template #popContent><img class="profile-pic" src="{{student.photoUrl}}"></ng-template>
+          <img *ngIf="student.photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{student.photoUrl}}"
+               [ngbPopover]="popContent" triggers="mouseenter:mouseleave">
+          <ng-template #viewPhotoBtn>
+            <a [routerLink]="" role="button" (click)="loadPhoto(student); $event.preventDefault();">View Photo</a>
+          </ng-template>
+        </td>
+        <td *ngIf="hasSection()">{{section.sectionName}}</td>
+        <td>{{student.team}}</td>
+        <td>{{student.name}}</td>
+        <td class="align-center">{{student.status}}</td>
+        <td>{{student.email}}</td>
+        <td class="no-print align-center">
+          <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
+                       let-routerLink="routerLink" let-queryParams="queryParams">
+            <a class="btn btn-light btn-sm mr-2"
+               [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
+               [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
+               [routerLink]="routerLink"
+               [queryParams]="queryParams">
+              {{name}}</a>
+          </ng-template>
+          <ng-container *ngTemplateOutlet="actionButton; context: {
           isEnabled: section.isAllowedToViewStudentInSection,
           tooltip: 'View the details of the student',
           name: 'View',
           routerLink: '/web/instructor/courses/student/details',
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
-        <ng-container *ngTemplateOutlet="actionButton; context: {
+          <ng-container *ngTemplateOutlet="actionButton; context: {
           isEnabled: section.isAllowedToModifyStudent,
           tooltip: 'Use this to edit the details of this student. To edit multiple students'
             + ' in one go, you can use the enroll page: '
@@ -63,13 +68,13 @@
         }"></ng-container>
         <ng-container *ngIf="enableRemindButton">
           <ng-container *ngIf="student.status == 'Yet to join'">
-            <button class="btn btn-secondary btn-sm mr-2" *ngIf="section.isAllowedToModifyStudent"
+            <button class="btn btn-light btn-sm mr-2" *ngIf="section.isAllowedToModifyStudent"
               ngbTooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
               + ' Google Account. Note: Students can use TEAMMATES without \'joining\','
               + ' but a joined student can access extra features e.g. set up a user profile'"
                (click)="openModal(remindModal)">Send Invite</button>
-            <button class="btn btn-secondary btn-sm mr-2 disabled mouse-hover-only" *ngIf="!section.isAllowedToModifyStudent"
-              ngbTooltip="'You do not have the permissions to access this feature'"></button>
+            <button class="btn btn-light btn-sm mr-2 disabled mouse-hover-only" *ngIf="!section.isAllowedToModifyStudent"
+              ngbTooltip="'You do not have the permissions to access this feature'">Send Invite</button>
           </ng-container>
         </ng-container>
         <ng-template #remindModal let-modal>
@@ -82,11 +87,11 @@
             at the opening time of each session. Send a join request to {{student.email}} anyway?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn modal-btn-cancel btn-default" (click)="modal.dismiss()">Cancel</button>
-            <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">OK</button>
+            <button type="button" class="btn modal-btn-cancel btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
+            <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">Yes</button>
           </div>
         </ng-template>
-        <button class="btn btn-secondary btn-sm mr-2"
+        <button class="btn btn-light btn-sm mr-2"
           [ngClass]="{'disabled mouse-hover-only': !section.isAllowedToModifyStudent}"
           [ngbTooltip]="section.isAllowedToModifyStudent
             ? 'Delete the student and the corresponding submissions from the course'
@@ -104,8 +109,8 @@
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
-            <button type="button" ngbAutofocus class="btn btn-danger" (click)="removeStudentFromCourse(student.email); modal.dismiss()">Ok</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">No, cancel the operation</button>
+            <button type="button" ngbAutofocus class="btn btn-danger" (click)="removeStudentFromCourse(student.email); modal.dismiss()">Yes</button>
           </div>
         </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {
@@ -115,7 +120,9 @@
           routerLink: '/web/instructor/students/records',
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
-      </td>
-    </tr></ng-container>
-  </tbody>
-</table>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>

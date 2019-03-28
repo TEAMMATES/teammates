@@ -8,7 +8,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.ApiOutput;
 
-
 /**
  * Action: Fetches existing students of a course.
  */

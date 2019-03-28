@@ -1,0 +1,95 @@
+<div class="card margin-top-30px" xmlns="http://www.w3.org/1999/html">
+  <div class="card-header text-white question-header">
+    <b>Question {{ model.questionNumber }}</b>
+    <br/>
+    <span>{{ model.questionBrief }}</span>
+  </div>
+
+  <div class="card-body">
+    <div class="card" *ngIf="model.questionDescription" xmlns="http://www.w3.org/1999/html">
+      <div class="card-header">
+        <b>More details</b>
+      </div>
+      <div class="card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
+    </div>
+
+    <br/>
+
+    <p class="text-secondary">Only the following persons can see your responses: </p>
+    <ul class="text-secondary">
+      <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
+      <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+        <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
+          {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
+        </li>
+      </ng-container>
+      <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
+    </ul>
+
+    <tm-contribution-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-instruction>
+    <tm-text-question-instruction *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-instruction>
+    <tm-num-scale-question-instruction *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-instruction>
+    <tm-contribution-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-constraint>
+    <tm-text-question-constraint *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-constraint>
+    <tm-num-scale-question-constraint *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-constraint>
+
+    <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
+      <span class="evaluee-span" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
+    </p>
+
+    <div class="alert alert-primary" role="alert" *ngIf="model.giverType === FeedbackParticipantType.TEAMS">
+      Please note that you are submitting this response on behalf of your team.
+    </div>
+
+    <div class="row">
+      <div class="evaluee-col col-12">
+        <div class="row evaluee-row" *ngFor="let recipientSubmissionFormModel of model.recipientSubmissionForms; let i = index; trackBy: trackRecipientSubmissionFormByFn">
+          <div class="col-12 margin-top-10px" *ngIf="model.recipientType !== FeedbackParticipantType.SELF && model.recipientType !== FeedbackParticipantType.NONE">
+            <div *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
+              <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
+            </div>
+            <div class="row align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
+              <div class="col-4">
+                <select class="form-control evaluee-select" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
+                        (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
+                        [disabled]="isDisabled">
+                  <option value=""></option>
+                  <ng-container *ngFor="let recipient of model.recipientList">
+                    <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ recipient.recipientName }}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="text-left">
+                ({{ model.recipientType | recipientTypeName:model.giverType }})
+              </div>
+            </div>
+          </div>
+          <div class="col-12 margin-top-10px">
+            <tm-contribution-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="model.questionDetails"
+                                                      [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                      [shouldShowHelpLink]="i === 0"
+                                                      (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                      [isDisabled]="isDisabled"
+            ></tm-contribution-question-edit-answer-form>
+            <tm-text-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [questionDetails]="model.questionDetails"
+                                              [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                              (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                              [isDisabled]="isDisabled"
+            ></tm-text-question-edit-answer-form>
+            <tm-num-scale-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="model.questionDetails"
+                                                    [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                    (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                    [isDisabled]="isDisabled"
+            ></tm-num-scale-question-edit-answer-form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-warning" role="alert" *ngIf="model.recipientList.length === 0">
+      <span *ngIf="model.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS">This question is for team members and you don't have any team members. Therefore, you will not be able to answer this question.</span>
+      <span *ngIf="model.recipientType === FeedbackParticipantType.TEAMS">This question is for other teams in this course and this course doesn't have any other team. Therefore, you will not be able to answer this question.</span>
+      <span *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS">This question is for other students in this course and this course doesn't have any other student. Therefore, you will not be able to answer this question.</span>
+    </div>
+  </div>
+</div>

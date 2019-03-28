@@ -22,13 +22,13 @@
   <div class="col-4">
     <a routerLink="/web/instructor/courses" class="btn btn-primary text-white">Add New Course</a>
   </div>
-  <div class="col-8">
+  <div class="col-8" *ngIf="courseTabModels.length > 0">
     <div class="float-right">
       <h5 class="d-inline"><strong> Sort By: </strong></h5>
       <div class="btn-group" data-toggle="buttons">
         <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
         <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.CREATION_DATE)" (click)="sortCoursesBy(SortBy.CREATION_DATE)">Creation date</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortCoursesBy(SortBy.COURSE_CREATION_DATE)">Creation Date</button>
       </div>
     </div>
   </div>
@@ -36,15 +36,15 @@
 
 <div *ngIf="courseTabModels.length > 0; else noCourseMessage">
   <div class="card margin-bottom-15px" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-    <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = !courseTabModel.isTabExpanded">
+    <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(courseTabModel);">
       <div class="row">
         <div class="col-6">
           <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
         </div>
         <div class="col-sm-6">
-          <div class="float-right">
+          <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" ngbDropdownToggle> Students </button>
+              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu>
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
                   <a class="btn btn-info btn-sm dropdown-item"
@@ -59,16 +59,16 @@
               </div>
             </span>
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" ngbDropdownToggle> Instructors </button>
+              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Instructors </button>
               <div ngbDropdownMenu >
-                <a type="button" class="btn btn-light btn-sm dropdown-item"
+                <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Edit course information and instructor list"
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
               </div>
             </span>
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" ngbDropdownToggle> Sessions </button>
+              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Sessions </button>
               <div ngbDropdownMenu>
                 <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Add a feedback session for the course"
@@ -77,7 +77,7 @@
               </div>
             </span>
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" (click)="$event.stopPropagation()" ngbDropdownToggle> Course </button>
+              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu>
                 <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
@@ -103,6 +103,9 @@
       </div>
     </div>
 
+    <ng-template #errorLoadingFeedbackSessions>
+      Error loading feedback sessions. Click here to retry.
+    </ng-template>
     <ng-template #courseDeleteModal let-modal>
       <div class="modal-header bg-warning">
         <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Confirm moving course to Recycle Bin </h5>
@@ -115,8 +118,8 @@
         This action can be reverted by going to the "Courses" tab and restoring the desired course(s).
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">OK</button>
+        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+        <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
       </div>
     </ng-template>
     <ng-template #courseArchiveModal let-modal>
@@ -131,22 +134,23 @@
         This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">OK</button>
+        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+        <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
       </div>
     </ng-template>
 
     <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
-      <tm-sessions-table [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
-                         [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
-                         [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE"
-                         [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
-                         (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
-                         (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
-                         (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
-                         (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler()"
-                         (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
-                         (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(idx, $event)"></tm-sessions-table>
+      <tm-sessions-table
+          [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
+          [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
+          [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+          (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
+          (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
+          (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
+          (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
+          (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+          (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(idx, $event)"
+          (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(idx, $event)"></tm-sessions-table>
     </div>
   </div>
 </div>

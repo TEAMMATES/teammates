@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ProfilesDb;
@@ -33,13 +31,14 @@ public final class ProfilesLogic {
     }
 
     /**
-     * Updates/Creates student profile based on the given new profile attributes.
+     * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
-     * @throws InvalidParametersException if attributes in {@code newStudentProfileAttributes} are not valid
+     * @return updated student profile
+     * @throws InvalidParametersException if attributes to update are not valid
      */
-    public void updateOrCreateStudentProfile(StudentProfileAttributes newStudentProfileAttributes)
+    public StudentProfileAttributes updateOrCreateStudentProfile(StudentProfileAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException {
-        profilesDb.updateOrCreateStudentProfile(newStudentProfileAttributes);
+        return profilesDb.updateOrCreateStudentProfile(updateOptions);
     }
 
     /**
@@ -56,17 +55,17 @@ public final class ProfilesLogic {
      *
      * <p>Fails silently if the {@code key} doesn't exist.</p>
      */
-    public void deletePicture(BlobKey key) {
+    public void deletePicture(String key) {
         profilesDb.deletePicture(key);
     }
 
     /**
-     * Updates {@code pictureKey} for the student profile associated with {@code googleId}.
+     * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
      *
      * <p>If the associated profile doesn't exist, create a new one.</p>
      */
-    public void updateStudentProfilePicture(String googleId, String newPictureKey) {
-        profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
+    public void deletePictureKey(String googleId) {
+        profilesDb.deletePictureKey(googleId);
     }
 
 }

@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetStudentProfileAction;
 import teammates.ui.webapi.action.GetStudentProfileAction.StudentProfile;
@@ -28,12 +29,9 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     @Test
     public void testExecute() throws Exception {
         AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
-        AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
 
         StudentProfileAttributes student1InCourse1Profile = typicalBundle.profiles.get("student1InCourse1");
         testActionSuccess(student1, student1InCourse1Profile, "Typical case");
-
-        testActionForbidden(student1, student2, "Forbidden case");
 
         testActionInMasquerade(student1);
 
@@ -65,21 +63,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         assertEquals(student.getName(), output.getName());
     }
 
-    private void testActionForbidden(AccountAttributes student1, AccountAttributes student2,
-                                   String caseDescription) {
-        loginAsStudent(student2.googleId);
-
-        ______TS(caseDescription);
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_ID, student1.googleId,
-        };
-
-        GetStudentProfileAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_FORBIDDEN, result.getStatusCode());
-    }
-
     private void testActionInMasquerade(AccountAttributes student) {
         gaeSimulation.loginAsAdmin("admin.user");
 
@@ -106,5 +89,19 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     protected void testAccessControl() throws Exception {
         verifyInaccessibleWithoutLogin();
         verifyInaccessibleForUnregisteredUsers();
+
+        ______TS("Cannot view another student's profile");
+
+        AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
+        AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
+        loginAsStudent(student2.googleId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.STUDENT_ID, student1.googleId,
+        };
+
+        GetStudentProfileAction action = getAction(submissionParams);
+        assertThrows(UnauthorizedAccessException.class, () -> action.checkAccessControl());
     }
+
 }

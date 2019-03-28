@@ -3,9 +3,6 @@ package teammates.client.scripts;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
@@ -16,6 +13,7 @@ import com.googlecode.objectify.cmd.Query;
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
@@ -115,7 +113,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         ofy().delete().type(Account.class).id(oldGoogleId).now();
 
         if (oldStudentProfile != null) {
-            BlobKey oldPictureKey = oldStudentProfile.getPictureKey();
+            String pictureKey = oldStudentProfile.getPictureKey();
 
             if (!ClientProperties.isTargetUrlDevServer()) {
                 try {
@@ -124,16 +122,14 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
                     GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
                     gcsService.copy(oldGcsFilename, newGcsFilename);
                     gcsService.delete(oldGcsFilename);
-                    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-                    oldPictureKey = blobstoreService.createGsBlobKey(
-                            String.format("/gs/%s/%s", Config.PRODUCTION_GCS_BUCKETNAME, newGoogleId));
+                    pictureKey = GoogleCloudStorageHelper.createBlobKey(newGoogleId);
                 } catch (Exception e) {
                     println("Profile picture not exist or error during copy: " + e.getMessage());
                 }
             }
 
             oldStudentProfile.setGoogleId(newGoogleId);
-            oldStudentProfile.setPictureKey(oldPictureKey);
+            oldStudentProfile.setPictureKey(pictureKey);
             ofy().save().entity(oldStudentProfile).now();
             ofy().delete().key(oldStudentProfileKey).now();
         }

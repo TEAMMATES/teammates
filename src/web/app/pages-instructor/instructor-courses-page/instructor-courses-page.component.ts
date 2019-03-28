@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import moment from 'moment-timezone';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, Observable } from 'rxjs';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TimezoneService } from '../../../services/timezone.service';
-import { MessageOutput } from '../../../types/api-output';
+import { Course, CourseArchive, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import {
+  CoursePermanentDeletionConfirmModalComponent,
+} from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
+import {
+  CourseSoftDeletionConfirmModalComponent,
+} from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
 interface ActiveCourse {
   id: string;
@@ -65,11 +72,6 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   user: string = '';
 
-  timezones: string[] = [];
-  timezone: string = '';
-  newCourseId: string = '';
-  newCourseName: string = '';
-
   activeCourses: ActiveCourse[] = [];
   archivedCourses: ArchivedCourse[] = [];
   softDeletedCourses: SoftDeletedCourse[] = [];
@@ -82,7 +84,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
-              private timezoneService: TimezoneService) { }
+              private courseService: CourseService,
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -98,8 +101,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       user: this.user,
     };
-    this.timezones = Object.keys(this.timezoneService.getTzOffsets());
-    this.timezone = moment.tz.guess();
     this.httpRequestService.get('/instructor/courses', paramMap).subscribe((resp: InstructorCourses) => {
       this.activeCourses = resp.activeCourses;
       this.archivedCourses = resp.archivedCourses;
@@ -167,75 +168,24 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Auto-detects timezone for instructor.
+   * Changes the status of an archived course.
    */
-  onAutoDetectTimezone(): void {
-    this.timezone = moment.tz.guess();
-  }
-
-  /**
-   * Submits the data to add the new course.
-   */
-  onSubmit(): void {
-    if (!this.newCourseId || !this.newCourseName) {
-      this.statusMessageService.showErrorMessage(
-          'Please make sure you have filled in both Course ID and Name before adding the course!');
-      return;
-    }
-    const paramMap: { [key: string]: string } = {
-      courseid: this.newCourseId,
-      coursename: this.newCourseName,
-      coursetimezone: this.timezone,
-      user: this.user,
-    };
-    this.newCourseId = '';
-    this.newCourseName = '';
-    this.timezone = moment.tz.guess();
-    this.httpRequestService.post('/instructor/courses', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
-  }
-
-  /**
-   * Archives an active course.
-   */
-  onArchive(courseId: string): void {
+  changeArchiveStatus(courseId: string, toArchive: boolean): void {
     if (!courseId) {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      archive: 'true',
-      user: this.user,
-    };
-    this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
+    this.courseService.changeArchiveStatus(courseId, {
+      archiveStatus: toArchive,
+    }).subscribe((courseArchive: CourseArchive) => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
-  }
-
-  /**
-   * Unarchives an archived course.
-   */
-  onUnarchive(courseId: string): void {
-    if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
-      return;
-    }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      archive: 'false',
-      user: this.user,
-    };
-    this.httpRequestService.put('/course', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      if (courseArchive.isArchived) {
+        this.statusMessageService.showSuccessMessage(`The course has been archived.
+          It will not appear in the home page any more. You can access archived courses from the 'Courses' tab.
+          Go there to undo the archiving and bring the course back to the home page.`);
+      } else {
+        this.statusMessageService.showSuccessMessage('The course has been unarchived.');
+      }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -249,16 +199,16 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      user: this.user,
-    };
-    this.httpRequestService.delete('/course', paramMap).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
+    modalRef.result.then(() => {
+      this.courseService.binCourse(courseId).subscribe((course: Course) => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage(
+          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }, () => {});
   }
 
   /**
@@ -269,21 +219,16 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    if (confirm(`Are you sure you want to permanently delete the course: ${courseId}? `
-            + 'This operation will delete all students and sessions in this course. '
-            + 'All instructors of this course will not be able to access it hereafter as well.')) {
-      const paramMap: { [key: string]: string } = {
-        courseid: courseId,
-        user: this.user,
-      };
-      this.httpRequestService.delete('/instructor/courses/permanentlyDelete', paramMap)
-          .subscribe((resp: MessageOutput) => {
-            this.loadInstructorCourses();
-            this.statusMessageService.showSuccessMessage(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
-          });
-    }
+    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+    modalRef.componentInstance.courseId = courseId;
+    modalRef.result.then(() => {
+      this.courseService.deleteCourse(courseId).subscribe(() => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }, () => {});
   }
 
   /**
@@ -298,7 +243,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       courseid: courseId,
       user: this.user,
     };
-    this.httpRequestService.put('/instructor/courses/restore', paramMap).subscribe((resp: MessageOutput) => {
+    this.httpRequestService.delete('/bin/course', paramMap).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
@@ -310,32 +255,36 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    if (confirm('Are you sure you want to permanently delete all the courses in Recycle Bin? ' +
-            'This operation will delete all students and sessions in these courses. ' +
-            'All instructors of these courses will not be able to access them hereafter as well.')) {
-      const paramMap: { [key: string]: string } = {
-        user: this.user,
-      };
-      this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap)
-          .subscribe((resp: MessageOutput) => {
-            this.loadInstructorCourses();
-            this.statusMessageService.showSuccessMessage(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
-          });
-    }
+    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+    modalRef.componentInstance.isDeleteAll = true;
+    modalRef.result.then(() => {
+      const deleteRequests: Observable<MessageOutput>[] = [];
+      this.softDeletedCourses.forEach((courseToDelete: SoftDeletedCourse) => {
+        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.id));
+      });
+
+      forkJoin(deleteRequests).subscribe(() => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage('All courses have been permanently deleted.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+
+    }, () => {});
   }
 
   /**
    * Restores all soft-deleted courses from Recycle Bin.
    */
   onRestoreAll(): void {
-    const paramMap: { [key: string]: string } = {
-      user: this.user,
-    };
-    this.httpRequestService.put('/instructor/courses/restoreAll', paramMap).subscribe((resp: MessageOutput) => {
+    const restoreRequests: Observable<MessageOutput>[] = [];
+    this.softDeletedCourses.forEach((courseToRestore: SoftDeletedCourse) => {
+      restoreRequests.push(this.courseService.restoreCourse(courseToRestore.id));
+    });
+
+    forkJoin(restoreRequests).subscribe(() => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      this.statusMessageService.showSuccessMessage('All courses have been restored.');
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

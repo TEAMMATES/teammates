@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SendRemindersToStudentModalComponent } from './send-reminders-to-student-modal.component';
+
+@Component({ selector: 'tm-ajax-preload', template: '' })
+class AjaxPreloadComponent {}
 
 describe('SendRemindersToStudentModalComponent', () => {
   let component: SendRemindersToStudentModalComponent;
@@ -9,7 +15,14 @@ describe('SendRemindersToStudentModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SendRemindersToStudentModalComponent],
+      declarations: [
+        SendRemindersToStudentModalComponent,
+        AjaxPreloadComponent,
+      ],
+      imports: [
+        HttpClientTestingModule,
+        FormsModule,
+      ],
       providers: [NgbActiveModal],
     })
     .compileComponents();

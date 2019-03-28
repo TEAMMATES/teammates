@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { ClipboardService } from 'ngx-clipboard';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -16,9 +17,9 @@ interface CourseAttributes {
 }
 
 interface CourseStats {
-  sectionsTotal: string;
-  teamsTotal: string;
-  studentsTotal: string;
+  sectionsTotal: number;
+  teamsTotal: number;
+  studentsTotal: number;
 }
 
 interface CourseDetailsBundle {
@@ -58,8 +59,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   user: string = '';
   courseDetails?: CourseDetailsBundle;
   currentInstructor?: InstructorAttributes;
-  instructors?: InstructorAttributes[] = [];
-  sections?: StudentListSectionData[] = [];
+  instructors: InstructorAttributes[] = [];
+  sections: StudentListSectionData[] = [];
   courseStudentListAsCsv: string = '';
 
   loading: boolean = false;
@@ -69,6 +70,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
               private clipboardService: ClipboardService,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
+              private courseService: CourseService,
               private ngbModal: NgbModal, private navigationService: NavigationService) { }
 
   ngOnInit(): void {
@@ -119,7 +121,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       user: this.user,
       courseid: courseId,
     };
-    this.httpRequestService.delete('/courses/details/deleteAllStudents', paramsMap)
+    this.httpRequestService.delete('/students', paramsMap)
       .subscribe((resp: MessageOutput) => {
         this.loadCourseDetails(courseId);
         this.statusMessageService.showSuccessMessage(resp.message);
@@ -145,7 +147,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         user: this.user,
         courseid: courseId,
       };
-      this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
+      this.httpRequestService.get('/students/csv', paramsMap, 'text')
         .subscribe((resp: string) => {
           blob = new Blob([resp], { type: 'text/csv' });
           saveAs(blob, filename);
@@ -173,7 +175,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       user: this.user,
       courseid: courseId,
     };
-    this.httpRequestService.get('/courses/details/allStudentsCsv', paramsMap, 'text')
+    this.httpRequestService.get('/students/csv', paramsMap, 'text')
       .subscribe((resp: string) => {
         this.courseStudentListAsCsv = resp;
       }, (resp: ErrorMessageOutput) => {
@@ -187,14 +189,12 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Remind all yet to join students in a course.
    */
   remindAllStudentsFromCourse(courseId: string): void {
-    const paramsMap: { [key: string]: string } = { courseid: courseId };
-    this.httpRequestService.post('/courses/details/remind', paramsMap)
-      .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
-            '/web/instructor/courses/details', resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
+    this.courseService.remindUnregisteredStudentsForJoin(courseId).subscribe((resp: MessageOutput) => {
+      this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
+        '/web/instructor/courses/details', resp.message);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**

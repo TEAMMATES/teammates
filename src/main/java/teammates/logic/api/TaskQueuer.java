@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.TaskQueuesLogic;
@@ -195,27 +193,8 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedules adjustments to be done to responses of a feedback session in the database
-     * after change is done to a course, typically after enrollment of new students
-     * or re-enrollment of old students, or both.
-     *
-     * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the name of the feedback session
-     * @param enrollmentList the list of enrollment details
+     * Schedules adjustments to be done for the respondents of a feedback session.
      */
-    public void scheduleFeedbackResponseAdjustmentForCourse(String courseId, String feedbackSessionName,
-                                                            List<StudentEnrollDetails> enrollmentList) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-
-        String enrollmentDetails = JsonUtils.toJson(enrollmentList);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
-
-        addTask(TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_QUEUE_NAME,
-                TaskQueue.FEEDBACK_RESPONSE_ADJUSTMENT_WORKER_URL, paramMap);
-    }
-
     public void scheduleUpdateRespondentForSession(
             String courseId, String feedbackSessionName, String email, boolean isInstructor, boolean isToBeRemoved) {
         Map<String, String> paramMap = new HashMap<>();

@@ -3,9 +3,11 @@ package teammates.common.util;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.blobstore.UploadOptions;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
@@ -23,13 +25,17 @@ public final class GoogleCloudStorageHelper {
         // utility class
     }
 
+    private static BlobstoreService service() {
+        return BlobstoreServiceFactory.getBlobstoreService();
+    }
+
     /**
-     * Returns true if a file with the specified {@link BlobKey} exists in the
+     * Returns true if a file with the specified {@code fileKey} exists in the
      *         Google Cloud Storage.
      */
-    public static boolean doesFileExistInGcs(BlobKey fileKey) {
+    public static boolean doesFileExistInGcs(String fileKey) {
         try {
-            BlobstoreServiceFactory.getBlobstoreService().fetchData(fileKey, 0, 1);
+            service().fetchData(new BlobKey(fileKey), 0, 1);
             return true;
         } catch (IllegalArgumentException e) {
             return false;
@@ -37,13 +43,13 @@ public final class GoogleCloudStorageHelper {
     }
 
     /**
-     * Deletes the file with the specified {@link BlobKey} in the Google Cloud Storage.
+     * Deletes the file with the specified {@code fileKey} in the Google Cloud Storage.
      */
-    public static void deleteFile(BlobKey fileKey) {
+    public static void deleteFile(String fileKey) {
         try {
-            BlobstoreServiceFactory.getBlobstoreService().delete(fileKey);
+            service().delete(new BlobKey(fileKey));
         } catch (Exception e) {
-            log.warning("Trying to delete non-existent file with key: " + fileKey.getKeyString());
+            log.warning("Trying to delete non-existent file with key: " + fileKey);
         }
     }
 
@@ -53,32 +59,30 @@ public final class GoogleCloudStorageHelper {
      *
      * @return the {@link BlobKey} used as the image's identifier in Google Cloud Storage
      */
-    public static String writeImageDataToGcs(String googleId, byte[] imageData) throws IOException {
+    public static String writeImageDataToGcs(String googleId, byte[] imageData, String contentType) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.PRODUCTION_GCS_BUCKETNAME, googleId);
         try (GcsOutputChannel outputChannel =
                 GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
-                .createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType("image/png").build())) {
+                .createOrReplace(gcsFilename, new GcsFileOptions.Builder().mimeType(contentType).build())) {
 
             outputChannel.write(ByteBuffer.wrap(imageData));
         }
 
-        return BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/" + Config.PRODUCTION_GCS_BUCKETNAME + "/" + googleId).getKeyString();
+        return createBlobKey(googleId);
     }
 
     /**
-     * Creates and invokes a URL for uploading a large blob to Google Cloud Storage.
-     * Upon completion of the upload, a callback is made to the specified {@code callbackUrl}.<br>
-     * Refer to {@link com.google.appengine.api.blobstore.BlobstoreService#createUploadUrl}.
+     * Creates a blob key for the object with the given identifier in the production GCS bucket.
      */
-    public static String getNewUploadUrl(String callbackUrl) {
-        UploadOptions uploadOptions =
-                UploadOptions.Builder.withDefaults()
-                             .googleStorageBucketName(Config.PRODUCTION_GCS_BUCKETNAME)
-                             .maxUploadSizeBytes(Const.SystemParams.MAX_FILE_LIMIT_FOR_BLOBSTOREAPI);
+    public static String createBlobKey(String identifier) {
+        return service().createGsBlobKey("/gs/" + Config.PRODUCTION_GCS_BUCKETNAME + "/" + identifier).getKeyString();
+    }
 
-        return BlobstoreServiceFactory.getBlobstoreService()
-                                      .createUploadUrl(callbackUrl, uploadOptions);
+    /**
+     * Serves the content of the file with the specified {@code fileKey} as the body of the given HTTP response.
+     */
+    public static void serve(HttpServletResponse resp, String fileKey) throws IOException {
+        service().serve(new BlobKey(fileKey), resp);
     }
 
 }

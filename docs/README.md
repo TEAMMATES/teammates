@@ -31,4 +31,5 @@ Here are some documents important for TEAMMATES developers.
 
 * [Static analysis](static-analysis.md): Performing code quality check.
 * [Setting up third-party email providers](emails.md).
-* ["GodMode"](godmode.md)
+* [Setting up CAPTCHA](captcha.md).
+* [Snapshot testing](snapshot-testing.md)

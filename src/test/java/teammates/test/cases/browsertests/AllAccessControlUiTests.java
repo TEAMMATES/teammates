@@ -8,15 +8,13 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
-import teammates.test.pageobjects.NotAuthorizedPage;
-import teammates.test.pageobjects.NotFoundPage;
 
 /**
  * We do not test all access control at UI level. This class contains a few
@@ -44,7 +42,7 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
     @BeforeClass
     public void classSetup() {
-        currentPage = getHomePage();
+        currentPage = null; // getHomePage();
     }
 
     @Test
@@ -92,8 +90,8 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
         ______TS("incorrect URL");
 
-        AppUrl nonExistentActionUrl = createUrl("/page/nonExistentAction");
-        AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
+        // AppUrl nonExistentActionUrl = createUrl("/page/nonExistentAction");
+        // AppPage.getNewPageInstance(browser, nonExistentActionUrl, NotFoundPage.class);
 
     }
 
@@ -124,19 +122,19 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
 
     private void loginStudent(String userName, String password) {
         logout();
-        LoginPage loginPage = getHomePage().clickStudentLogin();
+        LoginPage loginPage = null; // getHomePage().clickStudentLogin();
         currentPage = loginPage.loginAsStudent(userName, password);
     }
 
     private void loginInstructorUnsuccessfully(String userName, String password) {
         logout();
-        LoginPage loginPage = getHomePage().clickInstructorLogin();
+        LoginPage loginPage = null; // getHomePage().clickInstructorLogin();
         currentPage = loginPage.loginAsInstructorUnsuccessfully(userName, password);
     }
 
     private void loginInstructor(String userName, String password) {
         logout();
-        LoginPage loginPage = getHomePage().clickInstructorLogin();
+        LoginPage loginPage = null; // getHomePage().clickInstructorLogin();
         currentPage = loginPage.loginAsInstructor(userName, password);
     }
 
@@ -177,7 +175,7 @@ public class AllAccessControlUiTests extends BaseE2ETestCase {
     private void verifyRedirectToNotAuthorized(AppUrl url) {
         printUrl(url.toAbsoluteString());
         currentPage.navigateTo(url);
-        currentPage.changePageType(NotAuthorizedPage.class);
+        // currentPage.changePageType(NotAuthorizedPage.class);
     }
 
     private void verifyRedirectToLogin(AppUrl url) {

@@ -14,12 +14,12 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.OngoingSession;
+import teammates.ui.webapi.output.OngoingSessionsData;
 
 /**
- * Action: gets the list of all ongoing sessions.
+ * Gets the list of all ongoing sessions.
  */
 public class GetOngoingSessionsAction extends Action {
 
@@ -45,7 +45,9 @@ public class GetOngoingSessionsAction extends Action {
         long startTime;
         try {
             startTime = Long.parseLong(startTimeString);
-        } catch (NumberFormatException e) {
+            //test for bounds
+            Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
+        } catch (NumberFormatException | ArithmeticException e) {
             throw new InvalidHttpParameterException("Invalid startTime parameter");
         }
 
@@ -53,7 +55,9 @@ public class GetOngoingSessionsAction extends Action {
         long endTime;
         try {
             endTime = Long.parseLong(endTimeString);
-        } catch (NumberFormatException e) {
+            //test for bounds
+            Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
+        } catch (NumberFormatException | ArithmeticException e) {
             throw new InvalidHttpParameterException("Invalid endTime parameter");
         }
 
@@ -105,12 +109,12 @@ public class GetOngoingSessionsAction extends Action {
                 .count();
 
         OngoingSessionsData output = new OngoingSessionsData();
-        output.totalOngoingSessions = totalOngoingSessions;
-        output.totalOpenSessions = totalOpenSessions;
-        output.totalClosedSessions = totalClosedSessions;
-        output.totalAwaitingSessions = totalAwaitingSessions;
-        output.totalInstitutes = totalInstitutes;
-        output.sessions = instituteToFeedbackSessionsMap;
+        output.setTotalOngoingSessions(totalOngoingSessions);
+        output.setTotalOpenSessions(totalOpenSessions);
+        output.setTotalClosedSessions(totalClosedSessions);
+        output.setTotalAwaitingSessions(totalAwaitingSessions);
+        output.setTotalInstitutes(totalInstitutes);
+        output.setSessions(instituteToFeedbackSessionsMap);
 
         return new JsonResult(output);
     }
@@ -123,123 +127,4 @@ public class GetOngoingSessionsAction extends Action {
         }
         return null;
     }
-
-    private static class OngoingSession {
-
-        private final String sessionStatus;
-        private final String instructorHomePageLink;
-        private final long startTime;
-        private final long endTime;
-        private final String creatorEmail;
-        private final String courseId;
-        private final String feedbackSessionName;
-
-        OngoingSession(FeedbackSessionAttributes fs, AccountAttributes account) {
-            this.sessionStatus = getSessionStatusForShow(fs);
-
-            String instructorHomePageLink = "";
-            if (account != null) {
-                instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                        .withUserId(account.googleId)
-                        .toString();
-            }
-            this.instructorHomePageLink = instructorHomePageLink;
-
-            this.startTime = fs.getStartTime().toEpochMilli();
-            this.endTime = fs.getEndTime().toEpochMilli();
-            this.creatorEmail = fs.getCreatorEmail();
-            this.courseId = fs.getCourseId();
-            this.feedbackSessionName = fs.getFeedbackSessionName();
-        }
-
-        public String getSessionStatusForShow(FeedbackSessionAttributes fs) {
-            List<String> status = new ArrayList<>();
-
-            if (fs.isClosed()) {
-                status.add("[Closed]");
-            }
-            if (fs.isOpened()) {
-                status.add("[Opened]");
-            }
-            if (fs.isWaitingToOpen()) {
-                status.add("[Waiting To Open]");
-            }
-            if (fs.isPublished()) {
-                status.add("[Published]");
-            }
-            if (fs.isInGracePeriod()) {
-                status.add("[Grace Period]");
-            }
-
-            return status.isEmpty() ? "No Status" : String.join(" ", status);
-        }
-
-        public String getSessionStatus() {
-            return sessionStatus;
-        }
-
-        public String getInstructorHomePageLink() {
-            return instructorHomePageLink;
-        }
-
-        public long getStartTime() {
-            return startTime;
-        }
-
-        public long getEndTime() {
-            return endTime;
-        }
-
-        public String getCreatorEmail() {
-            return creatorEmail;
-        }
-
-        public String getCourseId() {
-            return courseId;
-        }
-
-        public String getFeedbackSessionName() {
-            return feedbackSessionName;
-        }
-
-    }
-
-    /**
-     * Output format for {@link GetOngoingSessionsAction}.
-     */
-    public static class OngoingSessionsData extends ApiOutput {
-
-        private int totalOngoingSessions;
-        private int totalOpenSessions;
-        private int totalClosedSessions;
-        private int totalAwaitingSessions;
-        private long totalInstitutes;
-        private Map<String, List<OngoingSession>> sessions;
-
-        public int getTotalOngoingSessions() {
-            return totalOngoingSessions;
-        }
-
-        public int getTotalOpenSessions() {
-            return totalOpenSessions;
-        }
-
-        public int getTotalClosedSessions() {
-            return totalClosedSessions;
-        }
-
-        public int getTotalAwaitingSessions() {
-            return totalAwaitingSessions;
-        }
-
-        public long getTotalInstitutes() {
-            return totalInstitutes;
-        }
-
-        public Map<String, List<OngoingSession>> getSessions() {
-            return sessions;
-        }
-
-    }
-
 }

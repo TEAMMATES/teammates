@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from '../../../services/account.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 
+/**
+ * Represents course attributes.
+ */
 interface CourseAttributes {
   id: string;
   name: string;
 }
 
+/**
+ * Represents account attributes.
+ */
 interface AccountAttributes {
   googleId: string;
   name: string;
@@ -18,6 +25,9 @@ interface AccountAttributes {
   isInstructor: boolean;
 }
 
+/**
+ * Represents detailed information of an account.
+ */
 interface AccountInfo {
   accountInfo: AccountAttributes;
   instructorCourses: CourseAttributes[];
@@ -44,7 +54,8 @@ export class AdminAccountsPageComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
-      private navigationService: NavigationService, private statusMessageService: StatusMessageService) { }
+      private navigationService: NavigationService, private statusMessageService: StatusMessageService,
+              private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -71,10 +82,7 @@ export class AdminAccountsPageComponent implements OnInit {
    */
   downgradeAccountToStudent(): void {
     const id: string = this.accountInfo.googleId;
-    const paramMap: { [key: string]: string } = {
-      instructorid: id,
-    };
-    this.httpRequestService.put('/accounts/downgrade', paramMap).subscribe(() => {
+    this.accountService.downgradeAccount(id).subscribe(() => {
       this.loadAccountInfo(id);
       this.statusMessageService.showSuccessMessage('Instructor account is successfully downgraded to student.');
     }, (resp: ErrorMessageOutput) => {
@@ -87,10 +95,7 @@ export class AdminAccountsPageComponent implements OnInit {
    */
   deleteAccount(): void {
     const id: string = this.accountInfo.googleId;
-    const paramMap: { [key: string]: string } = {
-      instructorid: id,
-    };
-    this.httpRequestService.delete('/accounts', paramMap).subscribe(() => {
+    this.accountService.deleteAccount(id).subscribe(() => {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/admin/search',
           `Instructor account "${id}" is successfully deleted.`);
     }, (resp: ErrorMessageOutput) => {
@@ -107,7 +112,7 @@ export class AdminAccountsPageComponent implements OnInit {
       googleid: id,
       courseid: courseId,
     };
-    this.httpRequestService.delete('/students', paramMap).subscribe(() => {
+    this.httpRequestService.delete('/student', paramMap).subscribe(() => {
       this.studentCourses = this.studentCourses.filter((course: CourseAttributes) => course.id !== courseId);
       this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {
@@ -124,7 +129,7 @@ export class AdminAccountsPageComponent implements OnInit {
       instructorid: id,
       courseid: courseId,
     };
-    this.httpRequestService.delete('/instructors', paramMap).subscribe(() => {
+    this.httpRequestService.delete('/instructor', paramMap).subscribe(() => {
       this.instructorCourses = this.instructorCourses.filter((course: CourseAttributes) => course.id !== courseId);
       this.statusMessageService.showSuccessMessage(`Instructor is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {

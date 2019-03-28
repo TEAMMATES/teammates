@@ -40,7 +40,9 @@ public class DataBundleLogicTest extends BaseLogicTest {
 
         ______TS("invalid parameters in an entity");
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("invalid id", "valid course name", ZoneId.of("UTC"))
+                .builder("invalid id")
+                .withName("valid course name")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         dataBundle = new DataBundle();
         dataBundle.courses.put("invalid", invalidCourse);

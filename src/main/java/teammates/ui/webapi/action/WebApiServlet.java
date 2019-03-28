@@ -2,6 +2,7 @@ package teammates.ui.webapi.action;
 
 import java.io.IOException;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import teammates.common.util.TimeHelper;
  * Servlet that handles all requests from the web application.
  */
 @SuppressWarnings("serial")
+@MultipartConfig
 public class WebApiServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
@@ -74,10 +76,14 @@ public class WebApiServlet extends HttpServlet {
             result.send(resp);
         } catch (ActionMappingException e) {
             throwError(resp, e.getStatusCode(), e.getMessage());
-        } catch (InvalidHttpParameterException | InvalidHttpRequestBodyException e) {
+        } catch (InvalidHttpRequestBodyException e) {
             throwError(resp, HttpStatus.SC_BAD_REQUEST, e.getMessage());
+        } catch (InvalidHttpParameterException e) {
+            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage());
+            throwError(resp, HttpStatus.SC_BAD_REQUEST, "The request is not valid.");
         } catch (UnauthorizedAccessException uae) {
-            throwError(resp, HttpStatus.SC_FORBIDDEN, uae.getMessage());
+            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: " + uae.getMessage());
+            throwError(resp, HttpStatus.SC_FORBIDDEN, "You are not authorized to access this resource.");
         } catch (EntityNotFoundException enfe) {
             throwError(resp, HttpStatus.SC_NOT_FOUND, enfe.getMessage());
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
@@ -87,12 +93,14 @@ public class WebApiServlet extends HttpServlet {
 
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(e));
-            throwError(resp, HttpStatus.SC_GATEWAY_TIMEOUT, e.getMessage());
+            throwError(resp, HttpStatus.SC_GATEWAY_TIMEOUT,
+                    "The request exceeded the server timeout limit. Please try again later.");
 
         } catch (Throwable t) {
             log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(t));
-            throwError(resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, t.getMessage());
+            throwError(resp, HttpStatus.SC_INTERNAL_SERVER_ERROR,
+                    "The server encountered an error when processing your request.");
         }
     }
 

@@ -11,6 +11,7 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -28,7 +29,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -109,22 +109,18 @@ public final class DataBundleLogic {
         processResponsesAndPopulateMap(responses, sessionResponsesMap);
         processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
-        accountsDb.createEntitiesDeferred(googleIdAccountMap.values());
-        profilesDb.createEntitiesDeferred(profiles);
-        coursesDb.createEntitiesDeferred(courses);
-        instructorsDb.createEntitiesDeferred(instructors);
-        studentsDb.createEntitiesDeferred(students);
-        fbDb.createEntitiesDeferred(sessions);
+        accountsDb.putEntities(googleIdAccountMap.values());
+        profilesDb.putEntities(profiles);
+        coursesDb.putEntities(courses);
+        instructorsDb.putEntities(instructors);
+        studentsDb.putEntities(students);
+        fbDb.putEntities(sessions);
 
-        // This also flushes all previously deferred operations
-        List<FeedbackQuestionAttributes> createdQuestions = fqDb.createFeedbackQuestionsWithoutExistenceCheck(questions);
-
+        List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
         injectRealIds(responses, responseComments, createdQuestions);
 
-        frDb.createEntitiesDeferred(responses);
-        fcDb.createEntitiesDeferred(responseComments);
-
-        EntitiesDb.flush();
+        frDb.putEntities(responses);
+        fcDb.putEntities(responseComments);
     }
 
     /**
@@ -376,8 +372,7 @@ public final class DataBundleLogic {
     }
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
-        return AccountAttributes.builder()
-                .withGoogleId(instructor.googleId)
+        return AccountAttributes.builder(instructor.googleId)
                 .withName(instructor.name)
                 .withEmail(instructor.email)
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -386,8 +381,7 @@ public final class DataBundleLogic {
     }
 
     private AccountAttributes makeAccount(StudentAttributes student) {
-        return AccountAttributes.builder()
-                .withGoogleId(student.googleId)
+        return AccountAttributes.builder(student.googleId)
                 .withName(student.name)
                 .withEmail(student.email)
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -422,11 +416,12 @@ public final class DataBundleLogic {
         // We don't attempt to delete them again, to save time.
         deleteCourses(dataBundle.courses.values());
 
-        accountsDb.deleteAccounts(dataBundle.accounts.values());
-        // delete associated profiles
-        // TODO: Remove the following line after tests have been run against LIVE server
-        dataBundle.accounts.values().forEach(account -> profilesDb.deleteStudentProfile(account.googleId));
-        profilesDb.deleteEntities(dataBundle.profiles.values());
+        dataBundle.accounts.values().forEach(account -> {
+            accountsDb.deleteAccount(account.getGoogleId());
+        });
+        dataBundle.profiles.values().forEach(profile -> {
+            profilesDb.deleteStudentProfile(profile.googleId);
+        });
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {
@@ -435,13 +430,19 @@ public final class DataBundleLogic {
             courseIds.add(course.getId());
         }
         if (!courseIds.isEmpty()) {
-            coursesDb.deleteEntities(courses);
-            instructorsDb.deleteInstructorsForCourses(courseIds);
-            studentsDb.deleteStudentsForCourses(courseIds);
-            fbDb.deleteFeedbackSessionsForCourses(courseIds);
-            fqDb.deleteFeedbackQuestionsForCourses(courseIds);
-            frDb.deleteFeedbackResponsesForCourses(courseIds);
-            fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
+            courseIds.forEach(courseId -> {
+                AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                        .withCourseId(courseId)
+                        .build();
+                fcDb.deleteFeedbackResponseComments(query);
+                frDb.deleteFeedbackResponses(query);
+                fqDb.deleteFeedbackQuestions(query);
+                fbDb.deleteFeedbackSessions(query);
+                studentsDb.deleteStudents(query);
+                instructorsDb.deleteInstructors(query);
+
+                coursesDb.deleteCourse(courseId);
+            });
         }
     }
 

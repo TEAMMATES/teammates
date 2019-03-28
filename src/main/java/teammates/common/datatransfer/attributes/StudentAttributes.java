@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.google.common.base.Strings;
-
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
@@ -20,14 +17,11 @@ import teammates.storage.entity.CourseStudent;
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     private static final String STUDENT_BACKUP_LOG_MSG = "Recently modified student::";
-    private static final String ATTRIBUTE_NAME = "Student";
 
-    // Required fields
     public String email;
     public String course;
-    public String name;
 
-    // Optional values
+    public String name;
     public String googleId;
     public String lastName;
     public String comments;
@@ -35,59 +29,68 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public String section;
     public String key;
 
+    // update specific attribute should not be inside DTO
+    @Deprecated
     public transient StudentUpdateStatus updateStatus;
 
-    /*
-     * Creation and update time stamps.
-     * Updated automatically in Student.java, jdoPreStore()
-     */
     private transient Instant createdAt;
     private transient Instant updatedAt;
 
-    StudentAttributes() {
-        googleId = "";
-        section = Const.DEFAULT_SECTION;
-        updateStatus = StudentUpdateStatus.UNKNOWN;
-        createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+    StudentAttributes(String courseId, String email) {
+        this.course = courseId;
+        this.email = email;
+
+        this.googleId = "";
+        this.section = Const.DEFAULT_SECTION;
+        this.updateStatus = StudentUpdateStatus.UNKNOWN;
+        this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
 
     public static StudentAttributes valueOf(CourseStudent student) {
-        return builder(student.getCourseId(), student.getName(), student.getEmail())
-                .withLastName(student.getLastName())
-                .withComments(student.getComments())
-                .withTeam(student.getTeamName())
-                .withSection(student.getSectionName())
-                .withGoogleId(student.getGoogleId())
-                .withKey(student.getRegistrationKey())
-                .withCreatedAt(student.getCreatedAt())
-                .withUpdatedAt(student.getUpdatedAt())
-                .build();
+        StudentAttributes studentAttributes = new StudentAttributes(student.getCourseId(), student.getEmail());
+        studentAttributes.name = student.getName();
+        studentAttributes.lastName = student.getLastName();
+        if (student.getGoogleId() != null) {
+            studentAttributes.googleId = student.getGoogleId();
+        }
+        studentAttributes.team = student.getTeamName();
+        if (student.getSectionName() != null) {
+            studentAttributes.section = student.getSectionName();
+        }
+        studentAttributes.comments = student.getComments();
+        studentAttributes.key = student.getRegistrationKey();
+        if (student.getCreatedAt() != null) {
+            studentAttributes.createdAt = student.getCreatedAt();
+        }
+        if (student.getUpdatedAt() != null) {
+            studentAttributes.updatedAt = student.getUpdatedAt();
+        }
+
+        return studentAttributes;
     }
 
     /**
-     * Return new builder instance with default values for optional fields.
-     *
-     * <p>Following default values are set to corresponding attributes:
-     * <ul>
-     * <li>{@code googleId = ""}</li>
-     * <li>{@code section = Const.DEFAULT_SECTION}</li>
-     * <li>{@code updateStatus = StudentUpdateStatus.UNKNOWN}</li>
-     * <li>{@code createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE}</li>
-     * <li>{@code updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP_DATE}</li>
-     * </ul>
+     * Return a builder for {@link StudentAttributes}.
      */
-    public static Builder builder(String courseId, String name, String email) {
-        return new Builder(courseId, name, email);
+    public static Builder builder(String courseId, String email) {
+        return new Builder(courseId, email);
     }
 
     public StudentAttributes getCopy() {
-        StudentAttributes studentAttributes = valueOf(toEntity());
+        StudentAttributes studentAttributes = new StudentAttributes(course, email);
 
-        studentAttributes.updateStatus = updateStatus;
+        studentAttributes.name = name;
+        studentAttributes.lastName = lastName;
+        studentAttributes.googleId = googleId;
+        studentAttributes.team = team;
+        studentAttributes.section = section;
+        studentAttributes.comments = comments;
         studentAttributes.key = key;
         studentAttributes.createdAt = createdAt;
         studentAttributes.updatedAt = updatedAt;
+
+        studentAttributes.updateStatus = updateStatus;
 
         return studentAttributes;
     }
@@ -138,6 +141,10 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return course;
     }
 
+    public String getGoogleId() {
+        return googleId;
+    }
+
     public String getKey() {
         return key;
     }
@@ -176,24 +183,23 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         Assumption.assertNotNull(team);
         Assumption.assertNotNull(comments);
 
-        FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<>();
 
         if (isRegistered()) {
-            addNonEmptyError(validator.getInvalidityInfoForGoogleId(googleId), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         }
 
-        addNonEmptyError(validator.getInvalidityInfoForCourseId(course), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(course), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForEmail(email), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForTeamName(team), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTeamName(team), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForSectionName(section), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForSectionName(section), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForStudentRoleComments(comments), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForStudentRoleComments(comments), errors);
 
-        addNonEmptyError(validator.getInvalidityInfoForPersonName(name), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
 
         return errors;
     }
@@ -259,23 +265,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     @Override
-    public String getIdentificationString() {
-        return this.course + "/" + this.email;
-    }
-
-    @Override
-    public String getEntityTypeAsString() {
-        return ATTRIBUTE_NAME;
-    }
-
-    @Override
     public String getBackupIdentifier() {
         return STUDENT_BACKUP_LOG_MSG + getId();
-    }
-
-    @Override
-    public String getJsonString() {
-        return JsonUtils.toJson(this, StudentAttributes.class);
     }
 
     @Override
@@ -330,99 +321,179 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     /**
-     * A Builder class for {@link StudentAttributes}.
+     * Updates with {@link UpdateOptions}.
      */
-    public static class Builder {
-        private static final String REQUIRED_FIELD_CANNOT_BE_NULL = "Required field cannot be null";
+    public void update(UpdateOptions updateOptions) {
+        updateOptions.newEmailOption.ifPresent(s -> email = s);
+        updateOptions.nameOption.ifPresent(s -> {
+            name = s;
+            lastName = StringHelper.splitName(s)[1];
+        });
+        updateOptions.lastNameOption.ifPresent(s -> lastName = s);
+        updateOptions.commentOption.ifPresent(s -> comments = s);
+        updateOptions.googleIdOption.ifPresent(s -> googleId = s);
+        updateOptions.teamNameOption.ifPresent(s -> team = s);
+        updateOptions.sectionNameOption.ifPresent(s -> section = s);
+    }
+
+    /**
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a student.
+     */
+    public static UpdateOptions.Builder updateOptionsBuilder(String courseId, String email) {
+        return new UpdateOptions.Builder(courseId, email);
+    }
+
+    /**
+     * A builder class for {@link StudentAttributes}.
+     */
+    public static class Builder extends BasicBuilder<StudentAttributes, Builder> {
 
         private final StudentAttributes studentAttributes;
 
-        public Builder(String courseId, String name, String email) {
-            studentAttributes = new StudentAttributes();
+        private Builder(String courseId, String email) {
+            super(new UpdateOptions(courseId, email));
+            thisBuilder = this;
 
-            Assumption.assertNotNull(REQUIRED_FIELD_CANNOT_BE_NULL, courseId, name, email);
-
-            studentAttributes.course = courseId;
-            studentAttributes.name = SanitizationHelper.sanitizeName(name);
-            studentAttributes.email = email;
-            studentAttributes.lastName = processLastName(null);
+            studentAttributes = new StudentAttributes(courseId, email);
         }
 
-        public Builder withGoogleId(String googleId) {
-            if (googleId != null) {
-                studentAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-            }
-
-            return this;
-        }
-
-        public Builder withLastName(String lastName) {
-            studentAttributes.lastName = processLastName(lastName);
-            return this;
-        }
-
-        private String processLastName(String lastName) {
-            if (lastName != null) {
-                return lastName;
-            }
-
-            if (Strings.isNullOrEmpty(studentAttributes.name)) {
-                return "";
-            }
-
-            String[] nameParts = StringHelper.splitName(studentAttributes.name);
-            return nameParts.length < 2 ? "" : SanitizationHelper.sanitizeName(nameParts[1]);
-        }
-
-        public Builder withComments(String comments) {
-            studentAttributes.comments = SanitizationHelper.sanitizeTextField(comments);
-            return this;
-        }
-
-        public Builder withTeam(String team) {
-            if (team != null) {
-                studentAttributes.team = team;
-            }
-            return this;
-        }
-
-        public Builder withSection(String section) {
-            studentAttributes.section = section == null ? Const.DEFAULT_SECTION : section;
-            return this;
-        }
-
-        public Builder withKey(String key) {
-            if (key != null) {
-                studentAttributes.key = key;
-            }
-            return this;
-        }
-
-        public Builder withUpdateStatus(StudentUpdateStatus updateStatus) {
-            studentAttributes.updateStatus = updateStatus == null
-                    ? StudentUpdateStatus.UNKNOWN
-                    : updateStatus;
-            return this;
-        }
-
-        public Builder withCreatedAt(Instant createdAt) {
-            Instant dateToAdd = createdAt == null
-                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
-                    : createdAt;
-            studentAttributes.setCreatedAt(dateToAdd);
-            return this;
-        }
-
-        public Builder withUpdatedAt(Instant updatedAt) {
-            Instant dateToAdd = updatedAt == null
-                    ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP
-                    : updatedAt;
-            studentAttributes.setUpdatedAt(dateToAdd);
-            return this;
-        }
-
+        @Override
         public StudentAttributes build() {
+            studentAttributes.update(updateOptions);
+
             return studentAttributes;
         }
+    }
+
+    /**
+     * Helper class to specific the fields to update in {@link StudentAttributes}.
+     */
+    public static class UpdateOptions {
+        private String courseId;
+        private String email;
+
+        private UpdateOption<String> newEmailOption = UpdateOption.empty();
+        private UpdateOption<String> nameOption = UpdateOption.empty();
+        private UpdateOption<String> lastNameOption = UpdateOption.empty();
+        private UpdateOption<String> commentOption = UpdateOption.empty();
+        private UpdateOption<String> googleIdOption = UpdateOption.empty();
+        private UpdateOption<String> teamNameOption = UpdateOption.empty();
+        private UpdateOption<String> sectionNameOption = UpdateOption.empty();
+
+        private UpdateOptions(String courseId, String email) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+
+            this.courseId = courseId;
+            this.email = email;
+        }
+
+        public String getCourseId() {
+            return courseId;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        @Override
+        public String toString() {
+            return "StudentAttributes.UpdateOptions ["
+                    + "courseId = " + courseId
+                    + ", email = " + email
+                    + ", newEmail = " + newEmailOption
+                    + ", name = " + nameOption
+                    + ", lastName = " + lastNameOption
+                    + ", comment = " + commentOption
+                    + ", googleId = " + googleIdOption
+                    + ", teamName = " + teamNameOption
+                    + ", sectionName = " + sectionNameOption
+                    + "]";
+        }
+
+        /**
+         * Builder class to build {@link UpdateOptions}.
+         */
+        public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
+
+            private Builder(String courseId, String email) {
+                super(new UpdateOptions(courseId, email));
+                thisBuilder = this;
+            }
+
+            public Builder withNewEmail(String email) {
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+
+                updateOptions.newEmailOption = UpdateOption.of(email);
+                return thisBuilder;
+            }
+
+            @Override
+            public UpdateOptions build() {
+                return updateOptions;
+            }
+
+        }
+
+    }
+
+    /**
+     * Basic builder to build {@link StudentAttributes} related classes.
+     *
+     * @param <T> type to be built
+     * @param <B> type of the builder
+     */
+    private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
+
+        protected UpdateOptions updateOptions;
+        protected B thisBuilder;
+
+        protected BasicBuilder(UpdateOptions updateOptions) {
+            this.updateOptions = updateOptions;
+        }
+
+        public B withName(String name) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+
+            updateOptions.nameOption = UpdateOption.of(name);
+            return thisBuilder;
+        }
+
+        public B withLastName(String name) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+
+            updateOptions.lastNameOption = UpdateOption.of(name);
+            return thisBuilder;
+        }
+
+        public B withComment(String comment) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, comment);
+
+            updateOptions.commentOption = UpdateOption.of(comment);
+            return thisBuilder;
+        }
+
+        public B withGoogleId(String googleId) {
+            // google id can be set to null
+            updateOptions.googleIdOption = UpdateOption.of(googleId);
+            return thisBuilder;
+        }
+
+        public B withTeamName(String teamName) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, teamName);
+
+            updateOptions.teamNameOption = UpdateOption.of(teamName);
+            return thisBuilder;
+        }
+
+        public B withSectionName(String sectionName) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, sectionName);
+
+            updateOptions.sectionNameOption = UpdateOption.of(sectionName);
+            return thisBuilder;
+        }
+
+        public abstract T build();
+
     }
 }

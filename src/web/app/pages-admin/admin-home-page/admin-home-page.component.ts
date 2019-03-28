@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { AccountService } from '../../../services/account.service';
+import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-interface JoinLink {
-  joinLink: string;
-}
 
 interface InstructorData {
   name: string;
@@ -33,16 +30,23 @@ export class AdminHomePageComponent {
   instructorsConsolidated: InstructorData[] = [];
   activeRequests: number = 0;
 
-  constructor(private httpRequestService: HttpRequestService) {}
+  constructor(private accountService: AccountService) {}
 
   /**
    * Validates and adds the instructor details filled with first form.
    */
   validateAndAddInstructorDetails(): void {
+    const invalidLines: string[] = [];
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/ ?\| ?/);
       if (instructorDetailSplit.length < 3) {
         // TODO handle error
+        invalidLines.push(instructorDetail);
+        continue;
+      }
+      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
+        // TODO handle error
+        invalidLines.push(instructorDetail);
         continue;
       }
       this.instructorsConsolidated.push({
@@ -52,7 +56,7 @@ export class AdminHomePageComponent {
         status: 'PENDING',
       });
     }
-    this.instructorDetails = '';
+    this.instructorDetails = invalidLines.join('\r\n');
   }
 
   /**
@@ -78,15 +82,18 @@ export class AdminHomePageComponent {
    * Adds the instructor at the i-th index.
    */
   addInstructor(i: number): void {
-    this.activeRequests += 1;
     const instructor: InstructorData = this.instructorsConsolidated[i];
+    if (instructor.status !== 'PENDING' && instructor.status !== 'FAIL') {
+      return;
+    }
+    this.activeRequests += 1;
     instructor.status = 'ADDING';
-    const paramMap: { [key: string]: string } = {
-      instructorname: instructor.name,
-      instructoremail: instructor.email,
-      instructorinstitution: instructor.institution,
-    };
-    this.httpRequestService.post('/accounts', paramMap).subscribe((resp: JoinLink) => {
+
+    this.accountService.createAccount({
+      instructorEmail: instructor.email,
+      instructorName: instructor.name,
+      instructorInstitution: instructor.institution,
+    }).subscribe((resp: JoinLink) => {
       instructor.status = 'SUCCESS';
       instructor.joinLink = resp.joinLink;
       this.activeRequests -= 1;
@@ -109,10 +116,7 @@ export class AdminHomePageComponent {
    */
   addAllInstructors(): void {
     for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
-      const instructor: InstructorData = this.instructorsConsolidated[i];
-      if (instructor.status === 'PENDING' || instructor.status === 'FAIL') {
-        this.addInstructor(i);
-      }
+      this.addInstructor(i);
     }
   }
 

@@ -4,13 +4,17 @@
     <listeners>
         <listener class-name="teammates.e2e.util.PriorityInterceptor" />
     </listeners>
-    <test name="e2e-tests">
+    <test name="e2e-tests" parallel="classes">
         <packages>
             <package name="teammates.e2e.cases.util" />
         </packages>
         <classes>
             <class name="teammates.e2e.cases.e2e.SystemErrorEmailReportE2ETest" />
             <class name="teammates.e2e.cases.e2e.TimezoneSyncerTest" />
+            <class name="teammates.e2e.cases.e2e.AdminHomePageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.StudentHomePageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.StudentProfilePageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.StudentCourseDetailsPageE2ETest" />
         </classes>
     </test>
 </suite>

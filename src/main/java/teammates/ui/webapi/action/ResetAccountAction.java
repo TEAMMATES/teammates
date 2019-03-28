@@ -42,6 +42,10 @@ public class ResetAccountAction extends Action {
         String wrongGoogleId = null;
         if (studentEmail != null) {
             StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
+            if (existingStudent == null) {
+                return new JsonResult("Student does not exist.",
+                        HttpStatus.SC_NOT_FOUND);
+            }
             wrongGoogleId = existingStudent.googleId;
 
             try {
@@ -52,6 +56,10 @@ public class ResetAccountAction extends Action {
             }
         } else if (instructorEmail != null) {
             InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
+            if (existingInstructor == null) {
+                return new JsonResult("Instructor does not exist.",
+                        HttpStatus.SC_NOT_FOUND);
+            }
             wrongGoogleId = existingInstructor.googleId;
             AccountAttributes account = logic.getAccount(wrongGoogleId);
             String institute = account.institute;
@@ -67,7 +75,7 @@ public class ResetAccountAction extends Action {
         if (wrongGoogleId != null
                 && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
-            logic.deleteAccount(wrongGoogleId);
+            logic.deleteAccountCascade(wrongGoogleId);
         }
 
         return new JsonResult("Account is successfully reset.", HttpStatus.SC_OK);

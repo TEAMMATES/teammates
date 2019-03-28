@@ -97,8 +97,8 @@ public class FeedbackResponseComment extends BaseEntity {
         setCommentText(SanitizationHelper.sanitizeForRichText(commentText));
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
-        this.showCommentTo = showCommentTo == null ? new ArrayList<FeedbackParticipantType>() : showCommentTo;
-        this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<FeedbackParticipantType>() : showGiverNameTo;
+        this.showCommentTo = showCommentTo == null ? new ArrayList<>() : showCommentTo;
+        this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<>() : showGiverNameTo;
         this.isVisibilityFollowingFeedbackQuestion = isVisibilityFollowingFeedbackQuestion;
         this.lastEditorEmail = lastEditorEmail == null ? giverEmail : lastEditorEmail;
         this.lastEditedAt = lastEditedAt == null ? this.createdAt : lastEditedAt;
@@ -137,7 +137,11 @@ public class FeedbackResponseComment extends BaseEntity {
         this.feedbackQuestionId = feedbackQuestionId;
     }
 
-    public Boolean getIsVisibilityFollowingFeedbackQuestion() {
+    public boolean getIsVisibilityFollowingFeedbackQuestion() {
+        if (this.isVisibilityFollowingFeedbackQuestion == null) {
+            // true as the default value if the field is null
+            return true;
+        }
         return this.isVisibilityFollowingFeedbackQuestion;
     }
 

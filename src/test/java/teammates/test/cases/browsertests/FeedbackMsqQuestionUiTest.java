@@ -13,7 +13,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.util.BackDoor;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
@@ -542,7 +542,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, NEW_QUESTION_INDEX, 2, 0);
         feedbackEditPage.clickAddQuestionButton();
         JSONObject msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData);
+                .getSerializedQuestionDetails());
         assertEquals("[\"Choice 3\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                 msqQuestionDetails.get("msqChoices").toString());
 
@@ -555,7 +555,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData);
+                .getSerializedQuestionDetails());
         assertEquals("[\"Choice 3\",\"New Choice\",\"Choice 1\",\"Choice 2\",\"Choice 4\"]",
                 msqQuestionDetails.get("msqChoices").toString());
         assertEquals("[30,50,10,20,40]", msqQuestionDetails.get("msqWeights").toString());
@@ -568,7 +568,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData);
+                .getSerializedQuestionDetails());
         assertEquals("[\"Choice 3\",\"Choice 4\",\"Old Choice\",\"Choice 2\"]",
                 msqQuestionDetails.get("msqChoices").toString());
         assertEquals("[30,40,50,20]", msqQuestionDetails.get("msqWeights").toString());
@@ -587,7 +587,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.dragAndDropQuestionOption(QN_TYPE, 1, 4, 1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-                .questionMetaData);
+                .getSerializedQuestionDetails());
         assertEquals("[\"Newer Choice\",\"New Choice\",\"Choice 3\",\"Choice 4\",\"Choice 2\"]",
                 msqQuestionDetails.get("msqChoices").toString());
         assertEquals("[60,50,30,40,20]", msqQuestionDetails.get("msqWeights").toString());
@@ -604,7 +604,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
         feedbackEditPage.clickMsqHasAssignWeightsCheckbox(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         msqQuestionDetails = new JSONObject(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1)
-               .questionMetaData);
+               .getSerializedQuestionDetails());
         assertEquals("[\"Choice 2\",\"Choice 3\",\"Newer Choice\",\"New Choice\",\"Choice 4\",\"Newest Choice\"]",
                     msqQuestionDetails.get("msqChoices").toString());
         assertEquals("[20,30,60,50,40,70]", msqQuestionDetails.get("msqWeights").toString());
@@ -950,7 +950,7 @@ public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
                 .withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "question");
 
         InstructorFeedbackResultsPage instructorResultsPage =
-                loginAdminToPage(editUrl, InstructorFeedbackResultsPage.class);
+                loginAdminToPageOld(editUrl, InstructorFeedbackResultsPage.class);
 
         ______TS("Show statistics for mcq question without weights enabled");
 
