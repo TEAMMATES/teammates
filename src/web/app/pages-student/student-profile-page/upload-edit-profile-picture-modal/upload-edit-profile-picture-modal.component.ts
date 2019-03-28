@@ -70,7 +70,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
   /**
    * Uploads the picture that has been newly uploaded/edited.
    */
-  uploadPicture(): void {
+  uploadPicture(refreshProfilePic: boolean): void {
     const paramsMap: { [key: string]: string } = {
       user: this.user,
     };
@@ -83,7 +83,9 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
           // Gets the updated picture as blob to be filled in the image cropper
           this.getProfilePicture().subscribe((resp: any) => {
             this.blobToBase64Image(resp);
-            this.imageUpdated.emit(this.pictureKey);
+            if (refreshProfilePic) {
+              this.imageUpdated.emit(this.pictureKey);
+            }
           });
 
           // Reset upload section
@@ -99,7 +101,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
    */
   saveEditedPhoto(): void {
     this.populateFormData(this.croppedImage);
-    this.uploadPicture();
+    this.uploadPicture(true);
   }
 
   /**
