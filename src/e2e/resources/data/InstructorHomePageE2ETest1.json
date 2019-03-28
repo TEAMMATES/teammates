@@ -1,0 +1,80 @@
+{
+  "accounts": {
+    "newInstructorWithoutSampleCourse": {
+      "googleId": "CHomeUiT.instructor.tmms.new",
+      "name": "Teammates Test New Instructor Without Sample",
+      "isInstructor": true,
+      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructorWithManyCourses": {
+      "googleId": "CHomeUiT.instructor.tmms.unloaded",
+      "name": "Teammates Test Instructor With Many Courses",
+      "isInstructor": true,
+      "email": "CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "CHomeUiT.Course1": {
+      "createdAt": "2012-04-01T23:59:00Z",
+      "id": "ins.wit-demo1",
+      "name": "Sample Course 101",
+      "timeZone": "UTC"
+    },
+    "CHomeUiT.Course2": {
+      "createdAt": "2012-04-01T23:58:00Z",
+      "id": "ins.wit-demo2",
+      "name": "Sample Course 201",
+      "timeZone": "UTC"
+    },
+    "CHomeUiT.Course3": {
+      "createdAt": "2012-04-01T23:57:00Z",
+      "id": "ins.wit-demo3",
+      "name": "Sample Course 301",
+      "timeZone": "UTC"
+    },
+    "CHomeUiT.Unloaded": {
+      "createdAt": "2012-04-01T23:56:00Z",
+      "id": "ins.wit-Unloaded",
+      "name": "Sample Course Unloaded",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "CHomeUiT.instr.Course1": {
+      "googleId": "CHomeUiT.instructor.tmms.unloaded",
+      "courseId": "ins.wit-demo1",
+      "name": "Teammates Test Instructor With Many Courses",
+      "email": "CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
+      "isDisplayedToStudents": false
+    },
+    "CHomeUiT.instr.Course2": {
+      "googleId": "CHomeUiT.instructor.tmms.unloaded",
+      "courseId": "ins.wit-demo2",
+      "name": "Teammates Test Instructor With Many Courses",
+      "email": "CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
+      "isDisplayedToStudents": false
+    },
+    "CHomeUiT.instr.Course3": {
+      "googleId": "CHomeUiT.instructor.tmms.unloaded",
+      "courseId": "ins.wit-demo3",
+      "name": "Teammates Test Instructor With Many Courses",
+      "email": "CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
+      "isDisplayedToStudents": false
+    },
+    "CHomeUiT.instr.Unloaded": {
+      "googleId": "CHomeUiT.instructor.tmms.unloaded",
+      "courseId": "ins.wit-Unloaded",
+      "name": "Teammates Test Instructor With Many Courses",
+      "email": "CHomeUiT.instructor.tmms.unloaded@gmail.tmt",
+      "isDisplayedToStudents": false
+    }
+  },
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}
