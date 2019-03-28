@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -224,12 +225,12 @@ public class EmailGenerator {
      * generate an email stating no feedback sessions found.
      */
     public EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress) {
-        boolean hasStudentsWithRecoveryEmail = !studentsLogic.getAllStudentsForEmail(recoveryEmailAddress).isEmpty();
+        List<StudentAttributes> studentsForEmail = studentsLogic.getAllStudentsForEmail(recoveryEmailAddress);
 
-        if (hasStudentsWithRecoveryEmail) {
-            return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress);
-        } else {
+        if (studentsForEmail.isEmpty()) {
             return generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress);
+        } else {
+            return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress, studentsForEmail);
         }
     }
 
@@ -285,7 +286,8 @@ public class EmailGenerator {
         return email;
     }
 
-    private EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(String recoveryEmailAddress) {
+    private EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(String recoveryEmailAddress,
+                                                                             List<StudentAttributes> studentsForEmail) {
         String emailBody;
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
@@ -299,7 +301,8 @@ public class EmailGenerator {
         for (FeedbackSessionAttributes session : sessions) {
             String courseId = session.getCourseId();
             CourseAttributes course = coursesLogic.getCourse(courseId);
-            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, recoveryEmailAddress);
+            List<StudentAttributes> students = studentsForEmail.stream().filter(
+                    each -> each.course.equals(courseId)).collect(Collectors.toList());
             StringBuilder linksFragmentValue;
             if (linkFragmentsMap.containsKey(courseId)) {
                 linksFragmentValue = linkFragmentsMap.get(courseId);
@@ -307,7 +310,8 @@ public class EmailGenerator {
                 linksFragmentValue = new StringBuilder(5000);
             }
 
-            if (student != null) {
+            if (students.size() == 1) {
+                StudentAttributes student = students.get(0);
                 studentName = student.getName();
                 String submitUrlHtml = "";
                 String reportUrlHtml = "";
