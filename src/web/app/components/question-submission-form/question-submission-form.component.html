@@ -81,12 +81,12 @@
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                     [isDisabled]="isDisabled"
             ></tm-num-scale-question-edit-answer-form>
-            <tm-mcq-scale-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.MCQ" [questionDetails]="model.questionDetails"
+            <tm-mcq-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.MCQ" [questionDetails]="model.questionDetails"
                                                     [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                     [isDisabled]="isDisabled"
                                                     [id]="i"
-            ></tm-mcq-scale-question-edit-answer-form>
+            ></tm-mcq-question-edit-answer-form>
           </div>
         </div>
       </div>

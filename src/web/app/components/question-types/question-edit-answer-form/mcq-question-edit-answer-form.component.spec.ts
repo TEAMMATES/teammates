@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { McqScaleQuestionEditAnswerFormComponent } from './mcq-scale-question-edit-answer-form.component';
+import { McqQuestionEditAnswerFormComponent } from './mcq-question-edit-answer-form.component';
 
-describe('McqScaleQuestionEditAnswerFormComponent', () => {
-  let component: McqScaleQuestionEditAnswerFormComponent;
-  let fixture: ComponentFixture<McqScaleQuestionEditAnswerFormComponent>;
+describe('McqQuestionEditAnswerFormComponent', () => {
+  let component: McqQuestionEditAnswerFormComponent;
+  let fixture: ComponentFixture<McqQuestionEditAnswerFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [McqScaleQuestionEditAnswerFormComponent],
+      declarations: [McqQuestionEditAnswerFormComponent],
       imports: [
         FormsModule,
       ],
@@ -18,7 +18,7 @@ describe('McqScaleQuestionEditAnswerFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(McqScaleQuestionEditAnswerFormComponent);
+    fixture = TestBed.createComponent(McqQuestionEditAnswerFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

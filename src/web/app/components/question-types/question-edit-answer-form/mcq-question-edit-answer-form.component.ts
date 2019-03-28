@@ -11,11 +11,11 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
  * The Mcq question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-mcq-scale-question-edit-answer-form',
-  templateUrl: './mcq-scale-question-edit-answer-form.component.html',
-  styleUrls: ['./mcq-scale-question-edit-answer-form.component.scss'],
+  selector: 'tm-mcq-question-edit-answer-form',
+  templateUrl: './mcq-question-edit-answer-form.component.html',
+  styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
 })
-export class McqScaleQuestionEditAnswerFormComponent
+export class McqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails> implements OnInit {
 
   @Input()
