@@ -180,7 +180,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         }
 
         @Override
-        public List<String> getCsvHeaders() {
+        public List<String> generateCsvHeaders() {
             List<String> headers = new ArrayList<>();
 
             headers.add("email");
@@ -191,7 +191,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         }
 
         @Override
-        public List<List<String>> getCsvData() throws IOException, ParseException {
+        public List<List<String>> generateCsvData() throws IOException, ParseException {
             org.json.simple.JSONObject jsonObject = getJsonObjectFromFile();
 
             org.json.simple.JSONObject studentsJson = (org.json.simple.JSONObject) jsonObject.get("students");

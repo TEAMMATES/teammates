@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 
 /**
- * L&P test data.
+ * L&P test data generator.
  */
 public abstract class LNPTestData {
 
@@ -51,14 +51,15 @@ public abstract class LNPTestData {
     /**
      * Returns list of header fields for the data in the CSV file to be generated.
      */
-    public abstract List<String> getCsvHeaders();
+    public abstract List<String> generateCsvHeaders();
 
     /**
-     * Returns the data for the CSV file to be generated. The order of the field values should correspond to
-     * the order of headers specified in {@link CreateTestConfigData#getCsvData()}.
+     * Returns the data for the CSV file to be generated.
+     * The order of the field values should correspond to the order of headers
+     * specified in {@link LNPTestData#generateCsvHeaders()}.
      *
      * @return List of entries, which are made up of a list of field values.
      */
-    public abstract List<List<String>> getCsvData() throws IOException, ParseException;
+    public abstract List<List<String>> generateCsvData() throws IOException, ParseException;
 
 }
