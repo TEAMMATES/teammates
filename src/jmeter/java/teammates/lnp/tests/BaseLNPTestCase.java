@@ -234,6 +234,11 @@ public abstract class BaseLNPTestCase {
         // Run JMeter Test
         jmeter.configure(testPlanTree);
         jmeter.run();
+
+        // TODO: As mentioned in the docs, good to fail the test if the `success` value of any row is `false`.
+        //  An example of when this occurs is if `email` is used for logging in instead of `googleid`.
+
+        // TODO: Generate summary report from .jtl results file.
     }
 
 }
