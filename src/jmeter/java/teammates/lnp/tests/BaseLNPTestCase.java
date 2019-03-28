@@ -15,8 +15,6 @@ import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,7 +51,7 @@ public abstract class BaseLNPTestCase {
      * Creates the test data folder if it does not exist.
      */
     private static boolean createTestDataFolder() {
-        File testDataDirectory = new File(TestProperties.TEST_DATA_FOLDER);
+        File testDataDirectory = new File(TestProperties.JMETER_TEST_DATA_DIRECTORY);
         if (!testDataDirectory.exists()) {
             return testDataDirectory.mkdir();
         }
@@ -63,19 +61,18 @@ public abstract class BaseLNPTestCase {
     /**
      * Returns the JSON object that is parsed from the file specified by {@link BaseLNPTestCase#getPathToJsonDataFile()}.
      */
-    protected org.json.simple.JSONObject getJsonObjectFromFile() throws IOException, ParseException {
-        String pathToJsonFile = (getPathToJsonDataFile().charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
+    protected JSONObject getJsonObjectFromFile() throws IOException {
+        String pathToJsonFile = (getPathToJsonDataFile().charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
                 + getPathToJsonDataFile();
 
-        JSONParser parser = new JSONParser();
-
-        return (org.json.simple.JSONObject) parser.parse(Files.newBufferedReader(Paths.get(pathToJsonFile)));
+        String jsonContent = new String(Files.readAllBytes(Paths.get(pathToJsonFile)));
+        return new JSONObject(jsonContent);
     }
 
     /**
-     * Creates the JSON data and writes it to the file specified by {@code pathToOutputJson}.
+     * Creates the JSON data and writes it to the file specified by {@link BaseLNPTestCase#getPathToJsonDataFile()}.
      */
-    private void createDataJsonFile(LNPTestData testData) throws IOException {
+    private void createJsonDataFile(LNPTestData testData) throws IOException {
         if (!createTestDataFolder()) {
             throw new IOException("Test data directory does not exist");
         }
@@ -83,7 +80,7 @@ public abstract class BaseLNPTestCase {
         JSONObject jsonData = testData.generateJsonData();
         String outputJsonPath = getPathToJsonDataFile();
 
-        String pathToResultFile = (outputJsonPath.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
+        String pathToResultFile = (outputJsonPath.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
                 + outputJsonPath;
         File file = new File(pathToResultFile);
 
@@ -107,7 +104,7 @@ public abstract class BaseLNPTestCase {
     /**
      * Creates the CSV data and writes it to the file specified by {@link BaseLNPTestCase#getPathToCsvConfigFile()}.
      */
-    private void createConfigDataCsvFile(LNPTestData testData) throws IOException, ParseException {
+    private void createCsvConfigDataFile(LNPTestData testData) throws IOException {
         List<String> headers = testData.generateCsvHeaders();
         List<List<String>> data = testData.generateCsvData();
 
@@ -124,7 +121,7 @@ public abstract class BaseLNPTestCase {
             throw new IOException("Test data directory does not exist");
         }
 
-        String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
+        String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
                 + pathToResultFileParam;
         File file = new File(pathToResultFile);
 
@@ -159,11 +156,11 @@ public abstract class BaseLNPTestCase {
     }
 
     /**
-     * Returns the data bundle generated from the file specified by {@code dataBundleJsonPath}.
+     * Returns the data bundle stored in the file specified by {@code dataBundleJsonPath}.
      */
     protected DataBundle loadDataBundle(String dataBundleJsonPath) {
         try {
-            String pathToJsonFile = (dataBundleJsonPath.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
+            String pathToJsonFile = (dataBundleJsonPath.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
                     + dataBundleJsonPath;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return JsonUtils.fromJson(jsonString, DataBundle.class);
@@ -173,13 +170,13 @@ public abstract class BaseLNPTestCase {
     }
 
     /**
-     * Creates the JSON test data and CSV config data files for the performance test.
+     * Creates the JSON test data and CSV config data files for the performance test from {@code testData}.
      */
     protected void createTestData(LNPTestData testData) {
         try {
-            createDataJsonFile(testData);
-            createConfigDataCsvFile(testData);
-        } catch (IOException | ParseException ex) {
+            createJsonDataFile(testData);
+            createCsvConfigDataFile(testData);
+        } catch (IOException ex) {
             log.severe(TeammatesException.toStringWithStackTrace(ex));
         }
     }
@@ -203,9 +200,9 @@ public abstract class BaseLNPTestCase {
     }
 
     /**
-     * Runs the JMeter test specified by {@code jmxPath}.
+     * Runs the JMeter test specified by {@code jmxFile}.
      */
-    protected void runJmeter(String jmxPath) throws Exception {
+    protected void runJmeter(String jmxFile) throws Exception {
         StandardJMeterEngine jmeter = new StandardJMeterEngine();
 
         if (!TestProperties.JMETER_PROPERTIES_PATH.isEmpty()) {
@@ -216,7 +213,7 @@ public abstract class BaseLNPTestCase {
         SaveService.loadProperties();
 
         // Load JMeter Test Plan
-        File testFile = new File("src/jmeter/tests/" + jmxPath);
+        File testFile = new File(TestProperties.JMETER_TEST_DIRECTORY + jmxFile);
         HashTree testPlanTree = SaveService.loadTree(testFile);
 
         // Create summariser for generating results file
@@ -226,7 +223,7 @@ public abstract class BaseLNPTestCase {
             summer = new Summariser(summariserName);
         }
 
-        String resultFile = "src/jmeter/results/" + jmxPath + ".jtl";
+        String resultFile = TestProperties.JMETER_TEST_RESULTS_DIRECTORY + jmxFile + ".jtl";
         ResultCollector logger = new ResultCollector(summer);
         logger.setFilename(resultFile);
         testPlanTree.add(testPlanTree.getArray()[0], logger);

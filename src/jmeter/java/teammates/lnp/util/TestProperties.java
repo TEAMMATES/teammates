@@ -13,8 +13,14 @@ import teammates.common.util.Url;
  */
 public final class TestProperties {
 
+    /** The directory where the JMeter performance test files are stored. */
+    public static final String JMETER_TEST_DIRECTORY = "src/jmeter/tests/";
+
     /** The directory where JSON files used to create data bundles are stored. */
-    public static final String TEST_DATA_FOLDER = "src/jmeter/resources/data";
+    public static final String JMETER_TEST_DATA_DIRECTORY = "src/jmeter/resources/data";
+
+    /** The directory where the JMeter performance test results are stored. */
+    public static final String JMETER_TEST_RESULTS_DIRECTORY = "src/jmeter/results/";
 
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;

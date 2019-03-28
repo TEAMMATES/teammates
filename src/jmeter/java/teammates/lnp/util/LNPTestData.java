@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.json.JSONObject;
-import org.json.simple.parser.ParseException;
 
 /**
  * L&P test data generator.
@@ -30,7 +29,7 @@ public abstract class LNPTestData {
     protected abstract JSONObject generateProfilesJson();
 
     /**
-     * Creates a JSON file with the relevant data for the performance test.
+     * Returns a JSON data bundle containing the data relevant for the performance test.
      */
     public JSONObject generateJsonData() {
         JSONObject dataJson = new JSONObject();
@@ -54,12 +53,12 @@ public abstract class LNPTestData {
     public abstract List<String> generateCsvHeaders();
 
     /**
-     * Returns the data for the CSV file to be generated.
-     * The order of the field values should correspond to the order of headers
-     * specified in {@link LNPTestData#generateCsvHeaders()}.
+     * Returns the data for the entries in the CSV file to be generated.
+     * The order of the field values for each entry should correspond to the order of headers specified
+     * in {@link LNPTestData#generateCsvHeaders()}.
      *
      * @return List of entries, which are made up of a list of field values.
      */
-    public abstract List<List<String>> generateCsvData() throws IOException, ParseException;
+    public abstract List<List<String>> generateCsvData() throws IOException;
 
 }

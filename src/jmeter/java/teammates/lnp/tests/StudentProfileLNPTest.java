@@ -2,11 +2,10 @@ package teammates.lnp.tests;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,13 +13,13 @@ import org.testng.annotations.Test;
 import teammates.lnp.util.LNPTestData;
 
 /**
- * L&P Test Case for student profile.
+ * L&P Test Case for student profile API endpoint.
  */
 public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     private static final String DATA_JSON_PATH = "/studentProfile.json";
     private static final String CONFIG_CSV_PATH = "/studentProfileConfig.csv";
-    private static final String JMX_PATH = "studentProfile.jmx";
+    private static final String JMX_FILE = "studentProfile.jmx";
 
     private static final int NUMBER_OF_USER_ACCOUNTS = 100;
     private static final String USER_NAME = "DummyUser";
@@ -191,15 +190,17 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         }
 
         @Override
-        public List<List<String>> generateCsvData() throws IOException, ParseException {
-            org.json.simple.JSONObject jsonObject = getJsonObjectFromFile();
+        public List<List<String>> generateCsvData() throws IOException {
+            JSONObject jsonObject = getJsonObjectFromFile();
 
-            org.json.simple.JSONObject studentsJson = (org.json.simple.JSONObject) jsonObject.get("students");
+            JSONObject studentsJson = (JSONObject) jsonObject.get("students");
             List<List<String>> csvData = new ArrayList<>();
 
-            for (Object e : studentsJson.entrySet()) {
-                Map.Entry entry = (Map.Entry) e;
-                org.json.simple.JSONObject studentJson = (org.json.simple.JSONObject) entry.getValue();
+            Iterator<String> keys = studentsJson.keys();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+                JSONObject studentJson = (JSONObject) studentsJson.get(key);
 
                 List<String> csvRow = new ArrayList<>();
 
@@ -233,7 +234,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @Test
     public void runLnpTest() throws Exception {
-        runJmeter(JMX_PATH);
+        runJmeter(JMX_FILE);
     }
 
     @AfterClass
