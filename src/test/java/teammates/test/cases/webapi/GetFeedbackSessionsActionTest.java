@@ -3,6 +3,7 @@ package teammates.test.cases.webapi;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
@@ -12,7 +13,11 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetFeedbackSessionsAction;
 import teammates.ui.webapi.output.FeedbackSessionData;
+import teammates.ui.webapi.output.FeedbackSessionPublishStatus;
+import teammates.ui.webapi.output.FeedbackSessionSubmissionStatus;
 import teammates.ui.webapi.output.FeedbackSessionsData;
+import teammates.ui.webapi.output.ResponseVisibleSetting;
+import teammates.ui.webapi.output.SessionVisibleSetting;
 
 /**
  * SUT: {@link GetFeedbackSessionsAction}.
@@ -66,7 +71,6 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         loginAsInstructor(instructor2OfCourse1.googleId);
 
-        // The presence of IS_IN_RECYCLE_BIN flag is just used to indicate perform this request as instructor.
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, instructor2OfCourse1.getCourseId(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -76,12 +80,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
         assertEquals(5, fsData.getFeedbackSessions().size());
-        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
-            assertEquals(instructor2OfCourse1.getCourseId(), sessionData.getCourseId());
-            assertNull(sessionData.getDeletedAtTimestamp());
-            assertTrue(sessionsInCourse1.stream().anyMatch(session
-                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
-        }
+        assertAllInstructorSessionsMatch(fsData, sessionsInCourse1);
     }
 
     @Test
@@ -102,8 +101,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         assertEquals(1, fsData.getFeedbackSessions().size());
         FeedbackSessionData fs = fsData.getFeedbackSessions().get(0);
         assertNotNull(fs.getDeletedAtTimestamp());
-        assertEquals(session1InCourse1.getCourseId(), fs.getCourseId());
-        assertEquals(session1InCourse1.getFeedbackSessionName(), fs.getFeedbackSessionName());
+        assertAllInformationMatch(fs, session1InCourse1);
     }
 
     @Test
@@ -120,18 +118,12 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
         assertEquals(5, fsData.getFeedbackSessions().size());
-        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
-            assertEquals(instructor2OfCourse1.getCourseId(), sessionData.getCourseId());
-            assertNull(sessionData.getDeletedAtTimestamp());
-            assertTrue(sessionsInCourse1.stream().anyMatch(session
-                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
-        }
+        assertAllInstructorSessionsMatch(fsData, sessionsInCourse1);
     }
 
     @Test
     protected void testExecute_instructorAsStudent_shouldReturnAllSessionsForStudent() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student2InCourse2 = typicalBundle.students.get("student2InCourse2");
 
         loginAsStudentInstructor(instructor1OfCourse1.googleId);
         String[] submissionParam = {
@@ -142,12 +134,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
         assertEquals(2, fsData.getFeedbackSessions().size());
-        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
-            assertEquals(student2InCourse2.getCourse(), sessionData.getCourseId());
-            assertNull(sessionData.getDeletedAtTimestamp());
-            assertTrue(sessionsInCourse2.stream().anyMatch(session
-                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
-        }
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse2);
     }
 
     @Test
@@ -164,14 +151,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         GetFeedbackSessionsAction action = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
-
-        assertEquals(2, fsData.getFeedbackSessions().size());
-        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
-            assertEquals(student2InCourse2.getCourse(), sessionData.getCourseId());
-            assertNull(sessionData.getDeletedAtTimestamp());
-            assertTrue(sessionsInCourse2.stream().anyMatch(session
-                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
-        }
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse2);
     }
 
     @Test
@@ -205,12 +185,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
         assertEquals(5, fsData.getFeedbackSessions().size());
-        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
-            assertEquals(student1InCourse1.getCourse(), sessionData.getCourseId());
-            assertNull(sessionData.getDeletedAtTimestamp());
-            assertTrue(sessionsInCourse1.stream().anyMatch(session
-                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
-        }
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse1);
+
     }
 
     @Test
@@ -226,12 +202,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
 
         assertEquals(5, fsData.getFeedbackSessions().size());
-        for (FeedbackSessionData sessionData : fsData.getFeedbackSessions()) {
-            assertEquals(student1InCourse1.getCourse(), sessionData.getCourseId());
-            assertNull(sessionData.getDeletedAtTimestamp());
-            assertTrue(sessionsInCourse1.stream().anyMatch(session
-                    -> session.getFeedbackSessionName().equals(sessionData.getFeedbackSessionName())));
-        }
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse1);
     }
 
     @Test
@@ -275,7 +246,6 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         loginAsInstructor(instructor1OfCourse2.googleId);
 
         String[] instructorParam = {
-                Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
@@ -307,5 +277,129 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         verifyInaccessibleForAdmin(adminEntityParam);
         verifyInaccessibleForUnregisteredUsers(studentEntityParam);
         verifyInaccessibleWithoutLogin();
+    }
+
+    private void assertInformationHiddenForStudent(FeedbackSessionData data) {
+        assertNull(data.getGracePeriod());
+        assertNull(data.getSessionVisibleSetting());
+        assertNull(data.getCustomSessionVisibleTimestamp());
+        assertNull(data.getResponseVisibleSetting());
+        assertNull(data.getCustomResponseVisibleTimestamp());
+        assertNull(data.getPublishStatus());
+        assertNull(data.getIsClosingEmailEnabled());
+        assertNull(data.getIsPublishedEmailEnabled());
+    }
+
+    private void assertPartialInformationMatch(FeedbackSessionData data, FeedbackSessionAttributes expectedSession) {
+        assertEquals(expectedSession.getCourseId(), data.getCourseId());
+        assertEquals(expectedSession.getTimeZone().getId(), data.getTimeZone());
+        assertEquals(expectedSession.getFeedbackSessionName(), data.getFeedbackSessionName());
+        assertEquals(expectedSession.getInstructions(), data.getInstructions());
+        assertEquals(expectedSession.getStartTime().toEpochMilli(), data.getSubmissionStartTimestamp());
+        assertEquals(expectedSession.getEndTime().toEpochMilli(), data.getSubmissionEndTimestamp());
+
+        if (!expectedSession.isVisible()) {
+            assertEquals(FeedbackSessionSubmissionStatus.NOT_VISIBLE, data.getSubmissionStatus());
+        } else if (expectedSession.isOpened()) {
+            assertEquals(FeedbackSessionSubmissionStatus.OPEN, data.getSubmissionStatus());
+        } else if (expectedSession.isClosed()) {
+            assertEquals(FeedbackSessionSubmissionStatus.CLOSED, data.getSubmissionStatus());
+        } else if (expectedSession.isInGracePeriod()) {
+            assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, data.getSubmissionStatus());
+        } else if (expectedSession.isVisible() && !expectedSession.isOpened()) {
+            assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, data.getSubmissionStatus());
+        }
+
+        assertEquals(expectedSession.getCreatedTime().toEpochMilli(), data.getCreatedAtTimestamp());
+        if (expectedSession.getDeletedTime() == null) {
+            assertNull(data.getDeletedAtTimestamp());
+        } else {
+            assertEquals(expectedSession.getDeletedTime().toEpochMilli(), data.getDeletedAtTimestamp().longValue());
+        }
+    }
+
+    private void assertAllInformationMatch(FeedbackSessionData data, FeedbackSessionAttributes expectedSession) {
+        assertEquals(expectedSession.getCourseId(), data.getCourseId());
+        assertEquals(expectedSession.getTimeZone().getId(), data.getTimeZone());
+        assertEquals(expectedSession.getFeedbackSessionName(), data.getFeedbackSessionName());
+        assertEquals(expectedSession.getInstructions(), data.getInstructions());
+        assertEquals(expectedSession.getStartTime().toEpochMilli(), data.getSubmissionStartTimestamp());
+        assertEquals(expectedSession.getEndTime().toEpochMilli(), data.getSubmissionEndTimestamp());
+        assertEquals(expectedSession.getGracePeriodMinutes(), data.getGracePeriod().longValue());
+
+        Instant sessionVisibleTime = expectedSession.getSessionVisibleFromTime();
+        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            assertEquals(data.getSessionVisibleSetting(), SessionVisibleSetting.AT_OPEN);
+        } else {
+            assertEquals(data.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
+            assertEquals(sessionVisibleTime.toEpochMilli(), data.getCustomSessionVisibleTimestamp().longValue());
+        }
+
+        Instant responseVisibleTime = expectedSession.getResultsVisibleFromTime();
+        if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            assertEquals(ResponseVisibleSetting.AT_VISIBLE, data.getResponseVisibleSetting());
+        } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            assertEquals(ResponseVisibleSetting.LATER, data.getResponseVisibleSetting());
+        } else {
+            assertEquals(ResponseVisibleSetting.CUSTOM, data.getResponseVisibleSetting());
+            assertEquals(responseVisibleTime.toEpochMilli(), data.getCustomResponseVisibleTimestamp().longValue());
+        }
+
+        if (!expectedSession.isVisible()) {
+            assertEquals(FeedbackSessionSubmissionStatus.NOT_VISIBLE, data.getSubmissionStatus());
+        } else if (expectedSession.isOpened()) {
+            assertEquals(FeedbackSessionSubmissionStatus.OPEN, data.getSubmissionStatus());
+        } else if (expectedSession.isClosed()) {
+            assertEquals(FeedbackSessionSubmissionStatus.CLOSED, data.getSubmissionStatus());
+        } else if (expectedSession.isInGracePeriod()) {
+            assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, data.getSubmissionStatus());
+        } else if (expectedSession.isVisible() && !expectedSession.isOpened()) {
+            assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, data.getSubmissionStatus());
+        }
+
+        if (expectedSession.isPublished()) {
+            assertEquals(FeedbackSessionPublishStatus.PUBLISHED, data.getPublishStatus());
+        } else {
+            assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, data.getPublishStatus());
+        }
+
+        assertEquals(expectedSession.isClosingEmailEnabled(), data.getIsClosingEmailEnabled());
+        assertEquals(expectedSession.isPublishedEmailEnabled(), data.getIsPublishedEmailEnabled());
+
+        assertEquals(expectedSession.getCreatedTime().toEpochMilli(), data.getCreatedAtTimestamp());
+        if (expectedSession.getDeletedTime() == null) {
+            assertNull(data.getDeletedAtTimestamp());
+        } else {
+            assertEquals(expectedSession.getDeletedTime().toEpochMilli(), data.getDeletedAtTimestamp().longValue());
+        }
+    }
+
+    private void assertAllInstructorSessionsMatch(FeedbackSessionsData sessionsData,
+                                                  List<FeedbackSessionAttributes> expectedSessions) {
+
+        for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {
+            List<FeedbackSessionAttributes> matchedSessions =
+                    expectedSessions.stream().filter(session -> session.getFeedbackSessionName().equals(
+                            sessionData.getFeedbackSessionName())
+                            && session.getCourseId().equals(sessionData.getCourseId())).collect(Collectors.toList());
+
+            assertEquals(1, matchedSessions.size());
+            assertAllInformationMatch(sessionData, matchedSessions.get(0));
+        }
+    }
+
+    private void assertAllStudentSessionsMatch(FeedbackSessionsData sessionsData,
+                                               List<FeedbackSessionAttributes> expectedSessions) {
+
+        for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {
+            List<FeedbackSessionAttributes> matchedSessions =
+                    expectedSessions.stream().filter(session -> session.getFeedbackSessionName().equals(
+                            sessionData.getFeedbackSessionName())
+                            && session.getCourseId().equals(sessionData.getCourseId())).collect(Collectors.toList());
+
+            assertEquals(1, matchedSessions.size());
+            assertPartialInformationMatch(sessionData, matchedSessions.get(0));
+            assertInformationHiddenForStudent(sessionData);
+        }
     }
 }

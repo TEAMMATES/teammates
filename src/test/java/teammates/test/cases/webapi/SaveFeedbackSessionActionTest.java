@@ -69,7 +69,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
 
         assertEquals(session.getStartTime().toEpochMilli(), response.getSubmissionStartTimestamp());
         assertEquals(session.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
-        assertEquals(session.getGracePeriodMinutes(), response.getGracePeriod());
+        assertEquals(session.getGracePeriodMinutes(), response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(session.getSessionVisibleFromTime().toEpochMilli(),
@@ -87,7 +87,7 @@ public class SaveFeedbackSessionActionTest extends BaseActionTest<SaveFeedbackSe
         assertEquals("instructions", response.getInstructions());
         assertEquals(1444003051000L, response.getSubmissionStartTimestamp());
         assertEquals(1546003051000L, response.getSubmissionEndTimestamp());
-        assertEquals(5, response.getGracePeriod());
+        assertEquals(5, response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(1440003051000L, response.getCustomSessionVisibleTimestamp().longValue());

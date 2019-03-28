@@ -122,7 +122,7 @@ public class FeedbackSessionData extends ApiOutput {
         return submissionEndTimestamp;
     }
 
-    public long getGracePeriod() {
+    public Long getGracePeriod() {
         return gracePeriod;
     }
 
@@ -150,11 +150,11 @@ public class FeedbackSessionData extends ApiOutput {
         return publishStatus;
     }
 
-    public boolean getIsClosingEmailEnabled() {
+    public Boolean getIsClosingEmailEnabled() {
         return isClosingEmailEnabled;
     }
 
-    public boolean getIsPublishedEmailEnabled() {
+    public Boolean getIsPublishedEmailEnabled() {
         return isPublishedEmailEnabled;
     }
 
@@ -199,7 +199,7 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
-     * hide some attributes for student entity.
+     * hide some attributes to student.
      */
     public void hideInformationForStudent() {
         setGracePeriod(null);
