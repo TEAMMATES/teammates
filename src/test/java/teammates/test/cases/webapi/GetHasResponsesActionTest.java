@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetHasResponsesAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -63,8 +62,8 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
 
-        assertEquals(jsonResult.getStatusCode(), HttpStatus.SC_NOT_FOUND);
-        assertEquals(messageOutput.getMessage(), "No course with id: fake-course");
+        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
+        assertEquals("No course with id: fake-course", messageOutput.getMessage());
     }
 
     @Test
@@ -82,25 +81,14 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
 
-        assertEquals(jsonResult.getStatusCode(), HttpStatus.SC_NOT_FOUND);
-        assertEquals(messageOutput.getMessage(), "No feedback question with id: fake-question-id");
+        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
+        assertEquals("No feedback question with id: fake-question-id", messageOutput.getMessage());
     }
 
     @Test
     protected void testExecute_getRespondentsInCourse_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.googleId);
-
-        testGettingRespondentsInCourse();
-
-        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
-
-        testGettingRespondentsInCourse();
-    }
-
-    protected void testGettingRespondentsInCourse() {
-        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("At least 1 respondent");
         assertTrue(logic.hasResponsesForCourse(instructor1OfCourse1.getCourseId()));
@@ -113,7 +101,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(jsonResult.getStatusCode(), HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.hasResponses());
 
         ______TS("Course with 0 respondents");
@@ -131,7 +119,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         jsonResult = getJsonResult(getHasResponsesAction);
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(jsonResult.getStatusCode(), HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.hasResponses());
     }
 
@@ -140,46 +128,48 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         ______TS("Question with more than 1 response");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        List<FeedbackSessionAttributes> feedbackSessionAttributesList =
-                logic.getFeedbackSessionsForCourse(instructor1OfCourse1.getCourseId());
-        List<FeedbackQuestionAttributes> feedbackQuestionAttributesList = logic.getFeedbackQuestionsForSession(
-                feedbackSessionAttributesList.get(0).getFeedbackSessionName(), instructor1OfCourse1.getCourseId());
+
+        FeedbackQuestionAttributes fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
+                fQuestion.questionNumber);
 
         loginAsInstructor(instructor1OfCourse1.googleId);
-        assertTrue(logic.areThereResponsesForQuestion(feedbackQuestionAttributesList.get(0).getFeedbackQuestionId()));
+        assertTrue(logic.areThereResponsesForQuestion(fQuestion.getFeedbackQuestionId()));
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionAttributesList.get(0).getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fQuestion.getFeedbackQuestionId(),
         };
 
         GetHasResponsesAction getHasResponsesAction = getAction(params);
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(jsonResult.getStatusCode(), HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.hasResponses());
 
         ______TS("Question with 0 responses");
 
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("awaiting.session");
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(feedbackSessionAttributes.getCourseId());
-        feedbackQuestionAttributesList = logic.getFeedbackQuestionsForSession(
-                feedbackSessionAttributes.getFeedbackSessionName(), feedbackSessionAttributes.getCourseId());
+
+        fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession4InCourse1");
+        fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
+                fQuestion.questionNumber);
 
         InstructorAttributes currentInstructor = instructors.get(0);
 
         loginAsInstructor(currentInstructor.googleId);
-        assertFalse(logic.areThereResponsesForQuestion(feedbackQuestionAttributesList.get(0).getFeedbackQuestionId()));
+        assertFalse(logic.areThereResponsesForQuestion(fQuestion.getFeedbackQuestionId()));
 
         params = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionAttributesList.get(0).getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fQuestion.getFeedbackQuestionId(),
         };
 
         getHasResponsesAction = getAction(params);
         jsonResult = getJsonResult(getHasResponsesAction);
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(jsonResult.getStatusCode(), HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.hasResponses());
     }
 
@@ -187,18 +177,19 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     protected void testExecute_hasQuestionIdAndCourseId_preferQuestionId() {
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("awaiting.session");
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(feedbackSessionAttributes.getCourseId());
-        List<FeedbackQuestionAttributes> feedbackQuestionAttributesList = logic.getFeedbackQuestionsForSession(
-                feedbackSessionAttributes.getFeedbackSessionName(), feedbackSessionAttributes.getCourseId());
+        FeedbackQuestionAttributes fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession4InCourse1");
+        fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
+                fQuestion.questionNumber);
 
         InstructorAttributes currentInstructor = instructors.get(0);
 
         loginAsInstructor(currentInstructor.googleId);
         //Different results for question and course
-        assertFalse(logic.areThereResponsesForQuestion(feedbackQuestionAttributesList.get(0).getFeedbackQuestionId()));
+        assertFalse(logic.areThereResponsesForQuestion(fQuestion.getFeedbackQuestionId()));
         assertTrue(logic.hasResponsesForCourse(currentInstructor.courseId));
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionAttributesList.get(0).getFeedbackQuestionId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fQuestion.getFeedbackQuestionId(),
                 Const.ParamsNames.COURSE_ID, currentInstructor.courseId,
         };
 
@@ -206,7 +197,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(jsonResult.getStatusCode(), HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.hasResponses());
     }
 

@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.output.HasResponsesData;
 
 /**
- * Checks whether a session has responses.
+ * Checks whether a course or question has responses.
  */
 public class GetHasResponsesAction extends Action {
 
