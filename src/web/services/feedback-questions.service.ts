@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
 import {
   FeedbackMcqQuestionDetails,
+  FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionDetails,
@@ -51,6 +52,7 @@ export class FeedbackQuestionsService {
         break;
       case FeedbackQuestionType.TEXT:
       case FeedbackQuestionType.MCQ:
+      case FeedbackQuestionType.MSQ:
       case FeedbackQuestionType.NUMSCALE:
         paths.set(FeedbackParticipantType.SELF,
           [FeedbackParticipantType.SELF, FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS,
@@ -86,6 +88,7 @@ export class FeedbackQuestionsService {
         break;
       case FeedbackQuestionType.TEXT:
       case FeedbackQuestionType.MCQ:
+      case FeedbackQuestionType.MSQ:
       case FeedbackQuestionType.NUMSCALE:
         paths.set(FeedbackParticipantType.SELF,
             [FeedbackParticipantType.NONE, FeedbackParticipantType.SELF, FeedbackParticipantType.INSTRUCTORS]);
@@ -138,6 +141,7 @@ export class FeedbackQuestionsService {
         break;
       case FeedbackQuestionType.TEXT:
       case FeedbackQuestionType.MCQ:
+      case FeedbackQuestionType.MSQ:
       case FeedbackQuestionType.NUMSCALE:
         settings.push({
           name: 'Shown anonymously to recipient and instructors',
@@ -227,6 +231,8 @@ export class FeedbackQuestionsService {
         return true;
       case FeedbackQuestionType.NUMSCALE:
         return true;
+      case FeedbackQuestionType.MSQ:
+        return true;
       default:
         throw new Error(`Unsupported question type: ${type}`);
     }
@@ -303,6 +309,35 @@ export class FeedbackQuestionsService {
 
           questionType: FeedbackQuestionType.MCQ,
           questionDetails: mcqQuestionDetails,
+          giverType: FeedbackParticipantType.STUDENTS,
+          recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+          numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+          showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
+            FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+          showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+          showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+        };
+      case FeedbackQuestionType.MSQ:
+        return {
+          questionBrief: '',
+          questionDescription: '',
+
+          questionType: FeedbackQuestionType.MSQ,
+          questionDetails: {
+            msqChoices: [' ', ' '],
+            otherEnabled: false,
+            hasAssignedWeights: false,
+            msqWeights: [],
+            msqOtherWeight: 0,
+            generateOptionsFor: FeedbackParticipantType.NONE,
+            maxSelectableChoices: Number.MIN_VALUE,
+            minSelectableChoices: Number.MIN_VALUE,
+            questionType: FeedbackQuestionType.MSQ,
+            questionText: '',
+          } as FeedbackMsqQuestionDetails,
+
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
