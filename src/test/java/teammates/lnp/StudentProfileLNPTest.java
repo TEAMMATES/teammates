@@ -1,6 +1,5 @@
 package teammates.lnp;
 
-import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,8 +29,8 @@ import teammates.lnp.util.LNPTestData;
  */
 public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
-    private static final String DATA_JSON_PATH = "/studentProfile.json";
-    private static final String CONFIG_CSV_PATH = "/studentProfileConfig.csv";
+    private static final String JSON_DATA_PATH = "/studentProfileData.json";
+    private static final String CSV_CONFIG_PATH = "/studentProfileConfig.csv";
     private static final String JMX_FILE = "studentProfile.jmx";
 
     private static final int NUMBER_OF_USER_ACCOUNTS = 100;
@@ -159,8 +158,8 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         }
 
         @Override
-        public List<List<String>> generateCsvData() throws IOException {
-            DataBundle dataBundle = loadDataBundle(DATA_JSON_PATH);
+        public List<List<String>> generateCsvData() {
+            DataBundle dataBundle = loadDataBundle(JSON_DATA_PATH);
             List<List<String>> csvData = new ArrayList<>();
 
             dataBundle.students.forEach((key, student) -> {
@@ -179,19 +178,19 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     };
 
     @Override
-    protected String getPathToCsvConfigFile() {
-        return CONFIG_CSV_PATH;
+    protected String getCsvConfigPath() {
+        return CSV_CONFIG_PATH;
     }
 
     @Override
-    protected String getPathToJsonDataFile() {
-        return DATA_JSON_PATH;
+    protected String getJsonDataPath() {
+        return JSON_DATA_PATH;
     }
 
     @BeforeClass
     public void classSetup() {
         createTestData(testData);
-        persistTestData(DATA_JSON_PATH);
+        persistTestData(JSON_DATA_PATH);
     }
 
     @Test
@@ -200,8 +199,9 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @AfterClass
-    public void classTearDown() {
-        deleteTestData(DATA_JSON_PATH);
+    public void classTearDown() throws Exception {
+        deleteTestData(JSON_DATA_PATH);
+        deleteDataFiles();
     }
 
 }

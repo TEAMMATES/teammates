@@ -65,7 +65,7 @@ public abstract class LNPTestData {
     /**
      * Returns the data for the entries in the CSV file to be generated.
      * The order of the field values for each entry should correspond to the order of headers specified
-     * in {@link LNPTestData#generateCsvHeaders()}.
+     * in {@link #generateCsvHeaders()}.
      *
      * @return List of entries, which are made up of a list of field values.
      */

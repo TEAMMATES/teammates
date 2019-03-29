@@ -39,7 +39,7 @@ build-eclipse/
 
 # JMeter
 jmeter.log
-src/jmeter/results/
+src/test/lnpResults/
 
 # TEAMMATES
 gradle.properties

@@ -34,12 +34,12 @@ public abstract class BaseLNPTestCase {
     /**
      * Returns the path to the generated JSON data bundle file.
      */
-    protected abstract String getPathToJsonDataFile();
+    protected abstract String getJsonDataPath();
 
     /**
      * Returns the path to the generated JMeter CSV config file.
      */
-    protected abstract String getPathToCsvConfigFile();
+    protected abstract String getCsvConfigPath();
 
     /**
      * Creates the test data folder if it does not exist.
@@ -52,8 +52,13 @@ public abstract class BaseLNPTestCase {
         return true;
     }
 
+    private static String getPathToFile(String pathToFileParam) {
+        return (pathToFileParam.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
+                + pathToFileParam;
+    }
+
     /**
-     * Creates the JSON data and writes it to the file specified by {@link BaseLNPTestCase#getPathToJsonDataFile()}.
+     * Creates the JSON data and writes it to the file specified by {@link #getJsonDataPath()}.
      */
     private void createJsonDataFile(LNPTestData testData) throws IOException {
         if (!createTestDataFolder()) {
@@ -61,10 +66,9 @@ public abstract class BaseLNPTestCase {
         }
 
         DataBundle jsonData = testData.generateJsonData();
-        String outputJsonPath = getPathToJsonDataFile();
+        String outputJsonPath = getJsonDataPath();
 
-        String pathToResultFile = (outputJsonPath.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
-                + outputJsonPath;
+        String pathToResultFile = getPathToFile(outputJsonPath);
         File file = new File(pathToResultFile);
 
         // Write data to the file; overwrite if it already exists
@@ -80,13 +84,13 @@ public abstract class BaseLNPTestCase {
     }
 
     /**
-     * Creates the CSV data and writes it to the file specified by {@link BaseLNPTestCase#getPathToCsvConfigFile()}.
+     * Creates the CSV data and writes it to the file specified by {@link #getCsvConfigPath()}.
      */
     private void createCsvConfigDataFile(LNPTestData testData) throws IOException {
         List<String> headers = testData.generateCsvHeaders();
         List<List<String>> data = testData.generateCsvData();
 
-        writeDataToCsvFile(headers, data, getPathToCsvConfigFile());
+        writeDataToCsvFile(headers, data, getCsvConfigPath());
     }
 
     /**
@@ -99,8 +103,7 @@ public abstract class BaseLNPTestCase {
             throw new IOException("Test data directory does not exist");
         }
 
-        String pathToResultFile = (pathToResultFileParam.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
-                + pathToResultFileParam;
+        String pathToResultFile = getPathToFile(pathToResultFileParam);
         File file = new File(pathToResultFile);
 
         // Write data to the file; overwrite if it already exists
@@ -138,8 +141,7 @@ public abstract class BaseLNPTestCase {
      */
     protected DataBundle loadDataBundle(String dataBundleJsonPath) {
         try {
-            String pathToJsonFile = (dataBundleJsonPath.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
-                    + dataBundleJsonPath;
+            String pathToJsonFile = getPathToFile(dataBundleJsonPath);
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return JsonUtils.fromJson(jsonString, DataBundle.class);
         } catch (IOException e) {
@@ -210,10 +212,23 @@ public abstract class BaseLNPTestCase {
         jmeter.configure(testPlanTree);
         jmeter.run();
 
-        // TODO: As mentioned in the docs, good to fail the test if the `success` value of any row is `false`.
-        //  An example of when this occurs is if `email` is used for logging in instead of `googleid`.
+        // TODO: As mentioned in the docs, good to fail the test if the `success` value of any row is `false`,
+        //  or if there is an Exception.
+        //  An example of when this occurs is if `email` is used for logging in instead of `googleid`, or if the JMeter
+        //  test properties are not set.
 
         // TODO: Generate summary report from .jtl results file.
+    }
+
+    /**
+     * Deletes the JSON and CSV data files that were created.
+     */
+    protected void deleteDataFiles() throws IOException {
+        String pathToJsonFile = getPathToFile(getJsonDataPath());
+        String pathToCsvFile = getPathToFile(getCsvConfigPath());
+
+        Files.delete(Paths.get(pathToJsonFile));
+        Files.delete(Paths.get(pathToCsvFile));
     }
 
 }
