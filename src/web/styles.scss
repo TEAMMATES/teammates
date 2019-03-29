@@ -13,23 +13,29 @@ body {
 .snackbar {
   max-width: 100% !important;
   margin-top: 60px !important;
-  color: white;
-
-  a {
-    color: #3E3E3E;
-  }
 }
 
 .snackbar-danger {
-  background-color: #DB4437;
+  background-color: var(--danger);
+  color: var(--light);
+
+  a {
+    color: var(--dark);
+  }
 }
 
 .snackbar-success {
-  background-color: #0F9D58;
+  background-color: var(--success);
+  color: var(--light);
+
+  a {
+    color: var(--dark);
+  }
 }
 
 .snackbar-warning {
-  background-color: #FD9020;
+  background-color: var(--warning);
+  color: var(--dark);
 }
 
 .btn {
