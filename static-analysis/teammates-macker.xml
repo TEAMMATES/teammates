@@ -602,8 +602,6 @@
                                 <include class="${test}.driver.EmailChecker" />
                                 <include class="${e2e}.pageobjects.**" />
                                 <include class="${e2e}.util.HtmlHelper" />
-                                <include class="${lnp}.setup.**" />
-                                <include class="${lnp}.teardown.**" />
                             </from>
                         </allow>
 

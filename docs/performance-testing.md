@@ -5,10 +5,8 @@ The relevant files are located in the `src/jmeter/` directory. The actual JMeter
 
 ## Running Performance Tests
 
-Start the backend server, i.e. `localhost:8080`, before running the JMeter performance tests.
-
-**Note**: Currently, it is required that you [install JMeter](https://jmeter.apache.org/download_jmeter.cgi) and update the JMeter properties in the `src/jmeter/resources/test.properties` file.
-For existing TEAMMATES setups, remember to run `./gradlew createConfigs` first.
+[Download JMeter](https://jmeter.apache.org/download_jmeter.cgi) and update the JMeter properties in `src/jmeter/resources/test.properties` accordingly.  
+Start the backend server, i.e. `localhost:8080`, before running the performance tests.
 
 ### Using Gradle
 
