@@ -21,13 +21,13 @@ export class AddCourseFormComponent implements OnInit {
 
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
-  @ViewChild('courseAddedMessageTemplate') courseAddedMessageTemplate!: TemplateRef<any>;
+  @ViewChild('newCourseMessageTemplate') newCourseMessageTemplate!: TemplateRef<any>;
 
   timezones: string[] = [];
   timezone: string = '';
   newCourseId: string = '';
   newCourseName: string = '';
-  course: any = null;
+  course!: Course;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -76,7 +76,7 @@ export class AddCourseFormComponent implements OnInit {
     }).subscribe((course: Course) => {
       this.courseAdded.emit();
       this.course = course;
-      this.statusMessageService.showSuccessMessageTemplate(this.courseAddedMessageTemplate);
+      this.statusMessageService.showSuccessMessageTemplate(this.newCourseMessageTemplate);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
