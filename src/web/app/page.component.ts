@@ -5,7 +5,6 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -26,7 +25,7 @@ const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation Syste
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
 })
-export class PageComponent implements OnInit {
+export class PageComponent {
 
   @Input() isFetchingAuthDetails: boolean = false;
   @Input() studentLoginUrl: string = '';
@@ -97,9 +96,6 @@ export class PageComponent implements OnInit {
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
-
-  ngOnInit(): void { }
-
 }
 
 /**
