@@ -102,7 +102,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () ->
                 getAction(submissionParams).execute());
-        assertEquals("Trying to update a Course that doesn't exist: ", e.getMessage());
+        assertEquals("Trying to update non-existent Entity: ", e.getMessage());
     }
 
     @Test

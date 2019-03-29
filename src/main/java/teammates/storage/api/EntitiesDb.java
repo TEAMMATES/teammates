@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
@@ -28,16 +29,21 @@ import teammates.storage.search.SearchQuery;
 
 /**
  * Base class for all classes performing CRUD operations against the Datastore.
+ *
  * @param <E> Specific entity class
  * @param <A> Specific attributes class
  */
 public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
+    /**
+     * Error message when trying to create entity that already exist.
+     */
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create an entity that exists: %s";
+
+    /**
+     * Error message when trying to update entity that does not exist.
+     */
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
-    public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
-    public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
-    public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE = "Trying to update non-existent Student Profile: ";
 
     protected static final Logger log = Logger.getLogger();
 
@@ -129,25 +135,25 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         return makeAttributes(entities);
     }
 
-    public void saveEntity(E entityToSave) {
+    /**
+     * Saves an entity.
+     */
+    protected void saveEntity(E entityToSave) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToSave);
 
-        saveEntity(entityToSave, makeAttributes(entityToSave));
-    }
+        log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
 
-    protected void saveEntity(E entityToSave, A entityToSaveAttributesForLogging) {
         ofy().save().entity(entityToSave).now();
-        log.info(entityToSaveAttributesForLogging.getBackupIdentifier());
     }
 
+    /**
+     * Saves a collection of entities.
+     */
     protected void saveEntities(Collection<E> entitiesToSave) {
-        saveEntities(entitiesToSave, makeAttributes(entitiesToSave));
-    }
-
-    protected void saveEntities(Collection<E> entitiesToSave, Collection<A> entitiesToSaveAttributesForLogging) {
-        for (A attributes : entitiesToSaveAttributesForLogging) {
-            log.info(attributes.getBackupIdentifier());
+        for (E entityToSave : entitiesToSave) {
+            log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
         }
+
         ofy().save().entities(entitiesToSave).now();
     }
 
@@ -168,15 +174,13 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     protected abstract LoadType<E> load();
 
     /**
-     * NOTE: This method must be overriden for all subclasses such that it will return the
-     * Entity matching the EntityAttributes in the parameter.
-     * @return    the Entity which matches the given {@link EntityAttributes} {@code attributes}
-     *             based on the default key identifiers.
+     * Converts from entity to attributes.
      */
-    protected abstract E getEntity(A attributes);
-
     protected abstract A makeAttributes(E entity);
 
+    /**
+     * Converts a collection of entities to a list of attributes.
+     */
     protected List<A> makeAttributes(Collection<E> entities) {
         List<A> attributes = new LinkedList<>();
         for (E entity : entities) {
@@ -185,52 +189,54 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         return attributes;
     }
 
+    /**
+     * Converts from entity to attributes.
+     *
+     * @return null if the original entity is null
+     */
     protected A makeAttributesOrNull(E entity) {
-        return makeAttributesOrNull(entity, null);
-    }
-
-    protected A makeAttributesOrNull(E entity, String logMessage) {
         if (entity != null) {
             return makeAttributes(entity);
-        }
-        if (logMessage != null) {
-            log.info(logMessage);
         }
         return null;
     }
 
-    protected Key<E> makeKeyOrNullFromWebSafeString(String webSafeString) {
+    /**
+     * Creates a key from a web safe string.
+     */
+    protected Optional<Key<E>> makeKeyFromWebSafeString(String webSafeString) {
         if (webSafeString == null) {
-            return null;
+            return Optional.empty();
         }
         try {
-            return Key.create(webSafeString);
+            return Optional.of(Key.create(webSafeString));
         } catch (IllegalArgumentException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
-    //the followings APIs are used by Teammates' search engine
-    protected void putDocument(String indexName, SearchDocument document) {
-        try {
-            SearchManager.putDocument(indexName, document.build());
-        } catch (Exception e) {
-            log.severe("Failed to put searchable document in " + indexName + " for " + document.toString());
-        }
-    }
-
-    protected void putDocuments(String indexName, List<SearchDocument> documents) {
+    /**
+     * Puts document(s) into the search engine.
+     */
+    protected void putDocument(String indexName, SearchDocument... documents) {
         List<Document> searchDocuments = new ArrayList<>();
         for (SearchDocument document : documents) {
-            searchDocuments.add(document.build());
+            try {
+                searchDocuments.add(document.build());
+            } catch (Exception e) {
+                log.severe("Fail to build search document in " + indexName + " for " + document);
+            }
         }
         try {
             SearchManager.putDocuments(indexName, searchDocuments);
         } catch (Exception e) {
-            log.severe("Failed to batch put searchable documents in " + indexName + " for " + documents.toString());
+            log.severe("Failed to batch put searchable documents in " + indexName + " for " + searchDocuments);
         }
     }
 
+    /**
+     * Searches documents with query.
+     */
     protected Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
         try {
             if (query.getFilterSize() > 0) {
