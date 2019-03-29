@@ -152,10 +152,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.httpRequestService.post('/course/enrollSave', paramMap, this.enrollData)
         .subscribe((resp: EnrollResultPanelList) => {
           this.showEnrollResults = true;
+          this.statusMessage.pop(); // removes any existing error status message
           this.statusMessageService.showSuccessMessage('Enrollment successful. Summary given below.');
           this.enrollResultPanelList = resp.enrollResultPanelList;
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessage.pop(); // removes any existing error status message
+          this.statusMessage.push({
+            message: resp.error.message,
+            color: 'danger',
+          });
         });
   }
 
@@ -269,6 +274,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   hideEnrollResults(): void {
     this.showEnrollResults = false;
+    this.statusMessage.pop();
     window.scroll(0, 0);
   }
 
