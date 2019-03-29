@@ -94,7 +94,7 @@ export class MsqQuestionEditDetailsFormComponent
    */
   triggerMaxSelectableOptionsChange(event: any): void {
     if (!event.target.checked) {
-      this.model.maxSelectableChoices = Number.MIN_VALUE;
+      this.model.maxSelectableChoices = 0;
     } else {
       this.model.maxSelectableChoices = 2;
     }
@@ -105,7 +105,7 @@ export class MsqQuestionEditDetailsFormComponent
    */
   triggerMinSelectableOptionsChange(event: any): void {
     if (!event.target.checked) {
-      this.model.minSelectableChoices = Number.MIN_VALUE;
+      this.model.minSelectableChoices = 0;
     } else {
       this.model.minSelectableChoices = 1;
     }
@@ -128,15 +128,15 @@ export class MsqQuestionEditDetailsFormComponent
   /**
    * Checks if the maxSelectedChoices checkbox is enabled.
    */
-  get isMaxSelectableChoicesTicked(): boolean {
-    return this.model.maxSelectableChoices !== Number.MIN_VALUE;
+  get isMaxSelectableChoicesEnabled(): boolean {
+    return this.model.maxSelectableChoices !== 0;
   }
 
   /**
    * Checks if the minSelectedChoices checkbox is enabled.
    */
-  get isMinSelectableChoicesTicked(): boolean {
-    return this.model.minSelectableChoices !== Number.MIN_VALUE;
+  get isMinSelectableChoicesEnabled(): boolean {
+    return this.model.minSelectableChoices !== 0;
   }
 
   /**

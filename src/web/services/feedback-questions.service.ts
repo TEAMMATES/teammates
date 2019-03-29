@@ -17,6 +17,7 @@ import {
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
+  DEFAULT_MSQ_QUESTION_DETAILS,
 } from '../types/default-question-structs';
 import { VisibilityControl } from '../types/visibility-control';
 import { HttpRequestService } from './http-request.service';
@@ -320,23 +321,18 @@ export class FeedbackQuestionsService {
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
       case FeedbackQuestionType.MSQ:
+
+        const msqQuestionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
+        msqQuestionDetails.msqChoices = [' ', ' '];
+        msqQuestionDetails.minSelectableChoices = 0;
+        msqQuestionDetails.maxSelectableChoices = 0;
+
         return {
           questionBrief: '',
           questionDescription: '',
 
           questionType: FeedbackQuestionType.MSQ,
-          questionDetails: {
-            msqChoices: [' ', ' '],
-            otherEnabled: false,
-            hasAssignedWeights: false,
-            msqWeights: [],
-            msqOtherWeight: 0,
-            generateOptionsFor: FeedbackParticipantType.NONE,
-            maxSelectableChoices: Number.MIN_VALUE,
-            minSelectableChoices: Number.MIN_VALUE,
-            questionType: FeedbackQuestionType.MSQ,
-            questionText: '',
-          } as FeedbackMsqQuestionDetails,
+          questionDetails: msqQuestionDetails,
 
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,

@@ -77,22 +77,22 @@
     <br>
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox" [disabled]="!isEditable"
-             [ngModel]="isMaxSelectableChoicesTicked"
+             [ngModel]="isMaxSelectableChoicesEnabled"
              (change)="triggerMaxSelectableOptionsChange($event)">
       <b>Maximum number of options a respondent is allowed to select</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMaxSelectableChoicesTicked"
+    <input type="number" class="form-control width-auto inline" [disabled]="!isMaxSelectableChoicesEnabled"
            [ngModel]="displayValueForMaxSelectableOption"
-           (ngModelChange)="triggerModelChange('maxSelectableChoices', $event)" min="2">
+           (ngModelChange)="triggerModelChange('maxSelectableChoices', $event)" min="2" max="{{model.msqChoices.length}}">
     <br>
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox" [disabled]="!isEditable"
-             [ngModel]="isMinSelectableChoicesTicked"
+             [ngModel]="isMinSelectableChoicesEnabled"
              (change)="triggerMinSelectableOptionsChange($event)">
       <b>Minimum number of options a respondent is allowed to select</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMinSelectableChoicesTicked"
+    <input type="number" class="form-control width-auto inline" [disabled]="!isMinSelectableChoicesEnabled"
            [ngModel]="displayValueForMinSelectableOption"
-           (ngModelChange)="triggerModelChange('minSelectableChoices', $event)" min="1">
+           (ngModelChange)="triggerModelChange('minSelectableChoices', $event)" min="1" max="{{model.maxSelectableChoices}}">
   </div>
 </div>

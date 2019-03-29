@@ -712,6 +712,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                            + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
             }
 
+            // If there are Empty Msq options entered trigger this error
+            boolean isEmptyMsqOptionEntered = msqChoices.stream().anyMatch(msqText -> msqText.trim().equals(""));
+            if (isEmptyMsqOptionEntered) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_EMPTY_MSQ_OPTION);
+            }
+
             // If weights are enabled, number of choices and weights should be same.
             // If a user enters an invalid weight for a valid choice,
             // the msqChoices.size() will be greater than msqWeights.size(), in that case
@@ -749,8 +755,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         //TODO: check that msq options do not repeat. needed?
 
-        boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
-        boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
+        boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != 0;
+        boolean isMinSelectableChoicesEnabled = minSelectableChoices != 0;
 
         if (isMaxSelectableChoicesEnabled) {
             int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);

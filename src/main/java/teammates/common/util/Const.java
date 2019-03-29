@@ -447,6 +447,7 @@ public final class Const {
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
+        public static final String MSQ_ERROR_EMPTY_MSQ_OPTION = "The Msq options cannot be empty";
         public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION =
