@@ -9,7 +9,7 @@ import {
   FeedbackResponseDetails,
   FeedbackTextResponseDetails,
 } from '../types/api-output';
-import { FeedbackResponseCreateRequest, FeedbackResponseSaveRequest } from '../types/api-request';
+import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest } from '../types/api-request';
 import {
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
@@ -86,7 +86,7 @@ export class FeedbackResponsesService {
    * Updates a feedback response by calling API.
    */
   updateFeedbackResponse(responseId: string, additionalParams: { [key: string]: string } = {},
-                         request: FeedbackResponseSaveRequest): Observable<FeedbackResponse> {
+                         request: FeedbackResponseUpdateRequest): Observable<FeedbackResponse> {
     return this.httpRequestService.put('/response', {
       responseid: responseId,
       ...additionalParams,

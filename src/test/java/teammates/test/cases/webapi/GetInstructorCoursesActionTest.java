@@ -1,8 +1,11 @@
 package teammates.test.cases.webapi;
 
+import java.time.ZoneId;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
@@ -44,7 +47,11 @@ public class GetInstructorCoursesActionTest extends BaseActionTest<GetInstructor
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
 
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course", "UTC");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId,
+                CourseAttributes.builder("new-course")
+                        .withName("New course")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
         loginAsInstructor(instructorId);
         GetInstructorCoursesAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);

@@ -1,4 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import uaParser from 'ua-parser-js';
@@ -100,4 +109,27 @@ export class PageComponent implements OnInit {
     });
   }
 
+}
+
+/**
+ * Directive to emit an event if a click occurred outside the element.
+ */
+@Directive({ selector: '[tmClickOutside]' })
+export class ClickOutsideDirective {
+  @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  constructor(private elementRef: ElementRef) {}
+
+  /**
+   * Method to execute when any part of the document is clicked.
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const targetElement: HTMLElement = event.target as HTMLElement;
+
+    // Check if the click was outside the element
+    if (targetElement && !this.elementRef.nativeElement.contains(targetElement)) {
+      this.tmClickOutside.emit(event);
+    }
+  }
 }

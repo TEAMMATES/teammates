@@ -108,6 +108,9 @@ public class FeedbackQuestion extends BaseEntity {
         return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
 
+    /**
+     * Sets the createdAt timestamp of the question.
+     */
     public void setCreatedAt(Instant newDate) {
         this.createdAt = newDate;
         setLastUpdate(newDate);
@@ -119,6 +122,10 @@ public class FeedbackQuestion extends BaseEntity {
 
     public String getId() {
         return Key.create(FeedbackQuestion.class, feedbackQuestionId).toWebSafeString();
+    }
+
+    public void setFeedbackQuestionId(Long feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
     }
 
     public String getFeedbackSessionName() {
@@ -219,6 +226,9 @@ public class FeedbackQuestion extends BaseEntity {
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
+    /**
+     * Updates the updatedAt timestamp when saving.
+     */
     @OnSave
     public void updateLastUpdateTimestamp() {
         this.setLastUpdate(Instant.now());

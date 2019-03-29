@@ -10,13 +10,13 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
-import { FeedbackQuestionCreateRequest, FeedbackQuestionSaveRequest } from '../types/api-request';
 import {
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../types/default-question-structs';
+import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest } from '../types/api-request';
 import { VisibilityControl } from '../types/visibility-control';
 import { HttpRequestService } from './http-request.service';
 import { VisibilityStateMachine } from './visibility-state-machine';
@@ -341,7 +341,8 @@ export class FeedbackQuestionsService {
   /**
    * Saves a feedback question by calling API.
    */
-  saveFeedbackQuestion(feedbackQuestionId: string, request: FeedbackQuestionSaveRequest): Observable<FeedbackQuestion> {
+  saveFeedbackQuestion(feedbackQuestionId: string, request: FeedbackQuestionUpdateRequest):
+      Observable<FeedbackQuestion> {
     const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
 
     return this.httpRequestService.put('/question', paramMap, request);

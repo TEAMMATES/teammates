@@ -37,17 +37,15 @@
       <div class="form-group row">
         <label class="col-sm-3 control-label text-right">Instructors:</label>
         <div class="col-sm-6">
-          <div *ngIf="instructors">
-            <div *ngFor="let instructor of instructors">
-              <ng-container *ngIf="instructor.role; else showRole">
-                Co-owner: {{instructor.name}} ({{instructor.email}})
-              </ng-container>
-              <ng-template #showRole >
-                <p>
-                  {{instructor.role}} {{instructor.name}} ({{instructor.email}})
-                </p>
-              </ng-template>
-            </div>
+          <div *ngFor="let instructor of instructors">
+            <ng-container *ngIf="instructor.role; else showRole">
+              Co-owner: {{instructor.name}} ({{instructor.email}})
+            </ng-container>
+            <ng-template #showRole >
+              <p>
+                {{instructor.role}} {{instructor.name}} ({{instructor.email}})
+              </p>
+            </ng-template>
           </div>
         </div>
       </div>

@@ -96,10 +96,11 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         logMessage = "TEAMMATESLOG|||join|||join|||true|||Unregistered:CS2103|||Joe"
                      + "|||Unknown|||student@email|||Join Course|||" + url;
         StudentAttributes student = StudentAttributes
-                .builder("CS2103", "Joe", "student@email")
-                .withSection("section1")
-                .withTeam("team1")
-                .withComments("comments")
+                .builder("CS2103", "student@email")
+                .withName("Joe")
+                .withSectionName("section1")
+                .withTeamName("team1")
+                .withComment("comments")
                 .withGoogleId("unknownGoogleId")
                 .build();
 
@@ -132,8 +133,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
         url = Const.WebPageURIs.STUDENT_HOME_PAGE;
         logMessage = String.format(logTemplate, "studentHomePage", "Student");
         userInfo.isStudent = true;
-        AccountAttributes acc = AccountAttributes.builder()
-                .withGoogleId("googleId")
+        AccountAttributes acc = AccountAttributes.builder("googleId")
                 .withName("david")
                 .withEmail("david@email.com")
                 .withInstitute("NUS")
@@ -181,8 +181,7 @@ public class LogMessageGeneratorTest extends BaseTestCase {
 
         url = Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE;
         userInfo.isAdmin = true;
-        acc = AccountAttributes.builder()
-                .withGoogleId("anotherGoogleId")
+        acc = AccountAttributes.builder("anotherGoogleId")
                 .withName("david")
                 .withEmail("david@email.com")
                 .withInstitute("NUS")

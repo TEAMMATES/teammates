@@ -111,15 +111,17 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
         String adminPassword = TestProperties.TEST_ADMIN_PASSWORD;
 
-        String instructorId = url.get(Const.ParamsNames.USER_ID);
+        String userId = url.get(Const.ParamsNames.USER_ID);
 
-        if (instructorId == null) { //admin using system as admin
-            instructorId = adminUsername;
+        if (TestProperties.isDevServer() && userId != null) {
+            // This workaround is necessary because the front-end has not been optimized
+            // to enable masquerade mode yet
+            adminUsername = userId;
         }
 
         // login based on the login page type
         LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
-        loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
+        loginPage.loginAsAdmin(adminUsername, adminPassword);
 
         // After login, the browser should be redirected to the page requested originally.
         // No need to reload. In fact, reloading might results in duplicate request to the server.

@@ -18,9 +18,13 @@ import com.googlecode.objectify.annotation.Unindex;
 @Index
 public class FeedbackSession extends BaseEntity {
 
-    // Format is feedbackSessionName%courseId
     // PMD.UnusedPrivateField and SingularField are suppressed
     // as feedbackSessionId is persisted to the database
+    /**
+     * The unique id of the entity.
+     *
+     * @see #generateId(String, String)
+     */
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @Id
     private transient String feedbackSessionId;
@@ -29,7 +33,7 @@ public class FeedbackSession extends BaseEntity {
 
     private String courseId;
 
-    private String creatorEmail; //TODO: should this be googleId?
+    private String creatorEmail;
 
     @Unindex
     private Set<String> respondingInstructorList = new HashSet<>();
@@ -88,18 +92,6 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
             String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            boolean sentOpenEmail,
-            boolean sentClosingEmail, boolean sentClosedEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
-        this(feedbackSessionName, courseId, creatorEmail, instructions, createdTime, deletedTime, startTime, endTime,
-                sessionVisibleFromTime, resultsVisibleFromTime, timeZone, gracePeriod,
-                sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail, isOpeningEmailEnabled,
-                isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<>(), new HashSet<>());
-    }
-
-    public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
-            String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
-            Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
@@ -123,9 +115,17 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-        this.feedbackSessionId = this.feedbackSessionName + "%" + this.courseId;
+        this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
         this.respondingInstructorList = instructorList == null ? new HashSet<>() : instructorList;
         this.respondingStudentList = studentList == null ? new HashSet<>() : studentList;
+    }
+
+    /**
+     * Generates an unique ID for the feedback session.
+     */
+    public static String generateId(String feedbackSessionName, String courseId) {
+        // Format is feedbackSessionName%courseId
+        return feedbackSessionName + '%' + courseId;
     }
 
     public String getFeedbackSessionName() {

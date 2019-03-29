@@ -1,13 +1,16 @@
 package teammates.test.cases.webapi;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentUpdateStatus;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -91,20 +94,22 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         }
 
         StudentAttributes newStudent = StudentAttributes
-                .builder(courseId, "Jean Wong", "jean@email.tmt")
-                .withSection("Section 3")
-                .withTeam("Team 1")
-                .withComments("Exchange student")
+                .builder(courseId, "jean@email.tmt")
+                .withName("Jean Wong")
+                .withSectionName("Section 3")
+                .withTeamName("Team 1")
+                .withComment("Exchange student")
                 .withGoogleId("jean")
                 .build();
         newStudent.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, output.getEnrollResultPanelList());
 
         StudentAttributes newStudentWithExtraSpaces = StudentAttributes
-                .builder(courseId, "student with extra spaces", "studentWithExtraSpaces@gmail.tmt")
-                .withSection("Section 3")
-                .withTeam("Team 1")
-                .withComments("")
+                .builder(courseId, "studentWithExtraSpaces@gmail.tmt")
+                .withName("student with extra spaces")
+                .withSectionName("Section 3")
+                .withTeamName("Team 1")
+                .withComment("")
                 .withGoogleId("student")
                 .build();
         newStudentWithExtraSpaces.updateStatus = StudentUpdateStatus.NEW;
@@ -132,7 +137,11 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         }
 
         courseId = "new-course";
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, courseId, "New course", "UTC");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId,
+                CourseAttributes.builder(courseId)
+                        .withName("New course")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         loginAsAdmin();
 
@@ -153,20 +162,22 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         verifyNoTasksAdded(a);
 
         StudentAttributes student1 = StudentAttributes
-                .builder(courseId, "Jean Wong", "jean@email.tmt")
-                .withSection("None")
-                .withTeam("Team 1")
-                .withComments("Exchange student")
+                .builder(courseId, "jean@email.tmt")
+                .withName("Jean Wong")
+                .withSectionName("None")
+                .withTeamName("Team 1")
+                .withComment("Exchange student")
                 .withGoogleId("jean")
                 .build();
         student1.updateStatus = StudentUpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, output.getEnrollResultPanelList());
 
         StudentAttributes student2 = StudentAttributes
-                .builder(courseId, "James Tan", "james@email.tmt")
-                .withSection("None")
-                .withTeam("Team 2")
-                .withComments("")
+                .builder(courseId, "james@email.tmt")
+                .withName("James Tan")
+                .withSectionName("None")
+                .withTeamName("Team 2")
+                .withComment("")
                 .withGoogleId("james")
                 .build();
         student2.updateStatus = StudentUpdateStatus.NEW;
@@ -271,7 +282,10 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         verifyNoTasksAdded(a);
 
         CoursesLogic.inst().deleteCourseCascade("new-course");
-        StudentsLogic.inst().deleteStudentsForCourse(instructor1OfCourse1.courseId);
+        StudentsLogic.inst().deleteStudents(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(instructor1OfCourse1.courseId)
+                        .build());
     }
 
     /**

@@ -1068,15 +1068,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
 
         // Create response for the new question
         FeedbackResponseAttributes feedbackResponse =
-                new FeedbackResponseAttributes(
-                        feedbackSessionName,
-                        courseId,
-                        "1",
-                        "tmms.test@gmail.tmt",
-                        Const.DEFAULT_SECTION,
-                        "alice.b.tmms@gmail.tmt",
-                        Const.DEFAULT_SECTION,
-                        new FeedbackTextResponseDetails("Response from instructor to Alice"));
+                FeedbackResponseAttributes.builder("1", "tmms.test@gmail.tmt", "alice.b.tmms@gmail.tmt")
+                .withCourseId(courseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .withGiverSection(Const.DEFAULT_SECTION)
+                .withRecipientSection(Const.DEFAULT_SECTION)
+                .withResponseDetails(new FeedbackTextResponseDetails("Response from instructor to Alice"))
+                .build();
         BackDoor.createFeedbackResponse(feedbackResponse);
 
         ______TS("check response rate before editing question");

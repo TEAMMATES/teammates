@@ -18,7 +18,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
+import teammates.ui.webapi.request.FeedbackResponseCommentUpdateRequest;
 
 /**
  * SUT: {@link CreateFeedbackResponseCommentAction}.
@@ -62,8 +62,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        FeedbackResponseCommentSaveRequest requestBody =
-                new FeedbackResponseCommentSaveRequest("Comment to first response", null, "GIVER,INSTRUCTORS");
+        FeedbackResponseCommentUpdateRequest requestBody =
+                new FeedbackResponseCommentUpdateRequest("Comment to first response", null, "GIVER,INSTRUCTORS");
         CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -82,7 +82,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest("Empty giver permissions", null, "");
+        requestBody = new FeedbackResponseCommentUpdateRequest("Empty giver permissions", null, "");
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -92,7 +92,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest("Null comment permissions", null, null);
+        requestBody = new FeedbackResponseCommentUpdateRequest("Null comment permissions", null, null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -100,7 +100,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest("Empty comment permissions", "", "");
+        requestBody = new FeedbackResponseCommentUpdateRequest("Empty comment permissions", "", "");
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -108,7 +108,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest("Comment shown to giver", "GIVER", null);
+        requestBody = new FeedbackResponseCommentUpdateRequest("Comment shown to giver", "GIVER", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -116,7 +116,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest("Comment shown to receiver", "RECEIVER", null);
+        requestBody = new FeedbackResponseCommentUpdateRequest("Comment shown to receiver", "RECEIVER", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -124,7 +124,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest("Comment shown to own team members", "OWN_TEAM_MEMBERS", null);
+        requestBody =
+                new FeedbackResponseCommentUpdateRequest("Comment shown to own team members", "OWN_TEAM_MEMBERS", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -132,7 +133,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 "Comment shown to receiver team members", "RECEIVER_TEAM_MEMBERS", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -141,7 +142,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest("Comment shown to students", "STUDENTS", null);
+        requestBody = new FeedbackResponseCommentUpdateRequest("Comment shown to students", "STUDENTS", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -152,7 +153,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 "Comment to first response, published session", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -171,7 +172,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest("", null, null);
+        requestBody = new FeedbackResponseCommentUpdateRequest("", null, null);
         action = getAction(requestBody, submissionParams);
         JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
@@ -184,8 +185,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-
         int questionNumber = 1;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
@@ -195,7 +194,11 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
-                .builder(fs.getCourseId(), fs.getFeedbackSessionName(), giverEmail, "")
+                .builder()
+                .withCourseId(fs.getCourseId())
+                .withFeedbackSessionName(fs.getFeedbackSessionName())
+                .withCommentGiver(giverEmail)
+                .withCommentText("")
                 .withFeedbackQuestionId(question.getId())
                 .withFeedbackResponseId(response.getId())
                 .build();
@@ -210,9 +213,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         verifyInaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-
-        // remove the comment
-        frcDb.deleteEntity(comment);
     }
 
     /**
