@@ -13,6 +13,7 @@ import {
 import { FeedbackQuestionCreateRequest, FeedbackQuestionSaveRequest } from '../types/api-request';
 import {
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
+  DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../types/default-question-structs';
@@ -292,22 +293,16 @@ export class FeedbackQuestionsService {
 
       case FeedbackQuestionType.MCQ:
 
+        const mcqQuestionDetails: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
+        mcqQuestionDetails.numOfMcqChoices = 2;
+        mcqQuestionDetails.mcqChoices = [' ', ' '];
+
         return {
           questionBrief: '',
           questionDescription: '',
 
           questionType: FeedbackQuestionType.MCQ,
-          questionDetails: {
-            hasAssignedWeights: false,
-            mcqWeights: [],
-            mcqOtherWeight: 0,
-            numOfMcqChoices: 2,
-            mcqChoices: [' ', ' '],
-            otherEnabled: false,
-            generateOptionsFor: FeedbackParticipantType.NONE,
-            questionText: '',
-            questionType: FeedbackQuestionType.MCQ,
-          } as FeedbackMcqQuestionDetails,
+          questionDetails: mcqQuestionDetails,
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
