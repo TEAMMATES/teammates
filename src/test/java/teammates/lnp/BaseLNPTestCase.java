@@ -113,7 +113,7 @@ public abstract class BaseLNPTestCase {
         file.createNewFile();
 
         try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile))) {
-            // Write header and data to the CSV file
+            // Write headers and data to the CSV file
             bw.write(convertToCsv(headers));
 
             for (List<String> values : valuesList) {

@@ -1,6 +1,6 @@
 # Performance Testing
 
-TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for load and performance (L&P) testing, and uses the [`JMeter Java API`](https://jmeter.apache.org/api/index.html) and TestNG for automating the process of running performance tests and generating reports.
+TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for load and performance (L&P) testing, and uses the [JMeter Java API](https://jmeter.apache.org/api/index.html) and TestNG to automate the process of running performance tests.
 The performance test cases are located in the `teammates.lnp` package. The actual JMeter tests are the `.jmx` files located in the `src/test/lnpTests/` directory.
 
 ## Running Performance Tests
@@ -36,7 +36,7 @@ Also, you can use this command to generate a HTML **summary report** from the re
 jmeter -g PATH_TO_RESULT_FILE.csv -o REPORT_OUTPUT_FOLDER -j LOG_FILE.log
 ```
 
-If you want to do both (i.e. execute the tests and generate the reports) together, use:
+If you want to do both together (i.e. execute the test and generate the report), use:
 ```
 jmeter -n -t PATH_TO_TEST_FILE.jmx -l RESULT_FILE.csv -e -o REPORT_OUTPUT_FOLDER -j LOG_FILE.log
 ```

@@ -317,7 +317,7 @@
                         </allow>
                         <!-- Allow L&P Tests to reuse Backdoor API -->
                         <allow>
-                            <from class="${lnp}.tests.**" />
+                            <from class="${lnp}.**" />
                             <to class="${e2e}.**" />
                         </allow>
 

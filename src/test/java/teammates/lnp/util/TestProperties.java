@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.Url;
-
 /**
  * Represents properties in test.properties file.
  */
@@ -16,20 +14,11 @@ public final class TestProperties {
     /** The directory where the JMeter performance test files are stored. */
     public static final String JMETER_TEST_DIRECTORY = "src/test/lnpTests/";
 
-    /** The directory where JSON files used to create data bundles are stored. */
+    /** The directory where JSON data files used to create the CSV data configs are stored. */
     public static final String JMETER_TEST_DATA_DIRECTORY = "src/test/resources/data";
 
     /** The directory where the JMeter performance test results are stored. */
     public static final String JMETER_TEST_RESULTS_DIRECTORY = "src/test/lnpResults/";
-
-    /** The value of "test.app.url" in test.properties file. */
-    public static final String TEAMMATES_URL;
-
-    /** The value of "test.csrf.key" in test.properties file. */
-    public static final String CSRF_KEY;
-
-    /** The value of "test.backdoor.key" in test.properties file. */
-    public static final String BACKDOOR_KEY;
 
     /** The value of "test.jmeter.home" in test.properties file. */
     public static final String JMETER_HOME;
@@ -50,11 +39,6 @@ public final class TestProperties {
             try (InputStream testPropStream = Files.newInputStream(Paths.get(testPropertiesPath))) {
                 prop.load(testPropStream);
             }
-
-            TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
-
-            CSRF_KEY = prop.getProperty("test.csrf.key");
-            BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
             JMETER_HOME = prop.getProperty("test.jmeter.home").toLowerCase();
             JMETER_PROPERTIES_PATH = prop.getProperty("test.jmeter.properties", "").toLowerCase();
