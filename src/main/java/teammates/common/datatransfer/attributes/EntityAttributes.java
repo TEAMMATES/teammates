@@ -34,11 +34,6 @@ public abstract class EntityAttributes<E extends BaseEntity> {
     public abstract E toEntity();
 
     /**
-     * Returns the identifier used for logging to perform backup.
-     */
-    public abstract String getBackupIdentifier();
-
-    /**
      * Perform any sanitization that needs to be done before saving.
      * e.g. trim strings
      */

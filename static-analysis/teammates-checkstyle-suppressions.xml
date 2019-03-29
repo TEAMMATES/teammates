@@ -26,9 +26,6 @@
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
     <suppress checks="JavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]Logic\.java"/>
     <suppress checks="JavadocMethod" files="teammates[/\\]logic[/\\]core[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]storage[/\\]api[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]storage[/\\]api[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]storage[/\\]entity[/\\].*\.java"/>
     <suppress checks="JavadocMethod" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="JavadocType" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
