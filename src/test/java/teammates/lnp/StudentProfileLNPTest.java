@@ -1,4 +1,4 @@
-package teammates.lnp.tests;
+package teammates.lnp;
 
 import java.io.IOException;
 import java.time.ZoneId;

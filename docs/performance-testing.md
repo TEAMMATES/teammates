@@ -1,11 +1,11 @@
 # Performance Testing
 
-TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for performance testing, and uses the [`JMeter Java API`](https://jmeter.apache.org/api/index.html) and TestNG for automating the process of running performance tests and generating reports.
-The relevant files are located in the `src/jmeter/` directory. The actual JMeter tests are the `.jmx` files located in the `src/jmeter/tests/` directory.
+TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for load and performance (L&P) testing, and uses the [`JMeter Java API`](https://jmeter.apache.org/api/index.html) and TestNG for automating the process of running performance tests and generating reports.
+The performance test cases are located in the `teammates.lnp` package. The actual JMeter tests are the `.jmx` files located in the `src/test/lnpTests/` directory.
 
 ## Running Performance Tests
 
-[Download JMeter](https://jmeter.apache.org/download_jmeter.cgi) and update the JMeter properties in `src/jmeter/resources/test.properties` accordingly.  
+[Download JMeter](https://jmeter.apache.org/download_jmeter.cgi) and update the JMeter properties in `src/test/resources/test.properties` accordingly.  
 Start the backend server, i.e. `localhost:8080`, before running the performance tests.
 
 ### Using Gradle
@@ -15,7 +15,7 @@ To run the performance tests, execute this command from the main project directo
 ./gradlew lnpTests
 ```
 
-- The JMeter test results are stored as JTL files with the same name as the test file in `src/jmeter/results/TEST_NAME.jmx.jtl`. 
+- The JMeter test results are stored as JTL files with the same name as the test file in `src/test/lnpResults/TEST_NAME.jmx.jtl`. 
 - A log file is generated as `jmeter.log`.
 
 If the build fails:

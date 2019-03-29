@@ -1,4 +1,4 @@
-package teammates.lnp.tests;
+package teammates.lnp;
 
 import java.io.BufferedWriter;
 import java.io.File;

@@ -14,13 +14,13 @@ import teammates.common.util.Url;
 public final class TestProperties {
 
     /** The directory where the JMeter performance test files are stored. */
-    public static final String JMETER_TEST_DIRECTORY = "src/jmeter/tests/";
+    public static final String JMETER_TEST_DIRECTORY = "src/test/lnpTests/";
 
     /** The directory where JSON files used to create data bundles are stored. */
-    public static final String JMETER_TEST_DATA_DIRECTORY = "src/jmeter/resources/data";
+    public static final String JMETER_TEST_DATA_DIRECTORY = "src/test/resources/data";
 
     /** The directory where the JMeter performance test results are stored. */
-    public static final String JMETER_TEST_RESULTS_DIRECTORY = "src/jmeter/results/";
+    public static final String JMETER_TEST_RESULTS_DIRECTORY = "src/test/lnpResults/";
 
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
@@ -37,6 +37,9 @@ public final class TestProperties {
     /** The value of "test.jmeter.properties" in test.properties file. */
     public static final String JMETER_PROPERTIES_PATH;
 
+    /** Path to the test.properties file. */
+    private static String testPropertiesPath = "src/test/resources/test.properties";
+
     private TestProperties() {
         // access static fields directly
     }
@@ -44,7 +47,7 @@ public final class TestProperties {
     static {
         Properties prop = new Properties();
         try {
-            try (InputStream testPropStream = Files.newInputStream(Paths.get("src/jmeter/resources/test.properties"))) {
+            try (InputStream testPropStream = Files.newInputStream(Paths.get(testPropertiesPath))) {
                 prop.load(testPropStream);
             }
 

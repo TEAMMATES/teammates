@@ -38,7 +38,6 @@ build-eclipse/
 /.stylelintrc.yml
 
 # JMeter
-src/jmeter/resources/data/
 jmeter.log
 src/jmeter/results/
 

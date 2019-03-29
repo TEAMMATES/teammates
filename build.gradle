@@ -584,7 +584,7 @@ test {
 
 task lnpTests(type: Test) {
     useTestNG()
-    options.suites "src/jmeter/resources/testng-lnp.xml"
+    options.suites "src/test/resources/testng-lnp.xml"
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"
