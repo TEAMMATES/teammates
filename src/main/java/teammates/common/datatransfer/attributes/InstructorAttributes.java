@@ -25,8 +25,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public static final Comparator<InstructorAttributes> COMPARE_BY_NAME =
             Comparator.comparing(instructor -> instructor.name.toLowerCase());
 
-    private static final String INSTRUCTOR_BACKUP_LOG_MSG = "Recently modified instructor::";
-
     public String courseId;
     public String email;
 
@@ -164,11 +162,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     @Override
     public String toString() {
         return JsonUtils.toJson(this, InstructorAttributes.class);
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return INSTRUCTOR_BACKUP_LOG_MSG + courseId + "::" + email;
     }
 
     @Override

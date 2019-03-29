@@ -16,6 +16,16 @@ export class CourseService {
   }
 
   /**
+   * Get course data by calling API.
+   */
+  getCourse(courseId: string): Observable<Course> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+    return this.httpRequestService.get('/course', paramMap);
+  }
+
+  /**
    * Creates a course by calling API.
    */
   createCourse(request: CourseCreateRequest): Observable<Course> {
@@ -53,6 +63,14 @@ export class CourseService {
   binCourse(courseid: string): Observable<Course> {
     const paramMap: { [key: string]: string } = { courseid };
     return this.httpRequestService.put('/bin/course', paramMap);
+  }
+
+  /**
+   * Restore a soft-deleted course by calling API.
+   */
+  restoreCourse(courseid: string): Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = { courseid };
+    return this.httpRequestService.delete('/bin/course', paramMap);
   }
 
   /**

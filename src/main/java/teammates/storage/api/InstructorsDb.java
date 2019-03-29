@@ -7,9 +7,10 @@ import java.util.List;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -31,11 +32,10 @@ import teammates.storage.search.SearchDocument;
  */
 public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
-    /* =========================================================================
-     * Methods related to Google Search API
-     * =========================================================================
-     */
 
+    /**
+     * Creates or updates search document for the given instructor.
+     */
     public void putDocument(InstructorAttributes instructorParam) {
         InstructorAttributes instructor = instructorParam;
         if (instructor.key == null) {
@@ -48,7 +48,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Batch creates or updates documents for the given instructors.
+     * Batch creates or updates search documents for the given instructors.
      */
     public void putDocuments(List<InstructorAttributes> instructorParams) {
         List<SearchDocument> instructorDocuments = new ArrayList<>();
@@ -61,25 +61,25 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                 instructorDocuments.add(new InstructorSearchDocument(inst));
             }
         }
-        putDocuments(Const.SearchIndex.INSTRUCTOR, instructorDocuments);
+        putDocument(Const.SearchIndex.INSTRUCTOR, instructorDocuments.toArray(new SearchDocument[0]));
     }
 
     /**
      * Removes search document for the given instructor by using {@code encryptedRegistrationKey}.
      *
-     * <p>See {@link InstructorSearchDocument#toDocument()} for more details.</p>
+     * <p>See {@link InstructorSearchDocument} for more details.</p>
      */
     public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
         deleteDocument(Const.SearchIndex.INSTRUCTOR, encryptedRegistrationKey);
     }
 
     /**
-     * This method should be used by admin only since the searching does not restrict the
+     * Searches all instructors in the system.
+     *
+     * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
-     * @return null if no result found
      */
-
     public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
 
         if (queryString.trim().isEmpty()) {
@@ -109,40 +109,37 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Returns null if no matching objects.
+     * Gets an instructor by unique constraint courseId-email.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributesOrNull(getInstructorEntityForEmail(courseId, email),
-                "Trying to get non-existent Instructor: " + courseId + "/" + email);
+        return makeAttributesOrNull(getInstructorEntityForEmail(courseId, email));
     }
 
     /**
-     * Returns null if no matching objects.
+     * Gets an instructor by unique ID.
      */
     public InstructorAttributes getInstructorById(String courseId, String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributesOrNull(getInstructorEntityById(courseId, email),
-                "Trying to get non-existent Instructor: " + courseId + "/" + email);
+        return makeAttributesOrNull(getInstructorEntityById(courseId, email));
     }
 
     /**
-     * Returns null if no matching objects.
+     * Gets an instructor by unique constraint courseId-googleId.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        return makeAttributesOrNull(getInstructorEntityForGoogleId(courseId, googleId),
-                "Trying to get non-existent Instructor: " + googleId);
+        return makeAttributesOrNull(getInstructorEntityForGoogleId(courseId, googleId));
     }
 
     /**
-     * Returns null if no matching instructor.
+     * Gets an instructor by unique constraint encryptedKey.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
@@ -158,10 +155,9 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
+     * Gets all instructors associated with a googleId.
      *
-     * @return empty list if no matching objects.
+     * @param omitArchived whether archived instructors should be omitted or not
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -170,9 +166,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     * @return empty list if no matching objects.
+     * Gets all instructors of a course.
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -181,9 +175,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     * @return empty list if no matching objects.
+     * Gets all instructors that will be displayed to students of a course.
      */
     public List<InstructorAttributes> getInstructorsDisplayedToStudents(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -223,7 +215,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         instructor.setDisplayedName(newAttributes.displayedName);
         instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
 
-        saveEntity(instructor, newAttributes);
+        saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
         putDocument(newAttributes);
@@ -263,7 +255,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         instructor.setDisplayedName(newAttributes.displayedName);
         instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
 
-        saveEntity(instructor, newAttributes);
+        saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
         putDocument(newAttributes);
@@ -273,6 +265,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     /**
      * Deletes the instructor specified by courseId and email.
+     *
+     * <p>Fails silently if the student does not exist.
      */
     public void deleteInstructor(String courseId, String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -284,48 +278,28 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return;
         }
 
-        InstructorAttributes instructorToDeleteAttributes = makeAttributes(instructorToDelete);
-
         deleteDocumentByEncryptedInstructorKey(StringHelper.encrypt(instructorToDelete.getRegistrationKey()));
-        deleteEntityDirect(instructorToDelete, instructorToDeleteAttributes);
 
-        Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
-        if (instructorCheck != null) {
-            putDocument(makeAttributes(instructorCheck));
-        }
-
-        //TODO: reuse the method in the parent class instead
-    }
-
-    public void deleteInstructorsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
-
-        deleteInstructors(getInstructorEntitiesForCourses(courseIds));
+        deleteEntity(Key.create(Instructor.class, instructorToDelete.getUniqueId()));
     }
 
     /**
-     * Deletes all instructors with the given googleId.
+     * Deletes instructors using {@link AttributesDeletionQuery}.
      */
-    public void deleteInstructorsForGoogleId(String googleId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+    public void deleteInstructors(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
-        deleteInstructors(getInstructorEntitiesForGoogleId(googleId));
-    }
+        if (query.isCourseIdPresent()) {
+            List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
+            deleteDocument(Const.SearchIndex.INSTRUCTOR,
+                    instructorsToDelete.stream()
+                            .map(i -> StringHelper.encrypt(i.getRegistrationKey()))
+                            .toArray(String[]::new));
 
-    /**
-     * Deletes all instructors for the course specified by courseId.
-     */
-    public void deleteInstructorsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        deleteInstructors(getInstructorEntitiesForCourse(courseId));
-    }
-
-    private void deleteInstructors(List<Instructor> instructors) {
-        for (Instructor instructor : instructors) {
-            deleteDocumentByEncryptedInstructorKey(StringHelper.encrypt(instructor.getRegistrationKey()));
+            deleteEntity(instructorsToDelete.stream()
+                    .map(s -> Key.create(Instructor.class, s.getUniqueId()))
+                    .toArray(Key[]::new));
         }
-        ofy().delete().entities(instructors).now();
     }
 
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
@@ -343,11 +317,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     private Instructor getInstructorEntityById(String courseId, String email) {
-        return load().id(email + '%' + courseId).now();
-    }
-
-    private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds) {
-        return load().filter("courseId in", courseIds).list();
+        return load().id(Instructor.generateId(email, courseId)).now();
     }
 
     private List<Instructor> getInstructorEntitiesThatAreDisplayedInCourse(String courseId) {
@@ -386,19 +356,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     @Override
     protected LoadType<Instructor> load() {
         return ofy().load().type(Instructor.class);
-    }
-
-    @Override
-    protected Instructor getEntity(InstructorAttributes instructorToGet) {
-        return getInstructorEntityForEmail(instructorToGet.courseId, instructorToGet.email);
-    }
-
-    @Override
-    protected QueryKeys<Instructor> getEntityQueryKeys(InstructorAttributes attributes) {
-        return load()
-                .filter("courseId =", attributes.courseId)
-                .filter("email =", attributes.email)
-                .keys();
     }
 
     @Override

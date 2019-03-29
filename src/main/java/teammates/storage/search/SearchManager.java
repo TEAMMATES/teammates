@@ -209,8 +209,8 @@ public final class SearchManager {
     /**
      * Deletes document by documentId.
      */
-    public static void deleteDocument(String indexName, String documentId) {
-        getIndex(indexName).deleteAsync(documentId);
+    public static void deleteDocument(String indexName, String... documentIds) {
+        getIndex(indexName).deleteAsync(documentIds);
     }
 
     private static Index getIndex(String indexName) {
