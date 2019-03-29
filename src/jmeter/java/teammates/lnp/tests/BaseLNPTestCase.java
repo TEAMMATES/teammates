@@ -14,12 +14,6 @@ import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
-import org.json.JSONObject;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.TeammatesException;
@@ -59,17 +53,6 @@ public abstract class BaseLNPTestCase {
     }
 
     /**
-     * Returns the JSON object that is parsed from the file specified by {@link BaseLNPTestCase#getPathToJsonDataFile()}.
-     */
-    protected JSONObject getJsonObjectFromFile() throws IOException {
-        String pathToJsonFile = (getPathToJsonDataFile().charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
-                + getPathToJsonDataFile();
-
-        String jsonContent = new String(Files.readAllBytes(Paths.get(pathToJsonFile)));
-        return new JSONObject(jsonContent);
-    }
-
-    /**
      * Creates the JSON data and writes it to the file specified by {@link BaseLNPTestCase#getPathToJsonDataFile()}.
      */
     private void createJsonDataFile(LNPTestData testData) throws IOException {
@@ -77,17 +60,12 @@ public abstract class BaseLNPTestCase {
             throw new IOException("Test data directory does not exist");
         }
 
-        JSONObject jsonData = testData.generateJsonData();
+        DataBundle jsonData = testData.generateJsonData();
         String outputJsonPath = getPathToJsonDataFile();
 
         String pathToResultFile = (outputJsonPath.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
                 + outputJsonPath;
         File file = new File(pathToResultFile);
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(jsonData.toString());
-        String prettyJsonString = gson.toJson(element);
 
         // Write data to the file; overwrite if it already exists
         if (!file.exists()) {
@@ -96,7 +74,7 @@ public abstract class BaseLNPTestCase {
         file.createNewFile();
 
         try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile))) {
-            bw.write(prettyJsonString);
+            bw.write(JsonUtils.toJson(jsonData));
             bw.flush();
         }
     }

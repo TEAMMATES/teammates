@@ -1,15 +1,28 @@
 package teammates.lnp.tests;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.json.JSONObject;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.util.Const;
 import teammates.lnp.util.LNPTestData;
 
 /**
@@ -28,151 +41,107 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     private final LNPTestData testData = new LNPTestData() {
 
         @Override
-        protected JSONObject generateAccountsJson() {
-            JSONObject accounts = new JSONObject();
+        protected Map<String, AccountAttributes> generateAccounts() {
+            Map<String, AccountAttributes> accounts = new HashMap<>();
 
             for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                JSONObject studentAccountData = new JSONObject();
-
-                studentAccountData.put("googleId", USER_NAME + i + ".tmms");
-                studentAccountData.put("name", USER_NAME + i);
-                studentAccountData.put("isInstructor", false);
-                studentAccountData.put("email", USER_EMAIL + i + "@gmail.tmt");
-                studentAccountData.put("institute", "TEAMMATES Test Institute 1");
-
-                accounts.put(USER_NAME + i, studentAccountData);
+                accounts.put(USER_NAME + i, AccountAttributes.builder(USER_NAME + i + ".tmms")
+                        .withEmail(USER_EMAIL + i + "@gmail.tmt")
+                        .withName(USER_NAME + i)
+                        .withIsInstructor(false)
+                        .withInstitute("TEAMMATES Test Institute 1")
+                        .build()
+                );
             }
-
-            JSONObject instructorAccount = new JSONObject();
-            instructorAccount.put("googleId", "TestData.instructor");
-            instructorAccount.put("name", "TEAMMATES Test Instructor");
-            instructorAccount.put("isInstructor", true);
-            instructorAccount.put("email", "tmms.test@gmail.tmt");
-            instructorAccount.put("institute", "TEAMMATES Test Institute 1");
-            accounts.put("instructor", instructorAccount);
 
             return accounts;
         }
 
         @Override
-        protected JSONObject generateCoursesJson() {
-            JSONObject courseData = new JSONObject();
-            courseData.put("id", "TestData.CS101");
-            courseData.put("name", "Intro To Programming");
-            courseData.put("timeZone", "UTC");
+        protected Map<String, CourseAttributes> generateCourses() {
+            Map<String, CourseAttributes> courses = new HashMap<>();
 
-            return new JSONObject().put("course", courseData);
+            courses.put("course", CourseAttributes.builder("TestData.CS101")
+                    .withName("Intro To Programming")
+                    .withTimezone(ZoneId.of("UTC"))
+                    .build()
+            );
+
+            return courses;
         }
 
         @Override
-        protected JSONObject generateInstructorsJson() {
-            JSONObject instructors = new JSONObject();
+        protected Map<String, InstructorAttributes> generateInstructors() {
+            Map<String, InstructorAttributes> instructors = new HashMap<>();
 
-            JSONObject instructorDetails = new JSONObject();
-            instructorDetails.put("googleId", "TestData.instructor");
-            instructorDetails.put("courseId", "TestData.CS101");
-            instructorDetails.put("name", "Teammates Test");
-            instructorDetails.put("email", "tmms.test@gmail.tmt");
-            instructorDetails.put("role", "Co-owner");
-            instructorDetails.put("isDisplayedToStudents", true);
-            instructorDetails.put("displayedName", "Co-owner");
-            instructorDetails.put("sectionLevel", new JSONObject());
-            instructorDetails.put("sessionLevel", new JSONObject());
-
-            JSONObject privileges = new JSONObject();
-            JSONObject courseLevel = new JSONObject();
-            courseLevel.put("canviewstudentinsection", true);
-            courseLevel.put("cansubmitsessioninsection", true);
-            courseLevel.put("canmodifysessioncommentinsection", true);
-            courseLevel.put("canmodifycourse", true);
-            courseLevel.put("canviewsessioninsection", true);
-            courseLevel.put("canmodifysession", true);
-            courseLevel.put("canmodifystudent", true);
-            courseLevel.put("canmodifyinstructor", true);
-            privileges.put("courseLevel", courseLevel);
-
-            instructorDetails.put("privileges", privileges);
-            instructors.put("teammates.test.instructor", instructorDetails);
+            instructors.put("teammates.test.instructor",
+                    InstructorAttributes.builder("TestData.CS101", "tmms.test@gmail.tmt")
+                            .withGoogleId("TestData.instructor")
+                            .withName("Teammates Test")
+                            .withRole("Co-owner")
+                            .withIsDisplayedToStudents(true)
+                            .withDisplayedName("Co-owner")
+                            .withPrivileges(new InstructorPrivileges(
+                                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
+                            .build()
+            );
 
             return instructors;
         }
 
         @Override
-        protected JSONObject generateStudentsJson() {
-            JSONObject students = new JSONObject();
+        protected Map<String, StudentAttributes> generateStudents() {
+            Map<String, StudentAttributes> students = new HashMap<>();
 
             for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                JSONObject studentAccountData = new JSONObject();
-                studentAccountData.put("googleId", USER_NAME + i + ".tmms");
-                studentAccountData.put("email", USER_EMAIL + i + "@gmail.tmt");
-                studentAccountData.put("course", "TestData.CS101");
-                studentAccountData.put("name", USER_NAME + i);
-                studentAccountData.put("comments", "This student's name is " + USER_NAME + i);
-                studentAccountData.put("team", "Team 1");
-                studentAccountData.put("section", "None");
-
-                students.put(USER_NAME + i, studentAccountData);
+                students.put(USER_NAME + i, StudentAttributes.builder("TestData.CS101", USER_EMAIL + i + "@gmail.tmt")
+                        .withGoogleId(USER_NAME + i + ".tmms")
+                        .withName(USER_NAME + i)
+                        .withComment("This student's name is " + USER_NAME + i)
+                        .withTeamName("Team 1")
+                        .withSectionName("None")
+                        .build()
+                );
             }
 
             return students;
         }
 
         @Override
-        protected JSONObject generateFeedbackSessionsJson() {
-            JSONObject session = new JSONObject();
-
-            session.put("feedbackSessionName", "First Session");
-            session.put("courseId", "TestData.CS101");
-            session.put("creatorEmail", "tmms.test@gmail.tmt");
-            session.put("instructions", "Instructions for first session");
-            session.put("createdTime", "2018-04-01T23:59:00Z");
-            session.put("startTime", "2018-04-01T21:59:00Z");
-            session.put("endTime", "2026-04-30T21:59:00Z");
-            session.put("sessionVisibleFromTime", "2018-04-01T21:59:00Z");
-            session.put("resultsVisibleFromTime", "2026-05-01T21:59:00Z");
-            session.put("timeZone", "Africa/Johannesburg");
-            session.put("gracePeriod", 10);
-            session.put("sentOpenEmail", true);
-            session.put("sentClosingEmail", false);
-            session.put("sentPublishedEmail", false);
-            session.put("isOpeningEmailEnabled", false);
-            session.put("isClosingEmailEnabled", false);
-            session.put("isPublishedEmailEnabled", false);
-
-            return new JSONObject().put("openSession", session);
+        protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
+            return new HashMap<>();
         }
 
         @Override
-        protected JSONObject generateFeedbackQuestionsJson() {
-            return new JSONObject();
+        protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
+            return new HashMap<>();
         }
 
         @Override
-        protected JSONObject generateFeedbackResponsesJson() {
-            return new JSONObject();
+        protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
+            return new HashMap<>();
         }
 
         @Override
-        protected JSONObject generateFeedbackResponseCommentsJson() {
-            return new JSONObject();
+        protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
+            return new HashMap<>();
         }
 
         @Override
-        protected JSONObject generateProfilesJson() {
-            JSONObject profiles = new JSONObject();
+        protected Map<String, StudentProfileAttributes> generateProfiles() {
+            Map<String, StudentProfileAttributes> profiles = new HashMap<>();
 
             for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                JSONObject profileData = new JSONObject();
-                profileData.put("googleId", USER_NAME + i + ".tmms");
-                profileData.put("email", USER_EMAIL + i + "@gmail.tmt");
-                profileData.put("shortName", i);
-                profileData.put("institute", "TEAMMATES Test Institute 222");
-                profileData.put("moreInfo", "I am " + i);
-                profileData.put("pictureKey", "");
-                profileData.put("gender", "MALE");
-                profileData.put("nationality", "American");
-
-                profiles.put(USER_NAME + i, profileData);
+                profiles.put(USER_NAME + i, StudentProfileAttributes.builder(USER_NAME + i + ".tmms")
+                        .withEmail(USER_EMAIL + i + "@gmail.tmt")
+                        .withShortName(String.valueOf(i))
+                        .withInstitute("TEAMMATES Test Institute 222")
+                        .withMoreInfo("I am " + i)
+                        .withPictureKey("")
+                        .withGender(StudentProfileAttributes.Gender.MALE)
+                        .withNationality("American")
+                        .build()
+                );
             }
 
             return profiles;
@@ -191,25 +160,18 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
         @Override
         public List<List<String>> generateCsvData() throws IOException {
-            JSONObject jsonObject = getJsonObjectFromFile();
-
-            JSONObject studentsJson = (JSONObject) jsonObject.get("students");
+            DataBundle dataBundle = loadDataBundle(DATA_JSON_PATH);
             List<List<String>> csvData = new ArrayList<>();
 
-            Iterator<String> keys = studentsJson.keys();
-
-            while (keys.hasNext()) {
-                String key = keys.next();
-                JSONObject studentJson = (JSONObject) studentsJson.get(key);
-
+            dataBundle.students.forEach((key, student) -> {
                 List<String> csvRow = new ArrayList<>();
 
-                csvRow.add((String) studentJson.get("googleId")); // "googleid" is used for logging in, not "email"
+                csvRow.add(student.googleId); // "googleid" is used for logging in, not "email"
                 csvRow.add("no");
-                csvRow.add((String) studentJson.get("googleId"));
+                csvRow.add(student.googleId);
 
                 csvData.add(csvRow);
-            }
+            });
 
             return csvData;
         }

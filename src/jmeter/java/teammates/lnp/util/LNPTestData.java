@@ -2,49 +2,59 @@ package teammates.lnp.util;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-import org.json.JSONObject;
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
 /**
  * L&P test data generator.
  */
 public abstract class LNPTestData {
 
-    protected abstract JSONObject generateAccountsJson();
+    protected abstract Map<String, AccountAttributes> generateAccounts();
 
-    protected abstract JSONObject generateCoursesJson();
+    protected abstract Map<String, CourseAttributes> generateCourses();
 
-    protected abstract JSONObject generateInstructorsJson();
+    protected abstract Map<String, InstructorAttributes> generateInstructors();
 
-    protected abstract JSONObject generateStudentsJson();
+    protected abstract Map<String, StudentAttributes> generateStudents();
 
-    protected abstract JSONObject generateFeedbackSessionsJson();
+    protected abstract Map<String, FeedbackSessionAttributes> generateFeedbackSessions();
 
-    protected abstract JSONObject generateFeedbackQuestionsJson();
+    protected abstract Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions();
 
-    protected abstract JSONObject generateFeedbackResponsesJson();
+    protected abstract Map<String, FeedbackResponseAttributes> generateFeedbackResponses();
 
-    protected abstract JSONObject generateFeedbackResponseCommentsJson();
+    protected abstract Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments();
 
-    protected abstract JSONObject generateProfilesJson();
+    protected abstract Map<String, StudentProfileAttributes> generateProfiles();
 
     /**
      * Returns a JSON data bundle containing the data relevant for the performance test.
      */
-    public JSONObject generateJsonData() {
-        JSONObject dataJson = new JSONObject();
+    public DataBundle generateJsonData() {
+        DataBundle dataBundle = new DataBundle();
 
-        dataJson.put("accounts", generateAccountsJson());
-        dataJson.put("courses", generateCoursesJson());
-        dataJson.put("instructors", generateInstructorsJson());
-        dataJson.put("students", generateStudentsJson());
-        dataJson.put("feedbackSessions", generateFeedbackSessionsJson());
-        dataJson.put("feedbackQuestions", generateFeedbackQuestionsJson());
-        dataJson.put("feedbackResponses", generateFeedbackResponsesJson());
-        dataJson.put("feedbackResponseComments", generateFeedbackResponseCommentsJson());
-        dataJson.put("profiles", generateProfilesJson());
+        dataBundle.accounts = generateAccounts();
+        dataBundle.courses = generateCourses();
+        dataBundle.instructors = generateInstructors();
+        dataBundle.students = generateStudents();
+        dataBundle.feedbackSessions = generateFeedbackSessions();
+        dataBundle.feedbackQuestions = generateFeedbackQuestions();
+        dataBundle.feedbackResponses = generateFeedbackResponses();
+        dataBundle.feedbackResponseComments = generateFeedbackResponseComments();
+        dataBundle.profiles = generateProfiles();
 
-        return dataJson;
+        return dataBundle;
     }
 
     /**
