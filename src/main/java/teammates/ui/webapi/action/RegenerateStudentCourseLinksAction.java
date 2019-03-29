@@ -9,15 +9,16 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.ui.webapi.output.RegenerateStudentCourseLinksData;
 
 /**
- * Regenerates the submission link.
+ * Regenerates the course join and feedback session links for a given student in a course.
  */
-public class RegenerateFeedbackSessionLinksAction extends Action {
+public class RegenerateStudentCourseLinksAction extends Action {
 
-    private static final String SUCCESSFUL_UPDATE = "Session links for this course have been regenerated,";
-    private static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and email sent";
-    private static final String SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED = SUCCESSFUL_UPDATE + " but email failed to send";
+    private static final String SUCCESSFUL_UPDATE = "Student's links for this course have been regenerated,";
+    private static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and the email has been sent.";
+    private static final String SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED = SUCCESSFUL_UPDATE + " but the email failed to send.";
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -38,31 +39,29 @@ public class RegenerateFeedbackSessionLinksAction extends Action {
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmailAddress);
         if (student == null) {
-            return new JsonResult(
-                    "The student with the email " + studentEmailAddress + " could not be found in course " + courseId + ".");
+            return new JsonResult(new RegenerateStudentCourseLinksData("The student with the email " + studentEmailAddress
+                    + " could not be found in the course " + courseId + ".", null));
         }
 
-        boolean emailSent;
-
         try {
-            logic.regenerateStudentSessionLinks(student);
+            String newKey = logic.regenerateStudentCourseLinks(student);
 
-            emailSent = sendEmail(student);
+            boolean emailSent = sendEmail(student);
             String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
 
-            return new JsonResult(statusMessage);
+            return new JsonResult(new RegenerateStudentCourseLinksData(statusMessage, newKey));
         } catch (EntityDoesNotExistException ex) {
             return new JsonResult(ex.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
     }
 
     /**
-     * Sends the regenerated course registration and feedback session links to the student.
+     * Sends the regenerated course join and feedback session links to the student.
      *
-     * @return The true if email was sent successfully or false otherwise.
+     * @return true if the email was sent successfully, and false otherwise.
      */
     private boolean sendEmail(StudentAttributes student) {
-        EmailWrapper email = emailGenerator.regenerateFeedbackSessionLinks(student);
+        EmailWrapper email = emailGenerator.regenerateStudentCourseLinks(student);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }

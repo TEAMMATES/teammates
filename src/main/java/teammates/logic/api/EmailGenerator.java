@@ -530,9 +530,9 @@ public class EmailGenerator {
     }
 
     /**
-     * Generates new course registration and feedback session links for the given student.
+     * Generates new course join and feedback session links for the given student.
      */
-    public EmailWrapper regenerateFeedbackSessionLinks(StudentAttributes student) {
+    public EmailWrapper regenerateStudentCourseLinks(StudentAttributes student) {
         String subject = EmailType.REGENERATE_FEEDBACK_SESSION_LINKS.getSubject();
 
         String emailBody = "";
