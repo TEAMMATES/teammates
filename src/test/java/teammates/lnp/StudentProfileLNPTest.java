@@ -33,7 +33,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     private static final String CSV_CONFIG_PATH = "/studentProfileConfig.csv";
     private static final String JMX_FILE = "studentProfile.jmx";
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 500;
     private static final String USER_NAME = "DummyUser";
     private static final String USER_EMAIL = "personalEmail";
 

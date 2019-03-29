@@ -44,7 +44,7 @@ public abstract class BaseLNPTestCase {
     /**
      * Creates the test data folder if it does not exist.
      */
-    private static boolean createTestDataFolder() {
+    private boolean createTestDataFolder() {
         File testDataDirectory = new File(TestProperties.JMETER_TEST_DATA_DIRECTORY);
         if (!testDataDirectory.exists()) {
             return testDataDirectory.mkdir();
@@ -52,7 +52,7 @@ public abstract class BaseLNPTestCase {
         return true;
     }
 
-    private static String getPathToFile(String pathToFileParam) {
+    private String getPathToFile(String pathToFileParam) {
         return (pathToFileParam.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
                 + pathToFileParam;
     }
