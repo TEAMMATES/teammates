@@ -848,10 +848,15 @@ public class Logic {
         studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
 
-    public void regenerateStudentSessionLinks(StudentAttributes studentAttributes) throws EntityDoesNotExistException {
+    /**
+     * Regenerates the course join and feedback session links associated with the student represented
+     * by {@code studentAttributes}.
+     * @return Returns the encrypted regenerated student registration key.
+     */
+    public String regenerateStudentCourseLinks(StudentAttributes studentAttributes) throws EntityDoesNotExistException {
         Assumption.assertNotNull(studentAttributes);
 
-        studentsLogic.regenerateStudentSessionLinks(studentAttributes);
+        return studentsLogic.regenerateStudentSessionLinks(studentAttributes);
     }
 
     /**

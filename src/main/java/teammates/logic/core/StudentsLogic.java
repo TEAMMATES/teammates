@@ -212,19 +212,29 @@ public final class StudentsLogic {
     }
 
     /**
-     * Regenerates the session (and course?) links associated with the student.
+     * Regenerates the course join and feedback session links associated with the student represented
+     * by {@code studentAttributes}.
+     * @return Returns the encrypted regenerated student registration key.
      */
-    public void regenerateStudentSessionLinks(StudentAttributes studentAttributes) throws EntityDoesNotExistException {
+    public String regenerateStudentSessionLinks(StudentAttributes studentAttributes) throws EntityDoesNotExistException {
         try {
             CourseStudent studentWithNewKey = studentAttributes.toEntity();
+            while (studentWithNewKey.getRegistrationKey() == studentAttributes.getKey()) {
+                studentWithNewKey = studentAttributes.toEntity();
+            }
+            String newKey = studentWithNewKey.getRegistrationKey();
 
             updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(studentAttributes.getCourse(), studentAttributes.email)
-                            .withNewRegistrationKey(studentWithNewKey.getRegistrationKey())
+                            .withNewRegistrationKey(newKey)
                             .build());
+
+            return StringHelper.encrypt(newKey);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             Assumption.fail("Resting registration key shall not cause: " + e.getMessage());
         }
+
+        return "new key not generated";
     }
 
     /**

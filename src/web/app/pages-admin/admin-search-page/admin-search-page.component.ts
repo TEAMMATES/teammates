@@ -5,7 +5,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import {
   AdminSearchResult,
   InstructorAccountSearchResult,
-  MessageOutput,
+  RegenerateStudentCourseLinks,
   StudentAccountSearchResult,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -133,8 +133,9 @@ export class AdminSearchPageComponent {
     };
 
     this.httpRequestService.post('/regeneratefeedbacksessionlinks', paramsMap)
-        .subscribe((resp: MessageOutput) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
+        .subscribe((resp: RegenerateStudentCourseLinks) => {
+          this.statusMessageService.showSuccessMessage(
+                    resp.message + " The student's new key is " + resp.newRegistrationKey);
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(response.error.message);
         });
