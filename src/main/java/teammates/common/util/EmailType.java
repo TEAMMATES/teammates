@@ -16,14 +16,12 @@ public enum EmailType {
     FEEDBACK_PUBLISHED("TEAMMATES: Feedback session results published [Course: %s][Feedback Session: %s]"),
     FEEDBACK_UNPUBLISHED("TEAMMATES: Feedback session results unpublished [Course: %s][Feedback Session: %s]"),
     STUDENT_EMAIL_CHANGED("TEAMMATES: Summary of course [%s][Course ID: %s]"),
-    STUDENT_COURSE_LINKS_REGENERATED("TEAMMATES: New links for course [%s][Course ID: %s]"),
+    STUDENT_COURSE_LINKS_REGENERATED("TEAMMATES: Updated links for course [%s][Course ID: %s]"),
     NEW_INSTRUCTOR_ACCOUNT("TEAMMATES: Welcome to TEAMMATES! %s"),
     STUDENT_COURSE_JOIN("TEAMMATES: Invitation to join course [%s][Course ID: %s]"),
     STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET("TEAMMATES: Your account has been reset for course [%s][Course ID: %s]"),
     INSTRUCTOR_COURSE_JOIN("TEAMMATES: Invitation to join course as an instructor [%s][Course ID: %s]"),
     INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET("TEAMMATES: Your account has been reset for course [%s][Course ID: %s]"),
-    REGENERATE_FEEDBACK_SESSION_LINKS(
-            "TEAMMATES: Your submission link has been reset for the feedback session [Course: %s][Feedback Session: %s]"),
     USER_COURSE_REGISTER("TEAMMATES: Registered for Course [%s][Course ID: %s]"),
     SEVERE_LOGS_COMPILATION("TEAMMATES (%s): Severe Error Logs Compilation"),
     SESSION_LINKS_RECOVERY("TEAMMATES: Access links for recent feedback sessions");
