@@ -62,10 +62,10 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS =
                 FileHelper.readResourceFile("userEmailTemplateFragment-feedbackSessionResendAllLinks.html");
-        public static final String USER_FEEDBACK_SESSION_RESEND_ALL_LINKS =
-                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionResendAllLinks.html");
-        public static final String REGENERATE_STUDENT_COURSE_LINKS =
-                FileHelper.readResourceFile("userEmailTemplate-regenerateStudentCourseLinks.html");
+        public static final String USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS =
+                FileHelper.readResourceFile("userEmailTemplate-emailUpdateResendAllCourseLinks.html");
+        public static final String REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS =
+                FileHelper.readResourceFile("userEmailTemplate-regenerateKeyResendAllCourseLinks.html");
         public static final String SEVERE_ERROR_LOG_LINE =
                 FileHelper.readResourceFile("severeErrorLogLine.html");
         public static final String NEW_INSTRUCTOR_ACCOUNT_WELCOME =

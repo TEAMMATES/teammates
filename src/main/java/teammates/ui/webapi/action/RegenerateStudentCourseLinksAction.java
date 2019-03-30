@@ -9,6 +9,8 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
 import teammates.ui.webapi.output.RegenerateStudentCourseLinksData;
 
 /**
@@ -44,12 +46,13 @@ public class RegenerateStudentCourseLinksAction extends Action {
         }
 
         try {
-            String newKey = logic.regenerateStudentCourseLinks(student);
+            StudentAttributes updatedStudent = logic.regenerateStudentCourseLinks(student);
 
-            boolean emailSent = sendEmail(student);
+            boolean emailSent = sendEmail(updatedStudent);
             String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
 
-            return new JsonResult(new RegenerateStudentCourseLinksData(statusMessage, newKey));
+            return new JsonResult(
+                    new RegenerateStudentCourseLinksData(statusMessage, StringHelper.encrypt(updatedStudent.key)));
         } catch (EntityDoesNotExistException ex) {
             return new JsonResult(ex.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
@@ -61,7 +64,8 @@ public class RegenerateStudentCourseLinksAction extends Action {
      * @return true if the email was sent successfully, and false otherwise.
      */
     private boolean sendEmail(StudentAttributes student) {
-        EmailWrapper email = emailGenerator.regenerateStudentCourseLinks(student);
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(student.getCourse(), student.getEmail(),
+                                                    Templates.EmailTemplates.REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }
