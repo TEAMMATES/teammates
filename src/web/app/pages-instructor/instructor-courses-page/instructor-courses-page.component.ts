@@ -103,7 +103,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     };
     this.httpRequestService.get('/instructor/courses', paramMap).subscribe((resp: InstructorCourses) => {
       this.activeCourses = resp.activeCourses;
-      this.sortData();
       this.archivedCourses = resp.archivedCourses;
       this.softDeletedCourses = resp.softDeletedCourses;
       this.instructorList = resp.instructorList;
@@ -232,9 +231,17 @@ export class InstructorCoursesPageComponent implements OnInit {
     }, () => {});
   }
 
-  sortData(){
+  sortByName(){
     this.activeCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
 }
+
+  sortById(){
+    this.activeCourses.sort((a, b) => a.id < b.id ? -1 : 1);
+  }
+
+  sortByCreationDate(){
+    this.activeCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
+  }
 
   /**
    * Restores a soft-deleted course from Recycle Bin.

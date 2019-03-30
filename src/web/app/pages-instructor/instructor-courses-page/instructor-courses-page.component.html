@@ -4,6 +4,16 @@
 
 <div class="course-section">
   <h2>Active Courses</h2>
+  <div class="col-8">
+    <div class="float-right">
+      <h5 class="d-inline"><strong> Sort By: </strong></h5>
+      <div class="btn-group" data-toggle="buttons">
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortById()">Course ID</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortByName()">Course Name</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortByCreationDate()">Creation Date</button>
+      </div>
+    </div>
+  </div>
   <div class="table-responsive">
     <table class="table table-striped table-bordered margin-0">
       <thead>
