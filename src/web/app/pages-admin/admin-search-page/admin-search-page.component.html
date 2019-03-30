@@ -109,7 +109,7 @@
               </a>
               <br>
               <!-- TODO: Only show button if links exist/ disable it otherwise and show tooltip. -->
-              <button class="btn btn-danger" (click)="regenerateFeedbackSessionLinks(student, $event)">Regenerate links</button>
+              <button class="btn btn-danger" (click)="regenerateFeedbackSessionLinks(student)">Regenerate links</button>
             </td>
           </tr>
           <tr *ngIf="student.showLinks">
