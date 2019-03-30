@@ -135,9 +135,9 @@
       <div class="float-right">
         <h5 class="d-inline"><strong> Sort By: </strong></h5>
         <div class="btn-group" data-toggle="buttons">
-          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortById('archieve')">Course ID</button>
-          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortByName('archieve')">Course Name</button>
-          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortByCreationDate('archieve')">Creation Date</button>
+          <button class="btn btn-light" (click)="sortById('archieve')">Course ID</button>
+          <button class="btn btn-light" (click)="sortByName('archieve')">Course Name</button>
+          <button class="btn btn-light" (click)="sortByCreationDate('archieve')">Creation Date</button>
         </div>
       </div>
     </div>
@@ -184,9 +184,9 @@
       <div class="float-right">
         <h5 class="d-inline"><strong> Sort By: </strong></h5>
         <div class="btn-group" data-toggle="buttons">
-          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortById('delete')">Course ID</button>
-          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortByName('delete')">Course Name</button>
-          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortByCreationDate('delete')">Creation Date</button>
+          <button class="btn btn-light" (click)="sortById('delete')">Course ID</button>
+          <button class="btn btn-light" (click)="sortByName('delete')">Course Name</button>
+          <button class="btn btn-light" (click)="sortByCreationDate('delete')">Creation Date</button>
         </div>
       </div>
     </div>
