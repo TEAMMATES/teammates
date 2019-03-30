@@ -135,6 +135,8 @@ public class StudentProfilePage extends AppPage {
     public void uploadPicture() {
         click(uploadPictureSubmit);
         waitForPageToLoad();
+        click(editPictureSubmit);
+        waitForPageToLoad();
         click(uploadEditModal.findElement(By.className("close")));
     }
 
