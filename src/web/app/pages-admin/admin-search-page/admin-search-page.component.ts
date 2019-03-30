@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -9,6 +10,9 @@ import {
   StudentAccountSearchResult,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import {
+  RegenerateLinksConfirmModalComponent,
+} from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
 
 /**
  * Admin search page.
@@ -26,7 +30,8 @@ export class AdminSearchPageComponent {
 
   constructor(private statusMessageService: StatusMessageService,
               private accountService: AccountService,
-              private httpRequestService: HttpRequestService) {}
+              private httpRequestService: HttpRequestService,
+              private modalService: NgbModal) {}
 
   /**
    * Searches for students and instructors matching the search query.
@@ -119,26 +124,27 @@ export class AdminSearchPageComponent {
   }
 
   /**
-   * Regenerates the student's submission link for the specified session.
+   * Regenerates the student's course join and feedback session links.
    */
-  regenerateFeedbackSessionLinks(student: StudentAccountSearchResult, event: any): void {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  regenerateFeedbackSessionLinks(student: StudentAccountSearchResult): void {
+    const modalRef: NgbModalRef = this.modalService.open(RegenerateLinksConfirmModalComponent);
+    modalRef.componentInstance.studentName = student.name;
+    modalRef.componentInstance.regenerateLinksCourseId = student.courseId;
 
-    const paramsMap: { [key: string]: string } = {
-      courseid: student.courseId,
-      studentemail: student.email,
-    };
+    modalRef.result.then(() => {
+      const paramsMap: { [key: string]: string } = {
+        courseid: student.courseId,
+        studentemail: student.email,
+      };
 
-    this.httpRequestService.post('/regeneratefeedbacksessionlinks', paramsMap)
-        .subscribe((resp: RegenerateStudentCourseLinks) => {
-          this.statusMessageService.showSuccessMessage(
-                    resp.message + " The student's new key is " + resp.newRegistrationKey);
-        }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(response.error.message);
-        });
+      this.httpRequestService.post('/regeneratefeedbacksessionlinks', paramsMap)
+          .subscribe((resp: RegenerateStudentCourseLinks) => {
+            this.statusMessageService.showSuccessMessage(
+                `${resp.message} The student's new key is ${resp.newRegistrationKey}`);
+          }, (response: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(response.error.message);
+          });
+    }, () => {});
   }
 
 }
