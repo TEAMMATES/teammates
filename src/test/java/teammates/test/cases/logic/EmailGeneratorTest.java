@@ -23,6 +23,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.core.CoursesLogic;
@@ -228,8 +229,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has joined the course");
 
-        EmailWrapper email =
-                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email);
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), student1.email, Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");
@@ -237,8 +238,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has not joined the course");
 
-        email = new EmailGenerator()
-                .generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email);
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email,
+                                                        Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, unregisteredStudent.email, subject,
@@ -325,8 +326,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback sessions summary of course email: sanitization required");
 
-        EmailWrapper email =
-                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email);
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), student1.email, Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
         verifyEmail(email, student1.email, subject,
                 "/summaryOfFeedbackSessionsOfCourseEmailTestingSanitizationForStudent.html");
