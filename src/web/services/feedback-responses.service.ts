@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import {
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
+  FeedbackContributionResponseDetails,
+  FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
   FeedbackResponse,
@@ -14,6 +16,7 @@ import {
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
   DEFAULT_NUMSCALE_RESPONSE_DETAILS, DEFAULT_TEXT_RESPONSE_DETAILS,
+  DEFAULT_MSQ_RESPONSE_DETAILS,
 } from '../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
@@ -44,6 +47,8 @@ export class FeedbackResponsesService {
         return DEFAULT_NUMSCALE_RESPONSE_DETAILS();
       case FeedbackQuestionType.MCQ:
         return DEFAULT_MCQ_RESPONSE_DETAILS();
+      case FeedbackQuestionType.MSQ:
+        return DEFAULT_MSQ_RESPONSE_DETAILS();
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
@@ -66,6 +71,9 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.MCQ:
         const mcqDetails: FeedbackMcqResponseDetails = details as FeedbackMcqResponseDetails;
         return mcqDetails.answer.length === 0 && !mcqDetails.isOther;
+      case FeedbackQuestionType.MSQ:
+        const msqDetails: FeedbackMsqResponseDetails = details as FeedbackMsqResponseDetails;
+        return msqDetails.answers.length === 0 && !msqDetails.isOther;
       default:
         return true;
     }
