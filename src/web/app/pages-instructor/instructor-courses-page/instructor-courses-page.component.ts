@@ -271,7 +271,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     else if(name == "delete")
     {
-      this.archivedCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
+      this.softDeletedCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
     }
 }
 
