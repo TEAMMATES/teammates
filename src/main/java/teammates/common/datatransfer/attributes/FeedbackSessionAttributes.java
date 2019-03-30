@@ -115,10 +115,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
         if (fs.getRespondingStudentList() != null) {
-            feedbackSessionAttributes.respondingStudentList = fs.getRespondingStudentList();
+            feedbackSessionAttributes.respondingStudentList = new HashSet<>(fs.getRespondingStudentList());
         }
         if (fs.getRespondingInstructorList() != null) {
-            feedbackSessionAttributes.respondingInstructorList = fs.getRespondingInstructorList();
+            feedbackSessionAttributes.respondingInstructorList = new HashSet<>(fs.getRespondingInstructorList());
         }
 
         return feedbackSessionAttributes;
