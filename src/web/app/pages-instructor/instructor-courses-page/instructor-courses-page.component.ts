@@ -82,10 +82,10 @@ export class InstructorCoursesPageComponent implements OnInit {
   canRestoreAll: boolean = true;
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
-              private statusMessageService: StatusMessageService,
-              private courseService: CourseService,
-              private modalService: NgbModal) { }
+    private httpRequestService: HttpRequestService,
+    private statusMessageService: StatusMessageService,
+    private courseService: CourseService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -208,7 +208,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
-    }, () => {});
+    }, () => { });
   }
 
   /**
@@ -228,52 +228,43 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
-    }, () => {});
+    }, () => { });
   }
 
-  sortByName(name : string){
-    if(name == "active")
-    {
+  sortByName(name: string) {
+    if (name == "active") {
       this.activeCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
-    } 
-    else if(name == "archieve")
-    {
+    }
+    else if (name == "archieve") {
       this.archivedCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
     }
-    else if(name == "delete")
-    {
+    else if (name == "delete") {
       this.softDeletedCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
     }
-}
+  }
 
-  sortById(name : string){
-    if(name == "active")
-    {
+  sortById(name: string) {
+    if (name == "active") {
       this.activeCourses.sort((a, b) => a.id < b.id ? -1 : 1);
-    } 
-    else if(name == "archieve")
-    {
+    }
+    else if (name == "archieve") {
       this.archivedCourses.sort((a, b) => a.id < b.id ? -1 : 1);
     }
-    else if(name == "delete")
-    {
+    else if (name == "delete") {
       this.softDeletedCourses.sort((a, b) => a.id < b.id ? -1 : 1);
     }
-}
-  sortByCreationDate(name : string){
-    if(name == "active")
-    {
+  }
+  sortByCreationDate(name: string) {
+    if (name == "active") {
       this.activeCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
-    } 
-    else if(name == "archieve")
-    {
+    }
+    else if (name == "archieve") {
       this.archivedCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
     }
-    else if(name == "delete")
-    {
+    else if (name == "delete") {
       this.softDeletedCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
     }
-}
+  }
 
   /**
    * Restores a soft-deleted course from Recycle Bin.
@@ -314,7 +305,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
 
-    }, () => {});
+    }, () => { });
   }
 
   /**
