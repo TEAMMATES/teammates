@@ -42,11 +42,11 @@ public class RegenerateStudentCourseLinksAction extends Action {
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmailAddress);
         if (student == null) {
             return new JsonResult(new RegenerateStudentCourseLinksData("The student with the email " + studentEmailAddress
-                    + " could not be found in the course " + courseId + ".", null));
+                    + " could not be found in the course with ID [" + courseId + "].", null));
         }
 
         try {
-            StudentAttributes updatedStudent = logic.regenerateStudentCourseLinks(student);
+            StudentAttributes updatedStudent = logic.regenerateStudentRegistrationKey(student);
 
             boolean emailSent = sendEmail(updatedStudent);
             String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;

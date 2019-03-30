@@ -849,14 +849,14 @@ public class Logic {
     }
 
     /**
-     * Regenerates the course join and feedback session links associated with the student represented
-     * by {@code studentAttributes}.
+     * Regenerates the registration key for the student represented by {@code studentAttributes}.
      * @return Returns the student attributes with the regenerated registration key.
      */
-    public StudentAttributes regenerateStudentCourseLinks(StudentAttributes studentAttributes) throws EntityDoesNotExistException {
+    public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes studentAttributes)
+            throws EntityDoesNotExistException {
         Assumption.assertNotNull(studentAttributes);
 
-        return studentsLogic.regenerateStudentSessionLinks(studentAttributes);
+        return studentsLogic.regenerateStudentRegistrationKey(studentAttributes);
     }
 
     /**

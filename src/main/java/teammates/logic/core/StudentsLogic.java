@@ -212,15 +212,14 @@ public final class StudentsLogic {
     }
 
     /**
-     * Regenerates the course join and feedback session links associated with the student represented
-     * by {@code studentAttributes}.
+     * Regenerates the registration key for the student represented by {@code studentAttributes}.
      * @return Returns the student attributes with the new registration key.
      */
-    public StudentAttributes regenerateStudentSessionLinks(StudentAttributes studentAttributes)
+    public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes studentAttributes)
             throws EntityDoesNotExistException {
         try {
             CourseStudent studentWithNewKey = studentAttributes.toEntity();
-            while (studentWithNewKey.getRegistrationKey() == studentAttributes.getKey()) {
+            while (studentWithNewKey.getRegistrationKey().equals(studentAttributes.getKey())) {
                 studentWithNewKey = studentAttributes.toEntity();
             }
             String newKey = studentWithNewKey.getRegistrationKey();
