@@ -3,12 +3,12 @@ package teammates.test.cases.webapi;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.SaveFeedbackResponseAction;
+import teammates.ui.webapi.action.UpdateFeedbackResponseAction;
 
 /**
- * SUT: {@link SaveFeedbackResponseAction}.
+ * SUT: {@link UpdateFeedbackResponseAction}.
  */
-public class SaveFeedbackResponseActionTest extends BaseActionTest<SaveFeedbackResponseAction> {
+public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedbackResponseAction> {
 
     @Override
     protected String getActionUri() {

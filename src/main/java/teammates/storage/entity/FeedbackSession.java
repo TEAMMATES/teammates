@@ -120,6 +120,9 @@ public class FeedbackSession extends BaseEntity {
         this.respondingStudentList = studentList == null ? new HashSet<>() : studentList;
     }
 
+    /**
+     * Generates an unique ID for the feedback session.
+     */
     public static String generateId(String feedbackSessionName, String courseId) {
         // Format is feedbackSessionName%courseId
         return feedbackSessionName + '%' + courseId;
