@@ -152,9 +152,11 @@ public final class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
 
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(
-            String feedbackQuestionId, int range) {
-        return frDb.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, range);
+    /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(String feedbackQuestionId) {
+        return frDb.areThereResponsesForQuestion(feedbackQuestionId);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(

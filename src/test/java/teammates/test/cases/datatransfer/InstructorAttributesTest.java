@@ -316,23 +316,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testGetBackUpIdentifier() {
-        String googleId = "valid.googleId";
-        String courseId = "courseId";
-        String name = "name";
-        String email = "valid@email.com";
-        String expectedBackUpIdentifierMessage = "Recently modified instructor::" + courseId + "::" + email;
-
-        InstructorAttributes instructorAttributes = InstructorAttributes
-                .builder(courseId, email)
-                .withGoogleId(googleId)
-                .withName(name)
-                .build();
-
-        assertEquals(expectedBackUpIdentifierMessage, instructorAttributes.getBackupIdentifier());
-    }
-
-    @Test
     public void testUpdateOptionsWithEmail_withTypicalData_shouldUpdateAttributeCorrectly() {
         InstructorAttributes.UpdateOptionsWithEmail updateOptionsWithEmail =
                 InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "test@test.com")
