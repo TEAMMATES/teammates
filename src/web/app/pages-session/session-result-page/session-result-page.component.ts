@@ -37,6 +37,7 @@ export class SessionResultPageComponent implements OnInit {
       const paramMap: { [key: string]: string } = {
         courseid: queryParams.courseid,
         fsname: queryParams.fsname,
+        key: queryParams.key,
         intent: Intent.STUDENT_RESULT,
       };
       this.httpRequestService.get('/session', paramMap).subscribe((resp: FeedbackSession) => {
