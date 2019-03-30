@@ -8,9 +8,9 @@
     <div class="float-right">
       <h5 class="d-inline"><strong> Sort By: </strong></h5>
       <div class="btn-group" data-toggle="buttons">
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortById()">Course ID</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortByName()">Course Name</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortByCreationDate()">Creation Date</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortById('active')">Course ID</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortByName('active')">Course Name</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortByCreationDate('active')">Creation Date</button>
       </div>
     </div>
   </div>
@@ -131,6 +131,16 @@
   <h2 class="text-muted">
     <span class="fa fa-file-archive"></span> Archived Courses
   </h2>
+  <div class="col-8">
+      <div class="float-right">
+        <h5 class="d-inline"><strong> Sort By: </strong></h5>
+        <div class="btn-group" data-toggle="buttons">
+          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortById('archieve')">Course ID</button>
+          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortByName('archieve')">Course Name</button>
+          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortByCreationDate('archieve')">Creation Date</button>
+        </div>
+      </div>
+    </div>
   <div class="table-responsive">
     <table class="table table-striped table-bordered margin-0">
       <thead>
@@ -170,6 +180,16 @@
   <h2 class="text-muted">
     <span class="fa fa-trash"></span> Deleted Courses
   </h2>
+  <div class="col-8">
+      <div class="float-right">
+        <h5 class="d-inline"><strong> Sort By: </strong></h5>
+        <div class="btn-group" data-toggle="buttons">
+          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortById('delete')">Course ID</button>
+          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortByName('delete')">Course Name</button>
+          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortByCreationDate('delete')">Creation Date</button>
+        </div>
+      </div>
+    </div>
   <div class="card bg-light top-padded">
     <div class="card-header bg-secondary text-white">
       <strong>Recycle Bin</strong>

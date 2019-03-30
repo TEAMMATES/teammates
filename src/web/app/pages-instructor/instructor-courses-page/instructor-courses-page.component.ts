@@ -231,17 +231,49 @@ export class InstructorCoursesPageComponent implements OnInit {
     }, () => {});
   }
 
-  sortByName(){
-    this.activeCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+  sortByName(name : string){
+    if(name == "active")
+    {
+      this.activeCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+    } 
+    else if(name == "archieve")
+    {
+      this.archivedCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+    }
+    else if(name == "delete")
+    {
+      this.softDeletedCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
+    }
 }
 
-  sortById(){
-    this.activeCourses.sort((a, b) => a.id < b.id ? -1 : 1);
-  }
-
-  sortByCreationDate(){
-    this.activeCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
-  }
+  sortById(name : string){
+    if(name == "active")
+    {
+      this.activeCourses.sort((a, b) => a.id < b.id ? -1 : 1);
+    } 
+    else if(name == "archieve")
+    {
+      this.archivedCourses.sort((a, b) => a.id < b.id ? -1 : 1);
+    }
+    else if(name == "delete")
+    {
+      this.softDeletedCourses.sort((a, b) => a.id < b.id ? -1 : 1);
+    }
+}
+  sortByCreationDate(name : string){
+    if(name == "active")
+    {
+      this.activeCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
+    } 
+    else if(name == "archieve")
+    {
+      this.archivedCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
+    }
+    else if(name == "delete")
+    {
+      this.archivedCourses.sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
+    }
+}
 
   /**
    * Restores a soft-deleted course from Recycle Bin.
