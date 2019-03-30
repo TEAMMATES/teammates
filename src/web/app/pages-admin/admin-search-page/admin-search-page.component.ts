@@ -141,10 +141,41 @@ export class AdminSearchPageComponent {
           .subscribe((resp: RegenerateStudentCourseLinks) => {
             this.statusMessageService.showSuccessMessage(
                 `${resp.message} The student's new key is ${resp.newRegistrationKey}`);
+            this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(response.error.message);
           });
     }, () => {});
+  }
+
+  /**
+   * Updates the student's displayed course join and feedback session links with the value of the newKey.
+   */
+  private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
+    student.courseJoinLink = this.getUpdatedUrl(student.courseJoinLink, newKey);
+
+    Object.keys(student.openSessions).forEach((key: string): void => {
+      student.openSessions[key] = this.getUpdatedUrl(student.openSessions[key], newKey);
+    });
+
+    Object.keys(student.notOpenSessions).forEach((key: string): void => {
+      student.notOpenSessions[key] = this.getUpdatedUrl(student.notOpenSessions[key], newKey);
+    });
+
+    Object.keys(student.publishedSessions).forEach((key: string): void => {
+      student.publishedSessions[key] = this.getUpdatedUrl(student.publishedSessions[key], newKey);
+    });
+  }
+
+  /**
+   * Returns the URL after replacing the value of the `key` parameter with that of the new key.
+   */
+  private getUpdatedUrl(link: string, newKey: string): string {
+    const url: URL = new URL(link);
+    const searchParams: URLSearchParams = new URLSearchParams(url.search);
+    searchParams.set('key', newKey);
+    url.search = searchParams.toString();
+    return url.toString();
   }
 
 }
