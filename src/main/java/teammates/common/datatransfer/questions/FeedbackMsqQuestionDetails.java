@@ -838,6 +838,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     /**
+     * Returns minimum selectable choices for this MSQ question.
+     */
+    public int getMinSelectableChoices() {
+        return minSelectableChoices;
+    }
+
+    /**
      * Returns number of non-empty responses.<br>
      * <p>
      * <em>Note:</em> Response can be empty when <b>'None of the above'</b> option is selected.

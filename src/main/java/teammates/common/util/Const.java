@@ -448,12 +448,19 @@ public final class Const {
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
         public static final String MSQ_ERROR_EMPTY_MSQ_OPTION = "The Msq options cannot be empty";
+        public static final String MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
+        public static final String MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER = "No other choices are allowed with "
+                + "None of the above option";
         public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION =
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
         public static final String MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL =
                 "Maximum selectable choices exceeds the total number of options for " + Const.FeedbackQuestionTypeNames.MSQ;
+        public static final String MSQ_ERROR_NUM_SELECTED_MORE_THAN_MAXIMUM =
+                "Number of choices selected is more than the maximum number ";
+        public static final String MSQ_ERROR_NUM_SELECTED_LESS_THAN_MINIMUM =
+                "Number of choices selected is less than the minimum number ";
         public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =
                 "Minimum selectable choices exceeds maximum selectable choices for "
                 + Const.FeedbackQuestionTypeNames.MSQ;
@@ -464,6 +471,7 @@ public final class Const {
         public static final String MSQ_ERROR_INVALID_WEIGHT =
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
                 + " must be valid numbers with precision up to 2 decimal places.";
+        public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "None of the above";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =

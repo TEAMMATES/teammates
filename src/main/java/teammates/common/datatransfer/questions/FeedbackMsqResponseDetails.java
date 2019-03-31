@@ -85,7 +85,53 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
-        return new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+        List<String> msqChoices = ((FeedbackMsqQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).getMsqChoices();
+        int maxSelectableChoices = ((FeedbackMsqQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).getMaxSelectableChoices();
+        int minSelectableChoices = ((FeedbackMsqQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).getMinSelectableChoices();
+
+        // number of Msq options selected including other option
+        int totalChoicesSelected = answers.size() + (isOther ? 1 : 0);
+        boolean isMaxSelectableEnabled = maxSelectableChoices != 0;
+        boolean isMinSelectableEnabled = minSelectableChoices != 0;
+        boolean isNoneOfTheAboveOptionEnabled =
+                !answers.isEmpty() && answers.get(0).equals(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE);
+
+        // if selected answers are not a part of the Msq option list trigger this error
+        boolean isAnswersPartOfChoices = msqChoices.containsAll(answers);
+        if (!isAnswersPartOfChoices) {
+            errors.add(getAnswerString() + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+        }
+
+        // if other option is selected but not text is provided trigger this error
+        if (isOther && getOtherFieldContent().trim().equals("")) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
+        }
+
+        // if total choices selected exceed maximum choices allowed trigger this error
+        if (isMaxSelectableEnabled && totalChoicesSelected > maxSelectableChoices) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_NUM_SELECTED_MORE_THAN_MAXIMUM + maxSelectableChoices);
+        }
+
+        if (isMinSelectableEnabled) {
+            // if total choices selected is less than the minimum required choices
+            if (totalChoicesSelected < minSelectableChoices) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_NUM_SELECTED_LESS_THAN_MINIMUM + minSelectableChoices);
+            }
+            // if minimumSelectableChoices is enabled and None of the Above is selected as an answer trigger this error
+            if (isNoneOfTheAboveOptionEnabled) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+            }
+        } else {
+            // if none of the above is selected AND other options are selected trigger this error
+            if (answers.size() > 1 && answers.get(0).equals(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE)) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER);
+            }
+        }
+        return errors;
     }
 
     protected boolean isAnswerBlank() {

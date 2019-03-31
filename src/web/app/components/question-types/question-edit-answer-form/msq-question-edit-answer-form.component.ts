@@ -41,6 +41,9 @@ export class MsqQuestionEditAnswerFormComponent
    */
   updateSelectedAnswers(index: number): void {
     this.isMsqOptionSelected[index] = !this.isMsqOptionSelected[index];
+    if (this.isNoneOfTheAboveEnabled) {
+      this.responseDetails.answers.splice(0, 1);
+    }
     if (this.isMsqOptionSelected[index]) {
       this.responseDetails.answers.push(this.questionDetails.msqChoices[index]);
     } else {
