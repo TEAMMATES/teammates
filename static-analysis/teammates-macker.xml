@@ -97,6 +97,7 @@
                         <allow>
                             <from>
                                 <include class="${ui}.webapi.action.**" />
+                                <include class="${e2e}.util.BackDoor" />
                             </from>
                         </allow>
                     </deny>
@@ -336,6 +337,9 @@
                             <include class="${logic}.**" />
                             <include class="${storage}.**" />
                         </to>
+                        <allow>
+                            <to class="${ui}.webapi.output.**" />
+                        </allow>
                     </deny>
                 </access-rule>
             </ruleset>

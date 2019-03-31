@@ -31,14 +31,14 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertTrue(doesFileExistInGcs(typicalPictureKey));
 
         // typical profiles
-        profilesDb.saveEntity(StudentProfileAttributes.builder("valid.googleId")
+        profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withPictureKey(typicalPictureKey)
-                .build().toEntity());
-        profilesDb.saveEntity(StudentProfileAttributes.builder("valid.googleId2")
+                .build());
+        profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId2")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withPictureKey(typicalPictureKey)
-                .build().toEntity());
+                .build());
 
         // save entity and picture
         typicalProfileWithPicture = profilesDb.getStudentProfile("valid.googleId");

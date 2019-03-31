@@ -565,6 +565,12 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                         + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".");
             }
 
+            // If there are Empty Mcq options entered trigger this error
+            boolean isEmptyMcqOptionEntered = mcqChoices.stream().anyMatch(mcqText -> mcqText.trim().equals(""));
+            if (isEmptyMcqOptionEntered) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_EMPTY_MCQ_OPTION);
+            }
+
             // If weights are enabled, number of choices and weights should be same.
             // If user enters an invalid weight for a valid choice,
             // the mcqChoices.size() will be greater than mcqWeights.size(),

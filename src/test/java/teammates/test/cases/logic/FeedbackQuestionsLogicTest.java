@@ -75,7 +75,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testGetRecipientsForQuestion();
         testGetFeedbackQuestionsForInstructor();
         testGetFeedbackQuestionsForStudents();
-        testIsQuestionHasResponses();
         testIsQuestionAnswered();
         testAddQuestion();
     }
@@ -658,21 +657,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
 
         assertEquals(actualQuestions, expectedQuestions);
-    }
-
-    private void testIsQuestionHasResponses() {
-        FeedbackQuestionAttributes questionWithResponse;
-        FeedbackQuestionAttributes questionWithoutResponse;
-
-        ______TS("Check that a question has some responses");
-
-        questionWithResponse = getQuestionFromDatastore("qn1InSession1InCourse2");
-        assertTrue(fqLogic.areThereResponsesForQuestion(questionWithResponse.getId()));
-
-        ______TS("Check that a question has no responses");
-
-        questionWithoutResponse = getQuestionFromDatastore("qn2InSession1InCourse2");
-        assertFalse(fqLogic.areThereResponsesForQuestion(questionWithoutResponse.getId()));
     }
 
     private void testIsQuestionAnswered() throws Exception {

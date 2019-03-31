@@ -18,7 +18,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -38,6 +37,9 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
+    /**
+     * Creates or updates search document for the given student.
+     */
     public void putDocument(StudentAttributes student) {
         putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
@@ -50,12 +52,13 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         for (StudentAttributes student : students) {
             studentDocuments.add(new StudentSearchDocument(student));
         }
-        putDocuments(Const.SearchIndex.STUDENT, studentDocuments);
+        putDocument(Const.SearchIndex.STUDENT, studentDocuments.toArray(new SearchDocument[0]));
     }
 
     /**
      * Searches for students.
-     * @return {@link StudentSearchResultBundle}
+     *
+     * @param instructors the constraint that restricts the search result
      */
     public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
         if (queryString.trim().isEmpty()) {
@@ -69,10 +72,11 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * This method should be used by admin only since the searching does not restrict the
+     * Searches all students in the system.
+     *
+     * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
-     * search students in the whole system.
-     * @return null if no result found
+     * search instructors in the whole system.
      */
     public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
         if (queryString.trim().isEmpty()) {
@@ -112,11 +116,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return The data for Student with the courseId and email. Returns null if
-     *         there is no such student.
+     * Gets a student by unique ID courseId-email.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -126,9 +126,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Preconditions:
-     * <br> * All parameters are non-null.
-     * @return null if no such student is found.
+     * Gets a student by unique constraint courseId-googleId.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -143,12 +141,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Works only for encrypted keys.
-     *
-     * <p>Preconditions: <br>
-     * All parameters are non-null.
-     *
-     * @return null if no matching student.
+     * Gets a student by unique constraint encryptedKey.
      */
     public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedRegistrationKey);
@@ -158,19 +151,11 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             return makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(decryptedKey));
         } catch (InvalidParametersException e) {
             return null; // invalid registration key cannot be decrypted
-        } catch (Exception e) {
-            // TODO change this to an Assumption.fail
-            log.severe("Exception thrown trying to retrieve CourseStudent \n"
-                    + TeammatesException.toStringWithStackTrace(e));
-            return null;
         }
-
     }
 
     /**
-     * Preconditions:
-     * <br> * All parameters are non-null.
-     * @return an empty list if no such students are found.
+     * Gets all students associated with a googleId.
      */
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -179,9 +164,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     * @return an empty list if no students in the course.
+     * Gets all students of a course.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -190,9 +173,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     * @return an empty list if no students in the course.
+     * Gets all students of a team of a course.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, teamName);
@@ -202,9 +183,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Preconditions: <br>
-     * All parameters are non-null.
-     * @return an empty list if no students in this section
+     * Gets all students in a section of a course.
      */
     public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
@@ -214,9 +193,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
-     * @return an empty list if no students in the course.
+     * Gets all unregistered students of a course.
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -249,7 +226,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         CourseStudent student = getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (student == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT + updateOptions);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
 
         }
 
@@ -280,8 +257,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
             putDocument(newAttributes);
 
-            // Set true to prevent changes to last update timestamp
-            saveEntity(student, newAttributes);
+            saveEntity(student);
 
             newAttributes = makeAttributes(student);
             putDocument(newAttributes);
@@ -348,7 +324,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         return load().filter("courseId =", courseId);
     }
 
-    public List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
+    private List<CourseStudent> getCourseStudentEntitiesForCourse(String courseId) {
         return getCourseStudentsForCourseQuery(courseId).list();
     }
 
@@ -377,11 +353,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     @Override
     protected LoadType<CourseStudent> load() {
         return ofy().load().type(CourseStudent.class);
-    }
-
-    @Override
-    protected CourseStudent getEntity(StudentAttributes studentToGet) {
-        return getCourseStudentEntityForEmail(studentToGet.course, studentToGet.email);
     }
 
     @Override

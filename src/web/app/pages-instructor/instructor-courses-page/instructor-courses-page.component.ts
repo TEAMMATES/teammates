@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -257,16 +258,18 @@ export class InstructorCoursesPageComponent implements OnInit {
     const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.isDeleteAll = true;
     modalRef.result.then(() => {
-      const paramMap: { [key: string]: string } = {
-        user: this.user,
-      };
-      this.httpRequestService.delete('/instructor/courses/permanentlyDeleteAll', paramMap)
-          .subscribe((resp: MessageOutput) => {
-            this.loadInstructorCourses();
-            this.statusMessageService.showSuccessMessage(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
-          });
+      const deleteRequests: Observable<MessageOutput>[] = [];
+      this.softDeletedCourses.forEach((courseToDelete: SoftDeletedCourse) => {
+        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.id));
+      });
+
+      forkJoin(deleteRequests).subscribe(() => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessMessage('All courses have been permanently deleted.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+
     }, () => {});
   }
 
@@ -274,12 +277,14 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Restores all soft-deleted courses from Recycle Bin.
    */
   onRestoreAll(): void {
-    const paramMap: { [key: string]: string } = {
-      user: this.user,
-    };
-    this.httpRequestService.put('/instructor/courses/restoreAll', paramMap).subscribe((resp: MessageOutput) => {
+    const restoreRequests: Observable<MessageOutput>[] = [];
+    this.softDeletedCourses.forEach((courseToRestore: SoftDeletedCourse) => {
+      restoreRequests.push(this.courseService.restoreCourse(courseToRestore.id));
+    });
+
+    forkJoin(restoreRequests).subscribe(() => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      this.statusMessageService.showSuccessMessage('All courses have been restored.');
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

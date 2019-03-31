@@ -1,0 +1,615 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdminHomePageComponent should snap with default view 1`] = `
+<tm-admin-home-page
+  accountService={[Function AccountService]}
+  activeRequests="0"
+  instructorDetails=""
+  instructorEmail=""
+  instructorInstitution=""
+  instructorName=""
+  instructorsConsolidated={[Function Array]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <div>
+        <strong>
+          Adding Multiple Instructors
+        </strong>
+        <p
+          class="text-muted"
+        >
+          <i
+            class="fas fa-exclamation-circle"
+          />
+           Add Instructor Details in the format: Name | Email | Institution 
+        </p>
+        <textarea
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-details-single-line"
+          ng-reflect-model=""
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <button
+          class="btn btn-primary"
+          id="add-instructor-single-line"
+        >
+          Add Instructors
+        </button>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <div>
+        <strong>
+          Adding a Single Instructor
+        </strong>
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Name:
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-name"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Email: 
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-email"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Institution: 
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-institution"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <button
+          class="btn btn-primary"
+          id="add-instructor"
+        >
+          Add Instructor
+        </button>
+      </div>
+    </div>
+  </div>
+</tm-admin-home-page>
+`;
+
+exports[`AdminHomePageComponent should snap with disabled adding instructor button if there are active requests 1`] = `
+<tm-admin-home-page
+  accountService={[Function AccountService]}
+  activeRequests={[Function Number]}
+  instructorDetails=""
+  instructorEmail=""
+  instructorInstitution=""
+  instructorName=""
+  instructorsConsolidated={[Function Array]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <div>
+        <strong>
+          Adding Multiple Instructors
+        </strong>
+        <p
+          class="text-muted"
+        >
+          <i
+            class="fas fa-exclamation-circle"
+          />
+           Add Instructor Details in the format: Name | Email | Institution 
+        </p>
+        <textarea
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-details-single-line"
+          ng-reflect-model=""
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <button
+          class="btn btn-primary"
+          id="add-instructor-single-line"
+        >
+          Add Instructors
+        </button>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <div>
+        <strong>
+          Adding a Single Instructor
+        </strong>
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Name:
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-name"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Email: 
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-email"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Institution: 
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-institution"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <button
+          class="btn btn-primary"
+          id="add-instructor"
+        >
+          Add Instructor
+        </button>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <strong>
+        Result
+      </strong>
+    </div>
+    <div
+      class="card-body"
+    >
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-striped table-hover"
+        >
+          <thead>
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                Institution
+              </th>
+              <th>
+                Action
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                Message
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>
+                Instructor A
+              </td>
+              <td>
+                instructora@example.com
+              </td>
+              <td>
+                Sample Institution A
+              </td>
+              <td>
+                
+              </td>
+              <td>
+                ADDING
+              </td>
+              <td
+                style="width: 500px;"
+              >
+                
+                
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Instructor B
+              </td>
+              <td>
+                instructorb@example.com
+              </td>
+              <td>
+                Sample Institution B
+              </td>
+              <td>
+                
+                <div>
+                  <button
+                    class="btn btn-sm btn-primary"
+                    disabled=""
+                    id="add-instructor-1"
+                    style="margin-right: 10px;"
+                  >
+                    Add Instructor
+                  </button>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    id="cancel-instructor-1"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </td>
+              <td>
+                PENDING
+              </td>
+              <td
+                style="width: 500px;"
+              >
+                
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button
+          class="btn btn-primary"
+          disabled=""
+          id="add-all-instructors"
+        >
+          Add All Instructors
+        </button>
+      </div>
+    </div>
+  </div>
+</tm-admin-home-page>
+`;
+
+exports[`AdminHomePageComponent should snap with some instructors details 1`] = `
+<tm-admin-home-page
+  accountService={[Function AccountService]}
+  activeRequests="0"
+  instructorDetails=""
+  instructorEmail=""
+  instructorInstitution=""
+  instructorName=""
+  instructorsConsolidated={[Function Array]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <div>
+        <strong>
+          Adding Multiple Instructors
+        </strong>
+        <p
+          class="text-muted"
+        >
+          <i
+            class="fas fa-exclamation-circle"
+          />
+           Add Instructor Details in the format: Name | Email | Institution 
+        </p>
+        <textarea
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-details-single-line"
+          ng-reflect-model=""
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <button
+          class="btn btn-primary"
+          id="add-instructor-single-line"
+        >
+          Add Instructors
+        </button>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <div>
+        <strong>
+          Adding a Single Instructor
+        </strong>
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Name:
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-name"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Email: 
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-email"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <strong>
+          Institution: 
+        </strong>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-institution"
+          ng-reflect-model=""
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <button
+          class="btn btn-primary"
+          id="add-instructor"
+        >
+          Add Instructor
+        </button>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <strong>
+        Result
+      </strong>
+    </div>
+    <div
+      class="card-body"
+    >
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-striped table-hover"
+        >
+          <thead>
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                Institution
+              </th>
+              <th>
+                Action
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                Message
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>
+                Instructor A
+              </td>
+              <td>
+                instructora@example.com
+              </td>
+              <td>
+                Sample Institution A
+              </td>
+              <td>
+                
+                <div>
+                  <button
+                    class="btn btn-sm btn-primary"
+                    id="add-instructor-0"
+                    style="margin-right: 10px;"
+                  >
+                    Add Instructor
+                  </button>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    id="cancel-instructor-0"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </td>
+              <td>
+                PENDING
+              </td>
+              <td
+                style="width: 500px;"
+              >
+                
+                
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Instructor B
+              </td>
+              <td>
+                instructorb@example.com
+              </td>
+              <td>
+                Sample Institution B
+              </td>
+              <td>
+                
+              </td>
+              <td>
+                SUCCESS
+              </td>
+              <td
+                style="width: 500px;"
+              >
+                
+                <span
+                  id="message-instructor-1"
+                >
+                   Instructor "Instructor B" has been successfully created. [
+                  <a
+                    href="http://localhost:4200/web/join"
+                  >
+                    join link
+                  </a>
+                  ] 
+                </span>
+                
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Instructor C
+              </td>
+              <td>
+                instructorc@example.com
+              </td>
+              <td>
+                Sample Institution C
+              </td>
+              <td>
+                
+                <div>
+                  <button
+                    class="btn btn-sm btn-primary"
+                    id="add-instructor-2"
+                    style="margin-right: 10px;"
+                  >
+                    Add Instructor
+                  </button>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    id="cancel-instructor-2"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </td>
+              <td>
+                FAIL
+              </td>
+              <td
+                style="width: 500px;"
+              >
+                
+                
+                <span
+                  id="message-instructor-2"
+                >
+                  The instructor cannot be added for some reason
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button
+          class="btn btn-primary"
+          id="add-all-instructors"
+        >
+          Add All Instructors
+        </button>
+      </div>
+    </div>
+  </div>
+</tm-admin-home-page>
+`;
