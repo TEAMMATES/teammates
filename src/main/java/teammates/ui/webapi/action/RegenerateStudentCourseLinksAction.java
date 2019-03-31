@@ -1,17 +1,20 @@
 package teammates.ui.webapi.action;
 
+import static teammates.common.util.FieldValidator.REGEX_EMAIL;
+
 import org.apache.http.HttpStatus;
+
+import com.google.api.client.http.HttpStatusCodes;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.ui.webapi.output.RegenerateStudentCourseLinksData;
+import teammates.ui.webapi.output.ApiOutput;
 
 /**
  * Regenerates the course join and feedback session links for a given student in a course.
@@ -29,7 +32,7 @@ public class RegenerateStudentCourseLinksAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (!Config.isDevServer()) {
+        if (!userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
@@ -39,10 +42,15 @@ public class RegenerateStudentCourseLinksAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
+        if (!StringHelper.isMatching(studentEmailAddress, REGEX_EMAIL)) {
+            return new JsonResult("Invalid email address: " + studentEmailAddress,
+                    HttpStatusCodes.STATUS_CODE_BAD_REQUEST);
+        }
+
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmailAddress);
         if (student == null) {
-            return new JsonResult(new RegenerateStudentCourseLinksData("The student with the email " + studentEmailAddress
-                    + " could not be found in the course with ID [" + courseId + "].", null));
+            return new JsonResult("The student with the email " + studentEmailAddress
+                    + " could not be found for the course with ID [" + courseId + "].", HttpStatus.SC_NOT_FOUND);
         }
 
         try {
@@ -52,7 +60,7 @@ public class RegenerateStudentCourseLinksAction extends Action {
             String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
 
             return new JsonResult(
-                    new RegenerateStudentCourseLinksData(statusMessage, StringHelper.encrypt(updatedStudent.key)));
+                    new RegenerateStudentCourseLinksResponse(statusMessage, StringHelper.encrypt(updatedStudent.key)));
         } catch (EntityDoesNotExistException ex) {
             return new JsonResult(ex.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
@@ -68,6 +76,28 @@ public class RegenerateStudentCourseLinksAction extends Action {
                                                     Templates.EmailTemplates.REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
+    }
+
+    /**
+     * The API output format of {@link RegenerateStudentCourseLinksAction}.
+     */
+    public class RegenerateStudentCourseLinksResponse extends ApiOutput {
+        private final String message;
+        private final String newRegistrationKey;
+
+        public RegenerateStudentCourseLinksResponse(String msg, String key) {
+            this.message = msg;
+            this.newRegistrationKey = key;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getNewRegistrationKey() {
+            return newRegistrationKey;
+        }
+
     }
 
 }

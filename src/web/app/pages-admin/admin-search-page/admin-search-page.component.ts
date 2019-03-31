@@ -139,8 +139,7 @@ export class AdminSearchPageComponent {
 
       this.httpRequestService.post('/regeneratestudentcourselinks', paramsMap)
           .subscribe((resp: RegenerateStudentCourseLinks) => {
-            this.statusMessageService.showSuccessMessage(
-                `${resp.message} The student's new key is ${resp.newRegistrationKey}`);
+            this.statusMessageService.showSuccessMessage(resp.message);
             this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(response.error.message);

@@ -168,15 +168,6 @@ public class CourseStudent extends BaseEntity {
         return registrationKey;
     }
 
-    public void regenerateRegistrationKey() {
-        String newRegistrationKey = this.registrationKey;
-        while (newRegistrationKey.equals(this.registrationKey)) {
-            newRegistrationKey = generateRegistrationKey();
-        }
-
-        this.registrationKey = newRegistrationKey;
-    }
-
     public String getCourseId() {
         return courseId;
     }
@@ -207,6 +198,18 @@ public class CourseStudent extends BaseEntity {
     @OnSave
     public void updateLastUpdateTimestamp() {
         this.setLastUpdate(Instant.now());
+    }
+
+    /**
+     * Regenerates a new registration key for the student.
+     */
+    public void regenerateRegistrationKey() {
+        String newRegistrationKey = this.registrationKey;
+        while (newRegistrationKey.equals(this.registrationKey)) {
+            newRegistrationKey = generateRegistrationKey();
+        }
+
+        this.registrationKey = newRegistrationKey;
     }
 
     /**
