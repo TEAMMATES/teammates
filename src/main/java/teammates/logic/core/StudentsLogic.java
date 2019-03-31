@@ -18,7 +18,6 @@ import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.CourseStudent;
 
 /**
  * Handles operations related to students.
@@ -218,18 +217,10 @@ public final class StudentsLogic {
     public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes studentAttributes)
             throws EntityDoesNotExistException {
         try {
-            CourseStudent studentWithNewKey = studentAttributes.toEntity();
-            while (studentWithNewKey.getRegistrationKey().equals(studentAttributes.getKey())) {
-                studentWithNewKey = studentAttributes.toEntity();
-            }
-            String newKey = studentWithNewKey.getRegistrationKey();
-
-            updateStudentCascade(
-                    StudentAttributes.updateOptionsBuilder(studentAttributes.getCourse(), studentAttributes.email)
-                            .withNewRegistrationKey(newKey)
+            return updateStudentCascade(
+                    StudentAttributes.updateOptionsBuilder(studentAttributes.getCourse(), studentAttributes.getEmail())
+                            .withShouldRegenerateRegistrationKey(true)
                             .build());
-
-            return StudentAttributes.valueOf(studentWithNewKey);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             Assumption.fail("Resting registration key shall not cause: " + e.getMessage());
         }

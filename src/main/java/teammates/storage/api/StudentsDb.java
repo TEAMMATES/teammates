@@ -241,6 +241,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         }
 
+        if (updateOptions.shouldRegenerateRegistrationKey()) {
+            student.regenerateRegistrationKey();
+        }
+
         StudentAttributes newAttributes = makeAttributes(student);
         newAttributes.update(updateOptions);
 
