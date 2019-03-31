@@ -30,7 +30,6 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
     @Override
     @Test
     public void testExecute() throws Exception {
-
         ______TS("Success case: student gets his own image");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
@@ -98,6 +97,22 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
         assertEquals(student1Profile.pictureKey, imageResult.blobKey);
 
+        ______TS("Failure case: requesting image of an unregistered student");
+
+        StudentAttributes unregStudent = typicalBundle.students.get("student1InUnregisteredCourse");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
+                Const.ParamsNames.STUDENT_EMAIL, unregStudent.getEmail(),
+        };
+
+        action = getAction(submissionParams);
+        JsonResult jsonResult = getJsonResult(action);
+        MessageOutput message = (MessageOutput) jsonResult.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
+        assertEquals(GetStudentProfilePictureAction.PROFILE_PIC_NOT_FOUND, message.getMessage());
+
         ______TS("Failure case: requested student has no profile picture");
 
         submissionParams = new String[] {
@@ -106,8 +121,8 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         };
 
         action = getAction(submissionParams);
-        JsonResult jsonResult = getJsonResult(action);
-        MessageOutput message = (MessageOutput) jsonResult.getOutput();
+        jsonResult = getJsonResult(action);
+        message = (MessageOutput) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
         assertEquals(GetStudentProfilePictureAction.PROFILE_PIC_NOT_FOUND, message.getMessage());
