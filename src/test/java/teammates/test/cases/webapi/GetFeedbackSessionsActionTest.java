@@ -100,7 +100,6 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         assertEquals(1, fsData.getFeedbackSessions().size());
         FeedbackSessionData fs = fsData.getFeedbackSessions().get(0);
-        assertNotNull(fs.getDeletedAtTimestamp());
         assertAllInformationMatch(fs, session1InCourse1);
     }
 
@@ -377,6 +376,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     private void assertAllInstructorSessionsMatch(FeedbackSessionsData sessionsData,
                                                   List<FeedbackSessionAttributes> expectedSessions) {
 
+        assertEquals(sessionsData.getFeedbackSessions().size(), expectedSessions.size());
         for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {
             List<FeedbackSessionAttributes> matchedSessions =
                     expectedSessions.stream().filter(session -> session.getFeedbackSessionName().equals(
@@ -391,6 +391,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     private void assertAllStudentSessionsMatch(FeedbackSessionsData sessionsData,
                                                List<FeedbackSessionAttributes> expectedSessions) {
 
+        assertEquals(sessionsData.getFeedbackSessions().size(), expectedSessions.size());
         for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {
             List<FeedbackSessionAttributes> matchedSessions =
                     expectedSessions.stream().filter(session -> session.getFeedbackSessionName().equals(
