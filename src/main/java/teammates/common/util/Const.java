@@ -442,6 +442,8 @@ public final class Const {
         public static final String MCQ_ERROR_INVALID_WEIGHT =
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
                 + " must be valid non-negative numbers with precision up to 2 decimal places.";
+        public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
+        public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
