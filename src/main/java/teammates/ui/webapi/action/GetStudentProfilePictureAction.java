@@ -59,7 +59,10 @@ public class GetStudentProfilePictureAction extends Action {
             studentProfile = logic.getStudentProfile(userInfo.id);
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-            studentProfile = logic.getStudentProfile(student.googleId);
+
+            if (!student.googleId.isEmpty()) {
+                studentProfile = logic.getStudentProfile(student.googleId);
+            }
         }
 
         if (studentProfile == null || studentProfile.pictureKey.equals("")) {
