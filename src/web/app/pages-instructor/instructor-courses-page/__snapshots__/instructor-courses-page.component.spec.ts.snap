@@ -65,7 +65,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           </tr>
         </thead>
         <tbody>
-
+          
           <tr>
             <td>
               CS3281
@@ -76,42 +76,42 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 9:15PM"
+              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018
+               5 Nov 2018 
             </td>
             <td>
-
-
+              
+              
               <span>
-                 1
+                 1 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 1
+                 1 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 1
+                 1 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 1
+                 1 
               </span>
             </td>
             <td
               class="text-center"
             >
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
@@ -121,10 +121,10 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
-                 Enroll
+                 Enroll 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="View, edit and send invitation"
@@ -134,7 +134,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -145,7 +145,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -153,18 +153,18 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete
+                 Delete 
               </button>
-
-
+              
+              
             </td>
           </tr>
           <tr>
@@ -179,45 +179,45 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
-               2 Feb 2019
+               2 Feb 2019 
             </td>
             <td>
-
-
+              
+              
               <span>
-                 2
+                 2 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 2
+                 2 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 2
+                 2 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 2
+                 2 
               </span>
             </td>
             <td
               class="text-center"
             >
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Enroll
+                 Enroll 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -228,7 +228,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -239,7 +239,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -247,14 +247,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete
+                 Delete 
               </button>
             </td>
           </tr>
@@ -268,42 +268,42 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 10:45AM"
+              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018
+               5 Nov 2018 
             </td>
             <td>
-
-
+              
+              
               <span>
-                 3
+                 3 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 3
+                 3 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 3
+                 3 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 3
+                 3 
               </span>
             </td>
             <td
               class="text-center"
             >
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
@@ -313,10 +313,10 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
-                 Enroll
+                 Enroll 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="View, edit and send invitation"
@@ -326,7 +326,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -337,7 +337,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -345,14 +345,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete
+                 Delete 
               </button>
             </td>
           </tr>
@@ -368,45 +368,45 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td>
-
-
+              
+              
               <span>
-                 4
+                 4 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 4
+                 4 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 4
+                 4 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 4
+                 4 
               </span>
             </td>
             <td
               class="text-center"
             >
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Enroll
+                 Enroll 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -417,7 +417,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -428,7 +428,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -436,26 +436,26 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete
+                 Delete 
               </button>
-
-
+              
+              
             </td>
           </tr>
         </tbody>
         <tbody>
-
+          
         </tbody>
       </table>
-
+      
     </div>
   </div><div
     class="course-section"
@@ -466,7 +466,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       <span
         class="fa fa-file-archive"
       />
-       Archived Courses
+       Archived Courses 
     </h2>
     <div
       class="table-responsive"
@@ -495,7 +495,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           </tr>
         </thead>
         <tbody>
-
+          
           <tr>
             <td>
               CS2104
@@ -508,7 +508,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td
               class="text-center"
@@ -516,18 +516,18 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               <button
                 class="btn btn-light btn-sm"
               >
-                 Unarchive
+                 Unarchive 
               </button>
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete
+                 Delete 
               </button>
-
-
+              
+              
             </td>
           </tr>
           <tr>
@@ -542,7 +542,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td
               class="text-center"
@@ -550,14 +550,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               <button
                 class="btn btn-light btn-sm"
               >
-                 Unarchive
+                 Unarchive 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete
+                 Delete 
               </button>
             </td>
           </tr>
@@ -573,7 +573,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       <span
         class="fa fa-trash"
       />
-       Deleted Courses
+       Deleted Courses 
     </h2>
     <div
       class="card bg-light top-padded"
@@ -587,8 +587,8 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         <span
           class="float-sm-right margin-left-10px"
         >
-
-
+          
+          
           <button
             class="btn btn-light btn-sm disabled"
           >
@@ -598,15 +598,15 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               <span
                 class="fa fa-times-circle"
               />
-               Delete All
+               Delete All 
             </strong>
           </button>
         </span>
         <span
           class="float-sm-right"
         >
-
-
+          
+          
           <button
             class="btn btn-light btn-sm disabled"
           >
@@ -616,7 +616,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               <span
                 class="fa fa-check-circle"
               />
-               Restore All
+               Restore All 
             </strong>
           </button>
         </span>
@@ -652,7 +652,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           </tr>
         </thead>
         <tbody>
-
+          
           <tr>
             <td>
               CS1020
@@ -665,39 +665,39 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td
               container="body"
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Wed, 05 Nov 2003, 8:15AM"
             >
-               5 Nov 2003
+               5 Nov 2003 
             </td>
             <td
               class="text-center"
             >
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Restore the deleted course and"
                 ngbtooltip="Restore the deleted course and its corresponding students and sessions"
               >
-                 Restore
+                 Restore 
               </button>
-
-
-
+              
+              
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Permanently delete the course "
                 ngbtooltip="Permanently delete the course and its corresponding students and sessions"
                 style="color: red"
               >
-                 Delete Permanently
+                 Delete Permanently 
               </button>
-
-
+              
+              
             </td>
           </tr>
           <tr>
@@ -712,32 +712,32 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Thu, 05 Dec 2002, 8:15AM"
             >
-               5 Dec 2002
+               5 Dec 2002 
             </td>
             <td
               container="body"
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Fri, 05 Dec 2003, 8:15AM"
             >
-               5 Dec 2003
+               5 Dec 2003 
             </td>
             <td
               class="text-center"
             >
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Restore
+                 Restore 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
                 style="color: red"
               >
-                 Delete Permanently
+                 Delete Permanently 
               </button>
             </td>
           </tr>
@@ -813,7 +813,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           </tr>
         </thead>
         <tbody>
-
+          
           <tr>
             <td>
               CS3281
@@ -824,42 +824,42 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 9:15PM"
+              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018
+               5 Nov 2018 
             </td>
             <td>
-
-
+              
+              
               <span>
-                 1
+                 1 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 1
+                 1 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 1
+                 1 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 1
+                 1 
               </span>
             </td>
             <td
               class="text-center"
             >
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
@@ -869,10 +869,10 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
-                 Enroll
+                 Enroll 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="View, edit and send invitation"
@@ -882,7 +882,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -893,7 +893,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -901,18 +901,18 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete
+                 Delete 
               </button>
-
-
+              
+              
             </td>
           </tr>
           <tr>
@@ -927,45 +927,45 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
-               2 Feb 2019
+               2 Feb 2019 
             </td>
             <td>
-
-
+              
+              
               <span>
-                 2
+                 2 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 2
+                 2 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 2
+                 2 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 2
+                 2 
               </span>
             </td>
             <td
               class="text-center"
             >
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Enroll
+                 Enroll 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -976,7 +976,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -987,7 +987,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -995,14 +995,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete
+                 Delete 
               </button>
             </td>
           </tr>
@@ -1016,42 +1016,42 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 10:45AM"
+              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018
+               5 Nov 2018 
             </td>
             <td>
-
-
+              
+              
               <span>
-                 3
+                 3 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 3
+                 3 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 3
+                 3 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 3
+                 3 
               </span>
             </td>
             <td
               class="text-center"
             >
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
@@ -1061,10 +1061,10 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
-                 Enroll
+                 Enroll 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="View, edit and send invitation"
@@ -1074,7 +1074,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1085,7 +1085,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1093,14 +1093,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete
+                 Delete 
               </button>
             </td>
           </tr>
@@ -1116,45 +1116,45 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td>
-
-
+              
+              
               <span>
-                 4
+                 4 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 4
+                 4 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 4
+                 4 
               </span>
             </td>
             <td>
-
-
+              
+              
               <span>
-                 4
+                 4 
               </span>
             </td>
             <td
               class="text-center"
             >
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Enroll
+                 Enroll 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1165,7 +1165,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1176,7 +1176,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1184,26 +1184,26 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
-          >
-                 Delete
+              >
+                 Delete 
               </button>
-
-
+              
+              
             </td>
           </tr>
         </tbody>
         <tbody>
-
+          
         </tbody>
       </table>
-
+      
     </div>
   </div><div
     class="course-section"
@@ -1214,7 +1214,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       <span
         class="fa fa-file-archive"
       />
-       Archived Courses
+       Archived Courses 
     </h2>
     <div
       class="table-responsive"
@@ -1243,7 +1243,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           </tr>
         </thead>
         <tbody>
-
+          
           <tr>
             <td>
               CS2104
@@ -1256,7 +1256,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td
               class="text-center"
@@ -1264,18 +1264,18 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               <button
                 class="btn btn-light btn-sm"
               >
-                 Unarchive
+                 Unarchive 
               </button>
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete
+                 Delete 
               </button>
-
-
+              
+              
             </td>
           </tr>
           <tr>
@@ -1290,7 +1290,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td
               class="text-center"
@@ -1298,14 +1298,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               <button
                 class="btn btn-light btn-sm"
               >
-                 Unarchive
+                 Unarchive 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete
+                 Delete 
               </button>
             </td>
           </tr>
@@ -1321,7 +1321,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       <span
         class="fa fa-trash"
       />
-       Deleted Courses
+       Deleted Courses 
     </h2>
     <div
       class="card bg-light top-padded"
@@ -1335,7 +1335,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         <span
           class="float-sm-right margin-left-10px"
         >
-
+          
           <button
             class="btn btn-light btn-sm"
             ng-reflect-ngb-tooltip="Permanently delete all courses"
@@ -1347,16 +1347,16 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               <span
                 class="fa fa-times-circle"
               />
-               Delete All
+               Delete All 
             </strong>
           </button>
-
-
+          
+          
         </span>
         <span
           class="float-sm-right"
         >
-
+          
           <button
             class="btn btn-light btn-sm"
             ng-reflect-ngb-tooltip="Restore all deleted courses an"
@@ -1368,11 +1368,11 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               <span
                 class="fa fa-check-circle"
               />
-               Restore All
+               Restore All 
             </strong>
           </button>
-
-
+          
+          
         </span>
       </div>
     </div>
@@ -1406,7 +1406,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           </tr>
         </thead>
         <tbody>
-
+          
           <tr>
             <td>
               CS1020
@@ -1419,39 +1419,39 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td
               container="body"
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Wed, 05 Nov 2003, 8:15AM"
             >
-               5 Nov 2003
+               5 Nov 2003 
             </td>
             <td
               class="text-center"
             >
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Restore the deleted course and"
                 ngbtooltip="Restore the deleted course and its corresponding students and sessions"
               >
-                 Restore
+                 Restore 
               </button>
-
-
-
+              
+              
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Permanently delete the course "
                 ngbtooltip="Permanently delete the course and its corresponding students and sessions"
                 style="color: red"
               >
-                 Delete Permanently
+                 Delete Permanently 
               </button>
-
-
+              
+              
             </td>
           </tr>
           <tr>
@@ -1466,32 +1466,32 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Thu, 05 Dec 2002, 8:15AM"
             >
-               5 Dec 2002
+               5 Dec 2002 
             </td>
             <td
               container="body"
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Fri, 05 Dec 2003, 8:15AM"
             >
-               5 Dec 2003
+               5 Dec 2003 
             </td>
             <td
               class="text-center"
             >
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Restore
+                 Restore 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
                 style="color: red"
               >
-                 Delete Permanently
+                 Delete Permanently 
               </button>
             </td>
           </tr>
@@ -1567,10 +1567,10 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
           </tr>
         </thead>
         <tbody>
-
+          
         </tbody>
         <tbody>
-
+          
           <tr>
             <td />
             <td />
@@ -1583,7 +1583,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
           </tr>
         </tbody>
       </table>
-
+      
       <p>
         No records found.
       </p>
@@ -1657,7 +1657,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
           </tr>
         </thead>
         <tbody>
-
+          
           <tr>
             <td>
               CS3281
@@ -1668,58 +1668,58 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 9:15PM"
+              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018
+               5 Nov 2018 
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td
               class="text-center"
             >
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
@@ -1729,10 +1729,10 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
-                 Enroll
+                 Enroll 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="View, edit and send invitation"
@@ -1742,7 +1742,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1753,7 +1753,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1761,18 +1761,18 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete
+                 Delete 
               </button>
-
-
+              
+              
             </td>
           </tr>
           <tr>
@@ -1787,61 +1787,61 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
-               2 Feb 2019
+               2 Feb 2019 
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td
               class="text-center"
             >
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Enroll
+                 Enroll 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1852,7 +1852,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1863,7 +1863,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1871,14 +1871,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete
+                 Delete 
               </button>
             </td>
           </tr>
@@ -1892,58 +1892,58 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 10:45AM"
+              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018
+               5 Nov 2018 
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td
               class="text-center"
             >
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
@@ -1953,10 +1953,10 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
-                 Enroll
+                 Enroll 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="View, edit and send invitation"
@@ -1966,7 +1966,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1977,7 +1977,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -1985,14 +1985,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete
+                 Delete 
               </button>
             </td>
           </tr>
@@ -2008,61 +2008,61 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002
+               5 Nov 2002 
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td>
-
+              
               <span>
                 <a
                   href="javascript:;"
                 >
-                   show
+                   show 
                 </a>
               </span>
-
+              
             </td>
             <td
               class="text-center"
             >
-
-
+              
+              
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Enroll
+                 Enroll 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -2073,7 +2073,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/details"
                 tabindex="0"
               >
-                 View
+                 View 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -2084,7 +2084,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 routerlink="/web/instructor/courses/edit"
                 tabindex="0"
               >
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-light btn-sm"
@@ -2092,26 +2092,26 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
                   access it from the 'Courses' tab)"
               >
-                 Archive
+                 Archive 
               </button>
-
+              
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete
+                 Delete 
               </button>
-
-
+              
+              
             </td>
           </tr>
         </tbody>
         <tbody>
-
+          
         </tbody>
       </table>
-
+      
     </div>
   </div>
 </tm-instructor-courses-page>
