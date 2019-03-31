@@ -319,7 +319,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         updateOptions.googleIdOption.ifPresent(s -> googleId = s);
         updateOptions.teamNameOption.ifPresent(s -> team = s);
         updateOptions.sectionNameOption.ifPresent(s -> section = s);
-        updateOptions.registrationKeyOption.ifPresent(s -> key = s);
     }
 
     /**
@@ -357,6 +356,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public static class UpdateOptions {
         private String courseId;
         private String email;
+        private boolean shouldRegenerateRegistrationKey;
 
         private UpdateOption<String> newEmailOption = UpdateOption.empty();
         private UpdateOption<String> nameOption = UpdateOption.empty();
@@ -365,7 +365,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         private UpdateOption<String> googleIdOption = UpdateOption.empty();
         private UpdateOption<String> teamNameOption = UpdateOption.empty();
         private UpdateOption<String> sectionNameOption = UpdateOption.empty();
-        private UpdateOption<String> registrationKeyOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String email) {
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
@@ -383,6 +382,10 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             return email;
         }
 
+        public boolean shouldRegenerateRegistrationKey() {
+            return shouldRegenerateRegistrationKey;
+        }
+
         @Override
         public String toString() {
             return "StudentAttributes.UpdateOptions ["
@@ -395,7 +398,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                     + ", googleId = " + googleIdOption
                     + ", teamName = " + teamNameOption
                     + ", sectionName = " + sectionNameOption
-                    + ", key = " + registrationKeyOption
                     + "]";
         }
 
@@ -416,10 +418,10 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                 return thisBuilder;
             }
 
-            public Builder withNewRegistrationKey(String key) {
+            public Builder withShouldRegenerateRegistrationKey(boolean key) {
                 Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, key);
 
-                updateOptions.registrationKeyOption = UpdateOption.of(key);
+                updateOptions.shouldRegenerateRegistrationKey = key;
                 return thisBuilder;
             }
 
