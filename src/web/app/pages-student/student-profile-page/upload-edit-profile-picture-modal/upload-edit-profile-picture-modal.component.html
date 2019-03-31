@@ -22,12 +22,9 @@
         <p class="form-text">
           Max Size: 5 MB
         </p>
-        <button type="button" class="btn btn-primary profile-upload-picture-submit" [disabled]="!isFileSelected" (click)="uploadPicture(false)">
-          Upload Picture
-        </button>
       </div>
     </div>
-    <div *ngIf="pictureKey" class="col-8 border-left-gray">
+    <div *ngIf="imageToShow" class="col-8 border-left-gray">
       <div class="profile-pic-edit">
         <div class="alert alert-info">
           Adjust the cropper to crop your image to the desired area.
@@ -64,7 +61,7 @@
         Save Edited Photo
       </button>
     </div>
-    <div *ngIf="!pictureKey" class="col-8 border-left-gray">
+    <div *ngIf="!imageToShow" class="col-8 border-left-gray">
       <div class="alert alert-warning align-middle">
         Please upload a photo to start editing.
       </div>

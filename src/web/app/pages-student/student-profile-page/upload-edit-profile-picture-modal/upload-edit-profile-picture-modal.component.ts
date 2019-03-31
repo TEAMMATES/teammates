@@ -64,6 +64,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
       this.fileName = file.name;
       this.isFileSelected = true;
       this.populateFormData(file);
+      this.blobToBase64Image(file);
     }
   }
 

@@ -44,9 +44,6 @@ public class StudentProfilePage extends AppPage {
     @FindBy(className = "upload-edit-photo")
     private WebElement uploadPopupButton;
 
-    @FindBy(className = "profile-upload-picture-submit")
-    private WebElement uploadPictureSubmit;
-
     @FindBy(tagName = "tm-upload-edit-profile-picture-modal")
     private WebElement uploadEditModal;
 
@@ -133,11 +130,8 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void uploadPicture() {
-        click(uploadPictureSubmit);
-        waitForPageToLoad();
         waitForPageToLoad();
         click(editPictureSubmit);
-        waitForPageToLoad();
         click(uploadEditModal.findElement(By.className("close")));
     }
 
