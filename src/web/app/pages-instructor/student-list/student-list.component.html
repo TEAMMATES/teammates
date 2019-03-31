@@ -43,7 +43,7 @@
         <td class="no-print align-center">
           <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
                        let-routerLink="routerLink" let-queryParams="queryParams">
-            <a class="btn btn-secondary btn-sm mr-2"
+            <a class="btn btn-light btn-sm mr-2"
                [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
                [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
                [routerLink]="routerLink"
@@ -68,13 +68,13 @@
         }"></ng-container>
         <ng-container *ngIf="enableRemindButton">
           <ng-container *ngIf="student.status == 'Yet to join'">
-            <button class="btn btn-secondary btn-sm mr-2" *ngIf="section.isAllowedToModifyStudent"
+            <button class="btn btn-light btn-sm mr-2" *ngIf="section.isAllowedToModifyStudent"
               ngbTooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
               + ' Google Account. Note: Students can use TEAMMATES without \'joining\','
               + ' but a joined student can access extra features e.g. set up a user profile'"
                (click)="openModal(remindModal)">Send Invite</button>
-            <button class="btn btn-secondary btn-sm mr-2 disabled mouse-hover-only" *ngIf="!section.isAllowedToModifyStudent"
-              ngbTooltip="'You do not have the permissions to access this feature'"></button>
+            <button class="btn btn-light btn-sm mr-2 disabled mouse-hover-only" *ngIf="!section.isAllowedToModifyStudent"
+              ngbTooltip="'You do not have the permissions to access this feature'">Send Invite</button>
           </ng-container>
         </ng-container>
         <ng-template #remindModal let-modal>
@@ -91,7 +91,7 @@
             <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">Yes</button>
           </div>
         </ng-template>
-        <button class="btn btn-secondary btn-sm mr-2"
+        <button class="btn btn-light btn-sm mr-2"
           [ngClass]="{'disabled mouse-hover-only': !section.isAllowedToModifyStudent}"
           [ngbTooltip]="section.isAllowedToModifyStudent
             ? 'Delete the student and the corresponding submissions from the course'

@@ -51,7 +51,7 @@ public class DeleteInstructorAction extends Action {
                     + "Deleting the last instructor from the course is not allowed.", HttpStatus.SC_BAD_REQUEST);
         }
 
-        logic.deleteInstructor(courseId, instructor.email);
+        logic.deleteInstructorCascade(courseId, instructor.email);
 
         return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
     }

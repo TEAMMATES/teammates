@@ -76,6 +76,9 @@ public class Instructor extends BaseEntity {
         this.setRegistrationKey(generateRegistrationKey());
     }
 
+    /**
+     * Generates an unique ID for the instructor.
+     */
     public static String generateId(String email, String courseId) {
         // Format: email%courseId e.g., adam@gmail.com%cs1101
         return email + '%' + courseId;
@@ -165,6 +168,9 @@ public class Instructor extends BaseEntity {
         this.role = role;
     }
 
+    /**
+     * Returns whether the instructor is displayed to students.
+     */
     public boolean isDisplayedToStudents() {
         if (this.isDisplayedToStudents == null) {
             return true;
@@ -184,6 +190,9 @@ public class Instructor extends BaseEntity {
         this.displayedName = displayedName;
     }
 
+    /**
+     * Gets the instructor privileges stored in JSON format.
+     */
     public String getInstructorPrivilegesAsText() {
         if (instructorPrivilegesAsText == null) {
             return null;

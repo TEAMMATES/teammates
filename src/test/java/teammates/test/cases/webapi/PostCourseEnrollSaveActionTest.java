@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -281,7 +282,10 @@ public class PostCourseEnrollSaveActionTest extends BaseActionTest<PostCourseEnr
         verifyNoTasksAdded(a);
 
         CoursesLogic.inst().deleteCourseCascade("new-course");
-        StudentsLogic.inst().deleteStudentsForCourse(instructor1OfCourse1.courseId);
+        StudentsLogic.inst().deleteStudents(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(instructor1OfCourse1.courseId)
+                        .build());
     }
 
     /**

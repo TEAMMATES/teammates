@@ -31,14 +31,14 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertTrue(doesFileExistInGcs(typicalPictureKey));
 
         // typical profiles
-        profilesDb.saveEntity(StudentProfileAttributes.builder("valid.googleId")
+        profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withPictureKey(typicalPictureKey)
-                .build().toEntity());
-        profilesDb.saveEntity(StudentProfileAttributes.builder("valid.googleId2")
+                .build());
+        profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId2")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withPictureKey(typicalPictureKey)
-                .build().toEntity());
+                .build());
 
         // save entity and picture
         typicalProfileWithPicture = profilesDb.getStudentProfile("valid.googleId");
@@ -48,8 +48,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     @AfterMethod
     public void deleteTypicalData() {
         // delete entity
-        profilesDb.deleteEntity(typicalProfileWithPicture);
-        profilesDb.deleteEntity(typicalProfileWithoutPicture);
+        profilesDb.deleteStudentProfile(typicalProfileWithPicture.googleId);
+        profilesDb.deleteStudentProfile(typicalProfileWithoutPicture.googleId);
         verifyAbsentInDatastore(typicalProfileWithPicture);
         verifyAbsentInDatastore(typicalProfileWithoutPicture);
 
@@ -86,7 +86,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertEquals("Test", createdSpa.shortName);
 
         // tear down
-        profilesDb.deleteEntity(spa);
+        profilesDb.deleteStudentProfile(spa.googleId);
     }
 
     @Test
