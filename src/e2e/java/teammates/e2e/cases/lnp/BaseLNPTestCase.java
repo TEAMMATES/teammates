@@ -61,7 +61,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         File file = new File(pathToResultFile);
 
         // Write data to the file; overwrite if it already exists
-        if (!file.exists()) {
+        if (file.exists()) {
             file.delete();
         }
         file.createNewFile();
@@ -91,7 +91,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         File file = new File(pathToResultFile);
 
         // Write data to the file; overwrite if it already exists
-        if (!file.exists()) {
+        if (file.exists()) {
             file.delete();
         }
         file.createNewFile();
@@ -178,6 +178,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         ResultCollector logger = new ResultCollector(summer);
         logger.setFilename(resultFile);
         testPlanTree.add(testPlanTree.getArray()[0], logger);
+
+        File file = new File(resultFile);
+        if (file.exists()) {
+            file.delete();
+        }
 
         // Run JMeter Test
         jmeter.configure(testPlanTree);
