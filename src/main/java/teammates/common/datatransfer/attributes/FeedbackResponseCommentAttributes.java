@@ -21,8 +21,6 @@ import teammates.storage.entity.FeedbackResponseComment;
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
-    private static final String FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MSG = "Recently modified feedback response comment::";
-
     public Long feedbackResponseCommentId;
 
     public String courseId;
@@ -247,11 +245,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 commentGiverType, feedbackResponseId, createdAt, commentText, giverSection, receiverSection,
                 showCommentTo, showGiverNameTo, lastEditorEmail, lastEditedAt, isCommentFromFeedbackParticipant,
                 isVisibilityFollowingFeedbackQuestion);
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MSG + getId();
     }
 
     @Override
