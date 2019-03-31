@@ -18,9 +18,9 @@
   <div class="col-sm-6">
     <div *ngIf="!isGeneratedOptionsEnabled">
       <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onMsqOptionDropped($event)">
           <div class="margin-bottom-7px"  *ngFor="let num of model.msqChoices; let i = index;
-          trackBy: trackMsqOption">
+          trackBy: trackMsqOption" cdkDrag>
             <br>
             <tm-msq-field (elementDeleted)="onMsqOptionDeleted($event)"
                           (msqText)="onMsqOptionEntered($event, i)"
