@@ -1,4 +1,4 @@
-package teammates.lnp.util;
+package teammates.e2e.util;
 
 import java.io.IOException;
 import java.util.List;

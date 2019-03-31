@@ -3,7 +3,7 @@
 <suite name="lnp-tests">
     <test name="lnp-tests">
         <packages>
-            <package name="teammates.lnp" />
+            <package name="teammates.e2e.cases.lnp" />
         </packages>
     </test>
 </suite>

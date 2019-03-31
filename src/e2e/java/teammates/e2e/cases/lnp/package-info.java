@@ -1,4 +1,4 @@
 /**
  * Contains L&P test cases.
  */
-package teammates.lnp;
+package teammates.e2e.cases.lnp;

@@ -1,21 +1,21 @@
 # Performance Testing
 
 TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for load and performance (L&P) testing, and uses the [JMeter Java API](https://jmeter.apache.org/api/index.html) and TestNG to automate the process of running performance tests.
-The performance test cases are located in the `teammates.lnp` package. The actual JMeter tests are the `.jmx` files located in the `src/test/lnpTests/` directory.
+The performance test cases are located in the `teammates.e2e.cases.lnp` package. The actual JMeter tests are the `.jmx` files located in the `src/e2e/lnp/tests/` directory.
 
 ## Running Performance Tests
 
-[Download JMeter](https://jmeter.apache.org/download_jmeter.cgi) and update the JMeter properties in `src/test/resources/test.properties` accordingly.  
+[Download JMeter](https://jmeter.apache.org/download_jmeter.cgi) and update the JMeter properties in `src/e2e/resources/test.properties` accordingly.  
 Start the backend server, i.e. `localhost:8080`, before running the performance tests.
 
 ### Using Gradle
 
 To run the performance tests, execute this command from the main project directory:
-```
+```sh
 ./gradlew lnpTests
 ```
 
-- The JMeter test results are stored as JTL files with the same name as the test file in `src/test/lnpResults/TEST_NAME.jmx.jtl`. 
+- The JMeter test results are stored as JTL files with the same name as the test file in `src/e2e/lnp/results/TEST_NAME.jmx.jtl`. 
 - A log file is generated as `jmeter.log`.
 
 If the build fails:
@@ -27,18 +27,18 @@ If the build fails:
 If you have JMeter installed, you can use `jmeter` in the command line to run tests and generate reports.
 
 Execute this command after replacing the parameters with the relevant paths:
-```
-jmeter -n -t PATH_TO_TEST_FILE.jmx -l RESULT_FILE.jtl -j LOG_FILE.log
+```sh
+jmeter -n -t PATH_TO_TEST_FILE.jmx -l PATH_TO_RESULT_FILE.jtl -j PATH_TO_LOG_FILE.log
 ```
 
 Also, you can use this command to generate a HTML **summary report** from the results file (`.jtl`) that was generated earlier:
-```
-jmeter -g PATH_TO_RESULT_FILE.csv -o REPORT_OUTPUT_FOLDER -j LOG_FILE.log
+```sh
+jmeter -g PATH_TO_RESULT_FILE.jtl -o REPORT_OUTPUT_FOLDER -j PATH_TO_LOG_FILE.log
 ```
 
 If you want to do both together (i.e. execute the test and generate the report), use:
-```
-jmeter -n -t PATH_TO_TEST_FILE.jmx -l RESULT_FILE.csv -e -o REPORT_OUTPUT_FOLDER -j LOG_FILE.log
+```sh
+jmeter -n -t PATH_TO_TEST_FILE.jmx -l PATH_TO_RESULT_FILE.jtl -e -o REPORT_OUTPUT_FOLDER -j PATH_TO_LOG_FILE.log
 ```
 
 ### Using JMeter GUI

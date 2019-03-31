@@ -88,7 +88,6 @@ dependencies {
                     "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0",
                     // For access to JMeter APIs
                     "org.apache.jmeter:ApacheJMeter_core:5.1.1",
-                    "org.apache.jmeter:jorphan:5.1.1",
                     "org.apache.jmeter:ApacheJMeter_http:5.1.1"
 }
 
@@ -581,7 +580,7 @@ test {
 
 task lnpTests(type: Test) {
     useTestNG()
-    options.suites "src/test/resources/testng-lnp.xml"
+    options.suites "src/e2e/resources/testng-lnp.xml"
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"

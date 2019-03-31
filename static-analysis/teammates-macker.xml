@@ -10,7 +10,6 @@
         <var name="e2e" value="teammates.e2e" />
         <var name="e2eCases" value="teammates.e2e.cases" />
         <var name="client" value="teammates.client" />
-        <var name="lnp" value="teammates.lnp" />
 
         <ruleset name="Architectural rules for production code">
             <ruleset name="PackageDiagram: UI should not touch Storage">
@@ -315,11 +314,6 @@
                         <allow>
                             <from class="${e2e}.**" />
                         </allow>
-                        <!-- Allow L&P Tests to reuse Backdoor API -->
-                        <allow>
-                            <from class="${lnp}.**" />
-                            <to class="${e2e}.**" />
-                        </allow>
 
                         <!-- to remove after front-end migration is done -->
                         <allow>
@@ -388,20 +382,6 @@
                         <to class="${e2e}.**" />
                         <allow>
                             <to class="${e2e}.util.**" /> <!-- allow dependency within the package -->
-                        </allow>
-                    </deny>
-                </access-rule>
-            </ruleset>
-        </ruleset>
-
-        <ruleset name="Architectural rules for LnP test code">
-            <ruleset name="LnPComponent: lnp::util should not have dependencies to anything within the lnp package">
-                <access-rule>
-                    <deny>
-                        <from class="${lnp}.util.**" />
-                        <to class="${lnp}.**" />
-                        <allow>
-                            <to class="${lnp}.util.**" /> <!-- allow dependency within the package -->
                         </allow>
                     </deny>
                 </access-rule>

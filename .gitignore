@@ -39,7 +39,8 @@ build-eclipse/
 
 # JMeter
 jmeter.log
-src/test/lnpResults/
+src/e2e/lnp/*
+!src/e2e/lnp/tests/
 
 # TEAMMATES
 gradle.properties

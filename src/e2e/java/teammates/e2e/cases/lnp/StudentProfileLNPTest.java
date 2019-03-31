@@ -1,4 +1,4 @@
-package teammates.lnp;
+package teammates.e2e.cases.lnp;
 
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.lnp.util.LNPTestData;
+import teammates.e2e.util.LNPTestData;
 
 /**
  * L&P Test Case for student profile API endpoint.
@@ -31,7 +31,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     private static final String JSON_DATA_PATH = "/studentProfileData.json";
     private static final String CSV_CONFIG_PATH = "/studentProfileConfig.csv";
-    private static final String JMX_FILE = "studentProfile.jmx";
+    private static final String JMX_FILE = "/studentProfile.jmx";
 
     private static final int NUMBER_OF_USER_ACCOUNTS = 500;
     private static final String USER_NAME = "DummyUser";

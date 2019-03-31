@@ -1,4 +1,4 @@
-package teammates.lnp;
+package teammates.e2e.cases.lnp;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,14 +20,14 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
-import teammates.lnp.util.LNPTestData;
-import teammates.lnp.util.TestProperties;
-import teammates.test.driver.FileHelper;
+import teammates.e2e.util.LNPTestData;
+import teammates.e2e.util.TestProperties;
+import teammates.test.cases.BaseTestCase;
 
 /**
  * Base class for all L&P test cases.
  */
-public abstract class BaseLNPTestCase {
+public abstract class BaseLNPTestCase extends BaseTestCase {
 
     private static final Logger log = Logger.getLogger();
 
@@ -41,30 +41,19 @@ public abstract class BaseLNPTestCase {
      */
     protected abstract String getCsvConfigPath();
 
-    /**
-     * Creates the test data folder if it does not exist.
-     */
-    private boolean createTestDataFolder() {
-        File testDataDirectory = new File(TestProperties.JMETER_TEST_DATA_DIRECTORY);
-        if (!testDataDirectory.exists()) {
-            return testDataDirectory.mkdir();
-        }
-        return true;
+    @Override
+    protected String getTestDataFolder() {
+        return TestProperties.TEST_DATA_FOLDER;
     }
 
-    private String getPathToFile(String pathToFileParam) {
-        return (pathToFileParam.charAt(0) == '/' ? TestProperties.JMETER_TEST_DATA_DIRECTORY : "")
-                + pathToFileParam;
+    private String getPathToFile(String fileName) {
+        return TestProperties.TEST_DATA_FOLDER + fileName;
     }
 
     /**
      * Creates the JSON data and writes it to the file specified by {@link #getJsonDataPath()}.
      */
     private void createJsonDataFile(LNPTestData testData) throws IOException {
-        if (!createTestDataFolder()) {
-            throw new IOException("Test data directory does not exist");
-        }
-
         DataBundle jsonData = testData.generateJsonData();
         String outputJsonPath = getJsonDataPath();
 
@@ -98,11 +87,6 @@ public abstract class BaseLNPTestCase {
      */
     private void writeDataToCsvFile(List<String> headers, List<List<String>> valuesList, String pathToResultFileParam)
             throws IOException {
-
-        if (!createTestDataFolder()) {
-            throw new IOException("Test data directory does not exist");
-        }
-
         String pathToResultFile = getPathToFile(pathToResultFileParam);
         File file = new File(pathToResultFile);
 
@@ -134,19 +118,6 @@ public abstract class BaseLNPTestCase {
             csvRow.add(value);
         }
         return csvRow.toString();
-    }
-
-    /**
-     * Returns the data bundle stored in the file specified by {@code dataBundleJsonPath}.
-     */
-    protected DataBundle loadDataBundle(String dataBundleJsonPath) {
-        try {
-            String pathToJsonFile = getPathToFile(dataBundleJsonPath);
-            String jsonString = FileHelper.readFile(pathToJsonFile);
-            return JsonUtils.fromJson(jsonString, DataBundle.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -193,7 +164,7 @@ public abstract class BaseLNPTestCase {
         SaveService.loadProperties();
 
         // Load JMeter Test Plan
-        File testFile = new File(TestProperties.JMETER_TEST_DIRECTORY + jmxFile);
+        File testFile = new File(TestProperties.LNP_TEST_CONFIG_FOLDER + jmxFile);
         HashTree testPlanTree = SaveService.loadTree(testFile);
 
         // Create summariser for generating results file
@@ -203,7 +174,7 @@ public abstract class BaseLNPTestCase {
             summer = new Summariser(summariserName);
         }
 
-        String resultFile = TestProperties.JMETER_TEST_RESULTS_DIRECTORY + jmxFile + ".jtl";
+        String resultFile = TestProperties.LNP_TEST_RESULTS_FOLDER + jmxFile + ".jtl";
         ResultCollector logger = new ResultCollector(summer);
         logger.setFilename(resultFile);
         testPlanTree.add(testPlanTree.getArray()[0], logger);
