@@ -226,4 +226,14 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
     }
+
+    @Test
+    public void testAccessControl_notEnoughParameters_shouldFail() {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1OfCourse1.googleId);
+
+        ______TS("Not enough parameters");
+
+        verifyHttpParameterFailure();
+    }
 }

@@ -35,7 +35,7 @@ public class GetHasResponsesAction extends Action {
             return;
         }
 
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (courseId != null) {
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(courseId, userInfo.getId()),
