@@ -14,7 +14,7 @@ import { StudentProfile } from './student-profile';
 })
 export class StudentProfileComponent implements OnInit {
   Gender: typeof Gender = Gender; // enum
-  photoUrl?: string;
+  photoUrl: string = '/assets/images/profile_picture_default.png';
 
   @Input() studentProfile: StudentProfile | undefined;
 
