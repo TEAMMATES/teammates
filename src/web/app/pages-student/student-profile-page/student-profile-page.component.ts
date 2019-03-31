@@ -141,9 +141,8 @@ export class StudentProfilePageComponent implements OnInit {
             this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
 
             // force reload
-            const timestamp: string = (new Date()).getTime();
+            const timestamp: number = (new Date()).getTime();
             this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}`;
-
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(response.error.message);
           });
