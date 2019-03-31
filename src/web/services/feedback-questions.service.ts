@@ -15,9 +15,9 @@ import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest } from '..
 import {
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_MSQ_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
-  DEFAULT_MSQ_QUESTION_DETAILS,
 } from '../types/default-question-structs';
 import { VisibilityControl } from '../types/visibility-control';
 import { HttpRequestService } from './http-request.service';

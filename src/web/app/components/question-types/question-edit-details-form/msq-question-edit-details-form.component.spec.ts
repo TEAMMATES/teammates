@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MsqFieldComponent } from './msq-field/msq-field.component';
 import { MsqQuestionEditDetailsFormComponent } from './msq-question-edit-details-form.component';
+import { WeightFieldComponent } from './weight-field/weight-field.component';
 
 describe('MsqQuestionEditDetailsFormComponent', () => {
   let component: MsqQuestionEditDetailsFormComponent;
@@ -11,7 +12,8 @@ describe('MsqQuestionEditDetailsFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MsqQuestionEditDetailsFormComponent,
-        MsqFieldComponent],
+        MsqFieldComponent,
+        WeightFieldComponent],
       imports: [
         FormsModule,
       ],

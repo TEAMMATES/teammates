@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FeedbackMsqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
+import {
+  FeedbackMsqQuestionDetails,
+  FeedbackParticipantType,
+} from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
@@ -20,6 +23,13 @@ export class MsqQuestionEditDetailsFormComponent
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS());
+  }
+
+  /**
+   * Displays new Msq weight at specified index.
+   */
+  onMsqWeightEntered(event: number, index: number): void {
+    this.model.msqWeights[index] = event;
   }
 
   /**
@@ -115,6 +125,13 @@ export class MsqQuestionEditDetailsFormComponent
    * Tracks the Msq option by index.
    */
   trackMsqOption(index: number, item: string[]): string {
+    return item[index];
+  }
+
+  /**
+   * Tracks the Msq weight by index.
+   */
+  trackMsqWeight(index: number, item: number[]): number {
     return item[index];
   }
 

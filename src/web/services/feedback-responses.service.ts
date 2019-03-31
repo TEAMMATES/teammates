@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import {
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
-  FeedbackContributionResponseDetails,
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
@@ -15,8 +14,9 @@ import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest } from '..
 import {
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
-  DEFAULT_NUMSCALE_RESPONSE_DETAILS, DEFAULT_TEXT_RESPONSE_DETAILS,
   DEFAULT_MSQ_RESPONSE_DETAILS,
+  DEFAULT_NUMSCALE_RESPONSE_DETAILS,
+  DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
