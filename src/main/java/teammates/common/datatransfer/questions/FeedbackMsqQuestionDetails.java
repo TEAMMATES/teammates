@@ -46,8 +46,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
-        this.maxSelectableChoices = Integer.MIN_VALUE;
-        this.minSelectableChoices = Integer.MIN_VALUE;
+        this.maxSelectableChoices = 0;
+        this.minSelectableChoices = 0;
         this.hasAssignedWeights = false;
         this.msqWeights = new ArrayList<>();
         this.msqOtherWeight = 0;
@@ -68,8 +68,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             msqOtherEnabled = true;
         }
 
-        int msqMaxSelectableChoices = Integer.MIN_VALUE;
-        int msqMinSelectableChoices = Integer.MIN_VALUE;
+        int msqMaxSelectableChoices = 0;
+        int msqMinSelectableChoices = 0;
         String maxSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES);
         String minSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
