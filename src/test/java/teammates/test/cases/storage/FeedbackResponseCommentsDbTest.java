@@ -6,14 +6,17 @@ import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.collections.Lists;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -41,24 +44,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         anotherFrcaData = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
         frcasData = new ArrayList<>();
 
-        FeedbackResponseCommentAttributes oldFrcaData =
-                frcDb.getFeedbackResponseComment(frcaData.feedbackResponseId, frcaData.commentGiver, frcaData.createdAt);
-        if (oldFrcaData != null) {
-            frcDb.deleteFeedbackResponseComment(oldFrcaData.getId());
-        }
-        frcDb.createEntity(frcaData);
-        frcaData = frcDb.getFeedbackResponseComment(frcaData.feedbackResponseId,
-                frcaData.commentGiver, frcaData.createdAt);
-
-        FeedbackResponseCommentAttributes oldAnotherFrcaData =
-                frcDb.getFeedbackResponseComment(
-                        anotherFrcaData.feedbackResponseId, anotherFrcaData.commentGiver, anotherFrcaData.createdAt);
-        if (oldAnotherFrcaData != null) {
-            frcDb.deleteFeedbackResponseComment(oldAnotherFrcaData.getId());
-        }
-        frcDb.createEntity(anotherFrcaData);
-        anotherFrcaData = frcDb.getFeedbackResponseComment(anotherFrcaData.feedbackResponseId,
-                anotherFrcaData.commentGiver, anotherFrcaData.createdAt);
+        frcaData = frcDb.putEntity(frcaData);
+        anotherFrcaData = frcDb.putEntity(anotherFrcaData);
 
         frcasData.add(frcaData);
         frcasData.add(anotherFrcaData);
@@ -201,6 +188,31 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         verifyListsContainSameResponseCommentAttributes(new ArrayList<>(frcasExpected), frcas);
     }
 
+    @Test
+    public void testUpdateFeedbackResponseComment_noChangeToComment_shouldNotIssueSaveRequest() throws Exception {
+        FeedbackResponseCommentAttributes updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(frcaData.getId())
+                        .build());
+
+        // please verify the log message manually to ensure that saving request is not issued
+        assertEquals(JsonUtils.toJson(frcaData), JsonUtils.toJson(updatedComment));
+
+        updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(frcaData.getId())
+                        .withFeedbackResponseId(frcaData.getFeedbackResponseId())
+                        .withCommentText(frcaData.getCommentText())
+                        .withShowCommentTo(frcaData.getShowCommentTo())
+                        .withShowGiverNameTo(frcaData.getShowGiverNameTo())
+                        .withLastEditorEmail(frcaData.getLastEditorEmail())
+                        .withLastEditorAt(frcaData.getLastEditedAt())
+                        .withGiverSection(frcaData.getGiverSection())
+                        .withReceiverSection(frcaData.getReceiverSection())
+                        .build());
+
+        // please verify the log message manually to ensure that saving request is not issued
+        assertEquals(JsonUtils.toJson(frcaData), JsonUtils.toJson(updatedComment));
+    }
+
     private void testUpdateFeedbackResponseComment() throws Exception {
 
         ______TS("null parameter");
@@ -248,6 +260,90 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> frcDb.updateFeedbackResponseComment(updateOptions));
         assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT + updateOptions, ednee.getMessage());
+    }
+
+    // the test is to ensure that optimized saving policy is implemented without false negative
+    @Test
+    public void testUpdateFeedbackResponseComment_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {
+        FeedbackResponseCommentAttributes typicalComment =
+                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
+        typicalComment.createdAt = Instant.now();
+        typicalComment.commentText = "Update feedback response comment";
+        typicalComment = frcDb.createEntity(typicalComment);
+
+        assertNotEquals("responseId1", typicalComment.getFeedbackResponseId());
+        FeedbackResponseCommentAttributes updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(typicalComment.getId())
+                        .withFeedbackResponseId("responseId1")
+                        .build());
+        FeedbackResponseCommentAttributes actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
+        assertEquals("responseId1", updatedComment.getFeedbackResponseId());
+        assertEquals("responseId1", actualComment.getFeedbackResponseId());
+
+        assertNotEquals("This is new Text", actualComment.getCommentText());
+        updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(typicalComment.getId())
+                        .withCommentText("This is new Text")
+                        .build());
+        actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
+        assertEquals("This is new Text", updatedComment.getCommentText());
+        assertEquals("This is new Text", actualComment.getCommentText());
+
+        assertNotEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), actualComment.getShowCommentTo());
+        updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(typicalComment.getId())
+                        .withShowCommentTo(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS))
+                        .build());
+        actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), updatedComment.getShowCommentTo());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), actualComment.getShowCommentTo());
+
+        assertNotEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), actualComment.getShowGiverNameTo());
+        updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(typicalComment.getId())
+                        .withShowGiverNameTo(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS))
+                        .build());
+        actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), updatedComment.getShowGiverNameTo());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), actualComment.getShowGiverNameTo());
+
+        assertNotEquals("editor1@email.com", updatedComment.getLastEditorEmail());
+        updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(typicalComment.getId())
+                        .withLastEditorEmail("editor1@email.com")
+                        .build());
+        actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
+        assertEquals("editor1@email.com", updatedComment.getLastEditorEmail());
+        assertEquals("editor1@email.com", actualComment.getLastEditorEmail());
+
+        assertNotEquals(Instant.ofEpochMilli(1000), actualComment.getLastEditedAt());
+        updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(typicalComment.getId())
+                        .withLastEditorAt(Instant.ofEpochMilli(1000))
+                        .build());
+        actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
+        assertEquals(Instant.ofEpochMilli(1000), updatedComment.getLastEditedAt());
+        assertEquals(Instant.ofEpochMilli(1000), actualComment.getLastEditedAt());
+
+        assertNotEquals("section1", actualComment.getGiverSection());
+        updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(typicalComment.getId())
+                        .withGiverSection("section1")
+                        .build());
+        actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
+        assertEquals("section1", updatedComment.getGiverSection());
+        assertEquals("section1", actualComment.getGiverSection());
+
+        assertNotEquals("section1", actualComment.getReceiverSection());
+        updatedComment = frcDb.updateFeedbackResponseComment(
+                FeedbackResponseCommentAttributes.updateOptionsBuilder(typicalComment.getId())
+                        .withReceiverSection("section1")
+                        .build());
+        actualComment = frcDb.getFeedbackResponseComment(typicalComment.getId());
+        assertEquals("section1", updatedComment.getReceiverSection());
+        assertEquals("section1", actualComment.getReceiverSection());
+
+        frcDb.deleteFeedbackResponseComment(typicalComment.getId());
     }
 
     private void testGetFeedbackResponseCommentsForSession() {
