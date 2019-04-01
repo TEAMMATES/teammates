@@ -121,6 +121,26 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
+     * Setup and load the JMeter configuration and property files to run the Jmeter test.
+     * @throws IOException if the save service properties file cannot be loaded.
+     */
+    private void loadJmeterProperties() throws IOException {
+        JMeterUtils.loadJMeterProperties(TestProperties.JMETER_PROPERTIES_PATH);
+        JMeterUtils.setJMeterHome(TestProperties.JMETER_HOME);
+        JMeterUtils.initLocale();
+        SaveService.loadProperties();
+    }
+
+    /**
+     * Returns the generated JMeter test plan.
+     * @param shouldCreateJmxFile Whether the generated test plan should be saved to a `.jmx` file, which
+     *                            can be opened in the JMeter GUI.
+     * @return A nested tree structure that consists of the various elements that are used in the JMeter test.
+     * @throws IOException if there is an error when saving the test to a file.
+     */
+    protected abstract HashTree getJmeterTestPlan(boolean shouldCreateJmxFile) throws IOException;
+
+    /**
      * Creates the JSON test data and CSV config data files for the performance test from {@code testData}.
      */
     protected void createTestData(LNPTestData testData) {
@@ -152,20 +172,15 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     /**
      * Runs the JMeter test specified by {@code jmxFile}.
+     * @param shouldCreateJmxFile denjk
      */
-    protected void runJmeter(String jmxFile) throws Exception {
+    protected void runJmeter(boolean shouldCreateJmxFile) throws Exception {
         StandardJMeterEngine jmeter = new StandardJMeterEngine();
 
-        if (!TestProperties.JMETER_PROPERTIES_PATH.isEmpty()) {
-            JMeterUtils.loadJMeterProperties(TestProperties.JMETER_PROPERTIES_PATH);
-        }
-        JMeterUtils.setJMeterHome(TestProperties.JMETER_HOME);
-        JMeterUtils.initLocale();
-        SaveService.loadProperties();
+        loadJmeterProperties();
 
         // Load JMeter Test Plan
-        File testFile = new File(TestProperties.LNP_TEST_CONFIG_FOLDER + jmxFile);
-        HashTree testPlanTree = SaveService.loadTree(testFile);
+        HashTree testPlanTree = getJmeterTestPlan(shouldCreateJmxFile);
 
         // Create summariser for generating results file
         Summariser summer = null;
@@ -174,7 +189,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             summer = new Summariser(summariserName);
         }
 
-        String resultFile = TestProperties.LNP_TEST_RESULTS_FOLDER + jmxFile + ".jtl";
+        String resultFile = TestProperties.LNP_TEST_RESULTS_FOLDER + this.toString() + "-results.jtl";
         ResultCollector logger = new ResultCollector(summer);
         logger.setFilename(resultFile);
         testPlanTree.add(testPlanTree.getArray()[0], logger);
