@@ -93,7 +93,7 @@
               Archive
             </button>
             <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.id)"
-                    ngbTooltip="Delete the course and its corresponding students and sessions">
+                ngbTooltip="Delete the course and its corresponding students and sessions">
               Delete
             </button>
             <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
