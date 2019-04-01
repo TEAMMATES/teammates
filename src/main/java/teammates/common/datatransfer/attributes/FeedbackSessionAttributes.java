@@ -49,8 +49,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return result;
     };
 
-    private static final String FEEDBACK_SESSION_BACKUP_LOG_MSG = "Recently modified feedback session::";
-
     private String feedbackSessionName;
     private String courseId;
 
@@ -177,11 +175,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
                 respondingInstructorList, respondingStudentList);
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return FEEDBACK_SESSION_BACKUP_LOG_MSG + getCourseId() + "::" + getFeedbackSessionName();
     }
 
     @Override

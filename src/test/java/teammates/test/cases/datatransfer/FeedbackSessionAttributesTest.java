@@ -361,27 +361,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetBackUpIdentifier() {
-        FeedbackSessionAttributes sessionAttributes = FeedbackSessionAttributes
-                .builder("newFeedbackSessionName", "course")
-                .withCreatorEmail("email@email.com")
-                .withInstructions("default instructions")
-                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
-                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
-                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
-                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(ZoneId.of("Asia/Singapore"))
-                .withGracePeriod(Duration.ZERO)
-                .withIsClosingEmailEnabled(false)
-                .withIsPublishedEmailEnabled(false)
-                .build();
-
-        String expectedBackUpIdentifierMessage = "Recently modified feedback session::"
-                + sessionAttributes.getCourseId() + "::" + sessionAttributes.getFeedbackSessionName();
-        assertEquals(expectedBackUpIdentifierMessage, sessionAttributes.getBackupIdentifier());
-    }
-
-    @Test
     public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
         Instant sessionVisibleTime = TimeHelper.getInstantDaysOffsetFromNow(-3);
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(-2);

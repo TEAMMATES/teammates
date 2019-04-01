@@ -17,8 +17,6 @@ import teammates.storage.entity.Account;
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 
-    private static final String ACCOUNT_BACKUP_LOG_MSG = "Recently modified account::";
-
     public String googleId;
 
     public String name;
@@ -118,11 +116,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
     @Override
     public String toString() {
         return JsonUtils.toJson(this, AccountAttributes.class);
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return ACCOUNT_BACKUP_LOG_MSG + getGoogleId();
     }
 
     @Override

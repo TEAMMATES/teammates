@@ -1,0 +1,79 @@
+{
+  "accounts": {
+    "SCDetailsUiT.instr": {
+      "googleId": "SCDetailsUiT.instr",
+      "name": "Instructor",
+      "isInstructor": true,
+      "email": "tmms.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "SCDetailsUiT.CS2104": {
+      "id": "SCDetailsUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "SCDetailsUiT.instr": {
+      "googleId": "SCDetailsUiT.instr",
+      "courseId": "SCDetailsUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SCDetailsUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "SCDetailsUiT.alice": {
+      "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
+      "email": "SCDetailsUiT.alice@gmail.tmt",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
+    },
+    "SCDetailsUiT.benny": {
+      "googleId": "SCDetailsUiT.benny",
+      "email": "SCDetailsUiT.benny@gmail.tmt",
+      "course": "SCDetailsUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {
+    "SCDetailsUiT.student1InTSCourse": {
+      "googleId": "SCDetailsUiT.benny",
+      "shortName": "Benny",
+      "email": "SCDetailsUiT.benny@gmail.tmt",
+      "institute": "inst<script> alert('hi!'); </script>",
+      "nationality": "American",
+      "gender": "OTHER",
+      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+      "pictureKey": ""
+    }
+  }
+}
