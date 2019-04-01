@@ -57,20 +57,6 @@ describe('InstructorCoursesPageComponent', () => {
         canModifyCourse: false,
         canModifyStudent: false,
       },
-      {
-        id: 'CS2103',
-        name: 'Modifiable Students',
-        createdAt: '2018-11-05T08:15:30',
-        canModifyStudent: true,
-        canModifyCourse: false,
-      },
-      {
-        id: 'CS2102',
-        name: 'Modifiable Course',
-        createdAt: '2002-11-05T08:15:30',
-        canModifyStudent: false,
-        canModifyCourse: true,
-      },
     ];
     const archivedCourses: any[] = [
       {
@@ -86,7 +72,7 @@ describe('InstructorCoursesPageComponent', () => {
         canModifyCourse: false,
       },
     ];
-    const deleteCourses: any[] = [
+    const deletedCourses: any[] = [
       {
         id: 'CS1020',
         name: 'Can modify deleted',
@@ -115,22 +101,10 @@ describe('InstructorCoursesPageComponent', () => {
         students: 2,
         unregistered: 2,
       },
-      CS2103: {
-        sections: 3,
-        teams: 3,
-        students: 3,
-        unregistered: 3,
-      },
-      CS2102: {
-        sections: 4,
-        teams: 4,
-        students: 4,
-        unregistered: 4,
-      },
     };
     component.activeCourses = activeCourses;
     component.archivedCourses = archivedCourses;
-    component.softDeletedCourses = deleteCourses;
+    component.softDeletedCourses = deletedCourses;
     component.courseStats = courseStats;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -152,20 +126,6 @@ describe('InstructorCoursesPageComponent', () => {
         canModifyCourse: false,
         canModifyStudent: false,
       },
-      {
-        id: 'CS2103',
-        name: 'Modifiable Students',
-        createdAt: '2018-11-05T08:15:30',
-        canModifyStudent: true,
-        canModifyCourse: false,
-      },
-      {
-        id: 'CS2102',
-        name: 'Modifiable Course',
-        createdAt: '2002-11-05T08:15:30',
-        canModifyStudent: false,
-        canModifyCourse: true,
-      },
     ];
     const archivedCourses: any[] = [
       {
@@ -181,7 +141,7 @@ describe('InstructorCoursesPageComponent', () => {
         canModifyCourse: false,
       },
     ];
-    const deleteCourses: any[] = [
+    const deletedCourses: any[] = [
       {
         id: 'CS1020',
         name: 'Can modify deleted',
@@ -210,22 +170,10 @@ describe('InstructorCoursesPageComponent', () => {
         students: 2,
         unregistered: 2,
       },
-      CS2103: {
-        sections: 3,
-        teams: 3,
-        students: 3,
-        unregistered: 3,
-      },
-      CS2102: {
-        sections: 4,
-        teams: 4,
-        students: 4,
-        unregistered: 4,
-      },
     };
     component.activeCourses = activeCourses;
     component.archivedCourses = archivedCourses;
-    component.softDeletedCourses = deleteCourses;
+    component.softDeletedCourses = deletedCourses;
     component.courseStats = courseStats;
     component.canDeleteAll = false;
     component.canRestoreAll = false;
@@ -248,20 +196,6 @@ describe('InstructorCoursesPageComponent', () => {
         createdAt: '2019-02-02T08:15:30',
         canModifyCourse: false,
         canModifyStudent: false,
-      },
-      {
-        id: 'CS2103',
-        name: 'Modifiable Students',
-        createdAt: '2018-11-05T08:15:30',
-        canModifyStudent: true,
-        canModifyCourse: false,
-      },
-      {
-        id: 'CS2102',
-        name: 'Modifiable Course',
-        createdAt: '2002-11-05T08:15:30',
-        canModifyStudent: false,
-        canModifyCourse: true,
       },
     ];
     component.activeCourses = activeCourses;
