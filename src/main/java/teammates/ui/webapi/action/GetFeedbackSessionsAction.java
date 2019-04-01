@@ -1,6 +1,5 @@
 package teammates.ui.webapi.action;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,15 +86,15 @@ public class GetFeedbackSessionsAction extends Action {
         }
 
         if (entityType.equals(Const.EntityType.STUDENT)) {
-            feedbackSessionAttributes = feedbackSessionAttributes.stream().filter(session ->
-                    session.getSessionVisibleFromTime().compareTo(Instant.now()) <= 0).collect(Collectors.toList());
+            // hide session not visible to student
+            feedbackSessionAttributes = feedbackSessionAttributes.stream()
+                    .filter(FeedbackSessionAttributes::isVisible).collect(Collectors.toList());
         }
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessionAttributes);
         if (entityType.equals(Const.EntityType.STUDENT)) {
             responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformationForStudent);
         }
-
         return new JsonResult(responseData);
     }
 

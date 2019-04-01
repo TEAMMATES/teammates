@@ -199,7 +199,7 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
-     * hide some attributes to student.
+     * Hides some attributes to student.
      */
     public void hideInformationForStudent() {
         setGracePeriod(null);

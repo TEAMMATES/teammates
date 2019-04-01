@@ -184,7 +184,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
         assertEquals(4, fsData.getFeedbackSessions().size());
-        assertAllStudentSessionsMatch(fsData, sessionsInCourse1);
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 4));
 
     }
 
@@ -201,7 +201,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
 
         assertEquals(4, fsData.getFeedbackSessions().size());
-        assertAllStudentSessionsMatch(fsData, sessionsInCourse1);
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 4));
     }
 
     @Test
