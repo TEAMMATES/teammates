@@ -14,7 +14,7 @@ import teammates.common.util.Url;
 public final class TestProperties {
 
     /** The directory where the L&P test results are stored. */
-    public static final String LNP_TEST_RESULTS_FOLDER = "src/e2e/lnp/results/";
+    public static final String LNP_TEST_RESULTS_FOLDER = "src/e2e/lnp-results/";
 
     /** The directory where HTML files for testing pages are stored. */
     public static final String TEST_PAGES_FOLDER = "src/e2e/resources/pages";

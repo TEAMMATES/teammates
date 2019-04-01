@@ -1,7 +1,5 @@
 package teammates.e2e.cases.lnp;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +20,6 @@ import org.apache.jmeter.protocol.http.control.gui.HttpTestSampleGui;
 import org.apache.jmeter.protocol.http.gui.CookiePanel;
 import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
-import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.testbeans.gui.TestBeanGUI;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.testelement.TestPlan;
@@ -58,7 +55,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     private static final String JSON_DATA_PATH = "/studentProfileData.json";
     private static final String CSV_CONFIG_PATH = "/studentProfileConfig.csv";
-    private static final String JMX_FILE = "/studentProfile.jmx";
 
     private static final int NUMBER_OF_USER_ACCOUNTS = 500;
     private static final String USER_NAME = "DummyUser";
@@ -218,7 +214,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
      * Returns the JMeter test plan for the Student Profile endpoint.
      */
     @Override
-    protected HashTree getJmeterTestPlan(boolean shouldCreateJmxFile) throws IOException {
+    protected HashTree generateTestPlan() {
         // TestPlan
         TestPlan testPlan = new TestPlan();
         testPlan.setName("Student Profile Test Plan");
@@ -237,7 +233,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         // Thread Group
         ThreadGroup threadGroup = new SetupThreadGroup();
         threadGroup.setName("Thread Group");
-        threadGroup.setNumThreads(100);
+        threadGroup.setNumThreads(NUMBER_OF_USER_ACCOUNTS);
         threadGroup.setRampUp(2);
         threadGroup.setProperty(new StringProperty(ThreadGroup.ON_SAMPLE_ERROR, ThreadGroup.ON_SAMPLE_ERROR_CONTINUE));
         threadGroup.setSamplerController(loopController);
@@ -309,10 +305,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         threadGroupHashTree.add(defaultSampler);
         threadGroupHashTree.add(onceOnlyController, loginSampler);
         threadGroupHashTree.add(studentProfileSampler);
-
-        if (shouldCreateJmxFile) {
-            SaveService.saveTree(testPlanHashTree, new FileOutputStream(this.toString() + ".jmx"));
-        }
 
         return testPlanHashTree;
     }

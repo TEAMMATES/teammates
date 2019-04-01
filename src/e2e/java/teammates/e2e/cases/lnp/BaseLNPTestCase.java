@@ -132,13 +132,27 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Returns the generated JMeter test plan.
-     * @param shouldCreateJmxFile Whether the generated test plan should be saved to a `.jmx` file, which
-     *                            can be opened in the JMeter GUI.
+     * Generates the JMeter LNP test plan.
+     * @return A nested tree structure that consists of the various elements that are used in the JMeter test.
+     */
+    protected abstract HashTree generateTestPlan();
+
+    /**
+     * Returns the generated LNP test plan.
+     * @param shouldCreateJmxFile true if the generated test plan should be saved to a `.jmx` file which
+     *                            can be opened in the JMeter GUI, and false otherwise.
      * @return A nested tree structure that consists of the various elements that are used in the JMeter test.
      * @throws IOException if there is an error when saving the test to a file.
      */
-    protected abstract HashTree getJmeterTestPlan(boolean shouldCreateJmxFile) throws IOException;
+    private HashTree getLnpTestPlan(boolean shouldCreateJmxFile) throws IOException {
+        HashTree testPlanHashTree = generateTestPlan();
+
+        if (shouldCreateJmxFile) {
+            SaveService.saveTree(testPlanHashTree, Files.newOutputStream(Paths.get(this.toString() + ".jmx")));
+        }
+
+        return testPlanHashTree;
+    }
 
     /**
      * Creates the JSON test data and CSV config data files for the performance test from {@code testData}.
@@ -172,7 +186,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     /**
      * Runs the JMeter test specified by {@code jmxFile}.
-     * @param shouldCreateJmxFile denjk
+     * @param shouldCreateJmxFile true if the generated test plan should be saved to a `.jmx` file which
+     *                            can be opened in the JMeter GUI, and false otherwise.
      */
     protected void runJmeter(boolean shouldCreateJmxFile) throws Exception {
         StandardJMeterEngine jmeter = new StandardJMeterEngine();
@@ -180,7 +195,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         loadJmeterProperties();
 
         // Load JMeter Test Plan
-        HashTree testPlanTree = getJmeterTestPlan(shouldCreateJmxFile);
+        HashTree testPlanTree = getLnpTestPlan(shouldCreateJmxFile);
 
         // Create summariser for generating results file
         Summariser summer = null;
@@ -220,6 +235,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
         Files.delete(Paths.get(pathToJsonFile));
         Files.delete(Paths.get(pathToCsvFile));
+    }
+
+    @Override
+    public String toString() {
+        return "baseLnpTest";
     }
 
 }

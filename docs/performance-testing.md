@@ -1,7 +1,16 @@
 # Performance Testing
 
 TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for load and performance (L&P) testing, and uses the [JMeter Java API](https://jmeter.apache.org/api/index.html) and TestNG to automate the process of running performance tests.
-The performance test cases are located in the `teammates.e2e.cases.lnp` package. The actual JMeter tests are the `.jmx` files located in the `src/e2e/lnp/tests/` directory.
+The performance test cases are located in the `teammates.e2e.cases.lnp` package.
+
+## Creating Performance Tests
+
+Each new test case must inherit `BaseLNPTestCase`, create a `LNPTestData` instance, and implement all the `abstract` methods from both classes. 
+The L&P test plans are created using the JMeter API in the overridden `generateTestPlan()` method, which is invoked by `BaseLNPTestCase#getLNPTestPlan(boolean)`. 
+This boolean parameter can be set to `true` in the method call to generate the equivalent `.jmx` file, which can be opened in the JMeter GUI.
+By default, the file is saved as `baseLnpTest.jmx` in the root directory of your TEAMMATES project.
+
+To see a sample implementation of a test case, you can refer to `StudentProfileLNPTest`. It is a _simple_ test case which load tests a GET endpoint (`/webapi/student/profile`).
 
 ## Running Performance Tests
 
