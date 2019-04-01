@@ -57,20 +57,6 @@ export class StatusMessageService {
     this.showTemplate(template, 'snackbar-success');
   }
 
-  /**
-   * Shows a warning message containing HTML on the page
-   */
-  showWarningMessageTemplate(template: TemplateRef<any>): void {
-    this.showTemplate(template, 'snackbar-warning');
-  }
-
-  /**
-   * Shows an error message containing HTML on the page
-   */
-  showErrorMessageTemplate(template: TemplateRef<any>): void {
-    this.showTemplate(template, 'snackbar-danger');
-  }
-
   private showTemplate(template: TemplateRef<any>, color: string): void {
     this.snackBar.openFromTemplate(template, {
       duration: 5000,
