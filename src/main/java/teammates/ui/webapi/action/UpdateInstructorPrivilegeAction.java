@@ -79,44 +79,12 @@ public class UpdateInstructorPrivilegeAction extends Action {
 
         InstructorPrivilegeData response = new InstructorPrivilegeData();
 
-        response.setCanModifyInstructor(instructorToUpdate.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
-        response.setCanModifyStudent(instructorToUpdate.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-        response.setCanModifySession(instructorToUpdate.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
-        response.setCanModifyCourse(instructorToUpdate.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        response.constructCourseLevelPrivilege(instructorToUpdate.privileges);
 
-        if (sessionName == null && sectionName == null) {
-            response.setCanViewStudentInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-            response.setCanViewSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-            response.setCanSubmitSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-            response.setCanModifySessionCommentsInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-        } else {
-            response.setCanViewStudentInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                    sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-
-            if (sessionName == null) {
-                response.setCanViewSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                response.setCanSubmitSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-                response.setCanModifySessionCommentsInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-            } else {
-                response.setCanViewSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                        sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                response.setCanSubmitSessionInSections(instructorToUpdate.privileges.isAllowedForPrivilege(
-                        sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-                response.setCanModifySessionCommentsInSections(
-                        instructorToUpdate.privileges.isAllowedForPrivilege(sectionName, sessionName,
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-            }
+        if (sessionName != null) {
+            response.constructSessionLevelPrivilege(instructorToUpdate.privileges, sectionName, sessionName);
+        } else if (sectionName != null) {
+            response.constructSectionLevelPrivilege(instructorToUpdate.privileges, sectionName);
         }
 
         return new JsonResult(response);
