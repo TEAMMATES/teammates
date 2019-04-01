@@ -38,10 +38,10 @@ build-eclipse/
 /.stylelintrc.yml
 
 # JMeter
+*.jmx
 jmeter.log
 src/e2e/lnp-results
 !src/e2e/resources/lnp-properties/bin
-*.jmx
 
 # TEAMMATES
 gradle.properties

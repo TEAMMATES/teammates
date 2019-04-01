@@ -14,7 +14,7 @@ To see a sample implementation of a test case, you can refer to `StudentProfileL
 
 ## Running Performance Tests
 
-[Download JMeter](https://jmeter.apache.org/download_jmeter.cgi) and update the JMeter properties in `src/e2e/resources/test.properties` accordingly.  
+If you want to use your own copy of [JMeter](https://jmeter.apache.org/download_jmeter.cgi), update the `test.jmeter.*` properties in `src/e2e/resources/test.properties` accordingly.  
 Start the backend server, i.e. `localhost:8080`, before running the performance tests.
 
 ### Using Gradle
