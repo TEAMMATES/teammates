@@ -73,6 +73,8 @@ public abstract class AppPage {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
 
+        waitForPageToLoad();
+
         boolean isCorrectPageType = containsExpectedPageContents();
 
         if (isCorrectPageType) {
@@ -85,7 +87,8 @@ public abstract class AppPage {
 
         ThreadHelper.waitFor(2000);
 
-        this.reloadPage();
+        reloadPage();
+
         isCorrectPageType = containsExpectedPageContents();
 
         if (isCorrectPageType) {

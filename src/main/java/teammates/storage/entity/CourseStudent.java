@@ -80,6 +80,9 @@ public class CourseStudent extends BaseEntity {
         registrationKey = generateRegistrationKey();
     }
 
+    /**
+     * Generates an unique ID for the student.
+     */
     public static String generateId(String email, String courseId) {
         return email + '%' + courseId;
     }
@@ -88,6 +91,9 @@ public class CourseStudent extends BaseEntity {
         return createdAt;
     }
 
+    /**
+     * Sets the createdAt timestamp.
+     */
     public void setCreatedAt(Instant created) {
         this.createdAt = created;
         setLastUpdate(created);
@@ -125,6 +131,9 @@ public class CourseStudent extends BaseEntity {
         return name;
     }
 
+    /**
+     * Sets the full name of the student.
+     */
     public void setName(String name) {
         String trimmedName = name.trim();
         String processedFullName = StringHelper.splitName(trimmedName)[2];
@@ -136,6 +145,9 @@ public class CourseStudent extends BaseEntity {
         this.lastName = lastName.trim();
     }
 
+    /**
+     * Gets the last name of the student.
+     */
     public String getLastName() {
         // for legacy data. do not remove even if not covered in test.
         if (this.lastName == null) {
@@ -180,6 +192,9 @@ public class CourseStudent extends BaseEntity {
         this.sectionName = sectionName == null ? null : sectionName.trim();
     }
 
+    /**
+     * Updates the updatedAt timestamp when saving.
+     */
     @OnSave
     public void updateLastUpdateTimestamp() {
         this.setLastUpdate(Instant.now());
