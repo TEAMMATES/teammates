@@ -44,7 +44,7 @@ export class StatusMessageService {
 
   private showMessage(message: StatusMessage): void {
     this.snackBar.open(message.message, '', {
-      duration: 5000,
+      duration: 10000,
       verticalPosition: 'top',
       panelClass: ['snackbar', message.color],
     });
@@ -59,7 +59,7 @@ export class StatusMessageService {
 
   private showTemplate(template: TemplateRef<any>, color: string): void {
     this.snackBar.openFromTemplate(template, {
-      duration: 5000,
+      duration: 10000,
       verticalPosition: 'top',
       panelClass: ['snackbar', color],
     });
