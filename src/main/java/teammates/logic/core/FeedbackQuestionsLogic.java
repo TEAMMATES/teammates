@@ -511,11 +511,6 @@ public final class FeedbackQuestionsLogic {
         return giverTeam;
     }
 
-    public boolean areThereResponsesForQuestion(String feedbackQuestionId) {
-        return !frLogic.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, 1)
-                       .isEmpty();
-    }
-
     public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email)
             throws EntityDoesNotExistException {
 

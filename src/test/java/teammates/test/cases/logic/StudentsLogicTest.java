@@ -348,7 +348,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> studentsLogic.updateStudentCascade(updateOptions));
         assertEquals(
-                StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + updateOptions,
+                StudentsDb.ERROR_UPDATE_NON_EXISTENT + updateOptions,
                 ednee.getMessage());
 
         ______TS("check for InvalidParameters");

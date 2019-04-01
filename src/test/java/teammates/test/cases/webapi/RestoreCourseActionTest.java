@@ -86,7 +86,7 @@ public class RestoreCourseActionTest
         message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT_COURSE, message.getMessage());
+        assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT, message.getMessage());
     }
 
     @Override

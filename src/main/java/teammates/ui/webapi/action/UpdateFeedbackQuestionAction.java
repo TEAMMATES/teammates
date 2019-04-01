@@ -11,12 +11,12 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackQuestionData;
-import teammates.ui.webapi.request.FeedbackQuestionSaveRequest;
+import teammates.ui.webapi.request.FeedbackQuestionUpdateRequest;
 
 /**
- * Save a feedback question.
+ * Updates a feedback question.
  */
-public class SaveFeedbackQuestionAction extends Action {
+public class UpdateFeedbackQuestionAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -42,22 +42,22 @@ public class SaveFeedbackQuestionAction extends Action {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes oldQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
-        FeedbackQuestionSaveRequest saveRequest = getAndValidateRequestBody(FeedbackQuestionSaveRequest.class);
+        FeedbackQuestionUpdateRequest updateRequest = getAndValidateRequestBody(FeedbackQuestionUpdateRequest.class);
 
         // update old value based on current request
-        oldQuestion.setQuestionNumber(saveRequest.getQuestionNumber());
-        oldQuestion.setQuestionDescription(saveRequest.getQuestionDescription());
+        oldQuestion.setQuestionNumber(updateRequest.getQuestionNumber());
+        oldQuestion.setQuestionDescription(updateRequest.getQuestionDescription());
 
-        oldQuestion.setQuestionDetails(saveRequest.getQuestionDetails());
+        oldQuestion.setQuestionDetails(updateRequest.getQuestionDetails());
 
-        oldQuestion.setGiverType(saveRequest.getGiverType());
-        oldQuestion.setRecipientType(saveRequest.getRecipientType());
+        oldQuestion.setGiverType(updateRequest.getGiverType());
+        oldQuestion.setRecipientType(updateRequest.getRecipientType());
 
-        oldQuestion.setNumberOfEntitiesToGiveFeedbackTo(saveRequest.getNumberOfEntitiesToGiveFeedbackTo());
+        oldQuestion.setNumberOfEntitiesToGiveFeedbackTo(updateRequest.getNumberOfEntitiesToGiveFeedbackTo());
 
-        oldQuestion.setShowResponsesTo(saveRequest.getShowResponsesTo());
-        oldQuestion.setShowGiverNameTo(saveRequest.getShowGiverNameTo());
-        oldQuestion.setShowRecipientNameTo(saveRequest.getShowRecipientNameTo());
+        oldQuestion.setShowResponsesTo(updateRequest.getShowResponsesTo());
+        oldQuestion.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
+        oldQuestion.setShowRecipientNameTo(updateRequest.getShowRecipientNameTo());
 
         // validate questions (giver & recipient)
         String err = oldQuestion.getQuestionDetails().validateGiverRecipientVisibility(oldQuestion);
