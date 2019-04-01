@@ -191,7 +191,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     @Override
     protected String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.COURSE_ENROLL_SAVE + "?courseid=${courseId}";
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.COURSE_ENROLL_STUDENTS + "?courseid=${courseId}";
     }
 
     @Override

@@ -24,7 +24,7 @@ import teammates.ui.webapi.output.ApiOutput;
 /**
  * Action: saving the list of enrolled students for a course of an instructor.
  */
-public class PostCourseEnrollSaveAction extends Action {
+public class EnrollStudentsAction extends Action {
     private static final Logger log = Logger.getLogger();
 
     @Override
@@ -175,7 +175,7 @@ public class PostCourseEnrollSaveAction extends Action {
     }
 
     /**
-     * Data format for {@link PostCourseEnrollSaveAction}.
+     * Data format for {@link EnrollStudentsAction}.
      */
     public static class EnrollResults extends ApiOutput {
         private final List<EnrollResultPanel> enrollResultPanelList;
