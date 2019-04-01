@@ -623,7 +623,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public void update(UpdateOptions updateOptions) {
         updateOptions.instructionsOption.ifPresent(s -> instructions = s);
-        updateOptions.deletedTimeOption.ifPresent(s -> deletedTime = s);
         updateOptions.startTimeOption.ifPresent(s -> startTime = s);
         updateOptions.endTimeOption.ifPresent(s -> endTime = s);
         updateOptions.sessionVisibleFromTimeOption.ifPresent(s -> sessionVisibleFromTime = s);
@@ -708,7 +707,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private String feedbackSessionName;
 
         private UpdateOption<String> instructionsOption = UpdateOption.empty();
-        private UpdateOption<Instant> deletedTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> startTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> sessionVisibleFromTimeOption = UpdateOption.empty();

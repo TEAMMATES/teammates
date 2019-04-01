@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
@@ -174,6 +175,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
         FeedbackSessionAttributes[] newAttributesFinal = new FeedbackSessionAttributes[] { null };
         try {
+            FeedbackSessionsDb thisDb = this;
             ofy().transact(new VoidWork() {
                 @Override
                 public void vrun() {
@@ -194,8 +196,44 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                                 new InvalidParametersException(newAttributes.getInvalidityInfo()));
                     }
 
+                    // update only if change
+                    boolean hasSameAttributes =
+                            thisDb.<String>hasSameValue(feedbackSession.getInstructions(), newAttributes.getInstructions())
+                            && thisDb.<Instant>hasSameValue(feedbackSession.getStartTime(), newAttributes.getStartTime())
+                            && thisDb.<Instant>hasSameValue(feedbackSession.getEndTime(), newAttributes.getEndTime())
+                            && thisDb.<Instant>hasSameValue(
+                                    feedbackSession.getSessionVisibleFromTime(), newAttributes.getSessionVisibleFromTime())
+                            && thisDb.<Instant>hasSameValue(
+                                    feedbackSession.getResultsVisibleFromTime(), newAttributes.getResultsVisibleFromTime())
+                            && thisDb.<String>hasSameValue(
+                                    feedbackSession.getTimeZone(), newAttributes.getTimeZone().getId())
+                            && thisDb.<Long>hasSameValue(
+                                    feedbackSession.getGracePeriod(), newAttributes.getGracePeriodMinutes())
+                            && thisDb.<Boolean>hasSameValue(
+                                    feedbackSession.isSentOpenEmail(), newAttributes.isSentOpenEmail())
+                            && thisDb.<Boolean>hasSameValue(
+                                    feedbackSession.isSentClosingEmail(), newAttributes.isSentClosingEmail())
+                            && thisDb.<Boolean>hasSameValue(
+                                    feedbackSession.isSentClosedEmail(), newAttributes.isSentClosedEmail())
+                            && thisDb.<Boolean>hasSameValue(
+                                    feedbackSession.isSentPublishedEmail(), newAttributes.isSentPublishedEmail())
+                            && thisDb.<Boolean>hasSameValue(
+                                    feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
+                            && thisDb.<Boolean>hasSameValue(
+                                    feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled())
+                            && thisDb.<Set<String>>hasSameValue(
+                                    feedbackSession.getRespondingStudentList(), newAttributes.getRespondingStudentList())
+                            && thisDb.<Set<String>>hasSameValue(
+                                    feedbackSession.getRespondingInstructorList(),
+                                    newAttributes.getRespondingInstructorList());
+                    if (hasSameAttributes) {
+                        log.info(String.format(
+                                OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackSession.class.getSimpleName(), updateOptions));
+                        newAttributesFinal[0] = makeAttributes(feedbackSession);
+                        return;
+                    }
+
                     feedbackSession.setInstructions(newAttributes.getInstructions());
-                    feedbackSession.setDeletedTime(newAttributes.getDeletedTime());
                     feedbackSession.setStartTime(newAttributes.getStartTime());
                     feedbackSession.setEndTime(newAttributes.getEndTime());
                     feedbackSession.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
@@ -206,7 +244,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     feedbackSession.setSentClosingEmail(newAttributes.isSentClosingEmail());
                     feedbackSession.setSentClosedEmail(newAttributes.isSentClosedEmail());
                     feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
-                    feedbackSession.setIsOpeningEmailEnabled(newAttributes.isOpeningEmailEnabled());
                     feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
                     feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
 
