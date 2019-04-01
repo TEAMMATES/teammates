@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EntitiesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
@@ -33,7 +34,9 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
         ______TS("success: typical case");
         CourseAttributes c = CourseAttributes
-                .builder("Computing101-fresh", "Basic Computing", ZoneId.of("UTC"))
+                .builder("Computing101-fresh")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatastore(c);
@@ -43,15 +46,15 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         ______TS("fails: entity already exists");
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesDb.createEntity(c));
-        AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                c.getEntityTypeAsString())
-                        + c.getIdentificationString(),
-                eaee.getMessage());
-        coursesDb.deleteEntity(c);
+        assertEquals(
+                String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.toString()), eaee.getMessage());
+        coursesDb.deleteCourse(c.getId());
 
         ______TS("fails: invalid parameters");
         CourseAttributes invalidCourse = CourseAttributes
-                .builder("invalid id spaces", "Basic Computing", ZoneId.of("UTC"))
+                .builder("invalid id spaces")
+                .withName("Basic Computing")
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidCourse));

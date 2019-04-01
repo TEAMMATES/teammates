@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.Map;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -64,9 +67,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testGetCoOwnersForCourse();
         testUpdateInstructorByGoogleIdCascade();
         testUpdateInstructorByEmail();
-        testDeleteInstructor();
-        testDeleteInstructorsForGoogleId();
-        testDeleteInstructorsForCourse();
     }
 
     private void testAddInstructor() throws Exception {
@@ -80,7 +80,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instr = InstructorAttributes.builder(null, courseId, name, email)
+        InstructorAttributes instr = InstructorAttributes.builder(courseId, email)
+                .withName(name)
                 .withRole(role)
                 .withDisplayedName(displayedName)
                 .withPrivileges(privileges)
@@ -94,7 +95,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         EntityAlreadyExistsException ednee = assertThrows(EntityAlreadyExistsException.class,
                 () -> instructorsLogic.createInstructor(instr));
-        AssertHelper.assertContains("Trying to create a Instructor that exists", ednee.getMessage());
+        AssertHelper.assertContains("Trying to create an entity that exists", ednee.getMessage());
 
         instructorsLogic.deleteInstructorCascade(instr.courseId, instr.email);
 
@@ -225,7 +226,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("failure: no instructors for a given course");
 
         courseId = "new-course";
-        coursesLogic.createCourse(courseId, "New course", "UTC");
+        coursesLogic.createCourse(
+                CourseAttributes.builder(courseId)
+                        .withName("New course")
+                        .withTimezone(ZoneId.of("UTC"))
+                        .build());
 
         instructors = instructorsLogic.getInstructorsForCourse(courseId);
         assertEquals(0, instructors.size());
@@ -654,22 +659,30 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testDeleteInstructor() throws Exception {
-
-        ______TS("typical case: delete an instructor for specific course");
+    @Test
+    public void testDeleteInstructorCascade() throws Exception {
 
         String courseId = "idOfTypicalCourse1";
-        String email = "instructor3@course1.tmt";
-
-        InstructorAttributes instructorDeleted = instructorsLogic.getInstructorForEmail(courseId, email);
-
-        instructorsLogic.deleteInstructorCascade(courseId, email);
-
-        verifyAbsentInDatastore(instructorDeleted);
+        String email = "instructor1@course1.tmt";
 
         ______TS("typical case: delete a non-existent instructor");
 
         instructorsLogic.deleteInstructorCascade(courseId, "non-existent@course1.tmt");
+
+        ______TS("typical case: delete an instructor for specific course");
+
+        InstructorAttributes instructorDeleted = instructorsLogic.getInstructorForEmail(courseId, email);
+        assertNotNull(instructorDeleted);
+        // the instructors has some responses in course
+        assertFalse(FeedbackResponsesLogic.inst().getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
+        assertFalse(FeedbackResponsesLogic.inst().getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
+
+        instructorsLogic.deleteInstructorCascade(courseId, email);
+
+        verifyAbsentInDatastore(instructorDeleted);
+        // there should be no response of the instructor
+        assertTrue(FeedbackResponsesLogic.inst().getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
+        assertTrue(FeedbackResponsesLogic.inst().getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
 
         ______TS("failure: null parameter");
 
@@ -679,60 +692,115 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ae = assertThrows(AssertionError.class, () -> instructorsLogic.deleteInstructorCascade(null, email));
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
-        // restore deleted instructor
-        instructorsLogic.createInstructor(instructorDeleted);
     }
 
-    private void testDeleteInstructorsForGoogleId() throws Exception {
-        ______TS("typical case: delete all instructors for a given googleId");
+    @Test
+    public void testDeleteInstructors_byCourseId_shouldDeleteInstructorsAssociatedWithTheCourse() {
 
-        String googleId = "idOfInstructor1";
+        ______TS("typical case: delete all instructors for a non-existent course");
 
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForGoogleId(googleId);
-
-        instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
-
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
-        assertTrue(instructorList.isEmpty());
-
-        ______TS("typical case: delete an non-existent googleId");
-
-        instructorsLogic.deleteInstructorsForGoogleIdAndCascade("non-existent");
-
-        ______TS("failure: null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.deleteInstructorsForGoogleIdAndCascade(null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
-        // restore deleted instructors
-        for (InstructorAttributes instructor : instructors) {
-            instructorsLogic.createInstructor(instructor);
-        }
-    }
-
-    private void testDeleteInstructorsForCourse() {
+        instructorsLogic.deleteInstructors(AttributesDeletionQuery.builder()
+                .withCourseId("non-existent")
+                .build());
 
         ______TS("typical case: delete all instructors of a given course");
 
         String courseId = "idOfTypicalCourse1";
 
-        instructorsLogic.deleteInstructorsForCourse(courseId);
+        // the course is not empty at the beginning
+        assertFalse(instructorsLogic.getInstructorsForCourse(courseId).isEmpty());
+
+        instructorsLogic.deleteInstructors(AttributesDeletionQuery.builder()
+                .withCourseId(courseId)
+                .build());
 
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(courseId);
-
         assertTrue(instructorList.isEmpty());
 
-        ______TS("typical case: delete all instructors for a non-existent course");
-
-        instructorsLogic.deleteInstructorsForCourse("non-existent");
+        // other course is not affected
+        assertFalse(instructorsLogic.getInstructorsForCourse("idOfTypicalCourse2").isEmpty());
 
         ______TS("failure case: null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.deleteInstructorsForCourse(null));
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.deleteInstructors(null));
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
 
+    }
+
+    @Test
+    public void testDeleteInstructorsForGoogleIdCascade_archivedInstructor_shouldDeleteAlso() throws Exception {
+        InstructorAttributes instructor5 = dataBundle.instructors.get("instructor5");
+
+        assertNotNull(instructor5.getGoogleId());
+        logic.setArchiveStatusOfInstructor(instructor5.getGoogleId(), instructor5.getCourseId(), true);
+
+        // this is an archived instructor
+        assertTrue(
+                logic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived);
+
+        instructorsLogic.deleteInstructorsForGoogleIdCascade(instructor5.getGoogleId());
+
+        // the instructor should be deleted also
+        assertNull(instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()));
+    }
+
+    @Test
+    public void testDeleteInstructorsForGoogleIdCascade() throws Exception {
+
+        ______TS("typical case: delete non-existent googleId");
+
+        instructorsLogic.deleteInstructorsForGoogleIdCascade("not_exist");
+
+        ______TS("typical case: delete all instructors of a given googleId");
+
+        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
+        // make instructor1OfCourse1 to have the same googleId with instructor1OfCourse2
+        logic.updateInstructor(
+                InstructorAttributes
+                        .updateOptionsWithEmailBuilder(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
+                        .withGoogleId(instructor1OfCourse2.getGoogleId())
+                        .build());
+
+        instructor1OfCourse1 = instructorsLogic.getInstructorForEmail(
+                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail());
+        assertNotNull(instructor1OfCourse1);
+
+        // instructor1OfCourse1 has some responses in course
+        assertFalse(
+                FeedbackResponsesLogic.inst().getFeedbackResponsesFromGiverForCourse(
+                        instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
+                .isEmpty());
+        assertFalse(
+                FeedbackResponsesLogic.inst().getFeedbackResponsesForReceiverForCourse(
+                        instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
+                .isEmpty());
+
+        instructor1OfCourse2 = instructorsLogic.getInstructorForEmail(
+                instructor1OfCourse2.getCourseId(), instructor1OfCourse2.getEmail());
+        assertNotNull(instructor1OfCourse2);
+
+        // the two instructors have the same googleId but in different courses
+        assertEquals(instructor1OfCourse1.getGoogleId(), instructor1OfCourse2.getGoogleId());
+        assertNotEquals(instructor1OfCourse1.getCourseId(), instructor1OfCourse2.getCourseId());
+
+        // delete instructors for google ID
+        instructorsLogic.deleteInstructorsForGoogleIdCascade(instructor1OfCourse1.getGoogleId());
+
+        // the two instructors should gone
+        assertNull(instructorsLogic.getInstructorForEmail(
+                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
+        // instructor1OfCourse1's responses should be deleted also
+        assertTrue(
+                FeedbackResponsesLogic.inst().getFeedbackResponsesFromGiverForCourse(
+                        instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
+                .isEmpty());
+        assertTrue(
+                FeedbackResponsesLogic.inst().getFeedbackResponsesForReceiverForCourse(
+                        instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
+                .isEmpty());
+        assertNull(instructorsLogic.getInstructorForEmail(
+                instructor1OfCourse2.getCourseId(), instructor1OfCourse2.getEmail()));
     }
 
     private void verifySameInstructor(InstructorAttributes instructor1, InstructorAttributes instructor2) {

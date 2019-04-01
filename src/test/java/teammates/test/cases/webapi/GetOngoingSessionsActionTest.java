@@ -52,10 +52,10 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         Instant endTime = Instant.now().plus(5, ChronoUnit.DAYS);
 
         logic.createFeedbackSession(
-                FeedbackSessionAttributes.builder("new-session", courseId, instructor1OfCourse1.email)
+                FeedbackSessionAttributes.builder("new-session", courseId)
+                        .withCreatorEmail(instructor1OfCourse1.email)
                         .withStartTime(startTime)
                         .withEndTime(endTime)
-                        .withCreatedTime(startTime.minusSeconds(1))
                         .withSessionVisibleFromTime(startTime)
                         .withResultsVisibleFromTime(endTime)
                         .build());

@@ -4,7 +4,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +14,8 @@ import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -42,13 +41,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     private static final Logger log = Logger.getLogger();
 
     /**
-     * Preconditions:
-     * <br> * {@code entityToAdd} is not null and has valid data.
+     * Creates a feedback response comment.
+     *
+     * @return the created comment
+     * @throws InvalidParametersException if the comment is not valid
+     * @throws EntityAlreadyExistsException if the comment already exists in the Datastore
      */
-    public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes entityToAdd)
+    @Override
+    public FeedbackResponseCommentAttributes createEntity(FeedbackResponseCommentAttributes entityToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return makeAttributesOrNull(createEntity(entityToAdd),
-                "Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
+        FeedbackResponseCommentAttributes createdComment = super.createEntity(entityToAdd);
+        putDocument(createdComment);
+
+        return createdComment;
     }
 
     /**
@@ -63,21 +68,16 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets a feedback response comment.
      */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseCommentId);
-
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseCommentId),
-                "Trying to get non-existent response comment: " + feedbackResponseCommentId + ".");
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(long feedbackResponseCommentId) {
+        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseCommentId));
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets a feedback response comment by "fake" unique constraint response-giver-createdAt.
+     *
+     * <p>The method is only used in testing</p>
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
             String feedbackResponseId, String commentGiver, Instant createdAt) {
@@ -85,15 +85,13 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
 
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, commentGiver, createdAt),
-                "Trying to get non-existent response comment: " + feedbackResponseId + "/from: " + commentGiver
-                + "created at: " + createdAt);
+        return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, commentGiver, createdAt));
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets a feedback response comment by "fake" unique constraint course-createdAt-giver.
+     *
+     * <p>The method is only used in testing</p>
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
             String courseId, Instant createdAt, String commentGiver) {
@@ -101,15 +99,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
 
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver),
-                "Trying to get non-existent response comment: from: " + commentGiver + " in the course " + courseId
-                + " created at: " + createdAt);
+        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver));
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets all comments given by a user in a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String commentGiver) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -118,8 +112,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return makeAttributes(getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, commentGiver));
     }
 
-    /*
-     * Get response comments for the response Id
+    /**
+     * Gets all response comments for a response.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
@@ -127,37 +121,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return makeAttributes(getFeedbackResponseCommentEntitiesForResponse(feedbackResponseId));
     }
 
-    /*
-     * Remove response comments for the response Id
-     */
-    public void deleteFeedbackResponseCommentsForResponse(String responseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, responseId);
-
-        ofy().delete().keys(getFeedbackResponseCommentsForResponseQuery(responseId).keys()).now();
-    }
-
-    /*
-     * Remove response comments for the course Ids
-     */
-    public void deleteFeedbackResponseCommentsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
-
-        ofy().delete().keys(getFeedbackResponseCommentsForCoursesQuery(courseIds).keys()).now();
-    }
-
-    public void deleteFeedbackResponseCommentsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        deleteFeedbackResponseCommentsForCourses(Arrays.asList(courseId));
-    }
-
-    private Query<FeedbackResponseComment> getFeedbackResponseCommentsForCoursesQuery(List<String> courseIds) {
-        return load().filter("courseId in", courseIds);
-    }
-
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * Gets all comments in a feedback session of a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSession(
             String courseId, String feedbackSessionName) {
@@ -168,8 +133,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
+     * Gets all comments which have its corresponding response given to/from a section of a feedback session of a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSessionInSection(
             String courseId, String feedbackSessionName, String section) {
@@ -214,7 +178,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         frc.setGiverSection(newAttributes.giverSection);
         frc.setReceiverSection(newAttributes.receiverSection);
 
-        saveEntity(frc, newAttributes);
+        saveEntity(frc);
 
         newAttributes = makeAttributes(frc);
         putDocument(newAttributes);
@@ -222,8 +186,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         return newAttributes;
     }
 
-    /*
-     * Update giver email (normally an instructor email) with the new one
+    /**
+     * Updates the giver email to a new one for all comments in a course.
      */
     public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -244,8 +208,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         saveEntities(responseComments);
     }
 
-    /*
-     * Updates last editor for all comments last edited by the given instructor with the instructor's new email
+    /**
+     * Updates the last editor to a new one for all comments in a course.
      */
     public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -268,27 +232,26 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                  + " for feedback response comments in the course: " + courseId);
     }
 
-    /*
-     * Create or update search document for the given comment
+    /**
+     * Creates or updates search document for the given comment.
      */
     public void putDocument(FeedbackResponseCommentAttributes comment) {
         putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(comment));
     }
 
-    /*
-     * Batch creates or updates search documents for the given comments
+    /**
+     * Batch creates or updates search documents for the given comments.
      */
     public void putDocuments(List<FeedbackResponseCommentAttributes> comments) {
         List<SearchDocument> frcSearchDocuments = new ArrayList<>();
         for (FeedbackResponseCommentAttributes comment : comments) {
             frcSearchDocuments.add(new FeedbackResponseCommentSearchDocument(comment));
         }
-        putDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments);
+        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments.toArray(new SearchDocument[0]));
     }
 
     /**
-     * Searches for response comments.
-     * @return {@link FeedbackResponseCommentSearchResultBundle}
+     * Searches for comments, using a list of instructors as a constraint.
      */
     public FeedbackResponseCommentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
         if (queryString.trim().isEmpty()) {
@@ -302,12 +265,38 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
-     * Removes comment with given id.
-     *
-     * @param id ID of comment
+     * Deletes a comment.
      */
-    public void deleteCommentById(Long id) {
-        ofy().delete().keys(getEntityQueryKeys(id)).now();
+    public void deleteFeedbackResponseComment(long commentId) {
+        deleteEntity(Key.create(FeedbackResponseComment.class, commentId));
+        deleteDocumentByCommentId(commentId);
+    }
+
+    /**
+     * Deletes comments using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackResponseComments(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
+
+        Query<FeedbackResponseComment> entitiesToDelete = load().project();
+        if (query.isCourseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+        if (query.isQuestionIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackQuestionId =", query.getQuestionId());
+        }
+        if (query.isResponseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackResponseId =", query.getResponseId());
+        }
+
+        List<Key<FeedbackResponseComment>> keysToDelete = entitiesToDelete.keys().list();
+
+        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
+                keysToDelete.stream().map(key -> String.valueOf(key.getId())).toArray(String[]::new));
+        deleteEntity(keysToDelete.toArray(new Key<?>[0]));
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
@@ -318,7 +307,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .first().now();
     }
 
-    private FeedbackResponseComment getFeedbackResponseCommentEntity(Long feedbackResponseCommentId) {
+    private FeedbackResponseComment getFeedbackResponseCommentEntity(long feedbackResponseCommentId) {
         return load().id(feedbackResponseCommentId).now();
     }
 
@@ -339,8 +328,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .list();
     }
 
-    /*
-     * Gets a list of FeedbackResponseComments which have a last editor associated with the given email
+    /**
+     * Gets a list of comments which have a last editor set to the given email.
      */
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForLastEditorInCourse(
             String courseId, String lastEditorEmail) {
@@ -399,30 +388,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     @Override
-    protected FeedbackResponseComment getEntity(FeedbackResponseCommentAttributes attributes) {
-        if (attributes.getId() != null) {
-            return getFeedbackResponseCommentEntity(attributes.getId());
-        }
-
-        return getFeedbackResponseCommentEntity(attributes.courseId, attributes.createdAt, attributes.commentGiver);
-    }
-
-    @Override
-    protected QueryKeys<FeedbackResponseComment> getEntityQueryKeys(FeedbackResponseCommentAttributes attributes) {
-        Long id = attributes.getId();
-
-        if (id != null) {
-            return getEntityQueryKeys(id);
-        }
-        return load()
-                .filter("feedbackResponseId =", attributes.feedbackResponseId)
-                .filter("createdAt =", attributes.createdAt)
-                .filter("giverEmail =", attributes.commentGiver)
-                .keys();
-    }
-
-    private QueryKeys<FeedbackResponseComment> getEntityQueryKeys(long commentId) {
-        return load().filterKey(Key.create(FeedbackResponseComment.class, commentId)).keys();
+    protected boolean hasExistingEntities(FeedbackResponseCommentAttributes entityToCreate) {
+        // comment does not have unique constraint
+        return false;
     }
 
     @Override

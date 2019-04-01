@@ -25,56 +25,75 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public static final Comparator<InstructorAttributes> COMPARE_BY_NAME =
             Comparator.comparing(instructor -> instructor.name.toLowerCase());
 
-    private static final String INSTRUCTOR_BACKUP_LOG_MSG = "Recently modified instructor::";
-    private static final String ATTRIBUTE_NAME = "Instructor";
-    // Note: be careful when changing these variables as their names are used in *.json files.
-
-    /** Required fields. */
-    public String googleId;
     public String courseId;
-    public String name;
     public String email;
 
-    /** Optional fields. */
+    public String name;
+    public String googleId;
     public String key;
     public String role;
     public String displayedName;
-    public Boolean isArchived;
+    public boolean isArchived;
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
 
+    InstructorAttributes(String courseId, String email) {
+        this.courseId = courseId;
+        this.email = email;
+
+        this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        this.displayedName = DEFAULT_DISPLAY_NAME;
+        this.isArchived = false;
+        this.isDisplayedToStudents = true;
+        this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+    }
+
     /**
-     * Return new builder instance with default values for optional fields.
-     *
-     * <p>Following default values are set to corresponding attributes:
-     * {@code isArchived = false} <br>
-     * {@code isDisplayedForStudents = true} <br>
-     * {@code displayedName = DEFAULT_DISPLAYED_NAME} <br>
-     * {@code role = INSTRUCTOR_PERMISSION_ROLE_COOWNER} <br>
-     * {@code privileges = new InstructorPrivileges(role)} <br>
+     * Return a builder for {@link InstructorAttributes}.
      */
-    public static Builder builder(String googleId, String courseId, String name, String email) {
-        return new Builder(googleId, courseId, name, email);
+    public static Builder builder(String courseId, String email) {
+        return new Builder(courseId, email);
     }
 
     public static InstructorAttributes valueOf(Instructor instructor) {
-        instructor.setGeneratedKeyIfNull();
+        InstructorAttributes instructorAttributes =
+                new InstructorAttributes(instructor.getCourseId(), instructor.getEmail());
 
-        return builder(instructor.getGoogleId(), instructor.getCourseId(), instructor.getName(), instructor.getEmail())
-                .withKey(instructor.getRegistrationKey())
-                .withRole(instructor.getRole())
-                .withDisplayedName(instructor.getDisplayedName())
-                .withPrivileges(instructor.getInstructorPrivilegesAsText())
-                .withIsDisplayedToStudents(instructor.isDisplayedToStudents())
-                .withIsArchived(instructor.getIsArchived())
-                .build();
+        instructorAttributes.name = instructor.getName();
+        instructorAttributes.googleId = instructor.getGoogleId();
+        instructorAttributes.key = instructor.getRegistrationKey();
+        if (instructor.getRole() != null) {
+            instructorAttributes.role = instructor.getRole();
+        }
+        if (instructor.getDisplayedName() != null) {
+            instructorAttributes.displayedName = instructor.getDisplayedName();
+        }
+        instructorAttributes.isArchived = instructor.getIsArchived();
+        instructorAttributes.isDisplayedToStudents = instructor.isDisplayedToStudents();
+
+        if (instructor.getInstructorPrivilegesAsText() == null) {
+            instructorAttributes.privileges =
+                    new InstructorPrivileges(instructorAttributes.role);
+        } else {
+            instructorAttributes.privileges =
+                    JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivileges.class);
+        }
+
+        return instructorAttributes;
     }
 
     public InstructorAttributes getCopy() {
-        return builder(googleId, courseId, name, email)
-                .withKey(key).withRole(role).withDisplayedName(displayedName)
-                .withPrivileges(privileges).withIsDisplayedToStudents(isDisplayedToStudents).withIsArchived(isArchived)
-                .build();
+        InstructorAttributes instructorAttributes = new InstructorAttributes(courseId, email);
+        instructorAttributes.name = name;
+        instructorAttributes.googleId = googleId;
+        instructorAttributes.key = key;
+        instructorAttributes.role = role;
+        instructorAttributes.displayedName = displayedName;
+        instructorAttributes.isArchived = isArchived;
+        instructorAttributes.isDisplayedToStudents = isDisplayedToStudents;
+        instructorAttributes.privileges = privileges;
+
+        return instructorAttributes;
     }
 
     public String getTextFromInstructorPrivileges() {
@@ -83,6 +102,18 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public String getName() {
         return name;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public InstructorPrivileges getPrivileges() {
+        return privileges;
     }
 
     public String getDisplayedName() {
@@ -103,10 +134,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public Instructor toEntity() {
-        if (key != null) {
-            return new Instructor(googleId, courseId, isArchived, name, email, key, role,
-                                  isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
-        }
         return new Instructor(googleId, courseId, isArchived, name, email, role,
                               isDisplayedToStudents, displayedName, getTextFromInstructorPrivileges());
     }
@@ -134,26 +161,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public String toString() {
-        return JsonUtils.toJson(this, InstructorAttributes.class);
-    }
-
-    @Override
-    public String getIdentificationString() {
-        return courseId + "/" + email;
-    }
-
-    @Override
-    public String getEntityTypeAsString() {
-        return ATTRIBUTE_NAME;
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return INSTRUCTOR_BACKUP_LOG_MSG + courseId + "::" + email;
-    }
-
-    @Override
-    public String getJsonString() {
         return JsonUtils.toJson(this, InstructorAttributes.class);
     }
 
@@ -228,22 +235,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return privileges.hasTutorPrivileges();
     }
 
-    /**
-     * Returns true if this instructor object is equal with the given {@code instructor} object.
-     *
-     * @param instructor
-     *            the {@link InstructorAttributes} of an instructor, cannot be
-     *            {@code null}
-     * @return true if this {@link InstructorAttributes} is equal to
-     *         {@code instructor}, otherwise false
-     */
-    public boolean isEqualToAnotherInstructor(InstructorAttributes instructor) {
-        // JsonParser is used instead of
-        // this.getJsonString().equals(instructor.getJsonString) so that the
-        // comparison ignores the order of key-value pairs in the json strings.
-        return JsonUtils.parse(getJsonString()).equals(JsonUtils.parse(instructor.getJsonString()));
-    }
-
     public boolean isCustomRole() {
         return Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(role);
     }
@@ -286,7 +277,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     }
 
     /**
-     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions}
+     * Returns a {@link UpdateOptionsWithEmail.Builder} to build {@link UpdateOptions}
      * for an instructor with {@code courseId} and {@code email}.
      */
     public static UpdateOptionsWithEmail.Builder updateOptionsWithEmailBuilder(String courseId, String email) {
@@ -294,7 +285,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     }
 
     /**
-     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions}
+     * Returns a {@link UpdateOptionsWithGoogleId.Builder} to build {@link UpdateOptions}
      * for an instructor with {@code courseId} and {@code googleId}.
      */
     public static UpdateOptionsWithGoogleId.Builder updateOptionsWithGoogleIdBuilder(String courseId, String googleId) {
@@ -302,77 +293,33 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     }
 
     /**
-     * A Builder class for {@link InstructorAttributes}.
+     * A builder class for {@link InstructorAttributes}.
      */
-    public static class Builder {
+    public static class Builder extends BasicBuilder<InstructorAttributes, Builder> {
         private final InstructorAttributes instructorAttributes;
 
-        public Builder(String googleId, String courseId, String name, String email) {
-            instructorAttributes = new InstructorAttributes();
+        private Builder(String courseId, String email) {
+            super(new UpdateOptions());
+            thisBuilder = this;
 
-            instructorAttributes.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-            instructorAttributes.courseId = SanitizationHelper.sanitizeTitle(courseId);
-            instructorAttributes.name = SanitizationHelper.sanitizeName(name);
-            instructorAttributes.email = email;
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
-            instructorAttributes.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-            instructorAttributes.displayedName = DEFAULT_DISPLAY_NAME;
-            instructorAttributes.isArchived = false;
-            instructorAttributes.isDisplayedToStudents = true;
-            instructorAttributes.privileges = new InstructorPrivileges(instructorAttributes.role);
+            instructorAttributes = new InstructorAttributes(courseId, email);
         }
 
-        public Builder withKey(String key) {
-            instructorAttributes.key = key;
-            return this;
-        }
-
-        public Builder withRole(String role) {
-            if (role != null) {
-                instructorAttributes.role = SanitizationHelper.sanitizeName(role);
-            }
+        public Builder withGoogleId(String googleId) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+            instructorAttributes.googleId = googleId;
 
             return this;
         }
 
-        public Builder withDisplayedName(String displayedName) {
-            if (displayedName != null) {
-                instructorAttributes.displayedName = SanitizationHelper.sanitizeName(displayedName);
-            }
-
-            return this;
-        }
-
-        public Builder withIsArchived(Boolean isArchived) {
-            instructorAttributes.isArchived = isArchived != null && isArchived;
-            return this;
-        }
-
-        public Builder withIsDisplayedToStudents(boolean isDisplayedToStudents) {
-            instructorAttributes.isDisplayedToStudents = isDisplayedToStudents;
-            return this;
-        }
-
-        public Builder withPrivileges(InstructorPrivileges privileges) {
-            instructorAttributes.privileges = (privileges == null)
-                    ? new InstructorPrivileges(instructorAttributes.role)
-                    : privileges;
-            return this;
-        }
-
-        public Builder withPrivileges(String privilegesAsText) {
-            instructorAttributes.privileges = (privilegesAsText == null)
-                    ? new InstructorPrivileges(instructorAttributes.role)
-                    : getInstructorPrivilegesFromText(privilegesAsText);
-            return this;
-        }
-
+        @Override
         public InstructorAttributes build() {
-            return instructorAttributes;
-        }
+            instructorAttributes.updateBasic(updateOptions);
 
-        private static InstructorPrivileges getInstructorPrivilegesFromText(String instructorPrivilegesAsText) {
-            return JsonUtils.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
+            return instructorAttributes;
         }
     }
 
@@ -389,8 +336,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         private UpdateOptionsWithEmail(String courseId, String email) {
             super();
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
             this.courseId = courseId;
             this.email = email;
@@ -413,21 +360,27 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         /**
          * Builder class for {@link UpdateOptionsWithEmail}.
          */
-        public static class Builder extends UpdateOptions.Builder<UpdateOptionsWithEmail, UpdateOptionsWithEmail.Builder> {
+        public static class Builder extends BasicBuilder<UpdateOptionsWithEmail, UpdateOptionsWithEmail.Builder> {
+
+            private UpdateOptionsWithEmail updateOptionsWithEmail;
 
             private Builder(String courseId, String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
-
-                updateOptions = new UpdateOptionsWithEmail(courseId, email);
+                super(new UpdateOptionsWithEmail(courseId, email));
                 thisBuilder = this;
+
+                updateOptionsWithEmail = (UpdateOptionsWithEmail) updateOptions;
             }
 
             public Builder withGoogleId(String googleId) {
-                updateOptions.googleIdOption = UpdateOption.of(googleId);
+                updateOptionsWithEmail.googleIdOption = UpdateOption.of(googleId);
+
                 return this;
             }
 
+            @Override
+            public UpdateOptionsWithEmail build() {
+                return updateOptionsWithEmail;
+            }
         }
     }
 
@@ -444,8 +397,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         private UpdateOptionsWithGoogleId(String courseId, String googleId) {
             super();
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, googleId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
 
             this.courseId = courseId;
             this.googleId = googleId;
@@ -470,19 +423,27 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
          * Builder class for {@link UpdateOptionsWithGoogleId}.
          */
         public static class Builder
-                extends UpdateOptions.Builder<UpdateOptionsWithGoogleId, UpdateOptionsWithGoogleId.Builder> {
+                extends BasicBuilder<UpdateOptionsWithGoogleId, UpdateOptionsWithGoogleId.Builder> {
+
+            private UpdateOptionsWithGoogleId updateOptionsWithGoogleId;
 
             private Builder(String courseId, String email) {
-                super();
-                updateOptions = new UpdateOptionsWithGoogleId(courseId, email);
+                super(new UpdateOptionsWithGoogleId(courseId, email));
                 thisBuilder = this;
+
+                updateOptionsWithGoogleId = (UpdateOptionsWithGoogleId) updateOptions;
             }
 
             public Builder withEmail(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, email);
+                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
-                updateOptions.emailOption = UpdateOption.of(email);
+                updateOptionsWithGoogleId.emailOption = UpdateOption.of(email);
                 return this;
+            }
+
+            @Override
+            public UpdateOptionsWithGoogleId build() {
+                return updateOptionsWithGoogleId;
             }
         }
     }
@@ -510,57 +471,62 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
                     + ", instructorPrivilegeAsText = " + instructorPrivilegesOption;
         }
 
-        /**
-         * A Builder class to build {@link UpdateOptions}.
-         */
-        private static class Builder<T extends UpdateOptions, B extends UpdateOptions.Builder<T, B>> {
+    }
 
-            protected T updateOptions;
-            protected B thisBuilder;
+    /**
+     * Basic builder to build {@link InstructorAttributes} related classes.
+     *
+     * @param <T> type to be built
+     * @param <B> type of the builder
+     */
+    private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-            public B withName(String name) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, name);
+        protected UpdateOptions updateOptions;
+        protected B thisBuilder;
 
-                updateOptions.nameOption = UpdateOption.of(name);
-                return thisBuilder;
-            }
-
-            public B withRole(String role) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, role);
-
-                updateOptions.roleOption = UpdateOption.of(role);
-                return thisBuilder;
-            }
-
-            public B withDisplayedName(String displayedName) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, displayedName);
-
-                updateOptions.displayedNameOption = UpdateOption.of(displayedName);
-                return thisBuilder;
-            }
-
-            public B withPrivileges(InstructorPrivileges instructorPrivileges) {
-                Assumption.assertNotNull(Const.StatusCodes.UPDATE_OPTIONS_NULL_INPUT, instructorPrivileges);
-
-                updateOptions.instructorPrivilegesOption = UpdateOption.of(instructorPrivileges);
-                return thisBuilder;
-            }
-
-            public B withIsDisplayedToStudents(boolean isDisplayedToStudents) {
-                updateOptions.isDisplayedToStudentsOption = UpdateOption.of(isDisplayedToStudents);
-                return thisBuilder;
-            }
-
-            public B withIsArchived(boolean isAchieved) {
-                updateOptions.isArchivedOption = UpdateOption.of(isAchieved);
-                return thisBuilder;
-            }
-
-            public T build() {
-                return updateOptions;
-            }
-
+        protected BasicBuilder(UpdateOptions updateOptions) {
+            this.updateOptions = updateOptions;
         }
+
+        public B withName(String name) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+
+            updateOptions.nameOption = UpdateOption.of(name);
+            return thisBuilder;
+        }
+
+        public B withRole(String role) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, role);
+
+            updateOptions.roleOption = UpdateOption.of(role);
+            return thisBuilder;
+        }
+
+        public B withDisplayedName(String displayedName) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, displayedName);
+
+            updateOptions.displayedNameOption = UpdateOption.of(displayedName);
+            return thisBuilder;
+        }
+
+        public B withPrivileges(InstructorPrivileges instructorPrivileges) {
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instructorPrivileges);
+
+            updateOptions.instructorPrivilegesOption = UpdateOption.of(instructorPrivileges);
+            return thisBuilder;
+        }
+
+        public B withIsDisplayedToStudents(boolean isDisplayedToStudents) {
+            updateOptions.isDisplayedToStudentsOption = UpdateOption.of(isDisplayedToStudents);
+            return thisBuilder;
+        }
+
+        public B withIsArchived(boolean isAchieved) {
+            updateOptions.isArchivedOption = UpdateOption.of(isAchieved);
+            return thisBuilder;
+        }
+
+        public abstract T build();
 
     }
 }

@@ -3,14 +3,15 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
+import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -26,8 +27,6 @@ import teammates.storage.entity.FeedbackSession;
  * @see FeedbackSessionAttributes
  */
 public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
-
-    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
 
     /**
      * Gets a list of feedback sessions that is ongoing, i.e. starting before {@code rangeEnd}
@@ -60,9 +59,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Gets a feedback session that is not soft-deleted.
      *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
      * @return null if not found or soft-deleted.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
@@ -70,8 +66,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         FeedbackSessionAttributes feedbackSession =
-                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
-                "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
+                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId));
 
         if (feedbackSession != null && feedbackSession.isSessionDeleted()) {
             log.info("Trying to access soft-deleted session: " + feedbackSessionName + "/" + courseId);
@@ -83,9 +78,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Gets a soft-deleted feedback session.
      *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
      * @return null if not found or not soft-deleted.
      */
     public FeedbackSessionAttributes getSoftDeletedFeedbackSession(String courseId, String feedbackSessionName) {
@@ -93,8 +85,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         FeedbackSessionAttributes feedbackSession =
-                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId),
-                "Trying to get non-existent Session: " + feedbackSessionName + "/" + courseId);
+                makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId));
 
         if (feedbackSession != null && !feedbackSession.isSessionDeleted()) {
             log.info(feedbackSessionName + "/" + courseId + " is not soft-deleted!");
@@ -105,9 +96,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of all sessions for the given course expect those in the Recycle Bin. Otherwise returns an empty list.
+     * Gets a list of all sessions for the given course except those are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -118,9 +107,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return a list of sessions for the given course in the Recycle Bin. Otherwise returns an empty list.
+     * Gets a list of sessions for the given course that are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -226,7 +213,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     feedbackSession.setRespondingStudentList(newAttributes.getRespondingStudentList());
                     feedbackSession.setRespondingInstructorList(newAttributes.getRespondingInstructorList());
 
-                    saveEntity(feedbackSession, newAttributes);
+                    saveEntity(feedbackSession);
 
                     newAttributesFinal[0] = makeAttributes(feedbackSession);
                 }
@@ -245,6 +232,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     /**
      * Soft-deletes a specific feedback session by its name and course id.
+     *
      * @return Soft-deletion time of the feedback session.
      */
     public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
@@ -282,16 +270,28 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         saveEntity(sessionEntity);
     }
 
-    public void deleteFeedbackSessionsForCourse(String courseId) {
+    /**
+     * Deletes a feedback session.
+     */
+    public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
-        deleteFeedbackSessionsForCourses(Arrays.asList(courseId));
+        deleteEntity(Key.create(FeedbackSession.class, FeedbackSession.generateId(feedbackSessionName, courseId)));
     }
 
-    public void deleteFeedbackSessionsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+    /**
+     * Deletes sessions using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackSessions(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
-        ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
+        Query<FeedbackSession> entitiesToDelete = load().project();
+        if (query.isCourseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
+        }
+
+        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
@@ -329,7 +329,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     private FeedbackSession getFeedbackSessionEntity(String feedbackSessionName, String courseId) {
-        return load().id(feedbackSessionName + "%" + courseId).now();
+        return load().id(FeedbackSession.generateId(feedbackSessionName, courseId)).now();
     }
 
     @Override
@@ -338,15 +338,12 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     @Override
-    protected FeedbackSession getEntity(FeedbackSessionAttributes attributes) {
-        return getFeedbackSessionEntity(attributes.getFeedbackSessionName(), attributes.getCourseId());
-    }
-
-    @Override
-    protected QueryKeys<FeedbackSession> getEntityQueryKeys(FeedbackSessionAttributes attributes) {
-        return load()
-                .filter("feedbackSessionName =", attributes.getFeedbackSessionName())
-                .filter("courseId =", attributes.getCourseId()).keys();
+    protected boolean hasExistingEntities(FeedbackSessionAttributes entityToCreate) {
+        return !load()
+                .filterKey(Key.create(FeedbackSession.class,
+                        FeedbackSession.generateId(entityToCreate.getFeedbackSessionName(), entityToCreate.getCourseId())))
+                .list()
+                .isEmpty();
     }
 
     @Override

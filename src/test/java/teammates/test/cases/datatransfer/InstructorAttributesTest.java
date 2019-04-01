@@ -6,6 +6,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
@@ -15,114 +16,153 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorAttributesTest extends BaseAttributesTest {
 
-    private static final String DEFAULT_ROLE_NAME = Const.InstructorPermissionRoleNames
-            .INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-    private static final String DEFAULT_DISPLAYED_NAME = InstructorAttributes.DEFAULT_DISPLAY_NAME;
-    private static final InstructorPrivileges DEFAULT_PRIVILEGES =
-            new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-
     @Test
-    public void testBuilderWithDefaultOptionalValues() {
+    public void testBuilder_buildNothing_shouldUseDefaultValues() {
         InstructorAttributes instructor = InstructorAttributes
-                .builder("valid.google.id", "valid-course-id", "valid name", "valid@email.com")
+                .builder("valid-course-id", "valid@email.com")
                 .build();
+
+        assertEquals("valid-course-id", instructor.getCourseId());
+        assertEquals("valid@email.com", instructor.getEmail());
 
         // Check default values for optional params
-        assertEquals(DEFAULT_ROLE_NAME, instructor.role);
-        assertEquals(DEFAULT_DISPLAYED_NAME, instructor.displayedName);
-        assertEquals(DEFAULT_PRIVILEGES, instructor.privileges);
-        assertFalse(instructor.isArchived);
-        assertTrue(instructor.isDisplayedToStudents);
+        assertNull(instructor.getName());
+        assertNull(instructor.getGoogleId());
+        assertNull(instructor.getKey());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructor.getRole());
+        assertEquals(InstructorAttributes.DEFAULT_DISPLAY_NAME, instructor.getDisplayedName());
+        assertFalse(instructor.isArchived());
+        assertTrue(instructor.isDisplayedToStudents());
+        assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
+                instructor.getPrivileges());
     }
 
     @Test
-    public void testBuilderWithNullArguments() {
-        InstructorAttributes instructorWithNullValues = InstructorAttributes
-                .builder(null, null, null, null)
-                .withRole(null)
-                .withDisplayedName(null)
-                .withIsArchived(null)
-                .withPrivileges((InstructorPrivileges) null)
-                .build();
-        // No default values for required params
-        assertNull(instructorWithNullValues.googleId);
-        assertNull(instructorWithNullValues.courseId);
-        assertNull(instructorWithNullValues.name);
-        assertNull(instructorWithNullValues.email);
+    public void testBuilder_withNullArguments_shouldThrowException() {
+        assertThrows(AssertionError.class, () -> {
+            InstructorAttributes
+                    .builder("courseId", null)
+                    .build();
+        });
 
-        // Check default values for optional params
-        assertEquals(DEFAULT_ROLE_NAME, instructorWithNullValues.role);
-        assertEquals(DEFAULT_DISPLAYED_NAME, instructorWithNullValues.displayedName);
-        assertEquals(DEFAULT_PRIVILEGES, instructorWithNullValues.privileges);
-        assertFalse(instructorWithNullValues.isArchived);
+        assertThrows(AssertionError.class, () -> {
+            InstructorAttributes
+                    .builder(null, "email@email.com")
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            InstructorAttributes
+                    .builder("courseId", "email@email.com")
+                    .withName(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            InstructorAttributes
+                    .builder("courseId", "email@email.com")
+                    .withGoogleId(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            InstructorAttributes
+                    .builder("courseId", "email@email.com")
+                    .withRole(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            InstructorAttributes
+                    .builder("courseId", "email@email.com")
+                    .withDisplayedName(null)
+                    .build();
+        });
+
+        assertThrows(AssertionError.class, () -> {
+            InstructorAttributes
+                    .builder("courseId", "email@email.com")
+                    .withPrivileges(null)
+                    .build();
+        });
     }
 
     @Test
-    public void testBuilderCopy() {
+    public void testBuilder_withTypicalData_shouldBuildCorrectAttribute() {
         InstructorAttributes instructor = InstructorAttributes
-                .builder("valid.google.id", "valid-course-id", "valid name", "valid@email.com")
-                .withDisplayedName("Original instructor")
+                .builder("valid-course-id", "valid@email.com")
+                .withName("valid name")
+                .withGoogleId("valid.google.id")
+                .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
+                .withDisplayedName("instructor A")
+                .withIsArchived(false)
+                .withIsDisplayedToStudents(false)
+                .withPrivileges(
+                        new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER))
                 .build();
 
-        InstructorAttributes instructorCopy = InstructorAttributes
-                .builder(instructor.googleId, instructor.courseId, instructor.name, instructor.email)
-                .withDisplayedName(instructor.displayedName)
-                .build();
-
-        assertEquals(instructor.googleId, instructorCopy.googleId);
-        assertEquals(instructor.courseId, instructorCopy.courseId);
-        assertEquals(instructor.name, instructorCopy.name);
-        assertEquals(instructor.email, instructorCopy.email);
-        assertEquals(instructor.displayedName, instructorCopy.displayedName);
-        assertEquals(instructor.role, instructorCopy.role);
-        assertEquals(instructor.privileges, instructorCopy.privileges);
-        assertEquals(instructor.key, instructorCopy.key);
-        assertEquals(instructor.isArchived, instructorCopy.isArchived);
-        assertEquals(instructor.isDisplayedToStudents, instructorCopy.isDisplayedToStudents);
-
+        assertEquals("valid-course-id", instructor.getCourseId());
+        assertEquals("valid@email.com", instructor.getEmail());
+        assertEquals("valid name", instructor.getName());
+        assertEquals("valid.google.id", instructor.getGoogleId());
+        assertEquals("instructor A", instructor.getDisplayedName());
+        assertFalse(instructor.isArchived());
+        assertFalse(instructor.isDisplayedToStudents());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, instructor.getRole());
+        assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER),
+                instructor.getPrivileges());
+        // key remains
+        assertNull(instructor.getKey());
     }
 
     @Test
-    public void testValueOf() {
+    public void testValueOf_withAllFieldPopulatedInstructor_shouldGenerateAttributesCorrectly() {
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instructor = InstructorAttributes
-                .builder("valid.google.id", "valid-course-id", "valid name", "valid@email.com")
-                .withDisplayedName(InstructorAttributes.DEFAULT_DISPLAY_NAME)
-                .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
-                .withPrivileges(privileges)
-                .build();
-        Instructor entity = instructor.toEntity();
-        InstructorAttributes instructor1 = InstructorAttributes.valueOf(entity);
+        Instructor instructor = new Instructor("valid.google.id", "valid-course-id", false,
+                "valid name", "valid@email.com", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                true, "Tutor", JsonUtils.toJson(privileges, InstructorPrivileges.class));
+        InstructorAttributes instructorAttributes = InstructorAttributes.valueOf(instructor);
 
-        assertEquals(instructor.googleId, instructor1.googleId);
-        assertEquals(instructor.courseId, instructor1.courseId);
-        assertEquals(instructor.name, instructor1.name);
-        assertEquals(instructor.email, instructor1.email);
-        assertEquals(instructor.role, instructor1.role);
-        assertEquals(instructor.displayedName, instructor1.displayedName);
-        assertEquals(instructor.privileges, instructor1.privileges);
+        assertEquals(instructor.getGoogleId(), instructorAttributes.getGoogleId());
+        assertEquals(instructor.getCourseId(), instructorAttributes.getCourseId());
+        assertEquals(instructor.getIsArchived(), instructorAttributes.isArchived());
+        assertEquals(instructor.getName(), instructorAttributes.getName());
+        assertEquals(instructor.getEmail(), instructorAttributes.getEmail());
+        assertEquals(instructor.getRegistrationKey(), instructorAttributes.getKey());
+        assertEquals(instructor.getRole(), instructorAttributes.getRole());
+        assertEquals(instructor.isDisplayedToStudents(), instructorAttributes.isDisplayedToStudents());
+        assertEquals(instructor.getDisplayedName(), instructorAttributes.getDisplayedName());
+        assertEquals(instructor.getInstructorPrivilegesAsText(),
+                JsonUtils.toJson(instructorAttributes.getPrivileges(), InstructorPrivileges.class));
+    }
 
-        entity.setRole(null);
-        entity.setDisplayedName(null);
-        entity.setInstructorPrivilegeAsText(null);
+    @Test
+    public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
+        Instructor instructor = new Instructor("valid.google.id", "valid-course-id", false,
+                "valid name", "valid@email.com", null,
+                true, null, null);
+        InstructorAttributes instructorAttributes = InstructorAttributes.valueOf(instructor);
 
-        InstructorAttributes instructor2 = InstructorAttributes.valueOf(entity);
-        assertEquals(instructor.googleId, instructor2.googleId);
-        assertEquals(instructor.courseId, instructor2.courseId);
-        assertEquals(instructor.name, instructor2.name);
-        assertEquals(instructor.email, instructor2.email);
-        // default values for these
-        assertEquals(instructor.role, instructor2.role);
-        assertEquals(instructor.displayedName, instructor2.displayedName);
-        assertEquals(instructor.privileges, instructor2.privileges);
+        assertEquals(instructor.getGoogleId(), instructorAttributes.getGoogleId());
+        assertEquals(instructor.getCourseId(), instructorAttributes.getCourseId());
+        assertEquals(instructor.getIsArchived(), instructorAttributes.isArchived());
+        assertEquals(instructor.getName(), instructorAttributes.getName());
+        assertEquals(instructor.getEmail(), instructorAttributes.getEmail());
+        assertEquals(instructor.getRegistrationKey(), instructorAttributes.getKey());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructorAttributes.getRole());
+        assertEquals(instructor.isDisplayedToStudents(), instructorAttributes.isDisplayedToStudents());
+        assertEquals(InstructorAttributes.DEFAULT_DISPLAY_NAME, instructorAttributes.getDisplayedName());
+        assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
+                instructorAttributes.getPrivileges());
     }
 
     @Test
     public void testIsRegistered() {
-        @SuppressWarnings("deprecation")
         InstructorAttributes instructor = InstructorAttributes
-                .builder("valid.google.id", "valid-course-id", "valid name", "valid@email.com")
+                .builder("valid-course-id", "valid@email.com")
+                .withName("valid name")
+                .withGoogleId("valid.google.id")
                 .build();
 
         assertTrue(instructor.isRegistered());
@@ -142,23 +182,29 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withGoogleId(googleId)
                 .withRole(roleName)
-                .withDisplayedName(displayedName).withPrivileges(privileges)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
                 .build();
         String key = "randomKey";
         instructor.key = key;
 
         Instructor entity = instructor.toEntity();
-        assertEquals(key, entity.getRegistrationKey());
+
+        // regKey should not carried
+        assertNotEquals(key, entity.getRegistrationKey());
     }
 
     @Test
     public void testGetInvalidityInfo() throws Exception {
 
-        @SuppressWarnings("deprecation")
         InstructorAttributes i = InstructorAttributes
-                .builder("valid.google.id", "valid-course-id", "valid name", "valid@email.com")
+                .builder("valid-course-id", "valid@email.com")
+                .withName("valid name")
+                .withGoogleId("valid.google.id")
                 .build();
 
         assertTrue(i.isValid());
@@ -216,9 +262,12 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withGoogleId(googleId)
                 .withRole(roleName)
-                .withDisplayedName(displayedName).withPrivileges(privileges)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
                 .build();
 
         instructor.sanitizeForSaving();
@@ -245,9 +294,12 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withGoogleId(googleId)
                 .withRole(roleName)
-                .withDisplayedName(displayedName).withPrivileges(privileges)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
                 .build();
 
         assertFalse(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
@@ -261,50 +313,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         instructor.privileges = null;
         assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-    }
-
-    @Test
-    public void testIsEqualToAnotherInstructor() {
-        String googleId = "valid.googleId";
-        String courseId = "courseId";
-        String name = "name";
-        String email = "email@google.com";
-        String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor = InstructorAttributes.builder(googleId, courseId, name, email)
-                .withRole(roleName)
-                .withDisplayedName(displayedName).withPrivileges(privileges)
-                .build();
-        InstructorPrivileges privileges2 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        InstructorAttributes instructor2 = InstructorAttributes.builder(googleId, courseId, name, email)
-                .withRole(roleName)
-                .withDisplayedName(displayedName)
-                .withPrivileges(privileges2)
-                .build();
-
-        assertTrue(instructor.isEqualToAnotherInstructor(instructor2));
-        instructor2.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, true);
-        assertFalse(instructor.isEqualToAnotherInstructor(instructor2));
-        instructor2.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, false);
-        assertTrue(instructor.isEqualToAnotherInstructor(instructor2));
-        // TODO: find ways to test this method more thoroughly
-    }
-
-    @Test
-    public void testGetBackUpIdentifier() {
-        String googleId = "valid.googleId";
-        String courseId = "courseId";
-        String name = "name";
-        String email = "valid@email.com";
-        String expectedBackUpIdentifierMessage = "Recently modified instructor::" + courseId + "::" + email;
-
-        InstructorAttributes instructorAttributes = InstructorAttributes
-                .builder(googleId, courseId, name, email).build();
-
-        assertEquals(expectedBackUpIdentifierMessage, instructorAttributes.getBackupIdentifier());
     }
 
     @Test
@@ -325,7 +333,9 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals("test@test.com", updateOptionsWithEmail.getEmail());
 
         InstructorAttributes instructorAttributes =
-                InstructorAttributes.builder("testGoogleId", "courseId", "test2", "test@test.com")
+                InstructorAttributes.builder("courseId", "test@test.com")
+                        .withGoogleId("testGoogleId")
+                        .withName("test2")
                         .withDisplayedName("Tutor")
                         .withIsArchived(true)
                         .withPrivileges(new InstructorPrivileges(
@@ -363,7 +373,9 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals("googleId", updateOptionsWithGoogleId.getGoogleId());
 
         InstructorAttributes instructorAttributes =
-                InstructorAttributes.builder("googleId", "courseId", "test2", "test@test.com")
+                InstructorAttributes.builder("courseId", "test@test.com")
+                        .withGoogleId("googleId")
+                        .withName("test2")
                         .withDisplayedName("Tutor")
                         .withIsArchived(true)
                         .withPrivileges(new InstructorPrivileges(

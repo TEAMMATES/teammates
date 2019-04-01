@@ -89,10 +89,12 @@ public class CourseRosterTest extends BaseTestCase {
 
         List<StudentAttributes> students = new ArrayList<>();
         StudentAttributes student1 = StudentAttributes
-                .builder("", "student 1", "s1@gmail.com")
+                .builder("", "s1@gmail.com")
+                .withName("student 1")
                 .build();
         StudentAttributes student2 = StudentAttributes
-                .builder("", "student 2", "s2@gmail.com")
+                .builder("", "s2@gmail.com")
+                .withName("student 2")
                 .build();
         students.add(student1);
         students.add(student2);
@@ -106,7 +108,8 @@ public class CourseRosterTest extends BaseTestCase {
         List<StudentAttributes> students = new ArrayList<>();
         for (int i = 0; i < studentData.length; i += 2) {
             StudentAttributes student = StudentAttributes
-                    .builder("", "", "")
+                    .builder("", "")
+                    .withName("")
                     .build();
             student.team = studentData[i];
             student.email = studentData[i + 1];
@@ -120,7 +123,9 @@ public class CourseRosterTest extends BaseTestCase {
         for (int i = 0; i < instructorData.length; i += 2) {
             @SuppressWarnings("deprecation")
             InstructorAttributes instructor = InstructorAttributes
-                    .builder("googleId", "courseId", instructorData[i], instructorData[i + 1])
+                    .builder("courseId", instructorData[i + 1])
+                    .withGoogleId("googleId")
+                    .withName(instructorData[i])
                     .build();
             instructors.add(instructor);
         }

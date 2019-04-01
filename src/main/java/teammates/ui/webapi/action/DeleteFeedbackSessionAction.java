@@ -29,7 +29,7 @@ public class DeleteFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        logic.deleteFeedbackSession(feedbackSessionName, courseId);
+        logic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
 
         return new JsonResult("The feedback session is deleted.");
     }

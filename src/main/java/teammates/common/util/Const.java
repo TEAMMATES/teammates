@@ -442,6 +442,8 @@ public final class Const {
         public static final String MCQ_ERROR_INVALID_WEIGHT =
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
                 + " must be valid non-negative numbers with precision up to 2 decimal places.";
+        public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
+        public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
@@ -975,8 +977,6 @@ public final class Const {
         public static final String INSTRUCTOR_HOME = "/instrutor/home";
         public static final String INSTRUCTOR_COURSES = "/instructor/courses";
         public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE = "/instructor/courses/permanentlyDelete";
-        public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE_ALL = "/instructor/courses/permanentlyDeleteAll";
-        public static final String INSTRUCTOR_COURSES_RESTORE_ALL = "/instructor/courses/restoreAll";
         public static final String COURSE_STATS = "/course/stats";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
@@ -997,8 +997,6 @@ public final class Const {
         public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
-        public static final String COURSE_DELETE_INSTRUCTOR = "/instructors/course/details/deleteInstructor";
-
         public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
         public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
         public static final String STUDENT_RECORDS = "/students/records";
@@ -1410,9 +1408,6 @@ public final class Const {
 
         // General Error codes
         public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
-
-        // Error message for update options
-        public static final String UPDATE_OPTIONS_NULL_INPUT = "Field to update is null";
 
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";

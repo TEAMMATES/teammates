@@ -1,0 +1,46 @@
+{
+  "accounts": {
+    "studentWithExistingProfile": {
+      "googleId": "SProfUiT.student",
+      "name": "Benny C",
+      "isInstructor": false,
+      "email": "SProfUiT.student@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 7"
+    }
+  },
+  "courses": {
+    "SProfUiT.CS2104": {
+      "id": "SProfUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {},
+  "students": {
+    "studentWithExistingProfile": {
+      "googleId": "SProfUiT.student",
+      "email": "SProfUiT.student@gmail.tmt",
+      "course": "SProfUiT.CS2104",
+      "name": "Benny C",
+      "comments": "This student's name is BC",
+      "team": "Team 1",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {
+    "studentWithExistingProfile": {
+      "googleId": "SProfUiT.student",
+      "shortName": "Ben",
+      "email": "i.m.benny@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 4",
+      "nationality": "Singaporean",
+      "gender": "MALE",
+      "moreInfo": "I am just another student :P",
+      "pictureKey": ""
+    }
+  }
+}

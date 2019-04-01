@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -47,15 +48,16 @@ public final class StudentsLogic {
         return instance;
     }
 
-    public void createStudentCascade(StudentAttributes studentData)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        studentsDb.createStudent(studentData);
-
-        if (!coursesLogic.isCoursePresent(studentData.course)) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + studentData.course + "]");
-        }
-
+    /**
+     * Creates a student.
+     *
+     * @return the created student
+     * @throws InvalidParametersException if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
+     */
+    public StudentAttributes createStudent(StudentAttributes studentData)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return studentsDb.createEntity(studentData);
     }
 
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -221,9 +223,9 @@ public final class StudentsLogic {
             throw new EnrollException(Const.StatusMessages.ENROLL_LINE_EMPTY);
         }
 
-        List<StudentAttributes> studentList = createStudents(enrollLines, courseId);
-        List<StudentAttributes> returnList = new ArrayList<>();
-        List<StudentEnrollDetails> enrollmentList = new ArrayList<>();
+        List<StudentAttributes> studentList = buildStudents(enrollLines, courseId);
+        ArrayList<StudentAttributes> returnList = new ArrayList<>();
+        ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<>();
 
         verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSectionsAndTeams(studentList, courseId);
@@ -381,29 +383,39 @@ public final class StudentsLogic {
         return errorMessage.toString();
     }
 
-    public void deleteAllStudentsInCourse(String courseId) {
+    /**
+     * Deletes all the students in the course cascade their associated responses and comments.
+     */
+    public void deleteStudentsInCourseCascade(String courseId) {
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
             deleteStudentCascade(courseId, student.email);
         }
     }
 
+    /**
+     * Deletes a student cascade its associated feedback responses and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     */
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        // delete responses before deleting the student as we need to know the student's team.
-        frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
-        fsLogic.deleteStudentFromRespondentsList(getStudentForEmail(courseId, studentEmail));
+        StudentAttributes student = getStudentForEmail(courseId, studentEmail);
+        if (student == null) {
+            return;
+        }
+
+        frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(courseId, studentEmail);
+        if (studentsDb.getStudentsForTeam(student.getTeam(), student.getCourse()).size() == 1) {
+            // the student is the only student in the team
+            frLogic.deleteFeedbackResponsesInvolvedTeamOfCourseCascade(student.getCourse(), student.getTeam());
+        }
         studentsDb.deleteStudent(courseId, studentEmail);
     }
 
-    public void deleteStudentsForGoogleId(String googleId) {
-        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
-        for (StudentAttributes student : students) {
-            fsLogic.deleteStudentFromRespondentsList(student);
-        }
-        studentsDb.deleteStudentsForGoogleId(googleId);
-    }
-
-    public void deleteStudentsForGoogleIdAndCascade(String googleId) {
+    /**
+     * Deletes all students associated a googleId and cascade its associated feedback responses and comments.
+     */
+    public void deleteStudentsForGoogleIdCascade(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
 
         // Cascade delete students
@@ -412,8 +424,11 @@ public final class StudentsLogic {
         }
     }
 
-    public void deleteStudentsForCourse(String courseId) {
-        studentsDb.deleteStudentsForCourse(courseId);
+    /**
+     * Deletes students using {@link AttributesDeletionQuery}.
+     */
+    public void deleteStudents(AttributesDeletionQuery query) {
+        studentsDb.deleteStudents(query);
     }
 
     /**
@@ -454,7 +469,7 @@ public final class StudentsLogic {
                 enrollmentDetails.oldSection = originalStudentAttributes.section;
             }
         } else {
-            createStudentCascade(validStudentAttributes);
+            createStudent(validStudentAttributes);
             enrollmentDetails.updateStatus = StudentUpdateStatus.NEW;
         }
 
@@ -469,7 +484,7 @@ public final class StudentsLogic {
      * @throws EnrollException if some of the student instances created are invalid. The exception message contains
      *         invalidity info for all invalid student instances in HTML format.
      */
-    public List<StudentAttributes> createStudents(String lines, String courseId) throws EnrollException {
+    public List<StudentAttributes> buildStudents(String lines, String courseId) throws EnrollException {
         List<String> invalidityInfo = new ArrayList<>();
         String[] linesArray = lines.split(System.lineSeparator());
         List<StudentAttributes> studentList = new ArrayList<>();

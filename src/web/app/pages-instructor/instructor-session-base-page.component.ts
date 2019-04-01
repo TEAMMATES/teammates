@@ -6,7 +6,13 @@ import { FeedbackSessionsService } from '../../services/feedback-sessions.servic
 import { HttpRequestService } from '../../services/http-request.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
-import { FeedbackQuestion, FeedbackQuestions, FeedbackSession, FeedbackSessionStats } from '../../types/api-output';
+import {
+  FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackSession,
+  FeedbackSessionStats,
+  InstructorPrivilege,
+} from '../../types/api-output';
 import { FeedbackSessionStudentRemindRequest } from '../../types/api-request';
 import {
   CopySessionResult,
@@ -15,7 +21,6 @@ import {
   SortOrder,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import { InstructorPrivilege } from '../instructor-privilege';
 import { Intent } from '../Intent';
 
 /**

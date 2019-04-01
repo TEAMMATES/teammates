@@ -6,8 +6,10 @@ import java.time.ZoneId;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.Course;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.StringHelperExtension;
 
@@ -16,100 +18,98 @@ import teammates.test.driver.StringHelperExtension;
  */
 public class CourseAttributesTest extends BaseTestCase {
 
-    private String validName = "validName";
-    private String validId = "validId";
-    private ZoneId validTimeZone = ZoneId.of("UTC");
-    private Instant validCreatedAt = Instant.ofEpochMilli(98765);
-    private Instant validDeletedAt = validCreatedAt.plusSeconds(1000);
+    @Test
+    public void testValueOf_withTypicalData_shouldGenerateAttributesCorrectly() {
+        Instant typicalInstant = Instant.now();
+        Course course = new Course("testId", "testName", "UTC", typicalInstant, typicalInstant);
+
+        CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
+
+        assertEquals("testId", courseAttributes.getId());
+        assertEquals("testName", courseAttributes.getName());
+        assertEquals("UTC", courseAttributes.getTimeZone().getId());
+        assertEquals(typicalInstant, courseAttributes.getCreatedAt());
+        assertEquals(typicalInstant, courseAttributes.getDeletedAt());
+    }
 
     @Test
-    public void testStandardBuilder() {
+    public void testValueOf_withInvalidTimezoneStr_shouldFallbackToDefaultTimezone() {
+        Instant typicalInstant = Instant.now();
+        Course course = new Course("testId", "testName", "invalid", typicalInstant, typicalInstant);
+
+        CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
+
+        assertEquals("UTC", courseAttributes.getTimeZone().getId());
+    }
+
+    @Test
+    public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
+        Course course = new Course("testId", "testName", "UTC", null, null);
+        course.setCreatedAt(null);
+        course.setDeletedAt(null);
+        assertNull(course.getCreatedAt());
+        assertNull(course.getDeletedAt());
+
+        CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
+
+        assertEquals("testId", courseAttributes.getId());
+        assertEquals("testName", courseAttributes.getName());
+        assertEquals("UTC", courseAttributes.getTimeZone().getId());
+        assertNotNull(courseAttributes.getCreatedAt());
+        assertNull(courseAttributes.getDeletedAt());
+    }
+
+    @Test
+    public void testBuilder_withTypicalData_shouldBuildCorrectAttributes() {
+        String validName = "validName";
+        String validId = "validId";
+        ZoneId validTimeZone = ZoneId.of("UTC");
+
         CourseAttributes courseAttributes = CourseAttributes
-                .builder(validId, validName, validTimeZone)
+                .builder(validId)
+                .withName(validName)
+                .withTimezone(validTimeZone)
                 .build();
-        assertEquals(Instant.now(), courseAttributes.createdAt);
-        assertEquals(null, courseAttributes.deletedAt);
+
+        assertNotNull(courseAttributes.getCreatedAt());
+        assertNull(courseAttributes.getDeletedAt());
         assertEquals(validId, courseAttributes.getId());
         assertEquals(validName, courseAttributes.getName());
         assertEquals(validTimeZone, courseAttributes.getTimeZone());
     }
 
     @Test
-    public void testBuilderWithCreatedAt() {
-        CourseAttributes caWithCreatedAt = CourseAttributes
-                .builder(validId, validName, validTimeZone)
-                .withCreatedAt(validCreatedAt)
-                .build();
-        assertEquals(validId, caWithCreatedAt.getId());
-        assertEquals(validName, caWithCreatedAt.getName());
-        assertEquals(validTimeZone, caWithCreatedAt.getTimeZone());
-        assertEquals(validCreatedAt, caWithCreatedAt.createdAt);
-        assertEquals(null, caWithCreatedAt.deletedAt);
+    public void testBuilder_buildNothing_shouldUseDefaultValues() {
+        CourseAttributes courseAttributes = CourseAttributes.builder("id").build();
+
+        assertEquals("id", courseAttributes.getId());
+        assertNull(courseAttributes.getName());
+        assertEquals(Const.DEFAULT_TIME_ZONE, courseAttributes.getTimeZone());
+        assertNotNull(courseAttributes.getCreatedAt());
+        assertNull(courseAttributes.getDeletedAt());
     }
 
     @Test
-    public void testBuilderWithDeletedAt() {
-        CourseAttributes caWithDeletedAt = CourseAttributes
-                .builder(validId, validName, validTimeZone)
-                .withDeletedAt(validDeletedAt)
-                .build();
-        assertEquals(validId, caWithDeletedAt.getId());
-        assertEquals(validName, caWithDeletedAt.getName());
-        assertEquals(validTimeZone, caWithDeletedAt.getTimeZone());
-        assertEquals(validDeletedAt, caWithDeletedAt.deletedAt);
-    }
+    public void testBuilder_withNullArguments_shouldThrowException() {
+        assertThrows(AssertionError.class, () -> {
+            CourseAttributes
+                    .builder(null)
+                    .build();
+        });
 
-    @Test
-    public void testBuilderWithCreatedAtAndDeletedAt() {
-        CourseAttributes caWithCreatedAtAndDeletedAt = CourseAttributes
-                .builder(validId, validName, validTimeZone)
-                .withCreatedAt(validCreatedAt)
-                .withDeletedAt(validDeletedAt)
-                .build();
-        assertEquals(validId, caWithCreatedAtAndDeletedAt.getId());
-        assertEquals(validName, caWithCreatedAtAndDeletedAt.getName());
-        assertEquals(validTimeZone, caWithCreatedAtAndDeletedAt.getTimeZone());
-        assertEquals(validCreatedAt, caWithCreatedAtAndDeletedAt.createdAt);
-        assertEquals(validDeletedAt, caWithCreatedAtAndDeletedAt.deletedAt);
-    }
+        assertThrows(AssertionError.class, () -> {
+            CourseAttributes
+                    .builder("id")
+                    .withName(null)
+                    .build();
+        });
 
-    @Test
-    public void testBuilderWithNullId() {
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> CourseAttributes.builder(null, validName, validTimeZone).build());
-        assertEquals("Non-null value expected", ae.getMessage());
-    }
-
-    @Test
-    public void testBuilderWithNullName() {
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> CourseAttributes.builder(validId, null, validTimeZone).build());
-        assertEquals("Non-null value expected", ae.getMessage());
-    }
-
-    @Test
-    public void testBuilderWithNullTimeZone() {
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> CourseAttributes.builder(validId, validName, null).build());
-        assertEquals("Non-null value expected", ae.getMessage());
-    }
-
-    @Test
-    public void testBuilderWithNullCreatedAt() {
-        CourseAttributes courseAttributes = CourseAttributes
-                .builder(validId, validName, validTimeZone)
-                .withCreatedAt(null)
-                .build();
-        assertEquals(Instant.now(), courseAttributes.createdAt);
-    }
-
-    @Test
-    public void testBuilderWithNullDeletedAt() {
-        CourseAttributes courseAttributes = CourseAttributes
-                .builder(validId, validName, validTimeZone)
-                .withDeletedAt(null)
-                .build();
-        assertEquals(null, courseAttributes.deletedAt);
+        assertThrows(AssertionError.class, () -> {
+            CourseAttributes
+                    .builder("id")
+                    .withTimezone(null)
+                    .build();
+        });
     }
 
     @Test
@@ -122,7 +122,9 @@ public class CourseAttributesTest extends BaseTestCase {
         String veryLongId = StringHelperExtension.generateStringOfLength(FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         String emptyName = "";
         CourseAttributes invalidCourse = CourseAttributes
-                .builder(veryLongId, emptyName, validTimeZone)
+                .builder(veryLongId)
+                .withName(emptyName)
+                .withTimezone(ZoneId.of("UTC"))
                 .build();
 
         assertFalse("invalid value", invalidCourse.isValid());
@@ -153,16 +155,11 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
     }
 
-    @Test
-    public void testGetBackUpIdentifier() {
-        CourseAttributes course = generateValidCourseAttributesObject();
-
-        String expectedBackUpIdentifierMessage = "Recently modified course::" + course.getId();
-        assertEquals(expectedBackUpIdentifierMessage, course.getBackupIdentifier());
-    }
-
     private static CourseAttributes generateValidCourseAttributesObject() {
-        return CourseAttributes.builder("valid-id-$_abc", "valid-name", ZoneId.of("UTC")).build();
+        return CourseAttributes.builder("valid-id-$_abc")
+                .withName("valid-name")
+                .withTimezone(ZoneId.of("UTC"))
+                .build();
     }
 
 }
