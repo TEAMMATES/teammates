@@ -114,9 +114,9 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
     }
 
     /**
-     * Get all present general privileges as a map.
+     * Gets all present general privileges as a map.
      */
-    public Map<String, Boolean> getAllPresentCourseLevelPriviledges() {
+    public Map<String, Boolean> getAllPresentCourseLevelPrivileges() {
         Map<String, Boolean> privilegesMap = new HashMap<>();
         if (this.canModifyCourse != null) {
             privilegesMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, this.canModifyCourse);
@@ -134,9 +134,9 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
     }
 
     /**
-     * Get all present section level privileges as a map.
+     * Gets all present section level privileges as a map.
      */
-    public Map<String, Boolean> getAllPresentSectionLevelPriviledges() {
+    public Map<String, Boolean> getAllPresentSectionLevelPrivileges() {
         Map<String, Boolean> privilegesMap = new HashMap<>();
         if (this.canViewStudentInSections != null) {
             privilegesMap.put(
@@ -146,9 +146,9 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
     }
 
     /**
-     * Get all present session level privileges as a map.
+     * Gets all present session level privileges as a map.
      */
-    public Map<String, Boolean> getAllPresentSessionLevelPriviledges() {
+    public Map<String, Boolean> getAllPresentSessionLevelPrivileges() {
         Map<String, Boolean> privilegesMap = new HashMap<>();
         if (this.canSubmitSessionInSections != null) {
             privilegesMap.put(

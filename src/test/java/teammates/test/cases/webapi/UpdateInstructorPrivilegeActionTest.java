@@ -57,7 +57,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
@@ -87,6 +87,27 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertFalse(response.isCanSubmitSessionInSections());
         assertFalse(response.isCanViewSessionInSections());
         assertFalse(response.isCanModifySessionCommentsInSections());
+
+        // verify the privilege has indeed been updated
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(
+                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
+
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
 
     @Test
@@ -111,7 +132,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, helper1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, helper1OfCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, helper1OfCourse1.courseId,
         };
 
@@ -162,7 +183,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, helper1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, helper1OfCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, helper1OfCourse1.courseId,
         };
 
@@ -213,7 +234,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
@@ -268,7 +289,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(instructor1OfCourse4.getGoogleId(), instructorsWithModifyInstructorPrivilege.get(0).getGoogleId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse4.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse4.getEmail(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse4.courseId,
         };
 
@@ -298,7 +319,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
@@ -318,7 +339,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
@@ -337,7 +358,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
@@ -357,7 +378,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
@@ -374,7 +395,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, "invalid-instructor-id",
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "invalid-instructor-email",
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 

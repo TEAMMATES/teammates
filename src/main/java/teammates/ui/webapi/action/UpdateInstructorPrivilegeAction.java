@@ -13,7 +13,7 @@ import teammates.ui.webapi.output.InstructorPrivilegeData;
 import teammates.ui.webapi.request.InstructorPrivilegeUpdateRequest;
 
 /**
- * Update instructor privilege by someone with instructor modify permission.
+ * Update instructor privilege by instructors with instructor modify permission.
  */
 public class UpdateInstructorPrivilegeAction extends Action {
 
@@ -35,8 +35,8 @@ public class UpdateInstructorPrivilegeAction extends Action {
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        String idOfInstructorToUpdate = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        InstructorAttributes instructorToUpdate = logic.getInstructorForGoogleId(courseId, idOfInstructorToUpdate);
+        String emailOfInstructorToUpdate = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+        InstructorAttributes instructorToUpdate = logic.getInstructorForEmail(courseId, emailOfInstructorToUpdate);
 
         if (instructorToUpdate == null) {
             return new JsonResult("Instructor does not exist.", HttpStatus.SC_NOT_FOUND);
@@ -47,9 +47,9 @@ public class UpdateInstructorPrivilegeAction extends Action {
         String sectionName = request.getSectionName();
         String sessionName = request.getFeedbackSessionName();
 
-        Map<String, Boolean> courseLevelPrivilegesMap = request.getAllPresentCourseLevelPriviledges();
-        Map<String, Boolean> sectionLevelPrivilegesMap = request.getAllPresentSectionLevelPriviledges();
-        Map<String, Boolean> sessionLevelPrivilegesMap = request.getAllPresentSessionLevelPriviledges();
+        Map<String, Boolean> courseLevelPrivilegesMap = request.getAllPresentCourseLevelPrivileges();
+        Map<String, Boolean> sectionLevelPrivilegesMap = request.getAllPresentSectionLevelPrivileges();
+        Map<String, Boolean> sessionLevelPrivilegesMap = request.getAllPresentSessionLevelPrivileges();
 
         if (sectionName == null && sessionName == null) {
             updateCourseLevelPrivileges(courseLevelPrivilegesMap, instructorToUpdate);

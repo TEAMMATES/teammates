@@ -83,7 +83,7 @@ public class InstructorPrivilegeData extends ApiOutput {
     }
 
     /**
-     * Construct all privileges in course level.
+     * Constructs all privileges in course level.
      */
     public void constructCourseLevelPrivilege(InstructorPrivileges privileges) {
         setCanModifyInstructor(privileges.isAllowedForPrivilege(
@@ -105,7 +105,7 @@ public class InstructorPrivilegeData extends ApiOutput {
     }
 
     /**
-     * Construct privileges in section level.
+     * Constructs privileges in section level.
      */
     public void constructSectionLevelPrivilege(InstructorPrivileges privileges, String sectionName) {
         setCanViewStudentInSections(privileges.isAllowedForPrivilege(
@@ -119,7 +119,7 @@ public class InstructorPrivilegeData extends ApiOutput {
     }
 
     /**
-     * Construct privileges in session level.
+     * Constructs privileges in session level.
      */
     public void constructSessionLevelPrivilege(InstructorPrivileges privileges, String sectionName,
                                                String sessionName) {
