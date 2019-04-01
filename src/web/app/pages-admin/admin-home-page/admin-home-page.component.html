@@ -5,11 +5,11 @@
       <p class="text-muted">
         <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution
       </p>
-      <textarea class="form-control" [(ngModel)]="instructorDetails"></textarea>
+      <textarea class="form-control" id="instructor-details-single-line" [(ngModel)]="instructorDetails"></textarea>
     </div>
 
     <div class="top-padded">
-      <button class="btn btn-primary" (click)="validateAndAddInstructorDetails()">Add Instructors</button>
+      <button class="btn btn-primary" id="add-instructor-single-line" (click)="validateAndAddInstructorDetails()">Add Instructors</button>
     </div>
   </div>
 </div>
@@ -22,21 +22,21 @@
 
     <div class="top-padded">
       <strong>Name:</strong>
-      <input class="form-control" type="text" [(ngModel)]="instructorName">
+      <input class="form-control" type="text" id="instructor-name" [(ngModel)]="instructorName">
     </div>
 
     <div class="top-padded">
       <strong>Email: </strong>
-      <input class="form-control" type="text" [(ngModel)]="instructorEmail">
+      <input class="form-control" type="text" id="instructor-email" [(ngModel)]="instructorEmail">
     </div>
 
     <div class="top-padded">
       <strong>Institution: </strong>
-      <input class="form-control" type="text" [(ngModel)]="instructorInstitution">
+      <input class="form-control" type="text" id="instructor-institution" [(ngModel)]="instructorInstitution">
     </div>
 
     <div class="top-padded">
-      <button class="btn btn-primary" (click)="validateAndAddInstructorDetail()">Add Instructor</button>
+      <button class="btn btn-primary" id="add-instructor" (click)="validateAndAddInstructorDetail()">Add Instructor</button>
     </div>
   </div>
 </div>
@@ -65,21 +65,21 @@
             <td>{{ instructor.institution }}</td>
             <td>
               <div *ngIf="instructor.status === 'PENDING' || instructor.status === 'FAIL'">
-                <button class="btn btn-sm btn-primary" style="margin-right: 10px;" (click)="addInstructor(i)" [disabled]="activeRequests > 0">Add Instructor</button>
-                <button class="btn btn-sm btn-danger" (click)="cancelInstructor(i)">Cancel</button>
+                <button class="btn btn-sm btn-primary" id="add-instructor-{{ i }}" style="margin-right: 10px;" (click)="addInstructor(i)" [disabled]="activeRequests > 0">Add Instructor</button>
+                <button class="btn btn-sm btn-danger" id="cancel-instructor-{{ i }}" (click)="cancelInstructor(i)">Cancel</button>
               </div>
             </td>
             <td>{{ instructor.status }}</td>
             <td style="width: 500px;">
-              <span *ngIf="instructor.status === 'SUCCESS'">
+              <span *ngIf="instructor.status === 'SUCCESS'" id="message-instructor-{{ i }}">
                 Instructor "{{ instructor.name }}" has been successfully created. [<a href="{{ instructor.joinLink }}">join link</a>]
               </span>
-              <span *ngIf="instructor.status !== 'SUCCESS'">{{ instructor.message }}</span>
+              <span *ngIf="instructor.status === 'FAIL'" id="message-instructor-{{ i }}">{{ instructor.message }}</span>
             </td>
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-primary" (click)="addAllInstructors()" [disabled]="activeRequests > 0">Add All Instructors</button>
+      <button class="btn btn-primary" (click)="addAllInstructors()" id="add-all-instructors" [disabled]="activeRequests > 0">Add All Instructors</button>
     </div>
   </div>
 </div>

@@ -77,7 +77,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getCourse(String courseId) {
-        return null; // BackDoor.getCourse(courseId);
+        return BackDoor.getCourse(courseId);
     }
 
     @Override

@@ -3,9 +3,9 @@ package teammates.ui.webapi.request;
 import javax.annotation.Nullable;
 
 /**
- * The save request of a feedback response comment.
+ * The basic request of modifying a feedback response comment.
  */
-public class FeedbackResponseCommentSaveRequest extends BasicRequest {
+public class FeedbackResponseCommentBasicRequest extends BasicRequest {
 
     private String commentText;
     @Nullable
@@ -13,7 +13,7 @@ public class FeedbackResponseCommentSaveRequest extends BasicRequest {
     @Nullable
     private String showGiverNameTo;
 
-    public FeedbackResponseCommentSaveRequest(String commentText, String showCommentTo, String showGiverNameTo) {
+    public FeedbackResponseCommentBasicRequest(String commentText, String showCommentTo, String showGiverNameTo) {
         this.commentText = commentText;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
@@ -35,5 +35,4 @@ public class FeedbackResponseCommentSaveRequest extends BasicRequest {
     public void validate() {
         // TODO decide what to validate
     }
-
 }
