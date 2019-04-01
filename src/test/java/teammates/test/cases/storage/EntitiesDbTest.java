@@ -24,7 +24,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
     @Test
     public void testCreateEntity() throws Exception {
-        //We are using CoursesDb to test EntititesDb here.
+        //We are using CoursesDb to test EntitiesDb here.
         CoursesDb coursesDb = new CoursesDb();
 
         /*Explanation:
