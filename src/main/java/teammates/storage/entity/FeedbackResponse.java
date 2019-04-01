@@ -81,6 +81,9 @@ public class FeedbackResponse extends BaseEntity {
         this.setCreatedAt(Instant.now());
     }
 
+    /**
+     * Generates an unique ID for the feedback response.
+     */
     public static String generateId(String feedbackQuestionId, String giver, String receiver) {
         // Format is feedbackQuestionId%giverEmail%receiver
         // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
@@ -172,6 +175,9 @@ public class FeedbackResponse extends BaseEntity {
         return updatedAt == null ? Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP : updatedAt;
     }
 
+    /**
+     * Sets the createdAt timestamp of the response.
+     */
     public void setCreatedAt(Instant newDate) {
         this.createdAt = newDate;
         setLastUpdate(newDate);
@@ -181,6 +187,9 @@ public class FeedbackResponse extends BaseEntity {
         this.updatedAt = newDate;
     }
 
+    /**
+     * Updates the updatedAt timestamp when saving.
+     */
     @OnSave
     public void updateLastUpdateTimestamp() {
         this.setLastUpdate(Instant.now());

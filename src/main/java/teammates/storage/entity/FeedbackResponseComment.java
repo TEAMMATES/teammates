@@ -137,6 +137,9 @@ public class FeedbackResponseComment extends BaseEntity {
         this.feedbackQuestionId = feedbackQuestionId;
     }
 
+    /**
+     * Gets whether the visibility setting of the comment follow the corresponding question.
+     */
     public boolean getIsVisibilityFollowingFeedbackQuestion() {
         if (this.isVisibilityFollowingFeedbackQuestion == null) {
             // true as the default value if the field is null
@@ -163,6 +166,9 @@ public class FeedbackResponseComment extends BaseEntity {
         this.giverEmail = giverEmail;
     }
 
+    /**
+     * Gets the giver type of the comment.
+     */
     public FeedbackParticipantType getCommentGiverType() {
         // TODO: Remove after data migration
         if (commentGiverType == null) {
@@ -171,6 +177,9 @@ public class FeedbackResponseComment extends BaseEntity {
         return commentGiverType;
     }
 
+    /**
+     * Sets the giver type of the comment.
+     */
     public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
         // TODO: Remove after data migration
         if (commentGiverType == null) {

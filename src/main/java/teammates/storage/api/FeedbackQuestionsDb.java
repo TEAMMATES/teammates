@@ -2,14 +2,13 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
-import com.googlecode.objectify.cmd.QueryKeys;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -25,41 +24,30 @@ import teammates.storage.entity.FeedbackQuestion;
  * @see FeedbackQuestionAttributes
  */
 public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
-    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets a feedback question by using {@code feedbackQuestionId}.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackQuestionId),
-                "Trying to get non-existent Question: " + feedbackQuestionId);
+        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackQuestionId));
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Null if not found.
+     * Gets a feedback question by using unique constrain: course-session-questionNumber.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(
-            String feedbackSessionName,
-            String courseId,
-            int questionNumber) {
+            String feedbackSessionName, String courseId, int questionNumber) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionNumber);
 
-        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber),
-                "Trying to get non-existent Question: " + questionNumber + "." + feedbackSessionName + "/" + courseId);
+        return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber));
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return An empty list if no such questions are found.
+     * Gets all feedback questions of a session.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
             String feedbackSessionName, String courseId) {
@@ -70,9 +58,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return An empty list if no such questions are found.
+     * Gets all feedback questions of a session that has certain giver type.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
@@ -117,36 +103,49 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         feedbackQuestion.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         feedbackQuestion.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
 
-        saveEntity(feedbackQuestion, newAttributes);
+        saveEntity(feedbackQuestion);
 
         return makeAttributes(feedbackQuestion);
     }
 
-    public void deleteFeedbackQuestionsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        deleteFeedbackQuestionsForCourses(Arrays.asList(courseId));
+    /**
+     * Deletes a feedback question.
+     */
+    public void deleteFeedbackQuestion(String feedbackQuestionId) {
+        makeKeyFromWebSafeString(feedbackQuestionId).ifPresent(this::deleteEntity);
     }
 
-    public void deleteFeedbackQuestionsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+    /**
+     * Deletes questions using {@link AttributesDeletionQuery}.
+     */
+    public void deleteFeedbackQuestions(AttributesDeletionQuery query) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
 
-        ofy().delete().keys(load().filter("courseId in", courseIds).keys()).now();
+        Query<FeedbackQuestion> entitiesToDelete = load().project();
+        if (query.isCourseIdPresent()) {
+            entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entitiesToDelete = entitiesToDelete.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+
+        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
     }
 
-    // Gets a question entity if its Key (feedbackQuestionId) is known.
+    /**
+     * Gets a question entity if its string key can be decoded.
+     */
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
 
-        Key<FeedbackQuestion> key = makeKeyOrNullFromWebSafeString(feedbackQuestionId);
-        if (key == null) {
-            return null;
-        }
-
-        return ofy().load().key(key).now();
+        return makeKeyFromWebSafeString(feedbackQuestionId)
+                .map(key -> ofy().load().key(key).now())
+                .orElse(null);
     }
 
-    // Gets a feedbackQuestion based on feedbackSessionName and questionNumber.
+    /**
+     * Gets a feedback question by using unique constrain: course-session-questionNumber.
+     */
     private FeedbackQuestion getFeedbackQuestionEntity(
             String feedbackSessionName, String courseId, int questionNumber) {
         return load()
@@ -176,32 +175,6 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     @Override
     protected LoadType<FeedbackQuestion> load() {
         return ofy().load().type(FeedbackQuestion.class);
-    }
-
-    @Override
-    protected FeedbackQuestion getEntity(FeedbackQuestionAttributes attributes) {
-        if (attributes.getId() != null) {
-            return getFeedbackQuestionEntity(attributes.getId());
-        }
-
-        return getFeedbackQuestionEntity(attributes.feedbackSessionName, attributes.courseId, attributes.questionNumber);
-    }
-
-    @Override
-    protected QueryKeys<FeedbackQuestion> getEntityQueryKeys(FeedbackQuestionAttributes attributes) {
-        Key<FeedbackQuestion> key = makeKeyOrNullFromWebSafeString(attributes.getId());
-
-        Query<FeedbackQuestion> query;
-        if (key == null) {
-            query = load()
-                    .filter("feedbackSessionName =", attributes.feedbackSessionName)
-                    .filter("courseId =", attributes.courseId)
-                    .filter("questionNumber =", attributes.questionNumber);
-        } else {
-            query = load().filterKey(key);
-        }
-
-        return query.keys();
     }
 
     @Override

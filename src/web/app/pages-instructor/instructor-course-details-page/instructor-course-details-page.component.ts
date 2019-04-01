@@ -17,9 +17,9 @@ interface CourseAttributes {
 }
 
 interface CourseStats {
-  sectionsTotal: string;
-  teamsTotal: string;
-  studentsTotal: string;
+  sectionsTotal: number;
+  teamsTotal: number;
+  studentsTotal: number;
 }
 
 interface CourseDetailsBundle {
@@ -59,8 +59,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   user: string = '';
   courseDetails?: CourseDetailsBundle;
   currentInstructor?: InstructorAttributes;
-  instructors?: InstructorAttributes[] = [];
-  sections?: StudentListSectionData[] = [];
+  instructors: InstructorAttributes[] = [];
+  sections: StudentListSectionData[] = [];
   courseStudentListAsCsv: string = '';
 
   loading: boolean = false;

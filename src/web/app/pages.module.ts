@@ -7,7 +7,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { StatusMessageModule } from './components/status-message/status-message.module';
 import { Intent } from './Intent';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
-import { PageComponent } from './page.component';
+import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
 import { SessionResultPageComponent } from './pages-session/session-result-page/session-result-page.component';
@@ -93,6 +93,7 @@ const routes: Routes = [
   ],
   declarations: [
     PageComponent,
+    ClickOutsideDirective,
     PublicPageComponent,
     UserJoinPageComponent,
     StaticPageComponent,

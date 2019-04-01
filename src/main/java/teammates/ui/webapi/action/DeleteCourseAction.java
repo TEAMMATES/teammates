@@ -29,7 +29,7 @@ public class DeleteCourseAction extends Action {
     public ActionResult execute() {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        logic.deleteCourse(idOfCourseToDelete);
+        logic.deleteCourseCascade(idOfCourseToDelete);
 
         return new JsonResult(new MessageOutput("OK"));
     }
