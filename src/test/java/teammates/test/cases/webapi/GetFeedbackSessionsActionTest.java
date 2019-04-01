@@ -183,7 +183,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         GetFeedbackSessionsAction action = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(5, fsData.getFeedbackSessions().size());
+        assertEquals(4, fsData.getFeedbackSessions().size());
         assertAllStudentSessionsMatch(fsData, sessionsInCourse1);
 
     }
@@ -200,12 +200,12 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         GetFeedbackSessionsAction a = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
 
-        assertEquals(5, fsData.getFeedbackSessions().size());
+        assertEquals(4, fsData.getFeedbackSessions().size());
         assertAllStudentSessionsMatch(fsData, sessionsInCourse1);
     }
 
     @Test
-    protected void testExecute_noEntityType_shouldFail() {
+    protected void testExecute_unknownEntityType_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student1InCourse1.googleId);
 

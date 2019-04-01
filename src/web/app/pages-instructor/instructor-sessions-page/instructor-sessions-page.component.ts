@@ -348,7 +348,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    * Loads all feedback sessions that can be accessed by current user.
    */
   loadFeedbackSessions(): void {
-    this.feedbackSessionsService.getFeedbackSessions('instructor', 'false')
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor()
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             const model: SessionsTableRowModel = {
@@ -465,7 +465,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    * Loads all feedback sessions in recycle bin that can be accessed by current user.
    */
   loadRecycleBinFeedbackSessions(): void {
-    this.feedbackSessionsService.getFeedbackSessions('instructor', 'true')
+    this.feedbackSessionsService.getFeedbackSessionsInRecycleBinForInstructor()
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             this.recycleBinFeedbackSessionRowModels.push({

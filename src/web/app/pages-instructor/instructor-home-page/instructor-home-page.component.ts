@@ -192,8 +192,8 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   loadFeedbackSessions(model: CourseTabModel): void {
     if (!model.hasPopulated) {
-      this.feedbackSessionsService.getFeedbackSessions('instructor', 'false',
-          model.course.courseId).subscribe((response: FeedbackSessions) => {
+      this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
+          .subscribe((response: FeedbackSessions) => {
             response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
               const m: SessionsTableRowModel = {
                 feedbackSession,

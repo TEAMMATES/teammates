@@ -59,24 +59,53 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Gets all sessions with given entity type by calling API.
+   * Gets all sessions for the instructor by calling API.
    */
-  getFeedbackSessions(entityType: string, isInRecycleBin?: string, courseId?: string): Observable<FeedbackSessions> {
+  getFeedbackSessionsForInstructor(courseId?: string): Observable<FeedbackSessions> {
 
     let paramMap: { [key: string]: string };
     if (courseId != null) {
       paramMap = {
-        entitytype: entityType,
+        entitytype: 'instructor',
         courseid: courseId,
       };
-    } else if (isInRecycleBin != null) {
+    }  else {
       paramMap = {
-        entitytype: entityType,
-        isinrecyclebin: isInRecycleBin,
+        entitytype: 'instructor',
+        isinrecyclebin: 'false',
       };
-    } else {
+    }
+
+    return this.httpRequestService.get('/sessions', paramMap);
+  }
+
+  /**
+   * Gets all sessions in the recycle bin for the instructor by calling API.
+   */
+  getFeedbackSessionsInRecycleBinForInstructor(): Observable<FeedbackSessions> {
+
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'instructor',
+      isinrecyclebin: 'true',
+    };
+
+    return this.httpRequestService.get('/sessions', paramMap);
+  }
+
+  /**
+   * Gets all sessions for the student by calling API.
+   */
+  getFeedbackSessionsForStudent(courseId?: string): Observable<FeedbackSessions> {
+
+    let paramMap: { [key: string]: string };
+    if (courseId != null) {
       paramMap = {
-        entitytype: entityType,
+        entitytype: 'student',
+        courseid: courseId,
+      };
+    }  else {
+      paramMap = {
+        entitytype: 'student',
       };
     }
 

@@ -1,7 +1,9 @@
 package teammates.ui.webapi.action;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -82,6 +84,11 @@ public class GetFeedbackSessionsAction extends Action {
             }
         } else {
             feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
+        }
+
+        if (entityType.equals(Const.EntityType.STUDENT)) {
+            feedbackSessionAttributes = feedbackSessionAttributes.stream().filter(session ->
+                    session.getSessionVisibleFromTime().compareTo(Instant.now()) <= 0).collect(Collectors.toList());
         }
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessionAttributes);
