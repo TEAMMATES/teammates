@@ -348,23 +348,21 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    * Loads all feedback sessions that can be accessed by current user.
    */
   loadFeedbackSessions(): void {
-    this.httpRequestService.get('/sessions', {
-      isinrecyclebin: 'false',
-    }).subscribe((response: FeedbackSessions) => {
-      response.feedbackSessions.forEach((session: FeedbackSession) => {
-        const model: SessionsTableRowModel = {
-          feedbackSession: session,
-          responseRate: '',
-          isLoadingResponseRate: false,
-
-          instructorPrivilege: defaultInstructorPrivilege,
-        };
-        this.sessionsTableRowModels.push(model);
-        this.updateInstructorPrivilege(model);
-      });
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    this.feedbackSessionsService.getFeedbackSessions('instructor', 'false')
+        .subscribe((response: FeedbackSessions) => {
+          response.feedbackSessions.forEach((session: FeedbackSession) => {
+            const model: SessionsTableRowModel = {
+              feedbackSession: session,
+              responseRate: '',
+              isLoadingResponseRate: false,
+              instructorPrivilege: defaultInstructorPrivilege,
+            };
+            this.sessionsTableRowModels.push(model);
+            this.updateInstructorPrivilege(model);
+          });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
   /**
@@ -466,17 +464,16 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    * Loads all feedback sessions in recycle bin that can be accessed by current user.
    */
   loadRecycleBinFeedbackSessions(): void {
-    this.httpRequestService.get('/sessions', {
-      isinrecyclebin: 'true',
-    }).subscribe((response: FeedbackSessions) => {
-      response.feedbackSessions.forEach((session: FeedbackSession) => {
-        this.recycleBinFeedbackSessionRowModels.push({
-          feedbackSession: session,
+    this.feedbackSessionsService.getFeedbackSessions('instructor', 'true')
+        .subscribe((response: FeedbackSessions) => {
+          response.feedbackSessions.forEach((session: FeedbackSession) => {
+            this.recycleBinFeedbackSessionRowModels.push({
+              feedbackSession: session,
+            });
+          });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
         });
-      });
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
   }
 
   /**

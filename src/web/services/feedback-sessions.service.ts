@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { FeedbackQuestion, FeedbackSession, OngoingSessions } from '../types/api-output';
+import { FeedbackQuestion, FeedbackSession, FeedbackSessions, OngoingSessions } from '../types/api-output';
 import { FeedbackSessionCreateRequest, FeedbackSessionSaveRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -56,5 +56,30 @@ export class FeedbackSessionsService {
       endtime: String(endTime),
     };
     return this.httpRequestService.get('/sessions/ongoing', paramMap);
+  }
+
+  /**
+   * Gets all sessions with given entity type by calling API.
+   */
+  getFeedbackSessions(entityType: string, isInRecycleBin?: string, courseId?: string): Observable<FeedbackSessions> {
+
+    let paramMap: { [key: string]: string };
+    if (courseId != null) {
+      paramMap = {
+        entitytype: entityType,
+        courseid: courseId,
+      };
+    } else if (isInRecycleBin != null) {
+      paramMap = {
+        entitytype: entityType,
+        isinrecyclebin: isInRecycleBin,
+      };
+    } else {
+      paramMap = {
+        entitytype: entityType,
+      };
+    }
+
+    return this.httpRequestService.get('/sessions', paramMap);
   }
 }

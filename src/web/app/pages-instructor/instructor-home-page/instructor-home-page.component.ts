@@ -191,27 +191,26 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   loadFeedbackSessions(model: CourseTabModel): void {
     if (!model.hasPopulated) {
-      this.httpRequestService.get('/sessions', {
-        courseid: model.course.courseId,
-      }).subscribe((response: FeedbackSessions) => {
-        response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
-          const m: SessionsTableRowModel = {
-            feedbackSession,
-            responseRate: '',
-            isLoadingResponseRate: false,
-            instructorPrivilege: defaultInstructorPrivilege,
-          };
-          model.sessionsTableRowModels.push(m);
-          this.updateInstructorPrivilege(m);
-        });
-        model.hasPopulated = true;
-        if (!model.isAjaxSuccess) {
-          model.isAjaxSuccess = true;
-        }
-      }, (resp: ErrorMessageOutput) => {
-        model.isAjaxSuccess = false;
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
+      this.feedbackSessionsService.getFeedbackSessions('instructor', 'false',
+          model.course.courseId).subscribe((response: FeedbackSessions) => {
+            response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+              const m: SessionsTableRowModel = {
+                feedbackSession,
+                responseRate: '',
+                isLoadingResponseRate: false,
+                instructorPrivilege: defaultInstructorPrivilege,
+              };
+              model.sessionsTableRowModels.push(m);
+              this.updateInstructorPrivilege(m);
+            });
+            model.hasPopulated = true;
+            if (!model.isAjaxSuccess) {
+              model.isAjaxSuccess = true;
+            }
+          }, (resp: ErrorMessageOutput) => {
+            model.isAjaxSuccess = false;
+            this.statusMessageService.showErrorMessage(resp.error.message);
+          });
     }
   }
 
