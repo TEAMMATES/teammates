@@ -309,11 +309,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         return testPlanHashTree;
     }
 
-    @Override
-    public String toString() {
-        return "studentProfile";
-    }
-
     @BeforeClass
     public void classSetup() {
         createTestData(testData);

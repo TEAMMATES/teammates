@@ -204,7 +204,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             summer = new Summariser(summariserName);
         }
 
-        String resultFile = TestProperties.LNP_TEST_RESULTS_FOLDER + this.toString() + "-results.jtl";
+        String resultFile = TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + ".jtl";
         ResultCollector logger = new ResultCollector(summer);
         logger.setFilename(resultFile);
         testPlanTree.add(testPlanTree.getArray()[0], logger);
@@ -235,11 +235,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
         Files.delete(Paths.get(pathToJsonFile));
         Files.delete(Paths.get(pathToCsvFile));
-    }
-
-    @Override
-    public String toString() {
-        return "baseLnpTest";
     }
 
 }
