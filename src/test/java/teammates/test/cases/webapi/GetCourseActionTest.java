@@ -6,6 +6,10 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetCourseAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -153,6 +157,36 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         ______TS("students of the same course can access");
 
         verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_onlyStudentOrInstructorAccessRequired_shouldPass()
+            throws InvalidParametersException, EnrollException, EntityDoesNotExistException,
+            EntityAlreadyExistsException {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        CourseAttributes typicalCourse2 = typicalBundle.courses.get("typicalCourse2");
+        logic.enrollStudents("Team|Section|Name|Email|Comment" + System.lineSeparator()
+                        + "testSection|testTeam|testPerson|testPerson@gmail.com|", typicalCourse2.getId());
+        String encryptedKey = logic.getEncryptedKeyForStudent(typicalCourse2.getId(), "testPerson@gmail.com");
+        logic.joinCourseForStudent(encryptedKey, instructor1OfCourse1.googleId);
+
+        loginAsStudentInstructor(instructor1OfCourse1.googleId);
+
+        ______TS("StudentInstructor can access course with only instructor privileges");
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+        };
+
+        verifyCanAccess(params);
+
+        ______TS("StudentInstructor can access course with only student privileges");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalCourse2.getId(),
+        };
+
+        verifyCanAccess(params);
     }
 
 }
