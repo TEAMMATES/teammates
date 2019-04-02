@@ -99,8 +99,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         int totalChoicesSelected = answers.size() + (isOther ? 1 : 0);
         boolean isMaxSelectableEnabled = maxSelectableChoices != 0;
         boolean isMinSelectableEnabled = minSelectableChoices != 0;
-        boolean isNoneOfTheAboveOptionEnabled =
-                !answers.isEmpty() && answers.get(0).equals(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE);
+        boolean isNoneOfTheAboveOptionEnabled = answers.contains(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE);
 
         // if other is not enabled and other is selected as an answer trigger this error
         if (isOther && !isOtherEnabled) {
@@ -134,7 +133,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             }
         } else {
             // if none of the above is selected AND other options are selected trigger this error
-            if (answers.size() > 1 && answers.get(0).equals(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE)) {
+            if (answers.size() > 1 && isNoneOfTheAboveOptionEnabled) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER);
             }
         }
