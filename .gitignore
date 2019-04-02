@@ -38,10 +38,9 @@ build-eclipse/
 /.stylelintrc.yml
 
 # JMeter
-*.jmx
 jmeter.log
-src/e2e/lnp-results
-!src/e2e/resources/lnp-properties/bin
+src/e2e/lnp/*
+!src/e2e/resources/jmeter/bin
 
 # TEAMMATES
 gradle.properties
@@ -59,3 +58,5 @@ src/main/webapp/*
 !src/main/webapp/WEB-INF
 src/client/java/teammates/client/scripts/statistics/data/
 src/e2e/resources/gmail-api/
+
+!.gitkeep

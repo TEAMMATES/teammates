@@ -6,30 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.jmeter.config.Arguments;
-import org.apache.jmeter.config.CSVDataSet;
-import org.apache.jmeter.config.ConfigTestElement;
-import org.apache.jmeter.control.LoopController;
-import org.apache.jmeter.control.OnceOnlyController;
-import org.apache.jmeter.control.gui.LoopControlPanel;
-import org.apache.jmeter.control.gui.OnceOnlyControllerGui;
-import org.apache.jmeter.control.gui.TestPlanGui;
-import org.apache.jmeter.protocol.http.config.gui.HttpDefaultsGui;
-import org.apache.jmeter.protocol.http.control.CookieManager;
-import org.apache.jmeter.protocol.http.control.gui.HttpTestSampleGui;
-import org.apache.jmeter.protocol.http.gui.CookiePanel;
-import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
-import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
-import org.apache.jmeter.testbeans.gui.TestBeanGUI;
-import org.apache.jmeter.testelement.TestElement;
-import org.apache.jmeter.testelement.TestPlan;
-import org.apache.jmeter.testelement.property.StringProperty;
-import org.apache.jmeter.testelement.property.TestElementProperty;
-import org.apache.jmeter.threads.SetupThreadGroup;
-import org.apache.jmeter.threads.ThreadGroup;
-import org.apache.jmeter.threads.gui.ThreadGroupGui;
-import org.apache.jorphan.collections.HashTree;
-import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -211,103 +187,31 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         return JSON_DATA_PATH;
     }
 
-    /**
-     * Returns the JMeter test plan for the Student Profile endpoint.
-     */
     @Override
-    protected HashTree generateTestPlan() {
-        // TestPlan
-        TestPlan testPlan = new TestPlan();
-        testPlan.setName("Student Profile Test Plan");
-        testPlan.setEnabled(true);
-        testPlan.setUserDefinedVariables(new Arguments());
-        testPlan.setProperty(TestElement.TEST_CLASS, TestPlan.class.getName());
-        testPlan.setProperty(TestElement.GUI_CLASS, TestPlanGui.class.getName());
+    protected int getNumberOfThreads() {
+        return NUMBER_OF_USER_ACCOUNTS;
+    }
 
-        // Thread Group controller
-        LoopController loopController = new LoopController();
-        loopController.setEnabled(true);
-        loopController.setLoops(1);
-        loopController.setProperty(TestElement.TEST_CLASS, LoopController.class.getName());
-        loopController.setProperty(TestElement.GUI_CLASS, LoopControlPanel.class.getName());
+    @Override
+    protected int getNumberOfRampUp() {
+        return 2;
+    }
 
-        // Thread Group
-        ThreadGroup threadGroup = new SetupThreadGroup();
-        threadGroup.setName("Thread Group");
-        threadGroup.setNumThreads(NUMBER_OF_USER_ACCOUNTS);
-        threadGroup.setRampUp(2);
-        threadGroup.setProperty(new StringProperty(ThreadGroup.ON_SAMPLE_ERROR, ThreadGroup.ON_SAMPLE_ERROR_CONTINUE));
-        threadGroup.setSamplerController(loopController);
-        threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
-        threadGroup.setProperty(TestElement.GUI_CLASS, ThreadGroupGui.class.getName());
+    @Override
+    protected String getTestEndpoint() {
+        return "webapi" + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleid}";
+    }
 
-        // CSVConfig
-        CSVDataSet csvDataSet = new CSVDataSet();
-        csvDataSet.setName("CSV Data Config: User Details");
-        csvDataSet.setProperty(new StringProperty("filename", "src/e2e/resources/data/studentProfileConfig.csv"));
-        csvDataSet.setProperty(new StringProperty("delimiter", "|"));
-        csvDataSet.setProperty(new StringProperty("shareMode", "shareMode.all"));
-        csvDataSet.setProperty("ignoreFirstLine", true);
-        csvDataSet.setProperty("quoted", true);
-        csvDataSet.setProperty("recycle", true);
-        csvDataSet.setProperty("stopThread", false);
-        csvDataSet.setProperty(TestElement.TEST_CLASS, CSVDataSet.class.getName());
-        csvDataSet.setProperty(TestElement.GUI_CLASS, TestBeanGUI.class.getName());
+    @Override
+    protected String getTestMethod() {
+        return "GET";
+    }
 
-        // CookieManager
-        CookieManager cookieManager = new CookieManager();
-        cookieManager.setName("HTTP Cookie Manager");
-        cookieManager.setClearEachIteration(false);
-        cookieManager.setCookiePolicy("standard");
-        cookieManager.setProperty(TestElement.TEST_CLASS, CookieManager.class.getName());
-        cookieManager.setProperty(TestElement.GUI_CLASS, CookiePanel.class.getName());
-
-        // HTTP Default Sampler
-        ConfigTestElement defaultSampler = new ConfigTestElement();
-        defaultSampler.setEnabled(true);
-        defaultSampler.setProperty(new TestElementProperty(HTTPSampler.ARGUMENTS, new Arguments()));
-        defaultSampler.setProperty(HTTPSampler.DOMAIN, "localhost");
-        defaultSampler.setProperty(HTTPSampler.PORT, "8080");
-        defaultSampler.setName("HTTP Request Defaults");
-        defaultSampler.setProperty(TestElement.TEST_CLASS, ConfigTestElement.class.getName());
-        defaultSampler.setProperty(TestElement.GUI_CLASS, HttpDefaultsGui.class.getName());
-
-        // Login HTTP Request
-        HTTPSamplerProxy loginSampler = new HTTPSamplerProxy();
-        loginSampler.setName("Login");
-        loginSampler.setPath("_ah/login?action=Log+In&email=${email}&isAdmin=${isAdmin}&continue=http://localhost:8080/webapi/auth?frontendUrl=http://localhost:4200");
-        loginSampler.setMethod("POST");
-        loginSampler.setFollowRedirects(true);
-        loginSampler.setUseKeepAlive(true);
-        loginSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
-        loginSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
-
-        // Controller for Login request
-        OnceOnlyController onceOnlyController = new OnceOnlyController();
-        onceOnlyController.setName("Only once controller");
-        onceOnlyController.setProperty(TestElement.TEST_CLASS, OnceOnlyController.class.getName());
-        onceOnlyController.setProperty(TestElement.GUI_CLASS, OnceOnlyControllerGui.class.getName());
-
-        // Student Profile HTTP Request
-        HTTPSamplerProxy studentProfileSampler = new HTTPSamplerProxy();
-        studentProfileSampler.setName("Student Profile");
-        studentProfileSampler.setPath("webapi/student/profile?googleid=${googleid}");
-        studentProfileSampler.setMethod("GET");
-        studentProfileSampler.addArgument("googleid", "${googleid}");
-        studentProfileSampler.setEnabled(true);
-        studentProfileSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
-        studentProfileSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
-
-        // Create Test plan
-        HashTree testPlanHashTree = new ListedHashTree();
-        HashTree threadGroupHashTree = testPlanHashTree.add(testPlan, threadGroup);
-        threadGroupHashTree.add(csvDataSet);
-        threadGroupHashTree.add(cookieManager);
-        threadGroupHashTree.add(defaultSampler);
-        threadGroupHashTree.add(onceOnlyController, loginSampler);
-        threadGroupHashTree.add(studentProfileSampler);
-
-        return testPlanHashTree;
+    @Override
+    protected Map<String, String> getTestArguments() {
+        Map<String, String> args = new HashMap<>();
+        args.put("googleid", "${googleid}");
+        return args;
     }
 
     @BeforeClass

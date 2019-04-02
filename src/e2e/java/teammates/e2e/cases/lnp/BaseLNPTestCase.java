@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.StringJoiner;
 
 import org.apache.jmeter.engine.StandardJMeterEngine;
@@ -20,6 +21,7 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.JMeterConfig;
 import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
@@ -43,13 +45,40 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected abstract String getCsvConfigPath();
 
+    protected abstract int getNumberOfThreads();
+
+    protected abstract int getNumberOfRampUp();
+
+    protected abstract String getTestEndpoint();
+
+    protected abstract String getTestMethod();
+
+    protected abstract Map<String, String> getTestArguments();
+
     @Override
     protected String getTestDataFolder() {
-        return TestProperties.TEST_DATA_FOLDER;
+        return TestProperties.LNP_TEST_DATA_FOLDER;
     }
 
-    private String getPathToFile(String fileName) {
-        return TestProperties.TEST_DATA_FOLDER + fileName;
+    private String getPathToTestDataFile(String fileName) {
+        return TestProperties.LNP_TEST_DATA_FOLDER + fileName;
+    }
+
+    private String createFileAndDirectory(String directory, String fileName) throws IOException {
+        File dir = new File(directory);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+
+        String pathToFile = directory + fileName;
+        File file = new File(pathToFile);
+
+        // Write data to the file; overwrite if it already exists
+        if (file.exists()) {
+            file.delete();
+        }
+        file.createNewFile();
+        return pathToFile;
     }
 
     /**
@@ -58,15 +87,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     private void createJsonDataFile(LNPTestData testData) throws IOException {
         DataBundle jsonData = testData.generateJsonData();
         String outputJsonPath = getJsonDataPath();
-
-        String pathToResultFile = getPathToFile(outputJsonPath);
-        File file = new File(pathToResultFile);
-
-        // Write data to the file; overwrite if it already exists
-        if (file.exists()) {
-            file.delete();
-        }
-        file.createNewFile();
+        String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, outputJsonPath);
 
         try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile))) {
             bw.write(JsonUtils.toJson(jsonData));
@@ -85,20 +106,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Writes the data to the CSV file specified by {@code pathToResultFileParam}.
+     * Writes the data to the CSV file specified by {@code pathToCsvFileParam}.
      */
-    private void writeDataToCsvFile(List<String> headers, List<List<String>> valuesList, String pathToResultFileParam)
+    private void writeDataToCsvFile(List<String> headers, List<List<String>> valuesList, String pathToCsvFileParam)
             throws IOException {
-        String pathToResultFile = getPathToFile(pathToResultFileParam);
-        File file = new File(pathToResultFile);
+        String pathToCsvFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, pathToCsvFileParam);
 
-        // Write data to the file; overwrite if it already exists
-        if (file.exists()) {
-            file.delete();
-        }
-        file.createNewFile();
-
-        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile))) {
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToCsvFile))) {
             // Write headers and data to the CSV file
             bw.write(convertToCsv(headers));
 
@@ -134,12 +148,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Generates the JMeter LNP test plan.
-     * @return A nested tree structure that consists of the various elements that are used in the JMeter test.
-     */
-    protected abstract HashTree generateTestPlan();
-
-    /**
      * Returns the generated LNP test plan.
      * @param shouldCreateJmxFile true if the generated test plan should be saved to a `.jmx` file which
      *                            can be opened in the JMeter GUI, and false otherwise.
@@ -147,10 +155,52 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * @throws IOException if there is an error when saving the test to a file.
      */
     private HashTree getLnpTestPlan(boolean shouldCreateJmxFile) throws IOException {
-        HashTree testPlanHashTree = generateTestPlan();
+        String csvConfigPath = getCsvConfigPath();
+        int nThreads = getNumberOfThreads();
+        int nRampUp = getNumberOfRampUp();
+        String testEndpoint = getTestEndpoint();
+        String testMethod = getTestMethod();
+        Map<String, String> args = getTestArguments();
+
+        HashTree testPlanHashTree = new JMeterConfig() {
+
+            @Override
+            protected int getNumberOfThreads() {
+                return nThreads;
+            }
+
+            @Override
+            protected int getNumberOfRampUp() {
+                return nRampUp;
+            }
+
+            @Override
+            protected String getTestEndpoint() {
+                return testEndpoint;
+            }
+
+            @Override
+            protected String getTestMethod() {
+                return testMethod;
+            }
+
+            @Override
+            protected Map<String, String> getTestArguments() {
+                return args;
+            }
+
+            @Override
+            protected String getCsvConfigPath() {
+                return getPathToTestDataFile(csvConfigPath);
+            }
+
+        }.createTestPlan();
 
         if (shouldCreateJmxFile) {
-            SaveService.saveTree(testPlanHashTree, Files.newOutputStream(Paths.get(this.toString() + ".jmx")));
+            String pathToConfigFile = createFileAndDirectory(
+                    TestProperties.LNP_TEST_CONFIG_FOLDER, "/" + getClass().getSimpleName() + ".jmx");
+
+            SaveService.saveTree(testPlanHashTree, Files.newOutputStream(Paths.get(pathToConfigFile)));
         }
 
         return testPlanHashTree;
@@ -188,7 +238,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Runs the JMeter test specified by {@code jmxFile}.
+     * Runs the JMeter test.
      * @param shouldCreateJmxFile true if the generated test plan should be saved to a `.jmx` file which
      *                            can be opened in the JMeter GUI, and false otherwise.
      */
@@ -233,8 +283,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Deletes the JSON and CSV data files that were created.
      */
     protected void deleteDataFiles() throws IOException {
-        String pathToJsonFile = getPathToFile(getJsonDataPath());
-        String pathToCsvFile = getPathToFile(getCsvConfigPath());
+        String pathToJsonFile = getPathToTestDataFile(getJsonDataPath());
+        String pathToCsvFile = getPathToTestDataFile(getCsvConfigPath());
 
         Files.delete(Paths.get(pathToJsonFile));
         Files.delete(Paths.get(pathToCsvFile));
