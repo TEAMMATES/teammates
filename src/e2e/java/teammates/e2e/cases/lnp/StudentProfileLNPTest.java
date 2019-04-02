@@ -60,145 +60,146 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     private static final String USER_NAME = "DummyUser";
     private static final String USER_EMAIL = "personalEmail";
 
-    private final LNPTestData testData = new LNPTestData() {
+    @Override
+    protected LNPTestData getTestData() {
+        return new LNPTestData() {
+            @Override
+            protected Map<String, AccountAttributes> generateAccounts() {
+                Map<String, AccountAttributes> accounts = new HashMap<>();
 
-        @Override
-        protected Map<String, AccountAttributes> generateAccounts() {
-            Map<String, AccountAttributes> accounts = new HashMap<>();
-
-            for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                accounts.put(USER_NAME + i, AccountAttributes.builder(USER_NAME + i + ".tmms")
-                        .withEmail(USER_EMAIL + i + "@gmail.tmt")
-                        .withName(USER_NAME + i)
-                        .withIsInstructor(false)
-                        .withInstitute("TEAMMATES Test Institute 1")
-                        .build()
-                );
-            }
-
-            return accounts;
-        }
-
-        @Override
-        protected Map<String, CourseAttributes> generateCourses() {
-            Map<String, CourseAttributes> courses = new HashMap<>();
-
-            courses.put("course", CourseAttributes.builder("TestData.CS101")
-                    .withName("Intro To Programming")
-                    .withTimezone(ZoneId.of("UTC"))
-                    .build()
-            );
-
-            return courses;
-        }
-
-        @Override
-        protected Map<String, InstructorAttributes> generateInstructors() {
-            Map<String, InstructorAttributes> instructors = new HashMap<>();
-
-            instructors.put("teammates.test.instructor",
-                    InstructorAttributes.builder("TestData.CS101", "tmms.test@gmail.tmt")
-                            .withGoogleId("TestData.instructor")
-                            .withName("Teammates Test")
-                            .withRole("Co-owner")
-                            .withIsDisplayedToStudents(true)
-                            .withDisplayedName("Co-owner")
-                            .withPrivileges(new InstructorPrivileges(
-                                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
+                for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
+                    accounts.put(USER_NAME + i, AccountAttributes.builder(USER_NAME + i + ".tmms")
+                            .withEmail(USER_EMAIL + i + "@gmail.tmt")
+                            .withName(USER_NAME + i)
+                            .withIsInstructor(false)
+                            .withInstitute("TEAMMATES Test Institute 1")
                             .build()
-            );
+                    );
+                }
 
-            return instructors;
-        }
-
-        @Override
-        protected Map<String, StudentAttributes> generateStudents() {
-            Map<String, StudentAttributes> students = new HashMap<>();
-
-            for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                students.put(USER_NAME + i, StudentAttributes.builder("TestData.CS101", USER_EMAIL + i + "@gmail.tmt")
-                        .withGoogleId(USER_NAME + i + ".tmms")
-                        .withName(USER_NAME + i)
-                        .withComment("This student's name is " + USER_NAME + i)
-                        .withTeamName("Team 1")
-                        .withSectionName("None")
-                        .build()
-                );
+                return accounts;
             }
 
-            return students;
-        }
+            @Override
+            protected Map<String, CourseAttributes> generateCourses() {
+                Map<String, CourseAttributes> courses = new HashMap<>();
 
-        @Override
-        protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
-            return new HashMap<>();
-        }
-
-        @Override
-        protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
-            return new HashMap<>();
-        }
-
-        @Override
-        protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
-            return new HashMap<>();
-        }
-
-        @Override
-        protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
-            return new HashMap<>();
-        }
-
-        @Override
-        protected Map<String, StudentProfileAttributes> generateProfiles() {
-            Map<String, StudentProfileAttributes> profiles = new HashMap<>();
-
-            for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                profiles.put(USER_NAME + i, StudentProfileAttributes.builder(USER_NAME + i + ".tmms")
-                        .withEmail(USER_EMAIL + i + "@gmail.tmt")
-                        .withShortName(String.valueOf(i))
-                        .withInstitute("TEAMMATES Test Institute 222")
-                        .withMoreInfo("I am " + i)
-                        .withPictureKey("")
-                        .withGender(StudentProfileAttributes.Gender.MALE)
-                        .withNationality("American")
+                courses.put("course", CourseAttributes.builder("TestData.CS101")
+                        .withName("Intro To Programming")
+                        .withTimezone(ZoneId.of("UTC"))
                         .build()
                 );
+
+                return courses;
             }
 
-            return profiles;
-        }
+            @Override
+            protected Map<String, InstructorAttributes> generateInstructors() {
+                Map<String, InstructorAttributes> instructors = new HashMap<>();
 
-        @Override
-        public List<String> generateCsvHeaders() {
-            List<String> headers = new ArrayList<>();
+                instructors.put("teammates.test.instructor",
+                        InstructorAttributes.builder("TestData.CS101", "tmms.test@gmail.tmt")
+                                .withGoogleId("TestData.instructor")
+                                .withName("Teammates Test")
+                                .withRole("Co-owner")
+                                .withIsDisplayedToStudents(true)
+                                .withDisplayedName("Co-owner")
+                                .withPrivileges(new InstructorPrivileges(
+                                        Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
+                                .build()
+                );
 
-            headers.add("email");
-            headers.add("isAdmin");
-            headers.add("googleid");
+                return instructors;
+            }
 
-            return headers;
-        }
+            @Override
+            protected Map<String, StudentAttributes> generateStudents() {
+                Map<String, StudentAttributes> students = new HashMap<>();
 
-        @Override
-        public List<List<String>> generateCsvData() {
-            DataBundle dataBundle = loadDataBundle(JSON_DATA_PATH);
-            List<List<String>> csvData = new ArrayList<>();
+                for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
+                    students.put(USER_NAME + i, StudentAttributes.builder("TestData.CS101", USER_EMAIL + i + "@gmail.tmt")
+                            .withGoogleId(USER_NAME + i + ".tmms")
+                            .withName(USER_NAME + i)
+                            .withComment("This student's name is " + USER_NAME + i)
+                            .withTeamName("Team 1")
+                            .withSectionName("None")
+                            .build()
+                    );
+                }
 
-            dataBundle.students.forEach((key, student) -> {
-                List<String> csvRow = new ArrayList<>();
+                return students;
+            }
 
-                csvRow.add(student.googleId); // "googleid" is used for logging in, not "email"
-                csvRow.add("no");
-                csvRow.add(student.googleId);
+            @Override
+            protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
+                return new HashMap<>();
+            }
 
-                csvData.add(csvRow);
-            });
+            @Override
+            protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
+                return new HashMap<>();
+            }
 
-            return csvData;
-        }
+            @Override
+            protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
+                return new HashMap<>();
+            }
 
-    };
+            @Override
+            protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
+                return new HashMap<>();
+            }
+
+            @Override
+            protected Map<String, StudentProfileAttributes> generateProfiles() {
+                Map<String, StudentProfileAttributes> profiles = new HashMap<>();
+
+                for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
+                    profiles.put(USER_NAME + i, StudentProfileAttributes.builder(USER_NAME + i + ".tmms")
+                            .withEmail(USER_EMAIL + i + "@gmail.tmt")
+                            .withShortName(String.valueOf(i))
+                            .withInstitute("TEAMMATES Test Institute 222")
+                            .withMoreInfo("I am " + i)
+                            .withPictureKey("")
+                            .withGender(StudentProfileAttributes.Gender.MALE)
+                            .withNationality("American")
+                            .build()
+                    );
+                }
+
+                return profiles;
+            }
+
+            @Override
+            public List<String> generateCsvHeaders() {
+                List<String> headers = new ArrayList<>();
+
+                headers.add("email");
+                headers.add("isAdmin");
+                headers.add("googleid");
+
+                return headers;
+            }
+
+            @Override
+            public List<List<String>> generateCsvData() {
+                DataBundle dataBundle = loadDataBundle(JSON_DATA_PATH);
+                List<List<String>> csvData = new ArrayList<>();
+
+                dataBundle.students.forEach((key, student) -> {
+                    List<String> csvRow = new ArrayList<>();
+
+                    csvRow.add(student.googleId); // "googleid" is used for logging in, not "email"
+                    csvRow.add("no");
+                    csvRow.add(student.googleId);
+
+                    csvData.add(csvRow);
+                });
+
+                return csvData;
+            }
+        };
+    }
 
     @Override
     protected String getCsvConfigPath() {
@@ -311,7 +312,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @BeforeClass
     public void classSetup() {
-        createTestData(testData);
+        createTestData();
         persistTestData(JSON_DATA_PATH);
     }
 

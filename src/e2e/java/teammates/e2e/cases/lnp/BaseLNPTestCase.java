@@ -31,6 +31,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     private static final Logger log = Logger.getLogger();
 
+    protected abstract LNPTestData getTestData();
+
     /**
      * Returns the path to the generated JSON data bundle file.
      */
@@ -157,7 +159,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Creates the JSON test data and CSV config data files for the performance test from {@code testData}.
      */
-    protected void createTestData(LNPTestData testData) {
+    protected void createTestData() {
+        LNPTestData testData = getTestData();
         try {
             createJsonDataFile(testData);
             createCsvConfigDataFile(testData);
