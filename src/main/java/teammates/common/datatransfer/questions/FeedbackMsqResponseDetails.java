@@ -92,6 +92,8 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
                 .getQuestionDetails()).getMaxSelectableChoices();
         int minSelectableChoices = ((FeedbackMsqQuestionDetails) correspondingQuestion
                 .getQuestionDetails()).getMinSelectableChoices();
+        boolean isOtherEnabled = ((FeedbackMsqQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).getOtherEnabled();
 
         // number of Msq options selected including other option
         int totalChoicesSelected = answers.size() + (isOther ? 1 : 0);
@@ -100,9 +102,14 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         boolean isNoneOfTheAboveOptionEnabled =
                 !answers.isEmpty() && answers.get(0).equals(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE);
 
+        // if other is not enabled and other is selected as an answer trigger this error
+        if (isOther && !isOtherEnabled) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+        }
+
         // if selected answers are not a part of the Msq option list trigger this error
         boolean isAnswersPartOfChoices = msqChoices.containsAll(answers);
-        if (!isAnswersPartOfChoices) {
+        if (!isAnswersPartOfChoices && !isNoneOfTheAboveOptionEnabled) {
             errors.add(getAnswerString() + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
         }
 
