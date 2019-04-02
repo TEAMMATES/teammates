@@ -66,7 +66,7 @@ public class UpdateInstructorPrivilegeAction extends Action {
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         try {
-            logic.updateInstructor(
+            instructorToUpdate = logic.updateInstructor(
                     InstructorAttributes
                             .updateOptionsWithEmailBuilder(instructorToUpdate.courseId, instructorToUpdate.getEmail())
                             .withPrivileges(instructorToUpdate.privileges)
