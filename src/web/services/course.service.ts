@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Course, CourseArchive, JoinStatus, MessageOutput } from '../types/api-output';
+import { Course, CourseArchive, Courses, JoinStatus, MessageOutput } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -23,6 +23,29 @@ export class CourseService {
       courseid: courseId,
     };
     return this.httpRequestService.get('/course', paramMap);
+  }
+
+  /**
+   * Get student courses data of given google id in masquerade mode by calling API.
+   */
+  getStudentCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'student',
+      user: googleId,
+    };
+    return this.httpRequestService.get('/courses', paramMap);
+  }
+
+  /**
+   * Get instructor courses data of given google id in masquerade mode by calling API.
+   */
+  getInstructorCoursesInMasqueradeMode(courseStatus: string, googleId: string): Observable<Courses> {
+    const paramMap: { [key: string]: string } = {
+      coursestatus: courseStatus,
+      entitytype: 'instructor',
+      user: googleId,
+    };
+    return this.httpRequestService.get('/courses', paramMap);
   }
 
   /**

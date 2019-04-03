@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AdminSearchResult, JoinLink, MessageOutput } from '../types/api-output';
+import { Account, AdminSearchResult, JoinLink, MessageOutput } from '../types/api-output';
 import { AccountCreateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -60,6 +60,16 @@ export class AccountService {
       searchkey: searchKey,
     };
     return this.httpRequestService.get('/accounts/search', paramMap);
+  }
+
+  /**
+   * Gets an account by calling API.
+   */
+  getAccount(googleId: string): Observable<Account> {
+    const paramMap: { [key: string]: string } = {
+      instructorid: googleId,
+    };
+    return this.httpRequestService.get('/account', paramMap);
   }
 
 }
