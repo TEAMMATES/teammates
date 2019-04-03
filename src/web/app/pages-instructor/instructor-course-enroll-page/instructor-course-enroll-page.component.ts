@@ -152,14 +152,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.httpRequestService.post('/course/enrollSave', paramMap, this.enrollData)
         .subscribe((resp: EnrollResultPanelList) => {
           this.showEnrollResults = true;
-          this.statusMessage.pop(); // removes any existing status message
-          this.statusMessage.push({
-            message: 'Enrollment Successful. Summary given below',
-            color: 'success',
-          });
+          this.statusMessage.pop(); // removes any existing error status message
+          this.statusMessageService.showSuccessMessage('Enrollment successful. Summary given below.');
           this.enrollResultPanelList = resp.enrollResultPanelList;
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessage.pop(); // removes any existing status message
+          this.statusMessage.pop(); // removes any existing error status message
           this.statusMessage.push({
             message: resp.error.message,
             color: 'danger',
@@ -289,12 +286,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.coursePresent = true;
       this.courseid = courseid;
       if (resp.hasResponses) {
-        this.statusMessage.push({
-          message: 'There are existing feedback responses for this course. Modifying records of enrolled students will '
-            + 'result in some existing responses from those modified students to be deleted. You may wish to download '
-            + 'the data before you make the changes.',
-          color: 'warning',
-        });
+        this.statusMessageService.showWarningMessage('There are existing feedback responses for this course. '
+            + 'Modifying records of enrolled students will result in some existing responses '
+            + 'from those modified students to be deleted. You may wish to download the data '
+            + 'before you make the changes.');
       }
     }, (resp: ErrorMessageOutput) => {
       this.coursePresent = false;
