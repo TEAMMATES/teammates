@@ -1,40 +1,14 @@
 import { Component, ContentChild, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { HasResponses } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatusMessage } from '../../components/status-message/status-message';
-
-/**
- * Colors representing the server side status message
- */
-enum color {
-  /**
-   * yellow status box
-   */
-  WARNING,
-  /**
-   * red status box
-   */
-  DANGER,
-  /**
-   * no status message to show
-   */
-  NONE,
-}
-
-interface ServerStatusMessage {
-  color: color;
-  text: string;
-}
-
-interface CourseEnrollPageData {
-  isCoursePresent: boolean;
-  statusMessage: ServerStatusMessage;
-}
 
 interface StudentAttributes {
   email: string;
@@ -111,6 +85,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
+              private courseService: CourseService,
               private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
@@ -310,21 +285,19 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
-    const paramMap: { [key: string]: string } = {
-      courseid,
-      user: this.user,
-    };
-    this.httpRequestService.get('/course/enroll/pageData', paramMap).subscribe(
-    (resp: CourseEnrollPageData) => {
-      this.coursePresent = resp.isCoursePresent;
+    this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
+      this.coursePresent = true;
       this.courseid = courseid;
-      if (resp.statusMessage && resp.statusMessage.text !== '') {
+      if (resp.hasResponses) {
         this.statusMessage.push({
-          message: resp.statusMessage.text,
-          color: resp.statusMessage.color.toString().toLowerCase(),
+          message: 'There are existing feedback responses for this course. Modifying records of enrolled students will '
+            + 'result in some existing responses from those modified students to be deleted. You may wish to download '
+            + 'the data before you make the changes.',
+          color: 'warning',
         });
       }
     }, (resp: ErrorMessageOutput) => {
+      this.coursePresent = false;
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
