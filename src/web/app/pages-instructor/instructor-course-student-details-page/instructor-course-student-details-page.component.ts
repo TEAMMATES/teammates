@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -21,18 +22,25 @@ interface StudentDetails {
   styleUrls: ['./instructor-course-student-details-page.component.scss'],
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
-
   user: string = '';
   student?: StudentAttributes;
   studentProfile?: StudentProfile;
+  photoUrl: string = '';
+
+  private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
     private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
+      const courseId: string = queryParams.courseid;
+      const studentEmail: string = queryParams.studentemail;
+
       this.user = queryParams.user;
-      this.loadStudentDetails(queryParams.courseid, queryParams.studentemail);
+      this.loadStudentDetails(courseId, studentEmail);
+      this.photoUrl
+          = `${this.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;
     });
   }
 
@@ -57,5 +65,4 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
-
 }

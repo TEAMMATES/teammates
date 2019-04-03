@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <input type="file" (change)="fileChangeEvent($event)"/>
+  <input class="student-photo" type="file" (change)="fileChangeEvent($event)"/>
 
   <button class="btn btn-primary btn-space" (click)="flipHorizontal()">
     <i class="fas fa-angle-double-left"></i>
@@ -41,8 +41,6 @@
       [imageBase64]="croppedImage"
       [maintainAspectRatio]="false"
       (imageCropped)="imageCropped($event)"
-      (imageLoaded)="imageLoaded()"
-      [style.display]="showCropper ? null : 'none'"
     ></image-cropper>
   </div>
 </div>

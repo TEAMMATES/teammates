@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../../environments/environment';
 import { Gender } from '../../../types/gender';
 import { StudentProfile } from './student-profile';
 
@@ -14,22 +12,13 @@ import { StudentProfile } from './student-profile';
 })
 export class StudentProfileComponent implements OnInit {
   Gender: typeof Gender = Gender; // enum
-  photoUrl: string = '/assets/images/profile_picture_default.png';
 
+  @Input() photoUrl: string = '/assets/images/profile_picture_default.png';
   @Input() studentProfile: StudentProfile | undefined;
 
-  private backendUrl: string = environment.backendUrl;
-
-  constructor(private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      const courseId: string = queryParams.course;
-      const studentEmail: string = queryParams.studentemail;
-
-      this.photoUrl
-        = `${this.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;
-    });
   }
 
   /**

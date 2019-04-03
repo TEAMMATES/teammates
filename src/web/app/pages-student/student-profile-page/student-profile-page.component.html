@@ -9,7 +9,7 @@
               src="{{ profilePicLink }}"
               class="profile-pic"
               (click)="onUploadEdit()"
-              (error)="setDefaultPic()">
+              (error)="this.profilePicLink = this.DEFAULT_PICTURE_LINK">
         </div>
       </div>
       <div class="row profile-pic-row">

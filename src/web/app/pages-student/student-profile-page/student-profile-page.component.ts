@@ -29,6 +29,8 @@ import {
 })
 export class StudentProfilePageComponent implements OnInit {
 
+  readonly DEFAULT_PICTURE_LINK: string = '/assets/images/profile_picture_default.png';
+
   Gender: typeof Gender = Gender; // enum
   user: string = '';
   id: string = '';
@@ -36,8 +38,6 @@ export class StudentProfilePageComponent implements OnInit {
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
-
-  defaultPictureLink: string = '/assets/images/profile_picture_default.png';
   profilePicLink!: string;
   currentTime?: number;
 
@@ -61,13 +61,6 @@ export class StudentProfilePageComponent implements OnInit {
       this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic`;
       this.loadStudentProfile();
     });
-  }
-
-  /**
-   * Sets the profile picture of a student as the default image
-   */
-  setDefaultPic(): void {
-    this.profilePicLink = this.defaultPictureLink;
   }
 
   /**
@@ -131,7 +124,7 @@ export class StudentProfilePageComponent implements OnInit {
   onUploadEdit(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
     modalRef.componentInstance.profilePicLink = this.profilePicLink;
-    modalRef.componentInstance.imageUpdated.subscribe((formData: FormData) => {
+    modalRef.result.then((formData: FormData) => {
       const paramsMap: { [key: string]: string } = {
         user: this.user,
       };
@@ -189,7 +182,7 @@ export class StudentProfilePageComponent implements OnInit {
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);
-            this.profilePicLink = this.defaultPictureLink;
+            this.profilePicLink = this.DEFAULT_PICTURE_LINK;
           }
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.

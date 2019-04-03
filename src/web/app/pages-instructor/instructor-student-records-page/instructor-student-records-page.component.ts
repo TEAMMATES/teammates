@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -27,21 +28,28 @@ interface Session {
   styleUrls: ['./instructor-student-records-page.component.scss'],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
-
   user: string = '';
   courseId: string = '';
   studentName: string = '';
   studentEmail: string = '';
   studentProfile?: StudentProfile ;
   sessions: Session[] = [];
+  photoUrl: string = '';
+
+  private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
     private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
+      const courseId: string = queryParams.courseid;
+      const studentEmail: string = queryParams.studentemail;
+
       this.user = queryParams.user;
-      this.loadStudentRecords(queryParams.courseid, queryParams.studentemail);
+      this.loadStudentRecords(courseId, studentEmail);
+      this.photoUrl
+          = `${this.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;
     });
   }
 

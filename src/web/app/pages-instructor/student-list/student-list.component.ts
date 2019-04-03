@@ -20,6 +20,8 @@ import { StudentListSectionData, StudentListStudentData } from './student-list-s
 })
 export class StudentListComponent implements OnInit {
 
+  readonly DEFAULT_PICTURE_LINK: string = '/assets/images/profile_picture_default.png';
+
   @Input() courseId: string = '';
   @Input() sections: StudentListSectionData[] = [];
   @Input() useGrayHeading: boolean = true;
@@ -65,7 +67,7 @@ export class StudentListComponent implements OnInit {
    * Sets the profile picture of a student as the default image
    */
   setDefaultPic(student: StudentListStudentData): void {
-    student.photoUrl = '/assets/images/profile_picture_default.png';
+    student.photoUrl = this.DEFAULT_PICTURE_LINK;
   }
 
   /**

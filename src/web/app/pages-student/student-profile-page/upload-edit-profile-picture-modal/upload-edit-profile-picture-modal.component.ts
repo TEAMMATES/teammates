@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { Observable } from 'rxjs';
@@ -15,14 +15,11 @@ import { HttpRequestService } from '../../../../services/http-request.service';
 export class UploadEditProfilePictureModalComponent implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
-  showCropper: boolean = false;
-  imageLoadFailed: boolean = false;
   formData?: FormData;
 
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
   @Input() profilePicLink!: string;
-  @Output() imageUpdated: EventEmitter<any> = new EventEmitter();
 
   constructor(public activeModal: NgbActiveModal,
               private httpRequestService: HttpRequestService) { }
@@ -67,8 +64,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
    * Uploads the picture that has been newly uploaded/edited.
    */
   uploadPicture(): void {
-    this.activeModal.dismiss();
-    this.imageUpdated.emit(this.formData);
+    this.activeModal.close(this.formData);
   }
 
   /**
@@ -88,13 +84,6 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
    */
   imageCropped(event: ImageCroppedEvent): void {
     this.populateFormData(event.file as File);
-  }
-
-  /**
-   * Checks if image is loaded
-   */
-  imageLoaded(): void {
-    this.showCropper = true;
   }
 
   /**
