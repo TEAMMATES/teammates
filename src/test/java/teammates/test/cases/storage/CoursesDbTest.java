@@ -142,7 +142,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
                                 .withName("Non existing course")
                                 .build()
                 ));
-        assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT_COURSE, ednee.getMessage());
+        assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT, ednee.getMessage());
 
         ______TS("success: typical case");
 

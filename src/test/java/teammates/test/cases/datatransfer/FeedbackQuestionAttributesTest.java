@@ -626,14 +626,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testGetBackUpIdentifier() {
-        FeedbackQuestionAttributes questionAttributes = getNewFeedbackQuestionAttributes();
-
-        String expectedBackUpIdentifierMessage = "Recently modified feedback question::" + questionAttributes.getId();
-        assertEquals(expectedBackUpIdentifierMessage, questionAttributes.getBackupIdentifier());
-    }
-
-    @Test
     public void testGetQuestionDetails_shouldDoDeepCopy() {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         FeedbackQuestionDetails details = fqa.getQuestionDetails();

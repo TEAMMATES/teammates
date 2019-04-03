@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-  <a routerLink="/web">
-  <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" (tmClickOutside)="isCollapsed = true">
+  <a routerLink="/web" (click)="isCollapsed = true">
+    <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
   </a>
   <button class="navbar-toggler d-lg-none" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
     <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
@@ -11,11 +11,11 @@
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
           <div class="dropdown-menu" ngbDropdownMenu>
-            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url">{{ childItem.display}}</a>
+            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="isCollapsed = !isCollapsed">{{ childItem.display}}</a>
           </div>
         </li>
         <li *ngIf="!navItem.children" class="nav-item">
-          <a class="nav-link" [routerLink]="navItem.url">{{ navItem.display }}</a>
+          <a class="nav-link" [routerLink]="navItem.url" (click)="isCollapsed = !isCollapsed">{{ navItem.display }}</a>
         </li>
       </ng-template>
     </ul>
@@ -94,7 +94,7 @@
               <li>
                 You changed the primary email from a non-Gmail address to a Gmail address recently. In that case,
                 <a routerLink="/web/front/contact">
-                email us
+                  email us
                 </a>
                 so that we can reconfigure your account to use the new Gmail address.
               </li>

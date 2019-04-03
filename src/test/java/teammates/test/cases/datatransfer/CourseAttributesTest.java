@@ -155,14 +155,6 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
     }
 
-    @Test
-    public void testGetBackUpIdentifier() {
-        CourseAttributes course = generateValidCourseAttributesObject();
-
-        String expectedBackUpIdentifierMessage = "Recently modified course::" + course.getId();
-        assertEquals(expectedBackUpIdentifierMessage, course.getBackupIdentifier());
-    }
-
     private static CourseAttributes generateValidCourseAttributesObject() {
         return CourseAttributes.builder("valid-id-$_abc")
                 .withName("valid-name")
