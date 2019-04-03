@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 
 /**
  * Action: serves a profile picture that is stored in Google Cloud Storage.
@@ -60,7 +61,7 @@ public class GetStudentProfilePictureAction extends Action {
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
-            if (!student.googleId.isEmpty()) {
+            if (StringHelper.isEmpty(student.googleId)) {
                 studentProfile = logic.getStudentProfile(student.googleId);
             }
         }
