@@ -14,8 +14,8 @@ import { HttpRequestService } from '../../../../services/http-request.service';
 })
 export class UploadEditProfilePictureModalComponent implements OnInit {
   imageChangedEvent: any = '';
-  croppedImage: any = '';
   formData?: FormData;
+  croppedImage: any;
 
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
@@ -44,7 +44,9 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
   blobToBase64Image(image: Blob): void {
     const reader: FileReader = new FileReader();
     reader.addEventListener('load', () => {
-      this.croppedImage = reader.result;
+      if (reader.result) {
+        this.imageCropper.imageBase64 = reader.result as string;
+      }
     }, false);
 
     if (image) {
