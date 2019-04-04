@@ -26,14 +26,16 @@ export class AdminSearchPageComponent {
    */
   search(): void {
     this.accountService.searchAccounts(this.searchQuery).subscribe((resp: AdminSearchResult) => {
-      this.instructors = resp.instructors;
-      for (const instructor of this.instructors) {
-        instructor.showLinks = false;
-      }
+      const hasStudents: boolean = !!(resp.students && resp.students.length);
+      const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
 
-      this.students = resp.students;
-      for (const student of this.students) {
-        student.showLinks = false;
+      if (!hasStudents && !hasInstructors) {
+        this.statusMessageService.showWarningMessage('No results found.');
+      } else {
+        this.instructors = resp.instructors;
+        this.students = resp.students;
+        this.hideAllInstructorsLinks();
+        this.hideAllStudentsLinks();
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -85,7 +87,7 @@ export class AdminSearchPageComponent {
       event.stopPropagation();
     }
 
-    this.accountService.resetAccount(instructor.courseId, instructor.email).subscribe(() => {
+    this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
       this.search();
       this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
@@ -101,8 +103,7 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-
-    this.accountService.resetAccount(student.courseId, student.email).subscribe(() => {
+    this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
       student.googleId = '';
       this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {

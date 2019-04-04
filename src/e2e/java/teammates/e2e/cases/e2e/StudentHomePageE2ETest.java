@@ -9,46 +9,26 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.e2e.util.TestProperties;
+import teammates.common.util.AppUrl;
+import teammates.common.util.Const;
+import teammates.e2e.pageobjects.StudentHomePage;
 
 /**
- * SUT: {@link teammates.common.util.Const.WebPageURIs#STUDENT_HOME_PAGE}.
+ * SUT: {@link Const.WebPageURIs#STUDENT_HOME_PAGE}.
  */
 public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/StudentHomePageE2ETest.json");
-
-        String student1GoogleId = TestProperties.TEST_STUDENT1_ACCOUNT;
-        String student1Email = student1GoogleId + "@gmail.com";
-        testData.accounts.get("alice.tmms").googleId = student1GoogleId;
-        testData.accounts.get("alice.tmms").email = student1Email;
-
-        // This student has a registered account but yet to join course
-        testData.students.get("alice.tmms@SHomeUiT.CS2104").email = student1Email;
-
-        testData.students.get("alice.tmms@SHomeUiT.CS1101").googleId = student1GoogleId;
-        testData.students.get("alice.tmms@SHomeUiT.CS1101").email = student1Email;
-        testData.students.get("alice.tmms@SHomeUiT.CS4215").googleId = student1GoogleId;
-        testData.students.get("alice.tmms@SHomeUiT.CS4215").email = student1Email;
-        testData.students.get("alice.tmms@SHomeUiT.CS4221").googleId = student1GoogleId;
-        testData.students.get("alice.tmms@SHomeUiT.CS4221").email = student1Email;
-
         removeAndRestoreDataBundle(testData);
     }
 
     @Test
-    public void allTests() throws Exception {
-        testContentAndLogin();
-    }
+    public void testAll() {
 
-    private void testContentAndLogin() {
-
-        ______TS("login successfully");
-
-        getHomePage().clickStudentLogin().loginAsStudent(
-                TestProperties.TEST_STUDENT1_ACCOUNT, TestProperties.TEST_STUDENT1_PASSWORD);
+        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).withUserId("SHomeUiT.student");
+        loginAdminToPage(url, StudentHomePage.class);
 
         browser.waitForPageLoad();
 
@@ -66,6 +46,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
             assertTrue(verifyVisibleFeedbackSessionToStudents(feedbackSessionName, i));
         }
+
+        logout();
     }
 
     private List<WebElement> getStudentHomeCoursePanels() {
@@ -76,7 +58,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         List<String> courseIds = new ArrayList<>();
 
         for (StudentAttributes student : testData.students.values()) {
-            if (student.googleId.equals(TestProperties.TEST_STUDENT1_ACCOUNT)) {
+            if ("SHomeUiT.student".equals(student.googleId)) {
                 courseIds.add(student.getCourse());
             }
         }

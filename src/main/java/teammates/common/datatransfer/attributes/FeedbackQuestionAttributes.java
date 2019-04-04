@@ -20,8 +20,6 @@ import teammates.storage.entity.FeedbackQuestion;
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
 
-    private static final String FEEDBACK_QUESTION_BACKUP_LOG_MSG = "Recently modified feedback question::";
-
     public String feedbackSessionName;
     public String courseId;
     public FeedbackQuestionDetails questionDetails;
@@ -139,11 +137,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
                + ", showRecipientNameTo=" + showRecipientNameTo + "]";
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return FEEDBACK_QUESTION_BACKUP_LOG_MSG + getId();
     }
 
     @Override

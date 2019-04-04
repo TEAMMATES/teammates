@@ -29,9 +29,8 @@ public class DevServerLoginPage extends LoginPage {
     }
 
     @Override
-    public void loginAdminAsInstructor(
-            String adminUsername, String adminPassword, String instructorUsername) {
-        fillTextBox(emailTextBox, instructorUsername);
+    public void loginAsAdmin(String adminUsername, String adminPassword) {
+        fillTextBox(emailTextBox, adminUsername);
         click(isAdminCheckBox);
         click(loginButton);
         waitForElementVisibility(By.tagName("h1"));

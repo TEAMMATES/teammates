@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { FeedbackQuestion, FeedbackSession, OngoingSessions } from '../types/api-output';
-import { FeedbackSessionCreateRequest, FeedbackSessionSaveRequest } from '../types/api-request';
+import { FeedbackQuestion, FeedbackSession,
+  FeedbackSessions, HasResponses, OngoingSessions } from '../types/api-output';
+import { FeedbackSessionCreateRequest, FeedbackSessionUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -41,8 +42,8 @@ export class FeedbackSessionsService {
   /**
    * Updates a feedback session by calling API.
    */
-  updateFeedbackSession(
-      courseId: string, feedbackSessionName: string, request: FeedbackSessionSaveRequest): Observable<FeedbackSession> {
+  updateFeedbackSession(courseId: string, feedbackSessionName: string, request: FeedbackSessionUpdateRequest):
+      Observable<FeedbackSession> {
     const paramMap: { [key: string]: string } = { courseid: courseId, fsname: feedbackSessionName };
     return this.httpRequestService.put('/session', paramMap, request);
   }
@@ -57,4 +58,69 @@ export class FeedbackSessionsService {
     };
     return this.httpRequestService.get('/sessions/ongoing', paramMap);
   }
+
+  /**
+   * Gets all sessions for the instructor by calling API.
+   */
+  getFeedbackSessionsForInstructor(courseId?: string): Observable<FeedbackSessions> {
+
+    let paramMap: { [key: string]: string };
+    if (courseId != null) {
+      paramMap = {
+        entitytype: 'instructor',
+        courseid: courseId,
+      };
+    }  else {
+      paramMap = {
+        entitytype: 'instructor',
+        isinrecyclebin: 'false',
+      };
+    }
+
+    return this.httpRequestService.get('/sessions', paramMap);
+  }
+
+  /**
+   * Gets all sessions in the recycle bin for the instructor by calling API.
+   */
+  getFeedbackSessionsInRecycleBinForInstructor(): Observable<FeedbackSessions> {
+
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'instructor',
+      isinrecyclebin: 'true',
+    };
+
+    return this.httpRequestService.get('/sessions', paramMap);
+  }
+
+  /**
+   * Gets all sessions for the student by calling API.
+   */
+  getFeedbackSessionsForStudent(courseId?: string): Observable<FeedbackSessions> {
+
+    let paramMap: { [key: string]: string };
+    if (courseId != null) {
+      paramMap = {
+        entitytype: 'student',
+        courseid: courseId,
+      };
+    } else {
+      paramMap = {
+        entitytype: 'student',
+      };
+    }
+
+    return this.httpRequestService.get('/sessions', paramMap);
+  }
+
+  /**
+   * Checks if there are responses for a specific question in a feedback session.
+   */
+  hasResponsesForQuestion(questionId: string): Observable<HasResponses> {
+    const paramMap: { [key: string]: string } = {
+      questionid: questionId,
+    };
+    return this.httpRequestService.get('/hasResponses', paramMap);
+  }
+
 }
