@@ -97,8 +97,8 @@
         <div class="whisper">This profile will be visible to all your instructors and coursemates.</div>
       </form>
       <ng-template #confirmEditProfile let-modal>
-        <div class="modal-header alert-primary">
-          <h4 class="modal-title icon-primary">Save Changes?</h4>
+        <div class="modal-header bg-info">
+          <h4 class="modal-title"><i class="fas fa-exclamation-circle"></i> Save Changes?</h4>
           <button
               class="close"
               data-dismiss="modal"
@@ -109,17 +109,17 @@
           Are you sure you want to make changes to your profile?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary modal-btn-ok" (click)="submitEditForm(); modal.dismiss()">
+          <button type="button" class="btn btn-info" (click)="submitEditForm(); modal.dismiss()">
             Yes, save changes
           </button>
-          <button type="button" class="btn btn-outline-secondary modal-btn-cancel" (click)="modal.dismiss()">
+          <button type="button" class="btn btn-light" (click)="modal.dismiss()">
             Cancel
           </button>
         </div>
       </ng-template>
       <ng-template #confirmDeleteProfilePicture let-modal>
-        <div class="modal-header alert-danger">
-          <h4 class="modal-title icon-danger">Confirm Deletion?</h4>
+        <div class="modal-header bg-danger text-white">
+          <h4 class="modal-title"><span class="fas fa-times-circle"></span> Confirm Deletion?</h4>
           <button
               class="close"
               data-dismiss="modal"
@@ -130,7 +130,7 @@
           Are you sure you want to delete your profile picture?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">
+          <button type="button" class="btn btn-light" (click)="modal.dismiss()">
             Cancel
           </button>
           <button type="button" class="btn btn-danger" (click)="deleteProfilePicture(); modal.dismiss()">

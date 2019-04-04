@@ -1,11 +1,12 @@
 <div class="modal-header bg-warning">
-  <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: The session will be moved to the recycle bin.</h5>
+  <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Confirm moving session to Recycle Bin </h5>
   <button type="button" class="close" (click)="activeModal.dismiss()">
     <i class="fas fa-times"></i>
   </button>
 </div>
 <div class="modal-body">
-  Are you sure you want to continue?
+  Are you sure you want to delete the session?
+  This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the operation</button>

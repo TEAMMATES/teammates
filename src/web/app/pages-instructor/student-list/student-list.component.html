@@ -78,7 +78,7 @@
           </ng-container>
         </ng-container>
         <ng-template #remindModal let-modal>
-          <div class="modal-header alert-info">
+          <div class="modal-header bg-info">
             <h4 class="modal-title"><span class="fa fa-info-circle"></span> Confirm sending join requests</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
           </div>
@@ -87,8 +87,8 @@
             at the opening time of each session. Send a join request to {{student.email}} anyway?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn modal-btn-cancel btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
-            <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">Yes</button>
+            <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+            <button type="button" class="btn btn-info" (click)="remindStudentFromCourse(student.email); modal.dismiss()">Yes</button>
           </div>
         </ng-template>
         <button class="btn btn-light btn-sm mr-2"
@@ -98,18 +98,17 @@
             : 'You do not have the permissions to access this feature'"
           (click)="openModal(deleteModal)">Delete</button>
         <ng-template #deleteModal let-modal>
-          <div class="modal-header text-danger">
+          <div class="modal-header bg-danger text-white">
             <h4 class="modal-title"><span class="fas fa-times-circle"></span> Confirm deletion</h4>
             <button type="button" class="close" aria-hidden="true" (click)="modal.dismiss()">&times;</button>
           </div>
           <div class="modal-body">
-            <p class="font-weight-bold">Are you sure you want to remove
-              <span class="text-primary">"{{student.name}}"</span> from the course
-              <span class="text-primary">"{{courseId}}"</span>?
-            </p>
+            Are you sure you want to remove
+            <span class="text-primary">"{{student.name}}"</span> from the course
+            <span class="text-primary">"{{courseId}}"</span>?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">No, cancel the operation</button>
+            <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
             <button type="button" ngbAutofocus class="btn btn-danger" (click)="removeStudentFromCourse(student.email); modal.dismiss()">Yes</button>
           </div>
         </ng-template>

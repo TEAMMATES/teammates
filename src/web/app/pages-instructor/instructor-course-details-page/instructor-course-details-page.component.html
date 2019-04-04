@@ -92,7 +92,7 @@
     </div>
   </ng-template>
   <ng-template #remindStudentsModal let-modal>
-    <div class="modal-header alert-info">
+    <div class="modal-header bg-info">
       <i class="fa fa-info-circle fa-2x"></i>
       <h4 class="modal-title">Confirm sending join requests</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
@@ -103,23 +103,21 @@
       <br>
     </div>
     <div class="modal-footer">
-      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+      <button type="button" class="btn btn-info" (click)="remindAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
   <ng-template #deleteAllStudentsModal let-modal>
-    <div class="modal-header alert-danger">
-      <i class="fa fa-times-circle fa-2x"></i>
-      <h4 class="modal-title">Confirm Deletion</h4>
+    <div class="modal-header bg-danger text-white">
+      <h4 class="modal-title"><i class="fas fa-times-circle"></i> Confirm Deletion</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
     </div>
     <div class="modal-body">
       Are you sure you want to remove all students from the course {{courseDetails.course.id}}?
-      <br>
     </div>
     <div class="modal-footer">
-      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
+      <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+      <button type="button" class="btn btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.id); modal.close()">Yes</button>
     </div>
   </ng-template>
   <ng-template #studentTableModal let-modal>
