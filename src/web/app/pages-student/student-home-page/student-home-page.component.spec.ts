@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentHomePageComponent } from './student-home-page.component';
 
+import { MatSnackBarModule } from '@angular/material';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 
@@ -22,6 +23,7 @@ describe('StudentHomePageComponent', () => {
         HttpClientTestingModule,
         NgbModule,
         RouterTestingModule,
+        MatSnackBarModule,
       ],
     })
     .compileComponents();
