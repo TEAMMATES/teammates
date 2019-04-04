@@ -52,6 +52,6 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.editProfilePhoto();
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
-        profilePage.verifyPhotoSize("295px", "295px");
+        profilePage.verifyPhotoSize("220px", "220px");
     }
 }
