@@ -3,10 +3,39 @@
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import '~handsontable/dist/handsontable.full.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
+}
+
+.snackbar {
+  max-width: 100% !important;
+  margin-top: 60px !important;
+}
+
+.snackbar-danger {
+  background-color: var(--danger);
+  color: var(--light);
+
+  a {
+    color: #000;
+  }
+}
+
+.snackbar-success {
+  background-color: var(--success);
+  color: var(--light);
+
+  a {
+    color: #000;
+  }
+}
+
+.snackbar-warning {
+  background-color: var(--warning);
+  color: var(--dark);
 }
 
 .btn {

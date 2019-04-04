@@ -124,10 +124,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         }
     }
 
-    //-------------------------------------------------------------------------------------------------------
-    //-------------------------------------- Helper Functions -----------------------------------------------
-    //-------------------------------------------------------------------------------------------------------
-
     /**
      * Gets the profile entity associated with the {@code googleId}.
      *
@@ -142,12 +138,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     @Override
     protected LoadType<StudentProfile> load() {
         return ofy().load().type(StudentProfile.class);
-    }
-
-    @Override
-    protected StudentProfile getEntity(StudentProfileAttributes attributes) {
-        // this method is never used and is here only for future expansion and completeness
-        return getStudentProfileEntityFromDb(attributes.googleId);
     }
 
     @Override

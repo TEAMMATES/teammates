@@ -203,17 +203,6 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetBackUpIdentifier() {
-        FeedbackResponse response = new FeedbackResponse("session", "course", "id",
-                FeedbackQuestionType.TEXT, "giver@email.com", "section1",
-                "recipient@email.com", "section2", "answer");
-        FeedbackResponseAttributes responseAttributes = FeedbackResponseAttributes.valueOf(response);
-
-        String expectedBackUpIdentifierMessage = "Recently modified feedback response::" + responseAttributes.getId();
-        assertEquals(expectedBackUpIdentifierMessage, responseAttributes.getBackupIdentifier());
-    }
-
-    @Test
     public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
         FeedbackResponseAttributes.UpdateOptions updateOptions =
                 FeedbackResponseAttributes.updateOptionsBuilder("responseId")
