@@ -37,13 +37,20 @@ export class MsqQuestionEditAnswerFormComponent
   }
 
   /**
+   * Checks if None of the above option is enabled and disables it.
+   */
+  disableNoneOfTheAboveOption(): void {
+    if (this.isNoneOfTheAboveEnabled) {
+      this.responseDetails.answers.splice(0, 1);
+    }
+  }
+
+  /**
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
     this.isMsqOptionSelected[index] = !this.isMsqOptionSelected[index];
-    if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
-    }
+    this.disableNoneOfTheAboveOption();
     if (this.isMsqOptionSelected[index]) {
       this.responseDetails.answers.push(this.questionDetails.msqChoices[index]);
     } else {
@@ -56,6 +63,7 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates the other option checkbox when clicked.
    */
   updateIsOtherOption(): void {
+    this.disableNoneOfTheAboveOption();
     this.responseDetails.isOther = !this.responseDetails.isOther;
     if (!this.responseDetails.isOther) {
       this.responseDetails.otherFieldContent = '';

@@ -65,7 +65,7 @@ export class MsqQuestionEditDetailsFormComponent
    * Displays maxSelectableOption value.
    */
   get displayValueForMaxSelectableOption(): number {
-    if (this.model.maxSelectableChoices === Number.MIN_VALUE) {
+    if (this.model.maxSelectableChoices === 0) {
       return 2;
     }
     return this.model.maxSelectableChoices;
@@ -75,7 +75,7 @@ export class MsqQuestionEditDetailsFormComponent
    * Displays minSelectableOption value.
    */
   get displayValueForMinSelectableOption(): number {
-    if (this.model.minSelectableChoices === Number.MIN_VALUE) {
+    if (this.model.minSelectableChoices === 0) {
       return 1;
     }
     return this.model.minSelectableChoices;

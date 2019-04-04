@@ -133,7 +133,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             }
         } else {
             // if none of the above is selected AND other options are selected trigger this error
-            if (answers.size() > 1 && isNoneOfTheAboveOptionEnabled) {
+            if ((answers.size() > 1 || isOther) && isNoneOfTheAboveOptionEnabled) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER);
             }
         }
