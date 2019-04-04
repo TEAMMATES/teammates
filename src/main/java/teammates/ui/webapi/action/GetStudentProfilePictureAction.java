@@ -61,7 +61,7 @@ public class GetStudentProfilePictureAction extends Action {
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
-            if (StringHelper.isEmpty(student.googleId)) {
+            if (!StringHelper.isEmpty(student.googleId)) {
                 studentProfile = logic.getStudentProfile(student.googleId);
             }
         }
