@@ -87,7 +87,7 @@ export class AdminSearchPageComponent {
       event.stopPropagation();
     }
 
-    this.accountService.resetAccount(instructor.courseId, instructor.email).subscribe(() => {
+    this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
       this.search();
       this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
@@ -103,8 +103,7 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-
-    this.accountService.resetAccount(student.courseId, student.email).subscribe(() => {
+    this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
       student.googleId = '';
       this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
     }, (resp: ErrorMessageOutput) => {
