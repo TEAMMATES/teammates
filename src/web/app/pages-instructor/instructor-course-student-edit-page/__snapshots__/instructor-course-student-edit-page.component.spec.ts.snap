@@ -2,6 +2,7 @@
 
 exports[`InstructorCourseStudentEditPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-edit-page
+  FormValidator={[Function Object]}
   courseid="undefined"
   httpRequestService={[Function HttpRequestService]}
   isEmailFieldChanged="false"
@@ -21,6 +22,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
 
 exports[`InstructorCourseStudentEditPageComponent should snap with student details 1`] = `
 <tm-instructor-course-student-edit-page
+  FormValidator={[Function Object]}
   courseid="undefined"
   editForm={[Function FormGroup]}
   httpRequestService={[Function HttpRequestService]}
@@ -66,6 +68,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 id="studentname"
                 ng-reflect-name="studentname"
               />
+              
             </div>
           </div>
           <div
@@ -85,6 +88,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 id="sectionname"
                 ng-reflect-name="sectionname"
               />
+              
             </div>
           </div>
           <div
@@ -107,6 +111,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 name="teamname"
                 ng-reflect-name="teamname"
               />
+              
             </div>
           </div>
           <div
@@ -126,6 +131,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 id="newstudentemail"
                 ng-reflect-name="newstudentemail"
               />
+              
             </div>
           </div>
           <div
