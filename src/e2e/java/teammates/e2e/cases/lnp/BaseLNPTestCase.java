@@ -45,15 +45,30 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected abstract String getCsvConfigPath();
 
+    /**
+     * Returns the number of threads (users) in the L&P test.
+     */
     protected abstract int getNumberOfThreads();
 
-    protected abstract int getNumberOfRampUp();
+    /**
+     * Returns the ramp-up period (in seconds) for the L&P test.
+     */
+    protected abstract int getOfRampUpPeriod();
 
+    /**
+     * Returns the API endpoint that is to be L&P tested.
+     */
     protected abstract String getTestEndpoint();
 
+    /**
+     * Returns the HTTP method for the endpoint.
+     */
     protected abstract String getTestMethod();
 
-    protected abstract Map<String, String> getTestArguments();
+    /**
+     * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
+     */
+    protected abstract Map<String, String> getTestParameters();
 
     @Override
     protected String getTestDataFolder() {
@@ -156,22 +171,22 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     private HashTree getLnpTestPlan(boolean shouldCreateJmxFile) throws IOException {
         String csvConfigPath = getCsvConfigPath();
-        int nThreads = getNumberOfThreads();
-        int nRampUp = getNumberOfRampUp();
+        int numThreads = getNumberOfThreads();
+        int rampUpPeriod = getOfRampUpPeriod();
         String testEndpoint = getTestEndpoint();
         String testMethod = getTestMethod();
-        Map<String, String> args = getTestArguments();
+        Map<String, String> args = getTestParameters();
 
         HashTree testPlanHashTree = new JMeterConfig() {
 
             @Override
             protected int getNumberOfThreads() {
-                return nThreads;
+                return numThreads;
             }
 
             @Override
             protected int getNumberOfRampUp() {
-                return nRampUp;
+                return rampUpPeriod;
             }
 
             @Override
@@ -242,7 +257,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * @param shouldCreateJmxFile true if the generated test plan should be saved to a `.jmx` file which
      *                            can be opened in the JMeter GUI, and false otherwise.
      */
-    protected void runJmeter(boolean shouldCreateJmxFile) throws Exception {
+    protected void runJmeter(boolean shouldCreateJmxFile) throws IOException {
         StandardJMeterEngine jmeter = new StandardJMeterEngine();
 
         loadJmeterProperties();
@@ -275,8 +290,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         //  or if there is an Exception.
         //  An example of when this occurs is if `email` is used for logging in instead of `googleid`, or if the JMeter
         //  test properties are not set.
-
-        // TODO: Generate summary report from .jtl results file.
     }
 
     /**

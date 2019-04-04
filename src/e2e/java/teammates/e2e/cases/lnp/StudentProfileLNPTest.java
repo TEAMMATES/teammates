@@ -1,5 +1,6 @@
 package teammates.e2e.cases.lnp;
 
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -193,13 +194,13 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected int getNumberOfRampUp() {
+    protected int getOfRampUpPeriod() {
         return 2;
     }
 
     @Override
     protected String getTestEndpoint() {
-        return "webapi" + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleid}";
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleid}";
     }
 
     @Override
@@ -208,7 +209,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected Map<String, String> getTestArguments() {
+    protected Map<String, String> getTestParameters() {
         Map<String, String> args = new HashMap<>();
         args.put("googleid", "${googleid}");
         return args;
@@ -221,12 +222,13 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @Test
-    public void runLnpTest() throws Exception {
+    public void runLnpTest() throws IOException {
         runJmeter(false);
+        // TODO: Generate summary report from .jtl results file / ResultCollector.
     }
 
     @AfterClass
-    public void classTearDown() throws Exception {
+    public void classTearDown() throws IOException {
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
     }

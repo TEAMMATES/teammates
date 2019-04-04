@@ -49,8 +49,9 @@ public abstract class JMeterConfig {
      * and some test-specific configurations.
      */
     public HashTree createTestPlan() {
-        // TestPlan
+        // Test Plan
         TestPlan testPlan = new TestPlan();
+        testPlan.setName("L&P Test Plan");
         testPlan.setEnabled(true);
         testPlan.setUserDefinedVariables(new Arguments());
         testPlan.setProperty(TestElement.TEST_CLASS, TestPlan.class.getName());
@@ -65,6 +66,7 @@ public abstract class JMeterConfig {
 
         // Thread Group
         ThreadGroup threadGroup = new SetupThreadGroup();
+        threadGroup.setName("Thread Group");
         threadGroup.setNumThreads(getNumberOfThreads());
         threadGroup.setRampUp(getNumberOfRampUp());
         threadGroup.setProperty(new StringProperty(ThreadGroup.ON_SAMPLE_ERROR, ThreadGroup.ON_SAMPLE_ERROR_CONTINUE));
@@ -72,8 +74,9 @@ public abstract class JMeterConfig {
         threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
         threadGroup.setProperty(TestElement.GUI_CLASS, ThreadGroupGui.class.getName());
 
-        // CSVConfig
+        // CSV Config
         CSVDataSet csvDataSet = new CSVDataSet();
+        csvDataSet.setName("CSV Data Config");
         csvDataSet.setProperty(new StringProperty("filename", getCsvConfigPath()));
         csvDataSet.setProperty(new StringProperty("delimiter", "|"));
         csvDataSet.setProperty(new StringProperty("shareMode", "shareMode.all"));
@@ -84,8 +87,9 @@ public abstract class JMeterConfig {
         csvDataSet.setProperty(TestElement.TEST_CLASS, CSVDataSet.class.getName());
         csvDataSet.setProperty(TestElement.GUI_CLASS, TestBeanGUI.class.getName());
 
-        // CookieManager
+        // Cookie Manager
         CookieManager cookieManager = new CookieManager();
+        cookieManager.setName("HTTP Cookie Manager");
         cookieManager.setClearEachIteration(false);
         cookieManager.setCookiePolicy("standard");
         cookieManager.setProperty(TestElement.TEST_CLASS, CookieManager.class.getName());
@@ -93,18 +97,19 @@ public abstract class JMeterConfig {
 
         // HTTP Default Sampler
         ConfigTestElement defaultSampler = new ConfigTestElement();
+        defaultSampler.setName("HTTP Request Defaults");
         defaultSampler.setEnabled(true);
         defaultSampler.setProperty(new TestElementProperty(HTTPSampler.ARGUMENTS, new Arguments()));
         defaultSampler.setProperty(HTTPSampler.DOMAIN, "localhost");
         defaultSampler.setProperty(HTTPSampler.PORT, "8080");
-        defaultSampler.setName("HTTP Request Defaults");
         defaultSampler.setProperty(TestElement.TEST_CLASS, ConfigTestElement.class.getName());
         defaultSampler.setProperty(TestElement.GUI_CLASS, HttpDefaultsGui.class.getName());
 
         // Login HTTP Request
         HTTPSamplerProxy loginSampler = new HTTPSamplerProxy();
         loginSampler.setName("Login");
-        loginSampler.setPath("_ah/login?action=Log+In&email=${email}&isAdmin=${isAdmin}");
+        loginSampler.setPath(
+                "_ah/login?action=Log+In&email=${email}&isAdmin=${isAdmin}&continue=http://localhost:8080/webapi/auth");
         loginSampler.setMethod("POST");
         loginSampler.setFollowRedirects(true);
         loginSampler.setUseKeepAlive(true);
@@ -113,11 +118,13 @@ public abstract class JMeterConfig {
 
         // Controller for Login request
         OnceOnlyController onceOnlyController = new OnceOnlyController();
+        onceOnlyController.setName("Once Only Login Controller");
         onceOnlyController.setProperty(TestElement.TEST_CLASS, OnceOnlyController.class.getName());
         onceOnlyController.setProperty(TestElement.GUI_CLASS, OnceOnlyControllerGui.class.getName());
 
-        // HTTP Request
+        // Test API Endpoint HTTP Request
         HTTPSamplerProxy apiSampler = new HTTPSamplerProxy();
+        apiSampler.setName("Test Endpoint");
         apiSampler.setPath(getTestEndpoint());
         apiSampler.setMethod(getTestMethod());
         getTestArguments().forEach((key, value) -> {

@@ -5,10 +5,11 @@ The performance test cases are located in the `teammates.e2e.cases.lnp` package.
 
 ## Creating Performance Tests
 
-Each new test case must inherit `BaseLNPTestCase`, create a `LNPTestData` instance, and implement all the `abstract` methods from both classes. 
-The L&P test plans are created using the JMeter API in the overridden `generateTestPlan()` method, which is invoked by `BaseLNPTestCase#getLNPTestPlan(boolean)`. 
-This boolean parameter can be set to `true` in the method call to generate the equivalent `.jmx` file, which can be opened in the JMeter GUI.
-By default, the file is saved as `baseLnpTest.jmx` in the root directory of your TEAMMATES project.
+Each new test case must inherit the base L&P test class, and implement the methods required for generating the test data and the JMeter L&P test plan. 
+The L&P test plans are created in Java using the JMeter API.
+
+When running the L&P test, an equivalent `.jmx` file can be generated from this test plan.
+To help with debugging, you can open this `.jmx` file in the JMeter GUI and add Listeners.
 
 To see a sample implementation of a test case, you can refer to `StudentProfileLNPTest`. It is a _simple_ test case which load tests a GET endpoint (`/webapi/student/profile`).
 
