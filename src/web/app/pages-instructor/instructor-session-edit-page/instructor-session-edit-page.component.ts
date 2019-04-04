@@ -21,7 +21,7 @@ import {
   FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessionPublishStatus, FeedbackSessions,
-  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails, Instructor, Instructors,
+  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails, HasResponses, Instructor, Instructors,
   NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseVisibleSetting,
   SessionVisibleSetting, Student, Students,
@@ -417,7 +417,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.httpRequestService.get('/questions', paramMap)
         .subscribe((response: FeedbackQuestions) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
-            this.questionEditFormModels.push(this.getQuestionEditFormModel(feedbackQuestion));
+            const addedQuestionEditFormModel: QuestionEditFormModel = this.getQuestionEditFormModel(feedbackQuestion);
+            this.questionEditFormModels.push(addedQuestionEditFormModel);
+            this.loadResponseStatusForQuestion(addedQuestionEditFormModel);
             this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);
           });
         }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
@@ -462,6 +464,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isEditable: false,
       isSaving: false,
     };
+  }
+
+  /**
+   * Loads the isQuestionHasResponses value for a question edit for model.
+   */
+  private loadResponseStatusForQuestion(model: QuestionEditFormModel): void {
+    this.feedbackSessionsService.hasResponsesForQuestion(model.feedbackQuestionId)
+      .subscribe((resp: HasResponses) => {
+        model.isQuestionHasResponses = resp.hasResponses;
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
