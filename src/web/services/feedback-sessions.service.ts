@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { FeedbackQuestion, FeedbackSession, OngoingSessions } from '../types/api-output';
+import { FeedbackQuestion, FeedbackSession, HasResponses, OngoingSessions } from '../types/api-output';
 import { FeedbackSessionCreateRequest, FeedbackSessionUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -56,5 +56,15 @@ export class FeedbackSessionsService {
       endtime: String(endTime),
     };
     return this.httpRequestService.get('/sessions/ongoing', paramMap);
+  }
+
+  /**
+   * Checks if there are responses for a specific question in a feedback session.
+   */
+  hasResponsesForQuestion(questionId: string): Observable<HasResponses> {
+    const paramMap: { [key: string]: string } = {
+      questionid: questionId,
+    };
+    return this.httpRequestService.get('/hasResponses', paramMap);
   }
 }
