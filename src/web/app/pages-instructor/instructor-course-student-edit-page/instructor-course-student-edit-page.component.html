@@ -15,13 +15,14 @@
               <div
                 *ngIf="editForm.get('studentname').errors
                 && (editForm.get('studentname').dirty || editForm.get('studentname').touched)"
-                class="alert alert-danger">
-                <div [hidden]="!editForm.get('studentname').errors.required">
-                  {{ displayEmptyFieldMessage('Student Name', FormValidator.STUDENT_NAME_MAX_LENGTH) }}
-                </div>
-                <div [hidden]="!editForm.get('studentname').errors.maxlength">
+                class="invalid-field">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                <span [hidden]="!editForm.get('studentname').errors.required">
+                  {{ displayEmptyFieldMessage('Student Name') }}
+                </span>
+                <span [hidden]="!editForm.get('studentname').errors.maxlength">
                   {{ displayExceedMaxLengthMessage('Student Name', FormValidator.STUDENT_NAME_MAX_LENGTH) }}
-                </div>
+                </span>
               </div>
           </div>
         </div>
@@ -35,13 +36,14 @@
             <div
               *ngIf="editForm.get('sectionname').errors
               && (editForm.get('sectionname').dirty || editForm.get('sectionname').touched)"
-              class="alert alert-danger">
-              <div [hidden]="!editForm.get('sectionname').errors.required">
-                {{ displayEmptyFieldMessage('Section Name', FormValidator.SECTION_NAME_MAX_LENGTH) }}
-              </div>
-              <div [hidden]="!editForm.get('sectionname').errors.maxlength">
+              class="invalid-field">
+              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+              <span [hidden]="!editForm.get('sectionname').errors.required">
+                {{ displayEmptyFieldMessage('Section Name') }}
+              </span>
+              <span [hidden]="!editForm.get('sectionname').errors.maxlength">
                 {{ displayExceedMaxLengthMessage('Section Name', FormValidator.SECTION_NAME_MAX_LENGTH) }}
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -56,13 +58,14 @@
             <div
               *ngIf="editForm.get('teamname').errors
               && (editForm.get('teamname').dirty || editForm.get('teamname').touched)"
-              class="alert alert-danger">
-              <div [hidden]="!editForm.get('teamname').errors.required">
-                {{ displayEmptyFieldMessage('Team Name', FormValidator.TEAM_NAME_MAX_LENGTH) }}
-              </div>
-              <div [hidden]="!editForm.get('teamname').errors.maxlength">
+              class="invalid-field">
+              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+              <span [hidden]="!editForm.get('teamname').errors.required">
+                {{ displayEmptyFieldMessage('Team Name') }}
+              </span>
+              <span [hidden]="!editForm.get('teamname').errors.maxlength">
                 {{ displayExceedMaxLengthMessage('Team Name', FormValidator.TEAM_NAME_MAX_LENGTH) }}
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -76,13 +79,14 @@
             <div
               *ngIf="editForm.get('newstudentemail').errors
               && (editForm.get('newstudentemail').dirty || editForm.get('newstudentemail').touched)"
-                class="alert alert-danger">
-              <div [hidden]="!editForm.get('newstudentemail').errors.required">
-                {{ displayEmptyFieldMessage('E-mail Address', FormValidator.EMAIL_MAX_LENGTH) }}
-              </div>
-              <div [hidden]="!editForm.get('newstudentemail').errors.maxlength">
+                class="invalid-field">
+              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+              <span [hidden]="!editForm.get('newstudentemail').errors.required">
+                {{ displayEmptyFieldMessage('E-mail Address') }}
+              </span>
+              <span [hidden]="!editForm.get('newstudentemail').errors.maxlength">
                 {{ displayExceedMaxLengthMessage('E-mail Address', FormValidator.EMAIL_MAX_LENGTH) }}
-              </div>
+              </span>
             </div>
           </div>
         </div>

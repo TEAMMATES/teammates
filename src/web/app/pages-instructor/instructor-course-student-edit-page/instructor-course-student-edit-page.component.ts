@@ -143,18 +143,15 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   /**
    * Displays message to user stating that the field is empty.
    */
-  displayEmptyFieldMessage(fieldName: string, maxLength: number): string {
-    return `The field '${fieldName}' is empty.` +
-        ` The value of a/an ${fieldName} should be no longer than ${maxLength} characters.` +
-        ' It should not be empty.';
+  displayEmptyFieldMessage(fieldName: string): string {
+    return `The field '${fieldName}' should not be empty.`;
   }
 
   /**
    * Displays message to user stating that the field exceeds the max length.
    */
   displayExceedMaxLengthMessage(fieldName: string, maxLength: number): string {
-    return `The input is not acceptable to TEAMMATES as a/an '${fieldName}'` +
-        ` because it exceeds the max length of ${maxLength}.`;
+    return `The field '${fieldName}' should not exceed ${maxLength} characters.`;
   }
 
   /**
