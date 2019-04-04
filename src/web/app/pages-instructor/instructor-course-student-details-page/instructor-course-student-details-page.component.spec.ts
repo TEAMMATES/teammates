@@ -13,6 +13,7 @@ import {
 class StudentProfileStubComponent {
   @Input() studentProfile: StudentProfile | undefined;
   @Input() studentName: string = '';
+  @Input() photoUrl: string = '/assets/images/profile_picture_default.png';
   @Input() hideMoreInfo: boolean = false;
 }
 @Component({ selector: 'tm-course-related-info', template: '' })
