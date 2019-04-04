@@ -194,7 +194,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected int getOfRampUpPeriod() {
+    protected int getRampUpPeriod() {
         return 2;
     }
 

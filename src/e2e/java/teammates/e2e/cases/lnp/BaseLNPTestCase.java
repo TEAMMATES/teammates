@@ -53,7 +53,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Returns the ramp-up period (in seconds) for the L&P test.
      */
-    protected abstract int getOfRampUpPeriod();
+    protected abstract int getRampUpPeriod();
 
     /**
      * Returns the API endpoint that is to be L&P tested.
@@ -172,7 +172,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     private HashTree getLnpTestPlan(boolean shouldCreateJmxFile) throws IOException {
         String csvConfigPath = getCsvConfigPath();
         int numThreads = getNumberOfThreads();
-        int rampUpPeriod = getOfRampUpPeriod();
+        int rampUpPeriod = getRampUpPeriod();
         String testEndpoint = getTestEndpoint();
         String testMethod = getTestMethod();
         Map<String, String> args = getTestParameters();
@@ -185,7 +185,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             }
 
             @Override
-            protected int getNumberOfRampUp() {
+            protected int getRampUpPeriod() {
                 return rampUpPeriod;
             }
 

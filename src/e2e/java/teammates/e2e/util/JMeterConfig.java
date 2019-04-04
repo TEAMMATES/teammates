@@ -34,7 +34,7 @@ public abstract class JMeterConfig {
 
     protected abstract int getNumberOfThreads();
 
-    protected abstract int getNumberOfRampUp();
+    protected abstract int getRampUpPeriod();
 
     protected abstract String getTestEndpoint();
 
@@ -68,7 +68,7 @@ public abstract class JMeterConfig {
         ThreadGroup threadGroup = new SetupThreadGroup();
         threadGroup.setName("Thread Group");
         threadGroup.setNumThreads(getNumberOfThreads());
-        threadGroup.setRampUp(getNumberOfRampUp());
+        threadGroup.setRampUp(getRampUpPeriod());
         threadGroup.setProperty(new StringProperty(ThreadGroup.ON_SAMPLE_ERROR, ThreadGroup.ON_SAMPLE_ERROR_CONTINUE));
         threadGroup.setSamplerController(loopController);
         threadGroup.setProperty(TestElement.TEST_CLASS, ThreadGroup.class.getName());
