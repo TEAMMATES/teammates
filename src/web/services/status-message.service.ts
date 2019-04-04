@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Injectable, TemplateRef } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import { StatusMessage } from '../app/components/status-message/status-message';
 
 /**
@@ -10,16 +10,7 @@ import { StatusMessage } from '../app/components/status-message/status-message';
 })
 export class StatusMessageService {
 
-  private alertEvent: Subject<StatusMessage> = new Subject();
-
-  constructor() {}
-
-  /**
-   * Gets the observable event of status messages.
-   */
-  getAlertEvent(): Observable<StatusMessage> {
-    return this.alertEvent.asObservable();
-  }
+  constructor(private snackBar: MatSnackBar) {}
 
   /**
    * Shows a success message on the page.
@@ -27,7 +18,7 @@ export class StatusMessageService {
   showSuccessMessage(message: string): void {
     this.showMessage({
       message,
-      color: 'success',
+      color: 'snackbar-success',
     });
   }
 
@@ -37,7 +28,7 @@ export class StatusMessageService {
   showWarningMessage(message: string): void {
     this.showMessage({
       message,
-      color: 'warning',
+      color: 'snackbar-warning',
     });
   }
 
@@ -47,12 +38,31 @@ export class StatusMessageService {
   showErrorMessage(message: string): void {
     this.showMessage({
       message,
-      color: 'danger',
+      color: 'snackbar-danger',
     });
   }
 
   private showMessage(message: StatusMessage): void {
-    this.alertEvent.next(message);
+    this.snackBar.open(message.message, '', {
+      duration: 10000,
+      verticalPosition: 'top',
+      panelClass: ['snackbar', message.color],
+    });
+  }
+
+  /**
+   * Shows a success message containing HTML on the page
+   */
+  showSuccessMessageTemplate(template: TemplateRef<any>): void {
+    this.showTemplate(template, 'snackbar-success');
+  }
+
+  private showTemplate(template: TemplateRef<any>, color: string): void {
+    this.snackBar.openFromTemplate(template, {
+      duration: 10000,
+      verticalPosition: 'top',
+      panelClass: ['snackbar', color],
+    });
   }
 
 }

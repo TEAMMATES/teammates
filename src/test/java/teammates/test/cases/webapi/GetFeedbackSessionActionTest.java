@@ -66,7 +66,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(feedbackSessionAttributes.getStartTime().toEpochMilli(), response.getSubmissionStartTimestamp());
         assertEquals(feedbackSessionAttributes.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
-        assertEquals(feedbackSessionAttributes.getGracePeriodMinutes(), response.getGracePeriod());
+        assertEquals(feedbackSessionAttributes.getGracePeriodMinutes(), response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(feedbackSessionAttributes.getSessionVisibleFromTime().toEpochMilli(),
