@@ -967,6 +967,7 @@ public final class Const {
         public static final String QUESTION_RECIPIENTS = "/question/recipients";
         public static final String RESPONSE = "/response";
         public static final String RESPONSES = "/responses";
+        public static final String HAS_RESPONSES = "/hasResponses";
         public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
         public static final String JOIN = "/join";
         public static final String JOIN_REMIND = "/join/remind";
@@ -998,7 +999,6 @@ public final class Const {
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
         public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
-        public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
         public static final String STUDENT_RECORDS = "/students/records";
         public static final String COURSE_ENROLL_STUDENTS = "/course/enroll/students";
     }
