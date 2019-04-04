@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
 
@@ -15,6 +16,7 @@ describe('SessionLinksRecoveryPageComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         NgxCaptchaModule,
+        MatSnackBarModule,
       ],
     })
         .compileComponents();
