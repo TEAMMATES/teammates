@@ -53,7 +53,7 @@ public class StudentProfilePage extends AppPage {
     @FindBy(className = "btn-space")
     private List<WebElement> editPictureTools;
 
-    @FindBy(className = "snackbar")
+    @FindBy(className = "mat-simple-snackbar")
     private WebElement successStatusMessage;
 
     public StudentProfilePage(Browser browser) {
@@ -172,6 +172,7 @@ public class StudentProfilePage extends AppPage {
     public void verifyPhotoSize(String height, String width) {
         assertEquals(height, browser.driver.findElement(By.className("profile-pic")).getCssValue("height"));
         assertEquals(width, browser.driver.findElement(By.className("profile-pic")).getCssValue("width"));
+        click(uploadEditModal.findElement(By.className("close")));
     }
 
     public void ensureProfileContains(String shortName, String email, String institute, String nationality,
@@ -185,7 +186,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void verifyStatusMessage(String message) {
-        assertTrue(successStatusMessage.getText().contains(message));
+        assertEquals(message, successStatusMessage.getText());
     }
 
     /**
@@ -220,5 +221,4 @@ public class StudentProfilePage extends AppPage {
     public void waitForUploadEditModalVisible() {
         waitForElementVisibility(uploadEditModal);
     }
-
 }

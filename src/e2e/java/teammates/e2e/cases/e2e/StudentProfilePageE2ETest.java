@@ -32,14 +32,6 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.ensureProfileContains("Ben", "i.m.benny@gmail.tmt", "TEAMMATES Test Institute 4",
                 "Singaporean", StudentProfileAttributes.Gender.MALE, "I am just another student :P");
 
-        ______TS("Typical case: no picture");
-        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
-                StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
-
-        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
-                StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
-        profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED);
-
         ______TS("Typical case: picture upload and edit");
 
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
@@ -50,8 +42,14 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.waitForUploadEditModalVisible();
 
         profilePage.editProfilePhoto();
+        profilePage.verifyPhotoSize("220px", "220px");
+
+        ______TS("Typical case: no picture");
+        profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
+                StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
+
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
-        profilePage.verifyPhotoSize("220px", "220px");
+        profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED);
     }
 }
