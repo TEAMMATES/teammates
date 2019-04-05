@@ -82,8 +82,8 @@ public abstract class JMeterConfig {
         csvDataSet.setProperty(new StringProperty("shareMode", "shareMode.all"));
         csvDataSet.setProperty("ignoreFirstLine", true);
         csvDataSet.setProperty("quoted", true);
-        csvDataSet.setProperty("recycle", true);
-        csvDataSet.setProperty("stopThread", false);
+        csvDataSet.setProperty("recycle", false);
+        csvDataSet.setProperty("stopThread", true);
         csvDataSet.setProperty(TestElement.TEST_CLASS, CSVDataSet.class.getName());
         csvDataSet.setProperty(TestElement.GUI_CLASS, TestBeanGUI.class.getName());
 

@@ -34,8 +34,8 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     private static final String CSV_CONFIG_PATH = "/studentProfileConfig.csv";
 
     private static final int NUMBER_OF_USER_ACCOUNTS = 500;
-    private static final String USER_NAME = "DummyUser";
-    private static final String USER_EMAIL = "personalEmail";
+    private static final String STUDENT_NAME = "LnPStudent";
+    private static final String STUDENT_EMAIL = "personalEmail";
 
     @Override
     protected LNPTestData getTestData() {
@@ -45,9 +45,9 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 Map<String, AccountAttributes> accounts = new HashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    accounts.put(USER_NAME + i, AccountAttributes.builder(USER_NAME + i + ".tmms")
-                            .withEmail(USER_EMAIL + i + "@gmail.tmt")
-                            .withName(USER_NAME + i)
+                    accounts.put(STUDENT_NAME + i, AccountAttributes.builder(STUDENT_NAME + i + ".tmms")
+                            .withEmail(STUDENT_EMAIL + i + "@gmail.tmt")
+                            .withName(STUDENT_NAME + i)
                             .withIsInstructor(false)
                             .withInstitute("TEAMMATES Test Institute 1")
                             .build()
@@ -94,10 +94,10 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 Map<String, StudentAttributes> students = new HashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    students.put(USER_NAME + i, StudentAttributes.builder("TestData.CS101", USER_EMAIL + i + "@gmail.tmt")
-                            .withGoogleId(USER_NAME + i + ".tmms")
-                            .withName(USER_NAME + i)
-                            .withComment("This student's name is " + USER_NAME + i)
+                    students.put(STUDENT_NAME + i, StudentAttributes.builder("TestData.CS101", STUDENT_EMAIL + i + "@gmail.tmt")
+                            .withGoogleId(STUDENT_NAME + i + ".tmms")
+                            .withName(STUDENT_NAME + i)
+                            .withComment("This student's name is " + STUDENT_NAME + i)
                             .withTeamName("Team 1")
                             .withSectionName("None")
                             .build()
@@ -132,8 +132,8 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 Map<String, StudentProfileAttributes> profiles = new HashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    profiles.put(USER_NAME + i, StudentProfileAttributes.builder(USER_NAME + i + ".tmms")
-                            .withEmail(USER_EMAIL + i + "@gmail.tmt")
+                    profiles.put(STUDENT_NAME + i, StudentProfileAttributes.builder(STUDENT_NAME + i + ".tmms")
+                            .withEmail(STUDENT_EMAIL + i + "@gmail.tmt")
                             .withShortName(String.valueOf(i))
                             .withInstitute("TEAMMATES Test Institute 222")
                             .withMoreInfo("I am " + i)
@@ -224,7 +224,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     @Test
     public void runLnpTest() throws IOException {
         runJmeter(false);
-        // TODO: Generate summary report from .jtl results file / ResultCollector.
     }
 
     @AfterClass

@@ -290,6 +290,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         //  or if there is an Exception.
         //  An example of when this occurs is if `email` is used for logging in instead of `googleid`, or if the JMeter
         //  test properties are not set.
+
+        // TODO: Generate summary report from .jtl results file / ResultCollector.
     }
 
     /**

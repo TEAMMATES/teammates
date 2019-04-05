@@ -59,6 +59,7 @@ public abstract class LNPTestData {
 
     /**
      * Returns list of header fields for the data in the CSV file to be generated.
+     * Note that these headers should correspond to the variables used in the JMeter L&P test.
      */
     public abstract List<String> generateCsvHeaders();
 
