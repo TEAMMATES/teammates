@@ -1163,12 +1163,6 @@ public final class Const {
                 + "for this course. Modifying records of enrolled students will result in some existing "
                 + "responses from those modified students to be deleted. You may wish to download the data "
                 + "before you make the changes.";
-        public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
-        public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
-        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
-        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "%d student(s) updated with no changes:";
-        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "%d student(s) remain unmodified:";
-        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "%d student(s) with unknown enrolment status:";
 
         public static final String TEAM_INVALID_SECTION_EDIT =
                 "The team \"%s\" is in multiple sections. "

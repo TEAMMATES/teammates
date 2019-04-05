@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -36,7 +35,6 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
         assertEquals(Const.DEFAULT_SECTION, student.section);
         assertNull(student.comments);
         assertNull(student.key);
-        assertEquals(StudentUpdateStatus.UNKNOWN, student.updateStatus);
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, student.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, student.getUpdatedAt());
     }
@@ -105,7 +103,6 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
         assertEquals(originalStudent.googleId, copyStudent.googleId);
         assertEquals(originalStudent.comments, copyStudent.comments);
         assertEquals(originalStudent.key, copyStudent.key);
-        assertEquals(originalStudent.updateStatus, copyStudent.updateStatus);
         assertEquals(originalStudent.lastName, copyStudent.lastName);
         assertEquals(originalStudent.section, copyStudent.section);
         assertEquals(originalStudent.team, copyStudent.team);
@@ -151,17 +148,6 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
         assertEquals(originalStudent.getTeamName(), copyStudent.team);
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, copyStudent.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, copyStudent.getUpdatedAt());
-    }
-
-    @Test
-    public void testUpdateStatusEnum() {
-        assertEquals(StudentUpdateStatus.ERROR, StudentUpdateStatus.enumRepresentation(0));
-        assertEquals(StudentUpdateStatus.NEW, StudentUpdateStatus.enumRepresentation(1));
-        assertEquals(StudentUpdateStatus.MODIFIED, StudentUpdateStatus.enumRepresentation(2));
-        assertEquals(StudentUpdateStatus.UNMODIFIED, StudentUpdateStatus.enumRepresentation(3));
-        assertEquals(StudentUpdateStatus.NOT_IN_ENROLL_LIST, StudentUpdateStatus.enumRepresentation(4));
-        assertEquals(StudentUpdateStatus.UNKNOWN, StudentUpdateStatus.enumRepresentation(5));
-        assertEquals(StudentUpdateStatus.UNKNOWN, StudentUpdateStatus.enumRepresentation(-1));
     }
 
     @Test
