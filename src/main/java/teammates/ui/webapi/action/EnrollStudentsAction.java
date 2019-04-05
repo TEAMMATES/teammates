@@ -1,31 +1,37 @@
 package teammates.ui.webapi.action;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
-
-import teammates.common.datatransfer.CourseEnrollmentResult;
-import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
-import teammates.ui.template.EnrollResultPanel;
-import teammates.ui.webapi.output.ApiOutput;
+import teammates.ui.webapi.output.StudentsData;
+import teammates.ui.webapi.request.StudentsEnrollRequest;
 
 /**
- * Action: saving the list of enrolled students for a course of an instructor.
+ * Enroll a list of students.
+ *
+ * <p>Create the students who are not in the course.
+ *
+ * <p>Update the students who are already existed.
+ *
+ * <p>Return all students who are successfully enrolled.
  */
 public class EnrollStudentsAction extends Action {
-    private static final Logger log = Logger.getLogger();
+
+    private static final String ERROR_MESSAGE_SAME_TEAM_IN_DIFFERENT_SECTION =
+            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
+                    + " Please use different team names in different sections";
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -45,148 +51,72 @@ public class EnrollStudentsAction extends Action {
     }
 
     @Override
-    public ActionResult execute() throws EntityNotFoundException {
+    public JsonResult execute() {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentsInfo = getRequestBody();
+        StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);
+        List<StudentAttributes> studentsToEnroll = new ArrayList<>();
+        enrollRequests.getStudentEnrollRequests().forEach(studentEnrollRequest -> {
+            studentsToEnroll.add(StudentAttributes.builder(courseId, studentEnrollRequest.getEmail())
+                    .withName(studentEnrollRequest.getName())
+                    .withSectionName(studentEnrollRequest.getSection())
+                    .withTeamName(studentEnrollRequest.getTeam())
+                    .withComment(studentEnrollRequest.getComments())
+                    .build());
+        });
 
-        /* Process enrollment list and setup data for page result */
-        try {
-            List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
-            EnrollResults dataFormat = new EnrollResults(getInstructorCourseEnrollResult(students));
-            return new JsonResult(dataFormat);
+        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
+        validateTeamName(existingStudents, studentsToEnroll);
 
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
-
-        } catch (EnrollException | InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
-
-        } catch (EntityAlreadyExistsException e) {
-            log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
-
-            return new JsonResult("The enrollment failed, possibly because some students were re-enrolled before "
-                            + "the previous enrollment action was still being processed by TEAMMATES database "
-                            + "servers. Please try again after about 10 minutes. If the problem persists, "
-                            + "please contact TEAMMATES support", HttpStatus.SC_CONFLICT);
-        }
-    }
-
-    private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
-            throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        CourseEnrollmentResult enrollResult = logic.enrollStudents(studentsInfo, courseId);
-        List<StudentAttributes> students = enrollResult.studentList;
-
-        students.sort(Comparator.comparing(obj -> obj.updateStatus.numericRepresentation));
-
-        return separateStudents(students);
-    }
-
-    /**
-     * Separate the StudentData objects in the list into different categories based
-     * on their updateStatus. Each category is put into a separate list.
-     *
-     * @return An array of lists of StudentAttributes objects in which each list contains
-     *         student with the same updateStatus
-     */
-    @SuppressWarnings("unchecked")
-    private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
-
-        List<StudentAttributes>[] lists = new ArrayList[StudentUpdateStatus.STATUS_COUNT];
-        for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
-            lists[i] = new ArrayList<>();
-        }
-
-        for (StudentAttributes student : students) {
-            lists[student.updateStatus.numericRepresentation].add(student);
-        }
-
-        for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
-            StudentAttributes.sortByNameAndThenByEmail(lists[i]);
-        }
-
-        return lists;
-    }
-
-    private List<EnrollResultPanel> getInstructorCourseEnrollResult(List<StudentAttributes>[] students) {
-        List<EnrollResultPanel> enrollResultPanelList = new ArrayList<>();
-
-        for (int i = 0; i < StudentUpdateStatus.STATUS_COUNT; i++) {
-            String panelClass = "";
-
-            switch (StudentUpdateStatus.enumRepresentation(i)) {
-            case ERROR :
-                panelClass = "bg-danger";
-                break;
-            case NEW :
-                panelClass = "bg-primary";
-                break;
-            case MODIFIED :
-                panelClass = "bg-warning";
-                break;
-            case UNMODIFIED :
-                panelClass = "bg-info";
-                break;
-            case NOT_IN_ENROLL_LIST :
-                panelClass = "bg-default";
-                break;
-            case UNKNOWN :
-                panelClass = "bg-danger";
-                break;
-            default :
-                log.severe("Unknown Enrollment status " + i);
-                break;
+        Set<String> existingStudentsEmail =
+                existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
+        List<StudentAttributes> enrolledStudents = new ArrayList<>();
+        studentsToEnroll.forEach(student -> {
+            if (existingStudentsEmail.contains(student.email)) {
+                // The student has been enrolled in the course.
+                StudentAttributes.UpdateOptions updateOptions =
+                        StudentAttributes.updateOptionsBuilder(student.getCourse(), student.getEmail())
+                                .withName(student.getName())
+                                .withSectionName(student.getSection())
+                                .withTeamName(student.getTeam())
+                                .withComment(student.getComments())
+                                .build();
+                try {
+                    StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
+                    enrolledStudents.add(updatedStudent);
+                } catch (InvalidParametersException | EntityDoesNotExistException
+                        | EntityAlreadyExistsException exception) {
+                    // Unsuccessfully enrolled students will not be returned.
+                    return;
+                }
+            } else {
+                // The student is new.
+                try {
+                    StudentAttributes newStudent = logic.createStudent(student);
+                    enrolledStudents.add(newStudent);
+                } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
+                    // Unsuccessfully enrolled students will not be returned.
+                    return;
+                }
             }
-
-            String messageForEnrollmentStatus = getMessageForEnrollmentStatus(i, students);
-            EnrollResultPanel enrollResultPanel = new EnrollResultPanel(panelClass, messageForEnrollmentStatus, students[i]);
-            enrollResultPanelList.add(enrollResultPanel);
-        }
-        return enrollResultPanelList;
+        });
+        return new JsonResult(new StudentsData(enrolledStudents));
     }
 
-    private String getMessageForEnrollmentStatus(int enrollmentStatus, List<StudentAttributes>[] students) {
-
-        StudentUpdateStatus status = StudentUpdateStatus.enumRepresentation(enrollmentStatus);
-
-        switch (status) {
-        case ERROR:
-            return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_ERROR,
-                    students[StudentUpdateStatus.ERROR.numericRepresentation].size());
-        case NEW:
-            return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_ADDED,
-                    students[StudentUpdateStatus.NEW.numericRepresentation].size());
-        case MODIFIED:
-            return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_MODIFIED,
-                    students[StudentUpdateStatus.MODIFIED.numericRepresentation].size());
-        case UNMODIFIED:
-            return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_UNMODIFIED,
-                    students[StudentUpdateStatus.UNMODIFIED.numericRepresentation].size());
-        case NOT_IN_ENROLL_LIST:
-            return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_NOT_IN_LIST,
-                    students[StudentUpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation].size());
-        case UNKNOWN:
-            return String.format(Const.StatusMessages.COURSE_ENROLL_STUDENTS_UNKNOWN,
-                    students[StudentUpdateStatus.UNKNOWN.numericRepresentation].size());
-        default:
-            log.severe("Unknown Enrollment status " + enrollmentStatus);
-            return "There are students:";
+    private void validateTeamName(List<StudentAttributes> existingStudents,
+                                  List<StudentAttributes> studentsToEnroll) throws InvalidHttpRequestBodyException {
+        Map<String, String> teamInSection = new HashMap<>();
+        for (StudentAttributes existingStudent : existingStudents) {
+            teamInSection.put(existingStudent.getTeam(), existingStudent.getSection());
         }
-    }
-
-    /**
-     * Data format for {@link EnrollStudentsAction}.
-     */
-    public static class EnrollResults extends ApiOutput {
-        private final List<EnrollResultPanel> enrollResultPanelList;
-
-        public EnrollResults(List<EnrollResultPanel> enrollResultPanelList) {
-            this.enrollResultPanelList = enrollResultPanelList;
-        }
-
-        public List<EnrollResultPanel> getEnrollResultPanelList() {
-            return enrollResultPanelList;
+        for (StudentAttributes studentToEnroll : studentsToEnroll) {
+            if (teamInSection.containsKey(studentToEnroll.getTeam())
+                    && !teamInSection.get(studentToEnroll.getTeam()).equals(studentToEnroll.getSection())) {
+                throw new InvalidHttpRequestBodyException(String.format(ERROR_MESSAGE_SAME_TEAM_IN_DIFFERENT_SECTION,
+                        studentToEnroll.getTeam(), teamInSection.get(studentToEnroll.getTeam()),
+                        studentToEnroll.getSection()));
+            }
+            teamInSection.put(studentToEnroll.getTeam(), studentToEnroll.getSection());
         }
     }
 }
-

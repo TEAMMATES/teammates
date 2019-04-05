@@ -56,7 +56,7 @@ public final class Const {
 
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
 
-    public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
+    public static final int SIZE_LIMIT_PER_ENROLLMENT = 100;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
     public static final String DEFAULT_SECTION = "None";

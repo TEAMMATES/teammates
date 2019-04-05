@@ -837,6 +837,21 @@ public class Logic {
     }
 
     /**
+     * Creates a student.
+     *
+     * @return the created student.
+     * @throws InvalidParametersException if the student is not valid.
+     * @throws EntityAlreadyExistsException if the student already exists in the Datastore.
+     */
+    public StudentAttributes createStudent(StudentAttributes student)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(student.getCourse());
+        Assumption.assertNotNull(student.getEmail());
+
+        return studentsLogic.createStudent(student);
+    }
+
+    /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses the student gives/receives.
