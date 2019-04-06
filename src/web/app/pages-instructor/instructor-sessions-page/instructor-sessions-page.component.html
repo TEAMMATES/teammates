@@ -44,7 +44,7 @@
           <div class="col-6 text-white">
             <b>Recycle Bin</b>
           </div>
-          <div class="col-6 text-right actions-cell">
+          <div class="col-6 text-right bin-header-button">
             <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
                     (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSession()"><i class="fas fa-check"></i> Restore All</button>
             <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
@@ -82,7 +82,7 @@
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
               </th>
-              <th>Actions</th>
+              <th class="text-center">Action(s)</th>
             </tr>
           </thead>
           <tbody>
@@ -95,7 +95,7 @@
               <td [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
               </td>
-              <td class="actions-cell">
+              <td class="text-center bin-header-button">
                 <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore the feedback session" (click)="restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel)">Restore</button>
                 <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete the feedback session" (click)="permanentDeleteSession(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
               </td>
