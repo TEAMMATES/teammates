@@ -167,21 +167,21 @@
           <div class="col-6 text-white">
             <b>Recycle Bin</b>
           </div>
-          <div class="col-6 text-right">
-            <button class="btn btn-light btn-sm no-margin" *ngIf="canRestoreAll" (click)="onRestoreAll()"
+          <div class="col-6 text-right actions-cell">
+            <button class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
                     ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
               <i class="fas fa-check"></i> Restore All
             </button>
-            <button class="btn btn-light btn-sm disabled no-margin" *ngIf="!canRestoreAll">
+            <button class="btn btn-light btn-sm disabled" *ngIf="!canRestoreAll">
               <i class="fas fa-check"></i> Restore All
-            </button>&nbsp;
-            <button class="btn btn-light btn-sm text-danger no-margin" *ngIf="canDeleteAll" (click)="onDeleteAll()"
+            </button>
+            <button class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
                     ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
               <i class="fas fa-times"></i> Delete All
             </button>
-            <button class="btn btn-light btn-sm disabled text-danger no-margin" *ngIf="!canDeleteAll">
+            <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!canDeleteAll">
               <i class="fas fa-times"></i> Delete All
-            </button>&nbsp;
+            </button>
             <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
             <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
           </div>
