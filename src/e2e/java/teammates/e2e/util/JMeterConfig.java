@@ -1,6 +1,9 @@
 package teammates.e2e.util;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.ws.rs.HttpMethod;
 
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.CSVDataSet;
@@ -10,10 +13,15 @@ import org.apache.jmeter.control.OnceOnlyController;
 import org.apache.jmeter.control.gui.LoopControlPanel;
 import org.apache.jmeter.control.gui.OnceOnlyControllerGui;
 import org.apache.jmeter.control.gui.TestPlanGui;
+import org.apache.jmeter.extractor.RegexExtractor;
+import org.apache.jmeter.extractor.gui.RegexExtractorGui;
 import org.apache.jmeter.protocol.http.config.gui.HttpDefaultsGui;
 import org.apache.jmeter.protocol.http.control.CookieManager;
+import org.apache.jmeter.protocol.http.control.Header;
+import org.apache.jmeter.protocol.http.control.HeaderManager;
 import org.apache.jmeter.protocol.http.control.gui.HttpTestSampleGui;
 import org.apache.jmeter.protocol.http.gui.CookiePanel;
+import org.apache.jmeter.protocol.http.gui.HeaderPanel;
 import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
 import org.apache.jmeter.testbeans.gui.TestBeanGUI;
@@ -40,15 +48,19 @@ public abstract class JMeterConfig {
 
     protected abstract String getTestMethod();
 
-    protected abstract Map<String, String> getTestArguments();
+    protected abstract Map<String, String> getTestEndpointParameters();
 
     protected abstract String getCsvConfigPath();
+
+    protected abstract List<String> getTestEndpointPostVariables();
 
     /**
      * Returns the JMeter {@code HashTree} object with some standard configurations
      * and some test-specific configurations.
      */
     public HashTree createTestPlan() {
+        boolean isPostEndpoint = getTestMethod().equals(HttpMethod.POST);
+
         // Test Plan
         TestPlan testPlan = new TestPlan();
         testPlan.setName("L&P Test Plan");
@@ -82,6 +94,7 @@ public abstract class JMeterConfig {
         csvDataSet.setProperty(new StringProperty("shareMode", "shareMode.all"));
         csvDataSet.setProperty("ignoreFirstLine", true);
         csvDataSet.setProperty("quoted", true);
+        csvDataSet.setProperty("quotedData", true);
         csvDataSet.setProperty("recycle", false);
         csvDataSet.setProperty("stopThread", true);
         csvDataSet.setProperty(TestElement.TEST_CLASS, CSVDataSet.class.getName());
@@ -122,26 +135,64 @@ public abstract class JMeterConfig {
         onceOnlyController.setProperty(TestElement.TEST_CLASS, OnceOnlyController.class.getName());
         onceOnlyController.setProperty(TestElement.GUI_CLASS, OnceOnlyControllerGui.class.getName());
 
+        // Regex Extractor for CSRF token
+        RegexExtractor regexExtractor = null;
+        if (isPostEndpoint) {
+            regexExtractor = new RegexExtractor();
+            regexExtractor.setName("Regular Expression Extractor");
+            regexExtractor.setUseField("true"); // Find matches in response headers
+            regexExtractor.setRefName("csrfToken");
+            regexExtractor.setRegex("Set-Cookie: CSRF-TOKEN=(.+?);");
+            regexExtractor.setTemplate("$1$");
+            regexExtractor.setProperty(TestElement.TEST_CLASS, RegexExtractor.class.getName());
+            regexExtractor.setProperty(TestElement.GUI_CLASS, RegexExtractorGui.class.getName());
+        }
+
         // Test API Endpoint HTTP Request
         HTTPSamplerProxy apiSampler = new HTTPSamplerProxy();
         apiSampler.setName("Test Endpoint");
         apiSampler.setPath(getTestEndpoint());
         apiSampler.setMethod(getTestMethod());
-        getTestArguments().forEach((key, value) -> {
+        getTestEndpointParameters().forEach((key, value) -> {
             apiSampler.addArgument(key, value);
         });
         apiSampler.setEnabled(true);
         apiSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
         apiSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
 
+        // Add HTTP POST Body Data
+        if (isPostEndpoint && !getTestEndpointPostVariables().isEmpty()) {
+            getTestEndpointPostVariables().forEach(val -> {
+                apiSampler.addNonEncodedArgument("", val, "");
+                apiSampler.setPostBodyRaw(true);
+            });
+        }
+
+        // HTTP Header Manager
+        HeaderManager headerManager = null;
+        if (isPostEndpoint) {
+            headerManager = new HeaderManager();
+            headerManager.setName("HTTP Header Manager");
+            headerManager.add(new Header("Content-Type", "text/plain"));
+            headerManager.add(new Header("X-CSRF-TOKEN", "${csrfToken}"));
+            headerManager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
+            headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
+        }
+
         // Create Test plan
         HashTree testPlanHashTree = new ListedHashTree();
         HashTree threadGroupHashTree = testPlanHashTree.add(testPlan, threadGroup);
+        // Add Config elements
         threadGroupHashTree.add(csvDataSet);
         threadGroupHashTree.add(cookieManager);
         threadGroupHashTree.add(defaultSampler);
-        threadGroupHashTree.add(onceOnlyController, loginSampler);
-        threadGroupHashTree.add(apiSampler);
+        // Add HTTP samplers (and configurations, pre/post processors)
+        HashTree loginSamplerHashTree = threadGroupHashTree.add(onceOnlyController, loginSampler);
+        HashTree apiSamplerHashTree = threadGroupHashTree.add(apiSampler);
+        if (isPostEndpoint) {
+            loginSamplerHashTree.add(regexExtractor);
+            apiSamplerHashTree.add(headerManager);
+        }
 
         return testPlanHashTree;
     }

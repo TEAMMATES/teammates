@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.HttpMethod;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -120,7 +122,7 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
             public List<String> generateCsvHeaders() {
                 List<String> headers = new ArrayList<>();
 
-                headers.add("googleId");
+                headers.add("email");
                 headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("enrollData");
@@ -149,9 +151,9 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
                                 .append("|")
                                 .append(i / NUM_STUDENTS_PER_SECTION)
                                 .append("|")
-                                .append(instructor.name + "." + i)
+                                .append(instructor.name + ".Student" + i)
                                 .append("|")
-                                .append(instructor.name + "." + i + "@gmail.tmt")
+                                .append(instructor.name + ".Student" + i + "@gmail.tmt")
                                 .append("|")
                                 .append("no comment")
                                 .append("\n");
@@ -184,7 +186,7 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     @Override
     protected int getRampUpPeriod() {
-        return NUM_INSTRUCTORS;
+        return NUM_INSTRUCTORS * 2;
     }
 
     @Override
@@ -194,13 +196,18 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     @Override
     protected String getTestMethod() {
-        return "GET";
+        return HttpMethod.POST;
     }
 
     @Override
-    protected Map<String, String> getTestParameters() {
-        Map<String, String> args = new HashMap<>();
-        args.put("courseid", "${courseId}");
+    protected Map<String, String> getTestEndpointParameters() {
+        return new HashMap<>();
+    }
+
+    @Override
+    protected List<String> getTestEndpointPostVariables() {
+        List<String> args = new ArrayList<>();
+        args.add("${enrollData}");
         return args;
     }
 
@@ -212,17 +219,18 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     @Test
     public void runLnpTest() throws IOException {
-        // runJmeter(true);
+        runJmeter(false);
     }
 
     /**
+     * Removes the entities added for the student enrollment L&P test.
      * There is no need to add the newly enrolled students to the JSON DataBundle#students. This is because the new
      * {@code CourseStudent} entities that were created are automatically deleted when the corresponding course is deleted.
      */
     @AfterClass
     public void classTearDown() throws IOException {
-        // deleteTestData(JSON_DATA_PATH);
-        // deleteDataFiles();
+        deleteTestData(JSON_DATA_PATH);
+        deleteDataFiles();
     }
 
 }
