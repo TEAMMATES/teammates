@@ -143,22 +143,24 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
                     csvRow.add(instructor.courseId);
 
                     // Create and add student enrollment data with a team number corresponding to each section number
-                    StringBuilder enrollData = new StringBuilder("\"Section|Team|Name|Email|Comments\n");
+                    int dataLength = 75 * NUM_STUDENTS_PER_INSTRUCTOR;
+                    StringBuilder enrollData = new StringBuilder(dataLength);
+                    enrollData.append("\"Section|Team|Name|Email|Comments\n");
 
                     for (int i = 0; i < NUM_STUDENTS_PER_INSTRUCTOR; i++) {
-                        enrollData
+                        String name = instructor.name + ".Student" + i;
+                        String email = instructor.name + ".Student" + i + "@gmail.tmt";
+
+                        enrollData.append(i / NUM_STUDENTS_PER_SECTION)
+                                .append('|')
                                 .append(i / NUM_STUDENTS_PER_SECTION)
-                                .append("|")
-                                .append(i / NUM_STUDENTS_PER_SECTION)
-                                .append("|")
-                                .append(instructor.name + ".Student" + i)
-                                .append("|")
-                                .append(instructor.name + ".Student" + i + "@gmail.tmt")
-                                .append("|")
-                                .append("no comment")
-                                .append("\n");
+                                .append('|')
+                                .append(name)
+                                .append('|')
+                                .append(email)
+                                .append("|no comment\n");
                     }
-                    enrollData.append("\"");
+                    enrollData.append('\"');
                     csvRow.add(enrollData.toString());
 
                     csvData.add(csvRow);
