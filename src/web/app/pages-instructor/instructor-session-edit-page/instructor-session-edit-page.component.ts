@@ -735,9 +735,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   copyQuestionsFromOtherSessionsHandler(): void {
     const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
 
-    this.httpRequestService.get('/sessions', {
-      isinrecyclebin: 'false',
-    }).pipe(
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
         switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
         flatMap((session: FeedbackSession) => {
           const paramMap: { [key: string]: string } = {
