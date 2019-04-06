@@ -459,6 +459,8 @@ public final class Const {
                 "Maximum selectable choices exceeds the total number of options for " + Const.FeedbackQuestionTypeNames.MSQ;
         public static final String MSQ_ERROR_NUM_SELECTED_MORE_THAN_MAXIMUM =
                 "Number of choices selected is more than the maximum number ";
+        public static final String MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES =
+                "Minimum selectable choices exceeds number of options ";
         public static final String MSQ_ERROR_NUM_SELECTED_LESS_THAN_MINIMUM =
                 "Number of choices selected is less than the minimum number ";
         public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =

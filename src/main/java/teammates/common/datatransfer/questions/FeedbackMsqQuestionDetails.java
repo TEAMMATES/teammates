@@ -758,8 +758,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != 0;
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != 0;
 
+        int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);
         if (isMaxSelectableChoicesEnabled) {
-            int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);
             if (numOfMsqChoicesForGeneratedOptions < maxSelectableChoices) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
             } else if (maxSelectableChoices < 2) {
@@ -767,8 +767,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
 
-        if (isMinSelectableChoicesEnabled && minSelectableChoices < 1) {
-            errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
+        if (isMinSelectableChoicesEnabled) {
+            if (minSelectableChoices < 1) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
+            }
+            if (minSelectableChoices > numOfMsqChoicesForGeneratedOptions) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES);
+            }
         }
 
         if (isMaxSelectableChoicesEnabled && isMinSelectableChoicesEnabled
