@@ -28,9 +28,15 @@ import teammates.ui.template.ElementTag;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
     public static final transient int MIN_NUM_OF_OPTIONS = 2;
+    public static final transient String ERROR_INVALID_MAX_OPTIONS_ENABLED =
+            "Max options enabled is invalid";
+    public static final transient String ERROR_INVALID_MIN_OPTIONS_ENABLED =
+            "Min options enabled is invalid";
     public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
             "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION
             + ". Minimum number of options is: ";
+    public static final transient String ERROR_EMPTY_OPTIONS_ENTERED =
+            "Empty Rank Options are not allowed";
 
     List<String> options;
 
@@ -407,6 +413,27 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     @Override
     public List<String> validateQuestionDetails(String courseId) {
         List<String> errors = new ArrayList<>();
+
+        boolean isEmptyRankOptionEntered = options.stream().anyMatch(optionText -> optionText.trim().equals(""));
+        if (isEmptyRankOptionEntered) {
+            errors.add(ERROR_EMPTY_OPTIONS_ENTERED);
+        }
+
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != 0;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != 0;
+
+        if (isMaxOptionsToBeRankedEnabled && (maxOptionsToBeRanked < 1 || maxOptionsToBeRanked > options.size())) {
+            errors.add(ERROR_INVALID_MAX_OPTIONS_ENABLED);
+        }
+
+        if (isMinOptionsToBeRankedEnabled && (minOptionsToBeRanked < 1 || minOptionsToBeRanked > options.size())) {
+            errors.add(ERROR_INVALID_MIN_OPTIONS_ENABLED);
+        }
+
+        if (minOptionsToBeRanked > maxOptionsToBeRanked) {
+            errors.add(ERROR_INVALID_MIN_OPTIONS_ENABLED);
+        }
+
         if (options.size() < MIN_NUM_OF_OPTIONS) {
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");
         }

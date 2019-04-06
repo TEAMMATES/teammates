@@ -6,7 +6,7 @@ import {
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionDetails,
-  FeedbackQuestionType,
+  FeedbackQuestionType, FeedbackRankOptionsQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
@@ -15,6 +15,7 @@ import {
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
+  DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../types/default-question-structs';
 import { VisibilityControl } from '../types/visibility-control';
@@ -52,6 +53,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.TEXT:
       case FeedbackQuestionType.MCQ:
       case FeedbackQuestionType.NUMSCALE:
+      case FeedbackQuestionType.RANK_OPTIONS:
         paths.set(FeedbackParticipantType.SELF,
           [FeedbackParticipantType.SELF, FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS,
             FeedbackParticipantType.TEAMS, FeedbackParticipantType.OWN_TEAM, FeedbackParticipantType.NONE]);
@@ -87,6 +89,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.TEXT:
       case FeedbackQuestionType.MCQ:
       case FeedbackQuestionType.NUMSCALE:
+      case FeedbackQuestionType.RANK_OPTIONS:
         paths.set(FeedbackParticipantType.SELF,
             [FeedbackParticipantType.NONE, FeedbackParticipantType.SELF, FeedbackParticipantType.INSTRUCTORS]);
         paths.set(FeedbackParticipantType.STUDENTS,
@@ -139,6 +142,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.TEXT:
       case FeedbackQuestionType.MCQ:
       case FeedbackQuestionType.NUMSCALE:
+      case FeedbackQuestionType.RANK_OPTIONS:
         settings.push({
           name: 'Shown anonymously to recipient and instructors',
           visibilitySettings: {
@@ -227,6 +231,8 @@ export class FeedbackQuestionsService {
         return true;
       case FeedbackQuestionType.NUMSCALE:
         return true;
+      case FeedbackQuestionType.RANK_OPTIONS:
+        return true;
       default:
         throw new Error(`Unsupported question type: ${type}`);
     }
@@ -303,6 +309,30 @@ export class FeedbackQuestionsService {
 
           questionType: FeedbackQuestionType.MCQ,
           questionDetails: mcqQuestionDetails,
+          giverType: FeedbackParticipantType.STUDENTS,
+          recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+          numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+          showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
+            FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+          showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+          showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+        };
+
+      case FeedbackQuestionType.RANK_OPTIONS:
+
+        const rankOptionsQuestionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
+        rankOptionsQuestionDetails.maxOptionsToBeRanked = 0;
+        rankOptionsQuestionDetails.minOptionsToBeRanked = 0;
+        rankOptionsQuestionDetails.options = [' ', ' '];
+
+        return {
+          questionBrief: '',
+          questionDescription: '',
+
+          questionType: FeedbackQuestionType.RANK_OPTIONS,
+          questionDetails: rankOptionsQuestionDetails,
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
