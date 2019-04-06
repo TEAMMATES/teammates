@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.HttpMethod;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -94,13 +96,14 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 Map<String, StudentAttributes> students = new HashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    students.put(STUDENT_NAME + i, StudentAttributes.builder("TestData.CS101", STUDENT_EMAIL + i + "@gmail.tmt")
-                            .withGoogleId(STUDENT_NAME + i + ".tmms")
-                            .withName(STUDENT_NAME + i)
-                            .withComment("This student's name is " + STUDENT_NAME + i)
-                            .withTeamName("Team 1")
-                            .withSectionName("None")
-                            .build()
+                    students.put(STUDENT_NAME + i,
+                            StudentAttributes.builder("TestData.CS101", STUDENT_EMAIL + i + "@gmail.tmt")
+                                .withGoogleId(STUDENT_NAME + i + ".tmms")
+                                .withName(STUDENT_NAME + i)
+                                .withComment("This student's name is " + STUDENT_NAME + i)
+                                .withTeamName("Team 1")
+                                .withSectionName("None")
+                                .build()
                     );
                 }
 
@@ -205,11 +208,11 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @Override
     protected String getTestMethod() {
-        return "GET";
+        return HttpMethod.GET;
     }
 
     @Override
-    protected Map<String, String> getTestParameters() {
+    protected Map<String, String> getTestEndpointParameters() {
         Map<String, String> args = new HashMap<>();
         args.put("googleid", "${googleid}");
         return args;

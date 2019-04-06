@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -68,7 +69,14 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
      */
-    protected abstract Map<String, String> getTestParameters();
+    protected abstract Map<String, String> getTestEndpointParameters();
+
+    /**
+     * Returns the JMeter variables used in the body of the HTTP POST request to the test endpoint.
+     */
+    protected List<String> getTestEndpointPostVariables() {
+        return new ArrayList<>();
+    }
 
     @Override
     protected String getTestDataFolder() {
@@ -175,7 +183,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         int rampUpPeriod = getRampUpPeriod();
         String testEndpoint = getTestEndpoint();
         String testMethod = getTestMethod();
-        Map<String, String> args = getTestParameters();
+        Map<String, String> params = getTestEndpointParameters();
+        List<String> postVars = getTestEndpointPostVariables();
 
         HashTree testPlanHashTree = new JMeterConfig() {
 
@@ -200,8 +209,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             }
 
             @Override
-            protected Map<String, String> getTestArguments() {
-                return args;
+            protected Map<String, String> getTestEndpointParameters() {
+                return params;
+            }
+
+            @Override
+            protected List<String> getTestEndpointPostVariables() {
+                return postVars;
             }
 
             @Override
