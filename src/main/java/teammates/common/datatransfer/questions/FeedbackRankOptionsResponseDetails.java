@@ -1,7 +1,9 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -86,7 +88,39 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
 
     @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
-        return new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+        boolean areDuplicatesAllowed = ((FeedbackRankQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).isAreDuplicatesAllowed();
+        int minOptionsToBeRanked = ((FeedbackRankQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).minOptionsToBeRanked;
+        int maxOptionsToBeRanked = ((FeedbackRankQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).maxOptionsToBeRanked;
+        List<String> options = ((FeedbackRankOptionsQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).options;
+
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != 0;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != 0;
+
+        List<Integer> filteredAnswers = getFilteredSortedAnswerList();
+        Set<Integer> set = new HashSet<>(filteredAnswers);
+        boolean isAnswerContainsDuplicates = set.size() < filteredAnswers.size();
+
+        if (isAnswerContainsDuplicates && !areDuplicatesAllowed) {
+            errors.add("Duplicate Ranks are not allowed.");
+        }
+        if (isMinOptionsEnabled && filteredAnswers.size() < minOptionsToBeRanked) {
+            errors.add("You must rank at least " + minOptionsToBeRanked + " options.");
+        }
+        if (isMaxOptionsEnabled && filteredAnswers.size() > maxOptionsToBeRanked) {
+            errors.add("You can rank at most " + maxOptionsToBeRanked + " options.");
+        }
+        for (int answer : filteredAnswers) {
+            if (answer < 1 || answer > options.size()) {
+                errors.add("Invalid rank assigned.");
+                break;
+            }
+        }
+        return errors;
     }
 
     private SortedMap<Integer, List<String>> generateMapOfRanksToOptions(
