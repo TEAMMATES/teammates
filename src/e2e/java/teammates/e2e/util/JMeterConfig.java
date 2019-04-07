@@ -2,8 +2,9 @@ package teammates.e2e.util;
 
 import java.util.Map;
 
-import javax.ws.rs.HttpMethod;
-
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.CSVDataSet;
 import org.apache.jmeter.config.ConfigTestElement;
@@ -58,8 +59,6 @@ public abstract class JMeterConfig {
      * and some test-specific configurations.
      */
     public HashTree createTestPlan() {
-        boolean isPostEndpoint = getTestMethod().equals(HttpMethod.POST);
-
         // Test Plan
         TestPlan testPlan = new TestPlan();
         testPlan.setName("L&P Test Plan");
@@ -134,19 +133,6 @@ public abstract class JMeterConfig {
         onceOnlyController.setProperty(TestElement.TEST_CLASS, OnceOnlyController.class.getName());
         onceOnlyController.setProperty(TestElement.GUI_CLASS, OnceOnlyControllerGui.class.getName());
 
-        // Regex Extractor for CSRF token
-        RegexExtractor regexExtractor = null;
-        if (isPostEndpoint) {
-            regexExtractor = new RegexExtractor();
-            regexExtractor.setName("Regular Expression Extractor");
-            regexExtractor.setUseField("true"); // Find matches in response headers
-            regexExtractor.setRefName("csrfToken");
-            regexExtractor.setRegex("Set-Cookie: CSRF-TOKEN=(.+?);");
-            regexExtractor.setTemplate("$1$");
-            regexExtractor.setProperty(TestElement.TEST_CLASS, RegexExtractor.class.getName());
-            regexExtractor.setProperty(TestElement.GUI_CLASS, RegexExtractorGui.class.getName());
-        }
-
         // Test API Endpoint HTTP Request
         HTTPSamplerProxy apiSampler = new HTTPSamplerProxy();
         apiSampler.setName("Test Endpoint");
@@ -159,36 +145,54 @@ public abstract class JMeterConfig {
         apiSampler.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
         apiSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
 
-        // Add HTTP POST Body Data
-        if (isPostEndpoint) {
+        // Create Test plan
+        HashTree testPlanHashTree = new ListedHashTree();
+        HashTree threadGroupHashTree = testPlanHashTree.add(testPlan, threadGroup);
+
+        // Add Config elements
+        threadGroupHashTree.add(csvDataSet);
+        threadGroupHashTree.add(cookieManager);
+        threadGroupHashTree.add(defaultSampler);
+
+        // Add HTTP samplers (and configurations, pre/post processors)
+        HashTree loginSamplerHashTree = threadGroupHashTree.add(onceOnlyController, loginSampler);
+        HashTree apiSamplerHashTree = threadGroupHashTree.add(apiSampler);
+
+        switch (getTestMethod()) {
+        case HttpDelete.METHOD_NAME:
+            // fallthrough
+        case HttpPut.METHOD_NAME:
+            // fallthrough
+        case HttpPost.METHOD_NAME:
+            // Add Request Body
             apiSampler.addNonEncodedArgument("", getTestEndpointRequestBody(), "");
             apiSampler.setPostBodyRaw(true);
-        }
 
-        // HTTP Header Manager
-        HeaderManager headerManager = null;
-        if (isPostEndpoint) {
-            headerManager = new HeaderManager();
+            // Regex Extractor for CSRF token
+            RegexExtractor regexExtractor = new RegexExtractor();
+            regexExtractor.setName("Regular Expression Extractor");
+            regexExtractor.setUseField("true"); // Find matches in response headers
+            regexExtractor.setRefName("csrfToken");
+            regexExtractor.setRegex("Set-Cookie: CSRF-TOKEN=(.+?);");
+            regexExtractor.setTemplate("$1$");
+            regexExtractor.setProperty(TestElement.TEST_CLASS, RegexExtractor.class.getName());
+            regexExtractor.setProperty(TestElement.GUI_CLASS, RegexExtractorGui.class.getName());
+
+            // HTTP Header Manager
+            HeaderManager headerManager = new HeaderManager();
             headerManager.setName("HTTP Header Manager");
             headerManager.add(new Header("Content-Type", "text/plain"));
             headerManager.add(new Header("X-CSRF-TOKEN", "${csrfToken}"));
             headerManager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
             headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
-        }
 
-        // Create Test plan
-        HashTree testPlanHashTree = new ListedHashTree();
-        HashTree threadGroupHashTree = testPlanHashTree.add(testPlan, threadGroup);
-        // Add Config elements
-        threadGroupHashTree.add(csvDataSet);
-        threadGroupHashTree.add(cookieManager);
-        threadGroupHashTree.add(defaultSampler);
-        // Add HTTP samplers (and configurations, pre/post processors)
-        HashTree loginSamplerHashTree = threadGroupHashTree.add(onceOnlyController, loginSampler);
-        HashTree apiSamplerHashTree = threadGroupHashTree.add(apiSampler);
-        if (isPostEndpoint) {
+            // Add elements to test plan tree
             loginSamplerHashTree.add(regexExtractor);
             apiSamplerHashTree.add(headerManager);
+            break;
+
+        default:
+            break;
         }
 
         return testPlanHashTree;
