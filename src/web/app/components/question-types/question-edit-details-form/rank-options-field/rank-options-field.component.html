@@ -3,7 +3,7 @@
     <span>&#8597; </span>
   </span>
   <input type="text" class="form-control" [disabled]="!isEditable" [(ngModel)]="text" #rank
-         (blur)="onRankOptionEntered(rank.value)">
+         (blur)="onRankOptionEntered(rank.value.trim())">
   <span class="input-group-btn">
     <button type="button" class="btn btn-default input-group-addon" style="cursor: initial" tabindex="-1"
             [disabled]="!isEditable" (click)="deleteRankOption()">

@@ -3,7 +3,7 @@ import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
- * Instruction of rank options question.
+ * Instruction of Rank options question.
  */
 @Component({
   selector: 'tm-rank-options-question-instruction',

@@ -36,7 +36,7 @@ export class RankOptionsQuestionEditAnswerFormComponent
   }
 
   /**
-   * Populates the possible ranks that can be assigned.
+   * Populates the possible Ranks that can be assigned.
    */
   get ranksToBeAssigned(): number[] {
     const ranks: number[] = [];
@@ -47,6 +47,18 @@ export class RankOptionsQuestionEditAnswerFormComponent
   }
 
   /**
+   * Checks if any one option has been Ranked.
+   */
+  get isNoOptionRanked(): boolean {
+    for (const response of this.responseDetails.answers) {
+      if (response !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * Assigns a Rank to the option specified by index.
    */
   triggerResponse(index: number, event: any): void {
@@ -54,7 +66,7 @@ export class RankOptionsQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if the answer has same ranks for different options.
+   * Checks if the answer has same Ranks for different options.
    */
   get isSameRanksAssigned(): boolean {
     const responseCopy: number[] = [];
@@ -67,26 +79,26 @@ export class RankOptionsQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if a minimum number of options needs to be ranked.
+   * Checks if a minimum number of options needs to be Ranked.
    */
   get isMinOptionsEnabled(): boolean {
     return this.questionDetails.minOptionsToBeRanked !== 0;
   }
 
   /**
-   * Checks if a maximum number of options can be ranked.
+   * Checks if a maximum number of options can be Ranked.
    */
   get isMaxOptionsEnabled(): boolean {
     return this.questionDetails.maxOptionsToBeRanked !== 0;
   }
 
   /**
-   * Checks if the options ranked is less than the minimum required.
+   * Checks if the options Ranked is less than the minimum required.
    */
   get isOptionsRankedLessThanMin(): boolean {
     let numberOfOptionsRanked: number = 0;
     for (const response of this.responseDetails.answers) {
-      if (response !== this.RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
+      if (response !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
         numberOfOptionsRanked += 1;
       }
     }
@@ -94,12 +106,12 @@ export class RankOptionsQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if the options ranked is more than the maximum required.
+   * Checks if the options Ranked is more than the maximum required.
    */
   get isOptionsRankedMoreThanMax(): boolean {
     let numberOfOptionsRanked: number = 0;
     for (const response of this.responseDetails.answers) {
-      if (response !== this.RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
+      if (response !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
         numberOfOptionsRanked += 1;
       }
     }
