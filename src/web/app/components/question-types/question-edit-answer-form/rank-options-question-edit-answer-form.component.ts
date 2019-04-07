@@ -26,12 +26,8 @@ export class RankOptionsQuestionEditAnswerFormComponent
   }
 
   ngOnInit(): void {
-    const responseCopy: number[] = this.responseDetails.answers;
-    this.responseDetails.answers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
-    for (let i: number = 0; i < this.responseDetails.answers.length; i += 1) {
-      if (responseCopy[i] > 0) {
-        this.responseDetails.answers[i] = responseCopy[i];
-      }
+    if (this.responseDetails.answers.length !== this.questionDetails.options.length) {
+      this.responseDetails.answers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
     }
   }
 
