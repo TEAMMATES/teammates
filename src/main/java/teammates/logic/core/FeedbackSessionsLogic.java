@@ -181,6 +181,13 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Returns a list of feedback sessions within the time range or an empty list if nothing was found.
+     */
+    public List<FeedbackSessionAttributes> getAllFeedbackSessionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getFeedbackSessionsWithinTimeRange(rangeStart, rangeEnd);
+    }
+
+    /**
      * Returns true if there is some open or published email sent for the course.
      *
      * @param courseId - ID of the course

@@ -80,8 +80,12 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   }
 
   ngOnDestroy(): void {
-    (this.emailFieldSubscription as Subscription).unsubscribe();
-    (this.teamFieldSubscription as Subscription).unsubscribe();
+    if (this.emailFieldSubscription) {
+      (this.emailFieldSubscription as Subscription).unsubscribe();
+    }
+    if (this.teamFieldSubscription) {
+      (this.teamFieldSubscription as Subscription).unsubscribe();
+    }
   }
 
   /**
