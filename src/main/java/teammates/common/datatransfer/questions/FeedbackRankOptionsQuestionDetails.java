@@ -32,6 +32,10 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             "Max options enabled is invalid";
     public static final transient String ERROR_INVALID_MIN_OPTIONS_ENABLED =
             "Min options enabled is invalid";
+    public static final transient String ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES =
+            "Min options enabled is more than the total choices";
+    public static final transient String ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES =
+            "Max options enabled is more than the total choices";
     public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
             "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION
             + ". Minimum number of options is: ";
@@ -422,15 +426,26 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != 0;
         boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != 0;
 
-        if (isMaxOptionsToBeRankedEnabled && (maxOptionsToBeRanked < 1 || maxOptionsToBeRanked > options.size())) {
-            errors.add(ERROR_INVALID_MAX_OPTIONS_ENABLED);
+        if (isMaxOptionsToBeRankedEnabled) {
+            if (maxOptionsToBeRanked < 1) {
+                errors.add(ERROR_INVALID_MAX_OPTIONS_ENABLED);
+            }
+            if (maxOptionsToBeRanked > options.size()) {
+                errors.add(ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES);
+            }
         }
 
-        if (isMinOptionsToBeRankedEnabled && (minOptionsToBeRanked < 1 || minOptionsToBeRanked > options.size())) {
-            errors.add(ERROR_INVALID_MIN_OPTIONS_ENABLED);
+        if (isMinOptionsToBeRankedEnabled) {
+            if (minOptionsToBeRanked < 1) {
+                errors.add(ERROR_INVALID_MIN_OPTIONS_ENABLED);
+            }
+            if (minOptionsToBeRanked > options.size()) {
+                errors.add(ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES);
+            }
         }
 
-        if (minOptionsToBeRanked > maxOptionsToBeRanked) {
+        if (isMaxOptionsToBeRankedEnabled && isMinOptionsToBeRankedEnabled
+                && minOptionsToBeRanked > maxOptionsToBeRanked) {
             errors.add(ERROR_INVALID_MIN_OPTIONS_ENABLED);
         }
 

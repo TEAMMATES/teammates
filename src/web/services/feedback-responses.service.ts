@@ -4,7 +4,7 @@ import {
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackQuestionType,
+  FeedbackQuestionType, FeedbackRankOptionsResponseDetails,
   FeedbackResponse,
   FeedbackResponseDetails,
   FeedbackTextResponseDetails,
@@ -13,11 +13,13 @@ import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest } from '..
 import {
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
-  DEFAULT_NUMSCALE_RESPONSE_DETAILS, DEFAULT_TEXT_RESPONSE_DETAILS,
+  DEFAULT_NUMSCALE_RESPONSE_DETAILS,
+  DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
+  DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
-  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
+  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED, RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
 } from '../types/feedback-response-details';
 import { HttpRequestService } from './http-request.service';
 
@@ -38,6 +40,8 @@ export class FeedbackResponsesService {
     switch (questionType) {
       case FeedbackQuestionType.TEXT:
         return DEFAULT_TEXT_RESPONSE_DETAILS();
+      case FeedbackQuestionType.RANK_OPTIONS:
+        return DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONTRIB:
         return DEFAULT_CONTRIBUTION_RESPONSE_DETAILS();
       case FeedbackQuestionType.NUMSCALE:
@@ -57,6 +61,15 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.TEXT:
         const textDetails: FeedbackTextResponseDetails = details as FeedbackTextResponseDetails;
         return textDetails.answer.length === 0;
+      case FeedbackQuestionType.RANK_OPTIONS:
+        const rankDetails: FeedbackRankOptionsResponseDetails = details as FeedbackRankOptionsResponseDetails;
+        let numOptionsRanked: number = 0;
+        for (const rank of rankDetails.answers) {
+          if (rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
+            numOptionsRanked += 1;
+          }
+        }
+        return numOptionsRanked === 0;
       case FeedbackQuestionType.CONTRIB:
         const contributionDetails: FeedbackContributionResponseDetails = details as FeedbackContributionResponseDetails;
         return contributionDetails.answer === CONTRIBUTION_POINT_NOT_SUBMITTED;
