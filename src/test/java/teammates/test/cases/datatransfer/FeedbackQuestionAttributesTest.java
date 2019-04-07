@@ -54,8 +54,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertNotNull(actualQuestion.getCreatedAt());
         assertNotNull(expectedQuestion.getUpdatedAt());
         assertNotNull(actualQuestion.getUpdatedAt());
-        assertEquals(expectedQuestion.getCreatedAt(), actualQuestion.getCreatedAt());
-        assertEquals(expectedQuestion.getUpdatedAt(), actualQuestion.getUpdatedAt());
     }
 
     @Test
