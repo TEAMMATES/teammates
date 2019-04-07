@@ -2,7 +2,6 @@
 
 exports[`StudentProfilePageComponent should snap with a student field without information 1`] = `
 <tm-student-profile-page
-  DEFAULT_PICTURE_LINK={[Function String]}
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -234,7 +233,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
 
 exports[`StudentProfilePageComponent should snap with default fields 1`] = `
 <tm-student-profile-page
-  DEFAULT_PICTURE_LINK={[Function String]}
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -253,7 +251,6 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
 
 exports[`StudentProfilePageComponent should snap with values and a profile photo 1`] = `
 <tm-student-profile-page
-  DEFAULT_PICTURE_LINK={[Function String]}
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}

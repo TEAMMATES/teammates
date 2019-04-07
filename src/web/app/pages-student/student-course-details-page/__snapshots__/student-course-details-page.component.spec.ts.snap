@@ -2,7 +2,6 @@
 
 exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-student-course-details-page
-  DEFAULT_PICTURE_LINK={[Function String]}
   Gender={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
   route={[Function ActivatedRoute]}
@@ -15,7 +14,6 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
 
 exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`] = `
 <tm-student-course-details-page
-  DEFAULT_PICTURE_LINK={[Function String]}
   Gender={[Function Object]}
   course={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
