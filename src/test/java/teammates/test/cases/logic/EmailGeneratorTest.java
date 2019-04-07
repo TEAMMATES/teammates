@@ -44,7 +44,81 @@ public class EmailGeneratorTest extends BaseLogicTest {
     @Override
     public void prepareTestData() {
         dataBundle = loadDataBundle("/EmailGeneratorTest.json");
+
+        FeedbackSessionAttributes session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
+        FeedbackSessionAttributes session2InCourse3 = dataBundle.feedbackSessions.get("session2InCourse3");
+        FeedbackSessionAttributes session1InCourse4 = dataBundle.feedbackSessions.get("session1InCourse4");
+        FeedbackSessionAttributes session2InCourse4 = dataBundle.feedbackSessions.get("session2InCourse4");
+        // opened and unpublished.
+        session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
+        dataBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
+
+        // closed and unpublished
+        session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
+        session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session2InCourse3.resetDeletedTime();
+        dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
+
+        // opened and published.
+        session1InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
+        session1InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        dataBundle.feedbackSessions.put("session1InCourse4", session1InCourse4);
+
+        // closed and published
+        session2InCourse4.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-18));
+        session2InCourse4.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        session2InCourse4.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
+        dataBundle.feedbackSessions.put("session2InCourse4", session2InCourse4);
+
         removeAndRestoreDataBundle(dataBundle);
+    }
+
+    @Test
+    public void testGenerateSessionLinksRecoveryEmail() throws IOException {
+
+        ______TS("invalid email address");
+
+        EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(
+                "non-existing-student");
+        String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+
+        verifyEmail(email, "non-existing-student", subject,
+                "/sessionLinksRecoveryNonExistingStudentEmail.html");
+
+        ______TS("no sessions found");
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+
+        email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(
+                student1InCourse1.getEmail());
+        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+
+        verifyEmail(email, student1InCourse1.email, subject,
+                "/sessionLinksRecoveryNoSessionsFoundEmail.html");
+
+        ______TS("Typical case: found opened or closed but unpublished Sessions");
+
+        StudentAttributes student1InCourse3 = dataBundle.students.get("student1InCourse3");
+
+        email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(
+                student1InCourse3.getEmail());
+
+        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+
+        verifyEmail(email, student1InCourse3.email, subject,
+                "/sessionLinksRecoveryOpenedOrClosedButUnpublishedSessions.html");
+
+        ______TS("Typical case: found opened or closed and  published Sessions");
+
+        StudentAttributes student1InCourse4 = dataBundle.students.get("student1InCourse4");
+
+        email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(
+                student1InCourse4.getEmail());
+
+        subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
+
+        verifyEmail(email, student1InCourse4.email, subject,
+                "/sessionLinksRecoveryOpenedOrClosedAndpublishedSessions.html");
     }
 
     @Test
