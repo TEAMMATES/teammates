@@ -1,23 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
- * Instruction of Rank options question.
+ * Instructions for Rank options question.
  */
 @Component({
   selector: 'tm-rank-options-question-instruction',
   templateUrl: './rank-options-question-instruction.component.html',
   styleUrls: ['./rank-options-question-instruction.component.scss'],
 })
-export class RankOptionsQuestionInstructionComponent implements OnInit {
+export class RankOptionsQuestionInstructionComponent {
 
   @Input()
   questionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
