@@ -219,7 +219,7 @@ public class EmailGenerator {
     }
 
     /**
-     * Generate for the student an recovery email listing the links to submit/view responses for all feedback sessions
+     * Generates for the student an recovery email listing the links to submit/view responses for all feedback sessions
      * under {@code recoveryEmailAddress} in the past 180 days. If no student with {@code recoveryEmailAddress} is
      * found, generate an email stating that there is no such student in the system. If no feedback sessions are found,
      * generate an email stating no feedback sessions found.
@@ -310,40 +310,42 @@ public class EmailGenerator {
                 linksFragmentValue = new StringBuilder(5000);
             }
 
-            if (students.size() == 1) {
-                StudentAttributes student = students.get(0);
-                studentName = student.getName();
-                String submitUrlHtml = "";
-                String reportUrlHtml = "";
-
-                if (session.isOpened() || session.isClosed()) {
-                    String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                            .withCourseId(course.getId())
-                            .withSessionName(session.getFeedbackSessionName())
-                            .withRegistrationKey(StringHelper.encrypt(student.key))
-                            .withStudentEmail(student.email)
-                            .toAbsoluteString();
-                    submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
-                }
-
-                if (session.isPublished()) {
-                    String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                            .withCourseId(course.getId())
-                            .withSessionName(session.getFeedbackSessionName())
-                            .withRegistrationKey(StringHelper.encrypt(student.key))
-                            .withStudentEmail(student.email)
-                            .toAbsoluteString();
-                    reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
-                }
-
-                linksFragmentValue.append(Templates.populateTemplate(
-                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
-                        "${sessionName}", session.getFeedbackSessionName(),
-                        "${submitUrl}", submitUrlHtml,
-                        "${reportUrl}", reportUrlHtml));
-
-                linkFragmentsMap.putIfAbsent(courseId, linksFragmentValue);
+            if (students.size() != 1) {
+                continue;
             }
+
+            StudentAttributes student = students.get(0);
+            studentName = student.getName();
+            String submitUrlHtml = "";
+            String reportUrlHtml = "";
+
+            if (session.isOpened() || session.isClosed()) {
+                String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                        .withCourseId(course.getId())
+                        .withSessionName(session.getFeedbackSessionName())
+                        .withRegistrationKey(StringHelper.encrypt(student.key))
+                        .withStudentEmail(student.email)
+                        .toAbsoluteString();
+                submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
+            }
+
+            if (session.isPublished()) {
+                String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+                        .withCourseId(course.getId())
+                        .withSessionName(session.getFeedbackSessionName())
+                        .withRegistrationKey(StringHelper.encrypt(student.key))
+                        .withStudentEmail(student.email)
+                        .toAbsoluteString();
+                reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
+            }
+
+            linksFragmentValue.append(Templates.populateTemplate(
+                    EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
+                    "${sessionName}", session.getFeedbackSessionName(),
+                    "${submitUrl}", submitUrlHtml,
+                    "${reportUrl}", reportUrlHtml));
+
+            linkFragmentsMap.putIfAbsent(courseId, linksFragmentValue);
         }
 
         String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
