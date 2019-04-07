@@ -1,6 +1,5 @@
 package teammates.e2e.util;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.HttpMethod;
@@ -48,11 +47,11 @@ public abstract class JMeterConfig {
 
     protected abstract String getTestMethod();
 
-    protected abstract Map<String, String> getTestEndpointParameters();
+    protected abstract Map<String, String> getTestEndpointRequestParameters();
 
     protected abstract String getCsvConfigPath();
 
-    protected abstract List<String> getTestEndpointPostVariables();
+    protected abstract String getTestEndpointRequestBody();
 
     /**
      * Returns the JMeter {@code HashTree} object with some standard configurations
@@ -153,7 +152,7 @@ public abstract class JMeterConfig {
         apiSampler.setName("Test Endpoint");
         apiSampler.setPath(getTestEndpoint());
         apiSampler.setMethod(getTestMethod());
-        getTestEndpointParameters().forEach((key, value) -> {
+        getTestEndpointRequestParameters().forEach((key, value) -> {
             apiSampler.addArgument(key, value);
         });
         apiSampler.setEnabled(true);
@@ -161,11 +160,9 @@ public abstract class JMeterConfig {
         apiSampler.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
 
         // Add HTTP POST Body Data
-        if (isPostEndpoint && !getTestEndpointPostVariables().isEmpty()) {
-            getTestEndpointPostVariables().forEach(val -> {
-                apiSampler.addNonEncodedArgument("", val, "");
-                apiSampler.setPostBodyRaw(true);
-            });
+        if (isPostEndpoint) {
+            apiSampler.addNonEncodedArgument("", getTestEndpointRequestBody(), "");
+            apiSampler.setPostBodyRaw(true);
         }
 
         // HTTP Header Manager

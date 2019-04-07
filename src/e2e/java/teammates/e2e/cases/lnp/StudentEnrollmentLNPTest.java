@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.HttpMethod;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -198,19 +196,17 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     @Override
     protected String getTestMethod() {
-        return HttpMethod.POST;
+        return POST;
     }
 
     @Override
-    protected Map<String, String> getTestEndpointParameters() {
+    protected Map<String, String> getTestEndpointRequestParameters() {
         return new HashMap<>();
     }
 
     @Override
-    protected List<String> getTestEndpointPostVariables() {
-        List<String> args = new ArrayList<>();
-        args.add("${enrollData}");
-        return args;
+    protected String getTestEndpointRequestBody() {
+        return "${enrollData}";
     }
 
     @BeforeClass
@@ -226,11 +222,11 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     /**
      * Removes the entities added for the student enrollment L&P test.
-     * There is no need to add the newly enrolled students to the JSON DataBundle#students. This is because the new
-     * {@code CourseStudent} entities that were created are automatically deleted when the corresponding course is deleted.
      */
     @AfterClass
     public void classTearDown() throws IOException {
+        // There is no need to add the newly enrolled students to the JSON DataBundle#students. This is because the new
+        // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
     }

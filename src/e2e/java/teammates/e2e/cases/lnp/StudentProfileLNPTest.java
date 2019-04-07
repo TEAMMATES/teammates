@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.HttpMethod;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -208,14 +206,19 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @Override
     protected String getTestMethod() {
-        return HttpMethod.GET;
+        return GET;
     }
 
     @Override
-    protected Map<String, String> getTestEndpointParameters() {
+    protected Map<String, String> getTestEndpointRequestParameters() {
         Map<String, String> args = new HashMap<>();
         args.put("googleid", "${googleid}");
         return args;
+    }
+
+    @Override
+    protected String getTestEndpointRequestBody() {
+        return "";
     }
 
     @BeforeClass

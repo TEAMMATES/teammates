@@ -5,11 +5,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
@@ -31,6 +34,11 @@ import teammates.test.cases.BaseTestCase;
  * Base class for all L&P test cases.
  */
 public abstract class BaseLNPTestCase extends BaseTestCase {
+
+    protected static final String GET = HttpGet.METHOD_NAME;
+    protected static final String POST = HttpPost.METHOD_NAME;
+    protected static final String PUT = HttpPut.METHOD_NAME;
+    protected static final String DELETE = HttpDelete.METHOD_NAME;
 
     private static final Logger log = Logger.getLogger();
 
@@ -69,14 +77,12 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
      */
-    protected abstract Map<String, String> getTestEndpointParameters();
+    protected abstract Map<String, String> getTestEndpointRequestParameters();
 
     /**
-     * Returns the JMeter variables used in the body of the HTTP POST request to the test endpoint.
+     * Returns the body of the HTTP POST request to the test endpoint.
      */
-    protected List<String> getTestEndpointPostVariables() {
-        return new ArrayList<>();
-    }
+    protected abstract String getTestEndpointRequestBody();
 
     @Override
     protected String getTestDataFolder() {
@@ -183,8 +189,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         int rampUpPeriod = getRampUpPeriod();
         String testEndpoint = getTestEndpoint();
         String testMethod = getTestMethod();
-        Map<String, String> params = getTestEndpointParameters();
-        List<String> postVars = getTestEndpointPostVariables();
+        Map<String, String> params = getTestEndpointRequestParameters();
+        String body = getTestEndpointRequestBody();
 
         HashTree testPlanHashTree = new JMeterConfig() {
 
@@ -209,13 +215,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             }
 
             @Override
-            protected Map<String, String> getTestEndpointParameters() {
+            protected Map<String, String> getTestEndpointRequestParameters() {
                 return params;
             }
 
             @Override
-            protected List<String> getTestEndpointPostVariables() {
-                return postVars;
+            protected String getTestEndpointRequestBody() {
+                return body;
             }
 
             @Override
