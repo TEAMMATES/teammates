@@ -1,10 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
-import { StatusMessageService } from '../services/status-message.service';
-import { StatusMessage } from './components/status-message/status-message';
 
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
@@ -19,7 +25,7 @@ const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation Syste
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
 })
-export class PageComponent implements OnInit {
+export class PageComponent {
 
   @Input() isFetchingAuthDetails: boolean = false;
   @Input() studentLoginUrl: string = '';
@@ -38,7 +44,6 @@ export class PageComponent implements OnInit {
   isUnsupportedBrowser: boolean = false;
   isCookieDisabled: boolean = false;
   browser: string = '';
-  messageList: StatusMessage[] = [];
   isNetworkOnline$: Observable<boolean>;
   version: string = environment.version;
   logoutUrl: string = `${environment.backendUrl}/logout`;
@@ -58,13 +63,11 @@ export class PageComponent implements OnInit {
     // Opera: ??
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private title: Title,
-      private statusMessageService: StatusMessageService) {
+  constructor(private router: Router, private route: ActivatedRoute, private title: Title) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
         window.scrollTo(0, 0); // reset viewport
-        this.messageList = [];
         let r: ActivatedRoute = this.route;
         while (r.firstChild) {
           r = r.firstChild;
@@ -93,11 +96,27 @@ export class PageComponent implements OnInit {
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
+}
 
-  ngOnInit(): void {
-    this.statusMessageService.getAlertEvent().subscribe((result: StatusMessage) => {
-      this.messageList.push(result);
-    });
+/**
+ * Directive to emit an event if a click occurred outside the element.
+ */
+@Directive({ selector: '[tmClickOutside]' })
+export class ClickOutsideDirective {
+  @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  constructor(private elementRef: ElementRef) {}
+
+  /**
+   * Method to execute when any part of the document is clicked.
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const targetElement: HTMLElement = event.target as HTMLElement;
+
+    // Check if the click was outside the element
+    if (targetElement && !this.elementRef.nativeElement.contains(targetElement)) {
+      this.tmClickOutside.emit(event);
+    }
   }
-
 }

@@ -702,6 +702,18 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
+     * @return an empty list if no match found.
+     */
+    public List<StudentAttributes> getAllStudentForEmail(String email) {
+        Assumption.assertNotNull(email);
+
+        return studentsLogic.getAllStudentsForEmail(email);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
      * @return Null if no match found.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
@@ -1502,15 +1514,13 @@ public class Logic {
     }
 
     /**
-     * Returns true if there is at least one response for the given feedback question,
-     * false if not.
-     * for the session.
-     * Preconditions: <br>
+     * Checks whether there are responses for a question.
+     *
+     * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
-
     public boolean areThereResponsesForQuestion(String feedbackQuestionId) {
-        return feedbackQuestionsLogic.areThereResponsesForQuestion(feedbackQuestionId);
+        return feedbackResponsesLogic.areThereResponsesForQuestion(feedbackQuestionId);
     }
 
     /**

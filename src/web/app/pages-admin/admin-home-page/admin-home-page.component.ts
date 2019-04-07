@@ -36,10 +36,17 @@ export class AdminHomePageComponent {
    * Validates and adds the instructor details filled with first form.
    */
   validateAndAddInstructorDetails(): void {
+    const invalidLines: string[] = [];
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/ ?\| ?/);
       if (instructorDetailSplit.length < 3) {
         // TODO handle error
+        invalidLines.push(instructorDetail);
+        continue;
+      }
+      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
+        // TODO handle error
+        invalidLines.push(instructorDetail);
         continue;
       }
       this.instructorsConsolidated.push({
@@ -49,7 +56,7 @@ export class AdminHomePageComponent {
         status: 'PENDING',
       });
     }
-    this.instructorDetails = '';
+    this.instructorDetails = invalidLines.join('\r\n');
   }
 
   /**
@@ -75,13 +82,15 @@ export class AdminHomePageComponent {
    * Adds the instructor at the i-th index.
    */
   addInstructor(i: number): void {
-    this.activeRequests += 1;
     const instructor: InstructorData = this.instructorsConsolidated[i];
+    if (instructor.status !== 'PENDING' && instructor.status !== 'FAIL') {
+      return;
+    }
+    this.activeRequests += 1;
     instructor.status = 'ADDING';
-    const instructorEmail: string = instructor.email;
 
     this.accountService.createAccount({
-      instructorEmail,
+      instructorEmail: instructor.email,
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
     }).subscribe((resp: JoinLink) => {
@@ -107,10 +116,7 @@ export class AdminHomePageComponent {
    */
   addAllInstructors(): void {
     for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
-      const instructor: InstructorData = this.instructorsConsolidated[i];
-      if (instructor.status === 'PENDING' || instructor.status === 'FAIL') {
-        this.addInstructor(i);
-      }
+      this.addInstructor(i);
     }
   }
 

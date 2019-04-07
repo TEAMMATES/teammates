@@ -106,11 +106,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     private void testGetFeedbackResponseCommentFromId() {
 
-        ______TS("null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class, () -> frcDb.getFeedbackResponseComment(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-
         ______TS("typical success case");
 
         FeedbackResponseCommentAttributes frcaExpected =

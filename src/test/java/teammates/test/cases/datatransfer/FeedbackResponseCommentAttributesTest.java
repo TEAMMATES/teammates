@@ -264,20 +264,6 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetBackUpIdentifier() {
-        FeedbackResponseCommentAttributes commentAttributes = FeedbackResponseCommentAttributes.builder()
-                .withCourseId("course")
-                .withFeedbackSessionName("name")
-                .withCommentGiver("email@email.com")
-                .withCommentText("valid")
-                .build();
-
-        String expectedBackUpIdentifierMessage = "Recently modified feedback response comment::"
-                + commentAttributes.getId();
-        assertEquals(expectedBackUpIdentifierMessage, commentAttributes.getBackupIdentifier());
-    }
-
-    @Test
     public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
         Instant lastEditorAt = Instant.now();
         FeedbackResponseCommentAttributes.UpdateOptions updateOptions =
