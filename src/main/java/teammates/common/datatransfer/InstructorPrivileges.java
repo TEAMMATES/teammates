@@ -1,13 +1,13 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 
 /**
  * Representation of instructor privileges. Store the privileges of the instructor
@@ -226,8 +226,8 @@ public final class InstructorPrivileges {
         if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return;
         }
-        this.sectionLevel.computeIfAbsent(sectionName, key -> new LinkedHashMap<>())
-                         .put(privilegeName, isAllowed);
+        addSectionWithDefaultPrivileges(sectionName);
+        this.sectionLevel.get(sectionName).put(privilegeName, isAllowed);
     }
 
     private void updatePrivilegeInSessionLevel(String sectionName, String sessionName,

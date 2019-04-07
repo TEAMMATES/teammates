@@ -1,13 +1,12 @@
 package teammates.test.cases.datatransfer;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.testng.annotations.Test;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * SUT: {@link InstructorPrivileges}.
@@ -212,15 +211,15 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
         assertNull(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertFalse(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-        assertNull(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertNull(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-        assertNull(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        assertTrue(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+        assertTrue(sectionPrivileges.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String invalidPrivilegeName = "invalidPrivilegeName";
         privileges.updatePrivilege(sectionId, invalidPrivilegeName, false);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
-        assertEquals(1, privileges.getSectionLevelPrivileges().get(sectionId).size());
+        assertEquals(4, privileges.getSectionLevelPrivileges().get(sectionId).size());
 
     }
 
@@ -361,7 +360,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         privileges.updatePrivilege(sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, false);
         assertFalse(privileges.isAllowedForPrivilege(
                 sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-        assertFalse(privileges.isAllowedForPrivilege(
+        assertTrue(privileges.isAllowedForPrivilege(
                 sectionId, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
 
         String sessionId = "sessionId";
