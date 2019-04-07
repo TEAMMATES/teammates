@@ -64,6 +64,10 @@ public final class StudentsLogic {
         return studentsDb.getStudentForEmail(courseId, email);
     }
 
+    public List<StudentAttributes> getAllStudentsForEmail(String email) {
+        return studentsDb.getAllStudentsForEmail(email);
+    }
+
     public StudentAttributes getStudentForCourseIdAndGoogleId(String courseId, String googleId) {
         return studentsDb.getStudentForGoogleId(courseId, googleId);
     }

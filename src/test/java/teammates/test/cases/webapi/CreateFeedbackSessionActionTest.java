@@ -68,7 +68,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         assertEquals(createdSession.getStartTime().toEpochMilli(), response.getSubmissionStartTimestamp());
         assertEquals(createdSession.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
-        assertEquals(createdSession.getGracePeriodMinutes(), response.getGracePeriod());
+        assertEquals(createdSession.getGracePeriodMinutes(), response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(createdSession.getSessionVisibleFromTime().toEpochMilli(),
@@ -87,7 +87,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals("instructions", response.getInstructions());
         assertEquals(1444003051000L, response.getSubmissionStartTimestamp());
         assertEquals(1546003051000L, response.getSubmissionEndTimestamp());
-        assertEquals(5, response.getGracePeriod());
+        assertEquals(5, response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
         assertEquals(1440003051000L, response.getCustomSessionVisibleTimestamp().longValue());

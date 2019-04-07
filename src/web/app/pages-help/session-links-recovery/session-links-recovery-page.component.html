@@ -14,7 +14,7 @@
         <label class="control-label">
           <strong>Email:</strong>
         </label>
-        <input class="form-control" type="email" formControlName="email" maxlength="254" email="true">
+        <input class="form-control" type="email" formControlName="email" maxlength="254" email="true" spellcheck="false">
       </div>
       <div *ngIf="captchaSiteKey !== ''" class="form-row form-group top-padded">
         <ngx-recaptcha2 #captchaElem
