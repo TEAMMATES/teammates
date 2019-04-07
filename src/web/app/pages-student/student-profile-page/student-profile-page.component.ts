@@ -28,9 +28,6 @@ import {
   styleUrls: ['./student-profile-page.component.scss'],
 })
 export class StudentProfilePageComponent implements OnInit {
-
-  readonly DEFAULT_PICTURE_LINK: string = '/assets/images/profile_picture_default.png';
-
   Gender: typeof Gender = Gender; // enum
   user: string = '';
   id: string = '';
@@ -182,7 +179,7 @@ export class StudentProfilePageComponent implements OnInit {
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);
-            this.profilePicLink = this.DEFAULT_PICTURE_LINK;
+            this.profilePicLink = '/assets/images/profile_picture_default.png';
           }
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.

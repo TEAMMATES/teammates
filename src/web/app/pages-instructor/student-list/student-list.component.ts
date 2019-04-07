@@ -19,17 +19,12 @@ import { StudentListSectionData, StudentListStudentData } from './student-list-s
   styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit {
-
-  readonly DEFAULT_PICTURE_LINK: string = '/assets/images/profile_picture_default.png';
-
   @Input() courseId: string = '';
   @Input() sections: StudentListSectionData[] = [];
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
-
-  private backendUrl: string = environment.backendUrl;
 
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,
@@ -60,14 +55,14 @@ export class StudentListComponent implements OnInit {
    */
   loadPhoto(student: StudentListStudentData): void {
     student.photoUrl =
-        `${this.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${student.email}`;
+        `${environment.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${student.email}`;
   }
 
   /**
    * Sets the profile picture of a student as the default image
    */
   setDefaultPic(student: StudentListStudentData): void {
-    student.photoUrl = this.DEFAULT_PICTURE_LINK;
+    student.photoUrl = '/assets/images/profile_picture_default.png';
   }
 
   /**

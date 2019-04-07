@@ -27,8 +27,6 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   studentProfile?: StudentProfile;
   photoUrl: string = '';
 
-  private backendUrl: string = environment.backendUrl;
-
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
     private statusMessageService: StatusMessageService) { }
 
@@ -40,7 +38,7 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
       this.user = queryParams.user;
       this.loadStudentDetails(courseId, studentEmail);
       this.photoUrl
-          = `${this.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;
+          = `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;
     });
   }
 

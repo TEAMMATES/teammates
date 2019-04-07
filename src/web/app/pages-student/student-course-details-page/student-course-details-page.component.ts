@@ -53,17 +53,12 @@ interface StudentCourseDetails {
   styleUrls: ['./student-course-details-page.component.scss'],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
-
-  readonly DEFAULT_PICTURE_LINK: string = '/assets/images/profile_picture_default.png';
-
   Gender: typeof Gender = Gender; // enum
   user: string = '';
   student?: StudentAttributes;
   course?: CourseAttributes;
   instructorDetails?: InstructorDetails[];
   teammateProfiles?: TeammateProfile[];
-
-  private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService) { }
@@ -106,9 +101,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
       if (this.teammateProfiles && this.course) {
         const courseId: string = this.course.id;
-        this.teammateProfiles
-          .forEach((teammateProfile: TeammateProfile) => teammateProfile.photoUrl
-          = `${this.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${teammateProfile.email}`);
+        this.teammateProfiles.forEach((teammateProfile: TeammateProfile) => teammateProfile.photoUrl
+          = `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}
+          &studentemail=${teammateProfile.email}`);
       }
 
     }, (resp: ErrorMessageOutput) => {
@@ -120,6 +115,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Sets the profile picture of a student as the default image
    */
   setDefaultPic(teammateProfile: TeammateProfile): void {
-    teammateProfile.photoUrl = this.DEFAULT_PICTURE_LINK;
+    teammateProfile.photoUrl = '/assets/images/profile_picture_default.png';
   }
 }
