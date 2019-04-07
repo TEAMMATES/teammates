@@ -89,17 +89,16 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         List<String> errors = new ArrayList<>();
-        boolean areDuplicatesAllowed = ((FeedbackRankQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).isAreDuplicatesAllowed();
-        int minOptionsToBeRanked = ((FeedbackRankQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).minOptionsToBeRanked;
-        int maxOptionsToBeRanked = ((FeedbackRankQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).maxOptionsToBeRanked;
+        FeedbackRankQuestionDetails rankQuestionDetails = ((FeedbackRankQuestionDetails) correspondingQuestion
+                .getQuestionDetails());
+        boolean areDuplicatesAllowed = rankQuestionDetails.isAreDuplicatesAllowed();
+        int minOptionsToBeRanked = rankQuestionDetails.minOptionsToBeRanked;
+        int maxOptionsToBeRanked = rankQuestionDetails.maxOptionsToBeRanked;
         List<String> options = ((FeedbackRankOptionsQuestionDetails) correspondingQuestion
                 .getQuestionDetails()).options;
 
-        boolean isMinOptionsEnabled = minOptionsToBeRanked != 0;
-        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != 0;
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != -1;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != -1;
 
         List<Integer> filteredAnswers = getFilteredSortedAnswerList();
         Set<Integer> set = new HashSet<>(filteredAnswers);

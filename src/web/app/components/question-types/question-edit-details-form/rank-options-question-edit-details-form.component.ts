@@ -62,7 +62,7 @@ export class RankOptionsQuestionEditDetailsFormComponent
    */
   triggerMinOptionsToBeRankedChange(event: any): void {
     if (!event.target.checked) {
-      this.model.minOptionsToBeRanked = 0;
+      this.model.minOptionsToBeRanked = -1;
     } else {
       this.model.minOptionsToBeRanked = 1;
     }
@@ -73,7 +73,7 @@ export class RankOptionsQuestionEditDetailsFormComponent
    */
   triggerMaxOptionsToBeRankedChange(event: any): void {
     if (!event.target.checked) {
-      this.model.maxOptionsToBeRanked = 0;
+      this.model.maxOptionsToBeRanked = -1;
     } else {
       this.model.maxOptionsToBeRanked = 1;
     }
@@ -83,34 +83,28 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Checks if the minOptionsToBeRanked checkbox is enabled.
    */
   get isMinOptionsToBeRankedEnabled(): boolean {
-    return this.model.minOptionsToBeRanked !== 0;
+    return this.model.minOptionsToBeRanked !== -1;
   }
 
   /**
    * Checks if the maxOptionsToBeRanked checkbox is enabled.
    */
   get isMaxOptionsToBeRankedEnabled(): boolean {
-    return this.model.maxOptionsToBeRanked !== 0;
+    return this.model.maxOptionsToBeRanked !== -1;
   }
 
   /**
    * Displays minOptionsToBeRanked value.
    */
   get displayValueForMinOptionsToBeRanked(): number {
-    if (this.model.minOptionsToBeRanked === 0) {
-      return 1;
-    }
-    return this.model.minOptionsToBeRanked;
+    return this.model.minOptionsToBeRanked === -1 ? 1 : this.model.minOptionsToBeRanked;
   }
 
   /**
    * Displays minOptionsToBeRanked value.
    */
   get displayValueForMaxOptionsToBeRanked(): number {
-    if (this.model.maxOptionsToBeRanked === 0) {
-      return 1;
-    }
-    return this.model.maxOptionsToBeRanked;
+    return this.model.maxOptionsToBeRanked === -1 ? 1 : this.model.maxOptionsToBeRanked;
   }
 
 }

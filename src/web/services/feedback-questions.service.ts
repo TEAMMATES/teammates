@@ -323,8 +323,8 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_OPTIONS:
 
         const rankOptionsQuestionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
-        rankOptionsQuestionDetails.maxOptionsToBeRanked = 0;
-        rankOptionsQuestionDetails.minOptionsToBeRanked = 0;
+        rankOptionsQuestionDetails.maxOptionsToBeRanked = -1;
+        rankOptionsQuestionDetails.minOptionsToBeRanked = -1;
         rankOptionsQuestionDetails.options = [' ', ' '];
 
         return {

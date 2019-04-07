@@ -423,8 +423,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             errors.add(ERROR_EMPTY_OPTIONS_ENTERED);
         }
 
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != 0;
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != 0;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != -1;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != -1;
 
         if (isMaxOptionsToBeRankedEnabled) {
             if (maxOptionsToBeRanked < 1) {

@@ -78,14 +78,14 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Checks if a minimum number of options needs to be Ranked.
    */
   get isMinOptionsEnabled(): boolean {
-    return this.questionDetails.minOptionsToBeRanked !== 0;
+    return this.questionDetails.minOptionsToBeRanked !== -1;
   }
 
   /**
    * Checks if a maximum number of options can be Ranked.
    */
   get isMaxOptionsEnabled(): boolean {
-    return this.questionDetails.maxOptionsToBeRanked !== 0;
+    return this.questionDetails.maxOptionsToBeRanked !== -1;
   }
 
   /**
