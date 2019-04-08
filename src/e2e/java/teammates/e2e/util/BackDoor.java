@@ -27,12 +27,13 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -230,12 +231,31 @@ public final class BackDoor {
     /**
      * Gets a student's profile from the datastore.
      */
-    public static StudentProfileAttributes getStudentProfile(String userId) {
+    public static StudentProfileAttributes getStudentProfile(String courseId, String studentEmail) {
         Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.STUDENT_ID, new String[] { userId });
-        JSONObject jsonObj = new JSONObject(executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params).responseBody);
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.STUDENT_EMAIL, new String[] { studentEmail });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
 
-        return JsonUtils.fromJson(jsonObj.getJSONObject("studentProfile").toString(), StudentProfileAttributes.class);
+        return JsonUtils.fromJson(response.responseBody, StudentProfileAttributes.class);
+    }
+
+    /**
+     * Gets a course from the datastore.
+     */
+    public static CourseAttributes getCourse(String courseId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSE, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        CourseData courseData = JsonUtils.fromJson(response.responseBody, CourseData.class);
+        return CourseAttributes.builder(courseData.getCourseId()).build();
     }
 
     /**
@@ -255,6 +275,15 @@ public final class BackDoor {
         params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSession });
         params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
         executeDeleteRequest(Const.ResourceURIs.SESSION, params);
+    }
+
+    /**
+     * Deletes a course from the datastore.
+     */
+    public static void deleteCourse(String courseId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        executeDeleteRequest(Const.ResourceURIs.COURSE, params);
     }
 
     private static final class ResponseBodyAndCode {

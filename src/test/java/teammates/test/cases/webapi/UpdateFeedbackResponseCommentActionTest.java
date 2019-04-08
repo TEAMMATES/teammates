@@ -15,7 +15,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
+import teammates.ui.webapi.request.FeedbackResponseCommentUpdateRequest;
 
 /**
  * SUT: {@link UpdateFeedbackResponseCommentAction}.
@@ -64,7 +64,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        FeedbackResponseCommentSaveRequest requestBody = new FeedbackResponseCommentSaveRequest(
+        FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
         UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -82,7 +82,8 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(feedbackResponseComment.commentText + " (Edited)", null, null);
+        requestBody =
+                new FeedbackResponseCommentUpdateRequest(feedbackResponseComment.commentText + " (Edited)", null, null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -92,7 +93,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(feedbackResponseComment.commentText + " (Edited)", "", "");
+        requestBody = new FeedbackResponseCommentUpdateRequest(feedbackResponseComment.commentText + " (Edited)", "", "");
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -102,7 +103,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(feedbackResponseComment.commentText + " (Edited)", "", null);
+        requestBody = new FeedbackResponseCommentUpdateRequest(feedbackResponseComment.commentText + " (Edited)", "", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
@@ -110,7 +111,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited)", "GIVER", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -119,7 +120,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited)", "RECEIVER", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -128,7 +129,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited)", "OWN_TEAM_MEMBERS", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -137,7 +138,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited)", "RECEIVER_TEAM_MEMBERS", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -146,7 +147,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited)", "STUDENTS", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -157,7 +158,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
         action = getAction(requestBody, submissionParams);
         UpdateFeedbackResponseCommentAction action0 = action;
@@ -171,7 +172,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited)", "GIVER,INSTRUCTORS", "GIVER,INSTRUCTORS");
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -196,7 +197,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 feedbackResponseComment.commentText + " (Edited for published session)", "GIVER,INSTRUCTORS", null);
         action = getAction(requestBody, submissionParams);
         getJsonResult(action);
@@ -214,7 +215,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
 
-        requestBody = new FeedbackResponseCommentSaveRequest(
+        requestBody = new FeedbackResponseCommentUpdateRequest(
                 "", null, null);
         action = getAction(requestBody, submissionParams);
         JsonResult result = getJsonResult(action);

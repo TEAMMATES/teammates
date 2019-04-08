@@ -16,8 +16,6 @@ import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
 
-    private static final String FEEDBACK_RESPONSE_BACKUP_LOG_MSG = "Recently modified feedback response::";
-
     public String feedbackQuestionId;
     /**
     * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
@@ -157,11 +155,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return new FeedbackResponse(feedbackSessionName, courseId,
                 feedbackQuestionId, getFeedbackQuestionType(),
                 giver, giverSection, recipient, recipientSection, getSerializedFeedbackResponseDetail());
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return FEEDBACK_RESPONSE_BACKUP_LOG_MSG + getId();
     }
 
     @Override

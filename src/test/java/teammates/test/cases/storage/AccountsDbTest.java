@@ -112,7 +112,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
                                 .withIsInstructor(true)
                                 .build()
                 ));
-        AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ednee.getMessage());
+        AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT, ednee.getMessage());
 
         ______TS("failure: null parameter");
 
