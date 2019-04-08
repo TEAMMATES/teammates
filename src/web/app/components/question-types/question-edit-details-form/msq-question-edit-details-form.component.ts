@@ -1,9 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import {
-  FeedbackMsqQuestionDetails,
-  FeedbackParticipantType,
-} from '../../../../types/api-output';
+import { FeedbackMsqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
@@ -95,33 +92,22 @@ export class MsqQuestionEditDetailsFormComponent
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
   triggerGeneratedOptionsChange(event: any): void {
-    if (!event.target.checked) {
-      this.model.generateOptionsFor = FeedbackParticipantType.NONE;
-    } else {
-      this.model.generateOptionsFor = FeedbackParticipantType.STUDENTS;
-    }
+    this.model.generateOptionsFor
+        = event.target.checked ? FeedbackParticipantType.STUDENTS : FeedbackParticipantType.NONE;
   }
 
   /**
    * Assigns a default value to maxSelectableOptions when checkbox is clicked.
    */
   triggerMaxSelectableOptionsChange(event: any): void {
-    if (!event.target.checked) {
-      this.model.maxSelectableChoices = -1;
-    } else {
-      this.model.maxSelectableChoices = 2;
-    }
+    this.model.maxSelectableChoices = event.target.checked ? 2 : -1;
   }
 
   /**
    * Assigns a default value to minSelectableOptions when checkbox is clicked.
    */
   triggerMinSelectableOptionsChange(event: any): void {
-    if (!event.target.checked) {
-      this.model.minSelectableChoices = -1;
-    } else {
-      this.model.minSelectableChoices = 1;
-    }
+    this.model.minSelectableChoices = event.target.checked ? 1 : -1;
   }
 
   /**
