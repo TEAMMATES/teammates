@@ -55,7 +55,8 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
         profilePage.verifyPhotoSize("295px", "295px");
 
-        StudentProfileAttributes studentProfileAttributes = BackDoor.getStudentProfile("SProfUiT.student");
+        StudentProfileAttributes studentProfileAttributes =
+                BackDoor.getStudentProfile("SProfUiT.CS2104", "SProfUiT.student@gmail.tmt");
         // checks that the pictureKey value is within the newly uploaded profile picture link
         assertTrue(profilePage.getProfilePicLink().contains(studentProfileAttributes.pictureKey));
 
