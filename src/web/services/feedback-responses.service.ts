@@ -5,7 +5,7 @@ import {
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackQuestionType,
+  FeedbackQuestionType, FeedbackRankOptionsResponseDetails,
   FeedbackResponse,
   FeedbackResponseDetails,
   FeedbackTextResponseDetails,
@@ -16,11 +16,12 @@ import {
   DEFAULT_MCQ_RESPONSE_DETAILS,
   DEFAULT_MSQ_RESPONSE_DETAILS,
   DEFAULT_NUMSCALE_RESPONSE_DETAILS,
+  DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
   DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
-  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
+  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED, RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
 } from '../types/feedback-response-details';
 import { HttpRequestService } from './http-request.service';
 
@@ -41,6 +42,8 @@ export class FeedbackResponsesService {
     switch (questionType) {
       case FeedbackQuestionType.TEXT:
         return DEFAULT_TEXT_RESPONSE_DETAILS();
+      case FeedbackQuestionType.RANK_OPTIONS:
+        return DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONTRIB:
         return DEFAULT_CONTRIBUTION_RESPONSE_DETAILS();
       case FeedbackQuestionType.NUMSCALE:
@@ -62,6 +65,11 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.TEXT:
         const textDetails: FeedbackTextResponseDetails = details as FeedbackTextResponseDetails;
         return textDetails.answer.length === 0;
+      case FeedbackQuestionType.RANK_OPTIONS:
+        const rankDetails: FeedbackRankOptionsResponseDetails = details as FeedbackRankOptionsResponseDetails;
+        const numberOfOptionsRanked: number = rankDetails.answers
+            .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
+        return numberOfOptionsRanked === 0;
       case FeedbackQuestionType.CONTRIB:
         const contributionDetails: FeedbackContributionResponseDetails = details as FeedbackContributionResponseDetails;
         return contributionDetails.answer === CONTRIBUTION_POINT_NOT_SUBMITTED;

@@ -825,6 +825,9 @@ public final class Const {
         public static final String RESPONDENT_IS_INSTRUCTOR = "respondentisinstructor";
         public static final String RESPONDENT_IS_TO_BE_REMOVED = "respondentistoberemoved";
 
+        public static final String SESSION_LINKS_RECOVERY_EMAIL = "sessionlinksrecoveryemail";
+        public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
+
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 
@@ -934,8 +937,8 @@ public final class Const {
 
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
+        public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
         public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
-
     }
 
     public static class ResourceURIs {
@@ -984,6 +987,7 @@ public final class Const {
         public static final String JOIN_REMIND = "/join/remind";
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";
+        public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
 
         public static final String INSTRUCTOR_HOME = "/instrutor/home";
