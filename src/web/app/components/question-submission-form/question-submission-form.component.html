@@ -92,6 +92,11 @@
                                                     [isDisabled]="isDisabled"
                                                     [id]="i"
             ></tm-mcq-question-edit-answer-form>
+            <tm-msq-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [questionDetails]="model.questionDetails"
+                                              [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                              (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                              [isDisabled]="isDisabled"
+            ></tm-msq-question-edit-answer-form>
           </div>
         </div>
       </div>
