@@ -702,6 +702,18 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
+     * @return an empty list if no match found.
+     */
+    public List<StudentAttributes> getAllStudentForEmail(String email) {
+        Assumption.assertNotNull(email);
+
+        return studentsLogic.getAllStudentsForEmail(email);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
      * @return Null if no match found.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
