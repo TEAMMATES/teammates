@@ -324,8 +324,8 @@ export class FeedbackQuestionsService {
 
         const msqQuestionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
         msqQuestionDetails.msqChoices = [' ', ' '];
-        msqQuestionDetails.minSelectableChoices = 0;
-        msqQuestionDetails.maxSelectableChoices = 0;
+        msqQuestionDetails.minSelectableChoices = -1;
+        msqQuestionDetails.maxSelectableChoices = -1;
 
         return {
           questionBrief: '',

@@ -86,19 +86,17 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         List<String> errors = new ArrayList<>();
-        List<String> msqChoices = ((FeedbackMsqQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).getMsqChoices();
-        int maxSelectableChoices = ((FeedbackMsqQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).getMaxSelectableChoices();
-        int minSelectableChoices = ((FeedbackMsqQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).getMinSelectableChoices();
-        boolean isOtherEnabled = ((FeedbackMsqQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).getOtherEnabled();
+        FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) correspondingQuestion
+                .getQuestionDetails();
+        List<String> msqChoices = msqQuestionDetails.getMsqChoices();
+        int maxSelectableChoices = msqQuestionDetails.getMaxSelectableChoices();
+        int minSelectableChoices = msqQuestionDetails.getMinSelectableChoices();
+        boolean isOtherEnabled = msqQuestionDetails.getOtherEnabled();
 
         // number of Msq options selected including other option
         int totalChoicesSelected = answers.size() + (isOther ? 1 : 0);
-        boolean isMaxSelectableEnabled = maxSelectableChoices != 0;
-        boolean isMinSelectableEnabled = minSelectableChoices != 0;
+        boolean isMaxSelectableEnabled = maxSelectableChoices != -1;
+        boolean isMinSelectableEnabled = minSelectableChoices != -1;
         boolean isNoneOfTheAboveOptionEnabled = answers.contains(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE);
 
         // if other is not enabled and other is selected as an answer trigger this error
@@ -112,7 +110,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             errors.add(getAnswerString() + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
         }
 
-        // if other option is selected but not text is provided trigger this error
+        // if other option is selected but no text is provided trigger this error
         if (isOther && getOtherFieldContent().trim().equals("")) {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
         }

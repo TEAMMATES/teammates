@@ -46,8 +46,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
-        this.maxSelectableChoices = 0;
-        this.minSelectableChoices = 0;
+        this.maxSelectableChoices = -1;
+        this.minSelectableChoices = -1;
         this.hasAssignedWeights = false;
         this.msqWeights = new ArrayList<>();
         this.msqOtherWeight = 0;
@@ -68,8 +68,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             msqOtherEnabled = true;
         }
 
-        int msqMaxSelectableChoices = 0;
-        int msqMinSelectableChoices = 0;
+        int msqMaxSelectableChoices = -1;
+        int msqMinSelectableChoices = -1;
         String maxSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES);
         String minSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
@@ -755,8 +755,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         //TODO: check that msq options do not repeat. needed?
 
-        boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != 0;
-        boolean isMinSelectableChoicesEnabled = minSelectableChoices != 0;
+        boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != -1;
+        boolean isMinSelectableChoicesEnabled = minSelectableChoices != -1;
 
         int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);
         if (isMaxSelectableChoicesEnabled) {

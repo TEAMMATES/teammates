@@ -6,6 +6,8 @@ import {
 import { DEFAULT_MSQ_QUESTION_DETAILS, DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
+const NONE_OF_THE_ABOVE: string = 'None of the above';
+
 /**
  * The Msq question submission form for a recipient.
  */
@@ -18,14 +20,13 @@ export class MsqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails> implements OnInit {
 
   isMsqOptionSelected: boolean[] = Array(this.questionDetails.msqChoices.length).fill(false);
-  readonly NONE_OF_THE_ABOVE: string = 'None of the above';
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
   }
 
   ngOnInit(): void {
-    if (this.responseDetails.answers[0] !== this.NONE_OF_THE_ABOVE) {
+    if (this.responseDetails.answers[0] !== NONE_OF_THE_ABOVE) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
         const indexOfElementInAnswerArray: number
             = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[i]);
@@ -81,7 +82,7 @@ export class MsqQuestionEditAnswerFormComponent
    * Checks if None of the above checkbox is enabled.
    */
   get isNoneOfTheAboveEnabled(): boolean {
-    return this.responseDetails.answers[0] === this.NONE_OF_THE_ABOVE;
+    return this.responseDetails.answers[0] === NONE_OF_THE_ABOVE;
   }
 
   /**
@@ -95,7 +96,7 @@ export class MsqQuestionEditAnswerFormComponent
       this.responseDetails.answers = [];
       this.responseDetails.isOther = false;
       this.responseDetails.otherFieldContent = '';
-      this.responseDetails.answers[0] = this.NONE_OF_THE_ABOVE;
+      this.responseDetails.answers[0] = NONE_OF_THE_ABOVE;
     }
   }
 }

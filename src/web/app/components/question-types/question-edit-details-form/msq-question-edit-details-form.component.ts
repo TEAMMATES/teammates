@@ -65,20 +65,14 @@ export class MsqQuestionEditDetailsFormComponent
    * Displays maxSelectableOption value.
    */
   get displayValueForMaxSelectableOption(): number {
-    if (this.model.maxSelectableChoices === 0) {
-      return 2;
-    }
-    return this.model.maxSelectableChoices;
+    return this.model.maxSelectableChoices === -1 ? 2 : this.model.maxSelectableChoices;
   }
 
   /**
    * Displays minSelectableOption value.
    */
   get displayValueForMinSelectableOption(): number {
-    if (this.model.minSelectableChoices === 0) {
-      return 1;
-    }
-    return this.model.minSelectableChoices;
+    return this.model.minSelectableChoices === -1 ? 1 : this.model.minSelectableChoices;
   }
 
   /**
@@ -113,7 +107,7 @@ export class MsqQuestionEditDetailsFormComponent
    */
   triggerMaxSelectableOptionsChange(event: any): void {
     if (!event.target.checked) {
-      this.model.maxSelectableChoices = 0;
+      this.model.maxSelectableChoices = -1;
     } else {
       this.model.maxSelectableChoices = 2;
     }
@@ -124,7 +118,7 @@ export class MsqQuestionEditDetailsFormComponent
    */
   triggerMinSelectableOptionsChange(event: any): void {
     if (!event.target.checked) {
-      this.model.minSelectableChoices = 0;
+      this.model.minSelectableChoices = -1;
     } else {
       this.model.minSelectableChoices = 1;
     }
@@ -155,14 +149,14 @@ export class MsqQuestionEditDetailsFormComponent
    * Checks if the maxSelectedChoices checkbox is enabled.
    */
   get isMaxSelectableChoicesEnabled(): boolean {
-    return this.model.maxSelectableChoices !== 0;
+    return this.model.maxSelectableChoices !== -1;
   }
 
   /**
    * Checks if the minSelectedChoices checkbox is enabled.
    */
   get isMinSelectableChoicesEnabled(): boolean {
-    return this.model.minSelectableChoices !== 0;
+    return this.model.minSelectableChoices !== -1;
   }
 
   /**

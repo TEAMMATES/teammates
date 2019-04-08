@@ -1,9 +1,9 @@
 <tr>
   <td>
-    <p *ngIf="questionDetails.maxSelectableChoices !== 0" class="text-muted">
+    <p *ngIf="questionDetails.maxSelectableChoices !== -1" class="text-muted">
       You cannot choose more than: {{ questionDetails.maxSelectableChoices }} options.
     </p>
-    <p *ngIf="questionDetails.minSelectableChoices !== 0" class="text-muted">
+    <p *ngIf="questionDetails.minSelectableChoices !== -1" class="text-muted">
       You must choose at least: {{ questionDetails.minSelectableChoices }} options.
     </p>
     <div class="check-box" *ngFor="let num of questionDetails.msqChoices; let i = index;">
@@ -22,7 +22,7 @@
              [(ngModel)]="responseDetails.otherFieldContent" #otherText
              (blur)="updateOtherOptionText(otherText.value)">
     </div>
-    <div class="check-box" *ngIf="questionDetails.minSelectableChoices === 0">
+    <div class="check-box" *ngIf="questionDetails.minSelectableChoices === -1">
       <label class="margin-right-15px">
         <input type="checkbox" class="margin-right-15px" [checked]="isNoneOfTheAboveEnabled"
                (click)="updateNoneOfTheAbove()">
