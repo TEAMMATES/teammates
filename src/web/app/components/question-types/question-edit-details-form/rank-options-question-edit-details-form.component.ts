@@ -61,22 +61,14 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Assigns a default value to minOptionsToBeRanked when checkbox is clicked.
    */
   triggerMinOptionsToBeRankedChange(event: any): void {
-    if (!event.target.checked) {
-      this.model.minOptionsToBeRanked = -1;
-    } else {
-      this.model.minOptionsToBeRanked = 1;
-    }
+    this.model.minOptionsToBeRanked = event.target.checked ? 1 : -1;
   }
 
   /**
    * Assigns a default value to maxOptionsToBeRanked when checkbox is clicked.
    */
   triggerMaxOptionsToBeRankedChange(event: any): void {
-    if (!event.target.checked) {
-      this.model.maxOptionsToBeRanked = -1;
-    } else {
-      this.model.maxOptionsToBeRanked = 1;
-    }
+    this.model.maxOptionsToBeRanked = event.target.checked ? 1 : -1;
   }
 
   /**
