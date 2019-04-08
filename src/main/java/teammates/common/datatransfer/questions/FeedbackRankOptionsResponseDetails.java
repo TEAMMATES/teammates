@@ -89,8 +89,8 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         List<String> errors = new ArrayList<>();
-        FeedbackRankQuestionDetails rankQuestionDetails = ((FeedbackRankQuestionDetails) correspondingQuestion
-                .getQuestionDetails());
+        FeedbackRankQuestionDetails rankQuestionDetails = (FeedbackRankQuestionDetails) correspondingQuestion
+                .getQuestionDetails();
         boolean areDuplicatesAllowed = rankQuestionDetails.isAreDuplicatesAllowed();
         int minOptionsToBeRanked = rankQuestionDetails.minOptionsToBeRanked;
         int maxOptionsToBeRanked = rankQuestionDetails.maxOptionsToBeRanked;
@@ -104,20 +104,22 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         Set<Integer> set = new HashSet<>(filteredAnswers);
         boolean isAnswerContainsDuplicates = set.size() < filteredAnswers.size();
 
+        // if duplicate ranks are not allowed but have been assigned trigger this error
         if (isAnswerContainsDuplicates && !areDuplicatesAllowed) {
             errors.add("Duplicate Ranks are not allowed.");
         }
+        // if number of options ranked is less than the minimum required trigger this error
         if (isMinOptionsEnabled && filteredAnswers.size() < minOptionsToBeRanked) {
             errors.add("You must rank at least " + minOptionsToBeRanked + " options.");
         }
+        // if number of options ranked is more than the maximum possible trigger this error
         if (isMaxOptionsEnabled && filteredAnswers.size() > maxOptionsToBeRanked) {
             errors.add("You can rank at most " + maxOptionsToBeRanked + " options.");
         }
-        for (int answer : filteredAnswers) {
-            if (answer < 1 || answer > options.size()) {
-                errors.add("Invalid rank assigned.");
-                break;
-            }
+        // if rank assigned is invalid trigger this error
+        boolean isRankInvalid = filteredAnswers.stream().anyMatch(answer -> answer < 1 || answer > options.size());
+        if (isRankInvalid) {
+            errors.add("Invalid rank assigned.");
         }
         return errors;
     }
