@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeClass;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Url;
 import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.e2e.pageobjects.AdminHomePage;
@@ -19,7 +18,6 @@ import teammates.e2e.pageobjects.BrowserPool;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.FileHelper;
 
 /**
  * Base class for all browser tests.
@@ -44,17 +42,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
     protected abstract void prepareTestData() throws Exception;
 
-    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
-        // This overrides the same method in BaseTestCase, but due to the static-ness of the method,
-        // @Override cannot be applied.
-        try {
-            String pathToJsonFile = (pathToJsonFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
-                    + pathToJsonFileParam;
-            String jsonString = FileHelper.readFile(pathToJsonFile);
-            return JsonUtils.fromJson(jsonString, DataBundle.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    protected String getTestDataFolder() {
+        return TestProperties.TEST_DATA_FOLDER;
     }
 
     @AfterClass(alwaysRun = true)
