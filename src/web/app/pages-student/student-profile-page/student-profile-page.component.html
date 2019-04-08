@@ -97,7 +97,7 @@
         <div class="whisper">This profile will be visible to all your instructors and coursemates.</div>
       </form>
       <ng-template #confirmEditProfile let-modal>
-        <div class="modal-header bg-info">
+        <div class="modal-header alert-primary bg-info">
           <h4 class="modal-title"><i class="fas fa-exclamation-circle"></i> Save Changes?</h4>
           <button
               class="close"
@@ -109,16 +109,16 @@
           Are you sure you want to make changes to your profile?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-info" (click)="submitEditForm(); modal.dismiss()">
+          <button type="button" class="btn btn-info modal-btn-ok" (click)="submitEditForm(); modal.dismiss()">
             Yes, save changes
           </button>
-          <button type="button" class="btn btn-light" (click)="modal.dismiss()">
+          <button type="button" class="btn btn-light modal-btn-cancel" (click)="modal.dismiss()">
             Cancel
           </button>
         </div>
       </ng-template>
       <ng-template #confirmDeleteProfilePicture let-modal>
-        <div class="modal-header bg-danger text-white">
+        <div class="modal-header alert-danger bg-danger text-white">
           <h4 class="modal-title"><span class="fas fa-times-circle"></span> Confirm Deletion?</h4>
           <button
               class="close"
