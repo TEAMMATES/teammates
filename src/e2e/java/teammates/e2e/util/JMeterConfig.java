@@ -164,10 +164,6 @@ public abstract class JMeterConfig {
         case HttpPut.METHOD_NAME:
             // fallthrough
         case HttpPost.METHOD_NAME:
-            // Add Request Body
-            apiSampler.addNonEncodedArgument("", getTestEndpointRequestBody(), "");
-            apiSampler.setPostBodyRaw(true);
-
             // Regex Extractor for CSRF token
             RegexExtractor regexExtractor = new RegexExtractor();
             regexExtractor.setName("Regular Expression Extractor");
@@ -181,10 +177,20 @@ public abstract class JMeterConfig {
             // HTTP Header Manager
             HeaderManager headerManager = new HeaderManager();
             headerManager.setName("HTTP Header Manager");
-            headerManager.add(new Header("Content-Type", "text/plain"));
             headerManager.add(new Header("X-CSRF-TOKEN", "${csrfToken}"));
             headerManager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
             headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
+
+            String requestBody = getTestEndpointRequestBody();
+            if (requestBody == null || requestBody.isEmpty()) {
+                // Add Request Body
+                apiSampler.addNonEncodedArgument("", requestBody, "");
+                apiSampler.setPostBodyRaw(true);
+
+                // Add corresponding Request Header
+                // TODO: Parameterise content type when refactoring elements into methods
+                headerManager.add(new Header("Content-Type", "text/plain"));
+            }
 
             // Add elements to test plan tree
             loginSamplerHashTree.add(regexExtractor);
