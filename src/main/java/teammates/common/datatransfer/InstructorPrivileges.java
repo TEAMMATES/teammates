@@ -1,13 +1,13 @@
 package teammates.common.datatransfer;
 
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 
 /**
  * Representation of instructor privileges. Store the privileges of the instructor
