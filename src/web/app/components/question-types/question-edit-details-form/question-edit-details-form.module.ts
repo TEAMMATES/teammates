@@ -7,6 +7,8 @@ import { ContributionQuestionEditDetailsFormComponent } from './contribution-que
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
 import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
+import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
+import { RankOptionsQuestionEditDetailsFormComponent } from './rank-options-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
 
@@ -19,6 +21,8 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     McqFieldComponent,
     McqQuestionEditDetailsFormComponent,
     NumScaleQuestionEditDetailsFormComponent,
+    RankOptionsFieldComponent,
+    RankOptionsQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
   ],
@@ -27,6 +31,8 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     McqFieldComponent,
     McqQuestionEditDetailsFormComponent,
     NumScaleQuestionEditDetailsFormComponent,
+    RankOptionsFieldComponent,
+    RankOptionsQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
   ],
