@@ -46,12 +46,9 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Checks if any one option has been Ranked.
    */
   get isNoOptionRanked(): boolean {
-    for (const response of this.responseDetails.answers) {
-      if (response !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
-        return false;
-      }
-    }
-    return true;
+    const isAtLeastOneOptionRanked: boolean = this.responseDetails.answers
+        .some((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
+    return !isAtLeastOneOptionRanked;
   }
 
   /**
@@ -92,12 +89,8 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Checks if the options Ranked is less than the minimum required.
    */
   get isOptionsRankedLessThanMin(): boolean {
-    let numberOfOptionsRanked: number = 0;
-    for (const response of this.responseDetails.answers) {
-      if (response !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
-        numberOfOptionsRanked += 1;
-      }
-    }
+    const numberOfOptionsRanked: number = this.responseDetails.answers
+        .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
     return (numberOfOptionsRanked < this.questionDetails.minOptionsToBeRanked && numberOfOptionsRanked > 0);
   }
 
@@ -105,12 +98,8 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Checks if the options Ranked is more than the maximum required.
    */
   get isOptionsRankedMoreThanMax(): boolean {
-    let numberOfOptionsRanked: number = 0;
-    for (const response of this.responseDetails.answers) {
-      if (response !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
-        numberOfOptionsRanked += 1;
-      }
-    }
+    const numberOfOptionsRanked: number = this.responseDetails.answers
+        .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
     return numberOfOptionsRanked > this.questionDetails.maxOptionsToBeRanked;
   }
 }

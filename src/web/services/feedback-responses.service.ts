@@ -63,13 +63,9 @@ export class FeedbackResponsesService {
         return textDetails.answer.length === 0;
       case FeedbackQuestionType.RANK_OPTIONS:
         const rankDetails: FeedbackRankOptionsResponseDetails = details as FeedbackRankOptionsResponseDetails;
-        let numOptionsRanked: number = 0;
-        for (const rank of rankDetails.answers) {
-          if (rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
-            numOptionsRanked += 1;
-          }
-        }
-        return numOptionsRanked === 0;
+        const numberOfOptionsRanked: number = rankDetails.answers
+            .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
+        return numberOfOptionsRanked === 0;
       case FeedbackQuestionType.CONTRIB:
         const contributionDetails: FeedbackContributionResponseDetails = details as FeedbackContributionResponseDetails;
         return contributionDetails.answer === CONTRIBUTION_POINT_NOT_SUBMITTED;
