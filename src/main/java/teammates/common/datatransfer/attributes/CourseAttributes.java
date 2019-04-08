@@ -22,8 +22,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     private static final Logger log = Logger.getLogger();
 
-    private static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
-
     public Instant createdAt;
     public Instant deletedAt;
     private String name;
@@ -160,11 +158,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
                + " timeZone: " + getTimeZone();
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return COURSE_BACKUP_LOG_MSG + getId();
     }
 
     @Override

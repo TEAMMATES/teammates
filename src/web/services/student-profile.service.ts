@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MessageOutput } from '../types/api-output';
+import { MessageOutput, StudentProfile } from '../types/api-output';
 import { StudentProfileUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -13,6 +13,22 @@ import { HttpRequestService } from './http-request.service';
 export class StudentProfileService {
 
   constructor(private httpRequestService: HttpRequestService) {
+  }
+
+  /**
+   * Gets a student profile by calling API.
+   * If both studentEmail and courseId are provided, it returns profile of that student.
+   * If either one is missing, it returns the profile of the current login student.
+   */
+  getStudentProfile(studentEmail?: string, courseId?: string): Observable<StudentProfile> {
+    if (studentEmail && courseId) {
+      const paramsMap: { [key: string]: string } = {
+        studentemail: studentEmail,
+        courseid: courseId,
+      };
+      return this.httpRequestService.get('/student/profile', paramsMap);
+    }
+    return this.httpRequestService.get('/student/profile');
   }
 
   /**

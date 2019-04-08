@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Course, CourseArchive, JoinStatus, MessageOutput } from '../types/api-output';
+import { Course, CourseArchive, HasResponses, JoinStatus, MessageOutput } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -66,6 +66,14 @@ export class CourseService {
   }
 
   /**
+   * Restore a soft-deleted course by calling API.
+   */
+  restoreCourse(courseid: string): Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = { courseid };
+    return this.httpRequestService.delete('/bin/course', paramMap);
+  }
+
+  /**
    * Join a course by calling API.
    */
   joinCourse(regKey: string, entityType: string): Observable<JoinStatus> {
@@ -106,5 +114,15 @@ export class CourseService {
       instructoremail: instructorEmail,
     };
     return this.httpRequestService.post('/join/remind', paramMap);
+  }
+
+  /**
+   * Checks if there are responses for a course.
+   */
+  hasResponsesForCourse(courseId: string): Observable<HasResponses> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+    return this.httpRequestService.get('/hasResponses', paramMap);
   }
 }
