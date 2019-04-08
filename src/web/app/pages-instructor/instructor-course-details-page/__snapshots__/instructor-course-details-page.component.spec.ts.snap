@@ -369,12 +369,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
     </div>
     
     <div
-      class="card-header text-white bg-primary font-weight-bold"
-    >
-      Students
-    </div>
-    <div
-      class="card-body p-3"
+      class="card-body p-0"
     >
       <div
         class="card-header text-dark-blue bg-light-blue font-weight-bold"
