@@ -369,7 +369,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseName: newName,
       timeZone: newTimeZone,
     }).subscribe(() => {
-      this.statusMessageService.showSuccessMessage('The course has been updated.');
+      this.statusMessageService.showSuccessMessage('The course has been edited.');
       this.updateCourseDetails(newName, newTimeZone);
       this.toggleIsEditingCourse();
     }, (resp: ErrorMessageOutput) => {
