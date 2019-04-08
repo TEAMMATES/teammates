@@ -4,7 +4,7 @@ import { ReCaptcha2Component } from 'ngx-captcha';
 import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { SessionLinksRecoveryResponse } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -58,9 +58,11 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       captcharesponse: this.captchaResponse,
     };
 
-    this.httpRequestService.get('/sessionlinksrecovery', paramsMap)
-      .subscribe((resp: MessageOutput) => {
-        this.statusMessageService.showSuccessMessage(resp.message);
+    this.httpRequestService.post('/sessionlinksrecovery', paramsMap)
+      .subscribe((resp: SessionLinksRecoveryResponse) => {
+        resp.isEmailSent
+            ? this.statusMessageService.showSuccessMessage(resp.message)
+            : this.statusMessageService.showErrorMessage(resp.message);
       }, (response: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(response.error.message);
       });
