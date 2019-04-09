@@ -54,6 +54,8 @@ public abstract class JMeterConfig {
 
     protected abstract String getTestEndpointRequestBody();
 
+    protected abstract String getRequestBodyContentType();
+
     /**
      * Returns the JMeter {@code HashTree} object with some standard configurations
      * and some test-specific configurations.
@@ -182,14 +184,13 @@ public abstract class JMeterConfig {
             headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
 
             String requestBody = getTestEndpointRequestBody();
-            if (requestBody == null || !requestBody.isEmpty()) {
+            if (requestBody != null && !requestBody.isEmpty()) {
                 // Add Request Body
                 apiSampler.addNonEncodedArgument("", requestBody, "");
                 apiSampler.setPostBodyRaw(true);
 
                 // Add corresponding Request Header
-                // TODO: Parameterise content type when refactoring elements into methods
-                headerManager.add(new Header("Content-Type", "text/plain"));
+                headerManager.add(new Header("Content-Type", getRequestBodyContentType()));
             }
 
             // Add elements to test plan tree

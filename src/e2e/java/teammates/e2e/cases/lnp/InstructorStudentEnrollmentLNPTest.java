@@ -209,6 +209,11 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         return "${enrollData}";
     }
 
+    @Override
+    protected String getRequestBodyContentType() {
+        return "text/csv";
+    }
+
     @BeforeClass
     public void classSetup() {
         createTestData();

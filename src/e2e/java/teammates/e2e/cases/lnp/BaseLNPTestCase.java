@@ -84,6 +84,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected abstract String getTestEndpointRequestBody();
 
+    /**
+     * Returns the Content-Type of the HTTP request body.
+     */
+    protected String getRequestBodyContentType() {
+        return "application/json";
+    }
+
     @Override
     protected String getTestDataFolder() {
         return TestProperties.LNP_TEST_DATA_FOLDER;
@@ -191,6 +198,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         String testMethod = getTestMethod();
         Map<String, String> params = getTestEndpointRequestParameters();
         String body = getTestEndpointRequestBody();
+        String contentType = getRequestBodyContentType();
 
         HashTree testPlanHashTree = new JMeterConfig() {
 
@@ -222,6 +230,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             @Override
             protected String getTestEndpointRequestBody() {
                 return body;
+            }
+
+            @Override
+            protected String getRequestBodyContentType() {
+                return contentType;
             }
 
             @Override
