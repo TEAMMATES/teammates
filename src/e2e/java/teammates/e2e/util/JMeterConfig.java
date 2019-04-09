@@ -182,7 +182,7 @@ public abstract class JMeterConfig {
             headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
 
             String requestBody = getTestEndpointRequestBody();
-            if (requestBody == null || requestBody.isEmpty()) {
+            if (requestBody == null || !requestBody.isEmpty()) {
                 // Add Request Body
                 apiSampler.addNonEncodedArgument("", requestBody, "");
                 apiSampler.setPostBodyRaw(true);
