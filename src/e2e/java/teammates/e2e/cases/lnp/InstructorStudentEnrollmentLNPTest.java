@@ -30,8 +30,8 @@ import teammates.e2e.util.LNPTestData;
  */
 public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
-    private static final String JSON_DATA_PATH = "/studentEnrollmentData.json";
-    private static final String CSV_CONFIG_PATH = "/studentEnrollmentConfig.csv";
+    private static final String JSON_DATA_PATH = "/instructorStudentEnrollmentData.json";
+    private static final String CSV_CONFIG_PATH = "/instructorStudentEnrollmentConfig.csv";
 
     private static final int NUM_INSTRUCTORS = 10;
     private static final int NUM_STUDENTS_PER_INSTRUCTOR = 100;
