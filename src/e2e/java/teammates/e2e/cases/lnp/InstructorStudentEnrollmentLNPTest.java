@@ -26,9 +26,9 @@ import teammates.common.util.Const;
 import teammates.e2e.util.LNPTestData;
 
 /**
- * L&P Test Case for student enrollment API endpoint on instructor page.
+ * L&P Test Case for instructor's student enrollment API endpoint.
  */
-public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
+public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     private static final String JSON_DATA_PATH = "/studentEnrollmentData.json";
     private static final String CSV_CONFIG_PATH = "/studentEnrollmentConfig.csv";
@@ -221,7 +221,7 @@ public class StudentEnrollmentLNPTest extends BaseLNPTestCase {
     }
 
     /**
-     * Removes the entities added for the student enrollment L&P test.
+     * Removes the entities added for the instructors' student enrollment L&P test.
      */
     @AfterClass
     public void classTearDown() throws IOException {

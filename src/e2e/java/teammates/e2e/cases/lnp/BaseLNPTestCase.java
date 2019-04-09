@@ -80,7 +80,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract Map<String, String> getTestEndpointRequestParameters();
 
     /**
-     * Returns the body of the HTTP POST request to the test endpoint.
+     * Returns the body of the HTTP request to the test endpoint.
      */
     protected abstract String getTestEndpointRequestBody();
 

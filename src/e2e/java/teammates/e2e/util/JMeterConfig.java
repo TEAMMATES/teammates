@@ -167,9 +167,9 @@ public abstract class JMeterConfig {
             // Regex Extractor for CSRF token
             RegexExtractor regexExtractor = new RegexExtractor();
             regexExtractor.setName("Regular Expression Extractor");
-            regexExtractor.setUseField("true"); // Find matches in response headers
+            regexExtractor.setUseField("true"); // Find regex matches in response headers
             regexExtractor.setRefName("csrfToken");
-            regexExtractor.setRegex("Set-Cookie: CSRF-TOKEN=(.+?);");
+            regexExtractor.setRegex("CSRF-TOKEN=(.+?);");
             regexExtractor.setTemplate("$1$");
             regexExtractor.setProperty(TestElement.TEST_CLASS, RegexExtractor.class.getName());
             regexExtractor.setProperty(TestElement.GUI_CLASS, RegexExtractorGui.class.getName());
