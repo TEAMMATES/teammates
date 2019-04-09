@@ -6,6 +6,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
+import { MsqFieldComponent } from './msq-field/msq-field.component';
+import { MsqQuestionEditDetailsFormComponent } from './msq-question-edit-details-form.component';
 import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
 import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { RankOptionsQuestionEditDetailsFormComponent } from './rank-options-question-edit-details-form.component';
@@ -20,6 +22,8 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     ContributionQuestionEditDetailsFormComponent,
     McqFieldComponent,
     McqQuestionEditDetailsFormComponent,
+    MsqFieldComponent,
+    MsqQuestionEditDetailsFormComponent,
     NumScaleQuestionEditDetailsFormComponent,
     RankOptionsFieldComponent,
     RankOptionsQuestionEditDetailsFormComponent,
@@ -30,6 +34,8 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     ContributionQuestionEditDetailsFormComponent,
     McqFieldComponent,
     McqQuestionEditDetailsFormComponent,
+    MsqFieldComponent,
+    MsqQuestionEditDetailsFormComponent,
     NumScaleQuestionEditDetailsFormComponent,
     RankOptionsFieldComponent,
     RankOptionsQuestionEditDetailsFormComponent,
