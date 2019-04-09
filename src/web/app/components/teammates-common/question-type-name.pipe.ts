@@ -14,12 +14,18 @@ export class QuestionTypeNamePipe implements PipeTransform {
    */
   transform(type: FeedbackQuestionType): any {
     switch (type) {
+      case FeedbackQuestionType.MCQ:
+        return 'Multiple-Choice (single answer) question';
       case FeedbackQuestionType.CONTRIB:
         return 'Team contribution question';
       case FeedbackQuestionType.TEXT:
         return 'Essay question';
       case FeedbackQuestionType.NUMSCALE:
         return 'Numerical Scale Question';
+      case FeedbackQuestionType.MSQ:
+        return 'Multiple-choice (multiple answers) question';
+      case FeedbackQuestionType.RANK_OPTIONS:
+        return 'Rank (options) question';
       default:
         return 'Unknown';
     }

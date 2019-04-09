@@ -103,6 +103,9 @@ public class StudentProfile extends BaseEntity {
         return this.googleId;
     }
 
+    /**
+     * Sets the googleId.
+     */
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
         this.account = Key.create(Account.class, googleId);
