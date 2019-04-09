@@ -2,16 +2,26 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   FeedbackContributionResponseDetails,
+  FeedbackMcqResponseDetails,
+  FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackQuestionType,
+  FeedbackQuestionType, FeedbackRankOptionsResponseDetails,
   FeedbackResponse,
   FeedbackResponseDetails,
   FeedbackTextResponseDetails,
 } from '../types/api-output';
-import { FeedbackResponseCreateRequest, FeedbackResponseSaveRequest } from '../types/api-request';
+import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest } from '../types/api-request';
+import {
+  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
+  DEFAULT_MCQ_RESPONSE_DETAILS,
+  DEFAULT_MSQ_RESPONSE_DETAILS,
+  DEFAULT_NUMSCALE_RESPONSE_DETAILS,
+  DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
+  DEFAULT_TEXT_RESPONSE_DETAILS,
+} from '../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
-  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
+  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED, RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
 } from '../types/feedback-response-details';
 import { HttpRequestService } from './http-request.service';
 
@@ -31,20 +41,17 @@ export class FeedbackResponsesService {
   getDefaultFeedbackResponseDetails(questionType: FeedbackQuestionType): FeedbackResponseDetails {
     switch (questionType) {
       case FeedbackQuestionType.TEXT:
-        return {
-          questionType,
-          answer: '',
-        } as FeedbackTextResponseDetails;
+        return DEFAULT_TEXT_RESPONSE_DETAILS();
+      case FeedbackQuestionType.RANK_OPTIONS:
+        return DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONTRIB:
-        return {
-          questionType,
-          answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
-        } as FeedbackContributionResponseDetails;
+        return DEFAULT_CONTRIBUTION_RESPONSE_DETAILS();
       case FeedbackQuestionType.NUMSCALE:
-        return {
-          questionType,
-          answer: NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
-        } as FeedbackNumericalScaleResponseDetails;
+        return DEFAULT_NUMSCALE_RESPONSE_DETAILS();
+      case FeedbackQuestionType.MCQ:
+        return DEFAULT_MCQ_RESPONSE_DETAILS();
+      case FeedbackQuestionType.MSQ:
+        return DEFAULT_MSQ_RESPONSE_DETAILS();
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
@@ -58,12 +65,23 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.TEXT:
         const textDetails: FeedbackTextResponseDetails = details as FeedbackTextResponseDetails;
         return textDetails.answer.length === 0;
+      case FeedbackQuestionType.RANK_OPTIONS:
+        const rankDetails: FeedbackRankOptionsResponseDetails = details as FeedbackRankOptionsResponseDetails;
+        const numberOfOptionsRanked: number = rankDetails.answers
+            .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
+        return numberOfOptionsRanked === 0;
       case FeedbackQuestionType.CONTRIB:
         const contributionDetails: FeedbackContributionResponseDetails = details as FeedbackContributionResponseDetails;
         return contributionDetails.answer === CONTRIBUTION_POINT_NOT_SUBMITTED;
       case FeedbackQuestionType.NUMSCALE:
         const numScaleDetails: FeedbackNumericalScaleResponseDetails = details as FeedbackNumericalScaleResponseDetails;
         return numScaleDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
+      case FeedbackQuestionType.MCQ:
+        const mcqDetails: FeedbackMcqResponseDetails = details as FeedbackMcqResponseDetails;
+        return mcqDetails.answer.length === 0 && !mcqDetails.isOther;
+      case FeedbackQuestionType.MSQ:
+        const msqDetails: FeedbackMsqResponseDetails = details as FeedbackMsqResponseDetails;
+        return msqDetails.answers.length === 0 && !msqDetails.isOther;
       default:
         return true;
     }
@@ -84,7 +102,7 @@ export class FeedbackResponsesService {
    * Updates a feedback response by calling API.
    */
   updateFeedbackResponse(responseId: string, additionalParams: { [key: string]: string } = {},
-                         request: FeedbackResponseSaveRequest): Observable<FeedbackResponse> {
+                         request: FeedbackResponseUpdateRequest): Observable<FeedbackResponse> {
     return this.httpRequestService.put('/response', {
       responseid: responseId,
       ...additionalParams,
