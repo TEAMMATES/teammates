@@ -95,7 +95,7 @@
               <td [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
               </td>
-              <td class="text-center bin-header-button">
+              <td class="text-center actions-cell">
                 <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore the feedback session" (click)="restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel)">Restore</button>
                 <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete the feedback session" (click)="permanentDeleteSession(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
               </td>

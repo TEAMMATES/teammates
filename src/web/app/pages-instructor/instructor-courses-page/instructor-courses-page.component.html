@@ -65,7 +65,7 @@
               {{ courseStats[course.id].unregistered }}
             </span>
           </td>
-          <td class="text-center bin-header-button">
+          <td class="text-center actions-cell">
             <button class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
                 ngbTooltip="Enroll student into the course"
                 routerLink="/web/instructor/courses/enroll"
@@ -208,7 +208,7 @@
               <td container="body" [ngbTooltip]="course.deletedAt | date:'EEE, dd MMM yyyy, h:mma'">
                 {{course.deletedAt | date:'d MMM yyyy'}}
               </td>
-              <td class="text-center bin-header-button">
+              <td class="text-center actions-cell">
                 <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"
                         (click)="onRestore(course.id)"
                         ngbTooltip="Restore the deleted course and its corresponding students and sessions">

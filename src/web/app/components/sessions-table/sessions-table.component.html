@@ -30,7 +30,7 @@
         <th>Submissions</th>
         <th>Responses</th>
         <th ngbTooltip="Number of students submitted / Class size" container="body"><span class="tool-tip-decorate">Response Rate</span></th>
-        <th>Action(s)</th>
+        <th class="text-center">
       </tr>
       </thead>
       <tbody>
@@ -54,7 +54,7 @@
           <div *ngIf="sessionsTableRowModel.responseRate.length !== 0">{{ sessionsTableRowModel.responseRate }}</div>
           <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate"></tm-ajax-loading>
         </td>
-        <td class="bin-header-button">
+        <td class="actions-cell">
           <button type="button" class="btn btn-light btn-sm" ngbTooltip="Edit feedback session details" (click)="editSessionEvent.emit(idx)"
                   [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Edit</button>
           <button type="button" class="btn btn-light btn-sm" ngbTooltip="Delete the feedback session" (click)="moveSessionToRecycleBin(idx)"
