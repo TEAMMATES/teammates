@@ -17,10 +17,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponseCommentData;
-import teammates.ui.webapi.request.FeedbackResponseCommentSaveRequest;
+import teammates.ui.webapi.request.FeedbackResponseCommentUpdateRequest;
 
 /**
- * Edits a feedback response comment.
+ * Updates a feedback response comment.
  */
 public class UpdateFeedbackResponseCommentAction extends Action {
 
@@ -73,7 +73,7 @@ public class UpdateFeedbackResponseCommentAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
-        FeedbackResponseCommentSaveRequest comment = getAndValidateRequestBody(FeedbackResponseCommentSaveRequest.class);
+        FeedbackResponseCommentUpdateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentUpdateRequest.class);
 
         // Edit comment text
         String commentText = comment.getCommentText();
