@@ -373,7 +373,6 @@
                         <allow>
                             <from>
                                 <include class="${e2eCases}.e2e.**" />
-                                <include class="${e2eCases}.scalability.**" />
                             </from>
                         </allow>
                     </deny>

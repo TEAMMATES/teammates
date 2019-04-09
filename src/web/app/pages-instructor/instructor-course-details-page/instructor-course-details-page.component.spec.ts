@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardModule } from 'ngx-clipboard';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
@@ -42,6 +43,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         ClipboardModule,
+        MatSnackBarModule,
       ],
     })
     .compileComponents();

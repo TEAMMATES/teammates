@@ -442,15 +442,27 @@ public final class Const {
         public static final String MCQ_ERROR_INVALID_WEIGHT =
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
                 + " must be valid non-negative numbers with precision up to 2 decimal places.";
+        public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
+        public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
+        public static final String MSQ_ERROR_EMPTY_MSQ_OPTION = "The Msq options cannot be empty";
+        public static final String MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
+        public static final String MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER = "No other choices are allowed with "
+                + "None of the above option";
         public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
         public static final String MSQ_ERROR_INVALID_OPTION =
                 " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
         public static final String MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL =
                 "Maximum selectable choices exceeds the total number of options for " + Const.FeedbackQuestionTypeNames.MSQ;
+        public static final String MSQ_ERROR_NUM_SELECTED_MORE_THAN_MAXIMUM =
+                "Number of choices selected is more than the maximum number ";
+        public static final String MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES =
+                "Minimum selectable choices exceeds number of options ";
+        public static final String MSQ_ERROR_NUM_SELECTED_LESS_THAN_MINIMUM =
+                "Number of choices selected is less than the minimum number ";
         public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =
                 "Minimum selectable choices exceeds maximum selectable choices for "
                 + Const.FeedbackQuestionTypeNames.MSQ;
@@ -461,6 +473,7 @@ public final class Const {
         public static final String MSQ_ERROR_INVALID_WEIGHT =
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
                 + " must be valid numbers with precision up to 2 decimal places.";
+        public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "None of the above";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -812,6 +825,9 @@ public final class Const {
         public static final String RESPONDENT_IS_INSTRUCTOR = "respondentisinstructor";
         public static final String RESPONDENT_IS_TO_BE_REMOVED = "respondentistoberemoved";
 
+        public static final String SESSION_LINKS_RECOVERY_EMAIL = "sessionlinksrecoveryemail";
+        public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
+
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 
@@ -921,8 +937,8 @@ public final class Const {
 
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
+        public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
         public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
-
     }
 
     public static class ResourceURIs {
@@ -965,11 +981,13 @@ public final class Const {
         public static final String QUESTION_RECIPIENTS = "/question/recipients";
         public static final String RESPONSE = "/response";
         public static final String RESPONSES = "/responses";
+        public static final String HAS_RESPONSES = "/hasResponses";
         public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
         public static final String JOIN = "/join";
         public static final String JOIN_REMIND = "/join/remind";
         public static final String TIMEZONE = "/timezone";
         public static final String LOCAL_DATE_TIME = "/localdatetime";
+        public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
 
         public static final String INSTRUCTOR_HOME = "/instrutor/home";
@@ -996,7 +1014,6 @@ public final class Const {
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
         public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
-        public static final String COURSE_ENROLL_PAGE_DATA = "/course/enroll/pageData";
         public static final String STUDENT_RECORDS = "/students/records";
         public static final String COURSE_ENROLL_STUDENTS = "/course/enroll/students";
     }

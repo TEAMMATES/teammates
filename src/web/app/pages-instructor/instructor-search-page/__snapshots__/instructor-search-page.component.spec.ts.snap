@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
+<tm-instructor-search-page
+  fbSessionDataTables={[Function Array]}
+  httpRequestService={[Function HttpRequestService]}
+  route={[Function ActivatedRoute]}
+  searchKey={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  studentTables={[Function Array]}
+  user="undefined"
+>
+  <tm-instructor-search-bar
+    ng-reflect-search-key="TEST"
+  />
+</tm-instructor-search-page>
+`;
+
+exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
+<tm-instructor-search-page
+  fbSessionDataTables={[Function Array]}
+  httpRequestService={[Function HttpRequestService]}
+  route={[Function ActivatedRoute]}
+  searchKey=""
+  statusMessageService={[Function StatusMessageService]}
+  studentTables={[Function Array]}
+  user="undefined"
+>
+  <tm-instructor-search-bar
+    ng-reflect-search-key=""
+  /><tm-student-result-table
+    ng-reflect-student-tables="[object Object]"
+  />
+</tm-instructor-search-page>
+`;
+
+exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
+<tm-instructor-search-page
+  fbSessionDataTables={[Function Array]}
+  httpRequestService={[Function HttpRequestService]}
+  route={[Function ActivatedRoute]}
+  searchKey=""
+  statusMessageService={[Function StatusMessageService]}
+  studentTables={[Function Array]}
+  user="undefined"
+>
+  <tm-instructor-search-bar
+    ng-reflect-search-key=""
+  />
+</tm-instructor-search-page>
+`;
