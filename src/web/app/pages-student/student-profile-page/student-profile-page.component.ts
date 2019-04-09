@@ -82,7 +82,7 @@ export class StudentProfilePageComponent implements OnInit {
           if (response) {
             this.student = response;
             this.name = response.name;
-            this.initStudentProfileForm(this.student.studentProfile);
+            this.initStudentProfileForm(this.student);
           } else {
             this.statusMessageService.showErrorMessage('Error retrieving student profile');
           }
