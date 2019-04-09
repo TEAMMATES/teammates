@@ -396,36 +396,36 @@ public class GateKeeper {
      * Verifies that the action is accessible when the user is either an instructor of the course, a student of the course
      * or his/her team member, or an admin.
      */
-    public void verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(AccountAttributes account, String courseId,
+    public void verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(String googleId, String courseId,
             String section, String email) {
         if (isAdministrator()) {
             return;
         }
 
-        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, account.googleId);
+        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
         if (instructor != null) {
-            verifyInstructorCanViewPhoto(instructor, section);
+            verifyInstructorCanViewProfile(instructor, section);
             return;
         }
 
-        StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, account.googleId);
+        StudentAttributes student = studentsLogic.getStudentForCourseIdAndGoogleId(courseId, googleId);
         if (student != null) {
-            verifyStudentCanViewPhoto(student, courseId, email);
+            verifyStudentCanViewProfile(student, courseId, email);
             return;
         }
 
         throw new UnauthorizedAccessException("User is not in the course that student belongs to");
     }
 
-    private void verifyInstructorCanViewPhoto(InstructorAttributes instructor, String section) {
+    private void verifyInstructorCanViewProfile(InstructorAttributes instructor, String section) {
         if (!instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the photo");
+            throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the profile.");
         }
     }
 
-    private void verifyStudentCanViewPhoto(StudentAttributes student, String courseId, String email) {
+    private void verifyStudentCanViewProfile(StudentAttributes student, String courseId, String email) {
         if (!studentsLogic.isStudentsInSameTeam(courseId, email, student.email)) {
-            throw new UnauthorizedAccessException("Student does not have enough privileges to view the photo");
+            throw new UnauthorizedAccessException("Student does not have enough privileges to view the profile.");
         }
     }
 }
