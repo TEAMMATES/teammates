@@ -38,10 +38,14 @@ export class McqQuestionEditDetailsFormComponent
    * Increases number of Mcq options.
    */
   increaseNumberOfOptions(): void {
-    this.model.numOfMcqChoices += 1;
-    this.model.mcqChoices.push('');
+    this.triggerModelChange('numOfMcqChoices', this.model.numOfMcqChoices + 1);
+    const copyMcqChoices: string[] = this.model.mcqChoices.slice();
+    copyMcqChoices.push('');
+    this.triggerModelChange('mcqChoices', copyMcqChoices);
     if (this.model.hasAssignedWeights) {
-      this.model.mcqWeights.push(0);
+      const copyMcqWeights: number[] = this.model.mcqWeights.slice();
+      copyMcqWeights.push(0);
+      this.triggerModelChange('mcqWeights', copyMcqWeights);
     }
   }
 
@@ -49,10 +53,14 @@ export class McqQuestionEditDetailsFormComponent
    * Deletes a Mcq option.
    */
   onMcqOptionDeleted(event: number): void {
-    this.model.numOfMcqChoices -= 1;
-    this.model.mcqChoices.splice(event, 1);
+    this.triggerModelChange('numOfMcqChoices', this.model.numOfMcqChoices - 1);
+    const copyMcqChoices: string[] = this.model.mcqChoices.slice();
+    copyMcqChoices.splice(event, 1);
+    this.triggerModelChange('mcqChoices', copyMcqChoices);
     if (this.model.hasAssignedWeights) {
-      this.model.mcqWeights.splice(event, 1);
+      const copyMcqWeights: number[] = this.model.mcqWeights.slice();
+      copyMcqWeights.splice(event, 1);
+      this.triggerModelChange('mcqWeights', copyMcqWeights);
     }
   }
 
@@ -60,14 +68,18 @@ export class McqQuestionEditDetailsFormComponent
    * Displays new Mcq option at specified index.
    */
   onMcqOptionEntered(event: string, index: number): void {
-    this.model.mcqChoices[index] = event;
+    const copyMcqChoices: string[] = this.model.mcqChoices.slice();
+    copyMcqChoices[index] = event;
+    this.triggerModelChange('mcqChoices', copyMcqChoices);
   }
 
   /**
    * Displays new Mcq weight at specified index.
    */
   onMcqWeightEntered(event: number, index: number): void {
-    this.model.mcqWeights[index] = event;
+    const copyMcqWeights: number[] = this.model.mcqWeights.slice();
+    copyMcqWeights[index] = event;
+    this.triggerModelChange('mcqWeights', copyMcqWeights);
   }
 
   /**
@@ -89,10 +101,10 @@ export class McqQuestionEditDetailsFormComponent
    */
   triggerWeightsColumn(event: any): void {
     if (!event.target.checked) {
-      this.model.mcqWeights = [];
-      this.model.mcqOtherWeight = 0;
+      this.triggerModelChange('mcqWeights', []);
+      this.triggerModelChange('mcqOtherWeight', 0);
     } else {
-      this.model.mcqWeights = Array(this.model.numOfMcqChoices).fill(0);
+      this.triggerModelChange('mcqWeights', Array(this.model.numOfMcqChoices).fill(0));
     }
   }
 
@@ -101,7 +113,7 @@ export class McqQuestionEditDetailsFormComponent
    */
   triggerOtherWeight(event: any): void {
     if (!event.target.checked) {
-      this.model.mcqOtherWeight = 0;
+      this.triggerModelChange('mcqOtherWeight', 0);
     }
   }
 
@@ -109,11 +121,9 @@ export class McqQuestionEditDetailsFormComponent
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
   triggerGeneratedOptionsChange(event: any): void {
-    if (!event.target.checked) {
-      this.model.generateOptionsFor = FeedbackParticipantType.NONE;
-    } else {
-      this.model.generateOptionsFor = FeedbackParticipantType.STUDENTS;
-    }
+    const feedbackParticipantType: FeedbackParticipantType
+        = event.target.checked ? FeedbackParticipantType.STUDENTS : FeedbackParticipantType.NONE;
+    this.triggerModelChange('generateOptionsFor', feedbackParticipantType);
   }
 
   /**
