@@ -631,7 +631,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         Response Rate
                       </span>
                     </th>
-                    <th>
+                    <th
+                      class="text-center"
+                    >
                       Action(s)
                     </th>
                   </tr>
@@ -1175,7 +1177,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         Response Rate
                       </span>
                     </th>
-                    <th>
+                    <th
+                      class="text-center"
+                    >
                       Action(s)
                     </th>
                   </tr>
