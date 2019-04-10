@@ -41,12 +41,12 @@ export class McqQuestionEditAnswerFormComponent
    * Updates the other option radio box when clicked.
    */
   updateIsOtherOption(): void {
-    this.responseDetails.isOther = !this.responseDetails.isOther;
+    this.triggerResponseDetailsChange('isOther', !this.responseDetails.isOther);
     this.isMcqOptionSelected[this.indexOfPreviousOptionSelected] = false;
     if (!this.responseDetails.isOther) {
-      this.responseDetails.otherFieldContent = '';
+      this.triggerResponseDetailsChange('otherFieldContent', '');
     } else {
-      this.responseDetails.answer = '';
+      this.triggerResponseDetailsChange('answer', '');
     }
   }
 
@@ -54,19 +54,19 @@ export class McqQuestionEditAnswerFormComponent
    * Updates the other field content.
    */
   updateOtherOptionText(otherOptionText: string): void {
-    this.responseDetails.otherFieldContent = otherOptionText;
+    this.triggerResponseDetailsChange('otherFieldContent', otherOptionText);
   }
 
   /**
    * Updates the answer to the Mcq option specified by the index.
    */
   updateSelectedMcqOption(index: number): void {
-    this.responseDetails.isOther = false;
-    this.responseDetails.otherFieldContent = '';
+    this.triggerResponseDetailsChange('isOther', false);
+    this.triggerResponseDetailsChange('otherFieldContent', '');
     this.isMcqOptionSelected[this.indexOfPreviousOptionSelected] = false;
     this.isMcqOptionSelected[index] = true;
     this.indexOfPreviousOptionSelected = index;
-    this.responseDetails.answer = this.questionDetails.mcqChoices[index];
+    this.triggerResponseDetailsChange('answer', this.questionDetails.mcqChoices[index]);
   }
 
 }
