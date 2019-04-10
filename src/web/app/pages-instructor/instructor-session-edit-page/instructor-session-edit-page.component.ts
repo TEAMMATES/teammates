@@ -107,7 +107,22 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   };
 
   // to get the original session model on discard changes
-  feedbackSessionModels: Map<string, FeedbackSession> = new Map();
+  feedbackSessionModel: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.LATER,
+    submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: false,
+    isPublishedEmailEnabled: false,
+    createdAtTimestamp: 0,
+  };
 
   // to get the original question model
   feedbackQuestionModels: Map<string, FeedbackQuestion> = new Map();
@@ -289,7 +304,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
-    this.feedbackSessionModels.set(feedbackSession.feedbackSessionName, feedbackSession);
+    this.feedbackSessionModel = feedbackSession;
 
     return model;
   }
@@ -372,10 +387,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles canceling existing session event without saving changes.
    */
   cancelExistingSessionHandler(): void {
-    const feedbackSession: FeedbackSession =
-        // tslint:disable-next-line:no-non-null-assertion
-        this.feedbackSessionModels.get(this.feedbackSessionName)!;
-    this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
+    this.sessionEditFormModel = this.getSessionEditFormModel(this.feedbackSessionModel);
   }
 
   /**
