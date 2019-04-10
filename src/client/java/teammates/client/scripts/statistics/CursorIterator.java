@@ -15,7 +15,9 @@ import com.googlecode.objectify.cmd.Query;
  */
 public class CursorIterator<T> implements Iterator<T> {
 
-    private static final int BUFFER_SIZE = 1000;
+    // cannot set number greater than 300
+    // see https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
+    private static final int BUFFER_SIZE = 300;
 
     private Cursor cursor;
 
