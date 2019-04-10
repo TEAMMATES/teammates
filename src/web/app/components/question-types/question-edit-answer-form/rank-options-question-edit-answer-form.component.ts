@@ -55,7 +55,9 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Assigns a Rank to the option specified by index.
    */
   triggerResponse(index: number, event: any): void {
-    this.responseDetails.answers[index] = event;
+    const copyAnswers: number[] = this.responseDetails.answers.slice();
+    copyAnswers[index] = event;
+    this.triggerResponseDetailsChange('answers', copyAnswers);
   }
 
   /**
