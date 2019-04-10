@@ -44,7 +44,9 @@ export class MsqQuestionEditAnswerFormComponent
    */
   disableNoneOfTheAboveOption(): void {
     if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
+      const answersCopy: string[] = this.responseDetails.answers.slice();
+      answersCopy.splice(0 , 1);
+      this.triggerResponseDetailsChange('answers', answersCopy);
     }
   }
 
@@ -54,12 +56,14 @@ export class MsqQuestionEditAnswerFormComponent
   updateSelectedAnswers(index: number): void {
     this.isMsqOptionSelected[index] = !this.isMsqOptionSelected[index];
     this.disableNoneOfTheAboveOption();
+    const answersCopy: string[] = this.responseDetails.answers.slice();
     if (this.isMsqOptionSelected[index]) {
-      this.responseDetails.answers.push(this.questionDetails.msqChoices[index]);
+      answersCopy.push(this.questionDetails.msqChoices[index]);
     } else {
       const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
-      this.responseDetails.answers.splice(indexInResponseArray, 1);
+      answersCopy.splice(indexInResponseArray, 1);
     }
+    this.triggerResponseDetailsChange('answers', answersCopy);
   }
 
   /**
@@ -67,9 +71,9 @@ export class MsqQuestionEditAnswerFormComponent
    */
   updateIsOtherOption(): void {
     this.disableNoneOfTheAboveOption();
-    this.responseDetails.isOther = !this.responseDetails.isOther;
+    this.triggerResponseDetailsChange('isOther', !this.responseDetails.isOther);
     if (!this.responseDetails.isOther) {
-      this.responseDetails.otherFieldContent = '';
+      this.triggerResponseDetailsChange('otherFieldContent', '');
     }
   }
 
@@ -77,7 +81,7 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates the other field content.
    */
   updateOtherOptionText(otherOptionText: string): void {
-    this.responseDetails.otherFieldContent = otherOptionText;
+    this.triggerResponseDetailsChange('otherFieldContent', otherOptionText);
   }
 
   /**
@@ -91,14 +95,16 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
+    const answersCopy: string[] = this.responseDetails.answers.slice();
     if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
+      answersCopy.splice(0, 1);
     } else {
       this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
-      this.responseDetails.answers = [];
-      this.responseDetails.isOther = false;
-      this.responseDetails.otherFieldContent = '';
-      this.responseDetails.answers[0] = NONE_OF_THE_ABOVE;
+      this.triggerResponseDetailsChange('answers', []);
+      this.triggerResponseDetailsChange('isOther', false);
+      this.triggerResponseDetailsChange('otherFieldContent', '');
+      answersCopy[0] = NONE_OF_THE_ABOVE;
     }
+    this.triggerResponseDetailsChange('answers', answersCopy);
   }
 }
