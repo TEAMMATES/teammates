@@ -18,13 +18,6 @@ export class NumScaleQuestionEditDetailsFormComponent
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
   }
 
-  get maxScaleValue(): number {
-    if (this.model.maxScale <= this.model.minScale) {
-      this.model.maxScale = this.model.minScale + this.model.step;
-    }
-    return this.model.maxScale;
-  }
-
   get isIntervalDivisible(): boolean {
     if (this.model.step <= 0) {
       return false;
