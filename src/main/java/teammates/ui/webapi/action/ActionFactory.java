@@ -58,6 +58,7 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
+        map(ResourceURIs.INSTRUCTOR_PRIVILEGE, PUT, UpdateInstructorPrivilegeAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, POST, CreateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
@@ -98,6 +99,7 @@ public class ActionFactory {
         map(ResourceURIs.HAS_RESPONSES, GET, GetHasResponsesAction.class);
         map(ResourceURIs.SUBMISSION_CONFIRMATION, POST, ConfirmFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.LOCAL_DATE_TIME, GET, GetLocalDateTimeInfoAction.class);
+        map(ResourceURIs.SESSION_LINKS_RECOVERY, POST, SessionLinksRecoveryAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
         map(ResourceURIs.JOIN_REMIND, POST, SendJoinReminderEmailAction.class);
