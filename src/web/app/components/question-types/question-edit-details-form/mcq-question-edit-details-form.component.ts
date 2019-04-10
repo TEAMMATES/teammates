@@ -38,10 +38,12 @@ export class McqQuestionEditDetailsFormComponent
    * Increases number of Mcq options.
    */
   increaseNumberOfOptions(): void {
-    this.triggerModelChange('numOfMcqChoices', this.model.numOfMcqChoices + 1);
     const copyMcqChoices: string[] = this.model.mcqChoices.slice();
     copyMcqChoices.push('');
-    this.triggerModelChange('mcqChoices', copyMcqChoices);
+    this.triggerModelChangeBatch({
+      numOfMcqChoices: this.model.numOfMcqChoices + 1,
+      mcqChoices: copyMcqChoices,
+    });
     if (this.model.hasAssignedWeights) {
       const copyMcqWeights: number[] = this.model.mcqWeights.slice();
       copyMcqWeights.push(0);
@@ -53,10 +55,12 @@ export class McqQuestionEditDetailsFormComponent
    * Deletes a Mcq option.
    */
   onMcqOptionDeleted(event: number): void {
-    this.triggerModelChange('numOfMcqChoices', this.model.numOfMcqChoices - 1);
     const copyMcqChoices: string[] = this.model.mcqChoices.slice();
     copyMcqChoices.splice(event, 1);
-    this.triggerModelChange('mcqChoices', copyMcqChoices);
+    this.triggerModelChangeBatch({
+      numOfMcqChoices: this.model.numOfMcqChoices - 1,
+      mcqChoices: copyMcqChoices,
+    });
     if (this.model.hasAssignedWeights) {
       const copyMcqWeights: number[] = this.model.mcqWeights.slice();
       copyMcqWeights.splice(event, 1);
@@ -101,8 +105,10 @@ export class McqQuestionEditDetailsFormComponent
    */
   triggerWeightsColumn(event: any): void {
     if (!event.target.checked) {
-      this.triggerModelChange('mcqWeights', []);
-      this.triggerModelChange('mcqOtherWeight', 0);
+      this.triggerModelChangeBatch({
+        mcqWeights: [],
+        mcqOtherWeight: 0,
+      });
     } else {
       this.triggerModelChange('mcqWeights', Array(this.model.numOfMcqChoices).fill(0));
     }
