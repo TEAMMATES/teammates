@@ -6,7 +6,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../../services/auth.service';
-import { AuthInfo, MessageOutput, Nationalities } from '../../../types/api-output';
+import { AuthInfo, MessageOutput, Nationalities, StudentProfile } from '../../../types/api-output';
 
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -18,25 +18,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import {
   UploadEditProfilePictureModalComponent,
 } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
-
-interface StudentProfile {
-  shortName: string;
-  email: string;
-  institute: string;
-  nationality: string;
-  gender: Gender;
-  moreInfo: string;
-  pictureKey: string;
-}
-
-/**
- * Represents detailed data for student profile.
- */
-interface StudentDetails {
-  studentProfile: StudentProfile;
-  name: string;
-  requestId: string;
-}
 
 /**
  * Student profile page.
@@ -51,7 +32,7 @@ export class StudentProfilePageComponent implements OnInit {
   Gender: typeof Gender = Gender; // enum
   user: string = '';
   id: string = '';
-  student!: StudentDetails;
+  student!: StudentProfile;
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
@@ -107,21 +88,17 @@ export class StudentProfilePageComponent implements OnInit {
     this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
       if (auth.user) {
         this.id = auth.user.id;
-        const paramMap: { [key: string]: string } = {
-          user: this.user,
-          googleid: auth.user.id,
-        };
 
         // retrieve profile once we have the student's googleId
-        this.httpRequestService.get('/student/profile', paramMap).subscribe((response: StudentDetails) => {
+        this.studentProfileService.getStudentProfile().subscribe((response: StudentProfile) => {
           if (response) {
             this.student = response;
             this.name = response.name;
 
-            this.pictureKey = this.student.studentProfile.pictureKey;
+            this.pictureKey = this.student.pictureKey;
             this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
 
-            this.initStudentProfileForm(this.student.studentProfile);
+            this.initStudentProfileForm(this.student);
           } else {
             this.statusMessageService.showErrorMessage('Error retrieving student profile');
           }

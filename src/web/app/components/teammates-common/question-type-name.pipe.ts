@@ -22,6 +22,10 @@ export class QuestionTypeNamePipe implements PipeTransform {
         return 'Essay question';
       case FeedbackQuestionType.NUMSCALE:
         return 'Numerical Scale Question';
+      case FeedbackQuestionType.MSQ:
+        return 'Multiple-choice (multiple answers) question';
+      case FeedbackQuestionType.RANK_OPTIONS:
+        return 'Rank (options) question';
       default:
         return 'Unknown';
     }

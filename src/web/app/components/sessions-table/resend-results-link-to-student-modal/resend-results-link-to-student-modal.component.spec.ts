@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { MatSnackBarModule } from '@angular/material';
 import { ResendResultsLinkToStudentModalComponent } from './resend-results-link-to-student-modal.component';
 
 @Component({ selector: 'tm-ajax-preload', template: '' })
@@ -22,6 +23,7 @@ describe('ResendResultsLinkToStudentModalComponent', () => {
       imports: [
         HttpClientTestingModule,
         FormsModule,
+        MatSnackBarModule,
       ],
       providers: [NgbActiveModal],
     })

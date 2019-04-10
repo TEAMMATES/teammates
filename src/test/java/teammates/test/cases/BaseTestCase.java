@@ -52,17 +52,20 @@ public class BaseTestCase {
         System.out.println(message);
     }
 
+    protected String getTestDataFolder() {
+        return TestProperties.TEST_DATA_FOLDER;
+    }
+
     /**
      * Creates a DataBundle as specified in typicalDataBundle.json.
      */
-    protected static DataBundle getTypicalDataBundle() {
+    protected DataBundle getTypicalDataBundle() {
         return loadDataBundle("/typicalDataBundle.json");
     }
 
-    protected static DataBundle loadDataBundle(String pathToJsonFileParam) {
+    protected DataBundle loadDataBundle(String jsonFileName) {
         try {
-            String pathToJsonFile = (pathToJsonFileParam.charAt(0) == '/' ? TestProperties.TEST_DATA_FOLDER : "")
-                                  + pathToJsonFileParam;
+            String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return JsonUtils.fromJson(jsonString, DataBundle.class);
         } catch (IOException e) {

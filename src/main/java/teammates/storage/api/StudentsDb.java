@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -123,6 +124,16 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
 
         return makeAttributesOrNull(getCourseStudentEntityForEmail(courseId, email));
+    }
+
+    /**
+     * Gets list of students by email.
+     */
+    public List<StudentAttributes> getAllStudentsForEmail(String email) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+
+        List<CourseStudent> students = getAllCourseStudentEntitiesForEmail(email);
+        return students.stream().map(this::makeAttributes).collect(Collectors.toList());
     }
 
     /**
@@ -312,6 +323,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private CourseStudent getCourseStudentEntityForEmail(String courseId, String email) {
         return load().id(CourseStudent.generateId(email, courseId)).now();
+    }
+
+    private List<CourseStudent> getAllCourseStudentEntitiesForEmail(String email) {
+        return load().filter("email =", email).list();
     }
 
     private CourseStudent getCourseStudentEntityForRegistrationKey(String registrationKey) {
