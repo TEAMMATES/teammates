@@ -24,7 +24,9 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Increases number of Rank options.
    */
   increaseNumberOfRankOptions(): void {
-    this.model.options.push('');
+    const copyOptions: string[] = this.model.options.slice();
+    copyOptions.push('');
+    this.triggerModelChange('options', copyOptions);
   }
 
   /**
@@ -45,9 +47,11 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Deletes a Rank option.
    */
   onRankOptionDeleted(event: number): void {
-    this.model.options.splice(event, 1);
+    const copyOptions: string[] = this.model.options.slice();
+    copyOptions.splice(event, 1);
+    this.triggerModelChange('options', copyOptions);
     if (this.model.maxOptionsToBeRanked > this.model.options.length) {
-      this.model.maxOptionsToBeRanked = this.model.options.length;
+      this.triggerModelChange('maxOptionsToBeRanked', this.model.options.length);
     }
   }
 
@@ -55,21 +59,25 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Displays new Rank option at specified index.
    */
   onRankOptionEntered(event: string, index: number): void {
-    this.model.options[index] = event;
+    const copyOptions: string[] = this.model.options.slice();
+    copyOptions[index] = event;
+    this.triggerModelChange('options', copyOptions);
   }
 
   /**
    * Assigns a default value to minOptionsToBeRanked when checkbox is clicked.
    */
   triggerMinOptionsToBeRankedChange(event: any): void {
-    this.model.minOptionsToBeRanked = event.target.checked ? 1 : NO_VALUE;
+    const minOptionsToBeRanked = event.target.checked ? 1 : NO_VALUE;
+    this.triggerModelChange('minOptionsToBeRanked', minOptionsToBeRanked);
   }
 
   /**
    * Assigns a default value to maxOptionsToBeRanked when checkbox is clicked.
    */
   triggerMaxOptionsToBeRankedChange(event: any): void {
-    this.model.maxOptionsToBeRanked = event.target.checked ? 1 : NO_VALUE;
+    const maxOptionsToBeRanked = event.target.checked ? 1 : NO_VALUE;
+    this.triggerModelChange('maxOptionsToBeRanked', maxOptionsToBeRanked);
   }
 
   /**
