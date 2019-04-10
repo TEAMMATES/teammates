@@ -155,13 +155,7 @@ public class OriginCheckFilter implements Filter {
         }
 
         try {
-            String decryptedToken = StringHelper.decrypt(csrfToken);
-
-            if (decryptedToken.isEmpty() || !sessionId.startsWith(decryptedToken)) {
-                return "Invalid CSRF Token.";
-            } else {
-                return null;
-            }
+            return sessionId.startsWith(StringHelper.decrypt(csrfToken)) ? null : "Invalid CSRF token.";
         } catch (InvalidParametersException e) {
             return "Invalid CSRF token.";
         }
