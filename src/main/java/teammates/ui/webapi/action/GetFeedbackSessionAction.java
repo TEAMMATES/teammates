@@ -60,14 +60,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         case STUDENT_RESULT:
         case INSTRUCTOR_RESULT:
             // hide some attributes for submission
-            response.setGracePeriod(null);
-            response.setSessionVisibleSetting(null);
-            response.setCustomSessionVisibleTimestamp(null);
-            response.setResponseVisibleSetting(null);
-            response.setCustomResponseVisibleTimestamp(null);
-            response.setPublishStatus(null);
-            response.setClosingEmailEnabled(null);
-            response.setPublishedEmailEnabled(null);
+            response.hideInformationForStudent();
             break;
         case FULL_DETAIL:
             break;

@@ -35,7 +35,7 @@
           <tm-weight-field *ngFor="let num of model.mcqWeights; let i = index; trackBy: trackMcqWeight"
                            [isEditable]="isEditable"
                            [weight]="model.mcqWeights[i]"
-                           (mcqWeight)="onMcqWeightEntered($event, i)"></tm-weight-field>
+                           (weightEntered)="onMcqWeightEntered($event, i)"></tm-weight-field>
         </div>
       </div>
       <br>

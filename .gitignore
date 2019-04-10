@@ -37,6 +37,11 @@ build-eclipse/
 /out/
 /.stylelintrc.yml
 
+# JMeter
+jmeter.log
+src/e2e/lnp/*
+!src/e2e/resources/jmeter/bin
+
 # TEAMMATES
 gradle.properties
 build.properties
@@ -53,5 +58,6 @@ src/main/webapp/*
 !src/main/webapp/WEB-INF
 src/client/java/teammates/client/scripts/statistics/data/
 src/client/java/teammates/client/scripts/log/
-src/e2e/java/teammates/e2e/cases/scalability/data/
 src/e2e/resources/gmail-api/
+
+!.gitkeep
