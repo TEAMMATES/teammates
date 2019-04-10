@@ -77,12 +77,15 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
      */
-    protected abstract Map<String, String> getTestEndpointRequestParameters();
+    protected abstract Map<String, String> getRequestParameters();
 
     /**
      * Returns the body of the HTTP request to the test endpoint.
      */
-    protected abstract String getTestEndpointRequestBody();
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    protected String getRequestBody() {
+        return "";
+    }
 
     /**
      * Returns the Content-Type of the HTTP request body.
@@ -196,8 +199,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         int rampUpPeriod = getRampUpPeriod();
         String testEndpoint = getTestEndpoint();
         String testMethod = getTestMethod();
-        Map<String, String> params = getTestEndpointRequestParameters();
-        String body = getTestEndpointRequestBody();
+        Map<String, String> params = getRequestParameters();
+        String body = getRequestBody();
         String contentType = getRequestBodyContentType();
 
         HashTree testPlanHashTree = new JMeterConfig() {
@@ -223,12 +226,12 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             }
 
             @Override
-            protected Map<String, String> getTestEndpointRequestParameters() {
+            protected Map<String, String> getRequestParameters() {
                 return params;
             }
 
             @Override
-            protected String getTestEndpointRequestBody() {
+            protected String getRequestBody() {
                 return body;
             }
 

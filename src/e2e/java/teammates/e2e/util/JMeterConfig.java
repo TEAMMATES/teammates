@@ -48,11 +48,11 @@ public abstract class JMeterConfig {
 
     protected abstract String getTestMethod();
 
-    protected abstract Map<String, String> getTestEndpointRequestParameters();
+    protected abstract Map<String, String> getRequestParameters();
 
     protected abstract String getCsvConfigPath();
 
-    protected abstract String getTestEndpointRequestBody();
+    protected abstract String getRequestBody();
 
     protected abstract String getRequestBodyContentType();
 
@@ -140,7 +140,7 @@ public abstract class JMeterConfig {
         apiSampler.setName("Test Endpoint");
         apiSampler.setPath(getTestEndpoint());
         apiSampler.setMethod(getTestMethod());
-        getTestEndpointRequestParameters().forEach((key, value) -> {
+        getRequestParameters().forEach((key, value) -> {
             apiSampler.addArgument(key, value);
         });
         apiSampler.setEnabled(true);
@@ -183,7 +183,7 @@ public abstract class JMeterConfig {
             headerManager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
             headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
 
-            String requestBody = getTestEndpointRequestBody();
+            String requestBody = getRequestBody();
             if (requestBody != null && !requestBody.isEmpty()) {
                 // Add Request Body
                 apiSampler.addNonEncodedArgument("", requestBody, "");

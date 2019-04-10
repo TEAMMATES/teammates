@@ -200,12 +200,12 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected Map<String, String> getTestEndpointRequestParameters() {
+    protected Map<String, String> getRequestParameters() {
         return new HashMap<>();
     }
 
     @Override
-    protected String getTestEndpointRequestBody() {
+    protected String getRequestBody() {
         return "${enrollData}";
     }
 

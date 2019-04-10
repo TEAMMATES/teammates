@@ -210,15 +210,10 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected Map<String, String> getTestEndpointRequestParameters() {
+    protected Map<String, String> getRequestParameters() {
         Map<String, String> args = new HashMap<>();
         args.put("googleid", "${googleid}");
         return args;
-    }
-
-    @Override
-    protected String getTestEndpointRequestBody() {
-        return "";
     }
 
     @BeforeClass
