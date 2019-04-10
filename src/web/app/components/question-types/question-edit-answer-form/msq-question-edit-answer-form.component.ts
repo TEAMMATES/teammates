@@ -95,12 +95,13 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
-    const answersCopy: string[] = this.responseDetails.answers.slice();
+    let answersCopy: string[] = this.responseDetails.answers.slice();
     if (this.isNoneOfTheAboveEnabled) {
       answersCopy.splice(0, 1);
     } else {
       this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
-      this.triggerResponseDetailsChange('answers', []);
+      answersCopy = [];
+      this.triggerResponseDetailsChange('answers', answersCopy);
       this.triggerResponseDetailsChange('isOther', false);
       this.triggerResponseDetailsChange('otherFieldContent', '');
       answersCopy[0] = NONE_OF_THE_ABOVE;
