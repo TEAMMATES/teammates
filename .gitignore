@@ -57,6 +57,7 @@ api-request.ts
 src/main/webapp/*
 !src/main/webapp/WEB-INF
 src/client/java/teammates/client/scripts/statistics/data/
+src/client/java/teammates/client/scripts/log/
 src/e2e/resources/gmail-api/
 
 !.gitkeep
