@@ -100,4 +100,11 @@ export class RankOptionsQuestionEditDetailsFormComponent
     return this.model.maxOptionsToBeRanked === NO_VALUE ? 1 : this.model.maxOptionsToBeRanked;
   }
 
+  /**
+   * Returns the maximum possible value for minOptionsToBeRanked.
+   */
+  get maxMinOptionsValue(): number {
+    return this.model.maxOptionsToBeRanked === NO_VALUE ? this.model.options.length : this.model.maxOptionsToBeRanked;
+  }
+
 }
