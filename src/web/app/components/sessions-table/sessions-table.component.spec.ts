@@ -116,6 +116,10 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should snap like in sessions page with 2 sessions sorted by session name', () => {
-
+    component.columnsToShow = [SessionsTableColumn.COURSE_ID];
+    component.sessionsTableRowModelsSortBy = SortBy.FEEDBACK_SESSION_NAME;
+    component.sessionsTableRowModels = [sessionTable1, sessionTable2];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });
