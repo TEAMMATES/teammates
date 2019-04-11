@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionsTableComponent should snap with default fields 1`] = `
+<tm-sessions-table
+  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsToShow={[Function Array]}
+  copySessionEvent={[Function EventEmitter]}
+  courseCandidates={[Function Array]}
+  editSessionEvent={[Function EventEmitter]}
+  headerColorScheme="0"
+  loadResponseRateEvent={[Function EventEmitter]}
+  modalService={[Function NgbModal]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  sendRemindersToStudentsEvent={[Function EventEmitter]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
+  submitSessionAsInstructorEvent={[Function EventEmitter]}
+  unpublishSessionEvent={[Function EventEmitter]}
+  viewSessionResultEvent={[Function EventEmitter]}
+>
+  <div
+    class="no-session-message"
+  >
+     There are no feedback sessions in this course. 
+  </div>
+</tm-sessions-table>
+`;
