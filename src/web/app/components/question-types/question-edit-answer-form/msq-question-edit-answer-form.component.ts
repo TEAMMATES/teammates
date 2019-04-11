@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -18,16 +18,21 @@ const NONE_OF_THE_ABOVE: string = 'None of the above';
   styleUrls: ['./msq-question-edit-answer-form.component.scss'],
 })
 export class MsqQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails> implements OnInit {
+    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
+    implements OnInit, OnChanges {
 
   readonly NO_VALUE: number = NO_VALUE;
-  isMsqOptionSelected: boolean[] = Array(this.questionDetails.msqChoices.length).fill(false);
+  isMsqOptionSelected: boolean[] = [];
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
   }
 
   ngOnInit(): void {
+  }
+
+  // sync the internal status with the input data
+  ngOnChanges(): void {
     if (this.responseDetails.answers[0] !== NONE_OF_THE_ABOVE) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
         const indexOfElementInAnswerArray: number
@@ -70,18 +75,13 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates the other option checkbox when clicked.
    */
   updateIsOtherOption(): void {
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.isOther = !this.responseDetails.isOther;
     this.disableNoneOfTheAboveOption();
-    this.triggerResponseDetailsChange('isOther', !this.responseDetails.isOther);
-    if (!this.responseDetails.isOther) {
-      this.triggerResponseDetailsChange('otherFieldContent', '');
+    if (!fieldsToUpdate.isOther) {
+      fieldsToUpdate.otherFieldContent = '';
     }
-  }
-
-  /**
-   * Updates the other field content.
-   */
-  updateOtherOptionText(otherOptionText: string): void {
-    this.triggerResponseDetailsChange('otherFieldContent', otherOptionText);
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -96,16 +96,17 @@ export class MsqQuestionEditAnswerFormComponent
    */
   updateNoneOfTheAbove(): void {
     let answersCopy: string[] = this.responseDetails.answers.slice();
+    const fieldsToUpdate: any = {};
     if (this.isNoneOfTheAboveEnabled) {
       answersCopy.splice(0, 1);
     } else {
       this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
       answersCopy = [];
-      this.triggerResponseDetailsChange('answers', answersCopy);
-      this.triggerResponseDetailsChange('isOther', false);
-      this.triggerResponseDetailsChange('otherFieldContent', '');
+      fieldsToUpdate.isOther = false;
+      fieldsToUpdate.otherFieldContent = '';
       answersCopy[0] = NONE_OF_THE_ABOVE;
     }
-    this.triggerResponseDetailsChange('answers', answersCopy);
+    fieldsToUpdate.answers = answersCopy;
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 }
