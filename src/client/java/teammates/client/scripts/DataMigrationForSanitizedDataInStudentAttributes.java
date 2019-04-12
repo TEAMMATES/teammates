@@ -2,7 +2,6 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.util.SanitizationHelper;
@@ -37,37 +36,25 @@ public class DataMigrationForSanitizedDataInStudentAttributes
     }
 
     @Override
-    protected String getLastPositionOfCursor() {
-        return "";
-    }
-
-    @Override
-    protected int getCursorInformationPrintCycle() {
-        return 100;
-    }
-
-    @Override
-    protected boolean isMigrationNeeded(Key<CourseStudent> key) throws Exception {
-        CourseStudent student = ofy().load().key(key).now();
-
+    protected boolean isMigrationNeeded(CourseStudent student) throws Exception {
         if (SanitizationHelper.isSanitizedHtml(student.getCourseId())) {
-            System.err.println(String.format("Student %s has unsanitized courseId %s, this should not happen",
+            logError(String.format("Student %s has unsanitized courseId %s, this should not happen",
                     student.getUniqueId(), student.getCourseId()));
         }
         if (SanitizationHelper.isSanitizedHtml(student.getEmail())) {
-            System.err.println(String.format("Student %s has unsanitized email %s, this should not happen",
+            logError(String.format("Student %s has unsanitized email %s, this should not happen",
                     student.getUniqueId(), student.getEmail()));
         }
         if (SanitizationHelper.isSanitizedHtml(student.getGoogleId())) {
-            System.err.println(String.format("Student %s has unsanitized googleId %s, this should not happen",
+            logError(String.format("Student %s has unsanitized googleId %s, this should not happen",
                     student.getUniqueId(), student.getGoogleId()));
         }
         if (SanitizationHelper.isSanitizedHtml(student.getSectionName())) {
-            System.err.println(String.format("Student %s has unsanitized sectionName %s, this should not happen",
+            logError(String.format("Student %s has unsanitized sectionName %s, this should not happen",
                     student.getUniqueId(), student.getSectionName()));
         }
         if (SanitizationHelper.isSanitizedHtml(student.getTeamName())) {
-            System.err.println(String.format("Student %s has unsanitized teamName %s, this should not happen",
+            logError(String.format("Student %s has unsanitized teamName %s, this should not happen",
                     student.getUniqueId(), student.getTeamName()));
         }
 
@@ -77,13 +64,11 @@ public class DataMigrationForSanitizedDataInStudentAttributes
     }
 
     @Override
-    protected void migrateEntity(Key<CourseStudent> key) throws Exception {
-        CourseStudent student = ofy().load().key(key).now();
-
+    protected void migrateEntity(CourseStudent student) throws Exception {
         student.setComments(SanitizationHelper.desanitizeIfHtmlSanitized(student.getComments()));
         student.setName(SanitizationHelper.desanitizeIfHtmlSanitized(student.getName()));
         student.setLastName(SanitizationHelper.desanitizeIfHtmlSanitized(student.getLastName()));
 
-        ofy().save().entity(student).now();
+        saveEntityDeferred(student);
     }
 }
