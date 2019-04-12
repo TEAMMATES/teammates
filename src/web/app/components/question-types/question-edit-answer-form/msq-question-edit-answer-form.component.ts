@@ -20,8 +20,8 @@ const NONE_OF_THE_ABOVE: string = 'None of the above';
 export class MsqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails> implements OnInit {
 
-  isMsqOptionSelected: boolean[] = Array(this.questionDetails.msqChoices.length).fill(false);
   readonly NO_VALUE: number = NO_VALUE;
+  isMsqOptionSelected: boolean[] = Array(this.questionDetails.msqChoices.length).fill(false);
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());

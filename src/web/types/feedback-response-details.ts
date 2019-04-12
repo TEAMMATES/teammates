@@ -24,6 +24,6 @@ export const NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = -999;
 export const RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = -999;
 
 /**
- * Special value to indicate if a checkbox is clicked or not.
+ * Special value to indicate whether a value is present or not.
  */
 export const NO_VALUE: number = -2147483648;
