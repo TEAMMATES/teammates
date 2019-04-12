@@ -2,7 +2,6 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.util.SanitizationHelper;
@@ -37,28 +36,14 @@ public class DataMigrationForSanitizedDataInCourseAttributes
     }
 
     @Override
-    protected String getLastPositionOfCursor() {
-        return "";
-    }
-
-    @Override
-    protected int getCursorInformationPrintCycle() {
-        return 100;
-    }
-
-    @Override
-    protected boolean isMigrationNeeded(Key<Course> key) throws Exception {
-        Course course = ofy().load().key(key).now();
-
+    protected boolean isMigrationNeeded(Course course) throws Exception {
         return SanitizationHelper.isSanitizedHtml(course.getName());
     }
 
     @Override
-    protected void migrateEntity(Key<Course> key) throws Exception {
-        Course course = ofy().load().key(key).now();
-
+    protected void migrateEntity(Course course) throws Exception {
         course.setName(SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
 
-        ofy().save().entity(course).now();
+        saveEntityDeferred(course);
     }
 }
