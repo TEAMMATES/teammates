@@ -33,7 +33,7 @@ public class Instructor extends BaseEntity {
     private String courseId;
 
     /** Whether the associated course is archived. */
-    private boolean isArchived;
+    private Boolean isArchived;
 
     /** The instructor's name used for this course. */
     private String name;
@@ -76,6 +76,9 @@ public class Instructor extends BaseEntity {
         this.setRegistrationKey(generateRegistrationKey());
     }
 
+    /**
+     * Generates an unique ID for the instructor.
+     */
     public static String generateId(String email, String courseId) {
         // Format: email%courseId e.g., adam@gmail.com%cs1101
         return email + '%' + courseId;
@@ -114,7 +117,15 @@ public class Instructor extends BaseEntity {
         this.courseId = courseId;
     }
 
+    /**
+     * Gets the archived status of the instructor.
+     */
     public boolean getIsArchived() {
+        if (isArchived == null) {
+            // the legacy data corresponding to isArchived is stored as a null value (not a missing value)
+            // in the datastore
+            return false;
+        }
         return isArchived;
     }
 
@@ -165,6 +176,9 @@ public class Instructor extends BaseEntity {
         this.role = role;
     }
 
+    /**
+     * Returns whether the instructor is displayed to students.
+     */
     public boolean isDisplayedToStudents() {
         if (this.isDisplayedToStudents == null) {
             return true;
@@ -184,6 +198,9 @@ public class Instructor extends BaseEntity {
         this.displayedName = displayedName;
     }
 
+    /**
+     * Gets the instructor privileges stored in JSON format.
+     */
     public String getInstructorPrivilegesAsText() {
         if (instructorPrivilegesAsText == null) {
             return null;

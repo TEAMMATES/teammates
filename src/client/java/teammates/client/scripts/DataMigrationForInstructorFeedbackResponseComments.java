@@ -3,7 +3,6 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -33,18 +32,7 @@ public class DataMigrationForInstructorFeedbackResponseComments extends
     }
 
     @Override
-    protected String getLastPositionOfCursor() {
-        return "";
-    }
-
-    @Override
-    protected int getCursorInformationPrintCycle() {
-        return 100;
-    }
-
-    @Override
-    protected boolean isMigrationNeeded(Key<FeedbackResponseComment> entity) {
-        FeedbackResponseComment comment = ofy().load().key(entity).now();
+    protected boolean isMigrationNeeded(FeedbackResponseComment comment) {
         try {
             Field commentGiverType = comment.getClass().getDeclaredField("commentGiverType");
             commentGiverType.setAccessible(true);
@@ -55,10 +43,10 @@ public class DataMigrationForInstructorFeedbackResponseComments extends
     }
 
     @Override
-    protected void migrateEntity(Key<FeedbackResponseComment> entity) {
-        FeedbackResponseComment comment = ofy().load().key(entity).now();
+    protected void migrateEntity(FeedbackResponseComment comment) {
         comment.setCommentGiverType(FeedbackParticipantType.INSTRUCTORS);
         comment.setIsCommentFromFeedbackParticipant(false);
-        ofy().save().entity(comment).now();
+
+        saveEntityDeferred(comment);
     }
 }
