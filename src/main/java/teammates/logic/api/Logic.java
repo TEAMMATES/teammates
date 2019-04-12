@@ -852,8 +852,7 @@ public class Logic {
      * Regenerates the registration key for the student represented by {@code studentAttributes}.
      * @return Returns the student attributes with the regenerated registration key.
      */
-    public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes studentAttributes)
-            throws EntityDoesNotExistException {
+    public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes studentAttributes) {
         Assumption.assertNotNull(studentAttributes);
 
         return studentsLogic.regenerateStudentRegistrationKey(studentAttributes);
