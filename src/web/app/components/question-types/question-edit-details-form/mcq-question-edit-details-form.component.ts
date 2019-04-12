@@ -38,30 +38,34 @@ export class McqQuestionEditDetailsFormComponent
    * Increases number of Mcq options.
    */
   increaseNumberOfOptions(): void {
-    this.triggerModelChange('numOfMcqChoices', this.model.numOfMcqChoices + 1);
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.numOfMcqChoices = this.model.numOfMcqChoices + 1;
     const copyMcqChoices: string[] = this.model.mcqChoices.slice();
     copyMcqChoices.push('');
-    this.triggerModelChange('mcqChoices', copyMcqChoices);
+    fieldsToUpdate.mcqChoices = copyMcqChoices;
     if (this.model.hasAssignedWeights) {
       const copyMcqWeights: number[] = this.model.mcqWeights.slice();
       copyMcqWeights.push(0);
-      this.triggerModelChange('mcqWeights', copyMcqWeights);
+      fieldsToUpdate.mcqWeights = copyMcqWeights;
     }
+    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Deletes a Mcq option.
    */
   onMcqOptionDeleted(event: number): void {
-    this.triggerModelChange('numOfMcqChoices', this.model.numOfMcqChoices - 1);
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.numOfMcqChoices = this.model.numOfMcqChoices - 1;
     const copyMcqChoices: string[] = this.model.mcqChoices.slice();
     copyMcqChoices.splice(event, 1);
-    this.triggerModelChange('mcqChoices', copyMcqChoices);
+    fieldsToUpdate.mcqChoices = copyMcqChoices;
     if (this.model.hasAssignedWeights) {
       const copyMcqWeights: number[] = this.model.mcqWeights.slice();
       copyMcqWeights.splice(event, 1);
-      this.triggerModelChange('mcqWeights', copyMcqWeights);
+      fieldsToUpdate.mcqWeights = copyMcqWeights;
     }
+    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -100,12 +104,14 @@ export class McqQuestionEditDetailsFormComponent
    * Triggers the display of the weight column for the Mcq options if weights option is checked/unchecked.
    */
   triggerWeightsColumn(event: any): void {
+    const fieldsToUpdate: any = {};
     if (!event.target.checked) {
-      this.triggerModelChange('mcqWeights', []);
-      this.triggerModelChange('mcqOtherWeight', 0);
+      fieldsToUpdate.mcqWeights = [];
+      fieldsToUpdate.mcqOtherWeight = 0;
     } else {
-      this.triggerModelChange('mcqWeights', Array(this.model.numOfMcqChoices).fill(0));
+      fieldsToUpdate.mcqWeights = Array(this.model.numOfMcqChoices).fill(0);
     }
+    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
