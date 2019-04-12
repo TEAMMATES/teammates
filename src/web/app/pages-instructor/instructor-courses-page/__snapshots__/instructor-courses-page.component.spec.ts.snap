@@ -1147,6 +1147,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
     <h2>
       Active Courses
     </h2>
+    
     <div
       class="table-responsive"
     >
@@ -1190,22 +1191,9 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
         </tbody>
         <tbody>
           
-          <tr>
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-          </tr>
         </tbody>
       </table>
       
-      <p>
-        No records found.
-      </p>
     </div>
   </div>
 </tm-instructor-courses-page>

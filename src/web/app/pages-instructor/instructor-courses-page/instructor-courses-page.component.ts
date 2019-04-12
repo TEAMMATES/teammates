@@ -7,7 +7,6 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Course, CourseArchive, JoinState, MessageOutput, Student, Students } from '../../../types/api-output';
-import { SortBy } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -72,11 +71,9 @@ export class InstructorCoursesPageComponent implements OnInit {
   softDeletedCourses: SoftDeletedCourse[] = [];
   instructorList: Instructor[] = [];
   courseStats: { [key: string]: { [key: string]: number } } = {};
-  SortBy: typeof SortBy = SortBy;
 
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
-  instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -229,21 +226,24 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Sorts the panels of courses in order.
    */
-  sortPanelsBy(by: SortBy):
+  sortPanelsBy(by: string):
       ((a: ActiveCourse, b: ActiveCourse) => number) {
     return ((a: ActiveCourse, b: ActiveCourse): number => {
       let strA: string;
       let strB: string;
+      const name: string = 'name';
+      const id: string = 'id';
+      const createdAt: string = 'createdAt';
       switch (by) {
-        case SortBy.COURSE_NAME:
+        case name:
           strA = a.name;
           strB = b.name;
           break;
-        case SortBy.COURSE_ID:
+        case id:
           strA = a.id;
           strB = b.id;
           break;
-        case SortBy.COURSE_CREATION_DATE:
+        case createdAt:
           strA = a.createdAt;
           strB = b.createdAt;
           break;
@@ -258,12 +258,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Sorts the courses according to selected option.
    */
-  sortCoursesBy(by: SortBy): void {
-    this.instructorCoursesSortBy = by;
-
-    if (this.activeCourses.length > 1) {
-      this.activeCourses.sort(this.sortPanelsBy(by));
-    }
+  sortCoursesBy(by: string): void {
+    this.activeCourses.sort(this.sortPanelsBy(by));
   }
 
   /**
