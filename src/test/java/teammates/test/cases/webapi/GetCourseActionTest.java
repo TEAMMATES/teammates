@@ -125,38 +125,61 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
+        //see test cases below
+    }
+
+    @Test
+    protected void testAccessControl_invalidParameterValues_shouldFail() {
         ______TS("non-existent course");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        CourseAttributes courseAttributes = logic.getCourse(instructor1OfCourse1.getCourseId());
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "not-exist",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        assertNull(logic.getCourse("not-exist"));
 
         verifyCannotAccess(submissionParams);
 
-        ______TS("Inaccessible without being an instructor or student");
+        ______TS("non-existent entitytype");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseAttributes.getId(),
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.ENTITY_TYPE, "no-entity",
         };
 
-        verifyInaccessibleWithoutLogin(submissionParams);
-        verifyInaccessibleForUnregisteredUsers(submissionParams);
-        verifyInaccessibleForAdmin(submissionParams);
+        verifyCannotAccess(submissionParams);
+    }
 
-        ______TS("instructors of the same course can access");
+    @Test
+    protected void testAccessControl_testInstructorAccess_shouldPass() {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
 
-        ______TS("students of the same course can access");
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_testStudentAccess_shouldPass() {
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
 
         verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForInstructors(submissionParams);
+        verifyInaccessibleForAdmin(submissionParams);
     }
 
     @Test
@@ -176,6 +199,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         verifyCanAccess(params);
@@ -184,6 +208,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse2.getId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         verifyCanAccess(params);

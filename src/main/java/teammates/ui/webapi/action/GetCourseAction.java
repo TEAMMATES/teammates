@@ -20,19 +20,16 @@ public class GetCourseAction extends Action {
     @Override
     public void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
-        boolean checkForInstructorAccess = logic.getInstructorForGoogleId(courseId, userInfo.getId()) != null;
-
-        if (userInfo.isInstructor && checkForInstructorAccess) {
+        if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entityType)) {
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(courseId, userInfo.getId()),
                     logic.getCourse(courseId));
             return;
         }
 
-        boolean checkForStudentAccess = logic.getStudentForGoogleId(courseId, userInfo.getId()) != null;
-
-        if (userInfo.isStudent && checkForStudentAccess) {
+        if (userInfo.isStudent && Const.EntityType.STUDENT.equals(entityType)) {
             CourseAttributes course = logic.getCourse(courseId);
             gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.id), course);
             return;
