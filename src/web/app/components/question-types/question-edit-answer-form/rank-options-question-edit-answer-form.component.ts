@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
@@ -17,7 +17,7 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 })
 export class RankOptionsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails>
-    implements OnInit {
+    implements OnInit, OnChanges {
 
   readonly RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
 
@@ -26,6 +26,9 @@ export class RankOptionsQuestionEditAnswerFormComponent
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(): void {
     if (this.responseDetails.answers.length !== this.questionDetails.options.length) {
       this.responseDetails.answers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
     }
