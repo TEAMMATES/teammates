@@ -238,7 +238,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         CourseStudent student = getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (student == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
-
         }
 
         StudentAttributes newAttributes = makeAttributes(student);

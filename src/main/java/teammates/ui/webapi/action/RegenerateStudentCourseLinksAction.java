@@ -20,9 +20,22 @@ import teammates.ui.webapi.output.RegenerateStudentCourseLinksData;
  */
 public class RegenerateStudentCourseLinksAction extends Action {
 
-    private static final String SUCCESSFUL_UPDATE = "Student's links for this course have been regenerated,";
-    private static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and the email has been sent.";
-    private static final String SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED = SUCCESSFUL_UPDATE + " but the email failed to send.";
+    /** Message indicating that the email parameter value is not a valid email address. */
+    public static final String INVALID_EMAIL_ADDRESS = "Invalid email address: %s";
+
+    /** Message indicating that the email parameter value is not a valid email address. */
+    public static final String STUDENT_NOT_FOUND = "The student with the email %s could not be found for"
+                                                + "the course with ID [%s].";
+
+    private static final String SUCCESSFUL_REGENERATION = "Student's links for this course have been regenerated,";
+
+    /** Message indicating that the links regeneration was successful, and corresponding email was sent. */
+    public static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
+                                                        SUCCESSFUL_REGENERATION + " and the email has been sent.";
+
+    /** Message indicating that the links regeneration was successful, but corresponding email could not be sent. */
+    public static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
+                                                        SUCCESSFUL_REGENERATION + " but the email failed to send.";
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -41,21 +54,22 @@ public class RegenerateStudentCourseLinksAction extends Action {
         String studentEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         if (!StringHelper.isMatching(studentEmailAddress, REGEX_EMAIL)) {
-            return new JsonResult("Invalid email address: " + studentEmailAddress,
+            return new JsonResult(String.format(INVALID_EMAIL_ADDRESS, studentEmailAddress),
                     HttpStatusCodes.STATUS_CODE_BAD_REQUEST);
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmailAddress);
         if (student == null) {
-            return new JsonResult("The student with the email " + studentEmailAddress
-                    + " could not be found for the course with ID [" + courseId + "].", HttpStatus.SC_NOT_FOUND);
+            return new JsonResult(String.format(STUDENT_NOT_FOUND, studentEmailAddress, courseId), HttpStatus.SC_NOT_FOUND);
         }
 
         StudentAttributes updatedStudent = logic.regenerateStudentRegistrationKey(student);
 
         boolean emailSent = sendEmail(updatedStudent);
-        String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
+        String statusMessage = emailSent
+                                ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
+                                : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
         return new JsonResult(
                 new RegenerateStudentCourseLinksData(statusMessage, StringHelper.encrypt(updatedStudent.key)));
