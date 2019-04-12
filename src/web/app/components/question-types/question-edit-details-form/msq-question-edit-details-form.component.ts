@@ -45,28 +45,32 @@ export class MsqQuestionEditDetailsFormComponent
    * Increases number of Msq options.
    */
   increaseNumberOfMsqOptions(): void {
+    const fieldsToUpdate: any = {};
     const copyMsqChoices: string[] = this.model.msqChoices.slice();
     copyMsqChoices.push('');
-    this.triggerModelChange('msqChoices', copyMsqChoices);
+    fieldsToUpdate.msqChoices = copyMsqChoices;
     if (this.model.hasAssignedWeights) {
       const copyMsqWeights: number[] = this.model.msqWeights.slice();
       copyMsqWeights.push(0);
-      this.triggerModelChange('msqWeights', copyMsqWeights);
+      fieldsToUpdate.msqWeights = copyMsqWeights;
     }
+    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Deletes a Msq option.
    */
   onMsqOptionDeleted(event: number): void {
+    const fieldsToUpdate: any = {};
     const copyMsqChoices: string[] = this.model.msqChoices.slice();
     copyMsqChoices.splice(event, 1);
-    this.triggerModelChange('msqChoices', copyMsqChoices);
+    fieldsToUpdate.msqChoices = copyMsqChoices;
     if (this.model.hasAssignedWeights) {
       const copyMsqWeights: number[] = this.model.msqWeights.slice();
       copyMsqWeights.splice(event, 1);
-      this.triggerModelChange('msqWeights', copyMsqWeights);
+      fieldsToUpdate.msqWeights = copyMsqWeights;
     }
+    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -175,11 +179,13 @@ export class MsqQuestionEditDetailsFormComponent
    * Triggers the display of the weight column for the Msq options if weights option is checked/unchecked.
    */
   triggerWeightsColumn(event: any): void {
+    const fieldsToUpdate: any = {};
     if (!event.target.checked) {
-      this.triggerModelChange('msqWeights', []);
-      this.triggerModelChange('msqOtherWeight', 0);
+      fieldsToUpdate.msqWeights = [];
+      fieldsToUpdate.msqOtherWeight = 0;
     } else {
-      this.triggerModelChange('msqWeights', Array(this.model.msqChoices.length).fill(0));
+      fieldsToUpdate.msqWeights = Array(this.model.msqChoices.length).fill(0);
     }
+    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
 }
