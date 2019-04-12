@@ -15,7 +15,6 @@ import { HttpRequestService } from '../../../../services/http-request.service';
 export class UploadEditProfilePictureModalComponent implements OnInit {
   imageChangedEvent: any = '';
   formData?: FormData;
-  croppedImage: any;
 
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
