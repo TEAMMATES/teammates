@@ -50,6 +50,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(expectedQuestion.getShowGiverNameTo(), actualQuestion.getShowGiverNameTo());
         assertEquals(expectedQuestion.getShowRecipientNameTo(), actualQuestion.getShowRecipientNameTo());
         assertEquals(expectedQuestion.getShowResponsesTo(), actualQuestion.getShowResponsesTo());
+        assertNotNull(actualQuestion.getCreatedAt());
         assertNotNull(actualQuestion.getUpdatedAt());
     }
 
