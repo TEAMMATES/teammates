@@ -18,8 +18,8 @@
     </div>
     <div class="check-box" *ngIf="questionDetails.minSelectableChoices === NO_VALUE">
       <label class="margin-right-15px">
-        <input type="checkbox" class="margin-right-15px" [checked]="isNoneOfTheAboveEnabled"
-               (click)="updateNoneOfTheAbove()">
+        <input type="checkbox" class="margin-right-15px" [ngModel]="isNoneOfTheAboveEnabled"
+               (ngModelChange)="updateNoneOfTheAbove()">
         <strong>None of the above</strong>
       </label>
     </div>

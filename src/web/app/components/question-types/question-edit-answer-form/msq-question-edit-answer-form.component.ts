@@ -33,6 +33,7 @@ export class MsqQuestionEditAnswerFormComponent
 
   // sync the internal status with the input data
   ngOnChanges(): void {
+    this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
     if (this.responseDetails.answers[0] !== NONE_OF_THE_ABOVE) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
         const indexOfElementInAnswerArray: number
@@ -59,14 +60,13 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
-    this.isMsqOptionSelected[index] = !this.isMsqOptionSelected[index];
     this.disableNoneOfTheAboveOption();
     const answersCopy: string[] = this.responseDetails.answers.slice();
-    if (this.isMsqOptionSelected[index]) {
-      answersCopy.push(this.questionDetails.msqChoices[index]);
-    } else {
-      const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
+    const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
+    if (indexInResponseArray > -1) {
       answersCopy.splice(indexInResponseArray, 1);
+    } else {
+      answersCopy.push(this.questionDetails.msqChoices[index]);
     }
     this.triggerResponseDetailsChange('answers', answersCopy);
   }
@@ -100,7 +100,6 @@ export class MsqQuestionEditAnswerFormComponent
     if (this.isNoneOfTheAboveEnabled) {
       answersCopy.splice(0, 1);
     } else {
-      this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
       answersCopy = [];
       fieldsToUpdate.isOther = false;
       fieldsToUpdate.otherFieldContent = '';
