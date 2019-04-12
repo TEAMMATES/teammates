@@ -256,10 +256,49 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
+   * Sorts the panels of courses in order.
+   */
+  sortArchivedPanelsBy(by: string):
+      ((a: ArchivedCourse, b: ArchivedCourse) => number) {
+    return ((a: ArchivedCourse, b: ArchivedCourse): number => {
+      let strA: string;
+      let strB: string;
+      const name: string = 'name';
+      const id: string = 'id';
+      const createdAt: string = 'createdAt';
+      switch (by) {
+        case name:
+          strA = a.name;
+          strB = b.name;
+          break;
+        case id:
+          strA = a.id;
+          strB = b.id;
+          break;
+        case createdAt:
+          strA = a.createdAt;
+          strB = b.createdAt;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return strA.localeCompare(strB);
+    });
+  }
+
+  /**
    * Sorts the courses according to selected option.
    */
   sortCoursesBy(by: string): void {
     this.activeCourses.sort(this.sortPanelsBy(by));
+  }
+
+  /**
+   * Sorts the courses according to selected option.
+   */
+  sortArchivedCoursesBy(by: string): void {
+    this.archivedCourses.sort(this.sortArchivedPanelsBy(by));
   }
 
   /**
