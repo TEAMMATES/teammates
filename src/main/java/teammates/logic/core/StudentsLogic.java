@@ -204,7 +204,7 @@ public final class StudentsLogic {
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            Assumption.fail("Resting google ID shall not cause: " + e.getMessage());
+            Assumption.fail("Resetting google ID shall not cause: " + e.getMessage());
         }
     }
 
@@ -223,7 +223,7 @@ public final class StudentsLogic {
 
             return updatedStudent;
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            Assumption.fail("Resting registration key shall not cause: " + e.getMessage());
+            Assumption.fail("Regenerating registration key shall not cause: " + e.getMessage());
         }
 
         return null;

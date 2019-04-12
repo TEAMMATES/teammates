@@ -172,7 +172,13 @@ public class EmailGenerator {
                     "${submitUrl}", submitUrlHtml,
                     "${reportUrl}", reportUrlHtml));
         }
+
+        if (linksFragmentValue.length() == 0) {
+            linksFragmentValue.append("No links found.");
+        }
+
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
+
         String emailBody = Templates.populateTemplate(resendLinksTemplate,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${userEmail}", student.email,
