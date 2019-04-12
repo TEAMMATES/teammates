@@ -7,6 +7,7 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Course, CourseArchive, JoinState, MessageOutput, Student, Students } from '../../../types/api-output';
+import { SortBy } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -71,9 +72,11 @@ export class InstructorCoursesPageComponent implements OnInit {
   softDeletedCourses: SoftDeletedCourse[] = [];
   instructorList: Instructor[] = [];
   courseStats: { [key: string]: { [key: string]: number } } = {};
+  SortBy: typeof SortBy = SortBy;
 
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
+  instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -98,7 +101,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     };
     this.httpRequestService.get('/instructor/courses', paramMap).subscribe((resp: InstructorCourses) => {
       this.activeCourses = resp.activeCourses;
-      this.sortData();
       this.archivedCourses = resp.archivedCourses;
       this.softDeletedCourses = resp.softDeletedCourses;
       this.instructorList = resp.instructorList;
@@ -224,9 +226,45 @@ export class InstructorCoursesPageComponent implements OnInit {
     }, () => {});
   }
 
-  sortData(){
-    this.activeCourses.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
-}
+  /**
+   * Sorts the panels of courses in order.
+   */
+  sortPanelsBy(by: SortBy):
+      ((a: ActiveCourse, b: ActiveCourse) => number) {
+    return ((a: ActiveCourse, b: ActiveCourse): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.COURSE_NAME:
+          strA = a.name;
+          strB = b.name;
+          break;
+        case SortBy.COURSE_ID:
+          strA = a.id;
+          strB = b.id;
+          break;
+        case SortBy.COURSE_CREATION_DATE:
+          strA = a.createdAt;
+          strB = b.createdAt;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return strA.localeCompare(strB);
+    });
+  }
+
+  /**
+   * Sorts the courses according to selected option.
+   */
+  sortCoursesBy(by: SortBy): void {
+    this.instructorCoursesSortBy = by;
+
+    if (this.activeCourses.length > 1) {
+      this.activeCourses.sort(this.sortPanelsBy(by));
+    }
+  }
 
   /**
    * Restores a soft-deleted course from Recycle Bin.
