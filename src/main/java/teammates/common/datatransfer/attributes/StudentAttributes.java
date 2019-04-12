@@ -356,7 +356,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public static class UpdateOptions {
         private String courseId;
         private String email;
-        private boolean shouldRegenerateRegistrationKey;
 
         private UpdateOption<String> newEmailOption = UpdateOption.empty();
         private UpdateOption<String> nameOption = UpdateOption.empty();
@@ -380,10 +379,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
         public String getEmail() {
             return email;
-        }
-
-        public boolean shouldRegenerateRegistrationKey() {
-            return shouldRegenerateRegistrationKey;
         }
 
         @Override
@@ -415,13 +410,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                 Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
 
                 updateOptions.newEmailOption = UpdateOption.of(email);
-                return thisBuilder;
-            }
-
-            public Builder withShouldRegenerateRegistrationKey(boolean key) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, key);
-
-                updateOptions.shouldRegenerateRegistrationKey = key;
                 return thisBuilder;
             }
 

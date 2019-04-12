@@ -102,7 +102,7 @@ public class UpdateStudentAction extends Action {
      */
     private boolean sendEmail(String courseId, String studentEmail) {
         EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
-                        courseId, studentEmail, Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
+                                courseId, studentEmail, Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }

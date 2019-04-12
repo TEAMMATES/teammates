@@ -158,8 +158,6 @@ public final class StudentsLogic {
      *
      * <p>If section changed, cascade update all responses the student gives/receives.
      *
-     * <p>If registration key changed, update course join link and all session links of the student</p>
-     *
      * @return updated student
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the student cannot be found
@@ -211,16 +209,19 @@ public final class StudentsLogic {
     }
 
     /**
-     * Regenerates the registration key for the student represented by {@code studentAttributes}.
+     * Regenerates the registration key for the student represented by {@code originalStudent}.
      * @return Returns the student attributes with the new registration key.
      */
-    public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes studentAttributes)
-            throws EntityDoesNotExistException {
+    public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes originalStudent) {
         try {
-            return updateStudentCascade(
-                    StudentAttributes.updateOptionsBuilder(studentAttributes.getCourse(), studentAttributes.getEmail())
-                            .withShouldRegenerateRegistrationKey(true)
-                            .build());
+            studentsDb.deleteStudent(originalStudent.getCourse(), originalStudent.getEmail());
+            StudentAttributes updatedStudent;
+
+            do {
+                updatedStudent = studentsDb.createEntity(originalStudent);
+            } while (updatedStudent.getKey().equals(originalStudent.getKey()));
+
+            return updatedStudent;
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             Assumption.fail("Resting registration key shall not cause: " + e.getMessage());
         }

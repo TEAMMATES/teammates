@@ -201,18 +201,6 @@ public class CourseStudent extends BaseEntity {
     }
 
     /**
-     * Regenerates a new registration key for the student.
-     */
-    public void regenerateRegistrationKey() {
-        String newRegistrationKey = this.registrationKey;
-        while (newRegistrationKey.equals(this.registrationKey)) {
-            newRegistrationKey = generateRegistrationKey();
-        }
-
-        this.registrationKey = newRegistrationKey;
-    }
-
-    /**
      * Returns unique registration key for the student.
      */
     private String generateRegistrationKey() {
