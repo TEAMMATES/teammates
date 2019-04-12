@@ -245,13 +245,13 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   sortById(name: string) {
     if (name == "active") {
-      this.activeCourses.sort((a, b) => a.id < b.id ? -1 : 1);
+      this.activeCourses.sort((a, b) => a.id.toLowerCase() < b.id.toLowerCase() ? -1 : 1);
     }
     else if (name == "archieve") {
-      this.archivedCourses.sort((a, b) => a.id < b.id ? -1 : 1);
+      this.archivedCourses.sort((a, b) => a.id.toLowerCase() < b.id.toLowerCase() ? -1 : 1);
     }
     else if (name == "delete") {
-      this.softDeletedCourses.sort((a, b) => a.id < b.id ? -1 : 1);
+      this.softDeletedCourses.sort((a, b) => a.id.toLowerCase() < b.id.toLowerCase() ? -1 : 1);
     }
   }
   sortByCreationDate(name: string) {
