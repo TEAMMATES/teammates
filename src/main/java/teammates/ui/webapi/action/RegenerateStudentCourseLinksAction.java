@@ -1,10 +1,6 @@
 package teammates.ui.webapi.action;
 
-import static teammates.common.util.FieldValidator.REGEX_EMAIL;
-
 import org.apache.http.HttpStatus;
-
-import com.google.api.client.http.HttpStatusCodes;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -19,9 +15,6 @@ import teammates.ui.webapi.output.RegenerateStudentCourseLinksData;
  * Regenerates the course join and feedback session links for a given student in a course.
  */
 public class RegenerateStudentCourseLinksAction extends Action {
-
-    /** Message indicating that the email parameter value is not a valid email address. */
-    public static final String INVALID_EMAIL_ADDRESS = "Invalid email address: %s";
 
     /** Message indicating that the email parameter value is not a valid email address. */
     public static final String STUDENT_NOT_FOUND = "The student with the email %s could not be found for"
@@ -52,13 +45,8 @@ public class RegenerateStudentCourseLinksAction extends Action {
     @Override
     public ActionResult execute() {
         String studentEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-
-        if (!StringHelper.isMatching(studentEmailAddress, REGEX_EMAIL)) {
-            return new JsonResult(String.format(INVALID_EMAIL_ADDRESS, studentEmailAddress),
-                    HttpStatusCodes.STATUS_CODE_BAD_REQUEST);
-        }
-
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmailAddress);
         if (student == null) {
             return new JsonResult(String.format(STUDENT_NOT_FOUND, studentEmailAddress, courseId), HttpStatus.SC_NOT_FOUND);
@@ -73,12 +61,10 @@ public class RegenerateStudentCourseLinksAction extends Action {
 
         return new JsonResult(
                 new RegenerateStudentCourseLinksData(statusMessage, StringHelper.encrypt(updatedStudent.key)));
-
     }
 
     /**
      * Sends the regenerated course join and feedback session links to the student.
-     *
      * @return true if the email was sent successfully, and false otherwise.
      */
     private boolean sendEmail(StudentAttributes student) {
