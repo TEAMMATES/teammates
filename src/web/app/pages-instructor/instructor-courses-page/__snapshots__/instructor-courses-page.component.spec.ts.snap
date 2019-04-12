@@ -28,6 +28,41 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       Active Courses
     </h2>
     <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
       class="table-responsive"
     >
       <table
@@ -584,6 +619,41 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
     <h2>
       Active Courses
     </h2>
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
     <div
       class="table-responsive"
     >
@@ -1147,7 +1217,41 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
     <h2>
       Active Courses
     </h2>
-    
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
     <div
       class="table-responsive"
     >
@@ -1191,9 +1295,22 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
         </tbody>
         <tbody>
           
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
         </tbody>
       </table>
       
+      <p>
+        No records found.
+      </p>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -1226,6 +1343,41 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
     <h2>
       Active Courses
     </h2>
+    <div
+      class="col-8"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+    </div>
     <div
       class="table-responsive"
     >
