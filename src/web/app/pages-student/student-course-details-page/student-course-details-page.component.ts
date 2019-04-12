@@ -99,11 +99,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         this.statusMessageService.showWarningMessage('You do not have any teammates yet.');
       }
 
-      if (this.teammateProfiles && this.course && this.student.email) {
+      if (this.teammateProfiles && this.course && this.student) {
         const courseId: string = this.course.id;
+        const studentEmail: string = this.student.email;
         this.teammateProfiles.forEach((teammateProfile: TeammateProfile) => teammateProfile.photoUrl
           = `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}
-          &studentemail=${this.student.email}`);
+          &studentemail=${studentEmail}`);
       }
 
     }, (resp: ErrorMessageOutput) => {
