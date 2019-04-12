@@ -3,40 +3,12 @@
   This page gives the student details for all your courses. Expand the cards below to view your students. Use the search function if you need to filter for a specific student.
 </p>
 <hr/>
-<div>
-  <div class="card-deck" *ngIf="courseList">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">{{courseList.courses.length}}</h2>
-        <h4 class="card-text">Courses</h4>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">{{overallStats.students}}</h2>
-        <h4 class="card-text">Students</h4>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">{{overallStats.sections}}</h2>
-        <h4 class="card-text">Sections</h4>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title">{{overallStats.teams}}</h2>
-        <h4 class="card-text">Teams</h4>
-      </div>
-    </div>
-  </div>
-</div>
-<br/>
+
 <ng-container *ngIf="courseList">
   <div *ngFor="let course of courseList.courses; let idx = index">
     <div class="card">
       <div class="card-header justify-content-between course-card-header"
-        (click)="viewStudent[idx] = !viewStudent[idx]">
+        (click)="toggleCard(idx, course.courseId)">
         <div class="row course-card-content">
           <div class="col-sm-11">
             <div>

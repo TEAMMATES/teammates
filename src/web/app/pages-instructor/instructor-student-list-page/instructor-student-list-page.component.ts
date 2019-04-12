@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Course, Courses, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
+import { Courses, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 
@@ -29,7 +29,6 @@ export class InstructorStudentListPageComponent implements OnInit {
   courseList!: Courses;
   viewStudent!: boolean[];
   courseInfo: {[key: string]: StudentListSectionData[]} = {};
-  overallStats!: Statistic;
   courseStats: {[key: string]: Statistic} = {};
 
   constructor(private httpRequestService: HttpRequestService,
@@ -40,13 +39,6 @@ export class InstructorStudentListPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-
-      this.overallStats = {
-        students: 0,
-        sections: 0,
-        teams: 0,
-      };
-
       this.loadCourses();
     });
   }
@@ -60,16 +52,26 @@ export class InstructorStudentListPageComponent implements OnInit {
       coursestatus: 'active',
     }).subscribe((courses: Courses) => {
       this.courseList = courses;
-
-      this.courseList.courses.forEach((course: Course) => {
-        this.loadStudents(course.courseId);
-      });
-
       this.viewStudent = Array<boolean>(this.courseList.courses.length).fill(false);
 
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Toggles specific card and loads students if needed
+   */
+  toggleCard(index: number, courseId: string): void {
+    if (this.viewStudent[index]) {
+      this.viewStudent[index] = false;
+    } else {
+      if (!this.courseInfo[courseId]) {
+        this.loadStudents(courseId);
+      }
+
+      this.viewStudent[index] = true;
+    }
   }
 
   /**
@@ -97,10 +99,6 @@ export class InstructorStudentListPageComponent implements OnInit {
         sections: Object.keys(sections).length,
         teams: Object.keys(teams).length,
       };
-
-      this.overallStats.students += this.courseStats[courseId].students;
-      this.overallStats.sections += this.courseStats[courseId].sections;
-      this.overallStats.teams += this.courseStats[courseId].teams;
 
       Object.keys(sections).forEach((key: string) => {
         const studentsInSection: Student[] = sections[key];
