@@ -44,7 +44,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         profilePage.editProfilePhoto();
         profilePage.verifyPhotoSize("220px", "220px");
 
-        ______TS("Typical case: no picture");
+        ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
 
