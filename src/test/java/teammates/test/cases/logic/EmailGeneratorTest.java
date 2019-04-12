@@ -233,7 +233,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 session.getCourseId(), student1.email, Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
-        verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");
+        verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForEditedStudent.html");
 
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has not joined the course");
@@ -243,7 +243,26 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, unregisteredStudent.email, subject,
-                "/summaryOfFeedbackSessionsOfCourseEmailForUnregisteredStudent.html");
+                "/summaryOfFeedbackSessionsOfCourseEmailForEditedUnregisteredStudent.html");
+
+        ______TS("send summary of all regenerated feedback session links of course email to student. "
+                + "Student has joined the course");
+
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email,
+                                                    Templates.EmailTemplates.REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS);
+        subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedStudent.html");
+
+        ______TS("send summary of all regenerated feedback session links of course email to student. "
+                + "Student has not joined the course");
+
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email,
+                                                    Templates.EmailTemplates.REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS);
+        subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, unregisteredStudent.email, subject,
+                "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedUnregisteredStudent.html");
 
         ______TS("feedback session submission email");
 
