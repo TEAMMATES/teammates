@@ -38,7 +38,7 @@
   <div>
     <image-cropper
       [imageChangedEvent]="imageChangedEvent"
-      [imageBase64]="croppedImage"
+      [imageBase64]="imageCropper.imageBase64"
       [maintainAspectRatio]="false"
       (imageCropped)="imageCropped($event)"
     ></image-cropper>
