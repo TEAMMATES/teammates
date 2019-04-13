@@ -27,41 +27,63 @@
       "isInstructor": true,
       "email": "newIns.withoutSample@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
-    },
-    "instructor1OfTestingSanitizationCourse": {
-      "googleId": "CHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
-      "isInstructor": true,
-      "email": "CHomeUiT.instructor1@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
+    "CHomeUiT.CS1101": {
+      "createdAt": "2012-04-02T23:59:00Z",
+      "id": "CHomeUiT.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    },
     "CHomeUiT.CS2104": {
-      "createdAt": "2012-04-01T23:58:00Z",
+      "createdAt": "2012-04-02T23:58:00Z",
       "id": "CHomeUiT.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     },
-    "CHomeUiT.CS1101": {
-      "createdAt": "2012-04-01T23:59:00Z",
-      "id": "CHomeUiT.CS1101",
-      "name": "Programming Methodology",
+    "CHomeUiT.Course3": {
+      "createdAt": "2012-04-02T23:57:00Z",
+      "id": "CHomeUiT.demo3",
+      "name": "Sample Course 301",
+      "timeZone": "UTC"
+    },
+    "CHomeUiT.Unloaded": {
+      "createdAt": "2012-04-03T23:56:00Z",
+      "id": "CHomeUiT.Unloaded",
+      "name": "Sample Course Unloaded",
       "timeZone": "UTC"
     },
     "CHomeUiT.Sample": {
       "id": "newIns.wit-demo",
       "name": "Sample Course 101",
       "timeZone": "UTC"
-    },
-    "CHomeUiT.testingSanitizationCourse": {
-      "createdAt": "2012-04-01T23:58:00Z",
-      "id": "CHomeUiT.idOfTestingSanitizationCourse",
-      "name": "Testing<script> alert('hi!'); </script>",
-      "timeZone": "UTC"
     }
   },
   "instructors": {
+    "CHomeUiT.instr.CS1101": {
+      "googleId": "CHomeUiT.instructor.tmms",
+      "courseId": "CHomeUiT.CS1101",
+      "name": "Teammates Test",
+      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
     "CHomeUiT.instr.CS2104": {
       "googleId": "CHomeUiT.instructor.tmms",
       "courseId": "CHomeUiT.CS2104",
@@ -108,29 +130,6 @@
         "sessionLevel": {}
       }
     },
-    "CHomeUiT.instr.CS1101": {
-      "googleId": "CHomeUiT.instructor.tmms",
-      "courseId": "CHomeUiT.CS1101",
-      "name": "Teammates Test",
-      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
-      "role": "Custom",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": false,
-          "cansubmitsessioninsection": false,
-          "canmodifysessioncommentinsection": false,
-          "canmodifycourse": false,
-          "canviewsessioninsection": false,
-          "canmodifysession": false,
-          "canmodifystudent": false,
-          "canmodifyinstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
     "CHomeUiT.instr.Sample": {
       "googleId": "newIns.withSample",
       "courseId": "newIns.wit-demo",
@@ -154,32 +153,19 @@
         "sessionLevel": {}
       }
     },
-    "CHomeUiT.instructor1OfTestingSanitizationCourse": {
-      "googleId": "CHomeUiT.idOfInstructor1OfTestingSanitizationCourse",
-      "courseId": "CHomeUiT.idOfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
-      "email": "CHomeUiT.instructor1@sanitization.tmt",
-      "isArchived": false,
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "inst'\"/><script>alert('hi!');</script>",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canviewcommentinsection": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
+    "CHomeUiT.instr.Course3": {
+      "googleId": "CHomeUiT.instructor.tmms",
+      "courseId": "CHomeUiT.demo3",
+      "name": "Teammates Test Instructor With Many Courses",
+      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "isDisplayedToStudents": false
+    },
+    "CHomeUiT.instr.Unloaded": {
+      "googleId": "CHomeUiT.instructor.tmms",
+      "courseId": "CHomeUiT.Unloaded",
+      "name": "Teammates Test Instructor With No Feedback Session",
+      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
+      "isDisplayedToStudents": false
     }
   },
   "students": {

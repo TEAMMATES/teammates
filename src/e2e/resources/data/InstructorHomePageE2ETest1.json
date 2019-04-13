@@ -1,12 +1,5 @@
 {
   "accounts": {
-    "newInstructorWithoutSampleCourse": {
-      "googleId": "CHomeUiT.instructor.tmms.new",
-      "name": "Teammates Test New Instructor Without Sample",
-      "isInstructor": true,
-      "email": "CHomeUiT.instructor.tmms@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
-    },
     "instructorWithManyCourses": {
       "googleId": "CHomeUiT.instructor.tmms.unloaded",
       "name": "Teammates Test Instructor With Many Courses",
