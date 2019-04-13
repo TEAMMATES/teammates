@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         return new LNPTestData() {
             @Override
             protected Map<String, AccountAttributes> generateAccounts() {
-                Map<String, AccountAttributes> accounts = new HashMap<>();
+                Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
                     accounts.put(USER_NAME + i, AccountAttributes.builder(USER_NAME + i + ".tmms")
@@ -52,7 +53,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, CourseAttributes> generateCourses() {
-                Map<String, CourseAttributes> courses = new HashMap<>();
+                Map<String, CourseAttributes> courses = new LinkedHashMap<>();
 
                 courses.put("course", CourseAttributes.builder("TestData.CS101")
                         .withName("Intro To Programming")
@@ -65,7 +66,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, InstructorAttributes> generateInstructors() {
-                Map<String, InstructorAttributes> instructors = new HashMap<>();
+                Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
 
                 instructors.put("teammates.test.instructor",
                         InstructorAttributes.builder("TestData.CS101", "tmms.test@gmail.tmt")
@@ -84,7 +85,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, StudentAttributes> generateStudents() {
-                Map<String, StudentAttributes> students = new HashMap<>();
+                Map<String, StudentAttributes> students = new LinkedHashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
                     students.put(USER_NAME + i, StudentAttributes.builder("TestData.CS101", USER_EMAIL + i + "@gmail.tmt")
@@ -102,7 +103,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, StudentProfileAttributes> generateProfiles() {
-                Map<String, StudentProfileAttributes> profiles = new HashMap<>();
+                Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
                     profiles.put(USER_NAME + i, StudentProfileAttributes.builder(USER_NAME + i + ".tmms")
