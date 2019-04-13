@@ -9,6 +9,10 @@ public abstract class LoginPage extends AppPage {
         super(browser);
     }
 
+    public abstract InstructorHomePage loginAsInstructor(String username, String password);
+
+    public abstract <T extends AppPage> T loginAsInstructor(String username, String password, Class<T> typeOfPage);
+
     public abstract StudentHomePage loginAsStudent(String username, String password);
 
     public abstract <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage);
