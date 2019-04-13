@@ -38,6 +38,20 @@ public class DevServerLoginPage extends LoginPage {
     }
 
     @Override
+    public InstructorHomePage loginAsInstructor(String username, String password) {
+        return loginAsInstructor(username, password, InstructorHomePage.class);
+    }
+
+    @Override
+    public <T extends AppPage> T loginAsInstructor(String username, String password, Class<T> typeOfPage) {
+        fillTextBox(emailTextBox, username);
+        click(loginButton);
+        waitForElementVisibility(By.tagName("h1"));
+        browser.isAdminLoggedIn = false;
+        return changePageType(typeOfPage);
+    }
+
+    @Override
     public StudentHomePage loginAsStudent(String username, String password) {
         return loginAsStudent(username, password, StudentHomePage.class);
     }

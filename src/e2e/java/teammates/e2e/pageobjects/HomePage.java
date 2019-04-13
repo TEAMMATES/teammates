@@ -11,6 +11,9 @@ public class HomePage extends AppPage {
     @FindBy(id = "student-login-btn")
     private WebElement studentLoginLink;
 
+    @FindBy(id = "instructor-login-btn")
+    private WebElement instructorLoginLink;
+
     public HomePage(Browser browser) {
         super(browser);
     }
@@ -22,6 +25,11 @@ public class HomePage extends AppPage {
 
     public LoginPage clickStudentLogin() {
         click(studentLoginLink);
+        return createCorrectLoginPageType(browser);
+    }
+
+    public LoginPage clickInstructorLogin()  {
+        click(instructorLoginLink);
         return createCorrectLoginPageType(browser);
     }
 
