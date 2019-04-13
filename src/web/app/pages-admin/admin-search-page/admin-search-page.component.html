@@ -5,9 +5,9 @@
     </p>
 
     <div class="input-group">
-      <input type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
+      <input type="text" class="form-control" id="filter-query" [(ngModel)]="searchQuery" (keyup.enter)="search()">
         <div class="input-group-append">
-          <button class="btn btn-secondary" (click)="search()">Search</button>
+          <button class="btn btn-secondary" id="search-submit" (click)="search()">Search</button>
         </div>
     </div>
   </div>
@@ -92,8 +92,8 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let student of students">
-          <tr (click)="student.showLinks = !student.showLinks">
+        <ng-container *ngFor="let student of students; let i = index">
+          <tr id="student-card-{{ i }}" (click)="student.showLinks = !student.showLinks">
             <td>{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</td> <!-- TODO: tooltip course name -->
             <td>{{ student.name }}</td>
             <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId">{{ student.googleId }}</a></td>
@@ -112,7 +112,7 @@
                 </a>
                 <br>
               </div>
-              <button class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
+              <button class="btn btn-danger" id="regenerate-links-{{ i }}" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
             </td>
           </tr>
           <tr *ngIf="student.showLinks">
@@ -124,7 +124,7 @@
                 </li>
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
-                  <input [value]="student.courseJoinLink" readonly class="form-control">
+                  <input [value]="student.courseJoinLink" readonly class="form-control" id="course-join-{{ i }}">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let openFs of student.openSessions | keyvalue">
                   <strong>{{ openFs.key }}</strong>
