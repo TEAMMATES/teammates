@@ -26,9 +26,6 @@ import teammates.e2e.util.LNPTestData;
  */
 public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
-    private static final String JSON_DATA_PATH = "/studentProfileData.json";
-    private static final String CSV_CONFIG_PATH = "/studentProfileConfig.csv";
-
     private static final int NUMBER_OF_USER_ACCOUNTS = 500;
     private static final String USER_NAME = "DummyUser";
     private static final String USER_EMAIL = "personalEmail";
@@ -136,7 +133,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             public List<List<String>> generateCsvData() {
-                DataBundle dataBundle = loadDataBundle(JSON_DATA_PATH);
+                DataBundle dataBundle = loadDataBundle(getJsonDataPath());
                 List<List<String>> csvData = new ArrayList<>();
 
                 dataBundle.students.forEach((key, student) -> {
@@ -152,16 +149,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 return csvData;
             }
         };
-    }
-
-    @Override
-    protected String getCsvConfigPath() {
-        return CSV_CONFIG_PATH;
-    }
-
-    @Override
-    protected String getJsonDataPath() {
-        return JSON_DATA_PATH;
     }
 
     @Override
@@ -194,7 +181,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     @BeforeClass
     public void classSetup() {
         createTestData();
-        persistTestData(JSON_DATA_PATH);
+        persistTestData();
     }
 
     @Test
@@ -205,7 +192,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @AfterClass
     public void classTearDown() throws IOException {
-        deleteTestData(JSON_DATA_PATH);
+        deleteTestData();
         deleteDataFiles();
     }
 

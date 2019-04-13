@@ -36,16 +36,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract LNPTestData getTestData();
 
     /**
-     * Returns the path to the generated JSON data bundle file.
-     */
-    protected abstract String getJsonDataPath();
-
-    /**
-     * Returns the path to the generated JMeter CSV config file.
-     */
-    protected abstract String getCsvConfigPath();
-
-    /**
      * Returns the number of threads (users) in the L&P test.
      */
     protected abstract int getNumberOfThreads();
@@ -69,6 +59,20 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
      */
     protected abstract Map<String, String> getTestParameters();
+
+    /**
+     * Returns the path to the generated JSON data bundle file.
+     */
+    protected String getJsonDataPath() {
+        return "/" + getClass().getSimpleName() + ".json";
+    }
+
+    /**
+     * Returns the path to the generated JMeter CSV config file.
+     */
+    protected String getCsvConfigPath() {
+        return "/" + getClass().getSimpleName() + "Config.csv";
+    }
 
     @Override
     protected String getTestDataFolder() {
@@ -235,20 +239,18 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Creates the entities in the datastore from the file specified by {@code dataBundleJsonPath}.
-     *
-     * @param dataBundleJsonPath Path to the data bundle to be added
+     * Creates the entities in the datastore from the JSON data file.
      */
-    protected void persistTestData(String dataBundleJsonPath) {
-        DataBundle dataBundle = loadDataBundle(dataBundleJsonPath);
+    protected void persistTestData() {
+        DataBundle dataBundle = loadDataBundle(getJsonDataPath());
         BackDoor.removeAndRestoreDataBundle(dataBundle);
     }
 
     /**
-     * Deletes the data that was created in the datastore from the file specified by {@code dataBundleJsonPath}.
+     * Deletes the data that was created in the datastore from the JSON data file.
      */
-    protected void deleteTestData(String dataBundleJsonPath) {
-        DataBundle dataBundle = loadDataBundle(dataBundleJsonPath);
+    protected void deleteTestData() {
+        DataBundle dataBundle = loadDataBundle(getJsonDataPath());
         BackDoor.removeDataBundle(dataBundle);
     }
 
