@@ -1,0 +1,59 @@
+{
+  "accounts": {
+    "ASPUiT.instr": {
+      "googleId": "ASPUiT.instr",
+      "name": "Instructor",
+      "isInstructor": true,
+      "email": "tmms.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "ASPUiT.CS2104": {
+      "id": "ASPUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "ASPUiT.instr": {
+      "googleId": "ASPUiT.instr",
+      "courseId": "ASPUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "ASPUiT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "ASPUiT.alice": {
+      "googleId": "",
+      "email": "ASPUiT.alice@gmail.tmt",
+      "course": "ASPUiT.CS2104",
+      "name": "ASPUiT.student",
+      "comments": "",
+      "team": "1",
+      "section": "1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}
