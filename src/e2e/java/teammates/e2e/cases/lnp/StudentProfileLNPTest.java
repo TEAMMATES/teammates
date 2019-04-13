@@ -15,10 +15,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -105,26 +101,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 }
 
                 return students;
-            }
-
-            @Override
-            protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
-                return new HashMap<>();
             }
 
             @Override
