@@ -17,6 +17,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/AdminSearchPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+        putDocuments(testData);
     }
 
     @Test

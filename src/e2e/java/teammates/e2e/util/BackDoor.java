@@ -229,6 +229,16 @@ public final class BackDoor {
     }
 
     /**
+     * Puts searchable documents from the data bundle to the datastore.
+     */
+    public static String doPutDocuments(DataBundle dataBundle) {
+        ResponseBodyAndCode putRequestOutput =
+                executePostRequest(Const.ResourceURIs.DATABUNDLE_INDEX, null, JsonUtils.toJson(dataBundle));
+        return putRequestOutput.responseCode == HttpStatus.SC_OK
+                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+    }
+
+    /**
      * Gets a student's profile from the datastore.
      */
     public static StudentProfileAttributes getStudentProfile(String courseId, String studentEmail) {
