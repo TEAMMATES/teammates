@@ -65,6 +65,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         BrowserPool.release(browser);
     }
 
+    @Override
+    protected String doPutDocuments(DataBundle testData) {
+        return BackDoor.doPutDocuments(testData);
+    }
+
     /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
      * The base URL will be the value of test.app.url in test.properties.

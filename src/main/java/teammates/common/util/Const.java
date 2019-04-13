@@ -733,6 +733,7 @@ public final class Const {
         public static final String LOGOUT = "/logout";
 
         public static final String DATABUNDLE = "/databundle";
+        public static final String DATABUNDLE_INDEX = "/databundle/index";
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
