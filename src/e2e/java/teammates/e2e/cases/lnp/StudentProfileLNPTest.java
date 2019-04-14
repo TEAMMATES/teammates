@@ -187,7 +187,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @Test
     public void runLnpTest() throws IOException {
-        runJmeter(false);
+        runJmeter(true);
         // TODO: Generate summary report from .jtl results file / ResultCollector.
     }
 

@@ -159,7 +159,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Setup and load the JMeter configuration and property files to run the Jmeter test.
      * @throws IOException if the save service properties file cannot be loaded.
      */
-    private void loadJmeterProperties() throws IOException {
+    private void setJmeterProperties() throws IOException {
         JMeterUtils.loadJMeterProperties(TestProperties.JMETER_PROPERTIES_PATH);
         JMeterUtils.setJMeterHome(TestProperties.JMETER_HOME);
         JMeterUtils.initLocale();
@@ -262,24 +262,25 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected void runJmeter(boolean shouldCreateJmxFile) throws IOException {
         StandardJMeterEngine jmeter = new StandardJMeterEngine();
 
-        loadJmeterProperties();
+        setJmeterProperties();
 
         // Load JMeter Test Plan
         HashTree testPlanTree = getLnpTestPlan(shouldCreateJmxFile);
 
-        // Create summariser for generating results file
-        Summariser summer = null;
+        // Add result collector for generating results file
+        Summariser summariser = null;
         String summariserName = JMeterUtils.getPropDefault("summariser.name", "summary");
         if (summariserName.length() > 0) {
-            summer = new Summariser(summariserName);
+            summariser = new Summariser(summariserName);
         }
 
-        String resultFile = TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + ".jtl";
-        ResultCollector logger = new ResultCollector(summer);
-        logger.setFilename(resultFile);
-        testPlanTree.add(testPlanTree.getArray()[0], logger);
+        String resultsFile = TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + ".jtl";
+        ResultCollector resultCollector = new ResultCollector(summariser);
+        resultCollector.setFilename(resultsFile);
+        testPlanTree.add(testPlanTree.getArray()[0], resultCollector);
 
-        File file = new File(resultFile);
+        // Overwrite existing results file
+        File file = new File(resultsFile);
         if (file.exists()) {
             file.delete();
         }
