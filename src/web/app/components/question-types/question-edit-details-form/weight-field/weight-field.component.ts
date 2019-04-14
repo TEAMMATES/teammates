@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
- * The input field to specify weights for Mcq options.
+ * The input field to specify weights for Mcq/Msq options.
  */
 @Component({
   selector: 'tm-weight-field',
@@ -17,14 +17,14 @@ export class WeightFieldComponent {
   weight: number = 1;
 
   @Output()
-  mcqWeight: EventEmitter<any> = new EventEmitter();
+  weightEntered: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   /**
    * Emit the weight entered to the parent component.
    */
-  onMcqWeightEntered(weight: number): void {
-    this.mcqWeight.emit(weight);
+  onWeightEntered(weight: number): void {
+    this.weightEntered.emit(weight);
   }
 }

@@ -17,3 +17,8 @@ label {
 /deep/.close:focus {
   outline: 0;
 }
+
+.invalid-field {
+  padding-top: 5px;
+  color: #B50000;
+}
