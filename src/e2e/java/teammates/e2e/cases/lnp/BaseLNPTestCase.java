@@ -291,9 +291,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
         // TODO: As mentioned in the docs, good to fail the test if there is an Exception, or if the `success` value of
         //  requests is `false`. An example of when this occurs is if the JMeter test properties are not set or if `email`
-        //  is used for logging in instead of `googleid`:
+        //  is used for logging in instead of `googleid`. Tests should fail if this assertion fails:
         //      assertTrue(resultsErrorRate < this.getAcceptableErrorRate());
-
     }
 
     /**

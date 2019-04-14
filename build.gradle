@@ -597,7 +597,7 @@ task lnpTests(type: Test) {
     beforeTest { TestDescriptor td -> outputCache.clear() } // clear output cache before the test starts
     onOutput { TestDescriptor td, TestOutputEvent toe -> // put output in the cache
         outputCache.add(toe.getMessage())
-        while (outputCache.size() > 2) outputCache.remove() // keep only last 2 result lines; if more than 3 lines -> drop first
+        while (outputCache.size() > 2) outputCache.remove() // keep only last 2 result lines
     }
     afterTest { TestDescriptor td ->
         if (outputCache.size() > 0) {
