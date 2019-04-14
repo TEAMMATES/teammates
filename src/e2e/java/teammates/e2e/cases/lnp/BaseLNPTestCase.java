@@ -289,10 +289,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         jmeter.configure(testPlanTree);
         jmeter.run();
 
-        // TODO: As mentioned in the docs, good to fail the test if the `success` value of any row is `false`,
-        //  or if there is an Exception.
-        //  An example of when this occurs is if `email` is used for logging in instead of `googleid`, or if the JMeter
-        //  test properties are not set.
+        // TODO: As mentioned in the docs, good to fail the test if there is an Exception, or if the `success` value of
+        //  requests is `false`. An example of when this occurs is if the JMeter test properties are not set or if `email`
+        //  is used for logging in instead of `googleid`:
+        //      assertTrue(resultsErrorRate < this.getAcceptableErrorRate());
+
     }
 
     /**
