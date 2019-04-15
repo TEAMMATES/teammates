@@ -229,7 +229,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
 
         assertTrue(response.isCanViewStudentInSections());
 
-        assertFalse(response.isCanSubmitSessionInSections());
+        assertTrue(response.isCanSubmitSessionInSections());
         assertTrue(response.isCanViewSessionInSections());
         assertTrue(response.isCanModifySessionCommentsInSections());
     }
