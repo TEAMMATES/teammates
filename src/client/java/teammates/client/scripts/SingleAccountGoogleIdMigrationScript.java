@@ -26,11 +26,6 @@ public class SingleAccountGoogleIdMigrationScript extends GoogleIdMigrationBaseS
     }
 
     @Override
-    protected String getLastPositionOfCursor() {
-        return "";
-    }
-
-    @Override
     protected Query<Account> getFilterQuery() {
         return ofy().load().type(Account.class).filterKey(Key.create(Account.class, fromAccountGoogleId));
     }
