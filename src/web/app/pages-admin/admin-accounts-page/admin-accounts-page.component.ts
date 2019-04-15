@@ -57,16 +57,8 @@ export class AdminAccountsPageComponent implements OnInit {
       }
     });
 
-    this.courseService.getInstructorCoursesInMasqueradeMode('active', instructorid).subscribe((resp: Courses) => {
-      this.instructorCourses = this.instructorCourses.concat(resp.courses);
-    }, (resp: ErrorMessageOutput) => {
-      if (resp.status !== 403) {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      }
-    });
-
-    this.courseService.getInstructorCoursesInMasqueradeMode('archived', instructorid).subscribe((resp: Courses) => {
-      this.instructorCourses = this.instructorCourses.concat(resp.courses);
+    this.courseService.getInstructorCoursesInMasqueradeMode(instructorid).subscribe((resp: Courses) => {
+      this.instructorCourses = resp.courses;
     }, (resp: ErrorMessageOutput) => {
       if (resp.status !== 403) {
         this.statusMessageService.showErrorMessage(resp.error.message);

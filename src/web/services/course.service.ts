@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { Course, CourseArchive, Courses,  HasResponses, JoinStatus, MessageOutput } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
@@ -39,13 +39,22 @@ export class CourseService {
   /**
    * Get instructor courses data of given google id in masquerade mode by calling API.
    */
-  getInstructorCoursesInMasqueradeMode(courseStatus: string, googleId: string): Observable<Courses> {
-    const paramMap: { [key: string]: string } = {
-      coursestatus: courseStatus,
+  getInstructorCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
+    const activeCoursesParamMap: { [key: string]: string } = {
+      coursestatus: 'active',
       entitytype: 'instructor',
       user: googleId,
     };
-    return this.httpRequestService.get('/courses', paramMap);
+    const archivedCoursesParamMap: { [key: string]: string } = {
+      coursestatus: 'archived',
+      entitytype: 'instructor',
+      user: googleId,
+    };
+
+    return merge(
+        this.httpRequestService.get('/courses', activeCoursesParamMap),
+        this.httpRequestService.get('/courses', archivedCoursesParamMap),
+    );
   }
 
   /**
