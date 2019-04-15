@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
@@ -31,10 +35,16 @@ import teammates.test.cases.BaseTestCase;
  */
 public abstract class BaseLNPTestCase extends BaseTestCase {
 
+    protected static final String GET = HttpGet.METHOD_NAME;
+    protected static final String POST = HttpPost.METHOD_NAME;
+    protected static final String PUT = HttpPut.METHOD_NAME;
+    protected static final String DELETE = HttpDelete.METHOD_NAME;
+
     private static final Logger log = Logger.getLogger();
 
     protected abstract LNPTestData getTestData();
 
+    // L&P test config
     /**
      * Returns the number of threads (users) in the L&P test.
      */
@@ -58,8 +68,24 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
      */
-    protected abstract Map<String, String> getTestParameters();
+    protected abstract Map<String, String> getRequestParameters();
 
+    /**
+     * Returns the body of the HTTP request to the test endpoint.
+     */
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    protected String getRequestBody() {
+        return "";
+    }
+
+    /**
+     * Returns the Content-Type of the HTTP request body.
+     */
+    protected String getRequestBodyContentType() {
+        return "application/json";
+    }
+
+    // file paths
     /**
      * Returns the path to the generated JSON data bundle file.
      */
@@ -72,6 +98,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected String getCsvConfigPath() {
         return "/" + getClass().getSimpleName() + "Config.csv";
+    }
+
+    /**
+     * Returns the path to the generated JTL results file.
+     */
+    protected String getJtlResultsPath() {
+        return "/" + getClass().getSimpleName() + ".jtl";
     }
 
     @Override
@@ -179,7 +212,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         int rampUpPeriod = getRampUpPeriod();
         String testEndpoint = getTestEndpoint();
         String testMethod = getTestMethod();
-        Map<String, String> args = getTestParameters();
+        Map<String, String> params = getRequestParameters();
+        String body = getRequestBody();
+        String contentType = getRequestBodyContentType();
 
         HashTree testPlanHashTree = new JMeterConfig() {
 
@@ -204,8 +239,18 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             }
 
             @Override
-            protected Map<String, String> getTestArguments() {
-                return args;
+            protected Map<String, String> getRequestParameters() {
+                return params;
+            }
+
+            @Override
+            protected String getRequestBody() {
+                return body;
+            }
+
+            @Override
+            protected String getRequestBodyContentType() {
+                return contentType;
             }
 
             @Override
@@ -274,16 +319,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             summariser = new Summariser(summariserName);
         }
 
-        String resultsFile = TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + ".jtl";
+        String resultsFile = createFileAndDirectory(TestProperties.LNP_TEST_RESULTS_FOLDER, getJtlResultsPath());
         ResultCollector resultCollector = new ResultCollector(summariser);
         resultCollector.setFilename(resultsFile);
         testPlanTree.add(testPlanTree.getArray()[0], resultCollector);
-
-        // Overwrite existing results file
-        File file = new File(resultsFile);
-        if (file.exists()) {
-            file.delete();
-        }
 
         // Run JMeter Test
         jmeter.configure(testPlanTree);
