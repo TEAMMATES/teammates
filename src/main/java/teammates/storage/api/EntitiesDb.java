@@ -12,6 +12,7 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchQueryException;
+import com.google.common.base.Objects;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
@@ -44,6 +45,12 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
      * Error message when trying to update entity that does not exist.
      */
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
+
+    /**
+     * Info message when entity is not saved because it does not change.
+     */
+    public static final String OPTIMIZED_SAVING_POLICY_APPLIED =
+            "Saving request is not issued because entity %s does not change by the update (%s)";
 
     protected static final Logger log = Logger.getLogger();
 
@@ -133,6 +140,13 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
         ofy().save().entities(entities).now();
 
         return makeAttributes(entities);
+    }
+
+    /**
+     * Checks whether two values are the same.
+     */
+    protected <T> boolean hasSameValue(T oldValue, T newValue) {
+        return Objects.equal(oldValue, newValue);
     }
 
     /**

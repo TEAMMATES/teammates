@@ -198,14 +198,14 @@
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
           "canmodifycourse": true,
-          "canviewsessioninsection": true,
+          "canmodifyinstructor": true,
           "canmodifysession": true,
           "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
