@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jmeter.protocol.http.control.HeaderManager;
+import org.apache.jorphan.collections.HashTree;
+import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -17,6 +20,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
 
 /**
@@ -81,7 +85,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
             public List<String> generateCsvHeaders() {
                 List<String> headers = new ArrayList<>();
 
-                headers.add("email");
+                headers.add("loginId");
                 headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("enrollData");
@@ -130,39 +134,39 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         };
     }
 
-    @Override
-    protected int getNumberOfThreads() {
-        return NUM_INSTRUCTORS;
+    private Map<String, String> getRequestHeaders() {
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put("Content-Type", "text/csv");
+
+        return headers;
     }
 
-    @Override
-    protected int getRampUpPeriod() {
-        return NUM_INSTRUCTORS * 2;
-    }
-
-    @Override
-    protected String getTestEndpoint() {
+    private String getTestEndpoint() {
         return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.COURSE_ENROLL_SAVE + "?courseid=${courseId}";
     }
 
     @Override
-    protected String getTestMethod() {
-        return POST;
-    }
+    protected ListedHashTree getLnpTestPlan() {
+        ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
+        HashTree threadGroup = testPlan.add(
+                JMeterElements.threadGroup(NUM_INSTRUCTORS, NUM_INSTRUCTORS * 2, 1));
 
-    @Override
-    protected Map<String, String> getRequestParameters() {
-        return new HashMap<>();
-    }
+        threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
+        threadGroup.add(JMeterElements.cookieManager());
+        threadGroup.add(JMeterElements.defaultSampler());
 
-    @Override
-    protected String getRequestBody() {
-        return "${enrollData}";
-    }
+        threadGroup.add(JMeterElements.onceOnlyController())
+                .add(JMeterElements.loginSampler())
+                .add(JMeterElements.csrfExtractor("csrfToken"));
 
-    @Override
-    protected String getRequestBodyContentType() {
-        return "text/csv";
+        // Add HTTP sampler for test endpoint
+        HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
+        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), POST, "${enrollData}"))
+                .add(headerManager);
+
+        return testPlan;
     }
 
     @BeforeClass

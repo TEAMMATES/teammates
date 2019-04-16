@@ -3,11 +3,12 @@ package teammates.e2e.cases.lnp;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jorphan.collections.HashTree;
+import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,6 +21,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
 
 /**
@@ -126,9 +128,9 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
             public List<String> generateCsvHeaders() {
                 List<String> headers = new ArrayList<>();
 
-                headers.add("email");
+                headers.add("loginId");
                 headers.add("isAdmin");
-                headers.add("googleid");
+                headers.add("googleId");
 
                 return headers;
             }
@@ -141,7 +143,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 dataBundle.students.forEach((key, student) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(student.googleId); // "googleid" is used for logging in, not "email"
+                    csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
                     csvRow.add("no");
                     csvRow.add(student.googleId);
 
@@ -153,31 +155,26 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         };
     }
 
-    @Override
-    protected int getNumberOfThreads() {
-        return NUMBER_OF_USER_ACCOUNTS;
+    private String getTestEndpoint() {
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleId}";
     }
 
     @Override
-    protected int getRampUpPeriod() {
-        return 2;
-    }
+    protected ListedHashTree getLnpTestPlan() {
+        ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
+        HashTree threadGroup = testPlan.add(
+                JMeterElements.threadGroup(NUMBER_OF_USER_ACCOUNTS, 2, 1));
 
-    @Override
-    protected String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleid}";
-    }
+        threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
+        threadGroup.add(JMeterElements.cookieManager());
+        threadGroup.add(JMeterElements.defaultSampler());
+        threadGroup.add(JMeterElements.onceOnlyController())
+                .add(JMeterElements.loginSampler());
 
-    @Override
-    protected String getTestMethod() {
-        return GET;
-    }
+        // Add HTTP sampler for test endpoint
+        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint()));
 
-    @Override
-    protected Map<String, String> getRequestParameters() {
-        Map<String, String> args = new HashMap<>();
-        args.put("googleid", "${googleid}");
-        return args;
+        return testPlan;
     }
 
     @BeforeClass
