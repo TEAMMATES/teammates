@@ -91,8 +91,12 @@ export class PageComponent {
         fromEvent(window, 'offline').pipe(mapTo(false)),
     );
 
-    // Closes modals when the back or forward button is clicked in the browser
-    location.onPopState(() => this.modalService.dismissAll());
+    // Close open modal(s) when moving backward or forward through history in the browser page
+    location.onPopState(() => {
+      if (this.modalService.hasOpenModals()) {
+        this.modalService.dismissAll()
+      }
+    });
   }
 
   private checkBrowserVersion(): void {
