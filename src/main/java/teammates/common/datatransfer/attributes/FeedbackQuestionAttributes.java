@@ -61,13 +61,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         faq.recipientType = fq.getRecipientType();
         faq.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
         if (fq.getShowResponsesTo() != null) {
-            faq.showResponsesTo = fq.getShowResponsesTo();
+            faq.showResponsesTo = new ArrayList<>(fq.getShowResponsesTo());
         }
         if (fq.getShowGiverNameTo() != null) {
-            faq.showGiverNameTo = fq.getShowGiverNameTo();
+            faq.showGiverNameTo = new ArrayList<>(fq.getShowGiverNameTo());
         }
         if (fq.getShowRecipientNameTo() != null) {
-            faq.showRecipientNameTo = fq.getShowRecipientNameTo();
+            faq.showRecipientNameTo = new ArrayList<>(fq.getShowRecipientNameTo());
         }
         faq.createdAt = fq.getCreatedAt();
         faq.updatedAt = fq.getUpdatedAt();

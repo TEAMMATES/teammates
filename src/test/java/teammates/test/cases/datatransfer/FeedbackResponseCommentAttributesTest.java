@@ -242,6 +242,23 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testValueOf_modificationInAttributes_shouldNotLeakStateToEntity() {
+        FeedbackResponseComment responseComment = new FeedbackResponseComment("course", "name",
+                "question", "giver", FeedbackParticipantType.STUDENTS, "id", null,
+                "comment", null, null,
+                new ArrayList<>(), new ArrayList<>(), "lastEditor", Instant.now(), false, false);
+
+        FeedbackResponseCommentAttributes commentAttributes =
+                FeedbackResponseCommentAttributes.valueOf(responseComment);
+
+        commentAttributes.getShowCommentTo().add(FeedbackParticipantType.STUDENTS);
+        commentAttributes.getShowGiverNameTo().add(FeedbackParticipantType.STUDENTS);
+
+        assertTrue(responseComment.getShowCommentTo().isEmpty());
+        assertTrue(responseComment.getShowGiverNameTo().isEmpty());
+    }
+
+    @Test
     public void testConvertCommentTextToStringForCsv() {
         String text = "aaa , bb\"b, c\"\"cc <image src=\"http://test.com/test.png\"></image> hello";
         FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
