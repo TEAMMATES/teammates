@@ -16,7 +16,7 @@ export class CourseService {
   }
 
   /**
-   * Get course data by calling API. Use as an instructor.
+   * Get course data by calling API as an instructor.
    */
   getCourseAsInstructor(courseId: string): Observable<Course> {
     const paramMap: { [key: string]: string } = {
@@ -27,7 +27,7 @@ export class CourseService {
   }
 
   /**
-   * Get course data by calling API. Use as a student.
+   * Get course data by calling API as a student.
    */
   getCourseAsStudent(courseId: string): Observable<Course> {
     const paramMap: { [key: string]: string } = {
