@@ -53,8 +53,8 @@ public class StudentProfilePage extends AppPage {
     @FindBy(className = "btn-space")
     private List<WebElement> editPictureTools;
 
-    @FindBy(className = "mat-simple-snackbar")
-    private WebElement successStatusMessage;
+    @FindBy(id = "profile-edit-picture-submit")
+    private WebElement editPictureSubmit;
 
     public StudentProfilePage(Browser browser) {
         super(browser);
@@ -183,10 +183,6 @@ public class StudentProfilePage extends AppPage {
         ensureNationalityIsSelectedAs(nationality);
         ensureGenderIsSelectedAs(gender);
         assertEquals(moreInfo, moreInfoBox.getAttribute("value"));
-    }
-
-    public void verifyStatusMessage(String message) {
-        assertEquals(message, successStatusMessage.getText());
     }
 
     /**

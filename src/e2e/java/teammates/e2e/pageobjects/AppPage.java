@@ -64,6 +64,12 @@ public abstract class AppPage {
     @FindBy(linkText = "Profile")
     private WebElement studentProfileTab;
 
+    @FindBy(className = "snackbar-success")
+    private WebElement successStatusMessage;
+
+    @FindBy(className = "snackbar-danger")
+    private WebElement errorStatusMessage;
+
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -214,6 +220,24 @@ public abstract class AppPage {
         // this is based on the implementation detail assumption that once modal-backdrop is removed the modal is hidden
         waitForElementStaleness(modalBackdrop);
     }
+    private void waitForSuccessStatusMessage() {
+        waitForElementVisibility(successStatusMessage);
+    }
+
+    private void waitForErrorStatusMessage() {
+        waitForElementVisibility(errorStatusMessage);
+    }
+
+    public void verifySuccessStatusMessage(String message) {
+        waitForSuccessStatusMessage();
+        assertEquals(successStatusMessage.getText(), message);
+    }
+
+    public void verifyErrorStatusMessage(String message) {
+        waitForErrorStatusMessage();
+        assertEquals(errorStatusMessage.getText(), message);
+    }
+
 
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
