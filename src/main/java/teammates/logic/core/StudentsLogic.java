@@ -13,6 +13,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -209,17 +210,27 @@ public final class StudentsLogic {
     }
 
     /**
-     * Regenerates the registration key for the student represented by {@code originalStudent}.
+     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     *
      * @return Returns the student attributes with the new registration key.
+     * @throws RegenerateStudentException if the newly generated course student has the same registration key as the
+     *          original one.
      */
-    public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes originalStudent) {
-        try {
-            studentsDb.deleteStudent(originalStudent.getCourse(), originalStudent.getEmail());
-            StudentAttributes updatedStudent;
+    public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, RegenerateStudentException {
 
-            do {
-                updatedStudent = studentsDb.createEntity(originalStudent);
-            } while (updatedStudent.getKey().equals(originalStudent.getKey()));
+        try {
+            StudentAttributes originalStudent = studentsDb.getStudentForEmail(courseId, email);
+            if (originalStudent == null) {
+                throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
+            }
+
+            studentsDb.deleteStudent(courseId, email);
+
+            StudentAttributes updatedStudent = studentsDb.createEntity(originalStudent);
+            if (updatedStudent.getKey().equals(originalStudent.getKey())) {
+                throw new RegenerateStudentException("");
+            }
 
             return updatedStudent;
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {

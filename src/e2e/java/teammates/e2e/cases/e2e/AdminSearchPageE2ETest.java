@@ -39,7 +39,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         searchPage.regenerateLinksForStudent(0);
 
-        searchPage.verifyStatusMessage("Student's links for this course have been regenerated");
+        searchPage.verifyStatusMessage("Student's links for this course have been successfully regenerated,"
+                + " and the email has been sent.");
         // checks that the course join link is not the same after the regeneration action
         assertNotEquals(searchPage.getCourseJoinLinkForStudent(0), originalCourseJoinLink);
 
