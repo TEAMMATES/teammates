@@ -1,11 +1,14 @@
 package teammates.e2e.pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
+/**
+ * Page Object Model for instructor home page.
+ */
 public class InstructorHomePage extends AppPage {
 
     @FindBy(id = "sort-by-course-id")
@@ -48,7 +51,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     public void clickAndConfirmRemindStudentsWithUsers(int rowId) {
-        clickFsRemindStudentsBtn((rowId));
+        clickFsRemindStudentsBtn(rowId);
         fillRemindUsersForm();
         clickModalSubmitBtn();
     }
@@ -198,11 +201,13 @@ public class InstructorHomePage extends AppPage {
     }
 
     private WebElement getSessionBtnInRow(String elementClassNamePrefix, int rowId) {
-        return browser.driver.findElement(By.className("session-" + rowId)).findElement(By.className(elementClassNamePrefix));
+        return browser.driver.findElement(By.className("session-" + rowId))
+                .findElement(By.className(elementClassNamePrefix));
     }
 
     private WebElement getSessionElementInRow(String elementCssSelectPrefix, int rowId) {
-        return browser.driver.findElement(By.className("session-" + rowId)).findElement(By.cssSelector(elementCssSelectPrefix));
+        return browser.driver.findElement(By.className("session-" + rowId))
+                .findElement(By.cssSelector(elementCssSelectPrefix));
     }
 
     private void checkCheckboxesInForm(WebElement form, String elementsName) {

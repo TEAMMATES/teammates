@@ -28,7 +28,7 @@ public class HomePage extends AppPage {
         return createCorrectLoginPageType(browser);
     }
 
-    public LoginPage clickInstructorLogin()  {
+    public LoginPage clickInstructorLogin() {
         click(instructorLoginLink);
         return createCorrectLoginPageType(browser);
     }

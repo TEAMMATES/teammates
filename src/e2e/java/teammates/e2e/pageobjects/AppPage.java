@@ -73,9 +73,6 @@ public abstract class AppPage {
     @FindBy(className = "snackbar-danger")
     private WebElement errorStatusMessage;
 
-    @FindBy(className = "snackbar-warning")
-    private WebElement warningStatusMessage;
-
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -246,6 +243,7 @@ public abstract class AppPage {
         // this is based on the implementation detail assumption that once modal-backdrop is removed the modal is hidden
         waitForElementStaleness(modalBackdrop);
     }
+
     private void waitForSuccessStatusMessage() {
         waitForElementVisibility(successStatusMessage);
     }
@@ -263,7 +261,6 @@ public abstract class AppPage {
         waitForErrorStatusMessage();
         assertEquals(errorStatusMessage.getText(), message);
     }
-
 
     public void verifyElementContainsElement(WebElement parentElement, By childBy) {
         assertFalse(parentElement.findElements(childBy).isEmpty());

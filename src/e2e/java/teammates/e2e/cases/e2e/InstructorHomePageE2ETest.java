@@ -1,7 +1,13 @@
 package teammates.e2e.cases.e2e;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -9,10 +15,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorHomePage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_HOME_PAGE}.
@@ -49,21 +51,22 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
     @Test
     public void allTests() {
+        loginAsCommonInstructor();
         testContent();
         testSortAction();
         testResponseLink();
         testRemindActions();
         testPublishUnpublishResendActions();
         testCopyToFsAction();
-        // testArchiveCourseAction();
+        testArchiveCourseAction();
         testDeleteAction();
+        logout();
     }
 
     private void testContent() {
 
         ______TS("Test multiple courses content");
 
-        loginAsCommonInstructor();
         courseIds = getAllVisibleCourseIds();
         // default courses are sort by "Creation Date"
         verifyVisibleCourseNames(courseIds);
@@ -75,8 +78,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         ______TS("Test case: download action");
         // TODO: to be added after implementation of download result feature
-
-        logout();
 
     }
 
@@ -98,15 +99,15 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         int courseIdx = courseIds.indexOf(COURSE_WITH_SESSIONS);
         homePage.sortTablesByStartDate();
-        feedbackSessions.sort(Comparator.comparing((FeedbackSessionAttributes::getStartTime)));
+        feedbackSessions.sort(Comparator.comparing(FeedbackSessionAttributes::getStartTime));
         verifyVisibleSessionNames(feedbackSessions, courseIdx);
 
         homePage.sortTablesByEndDate();
-        feedbackSessions.sort(Comparator.comparing((FeedbackSessionAttributes::getEndTime)));
+        feedbackSessions.sort(Comparator.comparing(FeedbackSessionAttributes::getEndTime));
         verifyVisibleSessionNames(feedbackSessions, courseIdx);
 
         homePage.sortTablesByName();
-        feedbackSessions.sort(Comparator.comparing((FeedbackSessionAttributes::getFeedbackSessionName)));
+        feedbackSessions.sort(Comparator.comparing(FeedbackSessionAttributes::getFeedbackSessionName));
         verifyVisibleSessionNames(feedbackSessions, courseIdx);
 
     }
@@ -203,7 +204,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.fillFormWithLastCourseSelected("testing session");
         homePage.clickModalSubmitBtn();
-        homePage.verifySuccessStatusMessage("The feedback session has been copied. Please modify settings/questions as necessary.");
+        homePage.verifySuccessStatusMessage("The feedback session has been copied."
+                + " Please modify settings/questions as necessary.");
 
         homePage.clickHomeBtn();
         // TODO: add verification for session
@@ -219,19 +221,11 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.clickAndConfirm(homePage.getCourseArchiveBtn(courseIdx));
         homePage.verifyErrorStatusMessage("The request is not valid.");
 
-        courseIdx = courseIds.indexOf(COURSE_WITH_NO_PRIVILEGES);
-        homePage.clickAndConfirm(homePage.getCourseArchiveBtn(courseIdx));
-        homePage.verifyErrorStatusMessage("You are not authorized to access this resource.");
+        // TODO: Add a valid course for archiving
+        // courseIdx = courseIds.indexOf(COURSE_WITH_NO_PRIVILEGES);
+        // homePage.clickAndConfirm(homePage.getCourseArchiveBtn(courseIdx));
+        // homePage.verifyErrorStatusMessage("You are not authorized to access this resource.");
 
-        // TODO: check backend that course isArchived
-        //InstructorAttributes instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
-        // InstructorAttributes helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
-        // check archive in backend!
-        // should be able to pass but fails at the moment
-
-//         Both will be false before it is archived for testing
-//        assertFalse(instructor.isArchived);
-//        assertFalse(helper.isArchived);
     }
 
     private void testDeleteAction() {
@@ -307,7 +301,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     private boolean verifyVisibleSessionName(String fsName, String courseId, int index) {
         return browser.driver.findElement(By.id(courseId))
                 .findElement(By.className("session-" + index)).getText().contains(fsName);
-        // return true;
     }
 
     private void loginAsCommonInstructor() {
