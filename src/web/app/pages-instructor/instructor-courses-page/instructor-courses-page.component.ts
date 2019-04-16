@@ -5,7 +5,8 @@ import { forkJoin, Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Course, CourseArchive, MessageOutput } from '../../../types/api-output';
+import { StudentService } from '../../../services/student.service';
+import { Course, CourseArchive, JoinState, MessageOutput, Student, Students } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -35,13 +36,6 @@ interface SoftDeletedCourse {
   createdAt: string;
   deletedAt: string;
   canModifyCourse: boolean;
-}
-
-interface CourseStats {
-  sectionsTotal: number;
-  teamsTotal: number;
-  studentsTotal: number;
-  unregisteredTotal: number;
 }
 
 interface InstructorPrivileges {
@@ -85,6 +79,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
+              private studentService: StudentService,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -151,16 +146,13 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      user: this.user,
-    };
-    this.httpRequestService.get('/course/stats', paramMap).subscribe((resp: CourseStats) => {
+    this.studentService.getStudentsFromCourse(courseId).subscribe((students: Students) => {
       this.courseStats[courseId] = {
-        sections: resp.sectionsTotal,
-        teams: resp.teamsTotal,
-        students: resp.studentsTotal,
-        unregistered: resp.unregisteredTotal,
+        sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
+        teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
+        students: students.students.length,
+        unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED)
+          .length,
       };
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);

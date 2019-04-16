@@ -26,46 +26,41 @@ import teammates.common.util.Const;
 import teammates.e2e.util.LNPTestData;
 
 /**
- * L&P Test Case for student profile API endpoint.
+ * L&P Test Case for instructor's student enrollment API endpoint.
  */
-public final class StudentProfileLNPTest extends BaseLNPTestCase {
+public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
-    private static final String JSON_DATA_PATH = "/studentProfileData.json";
-    private static final String CSV_CONFIG_PATH = "/studentProfileConfig.csv";
+    private static final String JSON_DATA_PATH = "/instructorStudentEnrollmentData.json";
+    private static final String CSV_CONFIG_PATH = "/instructorStudentEnrollmentConfig.csv";
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 500;
-    private static final String STUDENT_NAME = "LnPStudent";
-    private static final String STUDENT_EMAIL = "personalEmail";
+    private static final int NUM_INSTRUCTORS = 10;
+    private static final int NUM_STUDENTS_PER_INSTRUCTOR = 100;
+    private static final int NUM_STUDENTS_PER_SECTION = 25;
+
+    private static final String INSTRUCTOR_NAME = "LnPInstructor";
+    private static final String INSTRUCTOR_EMAIL = "personalEmail";
+    private static final String COURSE_NAME = "LnPCourse";
 
     @Override
     protected LNPTestData getTestData() {
         return new LNPTestData() {
             @Override
             protected Map<String, AccountAttributes> generateAccounts() {
-                Map<String, AccountAttributes> accounts = new HashMap<>();
-
-                for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    accounts.put(STUDENT_NAME + i, AccountAttributes.builder(STUDENT_NAME + i + ".tmms")
-                            .withEmail(STUDENT_EMAIL + i + "@gmail.tmt")
-                            .withName(STUDENT_NAME + i)
-                            .withIsInstructor(false)
-                            .withInstitute("TEAMMATES Test Institute 1")
-                            .build()
-                    );
-                }
-
-                return accounts;
+                return new HashMap<>();
             }
 
             @Override
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new HashMap<>();
 
-                courses.put("course", CourseAttributes.builder("TestData.CS101")
-                        .withName("Intro To Programming")
-                        .withTimezone(ZoneId.of("UTC"))
-                        .build()
-                );
+                // Create a course for each instructor
+                for (int i = 0; i < NUM_INSTRUCTORS; i++) {
+                    courses.put(COURSE_NAME + i, CourseAttributes.builder(COURSE_NAME + "." + i)
+                            .withName(COURSE_NAME + i)
+                            .withTimezone(ZoneId.of("UTC"))
+                            .build()
+                    );
+                }
 
                 return courses;
             }
@@ -74,38 +69,26 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
             protected Map<String, InstructorAttributes> generateInstructors() {
                 Map<String, InstructorAttributes> instructors = new HashMap<>();
 
-                instructors.put("teammates.test.instructor",
-                        InstructorAttributes.builder("TestData.CS101", "tmms.test@gmail.tmt")
-                                .withGoogleId("TestData.instructor")
-                                .withName("Teammates Test")
-                                .withRole("Co-owner")
-                                .withIsDisplayedToStudents(true)
-                                .withDisplayedName("Co-owner")
-                                .withPrivileges(new InstructorPrivileges(
-                                        Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
-                                .build()
-                );
+                for (int i = 0; i < NUM_INSTRUCTORS; i++) {
+                    instructors.put(INSTRUCTOR_NAME + i,
+                            InstructorAttributes.builder(COURSE_NAME + "." + i, INSTRUCTOR_EMAIL + i + "@gmail.tmt")
+                                    .withGoogleId(INSTRUCTOR_NAME + i)
+                                    .withName(INSTRUCTOR_NAME + i)
+                                    .withRole("Co-owner")
+                                    .withIsDisplayedToStudents(true)
+                                    .withDisplayedName("Co-owner")
+                                    .withPrivileges(new InstructorPrivileges(
+                                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
+                                    .build()
+                    );
+                }
 
                 return instructors;
             }
 
             @Override
             protected Map<String, StudentAttributes> generateStudents() {
-                Map<String, StudentAttributes> students = new HashMap<>();
-
-                for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    students.put(STUDENT_NAME + i,
-                            StudentAttributes.builder("TestData.CS101", STUDENT_EMAIL + i + "@gmail.tmt")
-                                .withGoogleId(STUDENT_NAME + i + ".tmms")
-                                .withName(STUDENT_NAME + i)
-                                .withComment("This student's name is " + STUDENT_NAME + i)
-                                .withTeamName("Team 1")
-                                .withSectionName("None")
-                                .build()
-                    );
-                }
-
-                return students;
+                return new HashMap<>();
             }
 
             @Override
@@ -130,22 +113,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, StudentProfileAttributes> generateProfiles() {
-                Map<String, StudentProfileAttributes> profiles = new HashMap<>();
-
-                for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    profiles.put(STUDENT_NAME + i, StudentProfileAttributes.builder(STUDENT_NAME + i + ".tmms")
-                            .withEmail(STUDENT_EMAIL + i + "@gmail.tmt")
-                            .withShortName(String.valueOf(i))
-                            .withInstitute("TEAMMATES Test Institute 222")
-                            .withMoreInfo("I am " + i)
-                            .withPictureKey("")
-                            .withGender(StudentProfileAttributes.Gender.MALE)
-                            .withNationality("American")
-                            .build()
-                    );
-                }
-
-                return profiles;
+                return new HashMap<>();
             }
 
             @Override
@@ -154,7 +122,8 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
                 headers.add("email");
                 headers.add("isAdmin");
-                headers.add("googleid");
+                headers.add("courseId");
+                headers.add("enrollData");
 
                 return headers;
             }
@@ -164,12 +133,33 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 DataBundle dataBundle = loadDataBundle(JSON_DATA_PATH);
                 List<List<String>> csvData = new ArrayList<>();
 
-                dataBundle.students.forEach((key, student) -> {
+                dataBundle.instructors.forEach((key, instructor) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(student.googleId); // "googleid" is used for logging in, not "email"
+                    csvRow.add(instructor.googleId);
                     csvRow.add("no");
-                    csvRow.add(student.googleId);
+                    csvRow.add(instructor.courseId);
+
+                    // Create and add student enrollment data with a team number corresponding to each section number
+                    int dataLength = 75 * NUM_STUDENTS_PER_INSTRUCTOR;
+                    StringBuilder enrollData = new StringBuilder(dataLength);
+                    enrollData.append("\"Section|Team|Name|Email|Comments\n");
+
+                    for (int i = 0; i < NUM_STUDENTS_PER_INSTRUCTOR; i++) {
+                        String name = instructor.name + ".Student" + i;
+                        String email = instructor.name + ".Student" + i + "@gmail.tmt";
+
+                        enrollData.append(i / NUM_STUDENTS_PER_SECTION)
+                                .append('|')
+                                .append(i / NUM_STUDENTS_PER_SECTION)
+                                .append('|')
+                                .append(name)
+                                .append('|')
+                                .append(email)
+                                .append("|no comment\n");
+                    }
+                    enrollData.append('\"');
+                    csvRow.add(enrollData.toString());
 
                     csvData.add(csvRow);
                 });
@@ -191,29 +181,37 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @Override
     protected int getNumberOfThreads() {
-        return NUMBER_OF_USER_ACCOUNTS;
+        return NUM_INSTRUCTORS;
     }
 
     @Override
     protected int getRampUpPeriod() {
-        return 2;
+        return NUM_INSTRUCTORS * 2;
     }
 
     @Override
     protected String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleid}";
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.COURSE_ENROLL_SAVE + "?courseid=${courseId}";
     }
 
     @Override
     protected String getTestMethod() {
-        return GET;
+        return POST;
     }
 
     @Override
     protected Map<String, String> getRequestParameters() {
-        Map<String, String> args = new HashMap<>();
-        args.put("googleid", "${googleid}");
-        return args;
+        return new HashMap<>();
+    }
+
+    @Override
+    protected String getRequestBody() {
+        return "${enrollData}";
+    }
+
+    @Override
+    protected String getRequestBodyContentType() {
+        return "text/csv";
     }
 
     @BeforeClass
@@ -227,8 +225,13 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         runJmeter(false);
     }
 
+    /**
+     * Removes the entities added for the instructors' student enrollment L&P test.
+     */
     @AfterClass
     public void classTearDown() throws IOException {
+        // There is no need to add the newly enrolled students to the JSON DataBundle#students. This is because the new
+        // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
     }
