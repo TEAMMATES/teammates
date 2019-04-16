@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -184,14 +183,16 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
     @Test
     protected void testAccessControl_onlyStudentOrInstructorAccessRequired_shouldPass()
-            throws InvalidParametersException, EnrollException, EntityDoesNotExistException,
+            throws InvalidParametersException, EntityDoesNotExistException,
             EntityAlreadyExistsException {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes typicalCourse2 = typicalBundle.courses.get("typicalCourse2");
-        logic.enrollStudents("Team|Section|Name|Email|Comment" + System.lineSeparator()
-                        + "testSection|testTeam|testPerson|testPerson@gmail.com|", typicalCourse2.getId());
-        String encryptedKey = logic.getEncryptedKeyForStudent(typicalCourse2.getId(), "testPerson@gmail.com");
-        logic.joinCourseForStudent(encryptedKey, instructor1OfCourse1.googleId);
+
+        StudentAttributes student1InCourse2 = typicalBundle.students.get("student1InCourse2");
+        logic.updateStudentCascade(
+                StudentAttributes.updateOptionsBuilder(student1InCourse2.getCourse(), student1InCourse2.email)
+                        .withGoogleId(instructor1OfCourse1.googleId)
+                        .build());
 
         loginAsStudentInstructor(instructor1OfCourse1.googleId);
 
