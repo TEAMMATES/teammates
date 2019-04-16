@@ -30,7 +30,7 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" id="fscopy-cancel" (click)="activeModal.dismiss()">Cancel</button>
-  <button type="button" class="btn btn-primary" id="fscopy-submit" (click)="copy()"
+  <button type="button" class="btn btn-light modal-btn-cancel" (click)="activeModal.dismiss()">Cancel</button>
+  <button type="button" class="btn btn-primary modal-btn-ok" (click)="copy()"
           [disabled]="!newFeedbackSessionName || !copyToCourseId">Copy</button>
 </div>

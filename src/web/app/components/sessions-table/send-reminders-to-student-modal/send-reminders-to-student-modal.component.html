@@ -55,7 +55,7 @@
           <tr class="bg-warning">
             <td class="align-center">
                 <label>
-                  <input type="checkbox" (change)="bindSelectedCheckboxes()" [(ngModel)]="remindStudentRow.isChecked">
+                  <input type="checkbox" name="usersToRemind" (change)="bindSelectedCheckboxes()" [(ngModel)]="remindStudentRow.isChecked">
                 </label>
             </td>
             <td>
@@ -116,6 +116,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
-  <button type="button" class="btn btn-primary" (click)="activeModal.close(collateStudentsToSendHandler())">Remind</button>
+  <button type="button" class="btn btn-light modal-btn-cancel" (click)="activeModal.dismiss()">Cancel</button>
+  <button type="button" class="btn btn-primary modal-btn-ok" (click)="activeModal.close(collateStudentsToSendHandler())">Remind</button>
 </div>

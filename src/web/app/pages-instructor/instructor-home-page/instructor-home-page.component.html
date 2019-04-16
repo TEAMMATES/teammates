@@ -77,9 +77,9 @@
               </div>
             </span>
             <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-secondary btn-sm" ngbDropdownToggle> Course </button>
+              <button class="btn btn-secondary btn-sm course-info-btn" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu>
-                <a class="btn btn-light btn-sm dropdown-item"
+                <a class="btn btn-light btn-sm dropdown-item course-archive-btn"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                    (click)="openModal(courseArchiveModal); $event.stopPropagation()"> Archive
                 </a>
@@ -88,7 +88,7 @@
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
-                  <a class="btn btn-light btn-sm dropdown-item"
+                  <a class="btn btn-light btn-sm dropdown-item course-delete-btn"
                      ngbTooltip="Delete the course and its corresponding students and sessions"
                      (click)="openModal(courseDeleteModal); $event.stopPropagation()"> Delete
                   </a>
@@ -134,8 +134,8 @@
         This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-        <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
+        <button type="button" class="btn btn-light modal-btn-cancel" (click)="modal.dismiss()">No, cancel the operation</button>
+        <button type="button" class="btn btn-warning modal-btn-ok" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
       </div>
     </ng-template>
 
