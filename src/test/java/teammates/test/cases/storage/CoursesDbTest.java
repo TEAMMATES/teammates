@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.CoursesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -127,14 +128,36 @@ public class CoursesDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testUpdateCourse_noChangeToCourse_shouldNotIssueSaveRequest() throws Exception {
+        CourseAttributes c = createNewCourse();
+
+        CourseAttributes updatedCourse =
+                coursesDb.updateCourse(
+                        CourseAttributes.updateOptionsBuilder(c.getId())
+                                .build());
+
+        // please verify the log message manually to ensure that saving request is not issued
+        assertEquals(JsonUtils.toJson(c), JsonUtils.toJson(updatedCourse));
+
+        updatedCourse = coursesDb.updateCourse(
+                CourseAttributes.updateOptionsBuilder(c.getId())
+                        .withName(c.getName())
+                        .withTimezone(c.getTimeZone())
+                        .build());
+
+        // please verify the log message manually to ensure that saving request is not issued
+        assertEquals(JsonUtils.toJson(c), JsonUtils.toJson(updatedCourse));
+    }
+
+    @Test
     public void testUpdateCourse() throws Exception {
 
-        ______TS("Failure: null paramater");
+        ______TS("Failure: null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.updateCourse(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ______TS("fail: non-exisitng course");
+        ______TS("fail: non-existing course");
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> coursesDb.updateCourse(
@@ -166,6 +189,29 @@ public class CoursesDbTest extends BaseComponentTestCase {
                             .build()
                 ));
         AssertHelper.assertContains("The field 'course name' is empty", ipe.getMessage());
+    }
+
+    // the test is to ensure that optimized saving policy is implemented without false negative
+    @Test
+    public void testUpdateCourse_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {
+        CourseAttributes typicalCourse = createNewCourse();
+
+        CourseAttributes updatedCourse = coursesDb.updateCourse(
+                CourseAttributes.updateOptionsBuilder(typicalCourse.getId())
+                        .withName(typicalCourse.getName() + " test")
+                        .build());
+        CourseAttributes actualCourse = coursesDb.getCourse(typicalCourse.getId());
+        assertEquals(typicalCourse.getName() + " test", actualCourse.getName());
+        assertEquals(typicalCourse.getName() + " test", updatedCourse.getName());
+
+        assertNotEquals("Asia/Singapore", actualCourse.getTimeZone().getId());
+        updatedCourse = coursesDb.updateCourse(
+                CourseAttributes.updateOptionsBuilder(typicalCourse.getId())
+                        .withTimezone(ZoneId.of("Asia/Singapore"))
+                        .build());
+        actualCourse = coursesDb.getCourse(typicalCourse.getId());
+        assertEquals(ZoneId.of("Asia/Singapore"), actualCourse.getTimeZone());
+        assertEquals(ZoneId.of("Asia/Singapore"), updatedCourse.getTimeZone());
     }
 
     @Test
@@ -228,13 +274,6 @@ public class CoursesDbTest extends BaseComponentTestCase {
                 .withTimezone(ZoneId.of("UTC"))
                 .build();
 
-        try {
-            coursesDb.createEntity(c);
-        } catch (EntityAlreadyExistsException e) {
-            //It is ok if it already exists.
-            ignorePossibleException();
-        }
-
-        return c;
+        return coursesDb.putEntity(c);
     }
 }

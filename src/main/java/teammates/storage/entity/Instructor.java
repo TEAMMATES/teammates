@@ -33,7 +33,7 @@ public class Instructor extends BaseEntity {
     private String courseId;
 
     /** Whether the associated course is archived. */
-    private boolean isArchived;
+    private Boolean isArchived;
 
     /** The instructor's name used for this course. */
     private String name;
@@ -117,7 +117,15 @@ public class Instructor extends BaseEntity {
         this.courseId = courseId;
     }
 
+    /**
+     * Gets the archived status of the instructor.
+     */
     public boolean getIsArchived() {
+        if (isArchived == null) {
+            // the legacy data corresponding to isArchived is stored as a null value (not a missing value)
+            // in the datastore
+            return false;
+        }
         return isArchived;
     }
 

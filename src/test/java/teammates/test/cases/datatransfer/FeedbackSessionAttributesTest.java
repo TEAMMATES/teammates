@@ -248,6 +248,27 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testValueOf_modificationInAttributes_shouldNotLeakStateToEntity() {
+        FeedbackSession feedbackSession = new FeedbackSession(
+                "testName", "testCourse", "email@email.com", "text",
+                Instant.now(), null,
+                Instant.now().minusSeconds(10), Instant.now().plusSeconds(10),
+                Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
+                "UTC", 10,
+                false, false, false, false,
+                true, true, true,
+                new HashSet<>(), new HashSet<>());
+
+        FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
+
+        feedbackSessionAttributes.getRespondingStudentList().add("test@email.com");
+        feedbackSessionAttributes.getRespondingInstructorList().add("test@email.com");
+
+        assertTrue(feedbackSession.getRespondingStudentList().isEmpty());
+        assertTrue(feedbackSession.getRespondingInstructorList().isEmpty());
+    }
+
+    @Test
     public void testBuilder_withTypicalData_shouldBuildCorrectly() {
 
         ZoneId timeZone = ZoneId.of("Asia/Singapore");
