@@ -137,7 +137,7 @@ export class AdminSearchPageComponent {
         studentemail: student.email,
       };
 
-      this.httpRequestService.post('/regeneratestudentcourselinks', paramsMap)
+      this.httpRequestService.post('/student/uniquelinks/regeneration', paramsMap)
           .subscribe((resp: RegenerateStudentCourseLinks) => {
             this.statusMessageService.showSuccessMessage(resp.message);
             this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
