@@ -9,11 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.jmeter.engine.StandardJMeterEngine;
+import org.apache.jmeter.report.dashboard.ReportGenerator;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.save.SaveService;
@@ -318,14 +322,40 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
             file.delete();
         }
 
-        // Run JMeter Test
         jmeter.configure(testPlanTree);
         jmeter.run();
+
+        try {
+             ReportGenerator reportGenerator = new ReportGenerator(resultFile, null);
+             reportGenerator.generate();
+        } catch (Exception e) {
+            log.warning(e.getMessage());
+        }
 
         // TODO: As mentioned in the docs, good to fail the test if the `success` value of any row is `false`,
         //  or if there is an Exception.
         //  An example of when this occurs is if `email` is used for logging in instead of `googleid`, or if the JMeter
         //  test properties are not set.
+
+
+        String dataPath = "src/e2e/lnp/results/statistics.json";
+
+        Gson gson = new Gson();
+        JsonReader reader = new JsonReader(new FileReader(dataPath));
+        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+        JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
+        ReportAnalysis reportAnalysis = gson.fromJson(endPointAnalysis, ReportAnalysis.class);
+
+        log.info("The results are measured in terms of milliseconds");
+        log.info("Throughput = " + reportAnalysis.getThroughput());
+        log.info("90 latency percentile = " + reportAnalysis.getPct3ResTime());
+        log.info("Total sample count: " + reportAnalysis.getSampleCount());
+        log.info("Error count = " + reportAnalysis.getErrorCount());
+        log.info("Mean latency = " + reportAnalysis.getMeanResTime());
+
+        // Remove the statistics file created
+        Files.delete(Paths.get(dataPath));
 
         // TODO: Generate summary report from .jtl results file / ResultCollector.
     }
