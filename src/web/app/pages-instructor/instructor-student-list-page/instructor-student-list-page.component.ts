@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { Courses, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
@@ -32,6 +34,8 @@ export class InstructorStudentListPageComponent implements OnInit {
   courseStats: {[key: string]: Statistic} = {};
 
   constructor(private httpRequestService: HttpRequestService,
+              private courseService: CourseService,
+              private studentService: StudentService,
               private statusMessageService: StatusMessageService,
               private route: ActivatedRoute) {
   }
@@ -47,30 +51,23 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads courses of current instructor.
    */
   loadCourses(): void {
-    this.httpRequestService.get('/courses', {
-      entitytype: 'instructor',
-      coursestatus: 'active',
-    }).subscribe((courses: Courses) => {
-      this.courseList = courses;
-      this.viewStudent = Array<boolean>(this.courseList.courses.length).fill(false);
+    this.courseService.getCoursesForInstructor('instructor', 'active')
+        .subscribe((courses: Courses) => {
+          this.courseList = courses;
+          this.viewStudent = Array<boolean>(this.courseList.courses.length).fill(false);
 
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
   /**
    * Toggles specific card and loads students if needed
    */
   toggleCard(index: number, courseId: string): void {
-    if (this.viewStudent[index]) {
-      this.viewStudent[index] = false;
-    } else {
-      if (!this.courseInfo[courseId]) {
-        this.loadStudents(courseId);
-      }
-
-      this.viewStudent[index] = true;
+    this.viewStudent[index] = !this.viewStudent[index];
+    if (!this.courseInfo[courseId]) {
+      this.loadStudents(courseId);
     }
   }
 
@@ -78,45 +75,43 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads students of a specified course.
    */
   loadStudents(courseId: string): void {
-    this.httpRequestService.get('/students', {
-      courseid: courseId,
-    }).subscribe((students: Students) => {
+    this.studentService.getStudentsFromCourse(courseId)
+        .subscribe((students: Students) => {
+          const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
+            const term: string = x.sectionName;
+            (acc[term] = acc[term] || []).push(x);
+            return acc;
+          }, {});
 
-      const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
-        const term: string = x.sectionName;
-        (acc[term] = acc[term] || []).push(x);
-        return acc;
-      }, {});
+          const teams: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
+            const term: string = x.teamName;
+            (acc[term] = acc[term] || []).push(x);
+            return acc;
+          }, {});
 
-      const teams: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
-        const term: string = x.teamName;
-        (acc[term] = acc[term] || []).push(x);
-        return acc;
-      }, {});
-
-      this.courseStats[courseId] = {
-        students: students.students.length,
-        sections: Object.keys(sections).length,
-        teams: Object.keys(teams).length,
-      };
-
-      Object.keys(sections).forEach((key: string) => {
-        const studentsInSection: Student[] = sections[key];
-
-        const data: StudentListStudentData[] = [];
-        studentsInSection.forEach((student: Student) => {
-          const studentData: StudentListStudentData = {
-            name : student.name,
-            status : (student.joinState === JoinState.JOINED) ? 'Joined' : 'Yet to Join',
-            email : student.email,
-            team : student.teamName,
+          this.courseStats[courseId] = {
+            students: students.students.length,
+            sections: Object.keys(sections).length,
+            teams: Object.keys(teams).length,
           };
-          data.push(studentData);
-        });
 
-        this.loadPrivilege(courseId, key, data);
-      });
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          Object.keys(sections).forEach((key: string) => {
+            const studentsInSection: Student[] = sections[key];
+
+            const data: StudentListStudentData[] = [];
+            studentsInSection.forEach((student: Student) => {
+              const studentData: StudentListStudentData = {
+                name : student.name,
+                status : (student.joinState === JoinState.JOINED) ? 'Joined' : 'Yet to Join',
+                email : student.email,
+                team : student.teamName,
+              };
+              data.push(studentData);
+            });
+
+            this.loadPrivilege(courseId, key, data);
+          });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
@@ -127,7 +122,7 @@ export class InstructorStudentListPageComponent implements OnInit {
       courseid: courseId,
       sectionname: sectionName,
     }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      const temp: StudentListSectionData = {
+      const sectionData: StudentListSectionData = {
         sectionName,
         students,
         isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
@@ -138,7 +133,7 @@ export class InstructorStudentListPageComponent implements OnInit {
         this.courseInfo[courseId] = [];
       }
 
-      this.courseInfo[courseId].push(temp);
+      this.courseInfo[courseId].push(sectionData);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
