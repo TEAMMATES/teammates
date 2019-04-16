@@ -233,7 +233,7 @@ public final class BackDoor {
      */
     public static String doPutDocuments(DataBundle dataBundle) {
         ResponseBodyAndCode putRequestOutput =
-                executePostRequest(Const.ResourceURIs.DATABUNDLE_INDEX, null, JsonUtils.toJson(dataBundle));
+                executePostRequest(Const.ResourceURIs.DATABUNDLE_SEARCH, null, JsonUtils.toJson(dataBundle));
         return putRequestOutput.responseCode == HttpStatus.SC_OK
                 ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
     }

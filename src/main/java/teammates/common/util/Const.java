@@ -733,7 +733,7 @@ public final class Const {
         public static final String LOGOUT = "/logout";
 
         public static final String DATABUNDLE = "/databundle";
-        public static final String DATABUNDLE_INDEX = "/databundle/index";
+        public static final String DATABUNDLE_SEARCH = "/databundle/search";
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
@@ -769,7 +769,7 @@ public final class Const {
         public static final String RESPONSES = "/responses";
         public static final String HAS_RESPONSES = "/hasResponses";
         public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
-        public static final String REGENERATE_STUDENT_COURSE_LINKS = "/regeneratestudentcourselinks";
+        public static final String REGENERATE_STUDENT_COURSE_LINKS = "/student/uniquelinks/regeneration";
         public static final String JOIN = "/join";
         public static final String JOIN_REMIND = "/join/remind";
         public static final String TIMEZONE = "/timezone";
