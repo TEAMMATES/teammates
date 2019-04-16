@@ -229,7 +229,7 @@ public final class StudentsLogic {
 
             StudentAttributes updatedStudent = studentsDb.createEntity(originalStudent);
             if (updatedStudent.getKey().equals(originalStudent.getKey())) {
-                throw new RegenerateStudentException("");
+                throw new RegenerateStudentException("Regenerated student has same registration key as original student.");
             }
 
             return updatedStudent;
