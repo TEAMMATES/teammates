@@ -123,6 +123,26 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testValueOf_modificationInAttributes_shouldNotLeakStateToEntity() {
+        FeedbackQuestion qn = new FeedbackQuestion("session", "course",
+                "text", "description", 1, FeedbackQuestionType.TEXT,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS, Const.MAX_POSSIBLE_RECIPIENTS,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
+        qn.setFeedbackQuestionId(1L);
+
+        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.valueOf(qn);
+
+        feedbackQuestionAttributes.getShowResponsesTo().add(FeedbackParticipantType.STUDENTS);
+        feedbackQuestionAttributes.getShowGiverNameTo().add(FeedbackParticipantType.STUDENTS);
+        feedbackQuestionAttributes.getShowRecipientNameTo().add(FeedbackParticipantType.STUDENTS);
+
+        assertTrue(qn.getShowResponsesTo().isEmpty());
+        assertTrue(qn.getShowGiverNameTo().isEmpty());
+        assertTrue(qn.getShowRecipientNameTo().isEmpty());
+    }
+
+    @Test
     public void testBuilder_withIrrelevantFeedbackParticipant_shouldGenerateAttributesCorrectly() {
         List<FeedbackParticipantType> participants = new ArrayList<>();
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);

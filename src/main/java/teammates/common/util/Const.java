@@ -993,7 +993,6 @@ public final class Const {
         public static final String INSTRUCTOR_HOME = "/instrutor/home";
         public static final String INSTRUCTOR_COURSES = "/instructor/courses";
         public static final String INSTRUCTOR_COURSES_PERMANENTLY_DELETE = "/instructor/courses/permanentlyDelete";
-        public static final String COURSE_STATS = "/course/stats";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
         public static final String INSTRUCTOR_COURSE_DETAILS_DELETE_ALL_STUDENTS = "/courses/details/deleteAllStudents";
         public static final String INSTRUCTOR_COURSE_DETAILS_REMIND = "/courses/details/remind";

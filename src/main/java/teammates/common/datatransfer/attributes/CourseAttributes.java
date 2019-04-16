@@ -186,7 +186,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        updateOptions.deletedAtOption.ifPresent(s -> deletedAt = s);
         updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
     }
@@ -226,7 +225,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public static class UpdateOptions {
         private String courseId;
 
-        private UpdateOption<Instant> deletedAtOption = UpdateOption.empty();
         private UpdateOption<String> nameOption = UpdateOption.empty();
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
 
@@ -245,7 +243,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             return "CourseAttributes.UpdateOptions ["
                     + "courseId = " + courseId
                     + ", name = " + nameOption
-                    + ", deletedAt = " + deletedAtOption
                     + ", timezone = " + timeZoneOption
                     + "]";
         }

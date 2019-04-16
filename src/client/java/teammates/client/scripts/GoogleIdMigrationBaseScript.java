@@ -48,37 +48,24 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
     }
 
     @Override
-    protected int getCursorInformationPrintCycle() {
-        return 100;
-    }
-
-    @Override
-    protected boolean shouldUseTransaction() {
-        // queries for student & instructor entities are not supported by the Datastore
-        return false;
-    }
-
-    @Override
-    protected boolean isMigrationNeeded(Key<Account> key) throws Exception {
-        Account account = ofy().load().key(key).now();
-
+    protected boolean isMigrationNeeded(Account account) throws Exception {
         if (!isMigrationOfGoogleIdNeeded(account)) {
             return false;
         }
 
         String newGoogleId = generateNewGoogleId(account);
-        println(String.format("Going to migrate account with googleId %s to new googleId %s",
+        log(String.format("Going to migrate account with googleId %s to new googleId %s",
                 account.getGoogleId(), newGoogleId));
 
         return true;
     }
 
     @Override
-    protected void migrateEntity(Key<Account> oldAccountKey) throws Exception {
-        Account oldAccount = ofy().load().key(oldAccountKey).now();
+    protected void migrateEntity(Account oldAccount) throws Exception {
         String oldGoogleId = oldAccount.getGoogleId();
         String newGoogleId = generateNewGoogleId(oldAccount);
 
+        Key<Account> oldAccountKey = Key.create(Account.class, oldAccount.getGoogleId());
         Key<StudentProfile> oldStudentProfileKey = Key.create(oldAccountKey, StudentProfile.class, oldGoogleId);
         StudentProfile oldStudentProfile = ofy().load().key(oldStudentProfileKey).now();
 
@@ -108,7 +95,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         if (ofy().load().type(Account.class).id(newGoogleId).now() == null) {
             ofy().save().entity(oldAccount).now();
         } else {
-            println(String.format("Skip creation of new account as account (%s) already exists", newGoogleId));
+            log(String.format("Skip creation of new account as account (%s) already exists", newGoogleId));
         }
         ofy().delete().type(Account.class).id(oldGoogleId).now();
 
@@ -124,7 +111,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
                     gcsService.delete(oldGcsFilename);
                     pictureKey = GoogleCloudStorageHelper.createBlobKey(newGoogleId);
                 } catch (Exception e) {
-                    println("Profile picture not exist or error during copy: " + e.getMessage());
+                    log("Profile picture not exist or error during copy: " + e.getMessage());
                 }
             }
 
@@ -134,7 +121,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
             ofy().delete().key(oldStudentProfileKey).now();
         }
 
-        println(String.format("Complete migration for account with googleId %s. The new googleId is %s",
+        log(String.format("Complete migration for account with googleId %s. The new googleId is %s",
                 oldGoogleId, newGoogleId));
     }
 
