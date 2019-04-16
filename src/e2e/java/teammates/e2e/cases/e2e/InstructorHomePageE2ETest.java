@@ -1,415 +1,317 @@
 package teammates.e2e.cases.e2e;
 
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorHomePage;
-import teammates.e2e.util.BackDoor;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
- * SUT: {@link teammates.common.util.Const.WebPageURIs#INSTRUCTOR_HOME_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_HOME_PAGE}.
  */
 public class InstructorHomePageE2ETest extends BaseE2ETestCase {
+    static final String COMMON_INSTRUCTOR = "CHomeUiT.instructor.tmms";
+    static final String UNLOADED_COURSE = "CHomeUiT.Unloaded";
+    static final String COURSE_WITH_SESSIONS = "CHomeUiT.CS2104";
+    static final String COURSE_WITH_NO_PRIVILEGES = "CHomeUiT.CS1101";
+
     private InstructorHomePage homePage;
 
     private FeedbackSessionAttributes feedbackSessionAwaiting;
     private FeedbackSessionAttributes feedbackSessionOpen;
-    private FeedbackSessionAttributes feedbackSessionClosed;
+    private FeedbackSessionAttributes
+            feedbackSessionClosed;
     private FeedbackSessionAttributes feedbackSessionPublished;
+
+    private List<FeedbackSessionAttributes> feedbackSessions;
+    private List<String> courseIds;
 
     // TODO: refactor this test. try to use admin login or create instructors and courses not using json
 
     @Override
     protected void prepareTestData() {
-        removeAndRestoreDataBundle(loadDataBundle("/InstructorHomePageE2ETest1.json"));
-        testData = loadDataBundle("/InstructorHomePageE2ETest2.json");
+        testData = loadDataBundle("/InstructorHomePageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
         feedbackSessionAwaiting = testData.feedbackSessions.get("Second Feedback Session");
         feedbackSessionOpen = testData.feedbackSessions.get("First Feedback Session");
         feedbackSessionClosed = testData.feedbackSessions.get("Third Feedback Session");
         feedbackSessionPublished = testData.feedbackSessions.get("Fourth Feedback Session");
-
-        // Remove entities created during test
-        BackDoor.deleteCourse("newIns.wit-demo");
-        BackDoor.deleteInstructor("newIns.wit-demo", "CHomeUiT.instructor.tmms@gmail.tmt");
     }
 
     @Test
-    public void allTests() throws Exception {
+    public void allTests() {
         testContent();
-        testShowFeedbackStatsLink(); // useful --> interaction
-        testAjaxCourseTableLoad(); // 4 courses in total, assertFalse first then click, click further to test
-        testSearchAction();
         testSortAction();
-        testDownloadAction();
-//        testRemindActions();
-//        testPublishUnpublishResendLinkActions();
-        testArchiveCourseAction();
+        testResponseLink();
+        testRemindActions();
+        testPublishUnpublishResendActions();
         testCopyToFsAction();
-        testDeleteCourseAction();
-    }
-
-    private void testAjaxCourseTableLoad() {
-        loginAsInstructor("CHomeUiT.instructor.tmms.unloaded");
-
-        // homePage.loadInstructorHomeTab(); //(purpose is to refresh the page
-
-
-        loginAsCommonInstructor();
-    }
-
-
-    private void testShowFeedbackStatsLink() {
-// show response rate .__.
-        // only need to focus on 1 course so can be anything, much easier
-        WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
-        
-
-
-
-        ______TS("test case: pass with valid url");
-        viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
-        homePage.clickViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
-        // verify the item is loaded
+        // testArchiveCourseAction();
+        testDeleteAction();
     }
 
     private void testContent() {
 
-        ______TS("content: multiple courses");
+        ______TS("Test multiple courses content");
 
-        getHomePage().clickInstructorLogin().loginAsInstructor("CHomeUiT.instructor.tmms", "");
+        loginAsCommonInstructor();
+        courseIds = getAllVisibleCourseIds();
+        // default courses are sort by "Creation Date"
+        verifyVisibleCourseNames(courseIds);
 
+        int courseIdx = courseIds.indexOf(UNLOADED_COURSE);
+        assertFalse(homePage.isCoursePanelExpanded(courseIdx));
+        homePage.loadInstructorCoursePanel(courseIdx);
+        assertTrue(homePage.isCoursePanelExpanded(courseIdx));
 
-
-        // need to verify content
-        // 1. check feedback session name & course id similar to studentHome style (dont need cos can click functions inside)
-        // 2. click on a course tab & expand --> use information on there to check
-    // CHomeUiT.instructor.tmms.unloaded straight away load
-        // assert fail at first --> unloaded modal
-        // 2. download action url correct
-        // 3.
-        // loginAsCommonInstructor(); // (either use this or use sth else)
+        ______TS("Test case: download action");
+        // TODO: to be added after implementation of download result feature
 
         logout();
+
     }
 
-    private void testDownloadAction() {
+    private void testSortAction() {
 
-        // Test that download result button exist in homePage
-        homePage.verifyDownloadResultButtonExists(feedbackSessionClosed.getCourseId(),
-                feedbackSessionClosed.getFeedbackSessionName());
+        ______TS("Test case: sort courses");
+        homePage.clickSortByNameButton();
+        List<String> courseNames = getAllVisibleCourseNames(courseIds);
+        Collections.sort(courseNames);
+        verifyVisibleCourseNames(courseNames);
 
-        ______TS("Typical case: download report");
+        homePage.clickSortByIdButton();
+        verifyVisibleCourseNames(courseIds);
 
-        AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
-                .withUserId("CHomeUiT.instructor.tmms")
-                .withCourseId(feedbackSessionClosed.getCourseId())
-                .withSessionName(feedbackSessionClosed.getFeedbackSessionName());
+        // sort by creation date is ignored as it is already checked initially when courses are populated
 
-        homePage.verifyDownloadLink(reportUrl); // just check button clickable & leads to the correct url
+        ______TS("Test case: sort feedback sessions");
+        feedbackSessions = getAllFeedbackSessions(COURSE_WITH_SESSIONS);
+
+        int courseIdx = courseIds.indexOf(COURSE_WITH_SESSIONS);
+        homePage.sortTablesByStartDate();
+        feedbackSessions.sort(Comparator.comparing((FeedbackSessionAttributes::getStartTime)));
+        verifyVisibleSessionNames(feedbackSessions, courseIdx);
+
+        homePage.sortTablesByEndDate();
+        feedbackSessions.sort(Comparator.comparing((FeedbackSessionAttributes::getEndTime)));
+        verifyVisibleSessionNames(feedbackSessions, courseIdx);
+
+        homePage.sortTablesByName();
+        feedbackSessions.sort(Comparator.comparing((FeedbackSessionAttributes::getFeedbackSessionName)));
+        verifyVisibleSessionNames(feedbackSessions, courseIdx);
+
+    }
+
+    private void testResponseLink() {
+
+        ______TS("Test case: load feedback session link");
+
+        int fsIdx = feedbackSessions.indexOf(feedbackSessionOpen);
+        homePage.clickFsShowLink(fsIdx);
+        assertEquals(homePage.getFsViewResponseText(fsIdx), "0 / 4");
+
     }
 
     private void testRemindActions() {
 
-        ______TS("remind action: AWAITING feedback session");
+        ______TS("Test case: remind action for AWAITING feedback session");
 
-        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionAwaiting.getCourseId(),
-                feedbackSessionAwaiting.getFeedbackSessionName()));
+        int fsIdx = feedbackSessions.indexOf(feedbackSessionAwaiting);
+        homePage.verifyUnclickable(homePage.getFsRemindStudentsBtn(fsIdx));
 
-        ______TS("remind action: OPEN feedback session - outer button");
+        ______TS("Test case: remind action for PUBLISHED feedback session");
 
-        homePage.clickAndCancel(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
-                feedbackSessionOpen.getFeedbackSessionName()));
-        homePage.clickAndConfirm(homePage.getRemindLink(feedbackSessionOpen.getCourseId(),
-                feedbackSessionOpen.getFeedbackSessionName()));
+        fsIdx = feedbackSessions.indexOf(feedbackSessionPublished);
+        homePage.verifyUnclickable(homePage.getFsRemindStudentsBtn(fsIdx));
 
-        homePage.waitForPageToLoad();
-        // homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        ______TS("Test case: remind action for CLOSED feedback session");
+        fsIdx = feedbackSessions.indexOf(feedbackSessionClosed);
+        homePage.verifyUnclickable(homePage.getFsRemindStudentsBtn(fsIdx));
 
-        ______TS("remind particular users action: OPEN feedback session");
+        ______TS("Test case: remind action for OPEN feedback session");
 
-        // this function defaults to opening the particular users modal
-        homePage.getRemindLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
-        homePage.cancelRemindParticularUsersForm();
+        fsIdx = feedbackSessions.indexOf(feedbackSessionOpen);
+        homePage.clickAndCancel(homePage.getFsRemindStudentsBtn(fsIdx));
+        homePage.clickAndConfirm(homePage.getFsRemindStudentsBtn(fsIdx));
+        homePage.verifyErrorStatusMessage("List of users to remind cannot be empty");
 
-        homePage.getRemindLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
-//        homePage.waitForAjaxLoaderGifToDisappear();
-        homePage.submitRemindParticularUsersForm();
+        homePage.clickAndConfirmRemindStudentsWithUsers(fsIdx);
+        homePage.verifySuccessStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
 
-        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
-        homePage.getRemindLink(feedbackSessionOpen.getCourseId(), feedbackSessionOpen.getFeedbackSessionName());
-//        homePage.waitForAjaxLoaderGifToDisappear();
-        homePage.fillRemindParticularUsersForm();
-        homePage.submitRemindParticularUsersForm();
-        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
-
-//        ______TS("remind action: CLOSED feedback session - inner button");
-//
-//        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
-//        homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSessionClosed.getCourseId(),
-//                feedbackSessionOpen.getFeedbackSessionName()));
-//        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
-//        homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSessionClosed.getCourseId(),
-//                feedbackSessionClosed.getFeedbackSessionName()));
-//        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
-//
-//        ______TS("remind particular users action: CLOSED feedback session");
-//
-//        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
-//        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
-//                feedbackSessionClosed.getFeedbackSessionName());
-//        homePage.cancelRemindParticularUsersForm();
-//
-//        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
-//        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
-//                feedbackSessionClosed.getFeedbackSessionName());
-//        homePage.waitForAjaxLoaderGifToDisappear();
-//        homePage.submitRemindParticularUsersForm();
-//        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
-//
-//        homePage.clickRemindOptionsLink(feedbackSessionClosed.getCourseId(), feedbackSessionClosed.getFeedbackSessionName());
-//        homePage.clickRemindParticularUsersLink(feedbackSessionClosed.getCourseId(),
-//                feedbackSessionClosed.getFeedbackSessionName());
-//        homePage.waitForAjaxLoaderGifToDisappear();
-//        homePage.fillRemindParticularUsersForm();
-//        homePage.submitRemindParticularUsersForm();
-//        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN);
-
-//        ______TS("remind action: PUBLISHED feedback session");
-//
-//        homePage.verifyUnclickable(homePage.getRemindLink(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName()));
-//        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName()));
-//
     }
 
-//    private void testPublishUnpublishResendLinkActions() {
-//        ______TS("publish action: AWAITING feedback session");
-//
-//        homePage.verifyUnclickable(homePage.getSessionResultsOptionsCaretElement(feedbackSessionAwaiting.getCourseId(),
-//                feedbackSessionAwaiting.getFeedbackSessionName()));
-//
-//        ______TS("publish action: OPEN feedback session");
-//
-//        homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionOpen.getCourseId(),
-//                feedbackSessionOpen.getFeedbackSessionName()));
-//
-//        ______TS("publish action: CLOSED feedback session");
-//
-//        homePage.clickAndCancel(homePage.getPublishLink(feedbackSessionClosed.getCourseId(),
-//                feedbackSessionClosed.getFeedbackSessionName()));
-//
-//        ______TS("unpublish action: PUBLISHED feedback session");
-//        homePage.clickFeedbackSessionUnpublishLink(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-//        assertFalse(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName()).isPublished());
-//
-//        ______TS("publish action: PUBLISHED feedback session");
-//        homePage.clickFeedbackSessionPublishLink(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-//        assertTrue(BackDoor.getFeedbackSession(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName()).isPublished());
-//
-//        ______TS("resend link action: PUBLISHED feedback session");
-//        // Test that the resend published link button exists for this published session
-//        homePage.verifyResendPublishedEmailButtonExists(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//
-//        // Test that the resend published link button can be clicked and the form can be cancelled
-//        homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//        homePage.clickResendPublishedEmailLink(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//        homePage.cancelResendPublishedEmailForm();
-//
-//        // Test the status message when the form is submitted with empty recipient list
-//        homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//        homePage.clickResendPublishedEmailLink(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//        homePage.waitForAjaxLoaderGifToDisappear();
-//        homePage.submitResendPublishedEmailForm();
-//        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(
-//                Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
-//        homePage.clickSessionResultsOptionsCaretElement(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//        homePage.clickResendPublishedEmailLink(feedbackSessionPublished.getCourseId(),
-//                feedbackSessionPublished.getFeedbackSessionName());
-//        homePage.waitForAjaxLoaderGifToDisappear();
-//        homePage.fillResendPublishedEmailForm();
-//        homePage.submitResendPublishedEmailForm();
-//        homePage.waitForPageToLoad();
-//        homePage.waitForTextsForAllStatusMessagesToUserEquals(
-//                Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT);
-//
-//        ______TS("resend link action: NOT PUBLISHED feedback session");
-//        // Test that the resend published link button does not exist for this not published session
-//        homePage.verifyResendPublishedEmailButtonDoesNotExist(feedbackSessionAwaiting.getCourseId(),
-//                feedbackSessionAwaiting.getFeedbackSessionName());
-//    }
+    private void testPublishUnpublishResendActions() {
 
-    private void testArchiveCourseAction() throws Exception {
-        String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").getId();
+        ______TS("Test case: publish action for AWAITING feedback session");
 
-        ______TS("archive course action: click and cancel");
+        int fsIdx = feedbackSessions.indexOf(feedbackSessionAwaiting);
+        homePage.verifyUnclickable(homePage.getFsPublishBtn(fsIdx));
+        homePage.verifyResendPublishedEmailButtonDoesNotExist(fsIdx);
 
-        homePage.clickArchiveCourseLinkAndCancel(courseIdForCS1101);
+        ______TS("Test case: publish action for OPEN feedback session");
 
-//        InstructorAttributes instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
-//        InstructorAttributes helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
+        fsIdx = feedbackSessions.indexOf(feedbackSessionOpen);
+        homePage.clickAndCancel(homePage.getFsPublishBtn(fsIdx));
+        homePage.clickAndConfirm(homePage.getFsPublishBtn(fsIdx));
+        homePage.verifySuccessStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
 
-        // Both will be false before it is archived for testing
+        // TODO: verify ispublished result not working for FSA
+
+        homePage.clickAndCancel(homePage.getFsResendPublishedEmail(fsIdx));
+        homePage.clickAndConfirm(homePage.getFsResendPublishedEmail(fsIdx));
+        homePage.verifyErrorStatusMessage("List of users to remind cannot be empty");
+
+        homePage.clickAndConfirmResendPublishedWithUsers(fsIdx);
+        homePage.verifySuccessStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_RESEND_EMAIL_SENT);
+
+        homePage.clickAndCancel(homePage.getFsUnpublishBtn(fsIdx));
+        homePage.clickAndConfirm(homePage.getFsUnpublishBtn(fsIdx));
+        homePage.verifySuccessStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
+
+        ______TS("Test case: publish action for CLOSED feedback session");
+
+        fsIdx = feedbackSessions.indexOf(feedbackSessionClosed);
+        homePage.clickAndCancel(homePage.getFsPublishBtn(fsIdx));
+
+        ______TS("Test case: publish action for PUBLISHED feedback session");
+
+        fsIdx = feedbackSessions.indexOf(feedbackSessionPublished);
+        homePage.verifyResendPublishedEmailButtonExists(fsIdx);
+
+        homePage.clickAndCancel(homePage.getFsUnpublishBtn(fsIdx));
+        homePage.clickAndConfirm(homePage.getFsUnpublishBtn(fsIdx));
+        homePage.verifySuccessStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
+
+    }
+
+    private void testCopyToFsAction() {
+
+        int fsIdx = feedbackSessions.indexOf(feedbackSessionPublished);
+
+        homePage.clickAndCancel(homePage.getFsCopyBtn(fsIdx));
+        homePage.clickFsCopyButton(fsIdx);
+        homePage.verifyUnclickable(homePage.getModalSubmitBtn());
+
+        homePage.fillFormWithLastCourseSelected("testing session");
+        homePage.clickModalSubmitBtn();
+        homePage.verifySuccessStatusMessage("The feedback session has been copied. Please modify settings/questions as necessary.");
+
+        homePage.clickHomeBtn();
+        // TODO: add verification for session
+
+    }
+
+    private void testArchiveCourseAction() {
+
+        ______TS("Test case: archive course action");
+
+        int courseIdx = courseIds.indexOf(UNLOADED_COURSE);
+        homePage.clickAndCancel(homePage.getCourseArchiveBtn(courseIdx));
+        homePage.clickAndConfirm(homePage.getCourseArchiveBtn(courseIdx));
+        homePage.verifyErrorStatusMessage("The request is not valid.");
+
+        courseIdx = courseIds.indexOf(COURSE_WITH_NO_PRIVILEGES);
+        homePage.clickAndConfirm(homePage.getCourseArchiveBtn(courseIdx));
+        homePage.verifyErrorStatusMessage("You are not authorized to access this resource.");
+
+        // TODO: check backend that course isArchived
+        //InstructorAttributes instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
+        // InstructorAttributes helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
+        // check archive in backend!
+        // should be able to pass but fails at the moment
+
+//         Both will be false before it is archived for testing
 //        assertFalse(instructor.isArchived);
 //        assertFalse(helper.isArchived);
-
-        ______TS("archive course action: click and confirm");
-
-        homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
-
-//        instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
-//        helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
-//        assertTrue(instructor.isArchived);
-//        assertFalse(helper.isArchived);
-
-//        homePage.verifyHtmlMainContent("/instructorHomeCourseArchiveSuccessful.html");
-
-        ______TS("archive action failed");
-
-        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").getId();
-
-        //delete the course, then submit archive request to it
-        BackDoor.deleteCourse(courseIdForCS2104);
-        homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS2104);
-        // assertTrue(browser.driver.getCurrentUrl().contains(Url.addParamToUrl(Const.ViewURIs.UNAUTHORIZED,
-        //         Const.ParamsNames.ERROR_FEEDBACK_URL_REQUESTED, Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE)));
-        // recover the deleted course and its related entities
-        testData = loadDataBundle("/InstructorHomePageUiTest2.json");
-        removeAndRestoreDataBundle(testData);
-        loginAsCommonInstructor();
-        homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
-        // homePage.loadInstructorHomeTab();
     }
 
-    private void testCopyToFsAction() throws Exception {
-        String feedbackSessionName = "First Feedback Session";
-        String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
+    private void testDeleteAction() {
 
-        ______TS("Submit empty course list: Home Page");
+        ______TS("Test case: delete course");
 
-        homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.getFsCopyModal().waitForModalToLoad();
-        homePage.verifyUnclickable(homePage.getFsCopyModal().getSubmitButton());
+        int courseIdx = courseIds.indexOf(UNLOADED_COURSE);
+        homePage.clickAndCancel(homePage.getCourseDeleteBtn(courseIdx));
+        homePage.clickAndConfirm(homePage.getCourseDeleteBtn(courseIdx));
+        homePage.verifySuccessStatusMessage("The course " + UNLOADED_COURSE + " has been deleted. "
+                + "You can restore it from the Recycle Bin manually.");
 
-        homePage.getFsCopyModal().clickCancelButton();
+        ______TS("Test case: delete feedback session");
 
-        ______TS("Copying fails due to fs with same name in course selected: Home Page");
-
-        homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.getFsCopyModal().waitForModalToLoad();
-        // DIFF: cannot fill up all courses, only 1 course can be filled at any point of time
-        homePage.getFsCopyModal().fillFormWithLastCourseSelected(feedbackSessionName);
-
-        homePage.getFsCopyModal().clickSubmitButton(); // automatically closes upon submit (checks closing action alr)
-
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
-                feedbackSessionName, courseId);
-        assertTrue(homePage.getFsCopyModal().isFormSubmissionStatusMessageVisible());
-        homePage.getFsCopyModal().verifyStatusMessage(error);
-
-        ______TS("Successful case: Home Page");
-
-        homePage.clickFsCopyButton(courseId, feedbackSessionName);
-        homePage.getFsCopyModal().waitForModalToLoad();
-        homePage.getFsCopyModal().fillFormWithLastCourseSelected("New name!");
-
-        homePage.getFsCopyModal().clickSubmitButton();
-
-        homePage.waitForPageToLoad();
-        //refactor this code for sure (checks status message and done)
-        // homePage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
-    }
-
-    private void testDeleteCourseAction() throws Exception {
-
-        ______TS("delete course action");
-
-        String courseId = testData.courses.get("CHomeUiT.CS2104").getId();
-        // homePage.clickAndCancel(homePage.getDeleteCourseLink(courseId));
-        assertNotNull(BackDoor.getCourse(courseId));
-
-        homePage.clickAndConfirm(homePage.getDeleteCourseLink(courseId));
-        assertNotNull(BackDoor.getCourse(courseId));
-
-        // homePage.verifyHtmlMainContent("/instructorHomeCourseDeleteSuccessful.html");
-
-        BackDoor.deleteCourse(courseId);
-
-        //delete the other course as well
-        courseId = testData.courses.get("CHomeUiT.CS1101").getId();
-        BackDoor.deleteCourse(courseId);
-
-        // homePage.loadInstructorHomeTab();
+        int indexIdx = feedbackSessions.indexOf(feedbackSessionClosed);
+        homePage.clickAndCancel(homePage.getFsDeleteBtn(indexIdx));
+        homePage.clickAndConfirm(homePage.getFsDeleteBtn(indexIdx));
+        homePage.verifySuccessStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN_FROM_HOMEPAGE);
 
     }
 
-    private void testSearchAction() {
-        // Tested in student list page
+    private List<String> getAllVisibleCourseIds() {
+        List<String> courseIds = new ArrayList<>();
+
+        for (InstructorAttributes instructor : testData.instructors.values()) {
+            if (COMMON_INSTRUCTOR.equals(instructor.googleId)) {
+                courseIds.add(instructor.getCourseId());
+            }
+        }
+        return courseIds;
     }
 
-    private void testSortAction() throws Exception {
-        ______TS("sort courses by id");
-        homePage.clickSortByIdButton();
-//        homePage.verifyHtmlMainContent("/instructorHomeHTMLSortById.html");
+    private List<String> getAllVisibleCourseNames(List<String> courseIds) {
+        List<String> courseNames = new ArrayList<>();
 
-        ______TS("sort courses by name");
-        homePage.clickSortByNameButton();
-//        homePage.verifyHtmlMainContent("/instructorHomeHTMLSortByName.html");
+        for (CourseAttributes course : testData.courses.values()) {
+            if (courseIds.contains(course.getId())) {
+                courseNames.add(course.getName());
+            }
+        }
 
-        ______TS("sort courses by date");
-        homePage.clickSortByDateButton();
-//        homePage.verifyHtmlMainContent("/instructorHomeHTMLSortByDate.html");
-
-        ______TS("sort sessions by session name");
-        homePage.sortTablesByName();
-//        homePage.verifyHtmlMainContent("/instructorHomeHTMLSortSessionsByName.html");
-
-        ______TS("sort sessions by session start date");
-        homePage.sortTablesByStartDate();
-//        homePage.verifyHtmlMainContent("/instructorHomeHTMLSortSessionsByStartDate.html");
-
-        ______TS("sort sessions by session end date");
-        homePage.sortTablesByEndDate();
-//        homePage.verifyHtmlMainContent("/instructorHomeHTMLSortSessionsByEndDate.html");
+        return courseNames;
     }
 
-    private void loginAsNewInstructor() {
-        String newInstructor = "CHomeUiT.instructor.tmms.new";
-        loginAsInstructor(newInstructor);
+    private List<FeedbackSessionAttributes> getAllFeedbackSessions(String courseId) {
+        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<>();
+
+        for (FeedbackSessionAttributes feedbackSession : testData.feedbackSessions.values()) {
+            if (courseId.equals(feedbackSession.getCourseId())) {
+                feedbackSessions.add(feedbackSession);
+            }
+        }
+        return feedbackSessions;
+    }
+
+    private void verifyVisibleCourseNames(List<String> panelInfo) {
+        for (int i = 0; i < panelInfo.size(); i++) {
+            assertTrue(verifyVisibleCourseName(panelInfo.get(i), "panel-head-" + i));
+        }
+    }
+
+    private boolean verifyVisibleCourseName(String courseName, String id) {
+        return browser.driver.findElement(By.id(id)).getText().contains(courseName);
+    }
+
+    private void verifyVisibleSessionNames(List<FeedbackSessionAttributes> feedbackSessions, int courseIndex) {
+        for (int i = 0; i < feedbackSessions.size(); i++) {
+            assertTrue(verifyVisibleSessionName(
+                    feedbackSessions.get(i).getFeedbackSessionName(), "course-" + courseIndex, i));
+        }
+    }
+
+    private boolean verifyVisibleSessionName(String fsName, String courseId, int index) {
+        return browser.driver.findElement(By.id(courseId))
+                .findElement(By.className("session-" + index)).getText().contains(fsName);
+        // return true;
     }
 
     private void loginAsCommonInstructor() {
-        String commonInstructor = "CHomeUiT.instructor.tmms";
-        loginAsInstructor(commonInstructor);
-    }
-
-    private void loginAsInstructor(String googleId) {
-        AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withUserId(googleId);
+        AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).withUserId(COMMON_INSTRUCTOR);
 
         homePage = loginAdminToPage(editUrl, InstructorHomePage.class);
     }

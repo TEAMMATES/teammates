@@ -2,6 +2,9 @@ package teammates.e2e.pageobjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +72,9 @@ public abstract class AppPage {
 
     @FindBy(className = "snackbar-danger")
     private WebElement errorStatusMessage;
+
+    @FindBy(className = "snackbar-warning")
+    private WebElement warningStatusMessage;
 
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
@@ -159,6 +165,26 @@ public abstract class AppPage {
         return wait.until(expectedCondition);
     }
 
+    public void verifyUnclickable(WebElement element) {
+        if (element.getTagName().equals("button")) {
+            assertFalse(element.isEnabled());
+        }
+    }
+
+    public void verifyInnerElementUnclickable(WebElement element, String innerElement) {
+        click(element);
+    }
+
+    /**
+     * Clicks the element and clicks 'No' in the follow up dialog box.
+     * Fails if there is no dialog box.
+     */
+    public void clickAndCancel(WebElement elementToClick) {
+        click(elementToClick);
+        waitForConfirmationModalAndClickCancel();
+        waitForPageToLoad();
+    }
+
     /**
      * Waits until the page is fully loaded.
      */
@@ -238,6 +264,14 @@ public abstract class AppPage {
         assertEquals(errorStatusMessage.getText(), message);
     }
 
+
+    public void verifyElementContainsElement(WebElement parentElement, By childBy) {
+        assertFalse(parentElement.findElements(childBy).isEmpty());
+    }
+
+    public void verifyElementDoesNotContainElement(WebElement parentElement, By childBy) {
+        assertTrue(parentElement.findElements(childBy).isEmpty());
+    }
 
     /**
      * Waits for the element to appear in the page, up to the timeout specified.

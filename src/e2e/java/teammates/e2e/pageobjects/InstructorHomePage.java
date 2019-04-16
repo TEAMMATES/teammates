@@ -17,38 +17,65 @@ public class InstructorHomePage extends AppPage {
     @FindBy(id = "sort-by-course-creation-date")
     private WebElement sortByDateBtn;
 
-    @FindBy(id = "remind-modal")
-    private WebElement remindModalBtn;
+    @FindBy(className = "sort-session-name")
+    private List<WebElement> sortSessionNameBtn;
 
-    @FindBy(id = "resend-published-email-modal")
-    private WebElement resendPublishedEmailModalLink;
+    @FindBy(className = "sort-session-start-date")
+    private List<WebElement> sortSessionStartDateBtn;
 
-    @FindBy(className = "sort-by-session-name")
-    private List<WebElement> sortBySessionNameBtn;
+    @FindBy(className = "sort-session-end-date")
+    private List<WebElement> sortSessionEndDateBtn;
 
-    @FindBy(className = "sort-by-session-start-date")
-    private List<WebElement> sortBySessionStartDateBtn;
+    @FindBy(linkText = "Home")
+    private WebElement homeBtn;
 
-    @FindBy(className = "sort-by-session-end-date")
-    private List<WebElement> sortBySessionEndDateBtn;
+    @FindBy(tagName = "tm-send-reminders-to-student-modal")
+    private WebElement remindModal;
 
-    private InstructorCopyFsToModal fsCopyModal;
+    @FindBy(tagName = "tm-resend-results-link-to-student-modal")
+    private WebElement resendPublishedEmailModal;
+
+    @FindBy(tagName = "tm-copy-session-modal")
+    private WebElement copySessionModal;
 
     public InstructorHomePage(Browser browser) {
         super(browser);
-        if (InstructorCopyFsToModal.isPresentOnPage(browser)) {
-            this.fsCopyModal = new InstructorCopyFsToModal(browser);
-        }
-    }
-
-    public InstructorCopyFsToModal getFsCopyModal() {
-        return fsCopyModal;
     }
 
     @Override
     protected boolean containsExpectedPageContents() {
-        System.out.println("this is true or false: " + getPageTitle().contains("Home"));
         return getPageTitle().contains("Home");
+    }
+
+    public void clickAndConfirmRemindStudentsWithUsers(int rowId) {
+        clickFsRemindStudentsBtn((rowId));
+        fillRemindUsersForm();
+        clickModalSubmitBtn();
+    }
+
+    public void clickAndConfirmResendPublishedWithUsers(int rowId) {
+        clickResendPublishedEmail(rowId);
+        fillResendEmailUsersForm();
+        clickModalSubmitBtn();
+    }
+
+    public void clickFsCopyButton(int rowId) {
+        click(getFsCopyBtn(rowId));
+        waitForElementVisibility(copySessionModal);
+    }
+
+    public void clickFsShowLink(int rowId) {
+        click(getFsShowLink(rowId));
+        waitForPageToLoad();
+    }
+
+    public void clickHomeBtn() {
+        click(homeBtn);
+        waitForPageToLoad();
+    }
+
+    public void clickModalSubmitBtn() {
+        click(getModalSubmitBtn());
     }
 
     public void clickSortByIdButton() {
@@ -66,250 +93,152 @@ public class InstructorHomePage extends AppPage {
         waitForPageToLoad();
     }
 
-    private void clickElements(List<WebElement> elements) {
-        for (WebElement ele : elements) {
-            click(ele);
-        }
+    public void loadInstructorCoursePanel(int panelId) {
+        click(By.id("panel-head-" + panelId));
+        waitForPageToLoad();
     }
 
     public void sortTablesByName() {
-        clickElements(sortBySessionNameBtn);
+        clickElements(sortSessionNameBtn);
+        clickElements(sortSessionNameBtn);
     }
 
     public void sortTablesByStartDate() {
-        clickElements(sortBySessionStartDateBtn);
+        clickElements(sortSessionStartDateBtn);
+        clickElements(sortSessionStartDateBtn);
     }
 
     public void sortTablesByEndDate() {
-        clickElements(sortBySessionEndDateBtn);
+        clickElements(sortSessionEndDateBtn);
+        clickElements(sortSessionEndDateBtn);
     }
 
-    public void clickCourseDeleteLink(String courseId) {
-        click(getDeleteCourseLink(courseId));
+    public WebElement getCourseArchiveBtn(int panelId) {
+        return getCourseBtnInPanel("course-archive-btn", panelId);
     }
 
-    public InstructorHomePage clickFeedbackSessionUnpublishLink(String courseId, String fsName) {
-        clickAndConfirm(getUnpublishLink(courseId, fsName));
-        waitForPageToLoad();
-//        switchToNewWindow();
-        return changePageType(InstructorHomePage.class);
+    public WebElement getCourseDeleteBtn(int panelId) {
+        return getCourseBtnInPanel("course-delete-btn", panelId);
     }
 
-    public InstructorHomePage clickFeedbackSessionPublishLink(String courseId, String fsName) {
-        clickAndConfirm(getPublishLink(courseId, fsName));
-        return changePageType(InstructorHomePage.class);
+    public WebElement getFsCopyBtn(int rowId) {
+        return getSessionBtnInRow("session-copy-btn", rowId);
     }
 
-    public void clickResendPublishedEmailLink(String courseId, String evalName) {
-        click(getResendPublishedEmailLink(courseId, evalName));
-        waitForElementVisibility(resendPublishedEmailModalLink);
+    public WebElement getFsDeleteBtn(int rowId) {
+        return getSessionBtnInRow("session-delete-btn", rowId);
     }
 
-//    public void cancelResendPublishedEmailForm() {
-//        cancelModalForm(resendPublishedEmailModal);
-//    }
-//
-//    public void fillResendPublishedEmailForm() {
-//        checkCheckboxesInForm(resendPublishedEmailModal, "usersToEmail");
-//    }
-
-    public void submitResendPublishedEmailForm() {
-        resendPublishedEmailModalLink.findElement(By.name("form_email_list")).submit();
+    public WebElement getFsPublishBtn(int rowId) {
+        return getSessionBtnInRow("session-publish-result-btn", rowId);
     }
 
-    public WebElement getViewResponseLink(String courseId, String evalName) {
-//        int evaluationRowId = getEvaluationRowId(courseId, evalName);
-//        //*[text()='" + courseId + "']
-        String xpathExp = "//*[text()='" + evalName + "']//a[@href='#']";
-
-        return browser.driver.findElement(By.xpath(xpathExp));
+    public WebElement getFsRemindStudentsBtn(int rowId) {
+        return getSessionBtnInRow("session-remind-students-btn", rowId);
     }
 
-    public void setViewResponseLinkValue(WebElement element, String newValue) {
-        executeScript("arguments[0].href=arguments[1]", element, newValue);
+    public WebElement getFsResendPublishedEmail(int rowId) {
+        return getSessionBtnInRow("session-resend-result-btn", rowId);
     }
 
-    public void clickViewResponseLink(String courseId, String evalName) {
-        click(getViewResponseLink(courseId, evalName));
+    public WebElement getFsUnpublishBtn(int rowId) {
+        return getSessionBtnInRow("session-unpublish-result-btn", rowId);
     }
 
-    public WebElement getViewResultsLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-view-for-test", getEvaluationRowId(courseId, evalName));
+    public WebElement getModalSubmitBtn() {
+        return browser.driver.findElement(By.className("modal-btn-ok"));
     }
 
-    public WebElement getEditLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-edit-for-test", getEvaluationRowId(courseId, evalName));
+    public String getFsViewResponseText(int rowId) {
+        return browser.driver.findElement(By.cssSelector(".session-" + rowId + "> td:nth-child(6)")).getText();
     }
 
-    public WebElement getSubmitLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-submit-for-test", getEvaluationRowId(courseId, evalName));
+    public boolean isCoursePanelExpanded(int courseId) {
+        WebElement coursePanel = browser.driver.findElement(By.id("course-" + courseId));
+        return coursePanel.findElements(By.className("card-body")).size() != 0;
     }
 
-    public WebElement getPreviewLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-preview-for-test", getEvaluationRowId(courseId, evalName));
+    public void verifyResendPublishedEmailButtonExists(int rowId) {
+        clickFsResultsBtn(rowId);
+        WebElement sessionRow = getSessionElementInRow(".dropdown-menu.show", rowId);
+        verifyElementContainsElement(sessionRow, By.className("session-resend-result-btn"));
     }
 
-    public WebElement getRemindLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-remind-for-test", getEvaluationRowId(courseId, evalName));
+    public void verifyResendPublishedEmailButtonDoesNotExist(int rowId) {
+        clickFsResultsBtn(rowId);
+        WebElement sessionRow = getSessionElementInRow(".dropdown-menu.show", rowId);
+        verifyElementDoesNotContainElement(sessionRow, By.className("session-resend-result-btn"));
     }
 
-    public WebElement getRemindInnerLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-remind-inner-for-test", getEvaluationRowId(courseId, evalName));
+    /**
+     * Populates the fields of the form by using the provided name, and selecting the last course shown.
+     * @param newFsName feedback session name of the new session
+     */
+    public void fillFormWithLastCourseSelected(String newFsName) {
+        WebElement fscopyModalBody = browser.driver.findElement(By.className("modal-body"));
+        List<WebElement> coursesCheckBoxes = fscopyModalBody.findElements(By.name("copySessionChooseCourse"));
+        for (WebElement e : coursesCheckBoxes) {
+            markCheckBoxAsChecked(e);
+        }
+
+        WebElement fsNameInput = fscopyModalBody.findElement(By.id("copied-fsname"));
+        fillTextBox(fsNameInput, newFsName);
     }
 
-    public WebElement getRemindParticularUsersLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-remind-particular-for-test", getEvaluationRowId(courseId, evalName));
+    private WebElement getCourseBtnInPanel(String elementClassNamePrefix, int panelId) {
+        return browser.driver.findElement(By.id("panel-head-" + panelId)).findElement(By.className(elementClassNamePrefix));
     }
 
-    public void cancelRemindParticularUsersForm() {
-        cancelModalForm(remindModalBtn);
+    private WebElement getFsShowLink(int rowId) {
+        return browser.driver.findElement(By.className("session-" + rowId)).findElement(By.linkText("Show"));
     }
 
-    public void cancelModalForm(WebElement modal) {
-        clickDismissModalButtonAndWaitForModalHidden(modal.findElement(By.tagName("button")));
+    private WebElement getFsResultsBtn(int rowId) {
+        return getSessionBtnInRow("session-results-btn", rowId);
     }
 
-    public void fillRemindParticularUsersForm() {
-        checkCheckboxesInForm(remindModalBtn, "usersToRemind");
+    private WebElement getSessionBtnInRow(String elementClassNamePrefix, int rowId) {
+        return browser.driver.findElement(By.className("session-" + rowId)).findElement(By.className(elementClassNamePrefix));
     }
 
-    public void checkCheckboxesInForm(WebElement form, String elementsName) {
+    private WebElement getSessionElementInRow(String elementCssSelectPrefix, int rowId) {
+        return browser.driver.findElement(By.className("session-" + rowId)).findElement(By.cssSelector(elementCssSelectPrefix));
+    }
+
+    private void checkCheckboxesInForm(WebElement form, String elementsName) {
         List<WebElement> formElements = form.findElements(By.name(elementsName));
         for (WebElement e : formElements) {
             markCheckBoxAsChecked(e);
         }
     }
 
-    public void submitRemindParticularUsersForm() {
-        remindModalBtn.findElement(By.name("form_remind_list")).submit();
-    }
-
-    public WebElement getSessionResultsOptionsCaretElement(String courseId, String evalName) {
-        int sessionRowId = getEvaluationRowId(courseId, evalName);
-        return browser.driver.findElement(
-                By.xpath("//tbody/tr[" + (sessionRowId + 1)
-                    + "]//button[contains(@class,'session-results-options')]"));
-    }
-
-    public void clickSessionResultsOptionsCaretElement(String courseId, String evalName) {
-        click(getSessionResultsOptionsCaretElement(courseId, evalName));
-    }
-
-    public WebElement getPublishLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-publish-for-test", getEvaluationRowId(courseId, evalName));
-    }
-
-    public WebElement getUnpublishLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-unpublish-for-test", getEvaluationRowId(courseId, evalName));
-    }
-
-    public void verifyDownloadResultButtonExists(String courseId, String evalName) {
-        WebElement sessionRow = waitForElementPresence(By.id("session" + getEvaluationRowId(courseId, evalName)));
-        // verifyElementContainsElement(sessionRow, By.className("session-results-download"));
-    }
-
-    public void verifyResendPublishedEmailButtonExists(String courseId, String evalName) {
-        WebElement sessionRow = waitForElementPresence(By.id("session" + getEvaluationRowId(courseId, evalName)));
-        // verifyElementContainsElement(sessionRow, By.className("session-resend-published-email-for-test"));
-    }
-
-    public void verifyResendPublishedEmailButtonDoesNotExist(String courseId, String evalName) {
-        WebElement sessionRow = waitForElementPresence(By.id("session" + getEvaluationRowId(courseId, evalName)));
-        // verifyElementDoesNotContainElement(sessionRow, By.className("session-resend-published-email-for-test"));
-    }
-
-    public WebElement getResendPublishedEmailLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-resend-published-email-for-test", getEvaluationRowId(courseId, evalName));
-    }
-
-    public WebElement getDeleteEvalLink(String courseId, String evalName) {
-        return getSessionLinkInRow("session-delete-for-test", getEvaluationRowId(courseId, evalName));
-    }
-
-    public WebElement getDeleteCourseLink(String courseId) {
-        return getCourseLinkInRow("course-delete-for-test", getCourseRowId(courseId));
-    }
-
-    public InstructorHomePage clickArchiveCourseLinkAndConfirm(String courseId) {
-        clickAndConfirm(getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)));
-        waitForPageToLoad();
-        return this;
-    }
-
-    public InstructorHomePage clickArchiveCourseLinkAndCancel(String courseId) {
-        // clickAndCancel(getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)));
-        waitForPageToLoad();
-        return this;
-    }
-
-    public String getArchiveCourseLink(String courseId) {
-        return getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).getAttribute("href");
-    }
-
-    private WebElement getSessionLinkInRow(String elementClassNamePrefix, int rowId) {
-        waitForElementPresence(By.id("session" + rowId));
-        waitForElementPresence(By.className(elementClassNamePrefix));
-        return browser.driver.findElement(By.id("session" + rowId)).findElement(By.className(elementClassNamePrefix));
-    }
-
-    private WebElement getCourseLinkInRow(String elementClassNamePrefix, int rowId) {
-        waitForElementPresence(By.id("course-" + rowId));
-        waitForElementPresence(By.className(elementClassNamePrefix));
-        return browser.driver.findElement(By.id("course-" + rowId)).findElement(By.className(elementClassNamePrefix));
-    }
-
-    private int getEvaluationRowId(String courseId, String evalName) {
-        int courseRowId = getCourseRowId(courseId);
-        if (courseRowId == -1) {
-            return -2;
+    private void clickElements(List<WebElement> elements) {
+        for (WebElement ele : elements) {
+            click(ele);
         }
-        String template = "//div[@id='course-%d']//tr[@id='session%d']";
-        int max = browser.driver.findElements(By.xpath("//div[starts-with(@id, 'course-')]//tr")).size();
-        for (int id = 0; id < max; id++) {
-            if (getElementText(
-                    By.xpath(String.format(template + "//td[1]", courseRowId,
-                            id))).equals(evalName)) {
-                return id;
-            }
-        }
-        return -1;
     }
 
-    private int getCourseRowId(String courseId) {
-        // waitForAjaxLoaderGifToDisappear();
-        int id = 0;
-        while (isElementPresent(By.id("course-" + id))) {
-            if (getElementText(
-                    By.xpath("//div[@id='course-" + id
-                            + "']//strong"))
-                    .startsWith("[" + courseId + "]")) {
-                return id;
-            }
-            id++;
-        }
-        return -1;
+    private void clickFsRemindStudentsBtn(int rowId) {
+        click(getFsRemindStudentsBtn(rowId));
+        waitForElementVisibility(remindModal);
     }
 
-    private String getElementText(By locator) {
-        waitForElementPresence(locator);
-        return browser.driver.findElement(locator).getText();
+    private void clickFsResultsBtn(int rowId) {
+        click(getFsResultsBtn(rowId));
+        waitForElementVisibility(By.cssSelector(".dropdown-menu.show"));
     }
 
-    public void changeFsCopyButtonActionLink(String courseId, String feedbackSessionName, String newActionLink) {
-        String id = "button_fscopy" + "-" + courseId + "-" + feedbackSessionName;
-        By element = By.id(id);
-        waitForElementPresence(element);
-
-        executeScript("document.getElementById('" + id + "').setAttribute('data-actionlink', '" + newActionLink + "')");
+    private void clickResendPublishedEmail(int rowId) {
+        click(getFsResendPublishedEmail(rowId));
+        waitForElementVisibility(resendPublishedEmailModal);
     }
 
-    public void clickFsCopyButton(String courseId, String feedbackSessionName) {
-        By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
-
-        // give it some time to load as it is loaded via AJAX
-        waitForElementPresence(fsCopyButtonElement);
-
-        WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
-        fsCopyButton.click();
+    private void fillRemindUsersForm() {
+        checkCheckboxesInForm(remindModal, "usersToRemind");
     }
+
+    private void fillResendEmailUsersForm() {
+        checkCheckboxesInForm(resendPublishedEmailModal, "usersToResendPublishedEmail");
+    }
+
 }
