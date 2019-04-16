@@ -1,4 +1,4 @@
-import { PlatformLocation } from '@angular/common';
+import { Location } from '@angular/common';
 import {
   Component,
   Directive,
@@ -66,7 +66,7 @@ export class PageComponent {
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
-              private modalService: NgbModal, location: PlatformLocation) {
+              private modalService: NgbModal, location: Location) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -92,9 +92,9 @@ export class PageComponent {
     );
 
     // Close open modal(s) when moving backward or forward through history in the browser page
-    location.onPopState(() => {
+    location.subscribe(() => {
       if (this.modalService.hasOpenModals()) {
-        this.modalService.dismissAll()
+        this.modalService.dismissAll();
       }
     });
   }
