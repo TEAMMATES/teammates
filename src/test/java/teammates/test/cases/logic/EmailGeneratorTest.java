@@ -230,20 +230,20 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 + "Edited student has joined the course");
 
         EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
-                session.getCourseId(), student1.email, Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
+                session.getCourseId(), student1.email, Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
-        verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForEditedStudent.html");
+        verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");
 
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has not joined the course");
 
         email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email,
-                                                        Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
+                                                        Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, unregisteredStudent.email, subject,
-                "/summaryOfFeedbackSessionsOfCourseEmailForEditedUnregisteredStudent.html");
+                "/summaryOfFeedbackSessionsOfCourseEmailForUnregisteredStudent.html");
 
         ______TS("send summary of all regenerated feedback session links of course email to student. "
                 + "Student has joined the course");
@@ -346,7 +346,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback sessions summary of course email: sanitization required");
 
         EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
-                session.getCourseId(), student1.email, Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS);
+                session.getCourseId(), student1.email, Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
         verifyEmail(email, student1.email, subject,
                 "/summaryOfFeedbackSessionsOfCourseEmailTestingSanitizationForStudent.html");

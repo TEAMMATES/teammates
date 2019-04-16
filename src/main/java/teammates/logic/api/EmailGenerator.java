@@ -192,7 +192,7 @@ public class EmailGenerator {
         email.setContent(emailBody);
 
         // Set appropriate email subject, depending on the email template
-        if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_EMAIL_UPDATE_RESEND_ALL_COURSE_LINKS)) {
+        if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS)) {
             email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId()));
         } else if (resendLinksTemplate.equals(Templates.EmailTemplates.REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS)) {
             email.setSubject(String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(),
