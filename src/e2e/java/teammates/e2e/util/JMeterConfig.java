@@ -2,6 +2,9 @@ package teammates.e2e.util;
 
 import java.util.Map;
 
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.CSVDataSet;
 import org.apache.jmeter.config.ConfigTestElement;
@@ -10,10 +13,15 @@ import org.apache.jmeter.control.OnceOnlyController;
 import org.apache.jmeter.control.gui.LoopControlPanel;
 import org.apache.jmeter.control.gui.OnceOnlyControllerGui;
 import org.apache.jmeter.control.gui.TestPlanGui;
+import org.apache.jmeter.extractor.RegexExtractor;
+import org.apache.jmeter.extractor.gui.RegexExtractorGui;
 import org.apache.jmeter.protocol.http.config.gui.HttpDefaultsGui;
 import org.apache.jmeter.protocol.http.control.CookieManager;
+import org.apache.jmeter.protocol.http.control.Header;
+import org.apache.jmeter.protocol.http.control.HeaderManager;
 import org.apache.jmeter.protocol.http.control.gui.HttpTestSampleGui;
 import org.apache.jmeter.protocol.http.gui.CookiePanel;
+import org.apache.jmeter.protocol.http.gui.HeaderPanel;
 import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
 import org.apache.jmeter.testbeans.gui.TestBeanGUI;
@@ -40,9 +48,13 @@ public abstract class JMeterConfig {
 
     protected abstract String getTestMethod();
 
-    protected abstract Map<String, String> getTestArguments();
+    protected abstract Map<String, String> getRequestParameters();
 
     protected abstract String getCsvConfigPath();
+
+    protected abstract String getRequestBody();
+
+    protected abstract String getRequestBodyContentType();
 
     /**
      * Returns the JMeter {@code HashTree} object with some standard configurations
@@ -82,8 +94,9 @@ public abstract class JMeterConfig {
         csvDataSet.setProperty(new StringProperty("shareMode", "shareMode.all"));
         csvDataSet.setProperty("ignoreFirstLine", true);
         csvDataSet.setProperty("quoted", true);
-        csvDataSet.setProperty("recycle", true);
-        csvDataSet.setProperty("stopThread", false);
+        csvDataSet.setProperty("quotedData", true);
+        csvDataSet.setProperty("recycle", false);
+        csvDataSet.setProperty("stopThread", true);
         csvDataSet.setProperty(TestElement.TEST_CLASS, CSVDataSet.class.getName());
         csvDataSet.setProperty(TestElement.GUI_CLASS, TestBeanGUI.class.getName());
 
@@ -127,7 +140,7 @@ public abstract class JMeterConfig {
         apiSampler.setName("Test Endpoint");
         apiSampler.setPath(getTestEndpoint());
         apiSampler.setMethod(getTestMethod());
-        getTestArguments().forEach((key, value) -> {
+        getRequestParameters().forEach((key, value) -> {
             apiSampler.addArgument(key, value);
         });
         apiSampler.setEnabled(true);
@@ -137,11 +150,57 @@ public abstract class JMeterConfig {
         // Create Test plan
         HashTree testPlanHashTree = new ListedHashTree();
         HashTree threadGroupHashTree = testPlanHashTree.add(testPlan, threadGroup);
+
+        // Add Config elements
         threadGroupHashTree.add(csvDataSet);
         threadGroupHashTree.add(cookieManager);
         threadGroupHashTree.add(defaultSampler);
-        threadGroupHashTree.add(onceOnlyController, loginSampler);
-        threadGroupHashTree.add(apiSampler);
+
+        // Add HTTP samplers (and configurations, pre/post processors)
+        HashTree loginSamplerHashTree = threadGroupHashTree.add(onceOnlyController, loginSampler);
+        HashTree apiSamplerHashTree = threadGroupHashTree.add(apiSampler);
+
+        switch (getTestMethod()) {
+        case HttpDelete.METHOD_NAME:
+            // fallthrough
+        case HttpPut.METHOD_NAME:
+            // fallthrough
+        case HttpPost.METHOD_NAME:
+            // Regex Extractor for CSRF token
+            RegexExtractor regexExtractor = new RegexExtractor();
+            regexExtractor.setName("Regular Expression Extractor");
+            regexExtractor.setUseField("true"); // Find regex matches in response headers
+            regexExtractor.setRefName("csrfToken");
+            regexExtractor.setRegex("CSRF-TOKEN=(.+?);");
+            regexExtractor.setTemplate("$1$");
+            regexExtractor.setProperty(TestElement.TEST_CLASS, RegexExtractor.class.getName());
+            regexExtractor.setProperty(TestElement.GUI_CLASS, RegexExtractorGui.class.getName());
+
+            // HTTP Header Manager
+            HeaderManager headerManager = new HeaderManager();
+            headerManager.setName("HTTP Header Manager");
+            headerManager.add(new Header("X-CSRF-TOKEN", "${csrfToken}"));
+            headerManager.setProperty(TestElement.TEST_CLASS, HeaderManager.class.getName());
+            headerManager.setProperty(TestElement.GUI_CLASS, HeaderPanel.class.getName());
+
+            String requestBody = getRequestBody();
+            if (requestBody != null && !requestBody.isEmpty()) {
+                // Add Request Body
+                apiSampler.addNonEncodedArgument("", requestBody, "");
+                apiSampler.setPostBodyRaw(true);
+
+                // Add corresponding Request Header
+                headerManager.add(new Header("Content-Type", getRequestBodyContentType()));
+            }
+
+            // Add elements to test plan tree
+            loginSamplerHashTree.add(regexExtractor);
+            apiSamplerHashTree.add(headerManager);
+            break;
+
+        default:
+            break;
+        }
 
         return testPlanHashTree;
     }

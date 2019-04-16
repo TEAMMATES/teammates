@@ -321,9 +321,20 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
         if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
                 && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
-            oldResponse.setGiverEmail(newAttributes.giver);
+
+            // update only if change
+            boolean hasSameAttributes =
+                    this.<String>hasSameValue(oldResponse.getGiverSection(), newAttributes.getGiverSection())
+                    && this.<String>hasSameValue(oldResponse.getRecipientSection(), newAttributes.getRecipientSection())
+                    && this.<String>hasSameValue(
+                            oldResponse.getResponseMetaData(), newAttributes.getSerializedFeedbackResponseDetail());
+            if (hasSameAttributes) {
+                log.info(String.format(
+                        OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponse.class.getSimpleName(), updateOptions));
+                return newAttributes;
+            }
+
             oldResponse.setGiverSection(newAttributes.giverSection);
-            oldResponse.setRecipientEmail(newAttributes.recipient);
             oldResponse.setRecipientSection(newAttributes.recipientSection);
             oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
 
