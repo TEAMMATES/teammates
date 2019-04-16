@@ -43,6 +43,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
         StudentProfile studentProfile = getStudentProfileEntityFromDb(updateOptions.getGoogleId());
+        boolean shouldCreateEntity = studentProfile == null; // NOPMD
         if (studentProfile == null) {
             studentProfile = new StudentProfile(updateOptions.getGoogleId());
         }
@@ -55,7 +56,17 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        if (hasNoNewChangesToProfile(newAttributes, studentProfile)) {
+        // update only if change
+        boolean hasSameAttributes =
+                this.<String>hasSameValue(studentProfile.getEmail(), newAttributes.getEmail())
+                && this.<String>hasSameValue(studentProfile.getShortName(), newAttributes.getShortName())
+                && this.<String>hasSameValue(studentProfile.getInstitute(), newAttributes.getInstitute())
+                && this.<String>hasSameValue(studentProfile.getNationality(), newAttributes.getNationality())
+                && this.<String>hasSameValue(studentProfile.getGender(), newAttributes.getGender().name().toLowerCase())
+                && this.<String>hasSameValue(studentProfile.getMoreInfo(), newAttributes.getMoreInfo())
+                && this.<String>hasSameValue(studentProfile.getPictureKey(), newAttributes.getPictureKey());
+        if (!shouldCreateEntity && hasSameAttributes) {
+            log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, StudentProfile.class.getSimpleName(), updateOptions));
             return newAttributes;
         }
 
@@ -71,14 +82,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         saveEntity(studentProfile);
 
         return makeAttributes(studentProfile);
-    }
-
-    private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa, StudentProfile profileToUpdate) {
-        StudentProfileAttributes newSpaCopy = newSpa.getCopy();
-        StudentProfileAttributes existingProfile = StudentProfileAttributes.valueOf(profileToUpdate);
-
-        newSpaCopy.modifiedDate = existingProfile.modifiedDate;
-        return existingProfile.toString().equals(newSpaCopy.toString());
     }
 
     /**

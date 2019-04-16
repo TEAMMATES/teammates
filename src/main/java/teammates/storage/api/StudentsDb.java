@@ -259,6 +259,19 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             putDocument(newAttributes);
             return newAttributes;
         } else {
+            // update only if change
+            boolean hasSameAttributes =
+                    this.<String>hasSameValue(student.getName(), newAttributes.getName())
+                    && this.<String>hasSameValue(student.getLastName(), newAttributes.getLastName())
+                    && this.<String>hasSameValue(student.getComments(), newAttributes.getComments())
+                    && this.<String>hasSameValue(student.getGoogleId(), newAttributes.getGoogleId())
+                    && this.<String>hasSameValue(student.getTeamName(), newAttributes.getTeam())
+                    && this.<String>hasSameValue(student.getSectionName(), newAttributes.getSection());
+            if (hasSameAttributes) {
+                log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, CourseStudent.class.getSimpleName(), updateOptions));
+                return newAttributes;
+            }
+
             student.setName(newAttributes.name);
             student.setLastName(newAttributes.lastName);
             student.setComments(newAttributes.comments);
