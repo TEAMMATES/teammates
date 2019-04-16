@@ -33,6 +33,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -849,13 +850,16 @@ public class Logic {
     }
 
     /**
-     * Regenerates the registration key for the student represented by {@code studentAttributes}.
+     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
      * @return Returns the student attributes with the regenerated registration key.
      */
-    public StudentAttributes regenerateStudentRegistrationKey(StudentAttributes studentAttributes) {
-        Assumption.assertNotNull(studentAttributes);
+    public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, RegenerateStudentException {
 
-        return studentsLogic.regenerateStudentRegistrationKey(studentAttributes);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(email);
+
+        return studentsLogic.regenerateStudentRegistrationKey(courseId, email);
     }
 
     /**
