@@ -157,7 +157,7 @@ public final class JMeterElements {
     }
 
     /**
-     * Returns a HTTP Request element that configured to login to a TEAMMATES instance.
+     * Returns a HTTP Request element that is configured to login to a TEAMMATES instance.
      *
      * <p>This element uses data from the "loginId" and "isAdmin" fields of the CSV config file.</p>
      */
@@ -177,7 +177,7 @@ public final class JMeterElements {
     }
 
     /**
-     * Returns a Once Only Controller element that process the controller(s) inside it only once per thread.
+     * Returns a Once Only Controller element that processes the controller(s) inside it only once per thread.
      */
     public static OnceOnlyController onceOnlyController() {
         OnceOnlyController onceOnlyController = new OnceOnlyController();
@@ -260,9 +260,9 @@ public final class JMeterElements {
     }
 
     /**
-     * Overloaded method that returns a HTTP Request element with a GET method to the endpoint specified by {@path}.
+     * Returns a HTTP Request element with a GET method to the endpoint specified by {@path}.
      */
-    public static HTTPSamplerProxy httpSampler(String path) {
+    public static HTTPSamplerProxy httpGetSampler(String path) {
         return httpSampler(path, HttpGet.METHOD_NAME, null);
     }
 

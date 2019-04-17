@@ -172,7 +172,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 .add(JMeterElements.loginSampler());
 
         // Add HTTP sampler for test endpoint
-        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint()));
+        threadGroup.add(JMeterElements.httpGetSampler(getTestEndpoint()));
 
         return testPlan;
     }
