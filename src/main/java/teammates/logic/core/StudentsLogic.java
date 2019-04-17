@@ -212,9 +212,10 @@ public final class StudentsLogic {
     /**
      * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
      *
-     * @return Returns the student attributes with the new registration key.
+     * @return the student attributes with the new registration key.
      * @throws RegenerateStudentException if the newly generated course student has the same registration key as the
      *          original one.
+     * @throws EntityDoesNotExistException if the student does not exist.
      */
     public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
             throws EntityDoesNotExistException, RegenerateStudentException {

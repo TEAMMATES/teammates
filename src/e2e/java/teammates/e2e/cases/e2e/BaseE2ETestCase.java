@@ -17,7 +17,6 @@ import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -43,10 +42,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
     protected abstract void prepareTestData() throws Exception;
 
-    protected void removeTestData() {
-        BackDoor.removeDataBundle(testData);
-    }
-
     @Override
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
@@ -55,7 +50,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     @AfterClass(alwaysRun = true)
     public void baseClassTearDown() {
         releaseBrowser();
-        removeTestData();
     }
 
     protected void releaseBrowser() {
@@ -63,11 +57,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
             return;
         }
         BrowserPool.release(browser);
-    }
-
-    @Override
-    protected String doPutDocuments(DataBundle testData) {
-        return BackDoor.doPutDocuments(testData);
     }
 
     /**
