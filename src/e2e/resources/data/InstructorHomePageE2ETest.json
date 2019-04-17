@@ -107,52 +107,6 @@
         "sessionLevel": {}
       }
     },
-    "CHomeUiT.helper.CS1101": {
-      "googleId": "CHomeUiT.instructor.tmms.helper",
-      "courseId": "CHomeUiT.CS1101",
-      "name": "Teammates Test Helper",
-      "email": "CHomeUiT.instructor.tmms.helper@gmail.tmt",
-      "role": "Custom",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
-    "CHomeUiT.instr.Sample": {
-      "googleId": "newIns.withSample",
-      "courseId": "newIns.wit-demo",
-      "name": "Teammates Test New Instructor With Sample",
-      "email": "newIns.withSample@gmail.tmt",
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
     "CHomeUiT.instr.Course3": {
       "googleId": "CHomeUiT.instructor.tmms",
       "courseId": "CHomeUiT.demo3",
