@@ -232,6 +232,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     public void classTearDown() throws IOException {
         // There is no need to add the newly enrolled students to the JSON DataBundle#students. This is because the new
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
+        generateResultAnalysis("InstructorStudentEnrollmentLNPTest");
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
     }

@@ -2,6 +2,7 @@ package teammates.e2e.cases.lnp;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -105,6 +106,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     private String getPathToTestDataFile(String fileName) {
         return TestProperties.LNP_TEST_DATA_FOLDER + fileName;
+    }
+
+    private String getPathToStatisticsResultsFile() {
+        return TestProperties.LNP_TEST_DATA_FOLDER + "statistics.json";
     }
 
     private String createFileAndDirectory(String directory, String fileName) throws IOException {
@@ -284,6 +289,20 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         BackDoor.removeAndRestoreDataBundle(dataBundle);
     }
 
+    protected void generateResultAnalysis(String testName) throws IOException {
+
+        String dataPath = TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
+
+        Gson gson = new Gson();
+        JsonReader reader = new JsonReader(new FileReader(dataPath));
+        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+        JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
+        ReportAnalysis reportAnalysis = gson.fromJson(endPointAnalysis, ReportAnalysis.class);
+
+        reportAnalysis.showCompleteAnalysis(testName);
+    }
+
     /**
      * Deletes the data that was created in the datastore from the file specified by {@code dataBundleJsonPath}.
      */
@@ -336,28 +355,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         //  or if there is an Exception.
         //  An example of when this occurs is if `email` is used for logging in instead of `googleid`, or if the JMeter
         //  test properties are not set.
-
-
-        String dataPath = "src/e2e/lnp/results/statistics.json";
-
-        Gson gson = new Gson();
-        JsonReader reader = new JsonReader(new FileReader(dataPath));
-        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-
-        JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
-        ReportAnalysis reportAnalysis = gson.fromJson(endPointAnalysis, ReportAnalysis.class);
-
-        log.info("The results are measured in terms of milliseconds");
-        log.info("Throughput = " + reportAnalysis.getThroughput());
-        log.info("90 latency percentile = " + reportAnalysis.getPct3ResTime());
-        log.info("Total sample count: " + reportAnalysis.getSampleCount());
-        log.info("Error count = " + reportAnalysis.getErrorCount());
-        log.info("Mean latency = " + reportAnalysis.getMeanResTime());
-
-        // Remove the statistics file created
-        Files.delete(Paths.get(dataPath));
-
-        // TODO: Generate summary report from .jtl results file / ResultCollector.
     }
 
     /**
@@ -366,9 +363,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected void deleteDataFiles() throws IOException {
         String pathToJsonFile = getPathToTestDataFile(getJsonDataPath());
         String pathToCsvFile = getPathToTestDataFile(getCsvConfigPath());
+        String pathToStatisticsJsonFile = getPathToStatisticsResultsFile();
 
         Files.delete(Paths.get(pathToJsonFile));
         Files.delete(Paths.get(pathToCsvFile));
+        Files.delete(Paths.get(pathToStatisticsJsonFile));
     }
 
 }
