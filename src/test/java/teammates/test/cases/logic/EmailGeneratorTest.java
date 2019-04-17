@@ -249,7 +249,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 + "Student has joined the course");
 
         email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email,
-                                                    Templates.EmailTemplates.REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS);
+                                            Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedStudent.html");
@@ -258,7 +258,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 + "Student has not joined the course");
 
         email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email,
-                                                    Templates.EmailTemplates.REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS);
+                                            Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, unregisteredStudent.email, subject,

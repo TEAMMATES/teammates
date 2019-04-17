@@ -78,7 +78,7 @@ public class RegenerateStudentCourseLinksAction extends Action {
      */
     private boolean sendEmail(StudentAttributes student) {
         EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(student.getCourse(), student.getEmail(),
-                                                    Templates.EmailTemplates.REGENERATE_STUDENT_KEY_RESEND_ALL_COURSE_LINKS);
+                                            Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }
