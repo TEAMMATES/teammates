@@ -9,7 +9,6 @@ import { StudentService } from '../../../services/student.service';
 import { Course, Instructors, Student, Students } from '../../../types/api-output';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
 import { StudentProfile } from '../../pages-instructor/student-profile/student-profile';
 
 interface StudentProfileWithPicture extends StudentProfile {
@@ -88,6 +87,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     this.studentService.getStudentsFromCourseAndTeam(courseid, teamName)
         .subscribe((students: Students) => {
           students.students.forEach((student: Student) => {
+            // filter away current user
+            if (this.student && student.email === this.student.email && student.name === this.student.name) {
+              return;
+            }
+
             this.studentProfileService.getStudentProfile(student.email, courseid)
                   .subscribe((studentProfile: StudentProfile) => {
                     const newPhotoUrl: string =
@@ -119,7 +123,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   loadInstructors(courseid: string): void {
     const paramMap: { [key: string]: string } = {
       courseid,
-      intent: Intent.FULL_DETAIL,
     };
 
     this.httpRequestService.get('/instructors', paramMap)
