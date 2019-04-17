@@ -182,7 +182,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     }
 
     @Test
-    protected void testAccessControl_onlyStudentOrInstructorAccessRequired_shouldPass()
+    protected void testAccessControl_loggedInEntityBothInstructorAndStudent_shouldBeAccessible()
             throws InvalidParametersException, EntityDoesNotExistException,
             EntityAlreadyExistsException {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
