@@ -9,9 +9,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 
 interface Statistic {
-  students: number;
-  sections: number;
-  teams: number;
+  numOfStudents: number;
+  numOfSections: number;
+  numOfTeams: number;
 }
 
 interface StudentIndexedData {
@@ -103,9 +103,9 @@ export class InstructorStudentListPageComponent implements OnInit {
           }, {});
 
           courseTab.stats = {
-            students: students.students.length,
-            sections: Object.keys(sections).length,
-            teams: Object.keys(teams).length,
+            numOfStudents: students.students.length,
+            numOfSections: Object.keys(sections).length,
+            numOfTeams: Object.keys(teams).length,
           };
 
           Object.keys(sections).forEach((key: string) => {
