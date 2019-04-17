@@ -1,0 +1,238 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorCourseEditPageComponent should snap with default fields 1`] = `
+<tm-instructor-course-edit-page
+  courseService={[Function CourseService]}
+  fb={[Function FormBuilder]}
+  feedbackNames={[Function Array]}
+  httpRequestService={[Function HttpRequestService]}
+  instructorList={[Function Array]}
+  instructorToShowIndex={[Function Number]}
+  isAddingInstructor="false"
+  isEditingCourse="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sectionNames={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+  user="undefined"
+>
+  
+</tm-instructor-course-edit-page>
+`;
+
+exports[`InstructorCourseEditPageComponent should snap with populated fields 1`] = `
+<tm-instructor-course-edit-page
+  courseService={[Function CourseService]}
+  courseToEdit={[Function Object]}
+  fb={[Function FormBuilder]}
+  feedbackNames={[Function Array]}
+  formAddInstructor={[Function FormGroup]}
+  formEditCourse={[Function FormGroup]}
+  formEditInstructors={[Function FormGroup]}
+  httpRequestService={[Function HttpRequestService]}
+  instructor={[Function Object]}
+  instructorList={[Function Array]}
+  instructorToShowIndex={[Function Number]}
+  isAddingInstructor="false"
+  isEditingCourse="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sectionNames={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+  user="undefined"
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <strong>
+        Course:
+      </strong>
+      <span
+        class="float-sm-right"
+      >
+        
+        <button
+          class="btn btn-light btn-sm btn-left btn-course"
+          ng-reflect-ngb-tooltip="Edit course name"
+          ngbtooltip="Edit course name"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-pen"
+          />
+           Edit 
+        </button>
+        
+        <button
+          class="btn btn-light btn-sm btn-course"
+          ng-reflect-ngb-tooltip="Delete the course and its corr"
+          ngbtooltip="Delete the course and its corresponding students and sessions"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-trash"
+          />
+           Delete 
+        </button>
+      </span>
+    </div>
+    <div
+      class="card-body fill-plain"
+    >
+      <form
+        class="form form-horizontal ng-untouched ng-pristine"
+        ng-reflect-form="[object Object]"
+        novalidate=""
+      >
+        <div>
+          <div
+            class="form-row form-group"
+          >
+            <label
+              class="col-sm-3"
+            >
+              Course ID:
+            </label>
+            <div
+              class="col-sm-3"
+            >
+              <input
+                class="col-xs-12 form-control ng-untouched ng-pristine"
+                disabled=""
+                formcontrolname="id"
+                maxlength="40"
+                ng-reflect-maxlength="40"
+                ng-reflect-name="id"
+                tabindex="1"
+              />
+            </div>
+          </div>
+          <div
+            class="form-row form-group"
+          >
+            <label
+              class="col-sm-3"
+            >
+              Course Name:
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine"
+                disabled=""
+                formcontrolname="name"
+                maxlength="64"
+                ng-reflect-maxlength="64"
+                ng-reflect-name="name"
+                ng-reflect-ngb-tooltip="The name of the course, e.g. S"
+                ngbtooltip="The name of the course, e.g. Software Engineering."
+                tabindex="2"
+              />
+            </div>
+          </div>
+          <div
+            class="form-row form-group"
+          >
+            <label
+              class="col-xs-12 col-sm-3"
+            >
+              Time Zone:
+            </label>
+            <div
+              class="col-xs-12 col-sm-9"
+            >
+              <div
+                class="input-group"
+              >
+                <select
+                  class="form-control ng-untouched ng-pristine"
+                  disabled=""
+                  formcontrolname="timeZone"
+                  ng-reflect-name="timeZone"
+                  ng-reflect-ngb-tooltip="The time zone for the course. "
+                  ngbtooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
+                  device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+                >
+                  
+                  <option
+                    ng-reflect-value="GMT+8"
+                    value="GMT+8"
+                  >
+                    GMT+8
+                  </option>
+                  <option
+                    ng-reflect-value="GMT+7"
+                    value="GMT+7"
+                  >
+                    GMT+7
+                  </option>
+                  <option
+                    ng-reflect-value="GMT+6"
+                    value="GMT+6"
+                  >
+                    GMT+6
+                  </option>
+                </select>
+                <span
+                  class="input-group-btn"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    type="button"
+                  >
+                     Auto-Detect 
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="form-group"
+          >
+            <div
+              class=" col-sm-12 align-center"
+            >
+              
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div><div
+    class="ng-untouched ng-pristine ng-valid"
+    ng-reflect-form="[object Object]"
+  >
+    <div
+      class="ng-untouched ng-pristine ng-valid"
+      formarrayname="formInstructors"
+      ng-reflect-name="formInstructors"
+    >
+      
+    </div>
+  </div><div
+    class="top-padded bottom-padded align-center"
+  >
+    
+    <button
+      class="btn btn-primary btn-instr"
+    >
+       Add New Instructor 
+    </button>
+  </div>
+</tm-instructor-course-edit-page>
+`;
