@@ -75,6 +75,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         return TestProperties.LNP_TEST_DATA_FOLDER;
     }
 
+    /**
+     * Returns the path to the data file, relative to the project root directory.
+     */
     protected String getPathToTestDataFile(String fileName) {
         return getTestDataFolder() + fileName;
     }
