@@ -262,6 +262,11 @@ public abstract class AppPage {
         assertEquals(errorStatusMessage.getText(), message);
     }
 
+    public void verifyErrorStatusMessageContains(String message) {
+        waitForErrorStatusMessage();
+        assertTrue(errorStatusMessage.getText().contains(message));
+    }
+
     public void verifyElementContainsElement(WebElement parentElement, By childBy) {
         assertFalse(parentElement.findElements(childBy).isEmpty());
     }

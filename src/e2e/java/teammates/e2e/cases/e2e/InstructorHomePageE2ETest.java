@@ -29,14 +29,11 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
     private FeedbackSessionAttributes feedbackSessionAwaiting;
     private FeedbackSessionAttributes feedbackSessionOpen;
-    private FeedbackSessionAttributes
-            feedbackSessionClosed;
+    private FeedbackSessionAttributes feedbackSessionClosed;
     private FeedbackSessionAttributes feedbackSessionPublished;
 
     private List<FeedbackSessionAttributes> feedbackSessions;
     private List<String> courseIds;
-
-    // TODO: refactor this test. try to use admin login or create instructors and courses not using json
 
     @Override
     protected void prepareTestData() {
@@ -57,8 +54,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         testResponseLink();
         testRemindActions();
         testPublishUnpublishResendActions();
-        testCopyToFsAction();
         testArchiveCourseAction();
+        testCopyToFsAction();
         testDeleteAction();
         logout();
     }
@@ -165,8 +162,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.clickAndConfirm(homePage.getFsPublishBtn(fsIdx));
         homePage.verifySuccessStatusMessage(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
 
-        // TODO: verify ispublished result not working for FSA
-
         homePage.clickAndCancel(homePage.getFsResendPublishedEmail(fsIdx));
         homePage.clickAndConfirm(homePage.getFsResendPublishedEmail(fsIdx));
         homePage.verifyErrorStatusMessage("List of users to remind cannot be empty");
@@ -202,13 +197,16 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.clickFsCopyButton(fsIdx);
         homePage.verifyUnclickable(homePage.getModalSubmitBtn());
 
-        homePage.fillFormWithLastCourseSelected("testing session");
+        homePage.fillFormWithLastCourseSelected("New session copied for testing");
         homePage.clickModalSubmitBtn();
         homePage.verifySuccessStatusMessage("The feedback session has been copied."
                 + " Please modify settings/questions as necessary.");
-
         homePage.clickHomeBtn();
-        // TODO: add verification for session
+
+        homePage.clickFsCopyButton(fsIdx);
+        homePage.fillFormWithLastCourseSelected("New session copied for testing");
+        homePage.clickModalSubmitBtn();
+        homePage.verifyErrorStatusMessageContains("Trying to create an entity that exists:");
 
     }
 
@@ -216,15 +214,15 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         ______TS("Test case: archive course action");
 
-        int courseIdx = courseIds.indexOf(UNLOADED_COURSE);
-        homePage.clickAndCancel(homePage.getCourseArchiveBtn(courseIdx));
+        int courseIdx = courseIds.indexOf(COURSE_WITH_NO_PRIVILEGES);
         homePage.clickAndConfirm(homePage.getCourseArchiveBtn(courseIdx));
-        homePage.verifyErrorStatusMessage("The request is not valid.");
+        homePage.verifyErrorStatusMessage("You are not authorized to access this resource.");
 
-        // TODO: Add a valid course for archiving
-        // courseIdx = courseIds.indexOf(COURSE_WITH_NO_PRIVILEGES);
+        // TODO: Archive the course after issue #9675 is resolved
+        // courseIdx = courseIds.indexOf(UNLOADED_COURSE);
+        // homePage.clickAndCancel(homePage.getCourseArchiveBtn(courseIdx));
         // homePage.clickAndConfirm(homePage.getCourseArchiveBtn(courseIdx));
-        // homePage.verifyErrorStatusMessage("You are not authorized to access this resource.");
+        // homePage.verifyErrorStatusMessage("The request is not valid.");
 
     }
 
