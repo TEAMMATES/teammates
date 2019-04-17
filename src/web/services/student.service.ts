@@ -45,4 +45,15 @@ export class StudentService {
     };
     return this.httpRequestService.put('/students', paramsMap, requestBody);
   }
+
+  /**
+   * Gets all students in a course and team as an instructor by calling API.
+   */
+  getStudentsFromCourseAndTeam(courseId: string, teamName: string): Observable<Students> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: courseId,
+      teamname: teamName,
+    };
+    return this.httpRequestService.get('/students', paramsMap);
+  }
 }
