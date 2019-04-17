@@ -21,6 +21,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -824,6 +825,33 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testUpdateFeedbackResponse_noChangeToResponse_shouldNotIssueSaveRequest() throws Exception {
+        FeedbackResponseAttributes typicalResponse = getResponseAttributes("response3ForQ2S1C1");
+
+        typicalResponse = frDb.getFeedbackResponse(typicalResponse.feedbackQuestionId,
+                typicalResponse.giver, typicalResponse.recipient);
+
+        FeedbackResponseAttributes updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .build());
+
+        assertEquals(JsonUtils.toJson(typicalResponse), JsonUtils.toJson(updatedResponse));
+        assertEquals(typicalResponse.getUpdatedAt(), updatedResponse.getUpdatedAt());
+
+        updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .withGiver(typicalResponse.getGiver())
+                        .withGiverSection(typicalResponse.getGiverSection())
+                        .withRecipient(typicalResponse.getRecipient())
+                        .withRecipientSection(typicalResponse.getRecipientSection())
+                        .withResponseDetails(typicalResponse.getResponseDetails())
+                        .build());
+
+        assertEquals(JsonUtils.toJson(typicalResponse), JsonUtils.toJson(updatedResponse));
+        assertEquals(typicalResponse.getUpdatedAt(), updatedResponse.getUpdatedAt());
+    }
+
+    @Test
     public void testUpdateFeedbackResponse() throws Exception {
 
         ______TS("null params");
@@ -879,6 +907,43 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         assertEquals(modifiedResponse.courseId, updatedResponse.courseId);
         assertEquals(modifiedResponse.feedbackSessionName, updatedResponse.feedbackSessionName);
         assertEquals(modifiedResponse.getFeedbackQuestionType(), updatedResponse.getFeedbackQuestionType());
+    }
+
+    // the test is to ensure that optimized saving policy is implemented without false negative
+    @Test
+    public void testUpdateFeedbackResponse_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {
+        FeedbackResponseAttributes typicalResponse = getResponseAttributes("response3ForQ2S1C1");
+        typicalResponse = frDb.getFeedbackResponse(
+                typicalResponse.getFeedbackQuestionId(), typicalResponse.getGiver(), typicalResponse.getRecipient());
+
+        assertNotEquals("testSection", typicalResponse.getGiverSection());
+        FeedbackResponseAttributes updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .withGiverSection("testSection")
+                        .build());
+        FeedbackResponseAttributes actualResponse = frDb.getFeedbackResponse(typicalResponse.getId());
+        assertEquals("testSection", updatedResponse.getGiverSection());
+        assertEquals("testSection", actualResponse.getGiverSection());
+
+        assertNotEquals("testSection", typicalResponse.getRecipientSection());
+        updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .withRecipientSection("testSection")
+                        .build());
+        actualResponse = frDb.getFeedbackResponse(typicalResponse.getId());
+        assertEquals("testSection", updatedResponse.getRecipientSection());
+        assertEquals("testSection", actualResponse.getRecipientSection());
+
+        assertNotEquals("testResponse", typicalResponse.getResponseDetails().getAnswerString());
+        updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .withResponseDetails(new FeedbackTextResponseDetails("testResponse"))
+                        .build());
+        actualResponse = frDb.getFeedbackResponse(typicalResponse.getId());
+        assertEquals("testResponse", updatedResponse.getResponseDetails().getAnswerString());
+        assertEquals("testResponse", actualResponse.getResponseDetails().getAnswerString());
+
+        frDb.deleteFeedbackResponse(typicalResponse.getId());
     }
 
     private FeedbackResponseAttributes getNewFeedbackResponseAttributes() {
