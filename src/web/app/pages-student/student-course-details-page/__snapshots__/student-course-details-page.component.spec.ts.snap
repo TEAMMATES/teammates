@@ -3,9 +3,13 @@
 exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-student-course-details-page
   Gender={[Function Object]}
+  courseService={[Function CourseService]}
   httpRequestService={[Function HttpRequestService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  teammateProfiles={[Function Array]}
   user="undefined"
 >
   
@@ -16,18 +20,21 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
 <tm-student-course-details-page
   Gender={[Function Object]}
   course={[Function Object]}
+  courseService={[Function CourseService]}
   httpRequestService={[Function HttpRequestService]}
   instructorDetails={[Function Array]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
   teammateProfiles={[Function Array]}
   user="undefined"
 >
   <h1
     class="page-title"
   >
-     Thematic Systems
+     
   </h1><div
     class="section"
   >
@@ -63,7 +70,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                Thematic Systems
+                
               </span>
             </div>
           </div>
@@ -81,7 +88,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                CS3281
+                
               </span>
             </div>
           </div>
@@ -117,74 +124,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                2019-03-12T09:13:29.272Z
+                
               </span>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
-    class="section"
-  >
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Instructors
-      </h4>
-    </div>
-    <div
-      class="row"
-    >
-      <div
-        class="col-12"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="col-12"
-          >
-            <table
-              class="table table-striped"
-            >
-              <thead>
-                <tr>
-                  <th
-                    class="font-weight-bold"
-                  >
-                    Name
-                  </th>
-                  <th
-                    class="font-weight-bold"
-                  >
-                    Email
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                
-                <tr>
-                  <td>
-                    Ayush
-                  </td>
-                  <td>
-                    ayush@ayush.com
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Byush
-                  </td>
-                  <td>
-                    byush@byush.com
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </div>
@@ -228,7 +170,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               </span>
             </div>
           </div>
-          
           <div
             class="form-group row"
           >
@@ -243,7 +184,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                Section 1
+                
               </span>
             </div>
           </div>
@@ -261,7 +202,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                CSquad
+                
               </span>
             </div>
           </div>
@@ -283,24 +224,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               </span>
             </div>
           </div>
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Google ID
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span>
-                cyush@gmail.com
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -313,7 +236,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       <h4
         class="font-weight-bold"
       >
-        Teammates
+        Team Profiles
       </h4>
     </div>
     
@@ -348,6 +271,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Name
                   </td>
                   <td>
+                    
                     <span>
                       ash
                     </span>
@@ -360,6 +284,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Email
                   </td>
                   <td>
+                    
                     <span>
                       ash@ash.com
                     </span>
@@ -441,6 +366,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Name
                   </td>
                   <td>
+                    
                     <span>
                       bsh
                     </span>
@@ -453,6 +379,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Email
                   </td>
                   <td>
+                    
                     <span>
                       bsh@bsh.com
                     </span>
