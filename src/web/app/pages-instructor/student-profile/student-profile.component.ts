@@ -22,7 +22,7 @@ export class StudentProfileComponent implements OnInit {
   }
 
   /**
-   * Sets the profile picture of a student as the default image
+   * Sets the profile picture of a student as the default image.
    */
   setDefaultPic(): void {
     this.photoUrl = '/assets/images/profile_picture_default.png';
