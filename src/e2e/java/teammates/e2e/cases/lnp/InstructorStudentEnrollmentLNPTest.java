@@ -29,6 +29,8 @@ import teammates.e2e.util.LNPTestData;
 public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     private static final int NUM_INSTRUCTORS = 10;
+    private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
+
     private static final int NUM_STUDENTS_PER_INSTRUCTOR = 100;
     private static final int NUM_STUDENTS_PER_SECTION = 25;
 
@@ -151,7 +153,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     protected ListedHashTree getLnpTestPlan() {
         ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
         HashTree threadGroup = testPlan.add(
-                JMeterElements.threadGroup(NUM_INSTRUCTORS, NUM_INSTRUCTORS * 2, 1));
+                JMeterElements.threadGroup(NUM_INSTRUCTORS, RAMP_UP_PERIOD, 1));
 
         threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
         threadGroup.add(JMeterElements.cookieManager());

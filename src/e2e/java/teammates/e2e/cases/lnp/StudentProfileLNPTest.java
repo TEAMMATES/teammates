@@ -30,6 +30,8 @@ import teammates.e2e.util.LNPTestData;
 public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     private static final int NUMBER_OF_USER_ACCOUNTS = 500;
+    private static final int RAMP_UP_PERIOD = 2;
+
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
 
@@ -163,7 +165,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     protected ListedHashTree getLnpTestPlan() {
         ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
         HashTree threadGroup = testPlan.add(
-                JMeterElements.threadGroup(NUMBER_OF_USER_ACCOUNTS, 2, 1));
+                JMeterElements.threadGroup(NUMBER_OF_USER_ACCOUNTS, RAMP_UP_PERIOD, 1));
 
         threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
         threadGroup.add(JMeterElements.cookieManager());
