@@ -66,6 +66,8 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
                 Const.ParamsNames.COURSE_ID, "non-existent-course",
         };
 
+        assertNull(logic.getCourse("non-existent-course"));
+
         RegenerateStudentCourseLinksAction a = getAction(nonExistingParams);
         JsonResult result = getJsonResult(a);
 
@@ -87,6 +89,8 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@abc.com",
                 Const.ParamsNames.COURSE_ID, student1InCourse1.course,
         };
+
+        assertNull(logic.getStudentForEmail(student1InCourse1.course, "non-existent-student@abc.com"));
 
         RegenerateStudentCourseLinksAction a = getAction(nonExistingParams);
         JsonResult result = getJsonResult(a);
