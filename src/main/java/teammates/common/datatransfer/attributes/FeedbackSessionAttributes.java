@@ -115,10 +115,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
         if (fs.getRespondingStudentList() != null) {
-            feedbackSessionAttributes.respondingStudentList = fs.getRespondingStudentList();
+            feedbackSessionAttributes.respondingStudentList = new HashSet<>(fs.getRespondingStudentList());
         }
         if (fs.getRespondingInstructorList() != null) {
-            feedbackSessionAttributes.respondingInstructorList = fs.getRespondingInstructorList();
+            feedbackSessionAttributes.respondingInstructorList = new HashSet<>(fs.getRespondingInstructorList());
         }
 
         return feedbackSessionAttributes;
@@ -623,7 +623,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public void update(UpdateOptions updateOptions) {
         updateOptions.instructionsOption.ifPresent(s -> instructions = s);
-        updateOptions.deletedTimeOption.ifPresent(s -> deletedTime = s);
         updateOptions.startTimeOption.ifPresent(s -> startTime = s);
         updateOptions.endTimeOption.ifPresent(s -> endTime = s);
         updateOptions.sessionVisibleFromTimeOption.ifPresent(s -> sessionVisibleFromTime = s);
@@ -708,7 +707,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private String feedbackSessionName;
 
         private UpdateOption<String> instructionsOption = UpdateOption.empty();
-        private UpdateOption<Instant> deletedTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> startTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> sessionVisibleFromTimeOption = UpdateOption.empty();

@@ -53,6 +53,13 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
+        // update only if change
+        boolean hasSameAttributes = this.<Boolean>hasSameValue(account.isInstructor(), newAttributes.isInstructor());
+        if (hasSameAttributes) {
+            log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Account.class.getSimpleName(), updateOptions));
+            return newAttributes;
+        }
+
         account.setIsInstructor(newAttributes.isInstructor);
 
         saveEntity(account);

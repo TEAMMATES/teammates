@@ -79,14 +79,15 @@ dependencies {
                     "org.httpunit:httpunit:1.7.2",
                     "org.seleniumhq.selenium:selenium-java:3.141.59",
                     testng,
-                    "org.kohsuke:wordnet-random-name:1.3",
-                    // For access of Google APIs such as HTTP transport, authentication and JSON parsing
+                    // For access to Google APIs such as HTTP transport, authentication and JSON parsing
                     "com.google.api-client:google-api-client:1.27.0",
                     // For supporting authorization code flow locally
                     "com.google.oauth-client:google-oauth-client-jetty:1.27.0",
                     // For using Gmail API
-                    "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0"
-
+                    "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0",
+                    // For using JMeter APIs
+                    "org.apache.jmeter:ApacheJMeter_core:5.1.1",
+                    "org.apache.jmeter:ApacheJMeter_http:5.1.1"
 }
 
 sourceSets {
@@ -563,6 +564,22 @@ def checkTestNgFailureClosure = { descriptor, result ->
 
 test {
     useTestNG()
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed"
+    }
+}
+
+task lnpTests(type: Test) {
+    useTestNG()
+    options.suites "src/e2e/resources/testng-lnp.xml"
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"

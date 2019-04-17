@@ -256,7 +256,7 @@ TEAMMATES
 
 ## E2E Component
 
-The E2E component has no knowledge of the internal workings of the application and can only interact either with Web browser (as a whole application) or REST API calls (for the back-end logic). Its primary function is for E2E tests.
+The E2E component has no knowledge of the internal workings of the application and can only interact either with Web browser (as a whole application) or REST API calls (for the back-end logic). Its primary function is for E2E tests and L&P (Load & Performance) tests.
 
 ![E2E Component](images/E2EComponent.png)
 
@@ -267,7 +267,7 @@ Package overview:
 - **`e2e.cases`**: Contains test cases.
   - **`.util`**: Component test cases for testing the test helpers.
   - **`.e2e`**: System test cases for testing the application as a whole.
-  - **`.scalability`**: Scalability tests (experimental).
+  - **`.lnp`**: Load and performance tests (experimental).
 
 ## Client Component
 
