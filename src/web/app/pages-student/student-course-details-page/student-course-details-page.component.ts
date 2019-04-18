@@ -6,12 +6,16 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
-import { Course, Instructors, Student, Students } from '../../../types/api-output';
+import { Course, Instructor, Instructors, JoinState, Student, StudentProfile,
+  Students } from '../../../types/api-output';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentProfile } from '../../pages-instructor/student-profile/student-profile';
 
-interface StudentProfileWithPicture extends StudentProfile {
+/**
+ * A student profile which also has the profile picture URL
+ */
+export interface StudentProfileWithPicture {
+  studentProfile: StudentProfile;
   photoUrl: string;
 }
 
@@ -26,9 +30,27 @@ interface StudentProfileWithPicture extends StudentProfile {
 export class StudentCourseDetailsPageComponent implements OnInit {
   Gender: typeof Gender = Gender; // enum
   user: string = '';
-  student?: Student;
-  course?: Course;
-  instructorDetails?: Instructors;
+
+  student: Student = {
+    email: '',
+    courseId: '',
+    name: '',
+    lastName: '',
+    comments: '',
+    joinState: JoinState.NOT_JOINED,
+    teamName: '',
+    sectionName: '',
+  };
+
+  course: Course = {
+    courseId: '',
+    courseName: '',
+    creationDate: '',
+    deletionDate: '',
+    timeZone: '',
+  };
+
+  instructorDetails: Instructor[] = [];
   teammateProfiles: StudentProfileWithPicture[] = [];
 
   constructor(private route: ActivatedRoute,
@@ -61,7 +83,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   }
 
   /**
-   * Loads the students of the course.
+   * Loads the current logged-in student of the course.
    * @param courseid: id of the course queried
    */
   loadStudent(courseid: string): void {
@@ -88,7 +110,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         .subscribe((students: Students) => {
           students.students.forEach((student: Student) => {
             // filter away current user
-            if (this.student && student.email === this.student.email && student.name === this.student.name) {
+            if (student.email === this.student.email) {
               return;
             }
 
@@ -98,15 +120,10 @@ export class StudentCourseDetailsPageComponent implements OnInit {
               `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseid}&studentemail=${student.email}`;
 
                     const newTeammateProfile: StudentProfileWithPicture = {
-                      shortName: studentProfile.shortName,
-                      email: studentProfile.email,
-                      institute: studentProfile.institute,
-                      nationality: studentProfile.institute,
-                      gender: studentProfile.gender,
-                      moreInfo: studentProfile.moreInfo,
-                      pictureKey: studentProfile.pictureKey,
+                      studentProfile,
                       photoUrl : newPhotoUrl,
                     };
+
                     this.teammateProfiles.push(newTeammateProfile);
                   });
           });
@@ -127,7 +144,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
     this.httpRequestService.get('/instructors', paramMap)
         .subscribe((instructors: Instructors) => {
-          this.instructorDetails = instructors;
+          this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });

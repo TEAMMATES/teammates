@@ -47,7 +47,7 @@ export class StudentService {
   }
 
   /**
-   * Gets all students in a course and team as an instructor by calling API.
+   * Gets all students in a course and team as a student by calling API.
    */
   getStudentsFromCourseAndTeam(courseId: string, teamName: string): Observable<Students> {
     const paramsMap: { [key: string]: string } = {

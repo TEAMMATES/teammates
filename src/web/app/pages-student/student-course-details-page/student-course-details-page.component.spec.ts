@@ -2,8 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Course, Instructor, JoinState, Student } from '../../../types/api-output';
 import { Gender } from '../../../types/gender';
-import { StudentCourseDetailsPageComponent } from './student-course-details-page.component';
+import { StudentCourseDetailsPageComponent, StudentProfileWithPicture } from './student-course-details-page.component';
 
 describe('StudentCourseDetailsPageComponent', () => {
   let component: StudentCourseDetailsPageComponent;
@@ -36,48 +37,55 @@ describe('StudentCourseDetailsPageComponent', () => {
   });
 
   it('should snap with populated fields', () => {
-    const courseAttributes: any = {
-      createdAt: '2019-03-12T09:13:29.272Z',
-      id: 'CS3281',
-      name: 'Thematic Systems',
-      timeZone: 'Asia/Singapore',
+    const student: Student = {
+      courseId: '1.1.c-demo2',
+      email: '1@1.com',
+      lastName: '1',
+      name: '1',
+      comments: '',
+      requestId: '5cb7d3320000b3b0cb4e5208',
+      joinState: JoinState.NOT_JOINED,
+      sectionName: 'Tutorial Group 2',
+      teamName: 'Team 2',
     };
-    const instructorDetails: any = [
+
+    const instructorDetails: Instructor[] = [{
+      courseId: '1.1.c-demo2',
+      displayedToStudentsAs: 'Instructor',
+      isDisplayedToStudents: true,
+      email: '1@1.com',
+      name: '1',
+      joinState: JoinState.JOINED,
+    }];
+
+    const course: Course = {
+      courseId: '1.1.c-demo2',
+      courseName: 'Sample Course 101',
+      creationDate: '13 Mar 2019',
+      deletionDate: 'Not Applicable',
+      requestId: '5cb7d33200015f90f1f836cb',
+      timeZone: 'UTC',
+    };
+
+    const teammateProfiles: StudentProfileWithPicture[] = [
       {
-        name: 'Ayush',
-        email: 'ayush@ayush.com',
-      }, {
-        name: 'Byush',
-        email: 'byush@byush.com',
+        photoUrl: '/assets/images/profile_picture_default.png',
+        studentProfile: {
+          email: 'iam2@hello.com',
+          gender: Gender.MALE,
+          institute: 'nus',
+          moreInfo: 'Misc',
+          name: '2',
+          nationality: 'Andorran',
+          pictureKey: '',
+          shortName: 'I am 2',
+        },
       },
     ];
-    const studentDetails: any = {
-      email: 'cyush@cyush.com',
-      course: 'CS3281',
-      name: 'Cyush',
-      googleId: 'cyush@gmail.com',
-      team: 'CSquad',
-      section: 'Section 1',
-    };
-    const teammateProfiles: any = [
-      {
-        shortName: 'ash',
-        email: 'ash@ash.com',
-        institute: 'NUS',
-        nationality: 'Indian',
-        gender: Gender.MALE,
-        pictureKey: 'something.jpg',
-      },
-      {
-        shortName: 'bsh',
-        email: 'bsh@bsh.com',
-        gender: Gender.OTHER,
-        pictureKey: 'something2.jpg',
-      },
-    ];
-    component.course = courseAttributes;
+
+    component.course = course;
     component.instructorDetails = instructorDetails;
-    component.student = studentDetails;
+    component.student = student;
     component.teammateProfiles = teammateProfiles;
 
     fixture.detectChanges();
