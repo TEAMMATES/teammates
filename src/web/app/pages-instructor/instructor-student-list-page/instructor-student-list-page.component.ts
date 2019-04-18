@@ -56,7 +56,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads courses of current instructor.
    */
   loadCourses(): void {
-    this.courseService.getCoursesForInstructor('instructor', 'active')
+    this.courseService.getAllCourses('instructor', 'active')
         .subscribe((courses: Courses) => {
           courses.courses.forEach((course: Course) => {
             const courseTab: CourseTab = {
