@@ -22,6 +22,7 @@ interface StudentDetails {
   styleUrls: ['./instructor-course-student-details-page.component.scss'],
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
+
   user: string = '';
   student?: StudentAttributes;
   studentProfile?: StudentProfile;
