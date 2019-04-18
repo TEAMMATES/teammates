@@ -527,7 +527,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Name
                   </td>
                   <td>
-                    
                     <span>
                       I am 2
                     </span>
@@ -540,7 +539,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Email
                   </td>
                   <td>
-                    
                     <span>
                       iam2@hello.com
                     </span>
@@ -553,7 +551,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Gender
                   </td>
                   <td>
-                    
                     <span>
                       MALE
                     </span>
@@ -566,7 +563,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Institution
                   </td>
                   <td>
-                    
                     <span>
                       nus
                     </span>
@@ -579,7 +575,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Nationality
                   </td>
                   <td>
-                    
                     <span>
                       Andorran
                     </span>

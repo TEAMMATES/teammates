@@ -63,7 +63,6 @@ describe('StudentCourseDetailsPageComponent', () => {
       courseName: 'Sample Course 101',
       creationDate: '13 Mar 2019',
       deletionDate: 'Not Applicable',
-      requestId: '5cb7d33200015f90f1f836cb',
       timeZone: 'UTC',
     };
 
@@ -77,7 +76,6 @@ describe('StudentCourseDetailsPageComponent', () => {
           moreInfo: 'Misc',
           name: '2',
           nationality: 'Andorran',
-          pictureKey: '',
           shortName: 'I am 2',
         },
       },
