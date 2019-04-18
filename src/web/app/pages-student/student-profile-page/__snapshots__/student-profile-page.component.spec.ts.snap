@@ -5,6 +5,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
   httpRequestService={[Function HttpRequestService]}
   id=""
@@ -236,6 +237,7 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   httpRequestService={[Function HttpRequestService]}
   id=""
   ngbModal={[Function NgbModal]}
@@ -254,6 +256,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
   httpRequestService={[Function HttpRequestService]}
   id=""

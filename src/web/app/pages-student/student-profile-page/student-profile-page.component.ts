@@ -28,6 +28,7 @@ import {
   styleUrls: ['./student-profile-page.component.scss'],
 })
 export class StudentProfilePageComponent implements OnInit {
+
   Gender: typeof Gender = Gender; // enum
   user: string = '';
   id: string = '';
@@ -37,6 +38,7 @@ export class StudentProfilePageComponent implements OnInit {
   nationalities?: string[];
   profilePicLink!: string;
   currentTime?: number;
+  defaultPictureLink: string = '/assets/images/profile_picture_default.png';
 
   private backendUrl: string = environment.backendUrl;
 
@@ -185,5 +187,12 @@ export class StudentProfilePageComponent implements OnInit {
           this.statusMessageService.
             showErrorMessage(`Could not delete your profile picture! ${response.error.message}`);
         });
+  }
+
+  /**
+   * Sets the profile picture of a student as the default image.
+   */
+  setDefaultPic(): void {
+    this.profilePicLink = this.defaultPictureLink;
   }
 }

@@ -28,6 +28,7 @@ interface Session {
   styleUrls: ['./instructor-student-records-page.component.scss'],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
+
   user: string = '';
   courseId: string = '';
   studentName: string = '';
