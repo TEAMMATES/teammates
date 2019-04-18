@@ -43,7 +43,6 @@ describe('StudentCourseDetailsPageComponent', () => {
       lastName: '1',
       name: '1',
       comments: '',
-      requestId: '5cb7d3320000b3b0cb4e5208',
       joinState: JoinState.NOT_JOINED,
       sectionName: 'Tutorial Group 2',
       teamName: 'Team 2',
