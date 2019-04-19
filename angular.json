@@ -10,7 +10,7 @@
       "prefix": "tm",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
