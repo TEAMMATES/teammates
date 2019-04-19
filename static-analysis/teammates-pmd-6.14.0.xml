@@ -10,5 +10,6 @@
     <exclude-pattern>.*.html</exclude-pattern>
     <exclude-pattern>.*.xml</exclude-pattern>
 
+    <rule ref="category/java/bestpractices.xml/UseTryWithResources"/>
     <rule ref="category/java/codestyle.xml/UseDiamondOperator"/>
 </ruleset>

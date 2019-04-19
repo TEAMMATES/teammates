@@ -103,8 +103,7 @@ public class EnrollStudentsAction extends Action {
         return new JsonResult(new StudentsData(enrolledStudents));
     }
 
-    private void validateTeamName(List<StudentAttributes> existingStudents,
-                                  List<StudentAttributes> studentsToEnroll) throws InvalidHttpRequestBodyException {
+    private void validateTeamName(List<StudentAttributes> existingStudents, List<StudentAttributes> studentsToEnroll) {
         Map<String, String> teamInSection = new HashMap<>();
         for (StudentAttributes existingStudent : existingStudents) {
             teamInSection.put(existingStudent.getTeam(), existingStudent.getSection());
