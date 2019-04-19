@@ -248,6 +248,27 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testValueOf_modificationInAttributes_shouldNotLeakStateToEntity() {
+        FeedbackSession feedbackSession = new FeedbackSession(
+                "testName", "testCourse", "email@email.com", "text",
+                Instant.now(), null,
+                Instant.now().minusSeconds(10), Instant.now().plusSeconds(10),
+                Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
+                "UTC", 10,
+                false, false, false, false,
+                true, true, true,
+                new HashSet<>(), new HashSet<>());
+
+        FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
+
+        feedbackSessionAttributes.getRespondingStudentList().add("test@email.com");
+        feedbackSessionAttributes.getRespondingInstructorList().add("test@email.com");
+
+        assertTrue(feedbackSession.getRespondingStudentList().isEmpty());
+        assertTrue(feedbackSession.getRespondingInstructorList().isEmpty());
+    }
+
+    @Test
     public void testBuilder_withTypicalData_shouldBuildCorrectly() {
 
         ZoneId timeZone = ZoneId.of("Asia/Singapore");
@@ -358,27 +379,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         assertEquals(Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError),
                 feedbackSessionAttributes.getInvalidityInfo());
-    }
-
-    @Test
-    public void testGetBackUpIdentifier() {
-        FeedbackSessionAttributes sessionAttributes = FeedbackSessionAttributes
-                .builder("newFeedbackSessionName", "course")
-                .withCreatorEmail("email@email.com")
-                .withInstructions("default instructions")
-                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
-                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
-                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
-                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(ZoneId.of("Asia/Singapore"))
-                .withGracePeriod(Duration.ZERO)
-                .withIsClosingEmailEnabled(false)
-                .withIsPublishedEmailEnabled(false)
-                .build();
-
-        String expectedBackUpIdentifierMessage = "Recently modified feedback session::"
-                + sessionAttributes.getCourseId() + "::" + sessionAttributes.getFeedbackSessionName();
-        assertEquals(expectedBackUpIdentifierMessage, sessionAttributes.getBackupIdentifier());
     }
 
     @Test

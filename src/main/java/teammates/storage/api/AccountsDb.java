@@ -2,8 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.List;
-
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
@@ -23,32 +21,16 @@ import teammates.storage.entity.Account;
 public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
 
     /**
-     * Gets the data transfer version of the account.
-     *
-     * <br/> Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return Null if not found.
+     * Gets an account.
      */
     public AccountAttributes getAccount(String googleId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+
         return googleId.isEmpty() ? null : makeAttributesOrNull(getAccountEntity(googleId));
     }
 
     /**
-     * Returns {@link AccountAttributes} objects for all accounts with instructor privileges.
-     *         Returns an empty list if no such accounts are found.
-     */
-    public List<AccountAttributes> getInstructorAccounts() {
-        return makeAttributes(
-                load().filter("isInstructor =", true).list());
-    }
-
-    /**
      * Updates an account with {@link AccountAttributes.UpdateOptions}.
-     *
-     * <br/> Preconditions: <br/>
-     * * {@code accountToAdd} is not null and has valid data.
      *
      * @return updated account
      * @throws InvalidParametersException if attributes to update are not valid
@@ -60,7 +42,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
 
         Account account = getAccountEntity(updateOptions.getGoogleId());
         if (account == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_ACCOUNT + updateOptions);
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
 
         AccountAttributes newAttributes = makeAttributes(account);
@@ -71,9 +53,16 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
+        // update only if change
+        boolean hasSameAttributes = this.<Boolean>hasSameValue(account.isInstructor(), newAttributes.isInstructor());
+        if (hasSameAttributes) {
+            log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Account.class.getSimpleName(), updateOptions));
+            return newAttributes;
+        }
+
         account.setIsInstructor(newAttributes.isInstructor);
 
-        saveEntity(account, newAttributes);
+        saveEntity(account);
 
         return makeAttributes(account);
     }
@@ -101,11 +90,6 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     @Override
     protected LoadType<Account> load() {
         return ofy().load().type(Account.class);
-    }
-
-    @Override
-    protected Account getEntity(AccountAttributes entity) {
-        return getAccountEntity(entity.googleId);
     }
 
     @Override

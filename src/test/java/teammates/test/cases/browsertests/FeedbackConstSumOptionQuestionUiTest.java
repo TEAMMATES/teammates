@@ -14,7 +14,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for constant sum (options) questions.
  */
-public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest {
+public class FeedbackConstSumOptionQuestionUiTest extends BaseFeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
     private static final String QN_TYPE = "constSum";

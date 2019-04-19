@@ -56,7 +56,7 @@ public class StudentProfilePage extends AppPage {
     @FindBy(id = "profile-edit-picture-submit")
     private WebElement editPictureSubmit;
 
-    @FindBy(className = "alert-success")
+    @FindBy(className = "snackbar")
     private WebElement successStatusMessage;
 
     public StudentProfilePage(Browser browser) {
@@ -193,7 +193,6 @@ public class StudentProfilePage extends AppPage {
 
     public void verifyStatusMessage(String message) {
         assertTrue(successStatusMessage.getText().contains(message));
-        click(successStatusMessage.findElement(By.className("close")));
     }
 
     /**

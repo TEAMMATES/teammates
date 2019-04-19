@@ -50,8 +50,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(expectedQuestion.getShowGiverNameTo(), actualQuestion.getShowGiverNameTo());
         assertEquals(expectedQuestion.getShowRecipientNameTo(), actualQuestion.getShowRecipientNameTo());
         assertEquals(expectedQuestion.getShowResponsesTo(), actualQuestion.getShowResponsesTo());
-        assertEquals(expectedQuestion.getCreatedAt(), actualQuestion.getCreatedAt());
-        assertEquals(expectedQuestion.getUpdatedAt(), actualQuestion.getUpdatedAt());
+        assertNotNull(actualQuestion.getCreatedAt());
+        assertNotNull(actualQuestion.getUpdatedAt());
     }
 
     @Test
@@ -120,6 +120,26 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, feedbackQuestionAttributes.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, feedbackQuestionAttributes.getUpdatedAt());
+    }
+
+    @Test
+    public void testValueOf_modificationInAttributes_shouldNotLeakStateToEntity() {
+        FeedbackQuestion qn = new FeedbackQuestion("session", "course",
+                "text", "description", 1, FeedbackQuestionType.TEXT,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS, Const.MAX_POSSIBLE_RECIPIENTS,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
+        qn.setFeedbackQuestionId(1L);
+
+        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.valueOf(qn);
+
+        feedbackQuestionAttributes.getShowResponsesTo().add(FeedbackParticipantType.STUDENTS);
+        feedbackQuestionAttributes.getShowGiverNameTo().add(FeedbackParticipantType.STUDENTS);
+        feedbackQuestionAttributes.getShowRecipientNameTo().add(FeedbackParticipantType.STUDENTS);
+
+        assertTrue(qn.getShowResponsesTo().isEmpty());
+        assertTrue(qn.getShowGiverNameTo().isEmpty());
+        assertTrue(qn.getShowRecipientNameTo().isEmpty());
     }
 
     @Test
@@ -623,14 +643,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
         assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-    }
-
-    @Test
-    public void testGetBackUpIdentifier() {
-        FeedbackQuestionAttributes questionAttributes = getNewFeedbackQuestionAttributes();
-
-        String expectedBackUpIdentifierMessage = "Recently modified feedback question::" + questionAttributes.getId();
-        assertEquals(expectedBackUpIdentifierMessage, questionAttributes.getBackupIdentifier());
     }
 
     @Test

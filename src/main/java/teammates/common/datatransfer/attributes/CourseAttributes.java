@@ -22,8 +22,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     private static final Logger log = Logger.getLogger();
 
-    private static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
-
     public Instant createdAt;
     public Instant deletedAt;
     private String name;
@@ -163,11 +161,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     @Override
-    public String getBackupIdentifier() {
-        return COURSE_BACKUP_LOG_MSG + getId();
-    }
-
-    @Override
     public void sanitizeForSaving() {
         // no additional sanitization required
     }
@@ -193,7 +186,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        updateOptions.deletedAtOption.ifPresent(s -> deletedAt = s);
         updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
     }
@@ -233,7 +225,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public static class UpdateOptions {
         private String courseId;
 
-        private UpdateOption<Instant> deletedAtOption = UpdateOption.empty();
         private UpdateOption<String> nameOption = UpdateOption.empty();
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
 
@@ -252,7 +243,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             return "CourseAttributes.UpdateOptions ["
                     + "courseId = " + courseId
                     + ", name = " + nameOption
-                    + ", deletedAt = " + deletedAtOption
                     + ", timezone = " + timeZoneOption
                     + "]";
         }

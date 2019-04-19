@@ -160,14 +160,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         testInvalidityInfoForInvalidProfile();
     }
 
-    @Test
-    public void testGetBackUpIdentifier() {
-        StudentProfileAttributes validProfileAttributes = profile.getCopy();
-        String expectedBackUpIdentifierMessage = "Recently modified student profile::" + validProfileAttributes.googleId;
-
-        assertEquals(expectedBackUpIdentifierMessage, validProfileAttributes.getBackupIdentifier());
-    }
-
     private void testGetInvalidityInfoForValidProfileWithValues() {
         StudentProfileAttributes validProfile = profile.getCopy();
 
@@ -380,30 +372,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withMoreInfo(moreInfo)
                 .withPictureKey(pictureKey)
                 .build();
-    }
-
-    /**
-     * SUT: {@link StudentProfileAttributes.Gender}.
-     */
-    public static class GenderTest {
-        @Test
-        public void testGetGenderEnumValue() {
-            // invalid values
-            assertEquals(StudentProfileAttributes.Gender.OTHER,
-                    StudentProfileAttributes.Gender.getGenderEnumValue(null));
-            assertEquals(StudentProfileAttributes.Gender.OTHER,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("'\"'invalidGender"));
-            assertEquals(StudentProfileAttributes.Gender.OTHER,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("invalidGender"));
-
-            // valid values
-            assertEquals(StudentProfileAttributes.Gender.MALE,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("MALE"));
-            assertEquals(StudentProfileAttributes.Gender.FEMALE,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("female"));
-            assertEquals(StudentProfileAttributes.Gender.OTHER,
-                         StudentProfileAttributes.Gender.getGenderEnumValue("oTheR"));
-        }
     }
 
 }

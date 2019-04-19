@@ -63,6 +63,22 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testAreThereResponsesForQuestion() {
+        FeedbackQuestionAttributes questionWithResponse;
+        FeedbackQuestionAttributes questionWithoutResponse;
+
+        ______TS("Check that a question has some responses");
+
+        questionWithResponse = getQuestionFromDatastore("qn1InSession1InCourse2");
+        assertTrue(frLogic.areThereResponsesForQuestion(questionWithResponse.getId()));
+
+        ______TS("Check that a question has no responses");
+
+        questionWithoutResponse = getQuestionFromDatastore("qn2InSession1InCourse2");
+        assertFalse(frLogic.areThereResponsesForQuestion(questionWithoutResponse.getId()));
+    }
+
+    @Test
     public void testSpecialCharactersInTeamName() {
         ______TS("test special characters");
 
