@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import {
   Component,
   Directive,
@@ -9,6 +10,7 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 
@@ -63,7 +65,8 @@ export class PageComponent {
     // Opera: ??
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private title: Title) {
+  constructor(private router: Router, private route: ActivatedRoute, private title: Title,
+              private modalService: NgbModal, location: Location) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -87,6 +90,13 @@ export class PageComponent {
         fromEvent(window, 'online').pipe(mapTo(true)),
         fromEvent(window, 'offline').pipe(mapTo(false)),
     );
+
+    // Close open modal(s) when moving backward or forward through history in the browser page
+    location.subscribe(() => {
+      if (this.modalService.hasOpenModals()) {
+        this.modalService.dismissAll();
+      }
+    });
   }
 
   private checkBrowserVersion(): void {
