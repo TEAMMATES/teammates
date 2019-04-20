@@ -229,8 +229,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @AfterClass
     public void classTearDown() throws IOException {
-        generateResultAnalysis("StudentProfileLNPTest");
-        checkOutputThreshold(20, 10000);
+        generateResultAnalysis("StudentProfileLNPTest", 0.2, 10000);
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
     }

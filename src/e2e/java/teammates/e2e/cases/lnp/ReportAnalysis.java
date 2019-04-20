@@ -14,30 +14,11 @@ public class ReportAnalysis {
     private String testName;
 
     /**
-     * Check mean response time threshold.
+     * Generate a feedback message based on test analysis with the provided threshold.
      */
-    public void checkMeanResTimeLimit(double meanResTimeLimit) {
-        if (meanResTimeLimit < pct1ResTime) {
-            double exceededMeanResTime = pct1ResTime - meanResTimeLimit;
-            analysisFeedback += " You caused " + exceededMeanResTime + "ms higher in mean response time.\n";
-
-        }
-    }
-
-    /**
-     * Check error rate threshold.
-     */
-    public void checkErrorLimit(int errorRateLimit) {
-        if (errorRateLimit < getErrorRate()) {
-            double exceededErrorRate = getErrorRate() - errorRateLimit;
-            analysisFeedback += " You caused " + exceededErrorRate + "% higher in errors.\n";
-        }
-    }
-
-    /**
-     * Generate a feedback message based on test analysis.
-     */
-    public void generateAnalysisFeedback() {
+    public void generateAnalysisFeedback(double errorRateLimit, double meanResTimeLimit) {
+        checkErrorLimit(errorRateLimit);
+        checkMeanResTimeLimit(meanResTimeLimit);
         if ("".equals(analysisFeedback)) {
             System.out.println("You have successfully passed the default profiling threshold for " + testName);
         }
@@ -51,10 +32,6 @@ public class ReportAnalysis {
         System.out.print(formatAnalysis());
     }
 
-    public double getErrorRate() {
-        return 1.0 * errorCount / sampleCount;
-    }
-
     public void setTestName(String testName) {
         this.testName = testName;
     }
@@ -62,5 +39,24 @@ public class ReportAnalysis {
     private String formatAnalysis() {
         return testName + ": " + sampleCount + " samples, throughput: " + throughput + " mean res time: " + meanResTime
                 + " 90th Percentile: " + pct1ResTime + " Err: " + errorCount + " (" + getErrorRate() + "%)\n";
+    }
+
+    private void checkMeanResTimeLimit(double meanResTimeLimit) {
+        if (meanResTimeLimit < pct1ResTime) {
+            double exceededMeanResTime = pct1ResTime - meanResTimeLimit;
+            analysisFeedback += " You caused " + exceededMeanResTime + "ms higher in mean response time.\n";
+
+        }
+    }
+
+    private void checkErrorLimit(double errorRateLimit) {
+        if (errorRateLimit < getErrorRate()) {
+            double exceededErrorRate = getErrorRate() - errorRateLimit;
+            analysisFeedback += " You caused " + exceededErrorRate + "% higher in errors.\n";
+        }
+    }
+
+    private double getErrorRate() {
+        return 1.0 * errorCount / sampleCount;
     }
 }

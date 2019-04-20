@@ -47,8 +47,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     private static final Logger log = Logger.getLogger();
 
-    private static ReportAnalysis reportAnalysis;
-
     protected abstract LNPTestData getTestData();
 
     /**
@@ -269,6 +267,22 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
+     * Return the parsed results analysis from the LNP test.
+     * @return The initialized result analysis from the LNP test results.
+     * @throws IOException if there is an error when loading the result file.
+     */
+    private ReportAnalysis getReportAnalysis() throws IOException {
+        String dataPath = TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
+
+        Gson gson = new Gson();
+        JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(dataPath)));
+        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+        JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
+        return gson.fromJson(endPointAnalysis, ReportAnalysis.class);
+    }
+
+    /**
      * Creates the JSON test data and CSV config data files for the performance test from {@code testData}.
      */
     protected void createTestData() {
@@ -291,25 +305,19 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         BackDoor.removeAndRestoreDataBundle(dataBundle);
     }
 
-    protected void generateResultAnalysis(String testName) throws IOException {
-
-        String dataPath = TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
-
-        Gson gson = new Gson();
-        JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(dataPath)));
-        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-
-        JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
-        reportAnalysis = gson.fromJson(endPointAnalysis, ReportAnalysis.class);
-
+    /**
+     * Generates a report analysis on the console.
+     * @param testName          name of the LNP test.
+     * @param errorRateLimit    limit of the percentage of errors for the LNP test.
+     * @param meanResTimeLimit  limit of the mean response time for the LNP test.
+     */
+    protected void generateResultAnalysis(String testName, double errorRateLimit, double meanResTimeLimit)
+            throws IOException {
+        ReportAnalysis reportAnalysis = getReportAnalysis();
         reportAnalysis.setTestName(testName);
-        reportAnalysis.generateCompleteAnalysis();
-    }
 
-    protected void checkOutputThreshold(int errorRateLimit, int meanResTimeLimit) {
-        reportAnalysis.checkErrorLimit(errorRateLimit);
-        reportAnalysis.checkMeanResTimeLimit(meanResTimeLimit);
-        reportAnalysis.generateAnalysisFeedback();
+        reportAnalysis.generateCompleteAnalysis();
+        reportAnalysis.generateAnalysisFeedback(errorRateLimit, meanResTimeLimit);
     }
 
     /**
