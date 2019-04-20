@@ -411,6 +411,37 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGenerateFeedbackSessionSummaryOfCourse_noSessionLinksFound() throws IOException {
+        FeedbackSessionAttributes session =
+                fsLogic.getFeedbackSession("Feedback session with no emails sent", "idOfTestingNoEmailsSentCourse");
+
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+
+        StudentAttributes noLinksStudent = studentsLogic.getStudentForEmail(course.getId(), "student1@noemailssent.tmt");
+
+        ______TS("send summary of all feedback sessions of course email to new student. "
+                + "No feedback session opening or published emails have been sent");
+
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+                                                            session.getCourseId(), noLinksStudent.email,
+                                                            Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
+        String subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, noLinksStudent.email, subject,
+                    "/summaryOfFeedbackSessionsOfCourseEmailForNoLinksStudent.html");
+
+        ______TS("send summary of all regenerated feedback session links of course email to student. "
+                + "No feedback session opening or published emails have been sent");
+
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), noLinksStudent.email,
+                Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
+        subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, noLinksStudent.email, subject,
+                    "/summaryOfFeedbackSessionsOfCourseEmailForNoLinksRegeneratedStudent.html");
+    }
+
+    @Test
     public void testGenerateInstructorJoinEmail_testSanitization() throws IOException {
         ______TS("instructor new account email: sanitization required");
         InstructorAttributes instructor1 =
