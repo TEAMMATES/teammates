@@ -1,7 +1,7 @@
 package teammates.test.cases.webapi;
 
 import org.apache.http.HttpStatus;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -20,7 +20,7 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.REGENERATE_STUDENT_COURSE_LINKS;
+        return Const.ResourceURIs.STUDENT_UNIQUE_LINKS_REGENERATION;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
         return POST;
     }
 
-    @BeforeClass
+    @BeforeMethod
     public void baseClassSetup() {
         loginAsAdmin();
     }
