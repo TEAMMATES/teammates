@@ -40,6 +40,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     private static final String INSTRUCTOR_NAME = "LnPInstructor";
     private static final String INSTRUCTOR_EMAIL = "personalEmail";
     private static final String COURSE_NAME = "LnPCourse";
+    private static final String TEST_FILE_NAME = "InstructorStudentEnrollmentLNPTest";
 
     @Override
     protected LNPTestData getTestData() {
@@ -180,6 +181,11 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     }
 
     @Override
+    protected String getFileName() {
+        return TEST_FILE_NAME;
+    }
+
+    @Override
     protected int getNumberOfThreads() {
         return NUM_INSTRUCTORS;
     }
@@ -242,9 +248,9 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     public void classTearDown() throws IOException {
         // There is no need to add the newly enrolled students to the JSON DataBundle#students. This is because the new
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
-        generateResultAnalysis("InstructorStudentEnrollmentLNPTest");
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
+        generateResultAnalysis();
     }
 
 }

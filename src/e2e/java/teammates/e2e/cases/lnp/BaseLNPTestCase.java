@@ -81,6 +81,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract String getTestMethod();
 
     /**
+     * Returns the name of the file generated in the L&P test.
+     */
+    protected abstract String getFileName();
+
+    /**
      * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
      */
     protected abstract Map<String, String> getRequestParameters();
@@ -321,12 +326,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     /**
      * Generates a report analysis on the console.
-     * @param testName          name of the LNP test.
      */
-    protected void generateResultAnalysis(String testName)
-            throws IOException {
+    protected void generateResultAnalysis() throws IOException {
         ResultsStatistics reportAnalysis = getResultsStatistics();
-        reportAnalysis.setTestName(testName);
+        reportAnalysis.setTestName(getFileName());
 
         reportAnalysis.generateResultsStatistics();
         reportAnalysis.generateResultsFeedback(getErrorRateLimit(), getMeanResTimeLimit());
@@ -392,11 +395,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected void deleteDataFiles() throws IOException {
         String pathToJsonFile = getPathToTestDataFile(getJsonDataPath());
         String pathToCsvFile = getPathToTestDataFile(getCsvConfigPath());
-        String pathToStatisticsJsonFile = getJsonResultsPath();
 
         Files.delete(Paths.get(pathToJsonFile));
         Files.delete(Paths.get(pathToCsvFile));
-        Files.delete(Paths.get(pathToStatisticsJsonFile));
     }
 
 }

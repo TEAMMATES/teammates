@@ -36,6 +36,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     private static final int NUMBER_OF_USER_ACCOUNTS = 500;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
+    private static final String TEST_FILE_NAME = "/StudentProfileLNPTest";
 
     @Override
     protected LNPTestData getTestData() {
@@ -190,6 +191,11 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @Override
+    protected String getFileName() {
+        return TEST_FILE_NAME;
+    }
+
+    @Override
     protected int getNumberOfThreads() {
         return NUMBER_OF_USER_ACCOUNTS;
     }
@@ -239,9 +245,9 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @AfterClass
     public void classTearDown() throws IOException {
-        generateResultAnalysis("StudentProfileLNPTest");
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
+        generateResultAnalysis();
     }
 
 }
