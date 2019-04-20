@@ -20,7 +20,7 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.STUDENT_UNIQUE_LINKS_REGENERATION;
+        return Const.ResourceURIs.STUDENT_COURSE_LINKS_REGENERATION;
     }
 
     @Override
