@@ -2,43 +2,52 @@ package teammates.e2e.cases.lnp;
 
 public class ReportAnalysis {
 
-    private String transaction;
-    private String throughput;
-    private String pct1ResTime; // 90th percentile
+    private String analysisFeedback = "";
+    private String testName;
+    private double throughput;
+    private double pct1ResTime; // 90th percentile
     private int sampleCount;
     private int errorCount;
     private double meanResTime;
 
-    public String getTransaction() {
-        return transaction;
+    public void checkMeanResTimeLimit(double meanResTimeLimit) {
+        if (meanResTimeLimit < pct1ResTime) {
+            double exceededMeanResTime = pct1ResTime - meanResTimeLimit;
+            analysisFeedback += " You caused " + exceededMeanResTime + "ms higher in mean response time.\n";
+
+        }
     }
 
-    public String getThroughput() {
-        return throughput;
+    public void checkErrorLimit(int errorRateLimit) {
+        if (errorRateLimit < getErrorRate()) {
+            double exceededErrorRate = getErrorRate() - errorRateLimit;
+            analysisFeedback += " You caused " + exceededErrorRate + "% higher in errors.\n";
+        }
     }
 
-    public String getPct3ResTime() {
-        return pct1ResTime;
+
+    public void generateAnalysisFeedback() {
+        if ("".equals(analysisFeedback)) {
+            System.out.println("You have successfully passed the default profiling threshold for " + testName);
+        }
+        System.out.println(analysisFeedback);
     }
 
-    public int getSampleCount() {
-        return sampleCount;
+    public void generateCompleteAnalysis() {
+        System.out.print(formatAnalysis());
     }
 
-    public int getErrorCount() {
-        return errorCount;
+    public double getErrorRate() {
+        return 1.0 * errorCount / sampleCount;
     }
 
-    public double getMeanResTime() {
-        return meanResTime;
+
+    public void setTestName(String testName) {
+        this.testName = testName;
     }
 
-    public void showCompleteAnalysis(String testName) {
-        System.out.print(formatAnalysis(testName));
-    }
-
-    private String formatAnalysis(String testName) {
+    private String formatAnalysis() {
         return testName + ": " + sampleCount + " samples, throughput: " + throughput + " mean res time: " + meanResTime
-                + " 90th Percentile: " + pct1ResTime + " Err: " + errorCount + " (" + 1.0 * errorCount / sampleCount + "%) ";
+                + " 90th Percentile: " + pct1ResTime + " Err: " + errorCount + " (" + getErrorRate() + "%)\n";
     }
 }

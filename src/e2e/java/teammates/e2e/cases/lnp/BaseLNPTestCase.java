@@ -47,6 +47,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     private static final Logger log = Logger.getLogger();
 
+    private ReportAnalysis reportAnalysis;
+
     protected abstract LNPTestData getTestData();
 
     /**
@@ -109,7 +111,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     private String getPathToStatisticsResultsFile() {
-        return TestProperties.LNP_TEST_DATA_FOLDER + "statistics.json";
+        return TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
     }
 
     private String createFileAndDirectory(String directory, String fileName) throws IOException {
@@ -298,9 +300,16 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
         JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
-        ReportAnalysis reportAnalysis = gson.fromJson(endPointAnalysis, ReportAnalysis.class);
+        reportAnalysis = gson.fromJson(endPointAnalysis, ReportAnalysis.class);
 
-        reportAnalysis.showCompleteAnalysis(testName);
+        reportAnalysis.setTestName(testName);
+        reportAnalysis.generateCompleteAnalysis();
+    }
+
+    protected void checkOutputThreshold(int errorRateLimit, int meanResTimeLimit) {
+        reportAnalysis.checkErrorLimit(errorRateLimit);
+        reportAnalysis.checkMeanResTimeLimit(meanResTimeLimit);
+        reportAnalysis.generateAnalysisFeedback();
     }
 
     /**
