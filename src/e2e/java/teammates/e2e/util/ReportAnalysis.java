@@ -1,4 +1,4 @@
-package teammates.e2e.cases.lnp;
+package teammates.e2e.util;
 
 /**
  * Report analysis class for L&P tests.
@@ -37,11 +37,6 @@ public class ReportAnalysis {
         this.testName = testName;
     }
 
-    private String formatAnalysis() {
-        return testName + ": " + sampleCount + " samples, throughput: " + throughput + " mean res time: " + meanResTime
-                + " 90th Percentile: " + pct1ResTime + " Err: " + errorCount + " (" + getErrorRate() + "%)\n";
-    }
-
     private void checkMeanResTimeLimit(double meanResTimeLimit) {
         if (meanResTimeLimit < pct1ResTime) {
             double exceededMeanResTime = pct1ResTime - meanResTimeLimit;
@@ -58,5 +53,10 @@ public class ReportAnalysis {
 
     private double getErrorRate() {
         return 1.0 * errorCount / sampleCount;
+    }
+
+    private String formatAnalysis() {
+        return testName + ": " + sampleCount + " samples, throughput: " + throughput + " mean res time: " + meanResTime
+                + " 90th Percentile: " + pct1ResTime + " Err: " + errorCount + " (" + getErrorRate() + "%)\n";
     }
 }

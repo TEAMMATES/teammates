@@ -32,6 +32,7 @@ import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterConfig;
 import teammates.e2e.util.LNPTestData;
+import teammates.e2e.util.ReportAnalysis;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
 
