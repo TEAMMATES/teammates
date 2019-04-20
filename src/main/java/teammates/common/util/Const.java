@@ -769,7 +769,6 @@ public final class Const {
         public static final String RESPONSES = "/responses";
         public static final String HAS_RESPONSES = "/hasResponses";
         public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
-        public static final String REGENERATE_STUDENT_COURSE_LINKS = "/student/uniquelinks/regeneration";
         public static final String JOIN = "/join";
         public static final String JOIN_REMIND = "/join/remind";
         public static final String TIMEZONE = "/timezone";
@@ -782,6 +781,7 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSES = "/student/courses";
+        public static final String STUDENT_UNIQUE_LINKS_REGENERATION = "/student/courselinks/regeneration";
         public static final String STUDENTS_CSV = "/students/csv";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
 
