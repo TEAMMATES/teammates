@@ -77,7 +77,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadCourse(courseId: string): void {
-    this.courseService.getCourse(courseid).subscribe((course: Course) => {
+    this.courseService.getCourse(courseId).subscribe((course: Course) => {
       this.course = course;
     });
   }
@@ -88,13 +88,13 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   loadStudent(courseId: string): void {
     const paramMap: { [key: string]: string } = {
-      courseid,
+      courseid: courseId,
     };
 
     this.httpRequestService.get('/student', paramMap)
         .subscribe((student: Student) => {
           this.student = student;
-          this.loadTeammates(courseid, student.teamName);
+          this.loadTeammates(courseId, student.teamName);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -106,7 +106,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param teamName: team of current student
    */
   loadTeammates(courseId: string, teamName: string): void {
-    this.studentService.getStudentsFromCourseAndTeam(courseid, teamName)
+    this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
         .subscribe((students: Students) => {
           students.students.forEach((student: Student) => {
             // filter away current user
@@ -114,10 +114,10 @@ export class StudentCourseDetailsPageComponent implements OnInit {
               return;
             }
 
-            this.studentProfileService.getStudentProfile(student.email, courseid)
+            this.studentProfileService.getStudentProfile(student.email, courseId)
                   .subscribe((studentProfile: StudentProfile) => {
                     const newPhotoUrl: string =
-              `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseid}&studentemail=${student.email}`;
+              `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${student.email}`;
 
                     const newTeammateProfile: StudentProfileWithPicture = {
                       studentProfile,
@@ -137,9 +137,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Loads the instructors of the course.
    * @param courseid: id of the course queried
    */
-  loadInstructors(courseid: string): void {
+  loadInstructors(courseId: string): void {
     const paramMap: { [key: string]: string } = {
-      courseid,
+      courseid: courseId,
     };
 
     this.httpRequestService.get('/instructors', paramMap)
