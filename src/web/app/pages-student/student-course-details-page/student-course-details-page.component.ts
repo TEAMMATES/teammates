@@ -86,7 +86,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Loads the current logged-in student of the course.
    * @param courseid: id of the course queried
    */
-  loadStudent(courseid: string): void {
+  loadStudent(courseId: string): void {
     const paramMap: { [key: string]: string } = {
       courseid,
     };
