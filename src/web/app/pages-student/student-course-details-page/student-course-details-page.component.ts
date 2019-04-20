@@ -105,7 +105,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    * @param teamName: team of current student
    */
-  loadTeammates(courseid: string, teamName: string): void {
+  loadTeammates(courseId: string, teamName: string): void {
     this.studentService.getStudentsFromCourseAndTeam(courseid, teamName)
         .subscribe((students: Students) => {
           students.students.forEach((student: Student) => {
