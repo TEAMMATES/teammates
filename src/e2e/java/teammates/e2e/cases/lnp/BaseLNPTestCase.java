@@ -2,7 +2,6 @@ package teammates.e2e.cases.lnp;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -24,6 +20,10 @@ import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.TeammatesException;
@@ -47,7 +47,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     private static final Logger log = Logger.getLogger();
 
-    private ReportAnalysis reportAnalysis;
+    private static ReportAnalysis reportAnalysis;
 
     protected abstract LNPTestData getTestData();
 
@@ -296,7 +296,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         String dataPath = TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
 
         Gson gson = new Gson();
-        JsonReader reader = new JsonReader(new FileReader(dataPath));
+        JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(dataPath)));
         JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
         JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
@@ -354,8 +354,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         jmeter.run();
 
         try {
-             ReportGenerator reportGenerator = new ReportGenerator(resultFile, null);
-             reportGenerator.generate();
+            ReportGenerator reportGenerator = new ReportGenerator(resultFile, null);
+            reportGenerator.generate();
         } catch (Exception e) {
             log.warning(e.getMessage());
         }
