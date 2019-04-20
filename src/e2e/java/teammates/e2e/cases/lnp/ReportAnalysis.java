@@ -21,8 +21,9 @@ public class ReportAnalysis {
         checkMeanResTimeLimit(meanResTimeLimit);
         if ("".equals(analysisFeedback)) {
             System.out.println("You have successfully passed the default profiling threshold for " + testName);
+        } else {
+            throw new AssertionError(analysisFeedback);
         }
-        System.out.println(analysisFeedback);
     }
 
     /**
@@ -45,7 +46,6 @@ public class ReportAnalysis {
         if (meanResTimeLimit < pct1ResTime) {
             double exceededMeanResTime = pct1ResTime - meanResTimeLimit;
             analysisFeedback += " You caused " + exceededMeanResTime + "ms higher in mean response time.\n";
-
         }
     }
 
