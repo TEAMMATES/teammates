@@ -131,6 +131,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         return TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
     }
 
+    private String getPathToNewResultsFile(String fileName) {
+        return TestProperties.LNP_TEST_RESULTS_FOLDER + fileName + "Result.json";
+    }
+
     private String createFileAndDirectory(String directory, String fileName) throws IOException {
         File dir = new File(directory);
         if (!dir.exists()) {
@@ -302,6 +306,18 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
+     * Renames the default statistics.json file to the name of the test.
+     */
+    private void renameResultAnalysisFile() {
+        File file = new File(getJsonResultsPath());
+        File newFile = new File(getPathToNewResultsFile(getFileName()));
+
+        if (!file.renameTo(newFile)) {
+            log.warning("Failed in renaming file.");
+        }
+    }
+
+    /**
      * Creates the JSON test data and CSV config data files for the performance test from {@code testData}.
      */
     protected void createTestData() {
@@ -333,6 +349,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
         reportAnalysis.generateResultsStatistics();
         reportAnalysis.generateResultsFeedback(getErrorRateLimit(), getMeanResTimeLimit());
+        renameResultAnalysisFile();
     }
 
     /**
