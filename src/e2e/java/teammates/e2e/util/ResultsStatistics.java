@@ -1,53 +1,59 @@
 package teammates.e2e.util;
 
 /**
- * Report analysis class for L&P tests.
+ * Result statistics class for L&P tests.
  */
-public class ReportAnalysis {
+public class ResultsStatistics {
 
     private double meanResTime;
     private double pct1ResTime; // 90th percentile
     private double throughput;
     private int errorCount;
     private int sampleCount;
-    private String analysisFeedback = "";
+    private String resultsFeedback = "";
     private String testName;
 
     /**
-     * Generate a feedback message based on test analysis with the provided threshold.
+     * Generate a feedback message based on results statistics with the provided threshold.
      */
-    public void generateAnalysisFeedback(double errorRateLimit, double meanResTimeLimit) {
+    public void generateResultsFeedback(double errorRateLimit, double meanResTimeLimit) {
         checkErrorLimit(errorRateLimit);
         checkMeanResTimeLimit(meanResTimeLimit);
-        if ("".equals(analysisFeedback)) {
+        if ("".equals(resultsFeedback)) {
             System.out.println("You have successfully passed the default profiling threshold for " + testName);
         } else {
-            throw new AssertionError(analysisFeedback);
+            throw new AssertionError(resultsFeedback);
         }
     }
 
     /**
-     * Generate an analysis of the test result.
+     * Generate the statistics from a given the test result.
      */
-    public void generateCompleteAnalysis() {
-        System.out.print(formatAnalysis());
+    public void generateResultsStatistics() {
+        System.out.print(formatResultsAnalysis());
     }
 
     public void setTestName(String testName) {
         this.testName = testName;
     }
 
+    /**
+     * Checks if the mean response time exceeds the limited time specified.
+     */
     private void checkMeanResTimeLimit(double meanResTimeLimit) {
         if (meanResTimeLimit < pct1ResTime) {
             double exceededMeanResTime = pct1ResTime - meanResTimeLimit;
-            analysisFeedback += " You caused " + exceededMeanResTime + "ms higher in mean response time.\n";
+            resultsFeedback += " You caused " + exceededMeanResTime + "ms higher in mean response time.\n";
         }
     }
 
+    /**
+     * Checks if the error rate exceeds the limited error percentage specified.
+     */
     private void checkErrorLimit(double errorRateLimit) {
         if (errorRateLimit < getErrorRate()) {
             double exceededErrorRate = getErrorRate() - errorRateLimit;
-            analysisFeedback += " You caused " + exceededErrorRate + "% higher in errors.\n";
+            resultsFeedback += " You caused " + exceededErrorRate + "% higher in errors.\n";
         }
     }
 
@@ -55,7 +61,10 @@ public class ReportAnalysis {
         return 1.0 * errorCount / sampleCount;
     }
 
-    private String formatAnalysis() {
+    /**
+     * Reorganise existing result statistics into one line with labels.
+     */
+    private String formatResultsAnalysis() {
         return testName + ": " + sampleCount + " samples, throughput: " + throughput + " mean res time: " + meanResTime
                 + " 90th Percentile: " + pct1ResTime + " Err: " + errorCount + " (" + getErrorRate() + "%)\n";
     }

@@ -214,6 +214,16 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         return "text/csv";
     }
 
+    @Override
+    protected double getErrorRateLimit() {
+        return 0.2;
+    }
+
+    @Override
+    protected double getMeanResTimeLimit() {
+        return 60000;
+    }
+
     @BeforeClass
     public void classSetup() {
         createTestData();
@@ -232,7 +242,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     public void classTearDown() throws IOException {
         // There is no need to add the newly enrolled students to the JSON DataBundle#students. This is because the new
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
-        generateResultAnalysis("InstructorStudentEnrollmentLNPTest", 0.2, 60000);
+        generateResultAnalysis("InstructorStudentEnrollmentLNPTest");
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
     }

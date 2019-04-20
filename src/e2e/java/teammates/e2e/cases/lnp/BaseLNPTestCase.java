@@ -32,7 +32,7 @@ import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterConfig;
 import teammates.e2e.util.LNPTestData;
-import teammates.e2e.util.ReportAnalysis;
+import teammates.e2e.util.ResultsStatistics;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
 
@@ -86,6 +86,16 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract Map<String, String> getRequestParameters();
 
     /**
+     * Returns the limit of the ratio of the error samples against total number of samples.
+     */
+    protected abstract double getErrorRateLimit();
+
+    /**
+     * Returns the limit of the specified response time in milliseconds.
+     */
+    protected abstract double getMeanResTimeLimit();
+
+    /**
      * Returns the body of the HTTP request to the test endpoint.
      */
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
@@ -109,7 +119,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         return TestProperties.LNP_TEST_DATA_FOLDER + fileName;
     }
 
-    private String getPathToStatisticsResultsFile() {
+    /**
+     * Returns the path to the generated JSON file that contains the test results statistics.
+     */
+    private String getJsonResultsPath() {
         return TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
     }
 
@@ -272,7 +285,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * @return The initialized result analysis from the LNP test results.
      * @throws IOException if there is an error when loading the result file.
      */
-    private ReportAnalysis getReportAnalysis() throws IOException {
+    private ResultsStatistics getResultsStatistics() throws IOException {
         String dataPath = TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
 
         Gson gson = new Gson();
@@ -280,7 +293,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
         JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
-        return gson.fromJson(endPointAnalysis, ReportAnalysis.class);
+        return gson.fromJson(endPointAnalysis, ResultsStatistics.class);
     }
 
     /**
@@ -309,16 +322,14 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Generates a report analysis on the console.
      * @param testName          name of the LNP test.
-     * @param errorRateLimit    limit of the percentage of errors for the LNP test.
-     * @param meanResTimeLimit  limit of the mean response time for the LNP test.
      */
-    protected void generateResultAnalysis(String testName, double errorRateLimit, double meanResTimeLimit)
+    protected void generateResultAnalysis(String testName)
             throws IOException {
-        ReportAnalysis reportAnalysis = getReportAnalysis();
+        ResultsStatistics reportAnalysis = getResultsStatistics();
         reportAnalysis.setTestName(testName);
 
-        reportAnalysis.generateCompleteAnalysis();
-        reportAnalysis.generateAnalysisFeedback(errorRateLimit, meanResTimeLimit);
+        reportAnalysis.generateResultsStatistics();
+        reportAnalysis.generateResultsFeedback(getErrorRateLimit(), getMeanResTimeLimit());
     }
 
     /**
@@ -381,7 +392,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected void deleteDataFiles() throws IOException {
         String pathToJsonFile = getPathToTestDataFile(getJsonDataPath());
         String pathToCsvFile = getPathToTestDataFile(getCsvConfigPath());
-        String pathToStatisticsJsonFile = getPathToStatisticsResultsFile();
+        String pathToStatisticsJsonFile = getJsonResultsPath();
 
         Files.delete(Paths.get(pathToJsonFile));
         Files.delete(Paths.get(pathToCsvFile));

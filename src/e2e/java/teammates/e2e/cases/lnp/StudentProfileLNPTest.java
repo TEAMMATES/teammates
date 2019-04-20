@@ -216,6 +216,16 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         return args;
     }
 
+    @Override
+    protected double getErrorRateLimit() {
+        return 0.2;
+    }
+
+    @Override
+    protected double getMeanResTimeLimit() {
+        return 10000;
+    }
+
     @BeforeClass
     public void classSetup() {
         createTestData();
@@ -229,7 +239,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @AfterClass
     public void classTearDown() throws IOException {
-        generateResultAnalysis("StudentProfileLNPTest", 0.2, 10000);
+        generateResultAnalysis("StudentProfileLNPTest");
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
     }
