@@ -40,7 +40,6 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     private static final String INSTRUCTOR_NAME = "LnPInstructor";
     private static final String INSTRUCTOR_EMAIL = "personalEmail";
     private static final String COURSE_NAME = "LnPCourse";
-    private static final String TEST_FILE_NAME = "InstructorStudentEnrollmentLNPTest";
 
     @Override
     protected LNPTestData getTestData() {
@@ -178,11 +177,6 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     @Override
     protected String getJsonDataPath() {
         return JSON_DATA_PATH;
-    }
-
-    @Override
-    protected String getFileName() {
-        return TEST_FILE_NAME;
     }
 
     @Override

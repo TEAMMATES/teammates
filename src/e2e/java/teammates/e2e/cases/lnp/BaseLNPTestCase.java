@@ -81,11 +81,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract String getTestMethod();
 
     /**
-     * Returns the name of the file generated in the L&P test.
-     */
-    protected abstract String getFileName();
-
-    /**
      * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
      */
     protected abstract Map<String, String> getRequestParameters();
@@ -125,14 +120,17 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Returns the path to the generated JSON file that contains the test results statistics.
+     * Returns the path of the original generated JSON file that contains the test results statistics.
      */
-    private String getJsonResultsPath() {
+    private String getPathToDefaultStatisticsResultsFile() {
         return TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
     }
 
-    private String getPathToNewResultsFile(String fileName) {
-        return TestProperties.LNP_TEST_RESULTS_FOLDER + fileName + "Result.json";
+    /**
+     * Returns the path of the renamed JSON file that contains the test results statistics.
+     */
+    private String getPathToTestStatisticsResultsFile() {
+        return TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + "Statistics.json";
     }
 
     private String createFileAndDirectory(String directory, String fileName) throws IOException {
@@ -295,10 +293,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * @throws IOException if there is an error when loading the result file.
      */
     private ResultsStatistics getResultsStatistics() throws IOException {
-        String dataPath = TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
-
         Gson gson = new Gson();
-        JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(dataPath)));
+        JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(getPathToTestStatisticsResultsFile())));
         JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
         JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
@@ -308,11 +304,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Renames the default statistics.json file to the name of the test.
      */
-    private void renameResultAnalysisFile() {
-        File file = new File(getJsonResultsPath());
-        File newFile = new File(getPathToNewResultsFile(getFileName()));
+    private void renameStatisticsFile() {
+        File defaultFile = new File(getPathToDefaultStatisticsResultsFile());
+        File lnpStatisticsFile = new File(getPathToTestStatisticsResultsFile());
 
-        if (!file.renameTo(newFile)) {
+        if (!defaultFile.renameTo(lnpStatisticsFile)) {
             log.warning("Failed in renaming file.");
         }
     }
@@ -345,11 +341,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected void generateResultAnalysis() throws IOException {
         ResultsStatistics reportAnalysis = getResultsStatistics();
-        reportAnalysis.setTestName(getFileName());
+        reportAnalysis.setTestName(getClass().getSimpleName());
 
         reportAnalysis.generateResultsStatistics();
         reportAnalysis.generateResultsFeedback(getErrorRateLimit(), getMeanResTimeLimit());
-        renameResultAnalysisFile();
     }
 
     /**
@@ -399,6 +394,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         } catch (Exception e) {
             log.warning(e.getMessage());
         }
+        renameStatisticsFile();
 
         // TODO: As mentioned in the docs, good to fail the test if the `success` value of any row is `false`,
         //  or if there is an Exception.

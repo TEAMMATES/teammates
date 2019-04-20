@@ -30,7 +30,7 @@ public class ResultsStatistics {
      * Generate the statistics from a given the test result.
      */
     public void generateResultsStatistics() {
-        System.out.print(formatResultsAnalysis());
+        System.out.println(formatResultsAnalysis());
     }
 
     public void setTestName(String testName) {
@@ -58,14 +58,18 @@ public class ResultsStatistics {
     }
 
     private double getErrorRate() {
-        return 1.0 * errorCount / sampleCount;
+        return (double) errorCount / sampleCount;
     }
 
     /**
      * Reorganise existing result statistics into one line with labels.
      */
     private String formatResultsAnalysis() {
-        return testName + ": " + sampleCount + " samples, throughput: " + throughput + " mean res time: " + meanResTime
-                + " 90th Percentile: " + pct1ResTime + " Err: " + errorCount + " (" + getErrorRate() + "%)\n";
+        return testName + "Results = "
+                                + " #Req: " + sampleCount
+                                + ",  Throughput: " + String.format("%.2f", throughput) + "/s"
+                                + ",  Avg resp time: " + String.format("%.2f", meanResTime) + "ms"
+                                + ",  Q1: " + String.format("%.2f", pct1ResTime) + "ms"
+                                + ",  Err: " + errorCount + " (" + String.format("%.2f", getErrorRate()) + "%)";
     }
 }
