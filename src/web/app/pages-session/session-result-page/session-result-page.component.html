@@ -1,33 +1,27 @@
 <h1>
   Feedback Session Results
 </h1>
-<div class="card card-plain" ngtif="session">
-  <div class="card-body">
+<div class="card card-plain" ngIf="session">
+  <div class="card-body">As
     <br/>
     <div class="row">
       <div class="col-2 text-right"><b>Course ID:</b></div>
       <div class="col-5">{{ session.courseId }}</div>
     </div>
     <br/>
-
-    <br/>
     <div class="row">
       <div class="col-2 text-right"><b>Session:</b></div>
       <div class="col-5">{{ session.feedbackSessionName }}</div>
     </div>
     <br/>
-
-    <br/>
     <div class="row">
       <div class="col-2 text-right"><b>Opening Time:</b></div>
-      <div class="col-5">{{ session.formatteSessionOpeningTime }}</div>
+      <div class="col-5">{{ formatteSessionOpeningTime }}</div>
     </div>
-    <br/>
-
     <br/>
     <div class="row">
       <div class="col-2 text-right"><b>Closing Time:</b></div>
-      <div class="col-5">{{ session.formattedSessionClosingTime }}</div>
+      <div class="col-5">{{ formattedSessionClosingTime }}</div>
     </div>
     <br/>
   </div>
