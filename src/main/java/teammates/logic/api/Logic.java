@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.CourseEnrollmentResult;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
@@ -837,6 +836,21 @@ public class Logic {
     }
 
     /**
+     * Creates a student.
+     *
+     * @return the created student.
+     * @throws InvalidParametersException if the student is not valid.
+     * @throws EntityAlreadyExistsException if the student already exists in the Datastore.
+     */
+    public StudentAttributes createStudent(StudentAttributes student)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(student.getCourse());
+        Assumption.assertNotNull(student.getEmail());
+
+        return studentsLogic.createStudent(student);
+    }
+
+    /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses the student gives/receives.
@@ -876,29 +890,6 @@ public class Logic {
         Assumption.assertNotNull(key);
 
         return accountsLogic.joinCourseForStudent(key, googleId);
-
-    }
-
-    /**
-     * Enrolls new students in the course or modifies existing students. But it
-     * will not delete any students. It will not edit email address either. If
-     * an existing student was enrolled with a different email address, that
-     * student will be treated as a new student.<br>
-     * If there is an error in the enrollLines, there will be no changes to the
-     * datastore <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return StudentData objects in the return value contains the status of
-     *         enrollment. It also includes data for other students in the
-     *         course that were not touched by the operation.
-     */
-    public CourseEnrollmentResult enrollStudents(String enrollLines, String courseId)
-            throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(enrollLines);
-
-        return studentsLogic.enrollStudents(enrollLines.trim(), courseId);
 
     }
 
