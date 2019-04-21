@@ -1000,7 +1000,7 @@ public final class Const {
         public static final String INSTRUCTOR_STUDENTS = "/instructor/students";
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";
-        public static final String STUDENT_PROFILE_PICTURE = "/students/profilePic";
+        public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSES = "/student/courses";
         public static final String STUDENTS_CSV = "/students/csv";

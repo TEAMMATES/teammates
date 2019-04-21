@@ -1,4 +1,4 @@
-<h1 class="page-title" *ngIf="course"> {{course.name}}</h1>
+<h1 class="page-title" *ngIf="course"> {{course.courseName}}</h1>
 
 <div class="section" *ngIf="course">
   <div class="col-sm-12">
@@ -12,7 +12,7 @@
             <label>Name</label>
           </div>
           <div class="col-8">
-            <span>{{course.name}}</span>
+            <span>{{course.courseName}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -20,7 +20,7 @@
             <label>ID</label>
           </div>
           <div class="col-8">
-            <span>{{course.id}}</span>
+            <span>{{course.courseId}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -36,7 +36,7 @@
             <label>Created at</label>
           </div>
           <div class="col-8">
-            <span>{{course.createdAt}}</span>
+            <span>{{course.creationDate}}</span>
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
   </div>
 </div>
 
-<div class="section" *ngIf="instructorDetails">
+<div class="section" *ngIf="instructorDetails && instructorDetails.length">
   <div class="col-sm-12">
     <h4 class="font-weight-bold">Instructors</h4>
   </div>
@@ -87,12 +87,12 @@
             <span>{{student.name}}</span>
           </div>
         </div>
-        <div class="form-group row" *ngIf="student.section">
+        <div class="form-group row">
           <div class="col-4 text-right">
             <label>Section</label>
           </div>
           <div class="col-8">
-            <span>{{student.section}}</span>
+            <span>{{student.sectionName}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -100,7 +100,7 @@
             <label>Team</label>
           </div>
           <div class="col-8">
-            <span>{{student.team}}</span>
+            <span>{{student.teamName}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -111,28 +111,21 @@
             <span>{{student.email}}</span>
           </div>
         </div>
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>Google ID</label>
-          </div>
-          <div class="col-8">
-            <span>{{student.googleId}}</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="section" *ngIf="teammateProfiles">
+<div class="section" *ngIf="teammateProfiles.length">
   <div class="col-sm-12">
-    <h4 class="font-weight-bold">Teammates</h4>
+    <h4 class="font-weight-bold">Team Profiles</h4>
   </div>
   <div class="row" *ngFor="let teammateProfile of teammateProfiles">
     <div class="col-12">
       <div class="row">
         <div class="col-md-2 col-3">
-          <img src="{{getPictureUrl(teammateProfile.pictureKey)}}" class="profile-pic float-left">
+          <img src="{{teammateProfile.photoUrl}}"
+               class="profile-pic float-left" (error)="setDefaultPic(teammateProfile)">
         </div>
         <div class="col-md-10 col-sm-9 col-8">
           <table class="table table-striped">
@@ -140,31 +133,31 @@
             <tr>
               <td class="font-weight-bold">Name</td>
               <td>
-                <span>{{teammateProfile.shortName}}</span>
+                <span>{{teammateProfile.studentProfile.shortName}}</span>
               </td>
             </tr>
             <tr>
               <td class="font-weight-bold">Email</td>
               <td>
-                <span>{{teammateProfile.email}}</span>
+                <span>{{teammateProfile.studentProfile.email}}</span>
               </td>
             </tr>
             <tr>
               <td class="font-weight-bold">Gender</td>
               <td>
-                <span *ngIf="teammateProfile.gender != Gender.OTHER">{{teammateProfile.gender}}</span>
+                <span>{{teammateProfile.studentProfile.gender}}</span>
               </td>
             </tr>
             <tr>
               <td class="font-weight-bold">Institution</td>
               <td>
-                <span *ngIf="teammateProfile.institute">{{teammateProfile.institute}}</span>
+                <span>{{teammateProfile.studentProfile.institute}}</span>
               </td>
             </tr>
             <tr>
               <td class="font-weight-bold">Nationality</td>
               <td>
-                <span *ngIf="teammateProfile.nationality">{{teammateProfile.nationality}}</span>
+                <span>{{teammateProfile.studentProfile.nationality}}</span>
               </td>
             </tr>
             </tbody>

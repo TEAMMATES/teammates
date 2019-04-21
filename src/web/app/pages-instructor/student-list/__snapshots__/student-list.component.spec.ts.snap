@@ -2,7 +2,6 @@
 
 exports[`StudentListComponent should snap with default fields 1`] = `
 <tm-student-list
-  backendUrl={[Function String]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -76,7 +75,6 @@ exports[`StudentListComponent should snap with default fields 1`] = `
 
 exports[`StudentListComponent should snap with enable remind button set to true and two students yet to join 1`] = `
 <tm-student-list
-  backendUrl={[Function String]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton={[Function Boolean]}
@@ -153,10 +151,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -263,10 +263,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -356,10 +358,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -449,10 +453,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -542,10 +548,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -649,7 +657,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
 
 exports[`StudentListComponent should snap with enable remind button set to true, one student yet to join when not allowed to modify student 1`] = `
 <tm-student-list
-  backendUrl={[Function String]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton={[Function Boolean]}
@@ -726,10 +733,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -836,10 +845,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -929,10 +940,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1022,10 +1035,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1115,10 +1130,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1220,7 +1237,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
 
 exports[`StudentListComponent should snap with some student list data 1`] = `
 <tm-student-list
-  backendUrl={[Function String]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -1297,10 +1313,12 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1390,10 +1408,12 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1480,10 +1500,12 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1570,10 +1592,12 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1660,10 +1684,12 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1750,7 +1776,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
 
 exports[`StudentListComponent should snap with some student list data and some students to hide 1`] = `
 <tm-student-list
-  backendUrl={[Function String]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -1828,10 +1853,12 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -1922,10 +1949,12 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2012,10 +2041,12 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2102,10 +2133,12 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2192,10 +2225,12 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2282,7 +2317,6 @@ exports[`StudentListComponent should snap with some student list data and some s
 
 exports[`StudentListComponent should snap with some student list data when not allowed to modify student for a specific section 1`] = `
 <tm-student-list
-  backendUrl={[Function String]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -2359,10 +2393,12 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2452,10 +2488,12 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2542,10 +2580,12 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2632,10 +2672,12 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2722,10 +2764,12 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2812,7 +2856,6 @@ exports[`StudentListComponent should snap with some student list data when not a
 
 exports[`StudentListComponent should snap with some student list data with no sections 1`] = `
 <tm-student-list
-  backendUrl={[Function String]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -2883,10 +2926,12 @@ exports[`StudentListComponent should snap with some student list data with no se
             
             
             <a
-              href="null"
+              href="/"
+              ng-reflect-query-params-handling="preserve"
+              queryparamshandling="preserve"
               role="button"
             >
-              View Photo
+               View Photo 
             </a>
             
           </td>
@@ -2970,7 +3015,6 @@ exports[`StudentListComponent should snap with some student list data with no se
 
 exports[`StudentListComponent should snap with table head set to hidden 1`] = `
 <tm-student-list
-  backendUrl={[Function String]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
