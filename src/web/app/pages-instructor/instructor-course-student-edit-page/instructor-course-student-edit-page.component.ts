@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
+
+import { FormValidator } from '../../../types/form-validator';
 
 interface StudentAttributes {
   email: string;
@@ -50,6 +52,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   teamFieldSubscription?: Subscription;
   emailFieldSubscription?: Subscription;
 
+  FormValidator: typeof FormValidator = FormValidator; // enum
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private httpRequestService: HttpRequestService,
@@ -80,8 +84,12 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   }
 
   ngOnDestroy(): void {
-    (this.emailFieldSubscription as Subscription).unsubscribe();
-    (this.teamFieldSubscription as Subscription).unsubscribe();
+    if (this.emailFieldSubscription) {
+      (this.emailFieldSubscription as Subscription).unsubscribe();
+    }
+    if (this.teamFieldSubscription) {
+      (this.teamFieldSubscription as Subscription).unsubscribe();
+    }
   }
 
   /**
@@ -111,10 +119,14 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    */
   private initEditForm(): void {
     this.editForm = new FormGroup({
-      studentname: new FormControl(this.student.name),
-      sectionname: new FormControl(this.student.section),
-      teamname: new FormControl(this.student.team),
-      newstudentemail: new FormControl(this.studentemail), // original student email initialized
+      studentname: new FormControl(this.student.name,
+          [Validators.required, Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)]),
+      sectionname: new FormControl(this.student.section,
+          [Validators.required, Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH)]),
+      teamname: new FormControl(this.student.team,
+          [Validators.required, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
+      newstudentemail: new FormControl(this.studentemail, // original student email initialized
+          [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)]),
       comments: new FormControl(this.student.comments),
     });
     this.teamFieldSubscription =
@@ -126,6 +138,20 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.emailFieldSubscription =
         (this.editForm.get('newstudentemail') as AbstractControl).valueChanges
             .subscribe(() => this.isEmailFieldChanged = true);
+  }
+
+  /**
+   * Displays message to user stating that the field is empty.
+   */
+  displayEmptyFieldMessage(fieldName: string): string {
+    return `The field '${fieldName}' should not be empty.`;
+  }
+
+  /**
+   * Displays message to user stating that the field exceeds the max length.
+   */
+  displayExceedMaxLengthMessage(fieldName: string, maxLength: number): string {
+    return `The field '${fieldName}' should not exceed ${maxLength} characters.`;
   }
 
   /**

@@ -14,6 +14,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   user="undefined"
 >
   <div
@@ -570,6 +571,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   user="undefined"
 >
   <div
@@ -1132,6 +1134,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   user="undefined"
 >
   <div
@@ -1222,6 +1225,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   user="undefined"
 >
   <div
