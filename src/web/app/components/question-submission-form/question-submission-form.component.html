@@ -33,6 +33,7 @@
     <tm-text-question-constraint *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-constraint>
     <tm-num-scale-question-constraint *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-constraint>
     <tm-rank-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="model.questionDetails"></tm-rank-options-question-instruction>
+    <tm-msq-question-constraint *ngIf="model.questionType === FeedbackQuestionType.MSQ" [questionDetails]="model.questionDetails"></tm-msq-question-constraint>
 
     <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
       <span class="evaluee-span" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>

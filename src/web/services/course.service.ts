@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Course, CourseArchive, HasResponses, JoinStatus, MessageOutput } from '../types/api-output';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Course, CourseArchive, Courses,  HasResponses, JoinStatus, MessageOutput } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -16,13 +17,63 @@ export class CourseService {
   }
 
   /**
-   * Get course data by calling API.
+   * Get course data by calling API as an instructor.
    */
-  getCourse(courseId: string): Observable<Course> {
+  getCourseAsInstructor(courseId: string): Observable<Course> {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
+      entitytype: 'instructor',
     };
     return this.httpRequestService.get('/course', paramMap);
+  }
+
+  /**
+   * Get course data by calling API as a student.
+   */
+  getCourseAsStudent(courseId: string): Observable<Course> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      entitytype: 'student',
+    };
+    return this.httpRequestService.get('/course', paramMap);
+  }
+
+  /**
+   * Get student courses data of a given google id in masquerade mode by calling API.
+   */
+  getStudentCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'student',
+      user: googleId,
+    };
+    return this.httpRequestService.get('/courses', paramMap);
+  }
+
+  /**
+   * Get instructor courses data of a given google id in masquerade mode by calling API.
+   */
+  getInstructorCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
+    const activeCoursesParamMap: { [key: string]: string } = {
+      coursestatus: 'active',
+      entitytype: 'instructor',
+      user: googleId,
+    };
+    const archivedCoursesParamMap: { [key: string]: string } = {
+      coursestatus: 'archived',
+      entitytype: 'instructor',
+      user: googleId,
+    };
+
+    return forkJoin(
+        this.httpRequestService.get('/courses', activeCoursesParamMap),
+        this.httpRequestService.get('/courses', archivedCoursesParamMap),
+    ).pipe(
+        map((vals: Courses[]) => {
+          return {
+            courses: vals[0].courses.concat(vals[1].courses),
+          };
+        }),
+    );
   }
 
   /**

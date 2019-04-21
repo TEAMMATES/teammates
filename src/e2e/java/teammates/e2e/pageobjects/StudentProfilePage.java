@@ -53,10 +53,7 @@ public class StudentProfilePage extends AppPage {
     @FindBy(className = "btn-space")
     private List<WebElement> editPictureTools;
 
-    @FindBy(id = "profile-edit-picture-submit")
-    private WebElement editPictureSubmit;
-
-    @FindBy(className = "snackbar")
+    @FindBy(className = "mat-simple-snackbar")
     private WebElement successStatusMessage;
 
     public StudentProfilePage(Browser browser) {
@@ -135,7 +132,6 @@ public class StudentProfilePage extends AppPage {
     public void uploadPicture() {
         click(uploadPictureSubmit);
         waitForPageToLoad();
-        click(uploadEditModal.findElement(By.className("close")));
     }
 
     public void editProfilePhoto() {
@@ -155,9 +151,6 @@ public class StudentProfilePage extends AppPage {
         click(editPictureFlipHorizontal);
         click(editPictureFlipHorizontal);
         click(editPictureFlipHorizontal);
-
-        click(editPictureSubmit);
-        waitForPageToLoad();
     }
 
     public void fillProfilePic(String fileName) {
@@ -177,12 +170,13 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void verifyPhotoSize(String height, String width) {
-        assertEquals(height, browser.driver.findElement(By.className("cropper")).getCssValue("height"));
-        assertEquals(width, browser.driver.findElement(By.className("cropper")).getCssValue("width"));
+        assertEquals(height, browser.driver.findElement(By.className("profile-pic")).getCssValue("height"));
+        assertEquals(width, browser.driver.findElement(By.className("profile-pic")).getCssValue("width"));
+        click(uploadEditModal.findElement(By.className("close")));
     }
 
     public void ensureProfileContains(String shortName, String email, String institute, String nationality,
-                                       StudentProfileAttributes.Gender gender, String moreInfo) {
+                                      StudentProfileAttributes.Gender gender, String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
@@ -192,7 +186,7 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void verifyStatusMessage(String message) {
-        assertTrue(successStatusMessage.getText().contains(message));
+        assertEquals(message, successStatusMessage.getText());
     }
 
     /**
@@ -227,5 +221,4 @@ public class StudentProfilePage extends AppPage {
     public void waitForUploadEditModalVisible() {
         waitForElementVisibility(uploadEditModal);
     }
-
 }
