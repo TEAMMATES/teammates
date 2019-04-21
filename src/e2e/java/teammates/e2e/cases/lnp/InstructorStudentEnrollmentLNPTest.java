@@ -220,7 +220,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected double getMeanResTimeLimit() {
+    protected double getMeanRespTimeLimit() {
         return 60000;
     }
 
@@ -244,7 +244,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
-        generateResultAnalysis();
+        displayLnpResults();
     }
 
 }

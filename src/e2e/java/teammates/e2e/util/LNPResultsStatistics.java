@@ -1,28 +1,28 @@
 package teammates.e2e.util;
 
 /**
- * Result statistics class for L&P tests.
+ * Represents the L&P test results statistics.
  */
-public class ResultsStatistics {
+public class LNPResultsStatistics {
 
     private double meanResTime;
     private double pct1ResTime; // 90th percentile
     private double throughput;
     private int errorCount;
     private int sampleCount;
-    private String resultsFeedback = "";
+    private String resultsErrorMessage = null;
     private String testName;
 
     /**
-     * Generate a feedback message based on results statistics with the provided threshold.
+     * Display the feedback message based on LNP results statistics with the provided threshold.
      */
-    public void generateResultsFeedback(double errorRateLimit, double meanResTimeLimit) {
+    public void displayLnpResultsStatistics(double errorRateLimit, double meanResTimeLimit) {
         checkErrorLimit(errorRateLimit);
         checkMeanResTimeLimit(meanResTimeLimit);
-        if ("".equals(resultsFeedback)) {
+        if ("".equals(resultsErrorMessage)) {
             System.out.println("You have successfully passed the default profiling threshold for " + testName);
         } else {
-            throw new AssertionError(resultsFeedback);
+            throw new AssertionError(resultsErrorMessage);
         }
     }
 
@@ -43,7 +43,8 @@ public class ResultsStatistics {
     private void checkMeanResTimeLimit(double meanResTimeLimit) {
         if (meanResTimeLimit < pct1ResTime) {
             double exceededMeanResTime = pct1ResTime - meanResTimeLimit;
-            resultsFeedback += " You caused " + exceededMeanResTime + "ms higher in mean response time.\n";
+            resultsErrorMessage += "Avg resp time is " + String.format("%.2f", exceededMeanResTime)
+                    + "ms higher than the threshold.";
         }
     }
 
@@ -53,7 +54,8 @@ public class ResultsStatistics {
     private void checkErrorLimit(double errorRateLimit) {
         if (errorRateLimit < getErrorRate()) {
             double exceededErrorRate = getErrorRate() - errorRateLimit;
-            resultsFeedback += " You caused " + exceededErrorRate + "% higher in errors.\n";
+            resultsErrorMessage += "Error rate is " + String.format("%.2f", exceededErrorRate)
+                    + "percent higher than the threshold.";
         }
     }
 
@@ -69,7 +71,7 @@ public class ResultsStatistics {
                                 + " #Req: " + sampleCount
                                 + ",  Throughput: " + String.format("%.2f", throughput) + "/s"
                                 + ",  Avg resp time: " + String.format("%.2f", meanResTime) + "ms"
-                                + ",  Q1: " + String.format("%.2f", pct1ResTime) + "ms"
+                                + ",  90th percentile: " + String.format("%.2f", pct1ResTime) + "ms"
                                 + ",  Err: " + errorCount + " (" + String.format("%.2f", getErrorRate()) + "%)";
     }
 }

@@ -32,7 +32,7 @@ import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterConfig;
 import teammates.e2e.util.LNPTestData;
-import teammates.e2e.util.ResultsStatistics;
+import teammates.e2e.util.LNPResultsStatistics;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
 
@@ -81,7 +81,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract String getTestMethod();
 
     /**
-     * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
+     * Returns the maximum allowable threshold for the percentage of failed requests (0 to 100) to the test endpoint.
      */
     protected abstract Map<String, String> getRequestParameters();
 
@@ -91,9 +91,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract double getErrorRateLimit();
 
     /**
-     * Returns the limit of the specified response time in milliseconds.
+     * Returns the maximum allowable threshold for the mean response time (in seconds) for the test endpoint.
      */
-    protected abstract double getMeanResTimeLimit();
+    protected abstract double getMeanRespTimeLimit();
 
     /**
      * Returns the body of the HTTP request to the test endpoint.
@@ -117,13 +117,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     private String getPathToTestDataFile(String fileName) {
         return TestProperties.LNP_TEST_DATA_FOLDER + fileName;
-    }
-
-    /**
-     * Returns the path of the original generated JSON file that contains the test results statistics.
-     */
-    private String getPathToDefaultStatisticsResultsFile() {
-        return TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json";
     }
 
     /**
@@ -288,29 +281,30 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Return the parsed results analysis from the LNP test.
+     * Returns the L&P test results statistics.
      * @return The initialized result analysis from the LNP test results.
      * @throws IOException if there is an error when loading the result file.
      */
-    private ResultsStatistics getResultsStatistics() throws IOException {
+    private LNPResultsStatistics getResultsStatistics() throws IOException {
         Gson gson = new Gson();
         JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(getPathToTestStatisticsResultsFile())));
         JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
         JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
-        return gson.fromJson(endPointAnalysis, ResultsStatistics.class);
+        return gson.fromJson(endPointAnalysis, LNPResultsStatistics.class);
     }
 
     /**
      * Renames the default statistics.json file to the name of the test.
      */
-    private void renameStatisticsFile() {
-        File defaultFile = new File(getPathToDefaultStatisticsResultsFile());
+    private boolean renameStatisticsFile() {
+        File defaultFile = new File(TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json");
         File lnpStatisticsFile = new File(getPathToTestStatisticsResultsFile());
 
-        if (!defaultFile.renameTo(lnpStatisticsFile)) {
-            log.warning("Failed in renaming file.");
+        if (lnpStatisticsFile.exists()) {
+            lnpStatisticsFile.delete();
         }
+        return defaultFile.renameTo(lnpStatisticsFile);
     }
 
     /**
@@ -337,14 +331,14 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Generates a report analysis on the console.
+     * Display the LnP results on the console.
      */
-    protected void generateResultAnalysis() throws IOException {
-        ResultsStatistics reportAnalysis = getResultsStatistics();
+    protected void displayLnpResults() throws IOException {
+        LNPResultsStatistics reportAnalysis = getResultsStatistics();
         reportAnalysis.setTestName(getClass().getSimpleName());
 
         reportAnalysis.generateResultsStatistics();
-        reportAnalysis.generateResultsFeedback(getErrorRateLimit(), getMeanResTimeLimit());
+        reportAnalysis.displayLnpResultsStatistics(getErrorRateLimit(), getMeanRespTimeLimit());
     }
 
     /**
@@ -394,7 +388,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         } catch (Exception e) {
             log.warning(e.getMessage());
         }
-        renameStatisticsFile();
+        if (!renameStatisticsFile()) {
+            log.warning("Failed in renaming original file.");
+        }
 
         // TODO: As mentioned in the docs, good to fail the test if the `success` value of any row is `false`,
         //  or if there is an Exception.

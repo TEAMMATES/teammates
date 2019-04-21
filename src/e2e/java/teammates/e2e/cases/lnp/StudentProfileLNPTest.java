@@ -222,7 +222,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected double getMeanResTimeLimit() {
+    protected double getMeanRespTimeLimit() {
         return 10000;
     }
 
@@ -241,7 +241,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     public void classTearDown() throws IOException {
         deleteTestData(JSON_DATA_PATH);
         deleteDataFiles();
-        generateResultAnalysis();
+        displayLnpResults();
     }
 
 }
