@@ -77,7 +77,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadCourse(courseId: string): void {
-    this.courseService.getCourse(courseId).subscribe((course: Course) => {
+    this.courseService.getCourseAsStudent(courseId).subscribe((course: Course) => {
       this.course = course;
     });
   }
