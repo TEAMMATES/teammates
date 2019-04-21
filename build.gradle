@@ -580,6 +580,7 @@ test {
 }
 
 task lnpTests(type: Test) {
+    systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
     useTestNG()
     options.suites "src/e2e/resources/testng-lnp.xml"
     options.useDefaultListeners = true
@@ -591,7 +592,21 @@ task lnpTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed"
+        events "passed", "failed", "skipped"
+    }
+    // Display the L&P test results in the build
+    def outputCache = new LinkedList<String>()
+    beforeTest { TestDescriptor td -> outputCache.clear() } // clear output cache before the test starts
+    onOutput { TestDescriptor td, TestOutputEvent toe -> // put output in the cache
+        outputCache.add(toe.getMessage())
+        while (outputCache.size() > 2) outputCache.remove() // keep only last 2 result lines
+    }
+    afterTest { TestDescriptor td ->
+        if (outputCache.size() > 0) {
+            println()
+            println(" L&P results for ${td.className}:")
+            outputCache.each { print(" > $it") }
+        }
     }
 }
 
