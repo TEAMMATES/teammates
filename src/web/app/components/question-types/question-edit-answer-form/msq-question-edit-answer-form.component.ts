@@ -4,6 +4,7 @@ import {
   FeedbackMsqResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS, DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 const NONE_OF_THE_ABOVE: string = 'None of the above';
@@ -19,6 +20,7 @@ const NONE_OF_THE_ABOVE: string = 'None of the above';
 export class MsqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails> implements OnInit {
 
+  readonly NO_VALUE: number = NO_VALUE;
   isMsqOptionSelected: boolean[] = Array(this.questionDetails.msqChoices.length).fill(false);
 
   constructor() {

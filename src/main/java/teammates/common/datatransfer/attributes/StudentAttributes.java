@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.datatransfer.StudentUpdateStatus;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -27,10 +26,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     public String section;
     public String key;
 
-    // update specific attribute should not be inside DTO
-    @Deprecated
-    public transient StudentUpdateStatus updateStatus;
-
     private transient Instant createdAt;
     private transient Instant updatedAt;
 
@@ -40,7 +35,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
         this.googleId = "";
         this.section = Const.DEFAULT_SECTION;
-        this.updateStatus = StudentUpdateStatus.UNKNOWN;
         this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
@@ -87,8 +81,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         studentAttributes.key = key;
         studentAttributes.createdAt = createdAt;
         studentAttributes.updatedAt = updatedAt;
-
-        studentAttributes.updateStatus = updateStatus;
 
         return studentAttributes;
     }

@@ -16,11 +16,23 @@ export class CourseService {
   }
 
   /**
-   * Get course data by calling API.
+   * Get course data by calling API as an instructor.
    */
-  getCourse(courseId: string): Observable<Course> {
+  getCourseAsInstructor(courseId: string): Observable<Course> {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
+      entitytype: 'instructor',
+    };
+    return this.httpRequestService.get('/course', paramMap);
+  }
+
+  /**
+   * Get course data by calling API as a student.
+   */
+  getCourseAsStudent(courseId: string): Observable<Course> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      entitytype: 'student',
     };
     return this.httpRequestService.get('/course', paramMap);
   }

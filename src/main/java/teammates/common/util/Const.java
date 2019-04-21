@@ -56,7 +56,7 @@ public final class Const {
 
     public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
 
-    public static final int SIZE_LIMIT_PER_ENROLLMENT = 150;
+    public static final int SIZE_LIMIT_PER_ENROLLMENT = 100;
     public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
     public static final String DEFAULT_SECTION = "None";
@@ -1012,7 +1012,6 @@ public final class Const {
         public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
         public static final String COURSE_EDIT_INSTRUCTOR_DETAILS = "/instructors/course/details/editInstructor";
         public static final String COURSE_ADD_INSTRUCTOR = "/instructors/course/details/addInstructor";
-        public static final String COURSE_ENROLL_SAVE = "/course/enrollSave";
         public static final String STUDENT_RECORDS = "/students/records";
         public static final String COURSE_ENROLL_STUDENTS = "/course/enroll/students";
     }
@@ -1164,12 +1163,6 @@ public final class Const {
                 + "for this course. Modifying records of enrolled students will result in some existing "
                 + "responses from those modified students to be deleted. You may wish to download the data "
                 + "before you make the changes.";
-        public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
-        public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
-        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
-        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "%d student(s) updated with no changes:";
-        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "%d student(s) remain unmodified:";
-        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "%d student(s) with unknown enrolment status:";
 
         public static final String TEAM_INVALID_SECTION_EDIT =
                 "The team \"%s\" is in multiple sections. "

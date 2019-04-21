@@ -66,6 +66,7 @@ public class ActionFactory {
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
+        map(ResourceURIs.STUDENTS, PUT, EnrollStudentsAction.class);
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentsAction.class);
 
         //STUDENT APIs
@@ -119,7 +120,6 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
-        map(ResourceURIs.COURSE_ENROLL_SAVE, POST, PostCourseEnrollSaveAction.class);
         map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR_STUDENTS, GET, GetCourseStudentsAction.class);

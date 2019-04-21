@@ -97,8 +97,8 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         List<String> options = ((FeedbackRankOptionsQuestionDetails) correspondingQuestion
                 .getQuestionDetails()).options;
 
-        boolean isMinOptionsEnabled = minOptionsToBeRanked != -1;
-        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != -1;
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
 
         List<Integer> filteredAnswers = getFilteredSortedAnswerList();
         Set<Integer> set = new HashSet<>(filteredAnswers);
