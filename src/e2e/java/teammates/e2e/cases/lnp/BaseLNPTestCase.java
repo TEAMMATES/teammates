@@ -234,4 +234,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         Files.delete(Paths.get(pathToCsvFile));
     }
 
+    /**
+     * Sanitize the string to be CSV-safe string.
+     */
+    protected String sanitizeForCsv(String originalString) {
+        return String.format("\"%s\"", originalString.replace(System.lineSeparator(), "").replace("\"", "\"\""));
+    }
+
 }
