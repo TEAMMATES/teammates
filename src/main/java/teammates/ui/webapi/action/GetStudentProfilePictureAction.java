@@ -13,10 +13,10 @@ import teammates.common.util.StringHelper;
  */
 public class GetStudentProfilePictureAction extends Action {
 
-    /** Message indicating ACCESS is not given. */
+    /** Indicates ACCESS is not given. */
     public static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
 
-    /** Message indicating profile picture not found. */
+    /** Indicates profile picture not found. */
     public static final String PROFILE_PIC_NOT_FOUND = "Student has no profile picture";
 
     @Override
