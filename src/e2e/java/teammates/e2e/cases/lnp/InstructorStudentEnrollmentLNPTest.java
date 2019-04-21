@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jmeter.protocol.http.control.HeaderManager;
+import org.apache.jorphan.collections.HashTree;
+import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,14 +18,9 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
 
 /**
@@ -30,10 +28,9 @@ import teammates.e2e.util.LNPTestData;
  */
 public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
-    private static final String JSON_DATA_PATH = "/instructorStudentEnrollmentData.json";
-    private static final String CSV_CONFIG_PATH = "/instructorStudentEnrollmentConfig.csv";
-
     private static final int NUM_INSTRUCTORS = 10;
+    private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
+
     private static final int NUM_STUDENTS_PER_INSTRUCTOR = 100;
     private static final int NUM_STUDENTS_PER_SECTION = 25;
 
@@ -87,40 +84,10 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
             }
 
             @Override
-            protected Map<String, StudentAttributes> generateStudents() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, StudentProfileAttributes> generateProfiles() {
-                return new HashMap<>();
-            }
-
-            @Override
             public List<String> generateCsvHeaders() {
                 List<String> headers = new ArrayList<>();
 
-                headers.add("email");
+                headers.add("loginId");
                 headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("enrollData");
@@ -130,7 +97,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
             @Override
             public List<List<String>> generateCsvData() {
-                DataBundle dataBundle = loadDataBundle(JSON_DATA_PATH);
+                DataBundle dataBundle = loadDataBundle(getJsonDataPath());
                 List<List<String>> csvData = new ArrayList<>();
 
                 dataBundle.instructors.forEach((key, instructor) -> {
@@ -169,55 +136,45 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         };
     }
 
-    @Override
-    protected String getCsvConfigPath() {
-        return CSV_CONFIG_PATH;
+    private Map<String, String> getRequestHeaders() {
+        Map<String, String> headers = new HashMap<>();
+
+        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put("Content-Type", "text/csv");
+
+        return headers;
     }
 
-    @Override
-    protected String getJsonDataPath() {
-        return JSON_DATA_PATH;
-    }
-
-    @Override
-    protected int getNumberOfThreads() {
-        return NUM_INSTRUCTORS;
-    }
-
-    @Override
-    protected int getRampUpPeriod() {
-        return NUM_INSTRUCTORS * 2;
-    }
-
-    @Override
-    protected String getTestEndpoint() {
+    private String getTestEndpoint() {
         return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.COURSE_ENROLL_SAVE + "?courseid=${courseId}";
     }
 
     @Override
-    protected String getTestMethod() {
-        return POST;
-    }
+    protected ListedHashTree getLnpTestPlan() {
+        ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
+        HashTree threadGroup = testPlan.add(
+                JMeterElements.threadGroup(NUM_INSTRUCTORS, RAMP_UP_PERIOD, 1));
 
-    @Override
-    protected Map<String, String> getRequestParameters() {
-        return new HashMap<>();
-    }
+        threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
+        threadGroup.add(JMeterElements.cookieManager());
+        threadGroup.add(JMeterElements.defaultSampler());
 
-    @Override
-    protected String getRequestBody() {
-        return "${enrollData}";
-    }
+        threadGroup.add(JMeterElements.onceOnlyController())
+                .add(JMeterElements.loginSampler())
+                .add(JMeterElements.csrfExtractor("csrfToken"));
 
-    @Override
-    protected String getRequestBodyContentType() {
-        return "text/csv";
+        // Add HTTP sampler for test endpoint
+        HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
+        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), POST, "${enrollData}"))
+                .add(headerManager);
+
+        return testPlan;
     }
 
     @BeforeClass
     public void classSetup() {
         createTestData();
-        persistTestData(JSON_DATA_PATH);
+        persistTestData();
     }
 
     @Test
@@ -232,7 +189,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     public void classTearDown() throws IOException {
         // There is no need to add the newly enrolled students to the JSON DataBundle#students. This is because the new
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
-        deleteTestData(JSON_DATA_PATH);
+        deleteTestData();
         deleteDataFiles();
     }
 

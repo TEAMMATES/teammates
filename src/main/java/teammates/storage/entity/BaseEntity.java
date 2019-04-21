@@ -1,7 +1,9 @@
 package teammates.storage.entity;
 
+// CHECKSTYLE.OFF:IllegalImport can be removed after upgrading to Objectify V6
 import java.time.Instant;
 import java.util.Date;
+// CHECKSTYLE.ON:IllegalImport
 
 import com.googlecode.objectify.impl.Path;
 import com.googlecode.objectify.impl.translate.CreateContext;

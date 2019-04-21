@@ -1,0 +1,869 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionsTableComponent should snap like in home page with 2 sessions sorted by start date 1`] = `
+<tm-sessions-table
+  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsToShow={[Function Array]}
+  copySessionEvent={[Function EventEmitter]}
+  courseCandidates={[Function Array]}
+  editSessionEvent={[Function EventEmitter]}
+  headerColorScheme="0"
+  loadResponseRateEvent={[Function EventEmitter]}
+  modalService={[Function NgbModal]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  sendRemindersToStudentsEvent={[Function EventEmitter]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy={[Function Number]}
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
+  submitSessionAsInstructorEvent={[Function EventEmitter]}
+  unpublishSessionEvent={[Function EventEmitter]}
+  viewSessionResultEvent={[Function EventEmitter]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <table
+        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+      >
+        <thead>
+          <tr
+            class="bg-primary text-white"
+            ng-reflect-ng-class="[object Object]"
+          >
+            
+            <th
+              class="sortable-header"
+            >
+               Session Name 
+              
+              <span
+                ng-reflect-ng-class="[object Object]"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
+            </th>
+            
+            <th
+              class="sortable-header"
+            >
+               Start Date 
+              
+              
+              
+              <span>
+                <i
+                  class="fas fa-sort-up"
+                />
+              </span>
+            </th>
+            
+            <th
+              class="sortable-header"
+            >
+               End Date 
+              
+              <span
+                ng-reflect-ng-class="[object Object]"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
+            </th>
+            <th>
+              Submissions
+            </th>
+            <th>
+              Responses
+            </th>
+            <th
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="Number of students submitted /"
+              ngbtooltip="Number of students submitted / Class size"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Response Rate
+              </span>
+            </th>
+            <th>
+              Action(s)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            
+            <td>
+              Season 8 Review
+            </td>
+            
+            <td
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 07:30 AM +07"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                19 Jan 7:30 AM
+              </span>
+            </td>
+            
+            
+            <td
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 07:32 AM +07"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                19 Jan 7:32 AM
+              </span>
+            </td>
+            
+            <td
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="The feedback session has been "
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Open
+              </span>
+            </td>
+            <td
+              class="tool-tip-decorate"
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="The responses for this session"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Not Published
+              </span>
+            </td>
+            <td>
+              
+              
+              <div>
+                8 / 9
+              </div>
+              
+            </td>
+            <td
+              class="actions-cell"
+            >
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Edit feedback session details"
+                ngbtooltip="Edit feedback session details"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Delete the feedback session"
+                ngbtooltip="Delete the feedback session"
+                type="button"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Copy feedback session details"
+                ngbtooltip="Copy feedback session details"
+                type="button"
+              >
+                Copy
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Start submitting feedback"
+                ngbtooltip="Start submitting feedback"
+                type="button"
+              >
+                Submit
+              </button>
+              <div
+                class="d-inline-block dropdown"
+                ng-reflect-ngb-tooltip="View the submitted responses f"
+                ngbdropdown=""
+                ngbtooltip="View the submitted responses for this feedback session"
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Results
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    View Results
+                  </button>
+                  
+                  <button
+                    class="dropdown-item clickable"
+                    container="body"
+                    ng-reflect-container="body"
+                    ng-reflect-ngb-tooltip="Make session responses availab"
+                    ng-reflect-placement="left"
+                    ngbtooltip="Make session responses available for viewing"
+                    placement="left"
+                  >
+                    Publish Results
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    Download Results
+                  </button>
+                </div>
+              </div>
+              <div
+                class="d-inline-block"
+                ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                ngbdropdown=""
+                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                >
+                  Remind
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            
+            <td>
+              Season 7 Review
+            </td>
+            
+            <td
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 07:13 AM +07"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                19 Jan 7:13 AM
+              </span>
+            </td>
+            
+            
+            <td
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 07:15 AM +07"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                19 Jan 7:15 AM
+              </span>
+            </td>
+            
+            <td
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="The feedback session has been "
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Closed
+              </span>
+            </td>
+            <td
+              class="tool-tip-decorate"
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="The responses for this session"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Published
+              </span>
+            </td>
+            <td>
+              
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
+            </td>
+            <td
+              class="actions-cell"
+            >
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                ng-reflect-ngb-tooltip="Edit feedback session details"
+                ngbtooltip="Edit feedback session details"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                ng-reflect-ngb-tooltip="Delete the feedback session"
+                ngbtooltip="Delete the feedback session"
+                type="button"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Copy feedback session details"
+                ngbtooltip="Copy feedback session details"
+                type="button"
+              >
+                Copy
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                ng-reflect-ngb-tooltip="Start submitting feedback"
+                ngbtooltip="Start submitting feedback"
+                type="button"
+              >
+                Submit
+              </button>
+              <div
+                class="d-inline-block dropdown"
+                ng-reflect-ngb-tooltip="View the submitted responses f"
+                ngbdropdown=""
+                ngbtooltip="View the submitted responses for this feedback session"
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Results
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    View Results
+                  </button>
+                  
+                  <button
+                    class="dropdown-item clickable"
+                    container="body"
+                    disabled=""
+                    ng-reflect-container="body"
+                    ng-reflect-ngb-tooltip="Make responses no longer visib"
+                    ng-reflect-placement="left"
+                    ngbtooltip="Make responses no longer visible"
+                    placement="left"
+                  >
+                    Unpublish Results
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    Resend link to view results
+                  </button>
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    Download Results
+                  </button>
+                </div>
+              </div>
+              <div
+                class="d-inline-block"
+                ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                ngbdropdown=""
+                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  disabled=""
+                >
+                  Remind
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-sessions-table>
+`;
+
+exports[`SessionsTableComponent should snap like in sessions page with 2 sessions sorted by session name 1`] = `
+<tm-sessions-table
+  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsToShow={[Function Array]}
+  copySessionEvent={[Function EventEmitter]}
+  courseCandidates={[Function Array]}
+  editSessionEvent={[Function EventEmitter]}
+  headerColorScheme="0"
+  loadResponseRateEvent={[Function EventEmitter]}
+  modalService={[Function NgbModal]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  sendRemindersToStudentsEvent={[Function EventEmitter]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy={[Function Number]}
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
+  submitSessionAsInstructorEvent={[Function EventEmitter]}
+  unpublishSessionEvent={[Function EventEmitter]}
+  viewSessionResultEvent={[Function EventEmitter]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <table
+        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+      >
+        <thead>
+          <tr
+            class="bg-primary text-white"
+            ng-reflect-ng-class="[object Object]"
+          >
+            
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span
+                ng-reflect-ng-class="[object Object]"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
+            </th>
+            <th
+              class="sortable-header"
+            >
+               Session Name 
+              
+              
+              
+              <span>
+                <i
+                  class="fas fa-sort-up"
+                />
+              </span>
+            </th>
+            
+            
+            <th>
+              Submissions
+            </th>
+            <th>
+              Responses
+            </th>
+            <th
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="Number of students submitted /"
+              ngbtooltip="Number of students submitted / Class size"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Response Rate
+              </span>
+            </th>
+            <th>
+              Action(s)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            
+            <td>
+              GOT
+            </td>
+            <td>
+              Season 8 Review
+            </td>
+            
+            
+            <td
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="The feedback session has been "
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Open
+              </span>
+            </td>
+            <td
+              class="tool-tip-decorate"
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="The responses for this session"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Not Published
+              </span>
+            </td>
+            <td>
+              
+              
+              <div>
+                8 / 9
+              </div>
+              
+            </td>
+            <td
+              class="actions-cell"
+            >
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Edit feedback session details"
+                ngbtooltip="Edit feedback session details"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Delete the feedback session"
+                ngbtooltip="Delete the feedback session"
+                type="button"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Copy feedback session details"
+                ngbtooltip="Copy feedback session details"
+                type="button"
+              >
+                Copy
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Start submitting feedback"
+                ngbtooltip="Start submitting feedback"
+                type="button"
+              >
+                Submit
+              </button>
+              <div
+                class="d-inline-block dropdown"
+                ng-reflect-ngb-tooltip="View the submitted responses f"
+                ngbdropdown=""
+                ngbtooltip="View the submitted responses for this feedback session"
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Results
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    View Results
+                  </button>
+                  
+                  <button
+                    class="dropdown-item clickable"
+                    container="body"
+                    ng-reflect-container="body"
+                    ng-reflect-ngb-tooltip="Make session responses availab"
+                    ng-reflect-placement="left"
+                    ngbtooltip="Make session responses available for viewing"
+                    placement="left"
+                  >
+                    Publish Results
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    Download Results
+                  </button>
+                </div>
+              </div>
+              <div
+                class="d-inline-block"
+                ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                ngbdropdown=""
+                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                >
+                  Remind
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            
+            <td>
+              GOT
+            </td>
+            <td>
+              Season 7 Review
+            </td>
+            
+            
+            <td
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="The feedback session has been "
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Closed
+              </span>
+            </td>
+            <td
+              class="tool-tip-decorate"
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="The responses for this session"
+            >
+              <span
+                class="tool-tip-decorate"
+              >
+                Published
+              </span>
+            </td>
+            <td>
+              
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
+            </td>
+            <td
+              class="actions-cell"
+            >
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                ng-reflect-ngb-tooltip="Edit feedback session details"
+                ngbtooltip="Edit feedback session details"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                ng-reflect-ngb-tooltip="Delete the feedback session"
+                ngbtooltip="Delete the feedback session"
+                type="button"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Copy feedback session details"
+                ngbtooltip="Copy feedback session details"
+                type="button"
+              >
+                Copy
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                ng-reflect-ngb-tooltip="Start submitting feedback"
+                ngbtooltip="Start submitting feedback"
+                type="button"
+              >
+                Submit
+              </button>
+              <div
+                class="d-inline-block dropdown"
+                ng-reflect-ngb-tooltip="View the submitted responses f"
+                ngbdropdown=""
+                ngbtooltip="View the submitted responses for this feedback session"
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Results
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom-left"
+                >
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    View Results
+                  </button>
+                  
+                  <button
+                    class="dropdown-item clickable"
+                    container="body"
+                    disabled=""
+                    ng-reflect-container="body"
+                    ng-reflect-ngb-tooltip="Make responses no longer visib"
+                    ng-reflect-placement="left"
+                    ngbtooltip="Make responses no longer visible"
+                    placement="left"
+                  >
+                    Unpublish Results
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    Resend link to view results
+                  </button>
+                  <button
+                    class="dropdown-item clickable"
+                  >
+                    Download Results
+                  </button>
+                </div>
+              </div>
+              <div
+                class="d-inline-block"
+                ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                ngbdropdown=""
+                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  disabled=""
+                >
+                  Remind
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-sessions-table>
+`;
+
+exports[`SessionsTableComponent should snap with default fields 1`] = `
+<tm-sessions-table
+  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsToShow={[Function Array]}
+  copySessionEvent={[Function EventEmitter]}
+  courseCandidates={[Function Array]}
+  editSessionEvent={[Function EventEmitter]}
+  headerColorScheme="0"
+  loadResponseRateEvent={[Function EventEmitter]}
+  modalService={[Function NgbModal]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  publishSessionEvent={[Function EventEmitter]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  sendRemindersToStudentsEvent={[Function EventEmitter]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
+  submitSessionAsInstructorEvent={[Function EventEmitter]}
+  unpublishSessionEvent={[Function EventEmitter]}
+  viewSessionResultEvent={[Function EventEmitter]}
+>
+  <div
+    class="no-session-message"
+  >
+     There are no feedback sessions in this course. 
+  </div>
+</tm-sessions-table>
+`;

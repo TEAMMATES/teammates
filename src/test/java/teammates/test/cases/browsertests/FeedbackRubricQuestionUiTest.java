@@ -19,7 +19,7 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for rubric questions.
  */
-public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
+public class FeedbackRubricQuestionUiTest extends BaseFeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
 

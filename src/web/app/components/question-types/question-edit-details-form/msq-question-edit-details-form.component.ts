@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { FeedbackMsqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
@@ -62,14 +63,14 @@ export class MsqQuestionEditDetailsFormComponent
    * Displays maxSelectableOption value.
    */
   get displayValueForMaxSelectableOption(): number {
-    return this.model.maxSelectableChoices === -1 ? 2 : this.model.maxSelectableChoices;
+    return this.model.maxSelectableChoices === NO_VALUE ? 2 : this.model.maxSelectableChoices;
   }
 
   /**
    * Displays minSelectableOption value.
    */
   get displayValueForMinSelectableOption(): number {
-    return this.model.minSelectableChoices === -1 ? 1 : this.model.minSelectableChoices;
+    return this.model.minSelectableChoices === NO_VALUE ? 1 : this.model.minSelectableChoices;
   }
 
   /**
@@ -100,14 +101,14 @@ export class MsqQuestionEditDetailsFormComponent
    * Assigns a default value to maxSelectableOptions when checkbox is clicked.
    */
   triggerMaxSelectableOptionsChange(event: any): void {
-    this.model.maxSelectableChoices = event.target.checked ? 2 : -1;
+    this.model.maxSelectableChoices = event.target.checked ? 2 : NO_VALUE;
   }
 
   /**
    * Assigns a default value to minSelectableOptions when checkbox is clicked.
    */
   triggerMinSelectableOptionsChange(event: any): void {
-    this.model.minSelectableChoices = event.target.checked ? 1 : -1;
+    this.model.minSelectableChoices = event.target.checked ? 1 : NO_VALUE;
   }
 
   /**
@@ -135,14 +136,24 @@ export class MsqQuestionEditDetailsFormComponent
    * Checks if the maxSelectedChoices checkbox is enabled.
    */
   get isMaxSelectableChoicesEnabled(): boolean {
-    return this.model.maxSelectableChoices !== -1;
+    return this.model.maxSelectableChoices !== NO_VALUE;
   }
 
   /**
    * Checks if the minSelectedChoices checkbox is enabled.
    */
   get isMinSelectableChoicesEnabled(): boolean {
-    return this.model.minSelectableChoices !== -1;
+    return this.model.minSelectableChoices !== NO_VALUE;
+  }
+
+  /**
+   * Returns maximum value that minSelectable option can take.
+   */
+  get maxMinSelectableValue(): number {
+    if (!this.isMaxSelectableChoicesEnabled) {
+      return this.model.msqChoices.length;
+    }
+    return this.model.maxSelectableChoices;
   }
 
   /**
