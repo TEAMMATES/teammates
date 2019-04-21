@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Gender } from '../../../types/gender';
 import { StudentProfile } from '../student-profile/student-profile';
 import {
   InstructorCourseStudentDetailsPageComponent,
@@ -61,5 +62,32 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should snap with default fields', () => {
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with populated student', () => {
+    component.student = {
+      email: 'studentEmail@email.com',
+      course: 'CS3281',
+      name: 'firstName',
+      lastName: 'lastName',
+      comments: 'This is a comment',
+      team: 'myTeam',
+      section: 'mySection',
+    };
+    component.studentProfile = {
+      shortName: 'shortName',
+      email: 'profileEmail@email.com',
+      institute: 'NUS',
+      nationality: 'Indian',
+      gender: Gender.MALE,
+      moreInfo: 'I have more info here',
+      pictureKey: 'pictureKey',
+    };
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });
