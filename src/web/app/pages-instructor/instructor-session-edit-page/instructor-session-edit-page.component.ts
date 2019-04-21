@@ -182,7 +182,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   loadFeedbackSession(): void {
     // load the course of the feedback session first
-    this.courseService.getCourse(this.courseId).subscribe((course: Course) => {
+    this.courseService.getCourseAsInstructor(this.courseId).subscribe((course: Course) => {
       this.courseName = course.courseName;
 
       // load feedback session
@@ -735,9 +735,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   copyQuestionsFromOtherSessionsHandler(): void {
     const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
 
-    this.httpRequestService.get('/sessions', {
-      isinrecyclebin: 'false',
-    }).pipe(
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
         switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
         flatMap((session: FeedbackSession) => {
           const paramMap: { [key: string]: string } = {

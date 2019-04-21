@@ -712,6 +712,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                            + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".");
             }
 
+            // If there are Empty Msq options entered trigger this error
+            boolean isEmptyMsqOptionEntered = msqChoices.stream().anyMatch(msqText -> msqText.trim().equals(""));
+            if (isEmptyMsqOptionEntered) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_EMPTY_MSQ_OPTION);
+            }
+
             // If weights are enabled, number of choices and weights should be same.
             // If a user enters an invalid weight for a valid choice,
             // the msqChoices.size() will be greater than msqWeights.size(), in that case
@@ -752,8 +758,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
 
+        int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);
         if (isMaxSelectableChoicesEnabled) {
-            int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);
             if (numOfMsqChoicesForGeneratedOptions < maxSelectableChoices) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
             } else if (maxSelectableChoices < 2) {
@@ -761,8 +767,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
 
-        if (isMinSelectableChoicesEnabled && minSelectableChoices < 1) {
-            errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
+        if (isMinSelectableChoicesEnabled) {
+            if (minSelectableChoices < 1) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
+            }
+            if (minSelectableChoices > numOfMsqChoicesForGeneratedOptions) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES);
+            }
         }
 
         if (isMaxSelectableChoicesEnabled && isMinSelectableChoicesEnabled
@@ -829,6 +840,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
      */
     public int getMaxSelectableChoices() {
         return maxSelectableChoices;
+    }
+
+    /**
+     * Returns minimum selectable choices for this MSQ question.
+     */
+    public int getMinSelectableChoices() {
+        return minSelectableChoices;
     }
 
     /**

@@ -226,8 +226,8 @@ public final class InstructorPrivileges {
         if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return;
         }
-        this.sectionLevel.computeIfAbsent(sectionName, key -> new LinkedHashMap<>())
-                         .put(privilegeName, isAllowed);
+        addSectionWithDefaultPrivileges(sectionName);
+        this.sectionLevel.get(sectionName).put(privilegeName, isAllowed);
     }
 
     private void updatePrivilegeInSessionLevel(String sectionName, String sessionName,

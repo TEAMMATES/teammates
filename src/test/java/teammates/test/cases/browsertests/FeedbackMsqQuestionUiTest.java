@@ -21,7 +21,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
  * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for multiple choice (multiple answers) questions.
  */
-public class FeedbackMsqQuestionUiTest extends FeedbackQuestionUiTest {
+public class FeedbackMsqQuestionUiTest extends BaseFeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
     private static final String QN_TYPE = "msq";

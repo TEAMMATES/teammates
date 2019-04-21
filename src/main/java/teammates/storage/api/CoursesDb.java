@@ -68,8 +68,16 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
+        // update only if change
+        boolean hasSameAttributes =
+                this.<String>hasSameValue(course.getName(), newAttributes.getName())
+                && this.<String>hasSameValue(course.getTimeZone(), newAttributes.getTimeZone().getId());
+        if (hasSameAttributes) {
+            log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Course.class.getSimpleName(), updateOptions));
+            return newAttributes;
+        }
+
         course.setName(newAttributes.getName());
-        course.setDeletedAt(newAttributes.deletedAt);
         course.setTimeZone(newAttributes.getTimeZone().getId());
 
         saveEntity(course);
