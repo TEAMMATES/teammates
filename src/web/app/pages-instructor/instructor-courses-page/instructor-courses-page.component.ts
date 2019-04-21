@@ -173,7 +173,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.loadInstructorCourses();
       if (courseArchive.isArchived) {
         this.statusMessageService.showSuccessMessage(`The course ${courseId} 
-          has been archived and will no longer be visible in the home page any more.`);
+          has been archived. It will no longer be visible in the home page any more.`);
       } else {
         this.statusMessageService.showSuccessMessage('The course has been unarchived.');
       }
