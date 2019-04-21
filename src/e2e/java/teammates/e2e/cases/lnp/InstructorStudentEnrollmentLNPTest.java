@@ -216,12 +216,12 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
     @Override
     protected double getErrorRateLimit() {
-        return 0.2;
+        return 20;
     }
 
     @Override
     protected double getMeanRespTimeLimit() {
-        return 60000;
+        return 60;
     }
 
     @BeforeClass

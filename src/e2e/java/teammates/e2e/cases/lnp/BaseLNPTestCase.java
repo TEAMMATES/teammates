@@ -31,8 +31,8 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterConfig;
-import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.LNPResultsStatistics;
+import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
 
@@ -282,7 +282,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     /**
      * Returns the L&P test results statistics.
-     * @return The initialized result analysis from the LNP test results.
+     * @return The initialized result analysis from the L&P test results.
      * @throws IOException if there is an error when loading the result file.
      */
     private LNPResultsStatistics getResultsStatistics() throws IOException {
@@ -331,7 +331,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Display the LnP results on the console.
+     * Display the L&P results on the console.
      */
     protected void displayLnpResults() throws IOException {
         LNPResultsStatistics reportAnalysis = getResultsStatistics();
