@@ -207,6 +207,22 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
+        // update only if change
+        boolean hasSameAttributes =
+                this.<String>hasSameValue(instructor.getName(), newAttributes.getName())
+                && this.<String>hasSameValue(instructor.getEmail(), newAttributes.getEmail())
+                && this.<Boolean>hasSameValue(instructor.getIsArchived(), newAttributes.isArchived())
+                && this.<String>hasSameValue(instructor.getRole(), newAttributes.getRole())
+                && this.<Boolean>hasSameValue(instructor.isDisplayedToStudents(), newAttributes.isDisplayedToStudents())
+                && this.<String>hasSameValue(instructor.getDisplayedName(), newAttributes.getDisplayedName())
+                && this.<String>hasSameValue(
+                        instructor.getInstructorPrivilegesAsText(), newAttributes.getTextFromInstructorPrivileges());
+        if (hasSameAttributes) {
+            log.info(String.format(
+                    OPTIMIZED_SAVING_POLICY_APPLIED, Instructor.class.getSimpleName(), updateOptions));
+            return newAttributes;
+        }
+
         instructor.setName(newAttributes.name);
         instructor.setEmail(newAttributes.email);
         instructor.setIsArchived(newAttributes.isArchived);
@@ -245,6 +261,21 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         newAttributes.sanitizeForSaving();
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+        }
+
+        // update only if change
+        boolean hasSameAttributes =
+                this.<String>hasSameValue(instructor.getName(), newAttributes.getName())
+                && this.<String>hasSameValue(instructor.getGoogleId(), newAttributes.getGoogleId())
+                && this.<Boolean>hasSameValue(instructor.getIsArchived(), newAttributes.isArchived())
+                && this.<String>hasSameValue(instructor.getRole(), newAttributes.getRole())
+                && this.<Boolean>hasSameValue(instructor.isDisplayedToStudents(), newAttributes.isDisplayedToStudents())
+                && this.<String>hasSameValue(instructor.getDisplayedName(), newAttributes.getDisplayedName())
+                && this.<String>hasSameValue(
+                        instructor.getInstructorPrivilegesAsText(), newAttributes.getTextFromInstructorPrivileges());
+        if (hasSameAttributes) {
+            log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Instructor.class.getSimpleName(), updateOptions));
+            return newAttributes;
         }
 
         instructor.setGoogleId(newAttributes.googleId);

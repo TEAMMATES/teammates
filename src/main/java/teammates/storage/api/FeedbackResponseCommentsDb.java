@@ -16,6 +16,7 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -167,6 +168,23 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         newAttributes.sanitizeForSaving();
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+        }
+
+        // update only if change
+        boolean hasSameAttributes =
+                this.<String>hasSameValue(frc.getFeedbackResponseId(), newAttributes.getFeedbackResponseId())
+                && this.<String>hasSameValue(frc.getCommentText(), newAttributes.getCommentText())
+                && this.<List<FeedbackParticipantType>>hasSameValue(frc.getShowCommentTo(), newAttributes.getShowCommentTo())
+                && this.<List<FeedbackParticipantType>>hasSameValue(
+                        frc.getShowGiverNameTo(), newAttributes.getShowGiverNameTo())
+                && this.<String>hasSameValue(frc.getLastEditorEmail(), newAttributes.getLastEditorEmail())
+                && this.<Instant>hasSameValue(frc.getLastEditedAt(), newAttributes.getLastEditedAt())
+                && this.<String>hasSameValue(frc.getGiverSection(), newAttributes.getGiverSection())
+                && this.<String>hasSameValue(frc.getReceiverSection(), newAttributes.getReceiverSection());
+        if (hasSameAttributes) {
+            log.info(String.format(
+                    OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponseComment.class.getSimpleName(), updateOptions));
+            return newAttributes;
         }
 
         frc.setFeedbackResponseId(newAttributes.feedbackResponseId);

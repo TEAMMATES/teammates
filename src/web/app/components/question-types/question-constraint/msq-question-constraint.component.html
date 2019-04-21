@@ -1,0 +1,6 @@
+<p *ngIf="questionDetails.maxSelectableChoices !== NO_VALUE" class="text-muted">
+  You cannot choose more than: {{ questionDetails.maxSelectableChoices }} options.
+</p>
+<p *ngIf="questionDetails.minSelectableChoices !== NO_VALUE" class="text-muted">
+  You must choose at least: {{ questionDetails.minSelectableChoices }} options.
+</p>

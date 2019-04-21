@@ -11,7 +11,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
  * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for numerical scale questions.
  */
-public class FeedbackNumScaleQuestionUiTest extends FeedbackQuestionUiTest {
+public class FeedbackNumScaleQuestionUiTest extends BaseFeedbackQuestionUiTest {
     private InstructorFeedbackEditPage feedbackEditPage;
 
     private String courseId;

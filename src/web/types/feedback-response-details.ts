@@ -22,3 +22,8 @@ export const NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = -999;
  * Special answer of a rank options question response to indicate the response is not submitted.
  */
 export const RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = -999;
+
+/**
+ * Special value to indicate whether a value is present or not.
+ */
+export const NO_VALUE: number = -2147483648;
