@@ -48,7 +48,6 @@ dependencies {
     staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
                     "net.sourceforge.pmd:pmd-java:${pmdVersion}",
                     "com.github.spotbugs:spotbugs:${spotbugsVersion}",
-                    "de.andrena.tools.macker:macker:1.0.1",
                     "org.jacoco:org.jacoco.build:${jacocoVersion}"
 
     annotationProcessor objectify
@@ -76,6 +75,7 @@ dependencies {
     testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
                     "com.google.appengine:appengine-remote-api:${appengineVersion}",
                     "com.google.appengine:appengine-testing:${appengineVersion}",
+                    "com.tngtech.archunit:archunit:0.10.2",
                     "org.httpunit:httpunit:1.7.2",
                     "org.seleniumhq.selenium:selenium-java:3.141.59",
                     testng,
@@ -487,26 +487,38 @@ task lintTest {
     dependsOn checkstyleTest, pmdTest, spotbugsTest
 }
 
-task macker {
-    doLast {
-        logging.setLevel(LogLevel.INFO)
-        ant.taskdef(name: "macker", classpath: configurations.staticAnalysis.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
-        ant.macker(failonerror: true, verbose: false) {
-            rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
-            classes(dir: "${buildDir}/classes") {
-                include(name: "**/*.class")
-            }
-        }
+import org.gradle.internal.serialize.PlaceholderException
+
+def checkTestNgFailureClosure = { descriptor, result ->
+    if (result.exception instanceof PlaceholderException
+            && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
+        result.exception.printStackTrace()
+        throw new GradleException("Detected TestNG failure")
     }
 }
 
-macker.dependsOn testClasses
-macker.shouldRunAfter lintMain, lintTest
+task architectureTest(type: Test) {
+    useTestNG()
+    options.suites "src/test/resources/testng-architecture.xml"
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed"
+    }
+}
+
+architectureTest.dependsOn testClasses
+architectureTest.shouldRunAfter lintMain, lintTest
 
 task lint {
     description "Runs the entire static analysis tasks for back-end."
     group "Static analysis"
-    dependsOn lintMain, lintTest, macker
+    dependsOn lintMain, lintTest, architectureTest
 }
 
 // TEST TASKS
@@ -549,16 +561,6 @@ def afterTestClosure = { descriptor, result ->
             }
             println "\tat ${ste.getClassName()}.${ste.getMethodName()}(${ste.getFileName()}:${ste.getLineNumber()})"
         }
-    }
-}
-
-import org.gradle.internal.serialize.PlaceholderException
-
-def checkTestNgFailureClosure = { descriptor, result ->
-    if (result.exception instanceof PlaceholderException
-            && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
-        result.exception.printStackTrace()
-        throw new GradleException("Detected TestNG failure")
     }
 }
 

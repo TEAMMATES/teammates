@@ -368,9 +368,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.courseService.updateCourse(this.courseToEdit.id, {
       courseName: newName,
       timeZone: newTimeZone,
-    }).subscribe((course: Course) => {
-      this.statusMessageService.showSuccessMessage(`Updated course [${course.courseId}] details: `
-          + `Name: ${course.courseName}, Time zone: ${course.timeZone}`);
+    }).subscribe(() => {
+      this.statusMessageService.showSuccessMessage('The course has been edited.');
       this.updateCourseDetails(newName, newTimeZone);
       this.toggleIsEditingCourse();
     }, (resp: ErrorMessageOutput) => {

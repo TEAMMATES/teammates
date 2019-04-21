@@ -93,6 +93,30 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
+        // update only if change
+        boolean hasSameAttributes =
+                this.<Integer>hasSameValue(feedbackQuestion.getQuestionNumber(), newAttributes.getQuestionNumber())
+                && this.<String>hasSameValue(
+                        feedbackQuestion.getQuestionMetaData(), newAttributes.getSerializedQuestionDetails())
+                && this.<String>hasSameValue(
+                        feedbackQuestion.getQuestionDescription(), newAttributes.getQuestionDescription())
+                && this.<FeedbackParticipantType>hasSameValue(
+                        feedbackQuestion.getGiverType(), newAttributes.getGiverType())
+                && this.<FeedbackParticipantType>hasSameValue(
+                        feedbackQuestion.getRecipientType(), newAttributes.getRecipientType())
+                && this.<List<FeedbackParticipantType>>hasSameValue(
+                        feedbackQuestion.getShowResponsesTo(), newAttributes.getShowResponsesTo())
+                && this.<List<FeedbackParticipantType>>hasSameValue(
+                        feedbackQuestion.getShowGiverNameTo(), newAttributes.getShowGiverNameTo())
+                && this.<List<FeedbackParticipantType>>hasSameValue(
+                        feedbackQuestion.getShowRecipientNameTo(), newAttributes.getShowRecipientNameTo())
+                && this.<Integer>hasSameValue(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo(),
+                        newAttributes.getNumberOfEntitiesToGiveFeedbackTo());
+        if (hasSameAttributes) {
+            log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackQuestion.class.getSimpleName(), updateOptions));
+            return newAttributes;
+        }
+
         feedbackQuestion.setQuestionNumber(newAttributes.questionNumber);
         feedbackQuestion.setQuestionText(newAttributes.getSerializedQuestionDetails());
         feedbackQuestion.setQuestionDescription(newAttributes.questionDescription);
