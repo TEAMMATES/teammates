@@ -27,7 +27,7 @@ Conversely, when updating any tool, try to ensure that the tool version is suppo
 | [CheckStyle](http://checkstyle.sourceforge.net/) | [Checkstyle Plug-in](https://marketplace.eclipse.org/content/checkstyle-plug) | [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea) | [`teammates-checkstyle.xml`]((../static-analysis/teammates-checkstyle.xml)) |
 | [PMD](https://pmd.github.io/) | [eclipse-pmd](https://marketplace.eclipse.org/content/eclipse-pmd) | [PMDPlugin](https://plugins.jetbrains.com/idea/plugin/1137-pmdplugin) | [`teammates-pmd.xml`](../static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](../static-analysis/teammates-pmdMain.xml) |
 | [SpotBugs](https://spotbugs.github.io/) | [SpotBugs Eclipse Plugin](https://marketplace.eclipse.org/content/spotbugs-eclipse-plugin) | -<sup>1</sup> | [`teammates-spotbugs.xml`](../static-analysis/teammates-spotbugs.xml) |
-| [Macker](https://github.com/andrena/macker) | - | - | [`teammates-macker.xml`](../static-analysis/teammates-macker.xml) |
+| [ArchUnit](https://github.com/TNG/ArchUnit) | - | - | - |
 | [TSLint](https://palantir.github.io/tslint/) | - | Built-in<sup>2</sup> | [`teammates-tslint.yml`](../static-analysis/teammates-tslint.yml) |
 | [JSONlint](https://github.com/marionebl/jsonlint-cli) | - | - | - |
 | [stylelint](http://stylelint.io) | - | Built-in<sup>2,3</sup> | [`teammates-stylelint.yml`](../static-analysis/teammates-stylelint.yml) |
@@ -81,7 +81,7 @@ An automated setup for some of the static analysis tools is provided for Intelli
 | CheckStyle | `./gradlew checkstyleMain`, `./gradlew checkstyleTest` |
 | PMD | `./gradlew pmdMain`, `./gradlew pmdTest` |
 | SpotBugs | `./gradlew spotbugsMain`, `./gradlew spotbugsTest` |
-| Macker | `./gradlew macker` |
+| Macker | `./gradlew architectureTest` |
 | TSLint | `npm run lint:ts` |
 | JSONlint | `npm run lint:json` |
 | stylelint | `npm run lint:css` |

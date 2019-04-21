@@ -21,7 +21,7 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  *      specifically for rank questions.
  * TODO: Backend validation. Blocked by #8646
  */
-public class FeedbackRankQuestionUiTest extends FeedbackQuestionUiTest {
+public class FeedbackRankQuestionUiTest extends BaseFeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
     private static final String QN_TYPE = "rank";

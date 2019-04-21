@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes.Gender;
  * The API output for the student profile.
  */
 public class StudentProfileData extends ApiOutput {
-
     private String name;
     private String shortName;
     private String email;
@@ -15,7 +14,6 @@ public class StudentProfileData extends ApiOutput {
     private String nationality;
     private Gender gender;
     private String moreInfo;
-    private String pictureKey;
 
     public StudentProfileData(String name, StudentProfileAttributes profileAttributes) {
         this.name = name;
@@ -25,15 +23,10 @@ public class StudentProfileData extends ApiOutput {
         this.nationality = profileAttributes.nationality;
         this.gender = profileAttributes.gender;
         this.moreInfo = profileAttributes.moreInfo;
-        this.pictureKey = profileAttributes.pictureKey;
     }
 
     public String getMoreInfo() {
         return moreInfo;
-    }
-
-    public String getPictureKey() {
-        return pictureKey;
     }
 
     public Gender getGender() {

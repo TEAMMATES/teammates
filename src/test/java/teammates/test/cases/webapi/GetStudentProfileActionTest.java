@@ -126,7 +126,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         assertEquals(expectedProfile.moreInfo, actualProfile.getMoreInfo());
         assertEquals(expectedProfile.nationality, actualProfile.getNationality());
         assertEquals(expectedProfile.gender, actualProfile.getGender());
-        assertEquals(expectedProfile.pictureKey, actualProfile.getPictureKey());
     }
 
     @Test

@@ -66,16 +66,6 @@ public final class StringHelper {
     }
 
     /**
-     * Checks whether any substring of the input string matches any of the group of given regex expressions.
-     * @param input The string to be matched
-     * @param regexList The regex list used for the matching
-     */
-    public static boolean isAnyMatching(String input, List<String> regexList) {
-        return regexList.stream()
-                .anyMatch(r -> isMatching(input.trim().toLowerCase(), r));
-    }
-
-    /**
      * Generates a left-indentation of {@code length} units.
      */
     public static String getIndent(int length) {
