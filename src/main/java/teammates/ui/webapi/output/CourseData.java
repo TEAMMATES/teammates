@@ -9,16 +9,16 @@ public class CourseData extends ApiOutput {
 
     private final String courseId;
     private final String courseName;
-    private final String deletionDate;
     private final String timeZone;
     private final long creationTimestamp;
+    private final long deletionTimestamp;
 
     public CourseData(CourseAttributes courseAttributes) {
         this.courseId = courseAttributes.getId();
         this.courseName = courseAttributes.getName();
-        this.deletionDate = courseAttributes.getDeletedAtDateString();
         this.timeZone = courseAttributes.getTimeZone().getId();
         this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
+        this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
     }
 
     public String getCourseId() {
@@ -31,13 +31,13 @@ public class CourseData extends ApiOutput {
 
     }
 
-    public String getDeletionDate() {
-        return deletionDate;
     public long getCreationTimestamp() {
         return creationTimestamp;
     }
 
     public String getTimeZone() {
         return timeZone;
+    public long getDeletionTimestamp() {
+        return deletionTimestamp;
     }
 }

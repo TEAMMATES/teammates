@@ -87,6 +87,9 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     public Instant getDeletedAt() {
+        if (this.deletedAt == null) {
+            return Instant.EPOCH;
+        }
         return deletedAt;
     }
 
