@@ -30,7 +30,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
-import teammates.e2e.util.JMeterConfig;
 import teammates.e2e.util.LNPResultsStatistics;
 import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
@@ -169,6 +168,34 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
+     * Returns the L&P test results statistics.
+     * @return The initialized result analysis from the L&P test results.
+     * @throws IOException if there is an error when loading the result file.
+     */
+    private LNPResultsStatistics getResultsStatistics() throws IOException {
+        Gson gson = new Gson();
+        JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(getPathToTestStatisticsResultsFile())));
+        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+        JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
+        return gson.fromJson(endPointAnalysis, LNPResultsStatistics.class);
+    }
+
+    /**
+     * Renames the default statistics.json file to the name of the test.
+     */
+    private boolean renameStatisticsFile() {
+        File defaultFile = new File(TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json");
+        File lnpStatisticsFile = new File(getPathToTestStatisticsResultsFile());
+
+        if (lnpStatisticsFile.exists()) {
+            lnpStatisticsFile.delete();
+        }
+        return defaultFile.renameTo(lnpStatisticsFile);
+    }
+
+
+    /**
      * Setup and load the JMeter configuration and property files to run the Jmeter test.
      * @throws IOException if the save service properties file cannot be loaded.
      */
@@ -212,14 +239,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Deletes the data that was created in the datastore from the file specified by {@code dataBundleJsonPath}.
-     */
-    protected void deleteTestData(String dataBundleJsonPath) {
-        DataBundle dataBundle = loadDataBundle(dataBundleJsonPath);
-        BackDoor.removeDataBundle(dataBundle);
-    }
-
-    /**
      * Runs the JMeter test.
      * @param shouldCreateJmxFile true if the generated test plan should be saved to a `.jmx` file which
      *                            can be opened in the JMeter GUI, and false otherwise.
@@ -248,11 +267,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         resultCollector.setFilename(resultsFile);
         testPlan.add(testPlan.getArray()[0], resultCollector);
 
-        jmeter.configure(testPlanTree);
+        jmeter.configure(testPlan);
         jmeter.run();
 
         try {
-            ReportGenerator reportGenerator = new ReportGenerator(resultFile, null);
+            ReportGenerator reportGenerator = new ReportGenerator(resultsFile, null);
             reportGenerator.generate();
         } catch (Exception e) {
             log.warning(e.getMessage());
@@ -260,11 +279,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         if (!renameStatisticsFile()) {
             log.warning("Failed in renaming original file.");
         }
-
-        // TODO: As mentioned in the docs, good to fail the test if there is an Exception, or if the `success` value of
-        //  requests is `false`. An example of when this occurs is if the JMeter test properties are not set or if `email`
-        //  is used for logging in instead of `googleid`. Tests should fail if this assertion fails:
-        //      assertTrue(resultsErrorRate < this.getAcceptableErrorRate());
     }
 
     /**
