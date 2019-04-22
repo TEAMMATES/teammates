@@ -172,8 +172,8 @@ export class InstructorCoursesPageComponent implements OnInit {
     }).subscribe((courseArchive: CourseArchive) => {
       this.loadInstructorCourses();
       if (courseArchive.isArchived) {
-        this.statusMessageService.showSuccessMessage(`The course ${courseId} 
-          has been archived. It will no longer be visible in the home page any more.`);
+        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been archived.
+          It will not appear on the home page anymore.`);
       } else {
         this.statusMessageService.showSuccessMessage('The course has been unarchived.');
       }
