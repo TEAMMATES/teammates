@@ -49,9 +49,9 @@ export class MsqQuestionEditAnswerFormComponent
    */
   disableNoneOfTheAboveOption(): void {
     if (this.isNoneOfTheAboveEnabled) {
-      const answersCopy: string[] = this.responseDetails.answers.slice();
-      answersCopy.splice(0 , 1);
-      this.triggerResponseDetailsChange('answers', answersCopy);
+      const newAnswers: string[] = this.responseDetails.answers.slice();
+      newAnswers.splice(0 , 1);
+      this.triggerResponseDetailsChange('answers', newAnswers);
     }
   }
 
@@ -60,14 +60,14 @@ export class MsqQuestionEditAnswerFormComponent
    */
   updateSelectedAnswers(index: number): void {
     this.disableNoneOfTheAboveOption();
-    const answersCopy: string[] = this.responseDetails.answers.slice();
+    const newAnswers: string[] = this.responseDetails.answers.slice();
     const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
     if (indexInResponseArray > -1) {
-      answersCopy.splice(indexInResponseArray, 1);
+      newAnswers.splice(indexInResponseArray, 1);
     } else {
-      answersCopy.push(this.questionDetails.msqChoices[index]);
+      newAnswers.push(this.questionDetails.msqChoices[index]);
     }
-    this.triggerResponseDetailsChange('answers', answersCopy);
+    this.triggerResponseDetailsChange('answers', newAnswers);
   }
 
   /**
@@ -94,18 +94,18 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
-    let answersCopy: string[] = this.responseDetails.answers.slice();
+    let newAnswers: string[] = this.responseDetails.answers.slice();
     const fieldsToUpdate: any = {};
     if (this.isNoneOfTheAboveEnabled) {
-      answersCopy.splice(0, 1);
+      newAnswers.splice(0, 1);
     } else {
       this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
-      answersCopy = [];
+      newAnswers = [];
       fieldsToUpdate.isOther = false;
       fieldsToUpdate.otherFieldContent = '';
-      answersCopy[0] = NONE_OF_THE_ABOVE;
+      newAnswers[0] = NONE_OF_THE_ABOVE;
     }
-    fieldsToUpdate.answers = answersCopy;
+    fieldsToUpdate.answers = newAnswers;
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 }

@@ -24,9 +24,9 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Increases number of Rank options.
    */
   increaseNumberOfRankOptions(): void {
-    const copyOptions: string[] = this.model.options.slice();
-    copyOptions.push('');
-    this.triggerModelChange('options', copyOptions);
+    const newOptions: string[] = this.model.options.slice();
+    newOptions.push('');
+    this.triggerModelChange('options', newOptions);
   }
 
   /**
@@ -49,9 +49,9 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Deletes a Rank option.
    */
   onRankOptionDeleted(event: number): void {
-    const copyOptions: string[] = this.model.options.slice();
-    copyOptions.splice(event, 1);
-    this.triggerModelChange('options', copyOptions);
+    const newOptions: string[] = this.model.options.slice();
+    newOptions.splice(event, 1);
+    this.triggerModelChange('options', newOptions);
     if (this.model.maxOptionsToBeRanked > this.model.options.length) {
       this.triggerModelChange('maxOptionsToBeRanked', this.model.options.length);
     }
@@ -61,9 +61,9 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Displays new Rank option at specified index.
    */
   onRankOptionEntered(event: string, index: number): void {
-    const copyOptions: string[] = this.model.options.slice();
-    copyOptions[index] = event;
-    this.triggerModelChange('options', copyOptions);
+    const newOptions: string[] = this.model.options.slice();
+    newOptions[index] = event;
+    this.triggerModelChange('options', newOptions);
   }
 
   /**

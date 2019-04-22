@@ -42,9 +42,9 @@ export class MsqQuestionEditDetailsFormComponent
    * Displays new Msq weight at specified index.
    */
   onMsqWeightEntered(event: number, index: number): void {
-    const copyMsqWeights: number[] = this.model.msqWeights.slice();
-    copyMsqWeights[index] = event;
-    this.triggerModelChange('msqWeights', copyMsqWeights);
+    const newWeights: number[] = this.model.msqWeights.slice();
+    newWeights[index] = event;
+    this.triggerModelChange('msqWeights', newWeights);
   }
 
   /**
@@ -52,13 +52,13 @@ export class MsqQuestionEditDetailsFormComponent
    */
   increaseNumberOfMsqOptions(): void {
     const fieldsToUpdate: any = {};
-    const copyMsqChoices: string[] = this.model.msqChoices.slice();
-    copyMsqChoices.push('');
-    fieldsToUpdate.msqChoices = copyMsqChoices;
+    const newOptions: string[] = this.model.msqChoices.slice();
+    newOptions.push('');
+    fieldsToUpdate.msqChoices = newOptions;
     if (this.model.hasAssignedWeights) {
-      const copyMsqWeights: number[] = this.model.msqWeights.slice();
-      copyMsqWeights.push(0);
-      fieldsToUpdate.msqWeights = copyMsqWeights;
+      const newWeights: number[] = this.model.msqWeights.slice();
+      newWeights.push(0);
+      fieldsToUpdate.msqWeights = newWeights;
     }
     this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
@@ -68,13 +68,13 @@ export class MsqQuestionEditDetailsFormComponent
    */
   onMsqOptionDeleted(event: number): void {
     const fieldsToUpdate: any = {};
-    const copyMsqChoices: string[] = this.model.msqChoices.slice();
-    copyMsqChoices.splice(event, 1);
-    fieldsToUpdate.msqChoices = copyMsqChoices;
+    const newOptions: string[] = this.model.msqChoices.slice();
+    newOptions.splice(event, 1);
+    fieldsToUpdate.msqChoices = newOptions;
     if (this.model.hasAssignedWeights) {
-      const copyMsqWeights: number[] = this.model.msqWeights.slice();
-      copyMsqWeights.splice(event, 1);
-      fieldsToUpdate.msqWeights = copyMsqWeights;
+      const newWeights: number[] = this.model.msqWeights.slice();
+      newWeights.splice(event, 1);
+      fieldsToUpdate.msqWeights = newWeights;
     }
     this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
@@ -97,9 +97,9 @@ export class MsqQuestionEditDetailsFormComponent
    * Displays new Msq option at specified index.
    */
   onMsqOptionEntered(event: string, index: number): void {
-    const copyMsqChoices: string[] = this.model.msqChoices.slice();
-    copyMsqChoices[index] = event;
-    this.triggerModelChange('msqChoices', copyMsqChoices);
+    const newOptions: string[] = this.model.msqChoices.slice();
+    newOptions[index] = event;
+    this.triggerModelChange('msqChoices', newOptions);
   }
 
   /**

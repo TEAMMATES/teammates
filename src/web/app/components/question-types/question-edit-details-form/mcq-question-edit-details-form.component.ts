@@ -46,13 +46,13 @@ export class McqQuestionEditDetailsFormComponent
   increaseNumberOfOptions(): void {
     const fieldsToUpdate: any = {};
     fieldsToUpdate.numOfMcqChoices = this.model.numOfMcqChoices + 1;
-    const copyMcqChoices: string[] = this.model.mcqChoices.slice();
-    copyMcqChoices.push('');
-    fieldsToUpdate.mcqChoices = copyMcqChoices;
+    const newOptions: string[] = this.model.mcqChoices.slice();
+    newOptions.push('');
+    fieldsToUpdate.mcqChoices = newOptions;
     if (this.model.hasAssignedWeights) {
-      const copyMcqWeights: number[] = this.model.mcqWeights.slice();
-      copyMcqWeights.push(0);
-      fieldsToUpdate.mcqWeights = copyMcqWeights;
+      const newWeights: number[] = this.model.mcqWeights.slice();
+      newWeights.push(0);
+      fieldsToUpdate.mcqWeights = newWeights;
     }
     this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
@@ -63,13 +63,13 @@ export class McqQuestionEditDetailsFormComponent
   onMcqOptionDeleted(event: number): void {
     const fieldsToUpdate: any = {};
     fieldsToUpdate.numOfMcqChoices = this.model.numOfMcqChoices - 1;
-    const copyMcqChoices: string[] = this.model.mcqChoices.slice();
-    copyMcqChoices.splice(event, 1);
-    fieldsToUpdate.mcqChoices = copyMcqChoices;
+    const newOptions: string[] = this.model.mcqChoices.slice();
+    newOptions.splice(event, 1);
+    fieldsToUpdate.mcqChoices = newOptions;
     if (this.model.hasAssignedWeights) {
-      const copyMcqWeights: number[] = this.model.mcqWeights.slice();
-      copyMcqWeights.splice(event, 1);
-      fieldsToUpdate.mcqWeights = copyMcqWeights;
+      const newWeights: number[] = this.model.mcqWeights.slice();
+      newWeights.splice(event, 1);
+      fieldsToUpdate.mcqWeights = newWeights;
     }
     this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
   }
@@ -78,18 +78,18 @@ export class McqQuestionEditDetailsFormComponent
    * Displays new Mcq option at specified index.
    */
   onMcqOptionEntered(event: string, index: number): void {
-    const copyMcqChoices: string[] = this.model.mcqChoices.slice();
-    copyMcqChoices[index] = event;
-    this.triggerModelChange('mcqChoices', copyMcqChoices);
+    const newOptions: string[] = this.model.mcqChoices.slice();
+    newOptions[index] = event;
+    this.triggerModelChange('mcqChoices', newOptions);
   }
 
   /**
    * Displays new Mcq weight at specified index.
    */
   onMcqWeightEntered(event: number, index: number): void {
-    const copyMcqWeights: number[] = this.model.mcqWeights.slice();
-    copyMcqWeights[index] = event;
-    this.triggerModelChange('mcqWeights', copyMcqWeights);
+    const newWeights: number[] = this.model.mcqWeights.slice();
+    newWeights[index] = event;
+    this.triggerModelChange('mcqWeights', newWeights);
   }
 
   /**
