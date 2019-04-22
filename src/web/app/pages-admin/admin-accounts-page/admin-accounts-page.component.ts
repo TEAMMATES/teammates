@@ -1,38 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../../services/account.service';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { Account, Course, Courses } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-/**
- * Represents course attributes.
- */
-interface CourseAttributes {
-  id: string;
-  name: string;
-}
-
-/**
- * Represents account attributes.
- */
-interface AccountAttributes {
-  googleId: string;
-  name: string;
-  email: string;
-  institute?: string;
-  isInstructor: boolean;
-}
-
-/**
- * Represents detailed information of an account.
- */
-interface AccountInfo {
-  accountInfo: AccountAttributes;
-  instructorCourses: CourseAttributes[];
-  studentCourses: CourseAttributes[];
-}
 
 /**
  * Admin accounts page.
@@ -44,18 +18,20 @@ interface AccountInfo {
 })
 export class AdminAccountsPageComponent implements OnInit {
 
-  instructorCourses: CourseAttributes[] = [];
-  studentCourses: CourseAttributes[] = [];
-  accountInfo: AccountAttributes = {
+  instructorCourses: Course[] = [];
+  studentCourses: Course[] = [];
+  accountInfo: Account = {
     googleId: '',
     name: '',
     email: '',
     isInstructor: false,
+    institute: '',
+    createdAtTimeStamp: 0,
   };
 
   constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
       private navigationService: NavigationService, private statusMessageService: StatusMessageService,
-              private accountService: AccountService) { }
+              private accountService: AccountService, private courseService: CourseService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -67,13 +43,26 @@ export class AdminAccountsPageComponent implements OnInit {
    * Loads the account information based on the given ID.
    */
   loadAccountInfo(instructorid: string): void {
-    const paramMap: { [key: string]: string } = { instructorid };
-    this.httpRequestService.get('/accounts', paramMap).subscribe((resp: AccountInfo) => {
-      this.instructorCourses = resp.instructorCourses;
-      this.studentCourses = resp.studentCourses;
-      this.accountInfo = resp.accountInfo;
+    this.accountService.getAccount(instructorid).subscribe((resp: Account) => {
+      this.accountInfo = resp;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+
+    this.courseService.getStudentCoursesInMasqueradeMode(instructorid).subscribe((resp: Courses) => {
+      this.studentCourses = resp.courses;
+    }, (resp: ErrorMessageOutput) => {
+      if (resp.status !== 403) {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      }
+    });
+
+    this.courseService.getInstructorCoursesInMasqueradeMode(instructorid).subscribe((resp: Courses) => {
+      this.instructorCourses = resp.courses;
+    }, (resp: ErrorMessageOutput) => {
+      if (resp.status !== 403) {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      }
     });
   }
 
@@ -113,7 +102,7 @@ export class AdminAccountsPageComponent implements OnInit {
       courseid: courseId,
     };
     this.httpRequestService.delete('/student', paramMap).subscribe(() => {
-      this.studentCourses = this.studentCourses.filter((course: CourseAttributes) => course.id !== courseId);
+      this.studentCourses = this.studentCourses.filter((course: Course) => course.courseId !== courseId);
       this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -130,7 +119,7 @@ export class AdminAccountsPageComponent implements OnInit {
       courseid: courseId,
     };
     this.httpRequestService.delete('/instructor', paramMap).subscribe(() => {
-      this.instructorCourses = this.instructorCourses.filter((course: CourseAttributes) => course.id !== courseId);
+      this.instructorCourses = this.instructorCourses.filter((course: Course) => course.courseId !== courseId);
       this.statusMessageService.showSuccessMessage(`Instructor is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
