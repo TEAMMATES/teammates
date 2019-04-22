@@ -1026,10 +1026,6 @@ public final class Const {
         public static final String STUDENT_NOT_FOUND_FOR_RECORDS =
                 "The student you tried to view records for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
 
-        public static final String UNREGISTERED_STUDENT_MESSAGE = "You may submit feedback for sessions "
-                + "that are currently open and view results without logging in. To access other features "
-                + "you need <a href='%s' class='link'>to login using a Google account</a> (recommended).";
-
         public static final String AMBIGUOUS_LOCAL_DATE_TIME_GAP =
                 "The %s, %s, falls within the gap period when clocks spring forward at the start of DST. "
                         + "It was resolved to %s.";
