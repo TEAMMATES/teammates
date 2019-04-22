@@ -29,14 +29,14 @@ public class CourseData extends ApiOutput {
         return courseName;
     }
 
+    public String getTimeZone() {
+        return timeZone;
     }
 
     public long getCreationTimestamp() {
         return creationTimestamp;
     }
 
-    public String getTimeZone() {
-        return timeZone;
     public long getDeletionTimestamp() {
         return deletionTimestamp;
     }
