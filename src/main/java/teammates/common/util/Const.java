@@ -908,9 +908,6 @@ public final class Const {
         public static final String SECTION_QUOTA_EXCEED =
                 "You are trying enroll more than 100 students in section \"%s\". "
                 + "To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
-        public static final String QUOTA_PER_ENROLLMENT_EXCEED =
-                "You are trying to enroll more than 100 students. "
-                + "To avoid performance problems, please enroll no more than 100 students at a time.";
 
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
@@ -1001,11 +998,7 @@ public final class Const {
                 "This session seems to have a large number of responses. "
                 + "It is recommended to view the results for one question at a time. "
                 + "To view responses for a particular question, click on the question below.";
-        public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
-        public static final String ENROLL_LINES_PROBLEM =
-                "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>"
-                + "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";
 
         public static final String INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";
 
