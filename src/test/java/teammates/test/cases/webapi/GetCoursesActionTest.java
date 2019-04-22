@@ -149,7 +149,9 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
         assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
         assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
-        assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
+        if (expectedCourse.getDeletedAt() != null) {
+            assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
+        }
         assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone().getId());
     }
 
