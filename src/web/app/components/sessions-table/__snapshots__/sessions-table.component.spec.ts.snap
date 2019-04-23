@@ -43,7 +43,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           >
             
             <th
-              class="sortable-header"
+              class="sortable-header sort-session-name"
             >
                Session Name 
               
@@ -59,7 +59,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             </th>
             
             <th
-              class="sortable-header"
+              class="sortable-header sort-session-start-date"
             >
                Start Date 
               
@@ -73,7 +73,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             </th>
             
             <th
-              class="sortable-header"
+              class="sortable-header sort-session-end-date"
             >
                End Date 
               
@@ -112,7 +112,9 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
         </thead>
         <tbody>
           
-          <tr>
+          <tr
+            class="session-0"
+          >
             
             <td>
               Season 8 Review
@@ -186,7 +188,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 Edit
               </button>
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm session-delete-btn"
                 ng-reflect-ngb-tooltip="Delete the feedback session"
                 ngbtooltip="Delete the feedback session"
                 type="button"
@@ -194,7 +196,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 Delete
               </button>
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm session-copy-btn"
                 ng-reflect-ngb-tooltip="Copy feedback session details"
                 ngbtooltip="Copy feedback session details"
                 type="button"
@@ -218,7 +220,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm session-results-btn dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                   Results
@@ -235,7 +237,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   </button>
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-publish-result-btn"
                     container="body"
                     ng-reflect-container="body"
                     ng-reflect-ngb-tooltip="Make session responses availab"
@@ -249,7 +251,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-download-result-btn"
                   >
                     Download Results
                   </button>
@@ -262,14 +264,16 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm session-remind-students-btn"
                 >
                   Remind
                 </button>
               </div>
             </td>
           </tr>
-          <tr>
+          <tr
+            class="session-1"
+          >
             
             <td>
               Season 7 Review
@@ -346,7 +350,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 Edit
               </button>
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm session-delete-btn"
                 disabled=""
                 ng-reflect-ngb-tooltip="Delete the feedback session"
                 ngbtooltip="Delete the feedback session"
@@ -355,7 +359,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 Delete
               </button>
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm session-copy-btn"
                 ng-reflect-ngb-tooltip="Copy feedback session details"
                 ngbtooltip="Copy feedback session details"
                 type="button"
@@ -380,7 +384,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm session-results-btn dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                   Results
@@ -397,7 +401,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   </button>
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-unpublish-result-btn"
                     container="body"
                     disabled=""
                     ng-reflect-container="body"
@@ -412,12 +416,12 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-resend-result-btn"
                   >
                     Resend link to view results
                   </button>
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-download-result-btn"
                   >
                     Download Results
                   </button>
@@ -430,7 +434,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm session-remind-students-btn"
                   disabled=""
                 >
                   Remind
@@ -503,7 +507,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               
             </th>
             <th
-              class="sortable-header"
+              class="sortable-header sort-session-name"
             >
                Session Name 
               
@@ -542,7 +546,9 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
         </thead>
         <tbody>
           
-          <tr>
+          <tr
+            class="session-0"
+          >
             
             <td>
               GOT
@@ -595,7 +601,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 Edit
               </button>
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm session-delete-btn"
                 ng-reflect-ngb-tooltip="Delete the feedback session"
                 ngbtooltip="Delete the feedback session"
                 type="button"
@@ -603,7 +609,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 Delete
               </button>
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm session-copy-btn"
                 ng-reflect-ngb-tooltip="Copy feedback session details"
                 ngbtooltip="Copy feedback session details"
                 type="button"
@@ -627,7 +633,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm session-results-btn dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                   Results
@@ -644,7 +650,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   </button>
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-publish-result-btn"
                     container="body"
                     ng-reflect-container="body"
                     ng-reflect-ngb-tooltip="Make session responses availab"
@@ -658,7 +664,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-download-result-btn"
                   >
                     Download Results
                   </button>
@@ -671,14 +677,16 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm session-remind-students-btn"
                 >
                   Remind
                 </button>
               </div>
             </td>
           </tr>
-          <tr>
+          <tr
+            class="session-1"
+          >
             
             <td>
               GOT
@@ -734,7 +742,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 Edit
               </button>
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm session-delete-btn"
                 disabled=""
                 ng-reflect-ngb-tooltip="Delete the feedback session"
                 ngbtooltip="Delete the feedback session"
@@ -743,7 +751,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 Delete
               </button>
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm session-copy-btn"
                 ng-reflect-ngb-tooltip="Copy feedback session details"
                 ngbtooltip="Copy feedback session details"
                 type="button"
@@ -768,7 +776,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm session-results-btn dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                   Results
@@ -785,7 +793,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   </button>
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-unpublish-result-btn"
                     container="body"
                     disabled=""
                     ng-reflect-container="body"
@@ -800,12 +808,12 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-resend-result-btn"
                   >
                     Resend link to view results
                   </button>
                   <button
-                    class="dropdown-item clickable"
+                    class="dropdown-item clickable session-download-result-btn"
                   >
                     Download Results
                   </button>
@@ -818,7 +826,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
               >
                 <button
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm session-remind-students-btn"
                   disabled=""
                 >
                   Remind

@@ -53,9 +53,6 @@ public class StudentProfilePage extends AppPage {
     @FindBy(className = "btn-space")
     private List<WebElement> editPictureTools;
 
-    @FindBy(id = "profile-edit-picture-submit")
-    private WebElement editPictureSubmit;
-
     public StudentProfilePage(Browser browser) {
         super(browser);
     }
