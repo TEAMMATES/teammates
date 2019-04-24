@@ -56,14 +56,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract ListedHashTree getLnpTestPlan();
 
     /**
-     * Returns the path to the generated JSON data bundle file.
-     */
-    protected String getJsonDataPath() {
-        return "/" + getClass().getSimpleName() + ".json";
-    }
-
-    /**
-     * Returns the limit of the ratio of the error samples against total number of samples.
+     * Returns the maximum allowable threshold for the percentage of failed requests (0 to 100) to the test endpoint.
      */
     protected abstract double getErrorRateLimit();
 
@@ -71,6 +64,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Returns the maximum allowable threshold for the mean response time (in seconds) for the test endpoint.
      */
     protected abstract double getMeanRespTimeLimit();
+
+    /**
+     * Returns the path to the generated JSON data bundle file.
+     */
+    protected String getJsonDataPath() {
+        return "/" + getClass().getSimpleName() + ".json";
+    }
 
     /**
      * Returns the path to the generated JMeter CSV config file.
@@ -99,7 +99,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Returns the path of the renamed JSON file that contains the test results statistics.
+     * Returns the path to the JSON test results statistics file, relative to the project root directory.
      */
     private String getPathToTestStatisticsResultsFile() {
         return TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + "Statistics.json";
@@ -169,7 +169,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     /**
      * Returns the L&P test results statistics.
-     * @return The initialized result analysis from the L&P test results.
+     * @return The initialized result statistics from the L&P test results.
      * @throws IOException if there is an error when loading the result file.
      */
     private LNPResultsStatistics getResultsStatistics() throws IOException {
@@ -177,21 +177,23 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(getPathToTestStatisticsResultsFile())));
         JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-        JsonObject endPointAnalysis = jsonObject.getAsJsonObject("Test Endpoint");
-        return gson.fromJson(endPointAnalysis, LNPResultsStatistics.class);
+        JsonObject endpointStats = jsonObject.getAsJsonObject("HTTP Request Sampler");
+        return gson.fromJson(endpointStats, LNPResultsStatistics.class);
     }
 
     /**
      * Renames the default statistics.json file to the name of the test.
      */
-    private boolean renameStatisticsFile() {
+    private void renameStatisticsFile() {
         File defaultFile = new File(TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json");
         File lnpStatisticsFile = new File(getPathToTestStatisticsResultsFile());
 
         if (lnpStatisticsFile.exists()) {
             lnpStatisticsFile.delete();
         }
-        return defaultFile.renameTo(lnpStatisticsFile);
+        if (!defaultFile.renameTo(lnpStatisticsFile)) {
+            log.warning("Failed to rename generated statistics.json file.");
+        }
     }
 
 
@@ -231,11 +233,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Display the L&P results on the console.
      */
     protected void displayLnpResults() throws IOException {
-        LNPResultsStatistics reportAnalysis = getResultsStatistics();
-        reportAnalysis.setTestName(getClass().getSimpleName());
+        LNPResultsStatistics resultsStats = getResultsStatistics();
 
-        reportAnalysis.generateResultsStatistics();
-        reportAnalysis.displayLnpResultsStatistics(getErrorRateLimit(), getMeanRespTimeLimit());
+        resultsStats.displayLnpResultsStatistics();
+        resultsStats.verifyLnpTestSuccess(getErrorRateLimit(), getMeanRespTimeLimit());
     }
 
     /**
@@ -276,9 +277,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         } catch (Exception e) {
             log.warning(e.getMessage());
         }
-        if (!renameStatisticsFile()) {
-            log.warning("Failed in renaming original file.");
-        }
+
+        renameStatisticsFile();
     }
 
     /**
