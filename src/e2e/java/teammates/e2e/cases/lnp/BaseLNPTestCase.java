@@ -13,6 +13,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.jmeter.engine.StandardJMeterEngine;
+import org.apache.jmeter.report.config.ConfigurationException;
+import org.apache.jmeter.report.dashboard.GenerationException;
 import org.apache.jmeter.report.dashboard.ReportGenerator;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
@@ -274,7 +276,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         try {
             ReportGenerator reportGenerator = new ReportGenerator(resultsFile, null);
             reportGenerator.generate();
-        } catch (Exception e) {
+        } catch (ConfigurationException | GenerationException e) {
             log.warning(e.getMessage());
         }
 
