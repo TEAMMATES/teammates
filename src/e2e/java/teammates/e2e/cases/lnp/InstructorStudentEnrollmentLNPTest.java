@@ -188,6 +188,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     @Test
     public void runLnpTest() throws IOException {
         runJmeter(false);
+        displayLnpResults();
     }
 
     /**
@@ -199,7 +200,6 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
         deleteTestData();
         deleteDataFiles();
-        displayLnpResults();
     }
 
 }
