@@ -183,6 +183,7 @@ export class QuestionEditFormComponent implements OnInit {
    */
   triggerModelChangeBatch(obj: {[key: string]: any}): void {
     this.formModelChange.emit({
+      ...{},
       ...this.model,
       ...obj,
     });
