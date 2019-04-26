@@ -233,7 +233,7 @@ export class SessionEditFormComponent implements OnInit {
           if (el) {
             el.click();
           }
-        }, 3);
+        }, 5);
       };
       if (helpWindow.closed) {
         helpWindow = null;

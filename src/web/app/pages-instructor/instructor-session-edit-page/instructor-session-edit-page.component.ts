@@ -813,7 +813,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           if (el) {
             el.click();
           }
-        }, 3);
+        }, 5);
       };
       if (helpWindow.closed) {
         helpWindow = null;
