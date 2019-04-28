@@ -184,7 +184,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Renames the default statistics.json file to the name of the test.
+     * Renames the default results statistics file to the name of the test.
      */
     private void renameStatisticsFile() {
         File defaultFile = new File(TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json");
@@ -270,6 +270,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         resultCollector.setFilename(resultsFile);
         testPlan.add(testPlan.getArray()[0], resultCollector);
 
+        // Run Jmeter Test
         jmeter.configure(testPlan);
         jmeter.run();
 

@@ -13,7 +13,7 @@ public class LNPResultsStatistics {
     private double throughput;
     private int errorCount;
     private int sampleCount;
-    private String resultsErrorMessage;
+    private String resultsErrorMessage = "";
 
     /**
      * Verify the LNP results statistics with the specified threshold.
@@ -21,7 +21,8 @@ public class LNPResultsStatistics {
     public void verifyLnpTestSuccess(double errorRateLimit, double meanResTimeLimit) {
         checkErrorLimit(errorRateLimit);
         checkMeanResTimeLimit(meanResTimeLimit);
-        if (resultsErrorMessage != null) {
+
+        if (resultsErrorMessage.isEmpty()) {
             throw new AssertionError(resultsErrorMessage);
         }
     }
@@ -34,7 +35,7 @@ public class LNPResultsStatistics {
     }
 
     /**
-     * Checks if the mean response time exceeds the limited time specified.
+     * Checks if the mean response time exceeds the specified time limit.
      */
     private void checkMeanResTimeLimit(double meanResTimeLimit) {
         if (meanResTimeLimit < meanResTime / 1000) {
@@ -45,7 +46,7 @@ public class LNPResultsStatistics {
     }
 
     /**
-     * Checks if the error rate exceeds the limited error percentage specified.
+     * Checks if the error rate exceeds the specified error percentage limit.
      */
     private void checkErrorLimit(double errorRateLimit) {
         if (errorRateLimit < errorPct) {
