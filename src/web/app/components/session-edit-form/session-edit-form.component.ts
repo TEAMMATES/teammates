@@ -238,6 +238,5 @@ export class SessionEditFormComponent implements OnInit {
         }, 5);
       };
     }
-    // TODO scroll down to the session setup specific section in the help page
   }
 }

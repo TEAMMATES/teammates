@@ -818,7 +818,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         }, 5);
       };
     }
-    // TODO scroll down to the question specific section in the help page
   }
 
   /**
