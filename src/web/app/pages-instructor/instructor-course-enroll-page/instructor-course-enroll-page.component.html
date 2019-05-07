@@ -27,6 +27,7 @@
             <strong>Existing Students</strong>
           </div>
           <hot-table
+              [licenseKey]="'non-commercial-and-evaluation'"
               [hotId]="existingStudentsHOT"
               [readOnly]="true"
               [height]="400"
@@ -54,6 +55,7 @@
             <strong>New students</strong>
           </div>
           <hot-table
+              [licenseKey]="'non-commercial-and-evaluation'"
               [hotId]="newStudentsHOT"
               [height]="500"
               [autoWrapRow]="true"
