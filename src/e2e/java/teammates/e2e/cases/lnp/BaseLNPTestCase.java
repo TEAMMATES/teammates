@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.StringJoiner;
 
 import org.apache.http.client.methods.HttpDelete;
@@ -19,13 +18,13 @@ import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.save.SaveService;
 import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
+import org.apache.jorphan.collections.ListedHashTree;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
-import teammates.e2e.util.JMeterConfig;
 import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
@@ -45,53 +44,30 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract LNPTestData getTestData();
 
     /**
+     * Returns the JMeter test plan for the L&P test case.
+     * @return A nested tree structure that consists of the various elements that are used in the JMeter test.
+     */
+    protected abstract ListedHashTree getLnpTestPlan();
+
+    /**
      * Returns the path to the generated JSON data bundle file.
      */
-    protected abstract String getJsonDataPath();
+    protected String getJsonDataPath() {
+        return "/" + getClass().getSimpleName() + ".json";
+    }
 
     /**
      * Returns the path to the generated JMeter CSV config file.
      */
-    protected abstract String getCsvConfigPath();
-
-    /**
-     * Returns the number of threads (users) in the L&P test.
-     */
-    protected abstract int getNumberOfThreads();
-
-    /**
-     * Returns the ramp-up period (in seconds) for the L&P test.
-     */
-    protected abstract int getRampUpPeriod();
-
-    /**
-     * Returns the API endpoint that is to be L&P tested.
-     */
-    protected abstract String getTestEndpoint();
-
-    /**
-     * Returns the HTTP method for the endpoint.
-     */
-    protected abstract String getTestMethod();
-
-    /**
-     * Returns the parameters and corresponding values used in the HTTP request to the test endpoint.
-     */
-    protected abstract Map<String, String> getRequestParameters();
-
-    /**
-     * Returns the body of the HTTP request to the test endpoint.
-     */
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    protected String getRequestBody() {
-        return "";
+    protected String getCsvConfigPath() {
+        return "/" + getClass().getSimpleName() + "Config.csv";
     }
 
     /**
-     * Returns the Content-Type of the HTTP request body.
+     * Returns the path to the generated JTL test results file.
      */
-    protected String getRequestBodyContentType() {
-        return "application/json";
+    protected String getJtlResultsPath() {
+        return "/" + getClass().getSimpleName() + ".jtl";
     }
 
     @Override
@@ -99,8 +75,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         return TestProperties.LNP_TEST_DATA_FOLDER;
     }
 
-    private String getPathToTestDataFile(String fileName) {
-        return TestProperties.LNP_TEST_DATA_FOLDER + fileName;
+    /**
+     * Returns the path to the data file, relative to the project root directory.
+     */
+    protected String getPathToTestDataFile(String fileName) {
+        return getTestDataFolder() + fileName;
     }
 
     private String createFileAndDirectory(String directory, String fileName) throws IOException {
@@ -125,9 +104,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     private void createJsonDataFile(LNPTestData testData) throws IOException {
         DataBundle jsonData = testData.generateJsonData();
-        String outputJsonPath = getJsonDataPath();
-        String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, outputJsonPath);
 
+        String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getJsonDataPath());
         try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile))) {
             bw.write(JsonUtils.toJson(jsonData));
             bw.flush();
@@ -139,18 +117,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     private void createCsvConfigDataFile(LNPTestData testData) throws IOException {
         List<String> headers = testData.generateCsvHeaders();
-        List<List<String>> data = testData.generateCsvData();
+        List<List<String>> valuesList = testData.generateCsvData();
 
-        writeDataToCsvFile(headers, data, getCsvConfigPath());
-    }
-
-    /**
-     * Writes the data to the CSV file specified by {@code pathToCsvFileParam}.
-     */
-    private void writeDataToCsvFile(List<String> headers, List<List<String>> valuesList, String pathToCsvFileParam)
-            throws IOException {
-        String pathToCsvFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, pathToCsvFileParam);
-
+        String pathToCsvFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getCsvConfigPath());
         try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToCsvFile))) {
             // Write headers and data to the CSV file
             bw.write(convertToCsv(headers));
@@ -179,82 +148,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Setup and load the JMeter configuration and property files to run the Jmeter test.
      * @throws IOException if the save service properties file cannot be loaded.
      */
-    private void loadJmeterProperties() throws IOException {
+    private void setJmeterProperties() throws IOException {
         JMeterUtils.loadJMeterProperties(TestProperties.JMETER_PROPERTIES_PATH);
         JMeterUtils.setJMeterHome(TestProperties.JMETER_HOME);
         JMeterUtils.initLocale();
         SaveService.loadProperties();
-    }
-
-    /**
-     * Returns the generated LNP test plan.
-     * @param shouldCreateJmxFile true if the generated test plan should be saved to a `.jmx` file which
-     *                            can be opened in the JMeter GUI, and false otherwise.
-     * @return A nested tree structure that consists of the various elements that are used in the JMeter test.
-     * @throws IOException if there is an error when saving the test to a file.
-     */
-    private HashTree getLnpTestPlan(boolean shouldCreateJmxFile) throws IOException {
-        String csvConfigPath = getCsvConfigPath();
-        int numThreads = getNumberOfThreads();
-        int rampUpPeriod = getRampUpPeriod();
-        String testEndpoint = getTestEndpoint();
-        String testMethod = getTestMethod();
-        Map<String, String> params = getRequestParameters();
-        String body = getRequestBody();
-        String contentType = getRequestBodyContentType();
-
-        HashTree testPlanHashTree = new JMeterConfig() {
-
-            @Override
-            protected int getNumberOfThreads() {
-                return numThreads;
-            }
-
-            @Override
-            protected int getRampUpPeriod() {
-                return rampUpPeriod;
-            }
-
-            @Override
-            protected String getTestEndpoint() {
-                return testEndpoint;
-            }
-
-            @Override
-            protected String getTestMethod() {
-                return testMethod;
-            }
-
-            @Override
-            protected Map<String, String> getRequestParameters() {
-                return params;
-            }
-
-            @Override
-            protected String getRequestBody() {
-                return body;
-            }
-
-            @Override
-            protected String getRequestBodyContentType() {
-                return contentType;
-            }
-
-            @Override
-            protected String getCsvConfigPath() {
-                return getPathToTestDataFile(csvConfigPath);
-            }
-
-        }.createTestPlan();
-
-        if (shouldCreateJmxFile) {
-            String pathToConfigFile = createFileAndDirectory(
-                    TestProperties.LNP_TEST_CONFIG_FOLDER, "/" + getClass().getSimpleName() + ".jmx");
-
-            SaveService.saveTree(testPlanHashTree, Files.newOutputStream(Paths.get(pathToConfigFile)));
-        }
-
-        return testPlanHashTree;
     }
 
     /**
@@ -271,21 +169,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Creates the entities in the datastore from the file specified by {@code dataBundleJsonPath}.
-     *
-     * @param dataBundleJsonPath Path to the data bundle to be added
+     * Creates the entities in the datastore from the JSON data file.
      */
-    protected void persistTestData(String dataBundleJsonPath) {
-        DataBundle dataBundle = loadDataBundle(dataBundleJsonPath);
+    protected void persistTestData() {
+        DataBundle dataBundle = loadDataBundle(getJsonDataPath());
         BackDoor.removeAndRestoreDataBundle(dataBundle);
-    }
-
-    /**
-     * Deletes the data that was created in the datastore from the file specified by {@code dataBundleJsonPath}.
-     */
-    protected void deleteTestData(String dataBundleJsonPath) {
-        DataBundle dataBundle = loadDataBundle(dataBundleJsonPath);
-        BackDoor.removeDataBundle(dataBundle);
     }
 
     /**
@@ -295,39 +183,44 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected void runJmeter(boolean shouldCreateJmxFile) throws IOException {
         StandardJMeterEngine jmeter = new StandardJMeterEngine();
+        setJmeterProperties();
 
-        loadJmeterProperties();
+        HashTree testPlan = getLnpTestPlan();
 
-        // Load JMeter Test Plan
-        HashTree testPlanTree = getLnpTestPlan(shouldCreateJmxFile);
+        if (shouldCreateJmxFile) {
+            String pathToConfigFile = createFileAndDirectory(
+                    TestProperties.LNP_TEST_CONFIG_FOLDER, "/" + getClass().getSimpleName() + ".jmx");
+            SaveService.saveTree(testPlan, Files.newOutputStream(Paths.get(pathToConfigFile)));
+        }
 
-        // Create summariser for generating results file
-        Summariser summer = null;
+        // Add result collector to the test plan for generating results file
+        Summariser summariser = null;
         String summariserName = JMeterUtils.getPropDefault("summariser.name", "summary");
         if (summariserName.length() > 0) {
-            summer = new Summariser(summariserName);
+            summariser = new Summariser(summariserName);
         }
 
-        String resultFile = TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + ".jtl";
-        ResultCollector logger = new ResultCollector(summer);
-        logger.setFilename(resultFile);
-        testPlanTree.add(testPlanTree.getArray()[0], logger);
-
-        File file = new File(resultFile);
-        if (file.exists()) {
-            file.delete();
-        }
+        String resultsFile = createFileAndDirectory(TestProperties.LNP_TEST_RESULTS_FOLDER, getJtlResultsPath());
+        ResultCollector resultCollector = new ResultCollector(summariser);
+        resultCollector.setFilename(resultsFile);
+        testPlan.add(testPlan.getArray()[0], resultCollector);
 
         // Run JMeter Test
-        jmeter.configure(testPlanTree);
+        jmeter.configure(testPlan);
         jmeter.run();
 
-        // TODO: As mentioned in the docs, good to fail the test if the `success` value of any row is `false`,
-        //  or if there is an Exception.
-        //  An example of when this occurs is if `email` is used for logging in instead of `googleid`, or if the JMeter
-        //  test properties are not set.
+        // TODO: As mentioned in the docs, good to fail the test if there is an Exception, or if the `success` value of
+        //  requests is `false`. An example of when this occurs is if the JMeter test properties are not set or if `email`
+        //  is used for logging in instead of `googleid`. Tests should fail if this assertion fails:
+        //      assertTrue(resultsErrorRate < this.getAcceptableErrorRate());
+    }
 
-        // TODO: Generate summary report from .jtl results file / ResultCollector.
+    /**
+     * Deletes the data that was created in the datastore from the JSON data file.
+     */
+    protected void deleteTestData() {
+        DataBundle dataBundle = loadDataBundle(getJsonDataPath());
+        BackDoor.removeDataBundle(dataBundle);
     }
 
     /**
@@ -339,6 +232,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
         Files.delete(Paths.get(pathToJsonFile));
         Files.delete(Paths.get(pathToCsvFile));
+    }
+
+    /**
+     * Sanitize the string to be CSV-safe string.
+     */
+    protected String sanitizeForCsv(String originalString) {
+        return String.format("\"%s\"", originalString.replace(System.lineSeparator(), "").replace("\"", "\"\""));
     }
 
 }

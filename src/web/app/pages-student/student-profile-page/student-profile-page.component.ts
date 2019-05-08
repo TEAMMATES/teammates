@@ -36,10 +36,9 @@ export class StudentProfilePageComponent implements OnInit {
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
-
   profilePicLink!: string;
-  pictureKey!: string;
   currentTime?: number;
+  defaultPictureLink: string = '/assets/images/profile_picture_default.png';
 
   private backendUrl: string = environment.backendUrl;
 
@@ -57,19 +56,10 @@ export class StudentProfilePageComponent implements OnInit {
 
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
+
+      this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic`;
       this.loadStudentProfile();
     });
-  }
-
-  /**
-   * Construct the url for the profile picture from the given key.
-   */
-  getProfilePictureUrl(pictureKey: string): string {
-    if (!pictureKey) {
-      return '/assets/images/profile_picture_default.png';
-    }
-    this.currentTime = (new Date()).getTime(); // forces image reload in HTML template
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}&time=${this.currentTime}`;
   }
 
   /**
@@ -94,10 +84,6 @@ export class StudentProfilePageComponent implements OnInit {
           if (response) {
             this.student = response;
             this.name = response.name;
-
-            this.pictureKey = this.student.pictureKey;
-            this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
-
             this.initStudentProfileForm(this.student);
           } else {
             this.statusMessageService.showErrorMessage('Error retrieving student profile');
@@ -137,13 +123,21 @@ export class StudentProfilePageComponent implements OnInit {
   onUploadEdit(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
     modalRef.componentInstance.profilePicLink = this.profilePicLink;
-    modalRef.componentInstance.pictureKey = this.pictureKey;
+    modalRef.result.then((formData: FormData) => {
+      const paramsMap: { [key: string]: string } = {
+        user: this.user,
+      };
 
-    // When a new image is uploaded/edited in the modal box, update the profile pic link in the page too
-    modalRef.componentInstance.imageUpdated.subscribe((pictureKey: string) => {
-      this.pictureKey = pictureKey;
-      this.profilePicLink =
-          this.getProfilePictureUrl(this.pictureKey); // Retrieves the profile picture link again
+      this.httpRequestService.post('/student/profilePic', paramsMap, formData)
+          .subscribe(() => {
+            this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
+
+            // force reload
+            const timestamp: number = (new Date()).getTime();
+            this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}`;
+          }, (response: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(response.error.message);
+          });
     });
   }
 
@@ -183,16 +177,22 @@ export class StudentProfilePageComponent implements OnInit {
       user: this.user,
       googleid: this.id,
     };
-    this.httpRequestService.delete('/students/profilePic', paramMap)
+    this.httpRequestService.delete('/student/profilePic', paramMap)
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);
-            this.pictureKey = '';
-            this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
+            this.profilePicLink = '/assets/images/profile_picture_default.png';
           }
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.
             showErrorMessage(`Could not delete your profile picture! ${response.error.message}`);
         });
+  }
+
+  /**
+   * Sets the profile picture of a student as the default image.
+   */
+  setDefaultPic(): void {
+    this.profilePicLink = this.defaultPictureLink;
   }
 }

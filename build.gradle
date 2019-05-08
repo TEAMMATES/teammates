@@ -14,10 +14,10 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
 def appengineVersion = "1.9.+"
-def checkstyleVersion = "8.16"
-def pmdVersion = "6.11.0"
-def spotbugsVersion = "3.1.10"
-def jacocoVersion = "0.8.1"
+def checkstyleVersion = "8.20"
+def pmdVersion = "6.14.0"
+def spotbugsVersion = "3.1.12"
+def jacocoVersion = "0.8.3"
 
 buildscript {
     repositories {
@@ -29,7 +29,7 @@ buildscript {
     dependencies {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.5"
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
-        classpath "cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.11.472"
+        classpath "cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.14.505"
     }
 }
 
@@ -45,49 +45,58 @@ def objectify = "com.googlecode.objectify:objectify:5.1.22"
 def testng = "org.testng:testng:6.14.3"
 
 dependencies {
-    staticAnalysis  "com.puppycrawl.tools:checkstyle:${checkstyleVersion}",
-                    "net.sourceforge.pmd:pmd-java:${pmdVersion}",
-                    "com.github.spotbugs:spotbugs:${spotbugsVersion}",
-                    "de.andrena.tools.macker:macker:1.0.1",
-                    "org.jacoco:org.jacoco.build:${jacocoVersion}"
+    staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
+    staticAnalysis("net.sourceforge.pmd:pmd-java:${pmdVersion}")
+    staticAnalysis("com.github.spotbugs:spotbugs:${spotbugsVersion}")
+    staticAnalysis("org.jacoco:org.jacoco.build:${jacocoVersion}")
 
-    annotationProcessor objectify
+    annotationProcessor(objectify)
 
-    compile         "com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}",
-                    "com.google.code.gson:gson:2.8.5",
-                    "com.google.guava:guava:27.0.1-jre",
-                    objectify,
-                    "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20180219.1",
-                    "com.mailjet:mailjet-client:4.1.1",
-                    "com.sendgrid:sendgrid-java:4.2.1",
-                    "com.sun.jersey:jersey-client:1.19.4",
-                    "com.sun.jersey:jersey-core:1.19.4",
-                    "com.sun.jersey.contribs:jersey-multipart:1.19.4",
-                    "javax.servlet:javax.servlet-api:3.1.0",
-                    "org.jsoup:jsoup:1.11.3"
+    compile("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
 
-    compile("com.google.appengine.tools:appengine-gcs-client:0.7") {
+    // This dependency needs to be resolved individually
+    // because the main dependency (appengine-gcs-client) does not have its transitive dependencies up-to-date
+    compile("com.google.appengine.tools:appengine-gcs-client:0.8") {
         // Use the newer servlet library instead
         exclude group: "javax.servlet", module: "servlet-api"
     }
+    compile("com.google.api-client:google-api-client-appengine:1.28.0") {
+        // Use the newer servlet library instead
+        exclude group: "javax.servlet", module: "servlet-api"
+    }
+    compile("com.google.apis:google-api-services-storage:v1-rev20190426-1.28.0")
 
-    testAnnotationProcessor testng
+    compile("com.google.code.gson:gson:2.8.5")
+    compile("com.google.guava:guava:27.1-jre")
+    compile(objectify)
+    compile("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20190503.1")
+    compile("com.mailjet:mailjet-client:4.2.1")
+    compile("com.sendgrid:sendgrid-java:4.3.0")
+    compile("com.sun.jersey:jersey-client:1.19.4")
+    compile("com.sun.jersey:jersey-core:1.19.4")
+    compile("com.sun.jersey.contribs:jersey-multipart:1.19.4")
+    compile("javax.servlet:javax.servlet-api:3.1.0")
+    compile("org.jsoup:jsoup:1.11.3")
 
-    testCompile     "com.google.appengine:appengine-api-stubs:${appengineVersion}",
-                    "com.google.appengine:appengine-remote-api:${appengineVersion}",
-                    "com.google.appengine:appengine-testing:${appengineVersion}",
-                    "org.httpunit:httpunit:1.7.2",
-                    "org.seleniumhq.selenium:selenium-java:3.141.59",
-                    testng,
-                    // For access to Google APIs such as HTTP transport, authentication and JSON parsing
-                    "com.google.api-client:google-api-client:1.27.0",
-                    // For supporting authorization code flow locally
-                    "com.google.oauth-client:google-oauth-client-jetty:1.27.0",
-                    // For using Gmail API
-                    "com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0",
-                    // For using JMeter APIs
-                    "org.apache.jmeter:ApacheJMeter_core:5.1.1",
-                    "org.apache.jmeter:ApacheJMeter_http:5.1.1"
+    testAnnotationProcessor(testng)
+
+    testCompile("com.google.appengine:appengine-api-stubs:${appengineVersion}")
+    testCompile("com.google.appengine:appengine-remote-api:${appengineVersion}")
+    testCompile("com.google.appengine:appengine-testing:${appengineVersion}")
+    testCompile("com.tngtech.archunit:archunit:0.10.2")
+    testCompile("org.httpunit:httpunit:1.7.3")
+    testCompile("org.seleniumhq.selenium:selenium-java:3.141.59")
+    testCompile(testng)
+    // For access to Google APIs such as HTTP transport, authentication and JSON parsing
+    testCompile("com.google.api-client:google-api-client:1.28.0")
+    // For supporting authorization code flow locally
+    testCompile("com.google.oauth-client:google-oauth-client-jetty:1.28.0")
+    // For using Gmail API
+    testCompile("com.google.apis:google-api-services-gmail:v1-rev20190422-1.28.0")
+    // For using JMeter APIs
+    testCompile("org.apache.jmeter:ApacheJMeter_core:5.1.1")
+    testCompile("org.apache.jmeter:ApacheJMeter_http:5.1.1")
+
 }
 
 sourceSets {
@@ -435,7 +444,7 @@ checkstyle {
 pmd {
     toolVersion = pmdVersion
     consoleOutput = true
-    ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmd-6.11.0.xml", "static-analysis/teammates-pmdMain.xml")
+    ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmd-6.14.0.xml", "static-analysis/teammates-pmdMain.xml")
     ruleSets = []
 }
 
@@ -487,26 +496,38 @@ task lintTest {
     dependsOn checkstyleTest, pmdTest, spotbugsTest
 }
 
-task macker {
-    doLast {
-        logging.setLevel(LogLevel.INFO)
-        ant.taskdef(name: "macker", classpath: configurations.staticAnalysis.asPath, classname: "de.andrena.tools.macker.ant.MackerAntTask")
-        ant.macker(failonerror: true, verbose: false) {
-            rules(dir: "${projectDir}/static-analysis", includes: "teammates-macker.xml")
-            classes(dir: "${buildDir}/classes") {
-                include(name: "**/*.class")
-            }
-        }
+import org.gradle.internal.serialize.PlaceholderException
+
+def checkTestNgFailureClosure = { descriptor, result ->
+    if (result.exception instanceof PlaceholderException
+            && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
+        result.exception.printStackTrace()
+        throw new GradleException("Detected TestNG failure")
     }
 }
 
-macker.dependsOn testClasses
-macker.shouldRunAfter lintMain, lintTest
+task architectureTest(type: Test) {
+    useTestNG()
+    options.suites "src/test/resources/testng-architecture.xml"
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed"
+    }
+}
+
+architectureTest.dependsOn testClasses
+architectureTest.shouldRunAfter lintMain, lintTest
 
 task lint {
     description "Runs the entire static analysis tasks for back-end."
     group "Static analysis"
-    dependsOn lintMain, lintTest, macker
+    dependsOn lintMain, lintTest, architectureTest
 }
 
 // TEST TASKS
@@ -552,16 +573,6 @@ def afterTestClosure = { descriptor, result ->
     }
 }
 
-import org.gradle.internal.serialize.PlaceholderException
-
-def checkTestNgFailureClosure = { descriptor, result ->
-    if (result.exception instanceof PlaceholderException
-            && result.exception.toString().startsWith("org.gradle.api.internal.tasks.testing.TestSuiteExecutionException")) {
-        result.exception.printStackTrace()
-        throw new GradleException("Detected TestNG failure")
-    }
-}
-
 test {
     useTestNG()
     options.useDefaultListeners = true
@@ -578,6 +589,7 @@ test {
 }
 
 task lnpTests(type: Test) {
+    systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
     useTestNG()
     options.suites "src/e2e/resources/testng-lnp.xml"
     options.useDefaultListeners = true
@@ -589,7 +601,21 @@ task lnpTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed"
+        events "passed", "failed", "skipped"
+    }
+    // Display the L&P test results in the build
+    def outputCache = new LinkedList<String>()
+    beforeTest { TestDescriptor td -> outputCache.clear() } // clear output cache before the test starts
+    onOutput { TestDescriptor td, TestOutputEvent toe -> // put output in the cache
+        outputCache.add(toe.getMessage())
+        while (outputCache.size() > 2) outputCache.remove() // keep only last 2 result lines
+    }
+    afterTest { TestDescriptor td ->
+        if (outputCache.size() > 0) {
+            println()
+            println(" L&P results for ${td.className}:")
+            outputCache.each { print(" > $it") }
+        }
     }
 }
 
@@ -725,15 +751,15 @@ task jacocoMerge(type: JacocoMerge) {
 task jacocoReport(type: JacocoReport) {
     description "Runs coverage session from available test run data."
     group "Test"
-    sourceDirectories = files(sourceSets.main.java.srcDirs)
-    classDirectories = files(sourceSets.main.output)
+    sourceDirectories.from files(sourceSets.main.java.srcDirs)
+    classDirectories.from files(sourceSets.main.output)
     executionData jacocoMerge.destinationFile
     reports {
         xml.enabled true
         html.enabled true
     }
     afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
+        classDirectories.from files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ["**/*.jar"])
         })
     }

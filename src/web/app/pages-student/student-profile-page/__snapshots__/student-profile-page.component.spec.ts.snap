@@ -5,10 +5,12 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
   httpRequestService={[Function HttpRequestService]}
   id=""
   ngbModal={[Function NgbModal]}
+  profilePicLink={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
@@ -36,7 +38,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           >
             <img
               class="profile-pic"
-              src=""
+              src="http://localhost:8080/webapi/student/profilePic"
             />
           </div>
         </div>
@@ -53,6 +55,13 @@ exports[`StudentProfilePageComponent should snap with a student field without in
                Upload/Edit Photo 
             </button>
             
+            <button
+              class="btn btn-danger"
+              id="profile-delete-photo"
+              ngbtooltip="Delete your profile picture"
+            >
+               Delete Photo 
+            </button>
           </div>
         </div>
         <form
@@ -228,9 +237,11 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   httpRequestService={[Function HttpRequestService]}
   id=""
   ngbModal={[Function NgbModal]}
+  profilePicLink={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
@@ -245,12 +256,12 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
   httpRequestService={[Function HttpRequestService]}
   id=""
   nationalities={[Function Array]}
   ngbModal={[Function NgbModal]}
-  pictureKey={[Function String]}
   profilePicLink={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}

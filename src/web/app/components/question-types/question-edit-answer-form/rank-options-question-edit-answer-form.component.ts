@@ -4,7 +4,7 @@ import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
   DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
+import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
@@ -75,14 +75,14 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Checks if a minimum number of options needs to be Ranked.
    */
   get isMinOptionsEnabled(): boolean {
-    return this.questionDetails.minOptionsToBeRanked !== -1;
+    return this.questionDetails.minOptionsToBeRanked !== NO_VALUE;
   }
 
   /**
    * Checks if a maximum number of options can be Ranked.
    */
   get isMaxOptionsEnabled(): boolean {
-    return this.questionDetails.maxOptionsToBeRanked !== -1;
+    return this.questionDetails.maxOptionsToBeRanked !== NO_VALUE;
   }
 
   /**
