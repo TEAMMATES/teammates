@@ -451,14 +451,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    * Sends e-mails to remind students on the published results link.
    */
   resendResultsLinkToStudentsEventHandler(remindInfo: any): void {
-    this.resendResultsLinkToStudents(this.sessionsTableRowModels[remindInfo.row], remindInfo.students);
+    this.resendResultsLinkToStudents(this.sessionsTableRowModels[remindInfo.row], remindInfo.request);
   }
 
   /**
    * Sends e-mails to remind students who have not submitted their feedback.
    */
   sendRemindersToStudentsEventHandler(remindInfo: any): void {
-    this.sendRemindersToStudents(this.sessionsTableRowModels[remindInfo.row], remindInfo.users);
+    this.sendRemindersToStudents(this.sessionsTableRowModels[remindInfo.row], remindInfo.request);
   }
 
   /**
