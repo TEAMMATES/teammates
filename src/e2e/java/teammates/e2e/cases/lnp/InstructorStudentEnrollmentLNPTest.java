@@ -20,8 +20,10 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
+import teammates.ui.webapi.request.StudentsEnrollRequest;
 
 /**
  * L&P Test Case for instructor's student enrollment API endpoint.
@@ -108,25 +110,21 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
                     csvRow.add(instructor.courseId);
 
                     // Create and add student enrollment data with a team number corresponding to each section number
-                    int dataLength = 75 * NUM_STUDENTS_PER_INSTRUCTOR;
-                    StringBuilder enrollData = new StringBuilder(dataLength);
-                    enrollData.append("\"Section|Team|Name|Email|Comments\n");
+                    List<StudentsEnrollRequest.StudentEnrollRequest> enrollRequests = new ArrayList<>();
 
                     for (int i = 0; i < NUM_STUDENTS_PER_INSTRUCTOR; i++) {
+
                         String name = instructor.name + ".Student" + i;
                         String email = instructor.name + ".Student" + i + "@gmail.tmt";
+                        String team = String.valueOf(i / NUM_STUDENTS_PER_SECTION);
+                        String section = String.valueOf(i / NUM_STUDENTS_PER_SECTION);
+                        String comment = "no comment";
 
-                        enrollData.append(i / NUM_STUDENTS_PER_SECTION)
-                                .append('|')
-                                .append(i / NUM_STUDENTS_PER_SECTION)
-                                .append('|')
-                                .append(name)
-                                .append('|')
-                                .append(email)
-                                .append("|no comment\n");
+                        enrollRequests.add(
+                                new StudentsEnrollRequest.StudentEnrollRequest(name, email, team, section, comment));
                     }
-                    enrollData.append('\"');
-                    csvRow.add(enrollData.toString());
+                    String enrollData = sanitizeForCsv(JsonUtils.toJson(new StudentsEnrollRequest(enrollRequests)));
+                    csvRow.add(enrollData);
 
                     csvData.add(csvRow);
                 });
@@ -146,7 +144,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.COURSE_ENROLL_STUDENTS + "?courseid=${courseId}";
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENTS + "?courseid=${courseId}";
     }
 
     @Override
@@ -165,7 +163,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
 
         // Add HTTP sampler for test endpoint
         HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
-        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), POST, "${enrollData}"))
+        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), PUT, "${enrollData}"))
                 .add(headerManager);
 
         return testPlan;

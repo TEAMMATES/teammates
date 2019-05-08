@@ -1,46 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentProfileService } from '../../../services/student-profile.service';
+import { StudentService } from '../../../services/student.service';
+import { Course, Instructor, Instructors, JoinState, Student, StudentProfile,
+  Students } from '../../../types/api-output';
 import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface StudentAttributes {
-  email: string;
-  course: string;
-  name: string;
-  googleId: string;
-  team: string;
-  section: string;
-}
-
-interface InstructorDetails {
-  name: string;
-  email: string;
-}
-
-interface CourseAttributes {
-  createdAt: string;
-  id: string;
-  name: string;
-  timeZone: string;
-}
-
-interface TeammateProfile {
-  shortName: string;
-  email: string;
-  institute: string;
-  nationality: string;
-  gender: Gender;
-  pictureKey: string;
-}
-
-interface StudentCourseDetails {
-  student: StudentAttributes;
-  course: CourseAttributes;
-  instructorDetails: InstructorDetails[];
-  teammateProfiles?: TeammateProfile[];
+/**
+ * A student profile which also has the profile picture URL
+ */
+export interface StudentProfileWithPicture {
+  studentProfile: StudentProfile;
+  photoUrl: string;
 }
 
 /**
@@ -52,67 +28,132 @@ interface StudentCourseDetails {
   styleUrls: ['./student-course-details-page.component.scss'],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
-
   Gender: typeof Gender = Gender; // enum
   user: string = '';
-  student?: StudentAttributes;
-  course?: CourseAttributes;
-  instructorDetails?: InstructorDetails[];
-  teammateProfiles?: TeammateProfile[];
 
-  private backendUrl: string = environment.backendUrl;
+  student: Student = {
+    email: '',
+    courseId: '',
+    name: '',
+    lastName: '',
+    comments: '',
+    joinState: JoinState.NOT_JOINED,
+    teamName: '',
+    sectionName: '',
+  };
 
-  constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
+  course: Course = {
+    courseId: '',
+    courseName: '',
+    creationDate: '',
+    deletionDate: '',
+    timeZone: '',
+  };
+
+  instructorDetails: Instructor[] = [];
+  teammateProfiles: StudentProfileWithPicture[] = [];
+
+  constructor(private route: ActivatedRoute,
+              private httpRequestService: HttpRequestService,
+              private studentProfileService: StudentProfileService,
+              private studentService: StudentService,
+              private courseService: CourseService,
               private statusMessageService: StatusMessageService) { }
 
+  /**
+   * Fetches relevant data to be displayed on page.
+   */
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      this.loadStudentDetails(queryParams.courseid, this.user);
+      this.loadStudent(queryParams.courseid);
+      this.loadCourse(queryParams.courseid);
+      this.loadInstructors(queryParams.courseid);
     });
   }
 
   /**
-   * Fetch the data to be displayed on the page.
+   * Loads the course details.
    * @param courseid: id of the course queried
-   * @param user: only used in admin masquerade mode, value should be student id
    */
-  loadStudentDetails(courseid: string, user: string): void {
-    const paramMap: { [key: string]: string } = { courseid, user };
-    this.httpRequestService.get('/student/course', paramMap).subscribe((resp: StudentCourseDetails) => {
-      this.student = resp.student;
-      this.instructorDetails = resp.instructorDetails;
-      this.course = resp.course;
-      this.teammateProfiles = resp.teammateProfiles;
-
-      if (!this.student) {
-        this.statusMessageService.showErrorMessage('Error retrieving student details');
-      }
-
-      if (!this.course) {
-        this.statusMessageService.showErrorMessage('Error retrieving course details');
-      }
-
-      if (!resp.instructorDetails) {
-        this.statusMessageService.showErrorMessage('Error retrieving instructor details');
-      }
-
-      if (!this.teammateProfiles) {
-        this.statusMessageService.showWarningMessage('You do not have any teammates yet.');
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+  loadCourse(courseId: string): void {
+    this.courseService.getCourseAsStudent(courseId).subscribe((course: Course) => {
+      this.course = course;
     });
   }
 
   /**
-   * Construct the url for the profile picture from the given key.
+   * Loads the current logged-in student of the course.
+   * @param courseid: id of the course queried
    */
-  getPictureUrl(pictureKey: string): string {
-    if (!pictureKey) {
-      return '/assets/images/profile_picture_default.png';
-    }
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
+  loadStudent(courseId: string): void {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+
+    this.httpRequestService.get('/student', paramMap)
+        .subscribe((student: Student) => {
+          this.student = student;
+          this.loadTeammates(courseId, student.teamName);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
+  /**
+   * Loads the teammates of the current student.
+   * @param courseid: id of the course queried
+   * @param teamName: team of current student
+   */
+  loadTeammates(courseId: string, teamName: string): void {
+    this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
+        .subscribe((students: Students) => {
+          students.students.forEach((student: Student) => {
+            // filter away current user
+            if (student.email === this.student.email) {
+              return;
+            }
+
+            this.studentProfileService.getStudentProfile(student.email, courseId)
+                  .subscribe((studentProfile: StudentProfile) => {
+                    const newPhotoUrl: string =
+              `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${student.email}`;
+
+                    const newTeammateProfile: StudentProfileWithPicture = {
+                      studentProfile,
+                      photoUrl : newPhotoUrl,
+                    };
+
+                    this.teammateProfiles.push(newTeammateProfile);
+                  });
+          });
+
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Loads the instructors of the course.
+   * @param courseid: id of the course queried
+   */
+  loadInstructors(courseId: string): void {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+
+    this.httpRequestService.get('/instructors', paramMap)
+        .subscribe((instructors: Instructors) => {
+          this.instructorDetails = instructors.instructors;
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Sets the profile picture of a student as the default image
+   */
+  setDefaultPic(teammateProfile: StudentProfileWithPicture): void {
+    teammateProfile.photoUrl = '/assets/images/profile_picture_default.png';
+  }
 }

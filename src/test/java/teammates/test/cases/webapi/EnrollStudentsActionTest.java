@@ -17,7 +17,6 @@ import teammates.ui.webapi.output.StudentData;
 import teammates.ui.webapi.output.StudentsData;
 import teammates.ui.webapi.request.StudentsEnrollRequest;
 
-
 /**
  * SUT: {@link EnrollStudentsAction}.
  */

@@ -5,11 +5,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   Course, FeedbackSession, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
+  InstructorPrivilege,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../components/sessions-table/sessions-table-model';
-import { InstructorPrivilege } from '../../instructor-privilege';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
 import { InstructorHomePageModule } from './instructor-home-page.module';
 
@@ -18,6 +18,10 @@ const instructorPrivilege: InstructorPrivilege = {
   canModifySession: true,
   canModifyStudent: true,
   canSubmitSessionInSections: true,
+  canModifyInstructor: false,
+  canViewStudentInSections: false,
+  canModifySessionCommentsInSections: false,
+  canViewSessionInSections: false,
 };
 
 const defaultCourse: Course = {
