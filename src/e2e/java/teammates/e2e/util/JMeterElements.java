@@ -216,7 +216,6 @@ public final class JMeterElements {
         return regexExtractor(varName, "CSRF-TOKEN=(.+?);");
     }
 
-
     /**
      * Returns a HTTP Header Manager element.
      * @param headers A map consisting of {header name -> header value} pairs (eg. {"Content-Type" -> "application/json"})

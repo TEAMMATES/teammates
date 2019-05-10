@@ -32,7 +32,6 @@ import teammates.storage.search.SearchDocument;
  */
 public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
-
     /**
      * Creates or updates search document for the given instructor.
      */
