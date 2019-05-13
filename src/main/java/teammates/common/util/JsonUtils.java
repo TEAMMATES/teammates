@@ -11,7 +11,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
@@ -138,14 +137,12 @@ public final class JsonUtils {
             JsonDeserializer<FeedbackResponseDetails> {
 
         @Override
-        public JsonElement serialize(FeedbackResponseDetails src, Type typeOfSrc, JsonSerializationContext context)
-                throws JsonParseException {
+        public JsonElement serialize(FeedbackResponseDetails src, Type typeOfSrc, JsonSerializationContext context) {
             return context.serialize(src, src.questionType.getResponseDetailsClass());
         }
 
         @Override
-        public FeedbackResponseDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                throws JsonParseException {
+        public FeedbackResponseDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
             FeedbackQuestionType questionType =
                     FeedbackQuestionType.valueOf(json.getAsJsonObject().get("questionType").getAsString());
             return context.deserialize(json, questionType.getResponseDetailsClass());
@@ -157,14 +154,12 @@ public final class JsonUtils {
             JsonDeserializer<FeedbackQuestionDetails> {
 
         @Override
-        public JsonElement serialize(FeedbackQuestionDetails src, Type typeOfSrc, JsonSerializationContext context)
-                throws JsonParseException {
+        public JsonElement serialize(FeedbackQuestionDetails src, Type typeOfSrc, JsonSerializationContext context) {
             return context.serialize(src, src.getQuestionType().getQuestionDetailsClass());
         }
 
         @Override
-        public FeedbackQuestionDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                throws JsonParseException {
+        public FeedbackQuestionDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
             FeedbackQuestionType questionType =
                     FeedbackQuestionType.valueOf(json.getAsJsonObject().get("questionType").getAsString());
             return context.deserialize(json, questionType.getQuestionDetailsClass());

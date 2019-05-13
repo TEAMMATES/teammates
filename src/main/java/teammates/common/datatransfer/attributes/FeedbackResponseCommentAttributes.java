@@ -66,10 +66,10 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         frca.feedbackResponseId = comment.getFeedbackResponseId();
         frca.feedbackQuestionId = comment.getFeedbackQuestionId();
         if (comment.getShowCommentTo() != null) {
-            frca.showCommentTo = comment.getShowCommentTo();
+            frca.showCommentTo = new ArrayList<>(comment.getShowCommentTo());
         }
         if (comment.getShowGiverNameTo() != null) {
-            frca.showGiverNameTo = comment.getShowGiverNameTo();
+            frca.showGiverNameTo = new ArrayList<>(comment.getShowGiverNameTo());
         }
         frca.isVisibilityFollowingFeedbackQuestion = comment.getIsVisibilityFollowingFeedbackQuestion();
         if (comment.getCreatedAt() != null) {

@@ -20,6 +20,7 @@ import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../types/default-question-structs';
+import { NO_VALUE } from '../types/feedback-response-details';
 import { VisibilityControl } from '../types/visibility-control';
 import { HttpRequestService } from './http-request.service';
 import { VisibilityStateMachine } from './visibility-state-machine';
@@ -331,8 +332,8 @@ export class FeedbackQuestionsService {
 
         const msqQuestionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
         msqQuestionDetails.msqChoices = [' ', ' '];
-        msqQuestionDetails.minSelectableChoices = -1;
-        msqQuestionDetails.maxSelectableChoices = -1;
+        msqQuestionDetails.minSelectableChoices = NO_VALUE;
+        msqQuestionDetails.maxSelectableChoices = NO_VALUE;
 
         return {
           questionBrief: '',
@@ -355,8 +356,8 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_OPTIONS:
 
         const rankOptionsQuestionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
-        rankOptionsQuestionDetails.maxOptionsToBeRanked = -1;
-        rankOptionsQuestionDetails.minOptionsToBeRanked = -1;
+        rankOptionsQuestionDetails.maxOptionsToBeRanked = NO_VALUE;
+        rankOptionsQuestionDetails.minOptionsToBeRanked = NO_VALUE;
         rankOptionsQuestionDetails.options = [' ', ' '];
 
         return {

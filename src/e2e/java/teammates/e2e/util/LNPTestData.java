@@ -1,6 +1,7 @@
 package teammates.e2e.util;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,23 +21,41 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
  */
 public abstract class LNPTestData {
 
-    protected abstract Map<String, AccountAttributes> generateAccounts();
+    protected Map<String, AccountAttributes> generateAccounts() {
+        return new HashMap<>();
+    }
 
-    protected abstract Map<String, CourseAttributes> generateCourses();
+    protected Map<String, CourseAttributes> generateCourses() {
+        return new HashMap<>();
+    }
 
-    protected abstract Map<String, InstructorAttributes> generateInstructors();
+    protected Map<String, InstructorAttributes> generateInstructors() {
+        return new HashMap<>();
+    }
 
-    protected abstract Map<String, StudentAttributes> generateStudents();
+    protected Map<String, StudentAttributes> generateStudents() {
+        return new HashMap<>();
+    }
 
-    protected abstract Map<String, FeedbackSessionAttributes> generateFeedbackSessions();
+    protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
+        return new HashMap<>();
+    }
 
-    protected abstract Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions();
+    protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
+        return new HashMap<>();
+    }
 
-    protected abstract Map<String, FeedbackResponseAttributes> generateFeedbackResponses();
+    protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
+        return new HashMap<>();
+    }
 
-    protected abstract Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments();
+    protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
+        return new HashMap<>();
+    }
 
-    protected abstract Map<String, StudentProfileAttributes> generateProfiles();
+    protected Map<String, StudentProfileAttributes> generateProfiles() {
+        return new HashMap<>();
+    }
 
     /**
      * Returns a JSON data bundle containing the data relevant for the performance test.
@@ -59,6 +78,8 @@ public abstract class LNPTestData {
 
     /**
      * Returns list of header fields for the data in the CSV file to be generated.
+     *
+     * <p>Note that these header names should correspond to the variables used in the JMeter L&P test.</p>
      */
     public abstract List<String> generateCsvHeaders();
 

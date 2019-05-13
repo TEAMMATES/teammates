@@ -1,6 +1,5 @@
 package teammates.ui.webapi.output;
 
-
 /**
  * Output format for join link.
  */

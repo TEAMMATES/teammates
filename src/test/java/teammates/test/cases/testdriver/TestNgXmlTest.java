@@ -74,7 +74,7 @@ public class TestNgXmlTest extends BaseTestCase {
                     && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
-            } else if (file.isDirectory() && !name.endsWith("browsertests")) {
+            } else if (file.isDirectory() && !name.endsWith("browsertests") && !name.endsWith("architecture")) {
                 // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
                 // then files in the current directory are excluded because the whole package would be tested by TestNG.
 

@@ -40,7 +40,6 @@ public class ActionFactory {
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
         map(ResourceURIs.ACCOUNTS_SEARCH, GET, SearchAccountsAction.class);
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
-        map(ResourceURIs.ACCOUNTS, GET, GetAccountsAction.class);
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNT_DOWNGRADE, PUT, DowngradeAccountAction.class);
@@ -66,6 +65,7 @@ public class ActionFactory {
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
+        map(ResourceURIs.STUDENTS, PUT, EnrollStudentsAction.class);
         map(ResourceURIs.STUDENTS, DELETE, DeleteStudentsAction.class);
 
         //STUDENT APIs
@@ -105,7 +105,6 @@ public class ActionFactory {
         map(ResourceURIs.JOIN_REMIND, POST, SendJoinReminderEmailAction.class);
         map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
-        map(ResourceURIs.COURSE_STATS, GET, GetCourseStatsAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS, GET, GetCourseStudentDetailsAction.class);
         map(ResourceURIs.STUDENT_COURSE, GET, StudentGetCourseDetailsAction.class);
         map(ResourceURIs.STUDENT_PROFILE, GET, GetStudentProfileAction.class);
@@ -120,7 +119,6 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
-        map(ResourceURIs.COURSE_ENROLL_SAVE, POST, PostCourseEnrollSaveAction.class);
         map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR_STUDENTS, GET, GetCourseStudentsAction.class);

@@ -8,7 +8,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 /**
  * Base class for all Feedback*QuestionUiTest.
  */
-public abstract class FeedbackQuestionUiTest extends BaseE2ETestCase {
+public abstract class BaseFeedbackQuestionUiTest extends BaseE2ETestCase {
 
     protected abstract void testNewQuestionFrame();
 

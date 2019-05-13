@@ -1,13 +1,14 @@
 package teammates.storage.entity;
 
+// CHECKSTYLE.OFF:IllegalImport can be removed after upgrading to Objectify V6
 import java.time.Instant;
 import java.util.Date;
+// CHECKSTYLE.ON:IllegalImport
 
 import com.googlecode.objectify.impl.Path;
 import com.googlecode.objectify.impl.translate.CreateContext;
 import com.googlecode.objectify.impl.translate.LoadContext;
 import com.googlecode.objectify.impl.translate.SaveContext;
-import com.googlecode.objectify.impl.translate.SkipException;
 import com.googlecode.objectify.impl.translate.TypeKey;
 import com.googlecode.objectify.impl.translate.ValueTranslator;
 import com.googlecode.objectify.impl.translate.ValueTranslatorFactory;
@@ -33,12 +34,12 @@ public abstract class BaseEntity {
         protected ValueTranslator<Instant, Date> createValueTranslator(TypeKey<Instant> tk, CreateContext ctx, Path path) {
             return new ValueTranslator<Instant, Date>(Date.class) {
                 @Override
-                protected Instant loadValue(Date value, LoadContext ctx, Path path) throws SkipException {
+                protected Instant loadValue(Date value, LoadContext ctx, Path path) {
                     return value == null ? null : value.toInstant();
                 }
 
                 @Override
-                protected Date saveValue(Instant value, boolean index, SaveContext ctx, Path path) throws SkipException {
+                protected Date saveValue(Instant value, boolean index, SaveContext ctx, Path path) {
                     return value == null ? null : Date.from(value);
                 }
             };

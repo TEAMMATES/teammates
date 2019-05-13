@@ -13,7 +13,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.ApiOutput;
 
-
 /**
  * Action: for an instructor to get his/her list of courses.
  */

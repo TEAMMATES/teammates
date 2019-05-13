@@ -144,7 +144,7 @@ public class OriginCheckFilter implements Filter {
 
     private String getCsrfTokenErrorIfAny(HttpServletRequest request) {
         String csrfToken = request.getHeader(Const.CsrfConfig.TOKEN_HEADER_NAME);
-        if (csrfToken == null) {
+        if (csrfToken == null || csrfToken.isEmpty()) {
             return "Missing CSRF token.";
         }
 
