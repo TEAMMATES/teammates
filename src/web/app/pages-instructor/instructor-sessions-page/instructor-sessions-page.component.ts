@@ -72,6 +72,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
 
   // url params
   user: string = '';
+  courseId: string = '';
 
   // data
   courseCandidates: Course[] = [];
@@ -134,6 +135,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
+      this.courseId = queryParams.courseid;
     });
 
     this.templateSessions = this.feedbackSessionsService.getTemplateSessions();
