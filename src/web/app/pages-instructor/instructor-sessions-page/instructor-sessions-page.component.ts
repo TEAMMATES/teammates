@@ -181,32 +181,20 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   }
 
   /**
-   * Gets the course from the course list
-   */
-  getCourseFromList(courseId: string): Course | undefined {
-    const course: Course | undefined = this.courseCandidates.find((c: Course) => c.courseId === courseId);
-    return course;
-  }
-
-  /**
    * Sets default values for the session edit form.
    */
   initDefaultValuesForSessionEditForm(): void {
-    // select the first course by default
-    if (this.courseCandidates.length !== 0) {
+    // if specified in the query and is valid, select that course
+    // otherwise, select the first course by default
+    const course: any = this.getCourseFromList(this.courseId);
+    if (course) {
+      this.sessionEditFormModel.courseId = course.courseId;
+      this.sessionEditFormModel.courseName = course.courseName;
+      this.sessionEditFormModel.timeZone = course.timeZone;
+    } else if (this.courseCandidates.length !== 0) {
       this.sessionEditFormModel.courseId = this.courseCandidates[0].courseId;
       this.sessionEditFormModel.courseName = this.courseCandidates[0].courseName;
       this.sessionEditFormModel.timeZone = this.courseCandidates[0].timeZone;
-    }
-
-    // if specified in the query and is valid, select that instead
-    if (this.courseId) {
-      const course: any = this.getCourseFromList(this.courseId);
-      if (course) {
-        this.sessionEditFormModel.courseId = course.courseId;
-        this.sessionEditFormModel.courseName = course.courseName;
-        this.sessionEditFormModel.timeZone = course.timeZone;
-      }
     }
 
     // select the first template session
@@ -236,6 +224,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
       minute: 59,
       hour: 23,
     };
+  }
+
+  /**
+   * Gets the course from the course list
+   */
+  getCourseFromList(courseId: string): Course | undefined {
+    const course: Course | undefined = this.courseCandidates.find((c: Course) => c.courseId === courseId);
+    return course;
   }
 
   /**
