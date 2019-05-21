@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Gender } from '../../../types/gender';
+import { StudentAttributes } from '../student-profile/student-attributes';
 import { StudentProfile } from '../student-profile/student-profile';
 import {
   InstructorCourseStudentDetailsPageComponent,
