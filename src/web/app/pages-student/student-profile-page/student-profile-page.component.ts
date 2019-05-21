@@ -124,24 +124,24 @@ export class StudentProfilePageComponent implements OnInit {
     const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
     modalRef.componentInstance.profilePicLink = this.profilePicLink;
     modalRef.result.then((formData: FormData) => {
-      if (formData) {
-        const paramsMap: { [key: string]: string } = {
-          user: this.user,
-        };
-
-        this.httpRequestService.post('/student/profilePic', paramsMap, formData)
-            .subscribe(() => {
-              this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
-
-              // force reload
-              const timestamp: number = (new Date()).getTime();
-              this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}`;
-            }, (response: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorMessage(response.error.message);
-            });
-      } else {
+      if (!formData) {
         this.statusMessageService.showWarningMessage('No photo detected. You maybe uploaded an empty photo');
+        return;
       }
+      const paramsMap: { [key: string]: string } = {
+        user: this.user,
+      };
+
+      this.httpRequestService.post('/student/profilePic', paramsMap, formData)
+          .subscribe(() => {
+            this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
+
+            // force reload
+            const timestamp: number = (new Date()).getTime();
+            this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}`;
+          }, (response: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(response.error.message);
+          });
     });
   }
 
