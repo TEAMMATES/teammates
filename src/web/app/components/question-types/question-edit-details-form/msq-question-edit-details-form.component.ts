@@ -35,7 +35,7 @@ export class MsqQuestionEditDetailsFormComponent
     const fieldsToUpdate: any = {};
     fieldsToUpdate.msqChoices = newOptions;
     fieldsToUpdate.msqWeights = newWeights;
-    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -60,7 +60,7 @@ export class MsqQuestionEditDetailsFormComponent
       newWeights.push(0);
       fieldsToUpdate.msqWeights = newWeights;
     }
-    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -76,7 +76,7 @@ export class MsqQuestionEditDetailsFormComponent
       newWeights.splice(event, 1);
       fieldsToUpdate.msqWeights = newWeights;
     }
-    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -192,6 +192,6 @@ export class MsqQuestionEditDetailsFormComponent
     } else {
       fieldsToUpdate.msqWeights = Array(this.model.msqChoices.length).fill(0);
     }
-    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 }

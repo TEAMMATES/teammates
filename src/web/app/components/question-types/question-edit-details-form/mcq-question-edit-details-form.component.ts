@@ -37,7 +37,7 @@ export class McqQuestionEditDetailsFormComponent
     const fieldsToUpdate: any = {};
     fieldsToUpdate.mcqChoices = newOptions;
     fieldsToUpdate.mcqWeights = newWeights;
-    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -54,7 +54,7 @@ export class McqQuestionEditDetailsFormComponent
       newWeights.push(0);
       fieldsToUpdate.mcqWeights = newWeights;
     }
-    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -71,7 +71,7 @@ export class McqQuestionEditDetailsFormComponent
       newWeights.splice(event, 1);
       fieldsToUpdate.mcqWeights = newWeights;
     }
-    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -117,7 +117,7 @@ export class McqQuestionEditDetailsFormComponent
     } else {
       fieldsToUpdate.mcqWeights = Array(this.model.numOfMcqChoices).fill(0);
     }
-    this.triggerQuestionDetailsChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
