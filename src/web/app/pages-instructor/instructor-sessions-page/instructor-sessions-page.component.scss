@@ -2,8 +2,8 @@
   margin-top: 30px;
 }
 
-.actions-cell button {
-  margin: 2px;
+.bin-header-button button {
+  margin-right: .6em;
 }
 
 .recycle-bin-header {
@@ -27,4 +27,8 @@
 
 .sortable-header {
   cursor: pointer;
+}
+
+.actions-cell button {
+  margin: 2px;
 }

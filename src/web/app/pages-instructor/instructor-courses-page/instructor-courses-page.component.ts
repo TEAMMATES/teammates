@@ -72,6 +72,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   instructorList: Instructor[] = [];
   courseStats: { [key: string]: { [key: string]: number } } = {};
 
+  isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
 
