@@ -7,7 +7,10 @@
     <tr>
       <th>Photo</th>
       <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentListEvent(SortBy.SECTION_NAME)">
-        Section <span class="fas fa-sort float-right"></span>
+        Section
+        <span *ngIf="tableSortBy !== SortBy.SECTION_NAME"><i class="fas fa-sort"></i></span>
+        <span *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+        <span *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
       </th>
       <th>
         Team <span class="fas fa-sort float-right"></span>

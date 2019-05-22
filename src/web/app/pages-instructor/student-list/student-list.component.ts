@@ -27,7 +27,11 @@ export class StudentListComponent implements OnInit {
   @Input() enableRemindButton: boolean = false;
 
   tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.SECTION_NAME;
+  tableSortBy: SortBy = SortBy.NONE;
+
+  // enum
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
 
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,
@@ -122,15 +126,18 @@ export class StudentListComponent implements OnInit {
     this.tableSortBy = by;
     this.tableSortOrder =
         this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.sections.sort(this.sortBy());
+    this.sections.sort(this.sortBy(by));
   }
 
-  sortBy():
+  /**
+   * Returns a function to determine the order of sort
+   */
+  sortBy(by: SortBy):
       ((a: {sectionName: string }, b: { sectionName: string }) => number) {
     return (a: { sectionName: string }, b: { sectionName: string }): number => {
       let strA: string;
       let strB: string;
-      switch (this.tableSortBy) {
+      switch (by) {
         case SortBy.SECTION_NAME:
           strA = a.sectionName;
           strB = b.sectionName;
@@ -153,9 +160,9 @@ export class StudentListComponent implements OnInit {
 }
 
 /**
- * Sort criteria for the student table.
+ * Sort criteria for the students table.
  */
-enum SortBy {
+export enum SortBy {
   /**
    * Nothing.
    */
@@ -170,7 +177,7 @@ enum SortBy {
 /**
  * Sort order for the students table.
  */
-enum SortOrder {
+export enum SortOrder {
   /**
    * Descending sort order.
    */
