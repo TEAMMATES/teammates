@@ -133,8 +133,8 @@ export class StudentListComponent implements OnInit {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy):
-      ((a: {sectionName: string }, b: { sectionName: string }) => number) {
-    return (a: { sectionName: string }, b: { sectionName: string }): number => {
+      ((a: StudentListSectionData , b: StudentListSectionData) => number) {
+    return (a: StudentListSectionData, b: StudentListSectionData): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -172,6 +172,26 @@ export enum SortBy {
    * Section Name.
    */
   SECTION_NAME,
+
+  /**
+   * Team name.
+   */
+  TEAM_NAME,
+
+  /**
+   * Student Name.
+   */
+  STUDENT_NAME,
+
+  /**
+   * Status.
+   */
+  STATUS,
+
+  /**
+   * Email.
+   */
+  EMAIL,
 }
 
 /**
