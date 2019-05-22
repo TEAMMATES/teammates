@@ -128,12 +128,12 @@
   <div class="p-2">
     <div *ngFor="let course of courses" class="card border mb-3 p-0"
          [hidden]="(!course.isChecked) && (!isDisplayArchive) && course.isArchived">
-      <div class="card-header font-weight-bold"
-           [ngClass]="{'text-dark-blue bg-light-blue ': !course.isArchived, 'bg-light-grey': course.isArchived}"
+      <div class="card-header"
+           [ngClass]="{'bg-primary text-white': !course.isArchived, 'bg-light-grey': course.isArchived}"
            (click)="toggleCourseStateAtInput(course)">
-        <strong>[{{course.id}}]:</strong> {{course.name}}
+        <b>[{{course.id}}]: {{course.name}}</b>
         <div class="arrow-sign">
-          <button class="btn btn-info btn-xs"
+          <button class="btn btn-light btn-sm"
                   routerLink="/web/instructor/courses/enroll"
                   [queryParams]="{courseid: course.id}">
             Enroll
