@@ -6,7 +6,7 @@
     >
     <tr>
       <th>Photo</th>
-      <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentListEvent()">
+      <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentListEvent(SortBy.SECTION_NAME)">
         Section <span class="fas fa-sort float-right"></span>
       </th>
       <th>

@@ -26,6 +26,9 @@ export class StudentListComponent implements OnInit {
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
 
+  tableSortOrder: SortOrder = SortOrder.ASC;
+  tableSortBy: SortBy = SortBy.SECTION_NAME;
+
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
@@ -115,8 +118,66 @@ export class StudentListComponent implements OnInit {
   /**
    * Sorts the student list
    */
-  sortStudentListEvent(): void {
-    this.sections.sort(
-        (a: {sectionName: string }, b: { sectionName: string }): number =>  b.sectionName.localeCompare(a.sectionName));
+  sortStudentListEvent(by: SortBy): void {
+    this.tableSortBy = by;
+    this.tableSortOrder =
+        this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.sections.sort(this.sortBy());
   }
+
+  sortBy():
+      ((a: {sectionName: string }, b: { sectionName: string }) => number) {
+    return (a: { sectionName: string }, b: { sectionName: string }): number => {
+      let strA: string;
+      let strB: string;
+      switch (this.tableSortBy) {
+        case SortBy.SECTION_NAME:
+          strA = a.sectionName;
+          strB = b.sectionName;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+
+      if (this.tableSortOrder === SortOrder.ASC) {
+        return strA.localeCompare(strB);
+      }
+      if (this.tableSortOrder === SortOrder.DESC) {
+        return strB.localeCompare(strA);
+      }
+
+      return 0;
+    };
+  }
+}
+
+/**
+ * Sort criteria for the student table.
+ */
+enum SortBy {
+  /**
+   * Nothing.
+   */
+  NONE,
+
+  /**
+   * Section Name.
+   */
+  SECTION_NAME,
+}
+
+/**
+ * Sort order for the students table.
+ */
+enum SortOrder {
+  /**
+   * Descending sort order.
+   */
+  DESC,
+
+  /**
+   * Ascending sort order
+   */
+  ASC,
 }
