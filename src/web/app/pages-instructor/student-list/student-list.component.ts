@@ -111,4 +111,12 @@ export class StudentListComponent implements OnInit {
   isStudentToHide(studentEmail: string): boolean {
     return this.listOfStudentsToHide.indexOf(studentEmail) > -1;
   }
+
+  /**
+   * Sorts the student list
+   */
+  sortStudentListEvent(): void {
+    this.sections.sort(
+        (a: {sectionName: string }, b: { sectionName: string }): number =>  b.sectionName.localeCompare(a.sectionName));
+  }
 }
