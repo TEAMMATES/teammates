@@ -186,7 +186,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   initDefaultValuesForSessionEditForm(): void {
     // if specified in the query and is valid, select that course
     // otherwise, select the first course by default
-    const course: any = this.getCourseFromList(this.courseId);
+    const course: Course | undefined = this.courseCandidates.find((c: Course) => c.courseId === this.courseId);
     if (course) {
       this.sessionEditFormModel.courseId = course.courseId;
       this.sessionEditFormModel.courseName = course.courseName;
@@ -224,14 +224,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
       minute: 59,
       hour: 23,
     };
-  }
-
-  /**
-   * Gets the course from the course list
-   */
-  getCourseFromList(courseId: string): Course | undefined {
-    const course: Course | undefined = this.courseCandidates.find((c: Course) => c.courseId === courseId);
-    return course;
   }
 
   /**
