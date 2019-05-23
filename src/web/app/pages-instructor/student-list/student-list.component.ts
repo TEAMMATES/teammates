@@ -22,23 +22,12 @@ export class StudentListComponent implements OnInit {
   private _sections: StudentListSectionData[] = [];
 
   @Input() courseId: string = '';
-  @Input()
-  set sections (sections: StudentListSectionData[]) {
-    this.students = this.mapStudentsFromSectionData(sections)
-    this._sections = sections;
-  }
-
-  get sections(): StudentListSectionData[] {
-    return this._sections;
-  }
-
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
 
   students: StudentListStudentData[] = [];
-
   tableSortOrder: SortOrder = SortOrder.ASC;
   tableSortBy: SortBy = SortBy.NONE;
 
@@ -54,6 +43,16 @@ export class StudentListComponent implements OnInit {
               private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
+  }
+
+  @Input()
+  set sections (sections: StudentListSectionData[]) {
+    this.students = this.mapStudentsFromSectionData(sections)
+    this._sections = sections;
+  }
+
+  get sections(): StudentListSectionData[] {
+    return this._sections;
   }
 
   /**
