@@ -1,7 +1,41 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParameterCodec, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+
+/**
+ * Custom HttpParameter encoder
+ */
+class CustomEncoder implements HttpParameterCodec {
+
+  /**
+   * encode key
+   */
+  encodeKey(key: string): string {
+    return encodeURIComponent(key);
+  }
+
+  /**
+   * encode value
+   */
+  encodeValue(value: string): string {
+    return encodeURIComponent(value);
+  }
+
+  /**
+   * decode key
+   */
+  decodeKey(key: string): string {
+    return decodeURIComponent(key);
+  }
+
+  /**
+   * decode value
+   */
+  decodeValue(value: string): string {
+    return decodeURIComponent(value);
+  }
+}
 
 /**
  * Handles HTTP requests to the application back-end.
@@ -22,7 +56,7 @@ export class HttpRequestService {
    * Builds an HttpParams object from a standard key-value mapping.
    */
   buildParams(paramsMap: { [key: string]: string }): HttpParams {
-    let params: HttpParams = new HttpParams();
+    let params: HttpParams = new HttpParams({ encoder: new CustomEncoder() });
     for (const key of Object.keys(paramsMap)) {
       if (paramsMap[key]) {
         params = params.append(key, paramsMap[key]);

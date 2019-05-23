@@ -3,9 +3,16 @@ import { NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
+import { CustomUrlSerializer } from './custom-url-serializer';
+
+const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
+const customUrlSerializerProvider: any = {
+  provide: UrlSerializer,
+  useValue: customUrlSerializer,
+};
 
 const routes: Routes = [
   {
@@ -32,7 +39,7 @@ const routes: Routes = [
     NgbModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [],
+  providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
