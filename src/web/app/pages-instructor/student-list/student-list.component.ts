@@ -158,21 +158,37 @@ export class StudentListComponent implements OnInit {
     this.tableSortBy = by;
     this.tableSortOrder =
         this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.sections.sort(this.sortBy(by));
+    this.students.sort(this.sortBy(by));
   }
 
   /**
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy):
-      ((a: StudentListSectionData , b: StudentListSectionData) => number) {
-    return (a: StudentListSectionData, b: StudentListSectionData): number => {
+      ((a: StudentListStudentData , b: StudentListStudentData) => number) {
+    return (a: StudentListStudentData, b: StudentListStudentData): number => {
       let strA: string;
       let strB: string;
       switch (by) {
         case SortBy.SECTION_NAME:
-          strA = a.sectionName;
-          strB = b.sectionName;
+          strA = a.section? a.section.sectionName: '';
+          strB = b.section? b.section.sectionName: '';
+          break;
+        case SortBy.STUDENT_NAME:
+          strA = a.name;
+          strB = b.name;
+          break;
+        case SortBy.TEAM_NAME:
+          strA = a.team;
+          strB = b.team;
+          break;
+        case SortBy.EMAIL:
+          strA = a.email;
+          strB = b.email;
+          break;
+        case SortBy.STATUS:
+          strA = a.status;
+          strB = b.status;
           break;
         default:
           strA = '';
