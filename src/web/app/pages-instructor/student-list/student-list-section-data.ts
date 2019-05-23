@@ -16,5 +16,6 @@ export interface StudentListStudentData {
   email: string;
   status: string;
   team: string;
+  section?: StudentListSectionData;
   photoUrl?: string;
 }
