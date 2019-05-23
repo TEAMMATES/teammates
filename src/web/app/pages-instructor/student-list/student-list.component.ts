@@ -68,6 +68,7 @@ export class StudentListComponent implements OnInit {
               email: student.email,
               status: student.status,
               team: student.team,
+              photoUrl: student.photoUrl,
               section: section,
             })
         )
