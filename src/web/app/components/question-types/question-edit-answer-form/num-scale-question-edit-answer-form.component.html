@@ -8,5 +8,6 @@
   </div>
   <div>
     <p *ngIf="!isValidPossibleValue(scale.value) && scale.value != '0'" style="margin-left: 1em;" class="text-danger">The scale entered is not a possible value.</p>
+    <p *ngIf="scale.value == '0'" style="margin-left: 1em; color: blue;">Please enter a scale number.</p>
   </div>
 </div>
