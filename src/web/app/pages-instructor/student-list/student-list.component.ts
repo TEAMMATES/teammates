@@ -11,6 +11,56 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
 
 /**
+ * Sort criteria for the students table.
+ */
+export enum SortBy {
+  /**
+   * Nothing.
+   */
+  NONE,
+
+  /**
+   * Section Name.
+   */
+  SECTION_NAME,
+
+  /**
+   * Team name.
+   */
+  TEAM_NAME,
+
+  /**
+   * Student Name.
+   */
+  STUDENT_NAME,
+
+  /**
+   * Status.
+   */
+  STATUS,
+
+  /**
+   * Email.
+   */
+  EMAIL,
+}
+
+/**
+ * Sort order for the students table.
+ */
+export enum SortOrder {
+  /**
+   * Descending sort order.
+   */
+  DESC,
+
+  /**
+   * Ascending sort order
+   */
+  ASC,
+}
+
+/**
  * A table displaying a list of students from a course, with buttons to view/edit/delete students etc.
  */
 @Component({
@@ -19,8 +69,6 @@ import { StudentListSectionData, StudentListStudentData } from './student-list-s
   styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit {
-  private _sections: StudentListSectionData[] = [];
-
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
@@ -35,6 +83,8 @@ export class StudentListComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
+  private _sections: StudentListSectionData[] = [];
+
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
@@ -47,7 +97,7 @@ export class StudentListComponent implements OnInit {
 
   @Input()
   set sections (sections: StudentListSectionData[]) {
-    this.students = this.mapStudentsFromSectionData(sections)
+    this.students = this.mapStudentsFromSectionData(sections);
     this._sections = sections;
   }
 
@@ -63,15 +113,15 @@ export class StudentListComponent implements OnInit {
     sections.forEach((section: StudentListSectionData) =>
         section.students.forEach((student: StudentListStudentData) =>
             students.push({
+              section,
               name: student.name,
               email: student.email,
               status: student.status,
               team: student.team,
               photoUrl: student.photoUrl,
-              section: section,
-            })
-        )
-    )
+            }),
+        ),
+    );
     return students;
   }
 
@@ -171,8 +221,8 @@ export class StudentListComponent implements OnInit {
       let strB: string;
       switch (by) {
         case SortBy.SECTION_NAME:
-          strA = a.section? a.section.sectionName: '';
-          strB = b.section? b.section.sectionName: '';
+          strA = a.section ? a.section.sectionName : '';
+          strB = b.section ? b.section.sectionName : '';
           break;
         case SortBy.STUDENT_NAME:
           strA = a.name;
@@ -205,54 +255,4 @@ export class StudentListComponent implements OnInit {
       return 0;
     };
   }
-}
-
-/**
- * Sort criteria for the students table.
- */
-export enum SortBy {
-  /**
-   * Nothing.
-   */
-  NONE,
-
-  /**
-   * Section Name.
-   */
-  SECTION_NAME,
-
-  /**
-   * Team name.
-   */
-  TEAM_NAME,
-
-  /**
-   * Student Name.
-   */
-  STUDENT_NAME,
-
-  /**
-   * Status.
-   */
-  STATUS,
-
-  /**
-   * Email.
-   */
-  EMAIL,
-}
-
-/**
- * Sort order for the students table.
- */
-export enum SortOrder {
-  /**
-   * Descending sort order.
-   */
-  DESC,
-
-  /**
-   * Ascending sort order
-   */
-  ASC,
 }
