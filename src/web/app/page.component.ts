@@ -106,6 +106,10 @@ export class PageComponent {
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
+
+  protected onNavigate(url: any): void{
+    window.open(url, "_blank");
+  }
 }
 
 /**
