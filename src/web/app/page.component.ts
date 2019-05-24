@@ -106,6 +106,15 @@ export class PageComponent {
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
+
+  /**
+   * Method to check whether ctrl/cmd key is pressed and open in a new tab.
+   */
+  onNavigate(url: any, event: any): void {
+    if (event.ctrlKey === 1) {
+      window.open(url, '_blank');
+    }
+  }
 }
 
 /**

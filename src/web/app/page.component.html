@@ -15,7 +15,7 @@
           </div>
         </li>
         <li *ngIf="!navItem.children" class="nav-item">
-          <a class="nav-link" [routerLink]="navItem.url" (click)="isCollapsed = !isCollapsed">{{ navItem.display }}</a>
+          <a class="nav-link" [routerLink]="navItem.url" (click)="isCollapsed = !isCollapsed; onNavigate(navItem.url,$event)">{{ navItem.display }}</a>
         </li>
       </ng-template>
     </ul>
