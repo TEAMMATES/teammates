@@ -60,7 +60,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let instructor of instructorsConsolidated; let i = index">
-            <td>{{ instructor.name }}</td>
+            <td title="{{ instructor.name }}">{{ instructor.name }}</td>
             <td>{{ instructor.email }}</td>
             <td>{{ instructor.institution }}</td>
             <td>
