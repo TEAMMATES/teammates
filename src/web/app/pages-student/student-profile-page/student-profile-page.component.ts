@@ -125,7 +125,7 @@ export class StudentProfilePageComponent implements OnInit {
     modalRef.componentInstance.profilePicLink = this.profilePicLink;
     modalRef.result.then((formData: FormData) => {
       if (!formData) {
-        this.statusMessageService.showWarningMessage('No photo detected. You maybe uploaded an empty photo');
+        this.statusMessageService.showWarningMessage('No photo uploaded');
         return;
       }
       const paramsMap: { [key: string]: string } = {
@@ -142,7 +142,7 @@ export class StudentProfilePageComponent implements OnInit {
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(response.error.message);
           });
-    });
+    }).catch(() => {});
   }
 
   /**
