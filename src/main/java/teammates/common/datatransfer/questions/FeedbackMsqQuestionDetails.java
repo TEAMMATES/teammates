@@ -256,7 +256,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
             int totalNumRecipients, FeedbackResponseDetails existingResponseDetails, StudentAttributes student) {
         FeedbackMsqResponseDetails existingMsqResponse = (FeedbackMsqResponseDetails) existingResponseDetails;
-        List<String> choices = generateOptionList(courseId, student);
+        List<String> choices = new ArrayList<>();
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -331,7 +331,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
             StudentAttributes student) {
-        List<String> choices = generateOptionList(courseId, student);
+        List<String> choices = new ArrayList<>();
 
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
@@ -427,66 +427,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(courseId);
 
         return instructorList.size();
-    }
-
-    private List<String> generateOptionList(String courseId, StudentAttributes studentDoingQuestion) {
-        List<String> optionList = new ArrayList<>();
-
-        switch (generateOptionsFor) {
-        case NONE:
-            optionList = msqChoices;
-            break;
-        case STUDENTS:
-            //fallthrough
-        case STUDENTS_EXCLUDING_SELF:
-            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
-
-            if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
-                studentList.removeIf(studentInList -> studentInList.email.equals(studentDoingQuestion.email));
-            }
-
-            for (StudentAttributes student : studentList) {
-                optionList.add(student.name + " (" + student.team + ")");
-            }
-
-            optionList.sort(null);
-            break;
-        case TEAMS:
-            //fallthrough
-        case TEAMS_EXCLUDING_SELF:
-            try {
-                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
-
-                if (generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
-                    teamList.removeIf(teamInList -> teamInList.name.equals(studentDoingQuestion.team));
-                }
-
-                for (TeamDetailsBundle team : teamList) {
-                    optionList.add(team.name);
-                }
-
-                optionList.sort(null);
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Course disappeared");
-            }
-            break;
-        case INSTRUCTORS:
-            List<InstructorAttributes> instructorList =
-                    InstructorsLogic.inst().getInstructorsForCourse(
-                            courseId);
-
-            for (InstructorAttributes instructor : instructorList) {
-                optionList.add(instructor.name);
-            }
-
-            optionList.sort(null);
-            break;
-        default:
-            Assumption.fail("Trying to generate options for neither students, teams nor instructors");
-            break;
-        }
-
-        return optionList;
     }
 
     @Override
@@ -828,6 +768,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     public List<String> getMsqChoices() {
         return msqChoices;
+    }
+
+    public FeedbackParticipantType getGenerateOptionsFor() {
+        return generateOptionsFor;
+    }
+
+    public void setGenerateOptionsFor(FeedbackParticipantType generateOptionsFor) {
+        this.generateOptionsFor = generateOptionsFor;
+    }
+
+    public void setMsqChoices(List<String> msqChoices) {
+        this.msqChoices = msqChoices;
     }
 
     public boolean hasAssignedWeights() {
