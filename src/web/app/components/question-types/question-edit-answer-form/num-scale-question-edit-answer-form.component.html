@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-5">
-    <input type="number" class="form-control" min="{{ questionDetails.minScale }}" max="{{ questionDetails.maxScale }}" step="{{ questionDetails.step }}" #scale
+    <input type="number" class="form-control" min="{{ questionDetails.minScale }}" max="{{ questionDetails.maxScale }}" step="{{ questionDetails.step }}"
            [ngModel]="responseDetails.answer == NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED ? '' : responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
   </div>
   <div>
     Possible Acceptable Values are: {{ possibleValues }}
   </div>
   <div>
-    <p *ngIf="!isValidPossibleValue(scale.value) && scale.value != '0'" style="margin-left: 1em;" class="text-danger">The scale entered is not a possible value.</p>
-    <p *ngIf="scale.value == '0'" style="margin-left: 1em; color: blue;">Please enter a scale number.</p>
+    <p *ngIf="!isValidPossibleValue(responseDetails.answer) && responseDetails.answer != 0" style="margin-left: 1em;" class="text-danger">The scale entered is not a possible value.</p>
+    <p *ngIf="responseDetails.answer == 0" style="margin-left: 1em; color: blue;">Please enter a scale number.</p>
   </div>
 </div>

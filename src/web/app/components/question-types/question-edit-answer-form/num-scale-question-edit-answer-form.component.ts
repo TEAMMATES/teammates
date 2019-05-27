@@ -62,7 +62,7 @@ export class NumScaleQuestionEditAnswerFormComponent
   /**
    * Checks if the answer value is a valid value in question possible values.
    */
-  isValidPossibleValue(value: string): boolean {
+  isValidPossibleValue(value: number): boolean {
     const minValue: number = this.questionDetails.minScale;
     const maxValue: number = this.questionDetails.maxScale;
     const increment: number = this.questionDetails.step;
