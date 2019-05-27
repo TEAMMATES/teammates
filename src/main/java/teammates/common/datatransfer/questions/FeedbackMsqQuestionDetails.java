@@ -402,7 +402,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     public int getNumOfChoicesForMsq(String courseId, FeedbackParticipantType generateOptionsFor) {
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
-            return msqChoices.size();
+            return msqChoices.size() + (otherEnabled ? 1 : 0);
         }
 
         if (generateOptionsFor == FeedbackParticipantType.STUDENTS
@@ -799,6 +799,30 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
      */
     public int getMinSelectableChoices() {
         return minSelectableChoices;
+    }
+
+    public void setOtherEnabled(boolean otherEnabled) {
+        this.otherEnabled = otherEnabled;
+    }
+
+    public void setHasAssignedWeights(boolean hasAssignedWeights) {
+        this.hasAssignedWeights = hasAssignedWeights;
+    }
+
+    public void setMsqWeights(List<Double> msqWeights) {
+        this.msqWeights = msqWeights;
+    }
+
+    public void setMsqOtherWeight(double msqOtherWeight) {
+        this.msqOtherWeight = msqOtherWeight;
+    }
+
+    public void setMaxSelectableChoices(int maxSelectableChoices) {
+        this.maxSelectableChoices = maxSelectableChoices;
+    }
+
+    public void setMinSelectableChoices(int minSelectableChoices) {
+        this.minSelectableChoices = minSelectableChoices;
     }
 
     /**
