@@ -10,7 +10,7 @@
   </div>
   <div class="col-sm-4" ngbTooltip="Maximum acceptable response value">
     Maximum value:
-    <input type="number" class="form-control" [ngModel]="maxScaleValue" (ngModelChange)="triggerModelChange('maxScale', $event)" [disabled]="!isEditable" min="1">
+    <input type="number" class="form-control" [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event)" [disabled]="!isEditable" min="{{ model.minScale + model.step }}">
   </div>
 </div>
 <br>
