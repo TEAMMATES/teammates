@@ -76,5 +76,4 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
-
 }
