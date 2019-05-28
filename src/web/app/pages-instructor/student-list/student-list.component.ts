@@ -8,57 +8,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
-
-/**
- * Sort criteria for the students table.
- */
-export enum SortBy {
-  /**
-   * Nothing.
-   */
-  NONE,
-
-  /**
-   * Section Name.
-   */
-  SECTION_NAME,
-
-  /**
-   * Team name.
-   */
-  TEAM_NAME,
-
-  /**
-   * Student Name.
-   */
-  STUDENT_NAME,
-
-  /**
-   * Status.
-   */
-  STATUS,
-
-  /**
-   * Email.
-   */
-  EMAIL,
-}
-
-/**
- * Sort order for the students table.
- */
-export enum SortOrder {
-  /**
-   * Descending sort order.
-   */
-  DESC,
-
-  /**
-   * Ascending sort order
-   */
-  ASC,
-}
+import { SortBy, SortOrder, StudentListSectionData, StudentListStudentData } from './student-list-section-data';
 
 /**
  * A table displaying a list of students from a course, with buttons to view/edit/delete students etc.

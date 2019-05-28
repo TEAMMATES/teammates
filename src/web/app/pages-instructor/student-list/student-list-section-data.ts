@@ -19,3 +19,53 @@ export interface StudentListStudentData {
   section?: StudentListSectionData;
   photoUrl?: string;
 }
+
+/**
+ * Sort criteria for the students table.
+ */
+export enum SortBy {
+  /**
+   * Nothing.
+   */
+  NONE,
+
+  /**
+   * Section Name.
+   */
+  SECTION_NAME,
+
+  /**
+   * Team name.
+   */
+  TEAM_NAME,
+
+  /**
+   * Student Name.
+   */
+  STUDENT_NAME,
+
+  /**
+   * Status.
+   */
+  STATUS,
+
+  /**
+   * Email.
+   */
+  EMAIL,
+}
+
+/**
+ * Sort order for the students table.
+ */
+export enum SortOrder {
+  /**
+   * Descending sort order.
+   */
+  DESC,
+
+  /**
+   * Ascending sort order
+   */
+  ASC,
+}
