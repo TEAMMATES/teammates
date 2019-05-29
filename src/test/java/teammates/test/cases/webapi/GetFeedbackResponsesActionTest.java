@@ -46,7 +46,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     @Test
     @Override
     protected void testExecute() throws Exception {
-        // TODO
         useTypicalDataBundle();
         loginAsStudent(student1InCourse1.getGoogleId());
 
@@ -129,7 +128,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        // TODO
         useTypicalDataBundle();
 
         ______TS("non-existent feedback response");
