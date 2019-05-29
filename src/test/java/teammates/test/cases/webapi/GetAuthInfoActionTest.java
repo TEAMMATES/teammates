@@ -1,12 +1,20 @@
 package teammates.test.cases.webapi;
 
+import javax.servlet.http.Cookie;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
+import teammates.test.driver.MockEmailSender;
+import teammates.test.driver.MockHttpServletRequest;
+import teammates.test.driver.MockHttpServletResponse;
+import teammates.test.driver.MockTaskQueuer;
+import teammates.ui.webapi.action.ActionFactory;
 import teammates.ui.webapi.action.GetAuthInfoAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.AuthInfo;
@@ -30,7 +38,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
     @Override
     @Test
-    protected void testExecute() {
+    protected void testExecute() throws Exception {
 
         ______TS("Normal case: No logged in user");
 
@@ -126,8 +134,21 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
                 Const.ParamsNames.USER_ID, "idOfAnotherInstructor",
         }));
 
-        // TODO test CSRF token cookies
+        ______TS("Test CSRF token cookies");
 
+        loginAsInstructor("idOfInstructor1OfCourse1");
+
+        MockHttpServletRequest mockRequest = new MockHttpServletRequest(getRequestMethod(),
+                Const.ResourceURIs.URI_PREFIX + getActionUri());
+        mockRequest.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, "some random csrf token"));
+        MockHttpServletResponse mockResponse = new MockHttpServletResponse();
+
+        a = (GetAuthInfoAction) new ActionFactory().getAction(mockRequest, getRequestMethod(), mockResponse);
+        a.setTaskQueuer(new MockTaskQueuer());
+        a.setEmailSender(new MockEmailSender());
+        getJsonResult(a);
+
+        assertEquals(StringHelper.encrypt(mockRequest.getSession().getId()), mockResponse.getCookie().getValue());
     }
 
     @Override

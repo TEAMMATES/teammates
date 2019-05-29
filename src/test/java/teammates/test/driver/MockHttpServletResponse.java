@@ -19,10 +19,15 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     private int statusCode = HttpStatus.SC_OK;
     private String redirectUrl;
+    private Cookie cookie;
 
     @Override
     public void addCookie(Cookie cookie) {
-        // not used
+        this.cookie = cookie;
+    }
+
+    public Cookie getCookie() {
+        return cookie;
     }
 
     @Override
