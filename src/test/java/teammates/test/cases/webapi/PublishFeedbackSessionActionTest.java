@@ -58,11 +58,6 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         assertEquals(output.getMessage(), "Error publishing feedback session: Session has already been published.");
         assertEquals(result.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
-
-        ______TS("Failure case: Session not found");
-        // TODO
-        // EntityDoesNotExistException is never thrown because session is guaranteed to be present
-        // before entering the try-catch block.
     }
 
     @Test
