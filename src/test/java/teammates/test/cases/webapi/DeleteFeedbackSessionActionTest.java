@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.DeleteFeedbackSessionAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -71,21 +72,22 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
         ______TS("Rare success case: Delete session not in recycle bin");
 
-        session = typicalBundle.feedbackSessions.get("session2InCourse1");
+        FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session2.getFeedbackSessionName(),
         };
 
-        assertNotNull(logic.getFeedbackSessionDetails(session.getFeedbackSessionName(), course.getId()));
+        assertNotNull(logic.getFeedbackSessionDetails(session2.getFeedbackSessionName(), course.getId()));
 
         deleteFeedbackSessionAction = getAction(params);
         result = getJsonResult(deleteFeedbackSessionAction);
         messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
-        assertNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
+        assertThrows(EntityDoesNotExistException.class,
+                () -> logic.getFeedbackSessionDetails(session2.getFeedbackSessionName(), course.getId()));
 
     }
 
