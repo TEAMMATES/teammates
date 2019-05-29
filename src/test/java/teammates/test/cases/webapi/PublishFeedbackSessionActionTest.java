@@ -79,5 +79,4 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
         verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
     }
-
 }
