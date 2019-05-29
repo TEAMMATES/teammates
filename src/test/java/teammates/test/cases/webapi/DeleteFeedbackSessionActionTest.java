@@ -52,6 +52,11 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
         assertNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
 
+        ______TS("Delete session that has already been deleted");
+
+        // Will fail silently and not throw any exception
+        getJsonResult(deleteFeedbackSessionAction);
+
         ______TS("Rare success case: Delete session not in recycle bin");
 
         session = typicalBundle.feedbackSessions.get("session2InCourse1");
@@ -67,11 +72,6 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
         assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
         assertNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
-
-        ______TS("Delete session that has already been deleted");
-
-        // Will fail silently and not throw any exception
-        getJsonResult(deleteFeedbackSessionAction);
 
     }
 
