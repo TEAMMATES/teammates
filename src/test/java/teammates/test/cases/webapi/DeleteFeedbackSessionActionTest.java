@@ -57,6 +57,18 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         // Will fail silently and not throw any exception
         getJsonResult(deleteFeedbackSessionAction);
 
+        ______TS("Delete session that does not exist");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName",
+        };
+
+        deleteFeedbackSessionAction = getAction(params);
+
+        // Will fail silently and not throw any exception
+        getJsonResult(deleteFeedbackSessionAction);
+
         ______TS("Rare success case: Delete session not in recycle bin");
 
         session = typicalBundle.feedbackSessions.get("session2InCourse1");
@@ -65,6 +77,8 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
+
+        assertNotNull(logic.getFeedbackSessionDetails(session.getFeedbackSessionName(), course.getId()));
 
         deleteFeedbackSessionAction = getAction(params);
         result = getJsonResult(deleteFeedbackSessionAction);
