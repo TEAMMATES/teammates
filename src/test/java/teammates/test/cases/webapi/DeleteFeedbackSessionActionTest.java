@@ -31,7 +31,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
         verifyHttpParameterFailure();
 
-        ______TS("Typical case");
+        ______TS("Typical case: Delete from recycle bin");
 
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
@@ -41,20 +41,38 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
 
-        DeleteFeedbackSessionAction deleteFeedbackSessionAction = getAction(params);
-
-        // assert it exists before deletion
-        assertEquals(session.getFeedbackSessionName(),
-                logic.getFeedbackSessionDetails(session.getFeedbackSessionName(),
-                        course.getId()).feedbackSession.getFeedbackSessionName());
+        assertNotNull(logic.getFeedbackSessionDetails(session.getFeedbackSessionName(), course.getId()));
 
         logic.moveFeedbackSessionToRecycleBin(session.getFeedbackSessionName(), course.getId());
 
+        DeleteFeedbackSessionAction deleteFeedbackSessionAction = getAction(params);
         JsonResult result = getJsonResult(deleteFeedbackSessionAction);
         MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
         assertNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
+
+        ______TS("Rare success case: Delete session not in recycle bin");
+
+        session = typicalBundle.feedbackSessions.get("session2InCourse1");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+        };
+
+        deleteFeedbackSessionAction = getAction(params);
+        result = getJsonResult(deleteFeedbackSessionAction);
+        messageOutput = (MessageOutput) result.getOutput();
+
+        assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
+        assertNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
+
+        ______TS("Delete session that has already been deleted");
+
+        // Will fail silently and not throw any exception
+        getJsonResult(deleteFeedbackSessionAction);
+
     }
 
     @Test
