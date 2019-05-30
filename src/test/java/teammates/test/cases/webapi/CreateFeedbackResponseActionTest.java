@@ -1,12 +1,10 @@
 package teammates.test.cases.webapi;
 
 import org.apache.http.HttpStatus;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.*;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -15,7 +13,6 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CreateFeedbackResponseAction;
 import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
@@ -50,7 +47,7 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
     @Test
     @Override
     protected void testExecute() throws Exception {
-        useTypicalDataBundle();
+//        useTypicalDataBundle();
         ______TS("not enough attributes");
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
@@ -60,28 +57,6 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        ______TS("null recipient Identifier");
-        loginAsStudent(student1InCourse1.getGoogleId());
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackResponseCreateRequest createRequest = getResponseRequest(student1InCourse1.getEmail());
-            createRequest.setRecipientIdentifier(null);
-            Action a = getAction(createRequest, params);
-            a.execute();
-        });
-        ______TS("null questionType");
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackResponseCreateRequest createRequest = getResponseRequest(student1InCourse1.getEmail());
-            createRequest.setQuestionType(null);
-            Action a = getAction(createRequest, params);
-            a.execute();
-        });
-        ______TS("null responseDetail");
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackResponseCreateRequest createRequest = getResponseRequest(student1InCourse1.getEmail());
-            createRequest.setResponseDetails(null);
-            Action a = getAction(createRequest, params);
-            a.execute();
-        });
         ______TS("typical case for student");
         loginAsStudent(student2InCourse1.getGoogleId());
         String[] paramsQn2 = {
@@ -117,9 +92,19 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
         assertEquals(instructor2OfCourse1.getEmail(), typicalDataInstructor.getRecipientIdentifier());
 
         ______TS("response already exists");
+        //show that this FeedbackResponse already exists
+        FeedbackResponseAttributes existingFeedbackResponse =
+                logic.getFeedbackResponse(qn2InSession1InCourse1.getId(), student2InCourse1.getEmail(),
+                        student5InCourse1.getEmail());
+        assertNotNull(existingFeedbackResponse);
+
+        String[] paramsQ2S1C1 = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InSession1InCourse1.getId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
         loginAsStudent(student2InCourse1.getGoogleId());
         FeedbackResponseCreateRequest createRequestAlreadyExists = getResponseRequest(student5InCourse1.getEmail());
-        CreateFeedbackResponseAction typicalActionAlreadyExists = getAction(createRequestAlreadyExists, paramsQn2);
+        CreateFeedbackResponseAction typicalActionAlreadyExists = getAction(createRequestAlreadyExists, paramsQ2S1C1);
         assertThrows(InvalidHttpRequestBodyException.class, () -> getJsonResult(typicalActionAlreadyExists));
 
         ______TS("invalid intent");
@@ -133,7 +118,7 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        useTypicalDataBundle();
+//        useTypicalDataBundle();
         ______TS("non-exist feedback question");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] nonExistFeedbackQuestionParams = {
@@ -147,28 +132,26 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InClosedSessionInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(closedFeedbackSessionParams)
-                .checkAccessControl());
+        verifyCannotAccess(closedFeedbackSessionParams);
         ______TS("in preview request");
         String[] previewParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.PREVIEWAS, "nonEmptyPreviewParam",
         };
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(previewParams).checkAccessControl());
+        verifyCannotAccess(previewParams);
         ______TS("not answerable for students");
         String[] notAnswerableForStudents = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(notAnswerableForStudents).checkAccessControl());
+        verifyCannotAccess(notAnswerableForStudents);
         ______TS("not answerable to instructors");
         String[] notAnswerableForInstructors = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(notAnswerableForInstructors)
-                .checkAccessControl());
+        verifyCannotAccess(notAnswerableForInstructors);
         ______TS("invalid HTTP parameters");
         String[] invalidParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
@@ -210,32 +193,28 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
         return createRequest;
     }
 
+    @BeforeMethod
     private void useTypicalDataBundle() {
         removeAndRestoreTypicalDataBundle();
         FeedbackSessionAttributes gracePeriodSession;
         FeedbackSessionAttributes session1InCourse1;
         FeedbackSessionAttributes closedSession;
-
         session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
         closedSession = typicalBundle.feedbackSessions.get("closedSession");
         instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        int q1 = 1;
         qn1InSession1InCourse1 = logic.getFeedbackQuestion(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), q1);
-        int q2 = 2;
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
         qn2InGracePeriodInCourse1 = logic.getFeedbackQuestion(
-                gracePeriodSession.getFeedbackSessionName(), gracePeriodSession.getCourseId(), q2);
-        int qClosed = 1;
+                gracePeriodSession.getFeedbackSessionName(), gracePeriodSession.getCourseId(), 2);
         qn1InClosedSessionInCourse1 = logic.getFeedbackQuestion(
-                closedSession.getFeedbackSessionName(), closedSession.getCourseId(), qClosed);
+                closedSession.getFeedbackSessionName(), closedSession.getCourseId(), 1);
         instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
         student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         student5InCourse1 = typicalBundle.students.get("student5InCourse1");
         instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        int q2Insession1 = 2;
         qn2InSession1InCourse1 = logic.getFeedbackQuestion(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), q2Insession1);
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 2);
     }
 }
