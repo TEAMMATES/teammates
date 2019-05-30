@@ -24,6 +24,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.driver.MockHttpServletRequest;
+import teammates.test.driver.MockHttpServletResponse;
 import teammates.test.driver.MockPart;
 import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CsvResult;
@@ -75,6 +77,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     @SuppressWarnings("unchecked")
     protected T getAction(String body, Map<String, Part> parts, String... params) {
         return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, params);
+    }
+
+    /**
+     * Gets an action with given request, request method and response.
+     */
+    @SuppressWarnings("unchecked")
+    protected T getAction(MockHttpServletRequest req, String method, MockHttpServletResponse resp) {
+        return (T) gaeSimulation.getActionObjectGivenRequestResponse(req, method, resp);
     }
 
     /**

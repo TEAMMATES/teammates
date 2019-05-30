@@ -237,6 +237,25 @@ public class GaeSimulation {
     }
 
     /**
+     * Returns an {@link Action} object with the parameters given.
+     *
+     * @param req The mock request given
+     * @param method The request method
+     * @param resp The mock response given
+     */
+    public Action getActionObjectGivenRequestResponse(MockHttpServletRequest req,
+                                                     String method, MockHttpServletResponse resp) {
+        try {
+            Action action = new ActionFactory().getAction(req, method, resp);
+            action.setTaskQueuer(new MockTaskQueuer());
+            action.setEmailSender(new MockEmailSender());
+            return action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Returns an {@link AutomatedAction} object that matches the parameters given.
      *
      * @param parameters Parameters that appear in a HttpServletRequest received by the app.

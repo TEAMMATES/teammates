@@ -10,11 +10,8 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.test.driver.MockEmailSender;
 import teammates.test.driver.MockHttpServletRequest;
 import teammates.test.driver.MockHttpServletResponse;
-import teammates.test.driver.MockTaskQueuer;
-import teammates.ui.webapi.action.ActionFactory;
 import teammates.ui.webapi.action.GetAuthInfoAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.AuthInfo;
@@ -38,7 +35,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
 
         ______TS("Normal case: No logged in user");
 
@@ -133,19 +130,48 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertThrows(UnauthorizedAccessException.class, () -> getAction(new String[] {
                 Const.ParamsNames.USER_ID, "idOfAnotherInstructor",
         }));
+    }
 
-        ______TS("Test adding CSRF token cookies");
+    @Test
+    public void testExecute_addCsrfTokenCookies_shouldAddToResponseAccordingToExistingCsrfToken() {
 
-        loginAsInstructor("idOfInstructor1OfCourse1");
+        ______TS("Test will add CSRF token cookies: No logged in user");
+
+        gaeSimulation.logoutUser();
 
         MockHttpServletRequest mockRequest = new MockHttpServletRequest(getRequestMethod(),
                 Const.ResourceURIs.URI_PREFIX + getActionUri());
         mockRequest.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, "some random csrf token"));
         MockHttpServletResponse mockResponse = new MockHttpServletResponse();
 
-        a = (GetAuthInfoAction) new ActionFactory().getAction(mockRequest, getRequestMethod(), mockResponse);
-        a.setTaskQueuer(new MockTaskQueuer());
-        a.setEmailSender(new MockEmailSender());
+        GetAuthInfoAction a = getAction(mockRequest, getRequestMethod(), mockResponse);
+        getJsonResult(a);
+
+        assertEquals(StringHelper.encrypt(mockRequest.getSession().getId()), mockResponse.getCookie().getValue());
+
+        ______TS("Test will add CSRF token cookies: user logged in");
+
+        loginAsInstructor("idOfInstructor1OfCourse1");
+
+        mockRequest = new MockHttpServletRequest(getRequestMethod(),
+                Const.ResourceURIs.URI_PREFIX + getActionUri());
+        mockRequest.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, "some random csrf token"));
+        mockResponse = new MockHttpServletResponse();
+
+        a = getAction(mockRequest, getRequestMethod(), mockResponse);
+        getJsonResult(a);
+
+        assertEquals(StringHelper.encrypt(mockRequest.getSession().getId()), mockResponse.getCookie().getValue());
+
+        ______TS("Test will add CSRF token cookies: no existing csrf token");
+
+        loginAsInstructor("idOfInstructor1OfCourse1");
+
+        mockRequest = new MockHttpServletRequest(getRequestMethod(),
+                Const.ResourceURIs.URI_PREFIX + getActionUri());
+        mockResponse = new MockHttpServletResponse();
+
+        a = getAction(mockRequest, getRequestMethod(), mockResponse);
         getJsonResult(a);
 
         assertEquals(StringHelper.encrypt(mockRequest.getSession().getId()), mockResponse.getCookie().getValue());
@@ -160,9 +186,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
                 StringHelper.encrypt(mockRequest.getSession().getId())));
         mockResponse = new MockHttpServletResponse();
 
-        a = (GetAuthInfoAction) new ActionFactory().getAction(mockRequest, getRequestMethod(), mockResponse);
-        a.setTaskQueuer(new MockTaskQueuer());
-        a.setEmailSender(new MockEmailSender());
+        a = getAction(mockRequest, getRequestMethod(), mockResponse);
         getJsonResult(a);
 
         assertNull(mockResponse.getCookie());
