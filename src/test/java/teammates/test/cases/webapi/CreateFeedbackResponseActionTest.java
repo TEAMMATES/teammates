@@ -4,7 +4,11 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.*;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -47,16 +51,11 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
     @Test
     @Override
     protected void testExecute() throws Exception {
-//        useTypicalDataBundle();
+        useTypicalDataBundle();
         ______TS("not enough attributes");
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
         verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId());
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
         ______TS("typical case for student");
         loginAsStudent(student2InCourse1.getGoogleId());
         String[] paramsQn2 = {
@@ -118,7 +117,7 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-//        useTypicalDataBundle();
+        useTypicalDataBundle();
         ______TS("non-exist feedback question");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] nonExistFeedbackQuestionParams = {
