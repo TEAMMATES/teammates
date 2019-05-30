@@ -88,6 +88,15 @@ public class UnublishFeedbackSessionActionTest extends BaseActionTest<UnpublishF
         ______TS("non-existent feedback session");
 
         String[] nonExistParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "abcRandomCourseId",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
+        };
+
+        verifyCannotAccess(nonExistParams);
+
+        ______TS("non-existent course");
+
+        nonExistParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
         };
