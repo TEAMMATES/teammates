@@ -1379,33 +1379,37 @@ public class Logic {
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      *
+     * @return the published feedback session
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      * @throws InvalidParametersException if session is already published
      */
-    public void publishFeedbackSession(String feedbackSessionName, String courseId)
+    public FeedbackSessionAttributes publishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
-        feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+        return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
+     * Unpublishes a feedback session.
      *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return the unpublished feedback session
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      * @throws InvalidParametersException
      *             if the feedback session is not ready to be unpublished.
      */
-    public void unpublishFeedbackSession(String feedbackSessionName, String courseId)
+    public FeedbackSessionAttributes unpublishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
 
-        feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
+        return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
