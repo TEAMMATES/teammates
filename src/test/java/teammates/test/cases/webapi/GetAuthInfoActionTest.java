@@ -134,7 +134,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
                 Const.ParamsNames.USER_ID, "idOfAnotherInstructor",
         }));
 
-        ______TS("Test CSRF token cookies");
+        ______TS("Test adding CSRF token cookies");
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
@@ -149,6 +149,23 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         getJsonResult(a);
 
         assertEquals(StringHelper.encrypt(mockRequest.getSession().getId()), mockResponse.getCookie().getValue());
+
+        ______TS("Test not adding CSRF token cookies");
+
+        loginAsInstructor("idOfInstructor1OfCourse1");
+
+        mockRequest = new MockHttpServletRequest(getRequestMethod(),
+                Const.ResourceURIs.URI_PREFIX + getActionUri());
+        mockRequest.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME,
+                StringHelper.encrypt(mockRequest.getSession().getId())));
+        mockResponse = new MockHttpServletResponse();
+
+        a = (GetAuthInfoAction) new ActionFactory().getAction(mockRequest, getRequestMethod(), mockResponse);
+        a.setTaskQueuer(new MockTaskQueuer());
+        a.setEmailSender(new MockEmailSender());
+        getJsonResult(a);
+
+        assertNull(mockResponse.getCookie());
     }
 
     @Override
