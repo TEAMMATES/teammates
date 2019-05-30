@@ -38,10 +38,12 @@ public class FeedbackResponseBasicRequest extends BasicRequest {
     public void setRecipientIdentifier(String recipientIdentifier) {
         this.recipientIdentifier = recipientIdentifier;
     }
-    public void setQuestionType(FeedbackQuestionType feedbackQuestionType){
+
+    public void setQuestionType(FeedbackQuestionType feedbackQuestionType) {
         this.questionType = feedbackQuestionType;
     }
-    public void setResponseDetails(FeedbackResponseDetails feedbackResponseDetails){
+
+    public void setResponseDetails(FeedbackResponseDetails feedbackResponseDetails) {
         this.responseDetails = JsonUtils.fromJson(JsonUtils.toJson(feedbackResponseDetails), Map.class);
     }
 
