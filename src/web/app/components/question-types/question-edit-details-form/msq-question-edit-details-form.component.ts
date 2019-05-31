@@ -28,35 +28,55 @@ export class MsqQuestionEditDetailsFormComponent
    * Reorders the list on dragging the Msq options.
    */
   onMsqOptionDropped(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.model.msqChoices, event.previousIndex, event.currentIndex);
-    moveItemInArray(this.model.msqWeights, event.previousIndex, event.currentIndex);
+    const newWeights: number[] = this.model.msqWeights.slice();
+    const newOptions: string[] = this.model.msqChoices.slice();
+    moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
+    moveItemInArray(newWeights, event.previousIndex, event.currentIndex);
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.msqChoices = newOptions;
+    fieldsToUpdate.msqWeights = newWeights;
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Displays new Msq weight at specified index.
    */
   onMsqWeightEntered(event: number, index: number): void {
-    this.model.msqWeights[index] = event;
+    const newWeights: number[] = this.model.msqWeights.slice();
+    newWeights[index] = event;
+    this.triggerModelChange('msqWeights', newWeights);
   }
 
   /**
    * Increases number of Msq options.
    */
   increaseNumberOfMsqOptions(): void {
-    this.model.msqChoices.push('');
+    const fieldsToUpdate: any = {};
+    const newOptions: string[] = this.model.msqChoices.slice();
+    newOptions.push('');
+    fieldsToUpdate.msqChoices = newOptions;
     if (this.model.hasAssignedWeights) {
-      this.model.msqWeights.push(0);
+      const newWeights: number[] = this.model.msqWeights.slice();
+      newWeights.push(0);
+      fieldsToUpdate.msqWeights = newWeights;
     }
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Deletes a Msq option.
    */
   onMsqOptionDeleted(event: number): void {
-    this.model.msqChoices.splice(event, 1);
+    const fieldsToUpdate: any = {};
+    const newOptions: string[] = this.model.msqChoices.slice();
+    newOptions.splice(event, 1);
+    fieldsToUpdate.msqChoices = newOptions;
     if (this.model.hasAssignedWeights) {
-      this.model.msqWeights.splice(event, 1);
+      const newWeights: number[] = this.model.msqWeights.slice();
+      newWeights.splice(event, 1);
+      fieldsToUpdate.msqWeights = newWeights;
     }
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -77,7 +97,9 @@ export class MsqQuestionEditDetailsFormComponent
    * Displays new Msq option at specified index.
    */
   onMsqOptionEntered(event: string, index: number): void {
-    this.model.msqChoices[index] = event;
+    const newOptions: string[] = this.model.msqChoices.slice();
+    newOptions[index] = event;
+    this.triggerModelChange('msqChoices', newOptions);
   }
 
   /**
@@ -85,7 +107,7 @@ export class MsqQuestionEditDetailsFormComponent
    */
   triggerOtherWeight(event: any): void {
     if (!event.target.checked) {
-      this.model.msqOtherWeight = 0;
+      this.triggerModelChange('msqOtherWeight', 0);
     }
   }
 
@@ -93,22 +115,25 @@ export class MsqQuestionEditDetailsFormComponent
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
   triggerGeneratedOptionsChange(event: any): void {
-    this.model.generateOptionsFor
+    const feedbackParticipantType: FeedbackParticipantType
         = event.target.checked ? FeedbackParticipantType.STUDENTS : FeedbackParticipantType.NONE;
+    this.triggerModelChange('generateOptionsFor', feedbackParticipantType);
   }
 
   /**
    * Assigns a default value to maxSelectableOptions when checkbox is clicked.
    */
   triggerMaxSelectableOptionsChange(event: any): void {
-    this.model.maxSelectableChoices = event.target.checked ? 2 : NO_VALUE;
+    const maxSelectableChoices: number = event.target.checked ? 2 : NO_VALUE;
+    this.triggerModelChange('maxSelectableChoices', maxSelectableChoices);
   }
 
   /**
    * Assigns a default value to minSelectableOptions when checkbox is clicked.
    */
   triggerMinSelectableOptionsChange(event: any): void {
-    this.model.minSelectableChoices = event.target.checked ? 1 : NO_VALUE;
+    const minSelectableChoices: number = event.target.checked ? 1 : NO_VALUE;
+    this.triggerModelChange('minSelectableChoices', minSelectableChoices);
   }
 
   /**
@@ -160,11 +185,13 @@ export class MsqQuestionEditDetailsFormComponent
    * Triggers the display of the weight column for the Msq options if weights option is checked/unchecked.
    */
   triggerWeightsColumn(event: any): void {
+    const fieldsToUpdate: any = {};
     if (!event.target.checked) {
-      this.model.msqWeights = [];
-      this.model.msqOtherWeight = 0;
+      fieldsToUpdate.msqWeights = [];
+      fieldsToUpdate.msqOtherWeight = 0;
     } else {
-      this.model.msqWeights = Array(this.model.msqChoices.length).fill(0);
+      fieldsToUpdate.msqWeights = Array(this.model.msqChoices.length).fill(0);
     }
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 }

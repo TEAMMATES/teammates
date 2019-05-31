@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -18,16 +18,21 @@ const NONE_OF_THE_ABOVE: string = 'None of the above';
   styleUrls: ['./msq-question-edit-answer-form.component.scss'],
 })
 export class MsqQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails> implements OnInit {
+    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
+    implements OnInit, OnChanges {
 
   readonly NO_VALUE: number = NO_VALUE;
-  isMsqOptionSelected: boolean[] = Array(this.questionDetails.msqChoices.length).fill(false);
+  isMsqOptionSelected: boolean[] = [];
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
   }
 
   ngOnInit(): void {
+  }
+
+  // sync the internal status with the input data
+  ngOnChanges(): void {
     if (this.responseDetails.answers[0] !== NONE_OF_THE_ABOVE) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
         const indexOfElementInAnswerArray: number
@@ -44,7 +49,9 @@ export class MsqQuestionEditAnswerFormComponent
    */
   disableNoneOfTheAboveOption(): void {
     if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
+      const newAnswers: string[] = this.responseDetails.answers.slice();
+      newAnswers.splice(0 , 1);
+      this.triggerResponseDetailsChange('answers', newAnswers);
     }
   }
 
@@ -52,32 +59,28 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
-    this.isMsqOptionSelected[index] = !this.isMsqOptionSelected[index];
     this.disableNoneOfTheAboveOption();
-    if (this.isMsqOptionSelected[index]) {
-      this.responseDetails.answers.push(this.questionDetails.msqChoices[index]);
+    const newAnswers: string[] = this.responseDetails.answers.slice();
+    const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
+    if (indexInResponseArray > -1) {
+      newAnswers.splice(indexInResponseArray, 1);
     } else {
-      const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
-      this.responseDetails.answers.splice(indexInResponseArray, 1);
+      newAnswers.push(this.questionDetails.msqChoices[index]);
     }
+    this.triggerResponseDetailsChange('answers', newAnswers);
   }
 
   /**
    * Updates the other option checkbox when clicked.
    */
   updateIsOtherOption(): void {
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.isOther = !this.responseDetails.isOther;
     this.disableNoneOfTheAboveOption();
-    this.responseDetails.isOther = !this.responseDetails.isOther;
-    if (!this.responseDetails.isOther) {
-      this.responseDetails.otherFieldContent = '';
+    if (!fieldsToUpdate.isOther) {
+      fieldsToUpdate.otherFieldContent = '';
     }
-  }
-
-  /**
-   * Updates the other field content.
-   */
-  updateOtherOptionText(otherOptionText: string): void {
-    this.responseDetails.otherFieldContent = otherOptionText;
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -91,14 +94,18 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
+    let newAnswers: string[] = this.responseDetails.answers.slice();
+    const fieldsToUpdate: any = {};
     if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
+      newAnswers.splice(0, 1);
     } else {
       this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
-      this.responseDetails.answers = [];
-      this.responseDetails.isOther = false;
-      this.responseDetails.otherFieldContent = '';
-      this.responseDetails.answers[0] = NONE_OF_THE_ABOVE;
+      newAnswers = [];
+      fieldsToUpdate.isOther = false;
+      fieldsToUpdate.otherFieldContent = '';
+      newAnswers[0] = NONE_OF_THE_ABOVE;
     }
+    fieldsToUpdate.answers = newAnswers;
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 }
