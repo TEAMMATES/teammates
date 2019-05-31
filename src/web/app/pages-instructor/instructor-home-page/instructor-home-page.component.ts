@@ -98,8 +98,8 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Handles click events on the course tab model.
    */
   handleClick(event: Event, courseTabModel: CourseTabModel): boolean {
-    if (event.srcElement &&
-        !event.srcElement.className.includes('dropdown-toggle')) {
+    if (event.target &&
+        !(event.target as HTMLElement).className.includes('dropdown-toggle')) {
       return !courseTabModel.isTabExpanded;
     }
     return courseTabModel.isTabExpanded;

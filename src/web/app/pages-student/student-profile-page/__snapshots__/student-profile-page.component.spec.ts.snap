@@ -262,7 +262,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   id=""
   nationalities={[Function Array]}
   ngbModal={[Function NgbModal]}
-  pictureKey={[Function String]}
   profilePicLink={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}

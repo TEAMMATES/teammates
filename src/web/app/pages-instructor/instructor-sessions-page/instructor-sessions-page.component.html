@@ -38,17 +38,17 @@
     <h2 class="text-muted">
       <i class="fas fa-trash-alt"></i> Feedback Sessions Recycle Bin
     </h2>
-    <div class="card">
-      <div class="card-header recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
+    <div class="card bg-light top-padded">
+      <div class="card-header bg-secondary recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
         <div class="row align-items-center">
           <div class="col-6 text-white">
             <b>Recycle Bin</b>
           </div>
-          <div class="col-6 text-right">
+          <div class="col-6 text-right bin-header-button">
             <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
-                    (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSession()"><i class="fas fa-check"></i> Restore All</button>&nbsp;
+                    (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSession()"><i class="fas fa-check"></i> Restore All</button>
             <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
-                    (click)="$event.stopPropagation(); permanentDeleteAllSessions()"><i class="fas fa-times"></i> Delete All</button>&nbsp;
+                    (click)="$event.stopPropagation(); permanentDeleteAllSessions()"><i class="fas fa-times"></i> Delete All</button>
             <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
             <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
           </div>
@@ -82,7 +82,7 @@
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
               </th>
-              <th>Actions</th>
+              <th class="text-center">Action(s)</th>
             </tr>
           </thead>
           <tbody>
@@ -95,7 +95,7 @@
               <td [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
               </td>
-              <td class="actions-cell">
+              <td class="text-center actions-cell">
                 <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore the feedback session" (click)="restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel)">Restore</button>
                 <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete the feedback session" (click)="permanentDeleteSession(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
               </td>

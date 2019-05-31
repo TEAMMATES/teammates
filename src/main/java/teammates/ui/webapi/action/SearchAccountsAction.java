@@ -20,7 +20,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.AdminSearchResultData;
 
-
 /**
  * Searches for accounts.
  */

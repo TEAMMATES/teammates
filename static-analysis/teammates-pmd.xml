@@ -113,6 +113,7 @@
 
         <!-- Not worth the benefit -->
         <exclude name="ConstructorCallsOverridableMethod"/>
+        <exclude name="DetachedTestCase"/>
         <exclude name="JUnitSpelling"/>
         <exclude name="JUnitStaticSuite"/>
         <exclude name="NullAssignment"/>
