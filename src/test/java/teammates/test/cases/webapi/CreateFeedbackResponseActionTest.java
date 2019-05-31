@@ -1,7 +1,6 @@
 package teammates.test.cases.webapi;
 
 import org.apache.http.HttpStatus;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -51,7 +50,6 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
     @Test
     @Override
     protected void testExecute() throws Exception {
-        useTypicalDataBundle();
         ______TS("not enough attributes");
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
@@ -111,13 +109,12 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntentParams).execute());
+        verifyHttpParameterFailure(invalidIntentParams);
     }
 
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        useTypicalDataBundle();
         ______TS("non-exist feedback question");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] nonExistFeedbackQuestionParams = {
@@ -192,8 +189,8 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
         return createRequest;
     }
 
-    @BeforeMethod
-    private void useTypicalDataBundle() {
+    @Override
+    protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
         FeedbackSessionAttributes gracePeriodSession;
         FeedbackSessionAttributes session1InCourse1;
