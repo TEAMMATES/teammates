@@ -30,6 +30,13 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
-    this.detailsChange.emit(Object.assign(this.model, { [field]: data }));
+    this.detailsChange.emit(Object.assign({}, this.model, { [field]: data }));
+  }
+
+  /**
+   * Triggers changes of the question details for the form.
+   */
+  triggerModelChangeBatch(obj: {[key: string]: any}): void {
+    this.detailsChange.emit(Object.assign({}, this.model, obj));
   }
 }
