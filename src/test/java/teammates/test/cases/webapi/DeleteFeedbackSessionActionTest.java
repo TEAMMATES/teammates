@@ -28,26 +28,37 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
     @Test
     @Override
     protected void testExecute() throws Exception {
+        // see test cases below
+    }
+
+    @Test
+    public void testDeleteFeedbackSessionAction_invalidParameters_shouldThrowHttpParameterException() {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        ______TS("Not enough parameters");
+        ______TS("No course ID");
         String[] noCourseIdParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
+        verifyHttpParameterFailure(noCourseIdParams);
 
+        ______TS("No session name");
         String[] noSessionname = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-
-        verifyHttpParameterFailure(noCourseIdParams);
         verifyHttpParameterFailure(noSessionname);
+
+        ______TS("Empty parameters");
         verifyHttpParameterFailure();
+    }
 
-        ______TS("Typical case: Delete from recycle bin");
+    @Test
+    public void testDeleteFeedbackSessionAction_typicalCase_shouldPass() throws Exception {
+        ______TS("Delete session that has been soft deleted");
 
-
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -57,6 +68,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         assertNotNull(logic.getFeedbackSessionDetails(session.getFeedbackSessionName(), course.getId()));
 
         logic.moveFeedbackSessionToRecycleBin(session.getFeedbackSessionName(), course.getId());
+        assertNotNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
 
         DeleteFeedbackSessionAction deleteFeedbackSessionAction = getAction(params);
         JsonResult result = getJsonResult(deleteFeedbackSessionAction);
@@ -65,8 +77,46 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
         assertNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
 
+        ______TS("Delete session not in recycle bin");
+
+        FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session2.getFeedbackSessionName(),
+        };
+
+        assertNull(logic.getFeedbackSessionFromRecycleBin(session2.getFeedbackSessionName(), course.getId()));
+        assertNotNull(logic.getFeedbackSessionDetails(session2.getFeedbackSessionName(), course.getId()));
+
+        deleteFeedbackSessionAction = getAction(params);
+        result = getJsonResult(deleteFeedbackSessionAction);
+        messageOutput = (MessageOutput) result.getOutput();
+
+        assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
+        assertThrows(EntityDoesNotExistException.class,
+                () -> logic.getFeedbackSessionDetails(session2.getFeedbackSessionName(), course.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackSession_failureCases_shouldFailSilently() {
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
+
         ______TS("Delete session that has already been deleted");
 
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+        };
+        assertNotNull(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()));
+        DeleteFeedbackSessionAction deleteFeedbackSessionAction = getAction(params);
+
+        // Delete once
+        getJsonResult(deleteFeedbackSessionAction);
+        assertNull(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()));
+
+        // Delete again
         // Will fail silently and not throw any exception
         getJsonResult(deleteFeedbackSessionAction);
 
@@ -77,30 +127,11 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName",
         };
 
+        assertNull(logic.getFeedbackSession("randomName", course.getId()));
         deleteFeedbackSessionAction = getAction(params);
 
         // Will fail silently and not throw any exception
         getJsonResult(deleteFeedbackSessionAction);
-
-        ______TS("Rare success case: Delete session not in recycle bin");
-
-        FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
-
-        params = new String[] {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session2.getFeedbackSessionName(),
-        };
-
-        assertNotNull(logic.getFeedbackSessionDetails(session2.getFeedbackSessionName(), course.getId()));
-
-        deleteFeedbackSessionAction = getAction(params);
-        result = getJsonResult(deleteFeedbackSessionAction);
-        messageOutput = (MessageOutput) result.getOutput();
-
-        assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
-        assertThrows(EntityDoesNotExistException.class,
-                () -> logic.getFeedbackSessionDetails(session2.getFeedbackSessionName(), course.getId()));
-
     }
 
     @Test
