@@ -28,16 +28,28 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
     @Test
     @Override
     protected void testExecute() throws Exception {
-        ______TS("Not enough parameters");
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
+        ______TS("Not enough parameters");
+        String[] noCourseIdParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+        };
+
+        String[] noSessionname = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+        };
+
+
+        verifyHttpParameterFailure(noCourseIdParams);
+        verifyHttpParameterFailure(noSessionname);
         verifyHttpParameterFailure();
 
         ______TS("Typical case: Delete from recycle bin");
 
-        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
-        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        String[] params = {
+
+        String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
