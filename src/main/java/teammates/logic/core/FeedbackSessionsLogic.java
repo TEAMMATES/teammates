@@ -1312,6 +1312,7 @@ public final class FeedbackSessionsLogic {
      *
      * @return the published feedback session
      * @throws InvalidParametersException if session is already published
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
     public FeedbackSessionAttributes publishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -1338,6 +1339,7 @@ public final class FeedbackSessionsLogic {
      *
      * @return the unpublished feedback session
      * @throws InvalidParametersException if session is already unpublished
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
     public FeedbackSessionAttributes unpublishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
