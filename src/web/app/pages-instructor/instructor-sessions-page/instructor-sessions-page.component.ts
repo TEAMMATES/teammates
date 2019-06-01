@@ -72,6 +72,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
 
   // url params
   user: string = '';
+  courseId: string = '';
 
   // data
   courseCandidates: Course[] = [];
@@ -134,6 +135,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
+      this.courseId = queryParams.courseid;
     });
 
     this.templateSessions = this.feedbackSessionsService.getTemplateSessions();
@@ -182,8 +184,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    * Sets default values for the session edit form.
    */
   initDefaultValuesForSessionEditForm(): void {
-    // select the first course by default
-    if (this.courseCandidates.length !== 0) {
+    // if specified in the query and is valid, select that course
+    // otherwise, select the first course by default
+    const course: Course | undefined = this.courseCandidates.find((c: Course) => c.courseId === this.courseId);
+    if (course) {
+      this.sessionEditFormModel.courseId = course.courseId;
+      this.sessionEditFormModel.courseName = course.courseName;
+      this.sessionEditFormModel.timeZone = course.timeZone;
+    } else if (this.courseCandidates.length !== 0) {
       this.sessionEditFormModel.courseId = this.courseCandidates[0].courseId;
       this.sessionEditFormModel.courseName = this.courseCandidates[0].courseName;
       this.sessionEditFormModel.timeZone = this.courseCandidates[0].timeZone;
