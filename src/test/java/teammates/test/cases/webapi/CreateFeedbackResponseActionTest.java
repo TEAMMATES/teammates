@@ -3,6 +3,7 @@ package teammates.test.cases.webapi;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -50,10 +51,12 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
     @Test
     @Override
     protected void testExecute() throws Exception {
+
         ______TS("not enough attributes");
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
         verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId());
+
         ______TS("typical case for student");
         loginAsStudent(student2InCourse1.getGoogleId());
         String[] paramsQn2 = {
@@ -66,6 +69,10 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
 
         assertEquals(HttpStatus.SC_OK, typicalResult.getStatusCode());
         FeedbackResponseData typicalData = (FeedbackResponseData) typicalResult.getOutput();
+        FeedbackResponseAttributes responseAddedForStudent =
+                logic.getFeedbackResponse(qn2InSession1InCourse1.getId(),
+                        student2InCourse1.getEmail(), student1InCourse1.getEmail());
+        assertNotNull(responseAddedForStudent);
         assertEquals("This is the text", typicalData.getResponseDetails().getAnswerString());
         assertEquals(student1InCourse1.getEmail(), typicalData.getRecipientIdentifier());
         assertNotNull(typicalData.getFeedbackResponseId());
@@ -83,6 +90,10 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
 
         assertEquals(HttpStatus.SC_OK, typicalResultInstructor.getStatusCode());
         FeedbackResponseData typicalDataInstructor = (FeedbackResponseData) typicalResultInstructor.getOutput();
+        FeedbackResponseAttributes responseAddedForInstructor =
+                logic.getFeedbackResponse(qn2InGracePeriodInCourse1.getId(),
+                        instructor2OfCourse1.getEmail(), instructor2OfCourse1.getEmail());
+        assertNotNull(responseAddedForInstructor);
         assertEquals("This is the text", typicalDataInstructor.getResponseDetails().getAnswerString());
         assertNotNull(typicalDataInstructor.getFeedbackResponseId());
         assertEquals(instructor2OfCourse1.getEmail(), typicalDataInstructor.getGiverIdentifier());
@@ -115,39 +126,48 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
     @Test
     @Override
     protected void testAccessControl() throws Exception {
+
         ______TS("non-exist feedback question");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] nonExistFeedbackQuestionParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomNonExist",
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        assertThrows(EntityNotFoundException.class, () -> getAction(nonExistFeedbackQuestionParams)
-                .checkAccessControl());
+        assertThrows(EntityNotFoundException.class,
+                () -> getAction(nonExistFeedbackQuestionParams).checkAccessControl());
+
         ______TS("feedback session is closed");
         String[] closedFeedbackSessionParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InClosedSessionInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         verifyCannotAccess(closedFeedbackSessionParams);
+
         ______TS("in preview request");
         String[] previewParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.PREVIEWAS, "nonEmptyPreviewParam",
+                Const.ParamsNames.PREVIEWAS, student1InCourse1.getEmail(),
         };
         verifyCannotAccess(previewParams);
+
         ______TS("not answerable for students");
         String[] notAnswerableForStudents = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
+        //verify not answerable to students
+        assertThrows(UnauthorizedAccessException.class, () -> verifyAnswerableForStudent(qn2InGracePeriodInCourse1));
         verifyCannotAccess(notAnswerableForStudents);
+
         ______TS("not answerable to instructors");
         String[] notAnswerableForInstructors = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
+        assertThrows(UnauthorizedAccessException.class, () -> verifyAnswerableForInstructor(qn1InSession1InCourse1));
         verifyCannotAccess(notAnswerableForInstructors);
+
         ______TS("invalid HTTP parameters");
         String[] invalidParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
@@ -167,6 +187,7 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
             FeedbackResponseCreateRequest createRequest = getResponseRequest(student2InCourse1.getEmail());
             getAction(createRequest, invalidRecipientForStudent).checkAccessControl();
         });
+
         ______TS("invalid recipient for instructor");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] invalidRecipientForInstructor = {
@@ -180,24 +201,39 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
 
     }
 
-    private FeedbackResponseCreateRequest getResponseRequest(String email) {
+    private FeedbackResponseCreateRequest getResponseRequest(String recipientEmail) {
         FeedbackResponseCreateRequest createRequest = new FeedbackResponseCreateRequest();
         createRequest.setQuestionType(FeedbackQuestionType.TEXT);
-        createRequest.setRecipientIdentifier(email);
+        createRequest.setRecipientIdentifier(recipientEmail);
         FeedbackResponseDetails responseDetails = new FeedbackTextResponseDetails("This is the text");
         createRequest.setResponseDetails(responseDetails);
         return createRequest;
     }
 
+    private void verifyAnswerableForInstructor(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        assertNotNull(feedbackQuestionAttributes);
+
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
+                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.SELF) {
+            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors");
+        }
+    }
+
+    private void verifyAnswerableForStudent(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        assertNotNull(feedbackQuestionAttributes);
+
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
+                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
+            throw new UnauthorizedAccessException("Feedback question is not answerable for students");
+        }
+    }
+
     @Override
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
-        FeedbackSessionAttributes gracePeriodSession;
-        FeedbackSessionAttributes session1InCourse1;
-        FeedbackSessionAttributes closedSession;
-        session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
-        closedSession = typicalBundle.feedbackSessions.get("closedSession");
+        FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes closedSession = typicalBundle.feedbackSessions.get("closedSession");
         instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         qn1InSession1InCourse1 = logic.getFeedbackQuestion(
