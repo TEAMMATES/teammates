@@ -14,7 +14,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.GetFeedbackResponsesAction;
 import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
@@ -52,56 +51,43 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     @Test
     protected void testExecute_notEnoughParameters_shouldFail() {
         loginAsStudent(student1InCourse1.getGoogleId());
+
         ______TS("Not enough parameters");
-        verifyHttpParameterFailure_excute();
-        verifyHttpParameterFailure_excute(Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId());
-        verifyHttpParameterFailure_excute(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
+        verifyHttpParameterFailure();
+        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId());
+        verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
     }
 
     @Test
     protected void testExecute_invalidIntent_shouldFail() {
         loginAsStudent(student1InCourse1.getGoogleId());
+
         ______TS("Invalid Intent");
         String[] paramsForInvalidIntent = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
-        verifyHttpParameterFailure_excute(paramsForInvalidIntent);
+        verifyHttpParameterFailure(paramsForInvalidIntent);
     }
 
     @Test
     protected void testExecute_studentSubmission_shouldGetResponseSuccessfully() {
         loginAsStudent(student1InCourse1.getGoogleId());
+
         ______TS("Typical success case as a student");
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        GetFeedbackResponsesAction a = getAction(params);
-        JsonResult actualResult = getJsonResult(a);
-
-        verifyHttpStatusIsOk(actualResult.getStatusCode());
-        FeedbackResponsesData actualData = (FeedbackResponsesData) actualResult.getOutput();
+        FeedbackResponsesData actualData = getFeedbackResponse(params);
         List<FeedbackResponseData> actualResponses = actualData.getResponses();
         assertEquals(1, actualResponses.size());
-
         FeedbackResponseData actualResponse = actualResponses.get(0);
-        FeedbackResponseAttributes expectedStudent =
+        FeedbackResponseAttributes expected =
                 logic.getFeedbackResponsesFromStudentOrTeamForQuestion(qn1InSession1InCourse1,
                         student1InCourse1).get(0);
-        verifyIdNotNull(actualResponse.getFeedbackResponseId());
-        assertEquals(expectedStudent.getId(), actualResponse.getFeedbackResponseId());
-        assertEquals(expectedStudent.getGiver(), actualResponse.getGiverIdentifier());
-        assertEquals(expectedStudent.getRecipient(), actualResponse.getRecipientIdentifier());
-        assertEquals(expectedStudent.getResponseDetails().getAnswerString(), actualResponse
-                .getResponseDetails()
-                .getAnswerString());
-        assertEquals(expectedStudent.getResponseDetails().questionType, actualResponse
-                .getResponseDetails().questionType);
-
-        assertEquals(JsonUtils.toJson(expectedStudent.getResponseDetails()),
-                JsonUtils.toJson(actualResponse.getResponseDetails()));
-
+        assertNotNull(actualResponse.getFeedbackResponseId());
+        verifyFeedbackResponseEquals(expected, actualResponse);
     }
 
     @Test
@@ -112,51 +98,38 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        GetFeedbackResponsesAction a = getAction(params);
-        JsonResult actualResult = getJsonResult(a);
-
-        verifyHttpStatusIsOk(actualResult.getStatusCode());
-        FeedbackResponsesData actualData =
-                (FeedbackResponsesData) actualResult.getOutput();
+        FeedbackResponsesData actualData = getFeedbackResponse(params);
         List<FeedbackResponseData> actualResponses = actualData.getResponses();
         assertEquals(1, actualResponses.size());
 
         FeedbackResponseData actualResponse = actualResponses.get(0);
-        FeedbackResponseAttributes expectedForInstructor =
+        FeedbackResponseAttributes expected =
                 logic.getFeedbackResponsesFromInstructorForQuestion(qn2InGracePeriodInCourse1, instructor1OfCourse1)
                         .get(0);
-        verifyIdNotNull(actualResponse.getFeedbackResponseId());
-        assertEquals(expectedForInstructor.getId(), actualResponse.getFeedbackResponseId());
-        assertEquals(expectedForInstructor.getGiver(), actualResponse.getGiverIdentifier());
-        assertEquals(expectedForInstructor.getRecipient(), actualResponse.getRecipientIdentifier());
-        assertEquals(expectedForInstructor.getResponseDetails().getAnswerString(), actualResponse
-                .getResponseDetails()
-                .getAnswerString());
-        assertEquals(expectedForInstructor.getResponseDetails().questionType, actualResponse
-                .getResponseDetails().questionType);
-
-        assertEquals(JsonUtils.toJson(expectedForInstructor.getResponseDetails()),
-                JsonUtils.toJson(actualResponse.getResponseDetails()));
+        assertNotNull(actualResponse.getFeedbackResponseId());
+        verifyFeedbackResponseEquals(expected, actualResponse);
     }
 
     @Test
     @Override
     protected void testAccessControl() throws Exception {
+
         ______TS("non-existing feedback response");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] nonExistParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomNonExistId",
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        verifyCannotFindEntify(nonExistParams);
+        assertThrows(EntityNotFoundException.class,
+                () -> getAction(nonExistParams).checkAccessControl());
 
         ______TS("Not answerable to students");
         loginAsStudent(student1InCourse1.getGoogleId());
-        String[] notAnaserableToStudents = {
+        String[] notAnswerableToStudents = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        verifyCannotAccess(notAnaserableToStudents);
+        verifyCannotAccess(notAnswerableToStudents);
 
         ______TS("Not answerable to instructors");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -180,7 +153,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        verifyCannotFindEntify(studentAccessOtherStudentsParams);
+        assertThrows(EntityNotFoundException.class,
+                () -> getAction(studentAccessOtherStudentsParams).checkAccessControl());
 
         ______TS("instructor access other instructor's response from different course");
         loginAsInstructor(instructor1OfCourse2.getGoogleId());
@@ -196,59 +170,65 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
-        verifyHttpParameterFailure_checkAccessControl(unauthorizedIntentFullDetail);
+        assertThrows(InvalidHttpParameterException.class,
+                () -> getAction(unauthorizedIntentFullDetail).checkAccessControl());
+
         ______TS("Unauthorized Intent Instructor Result");
         String[] unauthorizedIntentInstructorResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
-        verifyHttpParameterFailure_checkAccessControl(unauthorizedIntentInstructorResult);
+        assertThrows(InvalidHttpParameterException.class,
+                () -> getAction(unauthorizedIntentInstructorResult).checkAccessControl());
+
         ______TS("Unauthorized Intent Student Result");
         String[] unauthorizedIntentStudentResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
-        verifyHttpParameterFailure_checkAccessControl(unauthorizedIntentStudentResult);
-        ______TS("typical success case");
+        assertThrows(InvalidHttpParameterException.class,
+                () -> getAction(unauthorizedIntentStudentResult).checkAccessControl());
+
+        ______TS("typical success case as student");
         loginAsStudent(student1InCourse1.getGoogleId());
-        String[] validParams = {
+        String[] validStudentParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        verifyCanAccess(validParams);
+        verifyCanAccess(validStudentParams);
+
+        ______TS("typical success case as instructor");
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        String[] validInstructorParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+        };
+        verifyCanAccess(validInstructorParams);
 
     }
 
-    private void verifyCannotFindEntify(String... params) {
-        Action a = getAction(params);
-        assertThrows(EntityNotFoundException.class, () -> a.checkAccessControl());
+    private FeedbackResponsesData getFeedbackResponse(String[] params) {
+        GetFeedbackResponsesAction a = getAction(params);
+        JsonResult actualResult = getJsonResult(a);
+        assertEquals(HttpStatus.SC_OK, actualResult.getStatusCode());
+        return (FeedbackResponsesData) actualResult.getOutput();
     }
 
-    private void verifyHttpParameterFailure_excute(String... params) {
-        verifyHttpParameterFailure(params);
-    }
-
-    private void verifyHttpParameterFailure_checkAccessControl(String... params) {
-        Action a = getAction(params);
-        assertThrows(InvalidHttpParameterException.class, () -> a.checkAccessControl());
-    }
-
-    private void verifyHttpStatusIsOk(int statusCode) {
-        assertEquals(HttpStatus.SC_OK, statusCode);
-    }
-
-    private void verifyIdNotNull(String id) {
-        assertNotNull(id);
+    private void verifyFeedbackResponseEquals(FeedbackResponseAttributes expected, FeedbackResponseData actual) {
+        assertEquals(expected.getId(), actual.getFeedbackResponseId());
+        assertEquals(expected.getGiver(), actual.getGiverIdentifier());
+        assertEquals(expected.getRecipient(), actual.getRecipientIdentifier());
+        assertEquals(expected.getResponseDetails().getAnswerString(), actual.getResponseDetails().getAnswerString());
+        assertEquals(expected.getResponseDetails().questionType, actual.getResponseDetails().questionType);
+        assertEquals(JsonUtils.toJson(expected.getResponseDetails()),
+                JsonUtils.toJson(actual.getResponseDetails()));
     }
 
     @Override
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
-        FeedbackSessionAttributes gracePeriodSession;
-        FeedbackSessionAttributes session1InCourse1;
-
-        session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         qn1InSession1InCourse1 = logic.getFeedbackQuestion(
@@ -258,5 +238,4 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         student1InCourse2 = typicalBundle.students.get("student1InCourse2");
         instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
     }
-
 }
