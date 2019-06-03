@@ -65,7 +65,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
 
-        assertNotNull(logic.getFeedbackSessionDetails(session.getFeedbackSessionName(), course.getId()));
+        assertNotNull(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()));
 
         logic.moveFeedbackSessionToRecycleBin(session.getFeedbackSessionName(), course.getId());
         assertNotNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
@@ -76,6 +76,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
         assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
         assertNull(logic.getFeedbackSessionFromRecycleBin(session.getFeedbackSessionName(), course.getId()));
+        assertNull(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()));
 
         ______TS("Delete session not in recycle bin");
 
@@ -87,15 +88,14 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         };
 
         assertNull(logic.getFeedbackSessionFromRecycleBin(session2.getFeedbackSessionName(), course.getId()));
-        assertNotNull(logic.getFeedbackSessionDetails(session2.getFeedbackSessionName(), course.getId()));
+        assertNotNull(logic.getFeedbackSession(session2.getFeedbackSessionName(), course.getId()));
 
         deleteFeedbackSessionAction = getAction(params);
         result = getJsonResult(deleteFeedbackSessionAction);
         messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
-        assertThrows(EntityDoesNotExistException.class,
-                () -> logic.getFeedbackSessionDetails(session2.getFeedbackSessionName(), course.getId()));
+        assertNull(logic.getFeedbackSession(session2.getFeedbackSessionName(), course.getId()));
     }
 
     @Test
@@ -119,6 +119,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         // Delete again
         // Will fail silently and not throw any exception
         getJsonResult(deleteFeedbackSessionAction);
+        assertNull(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()));
 
         ______TS("Delete session that does not exist");
 
@@ -132,6 +133,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
         // Will fail silently and not throw any exception
         getJsonResult(deleteFeedbackSessionAction);
+        assertNull(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()));
     }
 
     @Test
