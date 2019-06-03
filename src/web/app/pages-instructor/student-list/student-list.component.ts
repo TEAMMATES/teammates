@@ -33,8 +33,6 @@ export class StudentListComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
-  private _sections: StudentListSectionData[] = [];
-
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
@@ -46,17 +44,13 @@ export class StudentListComponent implements OnInit {
   }
 
   @Input()
-  set sections (sections: StudentListSectionData[]) {
+  set sections(sections: StudentListSectionData[]) {
     this.students = this.mapStudentsFromSectionData(sections);
-    this._sections = sections;
   }
 
-  get sections(): StudentListSectionData[] {
-    return this._sections;
-  }
 
   /**
-   * Flatten section data
+   * Flatten section data.
    */
   mapStudentsFromSectionData(sections: StudentListSectionData[]): StudentListStudentData[] {
     const students: StudentListStudentData[] = [];
