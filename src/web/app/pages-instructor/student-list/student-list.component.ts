@@ -72,11 +72,8 @@ export class StudentListComponent implements OnInit {
    * Returns whether this course are divided into sections
    */
   hasSection(): boolean {
-    if (this.students.find((student: StudentListStudentData) =>
-        student.section ? student.section.sectionName !== 'None' : false)) {
-      return true;
-    }
-    return  false;
+    return (this.students.some((student: StudentListStudentData) =>
+        student.section ? student.section.sectionName !== 'None' : false));
   }
 
   /**
