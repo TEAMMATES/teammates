@@ -8,9 +8,9 @@
       <option [ngValue]="CONTRIBUTION_POINT_NOT_SUBMITTED"></option>
       <option *ngFor="let point of contributionQuestionPoints" [ngValue]="point"
               [ngClass]="{'color-positive': point > 100,
-              'color-negative': point < 100,
-              'color-neutral': point === 100}">{{ point | contributionPointDescription }}</option>
-      <option *ngIf="questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE" [ngClass]="'color-neutral'">Not Sure</option>
+                'color-negative': point < 100,
+                'color-neutral': point === 100}">{{ point | contributionPointDescription }}</option>
+      <option *ngIf="questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE" class="color-neutral">Not Sure</option>
     </select>
   </div>
   <div class="col-7" *ngIf="shouldShowHelpLink">
