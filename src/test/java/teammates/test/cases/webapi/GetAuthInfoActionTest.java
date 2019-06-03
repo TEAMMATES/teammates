@@ -1,7 +1,5 @@
 package teammates.test.cases.webapi;
 
-import javax.servlet.http.Cookie;
-
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
@@ -11,7 +9,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.test.driver.MockHttpServletRequest;
-import teammates.test.driver.MockHttpServletResponse;
 import teammates.ui.webapi.action.GetAuthInfoAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.AuthInfo;
@@ -135,61 +132,46 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     @Test
     public void testExecute_addCsrfTokenCookies_shouldAddToResponseAccordingToExistingCsrfToken() {
 
-        ______TS("Test will add CSRF token cookies: No logged in user");
+        MockHttpServletRequest mockRequest = new MockHttpServletRequest(getRequestMethod(),
+                Const.ResourceURIs.URI_PREFIX + getActionUri());
+        String expectedCsrfToken = StringHelper.encrypt(mockRequest.getSession().getId());
+        String[] emptyParams = new String[] {};
+
+        ______TS("No logged in user");
 
         gaeSimulation.logoutUser();
 
-        MockHttpServletRequest mockRequest = new MockHttpServletRequest(getRequestMethod(),
-                Const.ResourceURIs.URI_PREFIX + getActionUri());
-        mockRequest.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, "some random csrf token"));
-        MockHttpServletResponse mockResponse = new MockHttpServletResponse();
+        GetAuthInfoAction a = getAction(emptyParams);
+        JsonResult r = getJsonResult(a);
 
-        GetAuthInfoAction a = getAction(mockRequest, getRequestMethod(), mockResponse);
-        getJsonResult(a);
+        assertEquals(expectedCsrfToken, r.getCookieValue());
 
-        assertEquals(StringHelper.encrypt(mockRequest.getSession().getId()), mockResponse.getCookie().getValue());
-
-        ______TS("Test will add CSRF token cookies: user logged in");
+        ______TS("User logged in with fake csrf token");
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        mockRequest = new MockHttpServletRequest(getRequestMethod(),
-                Const.ResourceURIs.URI_PREFIX + getActionUri());
-        mockRequest.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, "some random csrf token"));
-        mockResponse = new MockHttpServletResponse();
+        a = getActionWithCookie("someFakeCsrfToken", emptyParams);
+        r = getJsonResult(a);
 
-        a = getAction(mockRequest, getRequestMethod(), mockResponse);
-        getJsonResult(a);
+        assertEquals(expectedCsrfToken, r.getCookieValue());
 
-        assertEquals(StringHelper.encrypt(mockRequest.getSession().getId()), mockResponse.getCookie().getValue());
-
-        ______TS("Test will add CSRF token cookies: no existing csrf token");
+        ______TS("User logged in with non existing csrf token");
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        mockRequest = new MockHttpServletRequest(getRequestMethod(),
-                Const.ResourceURIs.URI_PREFIX + getActionUri());
-        mockResponse = new MockHttpServletResponse();
+        a = getAction(emptyParams);
+        r = getJsonResult(a);
 
-        a = getAction(mockRequest, getRequestMethod(), mockResponse);
-        getJsonResult(a);
+        assertEquals(expectedCsrfToken, r.getCookieValue());
 
-        assertEquals(StringHelper.encrypt(mockRequest.getSession().getId()), mockResponse.getCookie().getValue());
-
-        ______TS("Test not adding CSRF token cookies");
+        ______TS("User logged in with matched CSRF token cookies");
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        mockRequest = new MockHttpServletRequest(getRequestMethod(),
-                Const.ResourceURIs.URI_PREFIX + getActionUri());
-        mockRequest.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME,
-                StringHelper.encrypt(mockRequest.getSession().getId())));
-        mockResponse = new MockHttpServletResponse();
+        a = getActionWithCookie(StringHelper.encrypt(mockRequest.getSession().getId()), emptyParams);
+        r = getJsonResult(a);
 
-        a = getAction(mockRequest, getRequestMethod(), mockResponse);
-        getJsonResult(a);
-
-        assertNull(mockResponse.getCookie());
+        assertNull(r.getCookie());
     }
 
     @Override

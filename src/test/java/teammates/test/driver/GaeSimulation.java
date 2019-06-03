@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
@@ -206,9 +207,11 @@ public class GaeSimulation {
      * @param method The request method
      * @param body The request body
      * @param parts The request parts
+     * @param cookieValue The request's cookie value
      * @param params Parameters that appear in a HttpServletRequest received by the app
      */
-    public Action getActionObject(String uri, String method, String body, Map<String, Part> parts, String... params) {
+    public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
+                                  String cookieValue, String... params) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + uri);
             for (int i = 0; i < params.length; i = i + 2) {
@@ -226,26 +229,10 @@ public class GaeSimulation {
                     }
                 });
             }
+            if (cookieValue != null) {
+                req.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, cookieValue));
+            }
             MockHttpServletResponse resp = new MockHttpServletResponse();
-            Action action = new ActionFactory().getAction(req, method, resp);
-            action.setTaskQueuer(new MockTaskQueuer());
-            action.setEmailSender(new MockEmailSender());
-            return action;
-        } catch (ActionMappingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Returns an {@link Action} object with the parameters given.
-     *
-     * @param req The mock request given
-     * @param method The request method
-     * @param resp The mock response given
-     */
-    public Action getActionObjectGivenRequestResponse(MockHttpServletRequest req,
-                                                     String method, MockHttpServletResponse resp) {
-        try {
             Action action = new ActionFactory().getAction(req, method, resp);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());

@@ -3,6 +3,7 @@ package teammates.ui.webapi.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
@@ -20,10 +21,17 @@ import teammates.ui.webapi.output.MessageOutput;
 public class JsonResult extends ActionResult {
 
     private final ApiOutput output;
+    private Cookie cookie;
 
     public JsonResult(ApiOutput output) {
         super(HttpStatus.SC_OK);
         this.output = output;
+    }
+
+    public JsonResult(ApiOutput output, Cookie cookie) {
+        super(HttpStatus.SC_OK);
+        this.output = output;
+        this.cookie = cookie;
     }
 
     public JsonResult(String message) {
@@ -48,4 +56,11 @@ public class JsonResult extends ActionResult {
         pw.print(JsonUtils.toJson(output));
     }
 
+    public Cookie getCookie() {
+        return cookie;
+    }
+
+    public String getCookieValue() {
+        return cookie.getValue();
+    }
 }
