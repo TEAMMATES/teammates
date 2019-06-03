@@ -230,9 +230,9 @@ export class SessionEditFormComponent implements OnInit {
       helpWindow.onload = (): void => {
         setTimeout((): void => {
           if (helpWindow) {
-            const el: HTMLElement | null = helpWindow.document.getElementById('sessions-link');
+            const el: HTMLElement | null = helpWindow.document.getElementById('sessions');
             if (el) {
-              el.click();
+              el.scrollIntoView();
             }
           }
         }, 5);

@@ -810,9 +810,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       helpWindow.onload = (): void => {
         setTimeout((): void => {
           if (helpWindow) {
-            const el: HTMLElement | null = helpWindow.document.getElementById('questions-link');
+            const el: HTMLElement | null = helpWindow.document.getElementById('questions');
             if (el) {
-              el.click();
+              el.scrollIntoView();
             }
           }
         }, 5);
