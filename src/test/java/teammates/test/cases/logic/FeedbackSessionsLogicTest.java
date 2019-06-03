@@ -1632,8 +1632,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("failure: already published");
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> fsLogic.publishFeedbackSession(sessionUnderTest.getFeedbackSessionName(),
-                        sessionUnderTest.getCourseId()));
+                () -> fsLogic.publishFeedbackSession(
+                        sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId()));
         assertEquals("Error publishing feedback session: Session has already been published.", ipe.getMessage());
 
         ______TS("success: unpublish");
@@ -1650,8 +1650,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("failure: not published");
 
         ipe = assertThrows(InvalidParametersException.class,
-                () -> fsLogic.unpublishFeedbackSession(sessionUnderTest.getFeedbackSessionName(),
-                        sessionUnderTest.getCourseId()));
+                () -> fsLogic.unpublishFeedbackSession(
+                        sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId()));
         assertEquals("Error unpublishing feedback session: Session has already been unpublished.", ipe.getMessage());
 
     }
