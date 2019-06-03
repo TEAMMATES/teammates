@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Handsontable from 'handsontable';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -143,6 +144,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.studentService.getStudentsFromCourse(this.courseid).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
     });
+    this.isExistingStudentsPresent = true;
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],

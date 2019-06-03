@@ -10,7 +10,6 @@ import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.AccountData;
 import teammates.ui.webapi.output.MessageOutput;
 
-
 /**
  * SUT: {@link GetAccountAction}.
  */
