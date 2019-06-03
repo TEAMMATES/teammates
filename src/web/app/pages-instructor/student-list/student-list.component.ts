@@ -73,7 +73,7 @@ export class StudentListComponent implements OnInit {
    */
   hasSection(): boolean {
     if (this.students.find((student: StudentListStudentData) =>
-        student.section? student.section.sectionName !== 'None': false)) {
+        student.section ? student.section.sectionName !== 'None' : false)) {
       return true;
     }
     return  false;
