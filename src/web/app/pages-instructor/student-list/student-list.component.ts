@@ -48,7 +48,6 @@ export class StudentListComponent implements OnInit {
     this.students = this.mapStudentsFromSectionData(sections);
   }
 
-
   /**
    * Flatten section data.
    */
