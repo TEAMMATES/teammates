@@ -144,6 +144,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.studentService.getStudentsFromCourse(this.courseid).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
     });
+    this.isExistingStudentsPresent = true;
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
