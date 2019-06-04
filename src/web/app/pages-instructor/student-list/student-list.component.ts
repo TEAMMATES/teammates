@@ -1,4 +1,4 @@
-import { Component, Input, IterableDiffer, IterableDiffers, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
@@ -18,9 +18,7 @@ import { SortBy, SortOrder, StudentListSectionData, StudentListStudentData } fro
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss'],
 })
-export class StudentListComponent implements OnInit {
-  private readonly _differ: IterableDiffer<any>;
-
+export class StudentListComponent implements OnInit, DoCheck {
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
@@ -35,6 +33,8 @@ export class StudentListComponent implements OnInit {
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
+
+  private readonly _differ: IterableDiffer<any>;
 
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,
@@ -51,7 +51,7 @@ export class StudentListComponent implements OnInit {
 
   ngDoCheck(): void {
     if (this._differ) {
-      const changes = this._differ.diff(this.sections);
+      const changes: any = this._differ.diff(this.sections);
       if (changes) {
         this.students = this.mapStudentsFromSectionData(this.sections);
       }
