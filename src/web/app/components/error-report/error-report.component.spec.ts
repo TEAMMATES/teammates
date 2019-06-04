@@ -27,4 +27,32 @@ describe('ErrorReportComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have "Something went wrong" header', () => {
+    const h2 = fixture.nativeElement.querySelector('h2');
+    if (h2) {
+      expect(h2.textContent).toContain('Something went wrong');
+    }
+  });
+
+  it('should display error message', () => {
+    const error = "Error message sample";
+    component.errorMessage = error;
+
+    fixture.detectChanges();
+
+    const p = fixture.nativeElement.querySelector('p');
+    if (p) {
+      expect(p.textContent).toContain(error);
+    }
+  });
+
+  it('should get user input from Subject form', () => {
+    const input = fixture.nativeElement.querySelectorAll('input');
+
+    expect(component.subject).toEqual('User-submitted Error Report');
+    input[1].value = 'testInput';
+    input[1].dispatchEvent((new Event('input')));
+    expect(component.subject).toEqual('testInput');
+  });
 });
