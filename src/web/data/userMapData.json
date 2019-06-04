@@ -1,19 +1,19 @@
-{  
+{
    "lastUpdated":"Start of June 2019",
-   "institutes":{  
-      "Argentina":[  
+   "institutes":{
+      "Argentina":[
          "Southworks",
          "UNICEN",
          "Universidad Nacional de General Sarmiento",
          "Université Abderrahmane Mira - Bejaia"
       ],
-      "Armenia":[  
+      "Armenia":[
          "American University of Armenia"
       ],
-      "Aruba":[  
+      "Aruba":[
          "University of Aruba"
       ],
-      "Australia":[  
+      "Australia":[
          "All Saints' College",
          "Australian Institute of Business",
          "Australian National University",
@@ -87,7 +87,7 @@
          "Wesley College",
          "Western Sydney University"
       ],
-      "Austria":[  
+      "Austria":[
          "IMC University of Applied Sciences Krems",
          "Management Center Innsbruck",
          "Uni Salzburg",
@@ -95,13 +95,13 @@
          "University of Vienna",
          "Wirtschaftsuniversität Wien"
       ],
-      "Bahrain":[  
+      "Bahrain":[
          "Bahrain Polytechnic"
       ],
-      "Bangladesh":[  
+      "Bangladesh":[
          "American International University-Bangladesh"
       ],
-      "Belgium":[  
+      "Belgium":[
          "AP University College",
          "AP hogeschool Antwerpen",
          "Annuntia",
@@ -164,14 +164,14 @@
          "Vrije Universiteit Brussel",
          "WICO Campus Sint-Jozef"
       ],
-      "Bermuda":[  
+      "Bermuda":[
          "Bermuda Institute"
       ],
-      "Botswana":[  
+      "Botswana":[
          "Alpha",
          "University of Botswana"
       ],
-      "Brazil":[  
+      "Brazil":[
          "Associação Educacional Dom Bosco",
          "Centro Universitário Integrado",
          "Centro Universitário Ritter dos Reis",
@@ -211,17 +211,17 @@
          "Universidade do Vale do Rio dos Sinos",
          "University of Brasilia"
       ],
-      "Brunei Darussalam":[  
+      "Brunei Darussalam":[
          "Sekolah Menengah Sayyidina Ali",
          "University Technology Brunei"
       ],
-      "Bulgaria":[  
+      "Bulgaria":[
          "Trakia University"
       ],
-      "Cameroon":[  
+      "Cameroon":[
          "Catholic University Institute of Buea"
       ],
-      "Canada":[  
+      "Canada":[
          "Algonquin College",
          "Appleby College",
          "Argyle Secondary School",
@@ -349,7 +349,7 @@
          "École Secondaire St-François Xavier",
          "École de Technologie Supérieure"
       ],
-      "Chile":[  
+      "Chile":[
          "Pontificia Universidad Católica de Chile",
          "Pontificia Universidad Católica de Valparaíso",
          "USM",
@@ -357,7 +357,7 @@
          "Universidad de Chile",
          "Universidad de Los Andes"
       ],
-      "China":[  
+      "China":[
          "Clark University",
          "Fuzhou University",
          "Hult International Business School",
@@ -374,7 +374,7 @@
          "Yi Dian Zi Xun",
          "Zhejiang University"
       ],
-      "Colombia":[  
+      "Colombia":[
          "Colegio Nueva Granada",
          "Cooperative University of Colombia",
          "Gimnasio Moderno",
@@ -387,23 +387,23 @@
          "Universidad de los Andes",
          "Universidad del Norte"
       ],
-      "Costa Rica":[  
+      "Costa Rica":[
          "Colegio Calasanz Hispanocostarricense"
       ],
-      "Croatia":[  
+      "Croatia":[
          "Komercijalna i trgovacka skola Bjelovar",
          "University of Zagreb"
       ],
-      "Cyprus":[  
+      "Cyprus":[
          "University of Cyprus"
       ],
-      "Czech Republic":[  
+      "Czech Republic":[
          "Charles University in Prague",
          "Masaryk University",
          "Technical University of Liberec",
          "UJAK"
       ],
-      "Denmark":[  
+      "Denmark":[
          "Aalborg University",
          "Aarhus University",
          "Absalon",
@@ -419,12 +419,12 @@
          "University College Sjaelland",
          "VIA University College"
       ],
-      "Ecuador":[  
+      "Ecuador":[
          "Escuela Superior Politecnica Del Litoral",
          "UEES University",
          "Universidad San Francisco de Quito"
       ],
-      "Egypt":[  
+      "Egypt":[
          "Al-Hoda International School",
          "American University in Cairo",
          "ELAMAL School",
@@ -437,23 +437,23 @@
          "Summits International School",
          "The International School of Elite Education"
       ],
-      "El Salvador":[  
+      "El Salvador":[
          "Escuela Superior de Economía y Negocios",
          "OneLink Getcom",
          "Universidad Centroamericana José Simeón Cañas"
       ],
-      "Estonia":[  
+      "Estonia":[
          "Estonian Business School",
          "Tartu University Pärnu College",
          "University of Tartu"
       ],
-      "Faroe Islands":[  
+      "Faroe Islands":[
          "University of the Faroe Islands"
       ],
-      "Fiji":[  
+      "Fiji":[
          "University of the South Pacific"
       ],
-      "Finland":[  
+      "Finland":[
          "Centria University of Applied Sciences",
          "Kurun yhtenäiskoulu",
          "Lappeenranta University of Technology",
@@ -468,7 +468,7 @@
          "VAMK",
          "Vammalan lukio"
       ],
-      "France":[  
+      "France":[
          "Atraki",
          "Audencia",
          "Burgundy School of Business",
@@ -502,10 +502,10 @@
          "chu-toulouse.fr",
          "École centrale de Nantes"
       ],
-      "Georgia":[  
+      "Georgia":[
          "Free University"
       ],
-      "Germany":[  
+      "Germany":[
          "Bielefeld University",
          "Brackweder Realschule",
          "Downstate Medical Center",
@@ -542,10 +542,10 @@
          "Walddörfer-Gymnasium",
          "Wescale"
       ],
-      "Ghana":[  
+      "Ghana":[
          "Ashesi University"
       ],
-      "Greece":[  
+      "Greece":[
          "Athens University of Economics and Business",
          "City College",
          "MIO-ECSDE",
@@ -553,17 +553,17 @@
          "University of Sheffield, CITY College",
          "University of the Aegean"
       ],
-      "Guatemala":[  
+      "Guatemala":[
          "Colegio Americano del Sur",
          "Francisco Marroquín University",
          "Universidad Panamericana"
       ],
-      "Honduras":[  
+      "Honduras":[
          "DelCampo school",
          "Dowal School",
          "The American School of Tegucigalpa"
       ],
-      "Hong Kong":[  
+      "Hong Kong":[
          "American International School",
          "CCC Kei Yuen College",
          "CCC Rotary Secondary School",
@@ -586,18 +586,18 @@
          "Victoria Shanghai Academy",
          "YOT Chan Wong Shuk Fong Memorial Secondary School"
       ],
-      "Hungary":[  
+      "Hungary":[
          "Codecool",
          "Dózsa György Gimnázium és Táncművészeti Szakgimnázium",
          "Eötvös Loránd University",
          "UNHCR Global Learning Center",
          "University of Szeged"
       ],
-      "Iceland":[  
+      "Iceland":[
          "Hagaskóli",
          "Reykjavik University"
       ],
-      "India":[  
+      "India":[
          "Ahemdabad University",
          "Ahmedabad University",
          "All India Institute of Medical Sciences",
@@ -651,7 +651,7 @@
          "VIT University Vellore",
          "Vishwakarma Institute of Information Technology"
       ],
-      "Indonesia":[  
+      "Indonesia":[
          "AIESEC Bandung",
          "Bandung Institute of Technology",
          "ITB School of Business and Management",
@@ -672,13 +672,13 @@
          "Universitas Pendidikan Indonesia",
          "Universitas Pendidikan Indonesia"
       ],
-      "Iran":[  
+      "Iran":[
          "Shairf University of Technology"
       ],
-      "Iraq":[  
+      "Iraq":[
          "GCC Services"
       ],
-      "Ireland":[  
+      "Ireland":[
          "Cork Institute of Technology",
          "Dorset College Dublin",
          "Dublin City University",
@@ -694,13 +694,13 @@
          "University College Dublin",
          "University of Limerick"
       ],
-      "Israel":[  
+      "Israel":[
          "Hebrew University",
          "Rabin High School",
          "Rogozin A middle school",
          "The Kibbutzim College of Education"
       ],
-      "Italy":[  
+      "Italy":[
          "Arxo",
          "Bocconi University",
          "IIS Bruno-Franchetti",
@@ -716,11 +716,11 @@
          "Università Cattolica - Milano",
          "Università Cattolica del Sacro Cuore"
       ],
-      "Jamaica":[  
+      "Jamaica":[
          "University of Technology",
          "University of The West Indies, Mona"
       ],
-      "Japan":[  
+      "Japan":[
          "AdRoll",
          "Ibaraki Prefectural Koga Secondary School",
          "International University of Japan (IUJ)",
@@ -729,13 +729,13 @@
          "Showa Women's University",
          "Tokai University"
       ],
-      "Kazakhstan":[  
+      "Kazakhstan":[
          "Al-Farabi Kazakh National University",
          "Method Coding School",
          "NIS Almaty Ph.M",
          "Nazarbayev University"
       ],
-      "Kenya":[  
+      "Kenya":[
          "ALX",
          "African Launchpad Program",
          "Andela",
@@ -743,32 +743,32 @@
          "Spire",
          "University of Nairobi"
       ],
-      "Korea":[  
+      "Korea":[
          "Seoul National University",
          "Soongduk Middle School"
       ],
-      "Latvia":[  
+      "Latvia":[
          "BA School of Banking",
          "Stockholm School of Economics in Riga",
          "University of Latvia"
       ],
-      "Lebanon":[  
+      "Lebanon":[
          "American University of Beirut",
          "Lebanese American University"
       ],
-      "Lithuania":[  
+      "Lithuania":[
          "Affecto Lietuva",
          "Kaunas \"Aušros\" Gymnasium",
          "Šiaulių Dainų progymnasium"
       ],
-      "Macau":[  
+      "Macau":[
          "Institute for Tourism Studies"
       ],
-      "Macedonia":[  
+      "Macedonia":[
          "University Ss. Cyril and Methodius",
          "eLearning Centre Seeu"
       ],
-      "Malaysia":[  
+      "Malaysia":[
          "Asia School of Business",
          "HELP University",
          "Help University",
@@ -813,13 +813,13 @@
          "University of Reading",
          "University of Technology"
       ],
-      "Maldives":[  
+      "Maldives":[
          "Villa College"
       ],
-      "Mauritius":[  
+      "Mauritius":[
          "African Leadership University"
       ],
-      "Mexico":[  
+      "Mexico":[
          "Centro de Enseñanza Técnica y Superior University",
          "Centro de Estudios Superiores de Diseño",
          "Esc. Normal No. 1 Toluca",
@@ -844,17 +844,17 @@
          "Universidad de las Américas Puebla",
          "Unosquare"
       ],
-      "Moldova":[  
+      "Moldova":[
          "George Cosbuc Lyceum"
       ],
-      "Monaco":[  
+      "Monaco":[
          "International University of Monaco"
       ],
-      "Morocco":[  
+      "Morocco":[
          "George Washington Academy",
          "Tensorflows.org"
       ],
-      "Netherlands":[  
+      "Netherlands":[
          "Amsterdam University College",
          "Amsterdam University of Applied Sciences",
          "Avans Hogeschool",
@@ -937,7 +937,7 @@
          "Zuyd University of Applied Sciences",
          "mboRijnland"
       ],
-      "New Zealand":[  
+      "New Zealand":[
          "Auckland University of Technology",
          "Eastern Institute of Technology",
          "Manukau Institute of Technology",
@@ -954,17 +954,17 @@
          "University of Waikato",
          "Victoria University of Wellington"
       ],
-      "Norway":[  
+      "Norway":[
          "Høgskolen i Oslo og Akershus",
          "Høgskolen i Østfold",
          "NTNU",
          "Norges teknisk-naturvitenskapelige universitet",
          "Norwegian School of Economics"
       ],
-      "Oman":[  
+      "Oman":[
          "Sultan Qaboos University"
       ],
-      "Pakistan":[  
+      "Pakistan":[
          "Aga Khan University Hospital",
          "Institute of Business Management",
          "National University of Computer And Emerging Sciences",
@@ -972,16 +972,16 @@
          "Quaid-e-Awam University of Engineering, Science and Technology",
          "University of Engineering and Technology, Taxila"
       ],
-      "Palestine":[  
+      "Palestine":[
          "Arab American University"
       ],
-      "Panama":[  
+      "Panama":[
          "Universidad Tecnológica de Panamá"
       ],
-      "Paraguay":[  
+      "Paraguay":[
          "Universidad San Carlos"
       ],
-      "Peru":[  
+      "Peru":[
          "Independencia",
          "National University of San Agustin",
          "Open-Quechua",
@@ -989,7 +989,7 @@
          "Universidad San Ignacio de Loyola",
          "Universidad de Ingeniería y Tecnología"
       ],
-      "Philippines":[  
+      "Philippines":[
          "A Great Life",
          "Angeles University Foundation",
          "Asian Institute of Management",
@@ -1035,12 +1035,12 @@
          "aGreatLife",
          "dr. filemon c. aguilar information technology"
       ],
-      "Poland":[  
+      "Poland":[
          "Adam Mickiewicz University",
          "Codecool Poland",
          "Jagiellonian University"
       ],
-      "Portugal":[  
+      "Portugal":[
          "Escola Alemã de Lisboa",
          "Escola Profissional de Almada",
          "Faculdade de Engenharia da Universidade do Porto",
@@ -1053,19 +1053,19 @@
          "University of Minho",
          "University of Minho"
       ],
-      "Puerto Rico":[  
+      "Puerto Rico":[
          "Carlos Albizu University",
          "Universidad del Este",
          "University of Coimbra"
       ],
-      "Qatar":[  
+      "Qatar":[
          "Carnegie Mellon University",
          "Qatar University"
       ],
-      "Romania":[  
+      "Romania":[
          "Senior Interactive Academy"
       ],
-      "Russia":[  
+      "Russia":[
          "Deltacredit",
          "Higher School of Economics Saint Petersburg",
          "Higher School of Economics",
@@ -1073,14 +1073,14 @@
          "Skoltech",
          "Tomsk State University"
       ],
-      "Rwanda":[  
+      "Rwanda":[
          "UCA",
          "University of Rwanda"
       ],
-      "San Martin":[  
+      "San Martin":[
          "University of Caribbean Medical School"
       ],
-      "Saudi Arabia":[  
+      "Saudi Arabia":[
          "Al-Imam University",
          "Alhamra school",
          "American International School of Jeddah",
@@ -1089,14 +1089,14 @@
          "Prince Sattam bin Abdulaziz University",
          "Taif University"
       ],
-      "Scotland":[  
+      "Scotland":[
          "Mearns Castle High School",
          "University of the Highlands & Islands"
       ],
-      "Serbia":[  
+      "Serbia":[
          "University of Belgrade"
       ],
-      "Singapore":[  
+      "Singapore":[
          "Australian International School Singapore",
          "Bedok Green Secondary",
          "CWSS",
@@ -1167,17 +1167,17 @@
          "Woodgrove Primary School",
          "Yale-NUS"
       ],
-      "Sint Maarten":[  
+      "Sint Maarten":[
          "American University of the Caribbean"
       ],
-      "Slovenia":[  
+      "Slovenia":[
          "Gimnazija Celje - Center",
          "Ljubljana University",
          "SC Nova Gorica",
          "University of Primorska",
          "Univerza v Ljubljani"
       ],
-      "South Africa":[  
+      "South Africa":[
          "Cape Peninsula University of Technology",
          "Groote Schuur High School",
          "Kingsmead College",
@@ -1192,7 +1192,7 @@
          "University of Pretoria",
          "University of the Western Cape"
       ],
-      "South Korea":[  
+      "South Korea":[
          "Brigham Young University-Hawaii",
          "Changwon National University",
          "Chungnam National University",
@@ -1209,7 +1209,7 @@
          "SUNY Korea",
          "Solbridge International School of Business"
       ],
-      "Spain":[  
+      "Spain":[
          "CES Don Bosco",
          "Centre Universitari de Disseny",
          "Centro Didáctico",
@@ -1243,11 +1243,11 @@
          "University of Deusto",
          "University of the Basque Country"
       ],
-      "Sri Lanka":[  
+      "Sri Lanka":[
          "University of Kelaniya",
          "University of Moratuwa"
       ],
-      "Sweden":[  
+      "Sweden":[
          "Chalmers University",
          "Erik Dahlbergsgymnasiet",
          "Gothenburg University",
@@ -1258,7 +1258,7 @@
          "Umeå University",
          "Örebro University"
       ],
-      "Switzerland":[  
+      "Switzerland":[
          "Business School Lausanne",
          "EPFL",
          "HES-SO",
@@ -1272,7 +1272,7 @@
          "Swiss Hotel Management School",
          "University of Geneva"
       ],
-      "Taiwan":[  
+      "Taiwan":[
          "Chiang Mai University",
          "China Institute of Technology and Science",
          "Ching Cheng High School",
@@ -1289,10 +1289,10 @@
          "Taoyuan Ping-Jen Senior High School",
          "Yuan Ze University"
       ],
-      "Tanzania":[  
+      "Tanzania":[
          "University of Dar es Salaam"
       ],
-      "Thailand":[  
+      "Thailand":[
          "Harrow International School",
          "King Mongkut's University of Technology Thonburi",
          "Mae Fah Luang University",
@@ -1302,10 +1302,10 @@
          "Ubon Ratchathani University",
          "Yala Medical Education Center"
       ],
-      "Tunisia":[  
+      "Tunisia":[
          "National School of Computer Sciences"
       ],
-      "Turkey":[  
+      "Turkey":[
          "Balikesir University",
          "Bogazici University",
          "Credemy",
@@ -1321,7 +1321,7 @@
          "Necmettin Erbakan University",
          "Yasar University"
       ],
-      "UAE":[  
+      "UAE":[
          "ALHOSN University",
          "AXA Insurance",
          "Abu Dhabi Polytechnic",
@@ -1335,13 +1335,13 @@
          "University of Wollongong in Dubai",
          "Zayed University"
       ],
-      "Uganda":[  
+      "Uganda":[
          "Andela"
       ],
-      "Ukraine":[  
+      "Ukraine":[
          "Sumy State University"
       ],
-      "United Kingdom":[  
+      "United Kingdom":[
          "Anglia Ruskin University",
          "Aston Medical School",
          "Aston University",
@@ -1444,7 +1444,7 @@
          "University of the West of Scotland",
          "VATSIM"
       ],
-      "United States":[  
+      "United States":[
          "AGS",
          "AICDC Withdrawal Management",
          "Abilene Christian University",
@@ -2606,18 +2606,18 @@
          "iFOSS",
          "oneida-boces.org"
       ],
-      "Uruguay":[  
+      "Uruguay":[
          "Universidad ORT Uruguay"
       ],
-      "Uzbekistan":[  
+      "Uzbekistan":[
          "Westminster International University in Tashkent"
       ],
-      "Venezuela":[  
+      "Venezuela":[
          "Centro de Desarrollo Araguaney",
          "Executive Coaching Center",
          "Universidad Católica Andrés Bello"
       ],
-      "Vietnam":[  
+      "Vietnam":[
          "Can Tho University",
          "Dong Nai University",
          "Eastern International University",
