@@ -2,6 +2,7 @@ package teammates.ui.webapi.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -21,17 +22,16 @@ import teammates.ui.webapi.output.MessageOutput;
 public class JsonResult extends ActionResult {
 
     private final ApiOutput output;
-    private Cookie cookie;
+    private List<Cookie> cookies;
 
     public JsonResult(ApiOutput output) {
         super(HttpStatus.SC_OK);
         this.output = output;
     }
 
-    public JsonResult(ApiOutput output, Cookie cookie) {
-        super(HttpStatus.SC_OK);
-        this.output = output;
-        this.cookie = cookie;
+    public JsonResult(ApiOutput output, List<Cookie> cookies) {
+        this(output);
+        this.cookies = cookies;
     }
 
     public JsonResult(String message) {
@@ -54,13 +54,18 @@ public class JsonResult extends ActionResult {
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
         pw.print(JsonUtils.toJson(output));
+        if (cookies != null && !cookies.isEmpty()) {
+            for (Cookie cookie : cookies) {
+                resp.addCookie(cookie);
+            }
+        }
     }
 
-    public Cookie getCookie() {
-        return cookie;
+    public List<Cookie> getCookies() {
+        return cookies;
     }
 
-    public String getCookieValue() {
-        return cookie.getValue();
+    public String getFirstCookieValue() {
+        return cookies.get(0).getValue();
     }
 }

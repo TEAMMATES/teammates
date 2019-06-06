@@ -144,7 +144,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         GetAuthInfoAction a = getAction(emptyParams);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getCookieValue());
+        assertEquals(expectedCsrfToken, r.getFirstCookieValue());
 
         ______TS("User logged in with fake csrf token");
 
@@ -153,7 +153,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getActionWithCookie("someFakeCsrfToken", emptyParams);
         r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getCookieValue());
+        assertEquals(expectedCsrfToken, r.getFirstCookieValue());
 
         ______TS("User logged in with non existing csrf token");
 
@@ -162,7 +162,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getAction(emptyParams);
         r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getCookieValue());
+        assertEquals(expectedCsrfToken, r.getFirstCookieValue());
 
         ______TS("User logged in with matched CSRF token cookies");
 
@@ -171,7 +171,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getActionWithCookie(StringHelper.encrypt(mockRequest.getSession().getId()), emptyParams);
         r = getJsonResult(a);
 
-        assertNull(r.getCookie());
+        assertNull(r.getCookies());
     }
 
     @Override
