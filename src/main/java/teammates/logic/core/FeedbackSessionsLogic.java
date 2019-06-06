@@ -1320,8 +1320,7 @@ public final class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToPublish = getFeedbackSession(feedbackSessionName, courseId);
 
         if (sessionToPublish == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + sessionToPublish.getCourseId()
-                    + "/" + sessionToPublish.getFeedbackSessionName());
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
         if (sessionToPublish.isPublished()) {
             throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
@@ -1347,8 +1346,7 @@ public final class FeedbackSessionsLogic {
         FeedbackSessionAttributes sessionToUnpublish = getFeedbackSession(feedbackSessionName, courseId);
 
         if (sessionToUnpublish == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + sessionToUnpublish.getCourseId()
-                    + "/" + sessionToUnpublish.getFeedbackSessionName());
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
         }
         if (!sessionToUnpublish.isPublished()) {
             throw new InvalidParametersException(ERROR_FS_ALREADY_UNPUBLISH);
