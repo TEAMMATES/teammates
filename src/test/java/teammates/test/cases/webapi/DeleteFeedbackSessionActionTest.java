@@ -94,6 +94,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         messageOutput = (MessageOutput) result.getOutput();
 
         assertEquals(messageOutput.getMessage(), "The feedback session is deleted.");
+        assertNull(logic.getFeedbackSessionFromRecycleBin(session2.getFeedbackSessionName(), course.getId()));
         assertNull(logic.getFeedbackSession(session2.getFeedbackSessionName(), course.getId()));
     }
 
