@@ -48,6 +48,28 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
         return POST;
     }
 
+    @Override
+    protected void prepareTestData() {
+        removeAndRestoreTypicalDataBundle();
+        FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes closedSession = typicalBundle.feedbackSessions.get("closedSession");
+        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        qn1InSession1InCourse1 = logic.getFeedbackQuestion(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
+        qn2InGracePeriodInCourse1 = logic.getFeedbackQuestion(
+                gracePeriodSession.getFeedbackSessionName(), gracePeriodSession.getCourseId(), 2);
+        qn1InClosedSessionInCourse1 = logic.getFeedbackQuestion(
+                closedSession.getFeedbackSessionName(), closedSession.getCourseId(), 1);
+        instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
+        student2InCourse1 = typicalBundle.students.get("student2InCourse1");
+        student5InCourse1 = typicalBundle.students.get("student5InCourse1");
+        instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
+        qn2InSession1InCourse1 = logic.getFeedbackQuestion(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 2);
+    }
+
     @Test
     @Override
     protected void testExecute() throws Exception {
@@ -226,27 +248,5 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
                 && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
             throw new UnauthorizedAccessException("Feedback question is not answerable for students");
         }
-    }
-
-    @Override
-    protected void prepareTestData() {
-        removeAndRestoreTypicalDataBundle();
-        FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
-        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSessionAttributes closedSession = typicalBundle.feedbackSessions.get("closedSession");
-        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        qn1InSession1InCourse1 = logic.getFeedbackQuestion(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
-        qn2InGracePeriodInCourse1 = logic.getFeedbackQuestion(
-                gracePeriodSession.getFeedbackSessionName(), gracePeriodSession.getCourseId(), 2);
-        qn1InClosedSessionInCourse1 = logic.getFeedbackQuestion(
-                closedSession.getFeedbackSessionName(), closedSession.getCourseId(), 1);
-        instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
-        student2InCourse1 = typicalBundle.students.get("student2InCourse1");
-        student5InCourse1 = typicalBundle.students.get("student5InCourse1");
-        instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        qn2InSession1InCourse1 = logic.getFeedbackQuestion(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 2);
     }
 }
