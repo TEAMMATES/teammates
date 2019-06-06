@@ -1654,6 +1654,17 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId()));
         assertEquals("Error unpublishing feedback session: Session has already been unpublished.", ipe.getMessage());
 
+        ______TS("failure: publish/unpublish non-existent session");
+
+        assertNull(fsLogic.getFeedbackSession("randomName", "randomId"));
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.publishFeedbackSession("randomName", "randomId"));
+        assertEquals("Trying to update a non-existent feedback session: randomId/randomName", ednee.getMessage());
+
+        ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.unpublishFeedbackSession("randomName", "randomId"));
+        assertEquals("Trying to update a non-existent feedback session: randomId/randomName", ednee.getMessage());
+
     }
 
     private void testIsFeedbackSessionCompletedByInstructor() throws Exception {
