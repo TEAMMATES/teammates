@@ -85,7 +85,7 @@ public class UnublishFeedbackSessionActionTest extends BaseActionTest<UnpublishF
 
         loginAsInstructor(instructor1OfCourse1.googleId);
 
-        ______TS("non-existent feedback session");
+        ______TS("non-existent course");
 
         String[] nonExistParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "abcRandomCourseId",
@@ -94,7 +94,7 @@ public class UnublishFeedbackSessionActionTest extends BaseActionTest<UnpublishF
 
         verifyCannotAccess(nonExistParams);
 
-        ______TS("non-existent course");
+        ______TS("non-existent feedback session");
 
         nonExistParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
