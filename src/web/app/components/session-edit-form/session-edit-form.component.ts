@@ -227,16 +227,9 @@ export class SessionEditFormComponent implements OnInit {
   sessionHelpHandler(): void {
     const helpWindow: Window | null = window.open(`${environment.frontendUrl}/web/instructor/help`);
     if (helpWindow) {
-      helpWindow.onload = (): void => {
-        setTimeout((): void => {
-          if (helpWindow) {
-            const el: HTMLElement | null = helpWindow.document.getElementById('sessions');
-            if (el) {
-              el.scrollIntoView();
-            }
-          }
-        }, 5);
-      };
+      setTimeout((): void => {
+        helpWindow.dispatchEvent(new CustomEvent('scrollTo', { detail: { sectionId: 'sessions' } }));
+      }, 10);
     }
   }
 }

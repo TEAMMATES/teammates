@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Sections } from './sections';
 
@@ -22,6 +22,14 @@ export class InstructorHelpPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * Method to execute when scroll to a specific section event triggered.
+   */
+  @HostListener('window:scrollTo', ['$event'])
+  scrollTo(event: any): void {
+    this.scroll(event.detail.sectionId);
   }
 
   /**

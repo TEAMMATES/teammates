@@ -807,16 +807,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   questionsHelpHandler(): void {
     const helpWindow: Window | null = window.open(`${environment.frontendUrl}/web/instructor/help`);
     if (helpWindow) {
-      helpWindow.onload = (): void => {
-        setTimeout((): void => {
-          if (helpWindow) {
-            const el: HTMLElement | null = helpWindow.document.getElementById('questions');
-            if (el) {
-              el.scrollIntoView();
-            }
-          }
-        }, 5);
-      };
+      setTimeout((): void => {
+        helpWindow.dispatchEvent(new CustomEvent('scrollTo', { detail: { sectionId: 'questions' } }));
+      }, 10);
     }
   }
 
