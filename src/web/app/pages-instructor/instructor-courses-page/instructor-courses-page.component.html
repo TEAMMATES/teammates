@@ -8,9 +8,24 @@
     <table class="table table-striped table-bordered margin-0">
       <thead>
         <tr class="bg-primary text-white">
-          <th>Course ID</th>
-          <th>Course Name</th>
-          <th>Creation Date</th>
+          <th class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_ID)">
+            Course ID
+            <span *ngIf="tableSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
+            <span *ngIf="tableSortBy === SortBy.COURSE_ID && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+            <span *ngIf="tableSortBy === SortBy.COURSE_ID && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
+          <th class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_NAME)">
+            Course Name
+            <span *ngIf="tableSortBy !== SortBy.COURSE_NAME"><i class="fas fa-sort"></i></span>
+            <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+            <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
+          <th class="sortable-header" (click)="sortCoursesEvent(SortBy.CREATION_DATE)">
+            Creation Date
+            <span *ngIf="tableSortBy !== SortBy.CREATION_DATE"><i class="fas fa-sort"></i></span>
+            <span *ngIf="tableSortBy === SortBy.CREATION_DATE && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+            <span *ngIf="tableSortBy === SortBy.CREATION_DATE && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
           <th>Sections</th>
           <th>Teams</th>
           <th>Total Students</th>

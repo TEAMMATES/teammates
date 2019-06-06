@@ -2,6 +2,8 @@
 
 exports[`InstructorCoursesPageComponent should snap when it is undeletable and unrestorable 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll="false"
@@ -16,6 +18,8 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   user="undefined"
 >
   <div
@@ -38,14 +42,44 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -444,6 +478,8 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
 
 exports[`InstructorCoursesPageComponent should snap with all courses in course stats 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
@@ -458,6 +494,8 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   user="undefined"
 >
   <div
@@ -480,14 +518,44 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -892,6 +960,8 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
 
 exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
@@ -906,6 +976,8 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   user="undefined"
 >
   <div
@@ -928,14 +1000,44 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -984,6 +1086,8 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 
 exports[`InstructorCoursesPageComponent should snap with no courses in course stats 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
@@ -998,6 +1102,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   user="undefined"
 >
   <div
@@ -1020,14 +1126,44 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections

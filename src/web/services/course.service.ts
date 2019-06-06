@@ -17,6 +17,17 @@ export class CourseService {
   }
 
   /**
+   * Gets all course data for an instructor by calling API.
+   */
+  getAllCoursesAsInstructor(courseStatus: string): Observable<Courses> {
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'instructor',
+      coursestatus: courseStatus,
+    };
+    return this.httpRequestService.get('/courses', paramMap);
+  }
+
+  /**
    * Get course data by calling API as an instructor.
    */
   getCourseAsInstructor(courseId: string): Observable<Course> {
