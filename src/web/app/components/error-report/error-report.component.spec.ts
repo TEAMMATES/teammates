@@ -74,7 +74,7 @@ describe('ErrorReportComponent', () => {
     expect(component.subject).toEqual('testInput');
   });
 
-  it('should disable send report button and after successfully sending report', () => {
+  it('should disable send report button and set errorReportSubmitted to true after successfully sending report', () => {
     const button: any = fixture.nativeElement.querySelector('button');
 
     expect(component.sendButtonEnabled).toBeTruthy();
@@ -87,7 +87,7 @@ describe('ErrorReportComponent', () => {
     expect(component.errorReportSubmitted).toBeTruthy();
   });
 
-  it('should not disable send report button after unsuccessfully sending report', () => {
+  it('should not disable send report button and leave errorReportSubmitted as false after unsuccessfully sending report', () => {
     const button: any = fixture.nativeElement.querySelector('button');
 
     expect(component.sendButtonEnabled).toBeTruthy();
@@ -97,7 +97,7 @@ describe('ErrorReportComponent', () => {
       error: {
         message: 'This is the error message',
       },
-    }));
+  }));
     button.click();
 
     expect(component.sendButtonEnabled).toBeTruthy();
