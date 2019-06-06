@@ -1,18 +1,18 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
+import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CopySessionModalComponent } from './copy-session-modal.component';
 import {
   Course,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  SessionVisibleSetting
-} from "../../../types/api-output";
-import {By} from "@angular/platform-browser";
-import {DebugElement} from "@angular/core";
+  SessionVisibleSetting,
+} from '../../../types/api-output';
+import { CopySessionModalComponent } from './copy-session-modal.component';
 
 describe('CopySessionModalComponent', () => {
   let component: CopySessionModalComponent;
