@@ -89,7 +89,7 @@ export class SessionEditFormComponent implements OnInit {
   editExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
-  cancelExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
+  cancelEditingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
   deleteExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
@@ -202,11 +202,11 @@ export class SessionEditFormComponent implements OnInit {
   }
 
   /**
-   * Handles cancel button click event by updating instructions
+   * Handles cancel button click event.
    */
   cancelHandler(modal: any): void {
     this.modalService.open(modal).result.then(() => {
-      this.cancelExistingSessionEvent.emit();
+      this.cancelEditingSessionEvent.emit();
     }, () => {});
   }
 
