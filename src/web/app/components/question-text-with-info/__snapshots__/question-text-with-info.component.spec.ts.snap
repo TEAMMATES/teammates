@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionTextWithInfoComponent should show control link when question type is not TEXT 1`] = `
+<tm-question-text-with-info
+  FeedbackQuestionType={[Function Object]}
+  additionalInfoIsExpanded="false"
+  questionDetails={[Function Object]}
+  questionNumber="0"
+>
+  Question 0: MCQ question details
+  <a
+    href="/"
+    ng-reflect-query-params-handling="merge"
+    queryparamshandling="merge"
+  >
+     [more]
+  
+  </a>
+</tm-question-text-with-info>
+`;
+
+exports[`QuestionTextWithInfoComponent should show question detail when click control link 1`] = `
+<tm-question-text-with-info
+  FeedbackQuestionType={[Function Object]}
+  additionalInfoIsExpanded={[Function Boolean]}
+  questionDetails={[Function Object]}
+  questionNumber="0"
+>
+  Question 0: MCQ question details
+  <a
+    href="/"
+    ng-reflect-query-params-handling="merge"
+    queryparamshandling="merge"
+  >
+     [less]
+  
+  </a><div>
+    
+    
+    
+    <tm-mcq-question-additional-info
+      ng-reflect-question-details="[object Object]"
+    >
+      Multiple-choice (single answer) question options:
+  
+      
+      <div>
+         The options for this question is automatically generated from the list of all %s in this course.
+  
+      </div>
+      
+    </tm-mcq-question-additional-info>
+    
+    
+    
+    
+    
+    
+  </div>
+</tm-question-text-with-info>
+`;
