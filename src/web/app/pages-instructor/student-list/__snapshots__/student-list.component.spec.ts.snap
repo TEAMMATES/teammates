@@ -4,9 +4,10 @@ exports[`StudentListComponent should snap with default fields 1`] = `
 <tm-student-list
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _sections={[Function Array]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -14,6 +15,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   router={[Function Router]}
+  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
@@ -35,19 +37,6 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             Photo
           </th>
           
-          <th
-            class="sortable-header"
-          >
-             Section 
-            
-            <span>
-              <i
-                class="fas fa-sort"
-              />
-            </span>
-            
-            
-          </th>
           <th
             class="sortable-header"
           >
@@ -117,9 +106,10 @@ exports[`StudentListComponent should snap with enable remind button set to true 
 <tm-student-list
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _sections={[Function Array]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton={[Function Boolean]}
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -127,6 +117,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   router={[Function Router]}
+  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
@@ -733,9 +724,10 @@ exports[`StudentListComponent should snap with enable remind button set to true,
 <tm-student-list
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _sections={[Function Array]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton={[Function Boolean]}
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -743,6 +735,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   router={[Function Router]}
+  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
@@ -1347,9 +1340,10 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
 <tm-student-list
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _sections={[Function Array]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -1357,6 +1351,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   router={[Function Router]}
+  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
@@ -1920,9 +1915,10 @@ exports[`StudentListComponent should snap with some student list data and some s
 <tm-student-list
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _sections={[Function Array]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -1930,6 +1926,7 @@ exports[`StudentListComponent should snap with some student list data and some s
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   router={[Function Router]}
+  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
@@ -2495,9 +2492,10 @@ exports[`StudentListComponent should snap with some student list data when not a
 <tm-student-list
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _sections={[Function Array]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -2505,6 +2503,7 @@ exports[`StudentListComponent should snap with some student list data when not a
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   router={[Function Router]}
+  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
@@ -3068,9 +3067,10 @@ exports[`StudentListComponent should snap with some student list data with no se
 <tm-student-list
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _sections={[Function Array]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -3078,6 +3078,7 @@ exports[`StudentListComponent should snap with some student list data with no se
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   router={[Function Router]}
+  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
@@ -3257,9 +3258,10 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
 <tm-student-list
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _sections={[Function Array]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead={[Function Boolean]}
@@ -3267,6 +3269,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   router={[Function Router]}
+  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
@@ -3289,19 +3292,6 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             Photo
           </th>
           
-          <th
-            class="sortable-header"
-          >
-             Section 
-            
-            <span>
-              <i
-                class="fas fa-sort"
-              />
-            </span>
-            
-            
-          </th>
           <th
             class="sortable-header"
           >
