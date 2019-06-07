@@ -68,14 +68,14 @@ public class EnrollStudentsAction extends Action {
                     .build());
         });
 
-        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
-
         try {
             logic.validateSectionsAndTeams(studentsToEnroll, courseId);
             logic.validateTeams(studentsToEnroll, courseId);
         } catch (EnrollException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
+
+        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
 
         Set<String> existingStudentsEmail =
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
@@ -110,21 +110,5 @@ public class EnrollStudentsAction extends Action {
             }
         });
         return new JsonResult(new StudentsData(enrolledStudents));
-    }
-
-    private void validateTeamName(List<StudentAttributes> existingStudents, List<StudentAttributes> studentsToEnroll) {
-        Map<String, String> teamInSection = new HashMap<>();
-        for (StudentAttributes existingStudent : existingStudents) {
-            teamInSection.put(existingStudent.getTeam(), existingStudent.getSection());
-        }
-        for (StudentAttributes studentToEnroll : studentsToEnroll) {
-            if (teamInSection.containsKey(studentToEnroll.getTeam())
-                    && !teamInSection.get(studentToEnroll.getTeam()).equals(studentToEnroll.getSection())) {
-                throw new InvalidHttpRequestBodyException(String.format(ERROR_MESSAGE_SAME_TEAM_IN_DIFFERENT_SECTION,
-                        studentToEnroll.getTeam(), teamInSection.get(studentToEnroll.getTeam()),
-                        studentToEnroll.getSection()));
-            }
-            teamInSection.put(studentToEnroll.getTeam(), studentToEnroll.getSection());
-        }
     }
 }
