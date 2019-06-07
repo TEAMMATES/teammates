@@ -70,7 +70,6 @@ public class EnrollStudentsAction extends Action {
 
         try {
             logic.validateSectionsAndTeams(studentsToEnroll, courseId);
-            logic.validateTeams(studentsToEnroll, courseId);
         } catch (EnrollException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
