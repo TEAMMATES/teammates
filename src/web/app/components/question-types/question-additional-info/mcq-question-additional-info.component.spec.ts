@@ -28,7 +28,7 @@ describe('McqQuestionAdditionalInfoComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap with default fields', () => {
+  it('should snap with default view', () => {
     expect(fixture).toMatchSnapshot();
   });
 
