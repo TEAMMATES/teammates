@@ -107,7 +107,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   };
 
   // to get the original session model on discard changes
-  feedbackSessionModel: FeedbackSession = {
+  feedbackSessionModelBeforeEditing: FeedbackSession = {
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -304,7 +304,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
-    this.feedbackSessionModel = feedbackSession;
+    this.feedbackSessionModelBeforeEditing = feedbackSession;
 
     return model;
   }
@@ -386,8 +386,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Handles canceling existing session event without saving changes.
    */
-  cancelExistingSessionHandler(): void {
-    this.sessionEditFormModel = this.getSessionEditFormModel(this.feedbackSessionModel);
+  cancelEditingSessionHandler(): void {
+    this.sessionEditFormModel = this.getSessionEditFormModel(this.feedbackSessionModelBeforeEditing);
   }
 
   /**
