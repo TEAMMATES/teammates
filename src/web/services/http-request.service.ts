@@ -9,28 +9,30 @@ import { environment } from '../environments/environment';
 class CustomEncoder implements HttpParameterCodec {
 
   /**
-   * encode key
+   * angular will ignore the encoding for plus sign, so override the default angular encoder
+   * to enable the encoding for plus sign. Refer to:
+   * https://github.com/angular/angular/blob/8.0.0/packages/common/http/src/params.ts#L33
    */
   encodeKey(key: string): string {
     return encodeURIComponent(key);
   }
 
   /**
-   * encode value
+   * the same reason as encode key above.
    */
   encodeValue(value: string): string {
     return encodeURIComponent(value);
   }
 
   /**
-   * decode key
+   * the same as default angular encoder.
    */
   decodeKey(key: string): string {
     return decodeURIComponent(key);
   }
 
   /**
-   * decode value
+   * the same as default angular encoder.
    */
   decodeValue(value: string): string {
     return decodeURIComponent(value);
