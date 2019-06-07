@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
@@ -66,7 +69,13 @@ public class EnrollStudentsAction extends Action {
         });
 
         List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
-        validateTeamName(existingStudents, studentsToEnroll);
+
+        try {
+            logic.validateSectionsAndTeams(studentsToEnroll, courseId);
+            logic.validateTeams(studentsToEnroll, courseId);
+        } catch (EnrollException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
 
         Set<String> existingStudentsEmail =
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
