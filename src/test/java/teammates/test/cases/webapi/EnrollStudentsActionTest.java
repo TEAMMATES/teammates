@@ -118,7 +118,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         student1.section = "random section 1";
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(student1));
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
-        verifyDuplicatedTeamNameDetected(courseId, req, student1.team, studentInCourse1.section, student1.section);
+        verifyDuplicatedTeamNameDetected(courseId, req, student1.team, student1.section, studentInCourse1.section);
     }
 
     @Test
@@ -147,7 +147,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     private void verifyDuplicatedTeamNameDetected(String courseId, StudentsEnrollRequest req, String expectedTeam,
                                                   String expectedSectionOne, String expectedSectionTwo) {
         String expectedMessage = "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
-                + " Please use different team names in different sections";
+                + " Please use different team names in different sections.";
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
