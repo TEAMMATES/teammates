@@ -27,11 +27,7 @@ import teammates.ui.webapi.request.StudentsEnrollRequest;
  * <p>Return all students who are successfully enrolled.
  */
 public class EnrollStudentsAction extends Action {
-
-    private static final String ERROR_MESSAGE_SAME_TEAM_IN_DIFFERENT_SECTION =
-            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
-                    + " Please use different team names in different sections";
-
+    
     @Override
     protected AuthType getMinAuthLevel() {
         return authType.LOGGED_IN;
