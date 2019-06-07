@@ -805,12 +805,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles question 'Help' link click event.
    */
   questionsHelpHandler(): void {
-    const helpWindow: Window | null = window.open(`${environment.frontendUrl}/web/instructor/help`);
-    if (helpWindow) {
-      setTimeout((): void => {
-        helpWindow.dispatchEvent(new CustomEvent('scrollTo', { detail: { sectionId: 'questions' } }));
-      }, 10);
-    }
+    window.open(`${environment.frontendUrl}/web/instructor/help#questions`);
   }
 
   /**

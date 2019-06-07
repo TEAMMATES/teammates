@@ -1,4 +1,5 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Sections } from './sections';
 
@@ -19,17 +20,17 @@ export class InstructorHelpPageComponent implements OnInit {
 
   @ViewChild('helpPage') bodyRef ?: ElementRef;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-  }
-
-  /**
-   * Method to execute when scroll to a specific section event triggered.
-   */
-  @HostListener('window:scrollTo', ['$event'])
-  scrollTo(event: any): void {
-    this.scroll(event.detail.sectionId);
+    this.route.fragment.subscribe((f: string) => {
+      setTimeout((): void => {
+        const element: any = document.getElementById(f);
+        if (element) {
+          element.scrollIntoView();
+        }
+      }, 10);
+    });
   }
 
   /**
