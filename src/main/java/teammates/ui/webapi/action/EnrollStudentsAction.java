@@ -1,13 +1,9 @@
 package teammates.ui.webapi.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -71,7 +67,7 @@ public class EnrollStudentsAction extends Action {
         try {
             logic.validateSectionsAndTeams(studentsToEnroll, courseId);
         } catch (EnrollException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new InvalidHttpRequestBodyException(e.getMessage());
         }
 
         List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
