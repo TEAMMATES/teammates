@@ -27,7 +27,7 @@ import teammates.ui.webapi.request.StudentsEnrollRequest;
  * <p>Return all students who are successfully enrolled.
  */
 public class EnrollStudentsAction extends Action {
-    
+
     @Override
     protected AuthType getMinAuthLevel() {
         return authType.LOGGED_IN;

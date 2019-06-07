@@ -318,7 +318,7 @@ public final class StudentsLogic {
     }
 
     private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
-
+        StringBuilder errorMessage = new StringBuilder(100);
         StudentAttributes.sortByTeamName(mergedList);
 
         List<String> invalidTeamList = new ArrayList<>();
@@ -328,14 +328,13 @@ public final class StudentsLogic {
             if (currentStudent.team.equals(previousStudent.team)
                     && !currentStudent.section.equals(previousStudent.section)
                     && !invalidTeamList.contains(currentStudent.team)) {
+
+                errorMessage.append(String.format(ERROR_INVALID_TEAM_NAME,
+                        SanitizationHelper.sanitizeForHtml(previousStudent.section),
+                        SanitizationHelper.sanitizeForHtml(currentStudent.section)));
+
                 invalidTeamList.add(currentStudent.team);
             }
-        }
-
-        StringBuilder errorMessage = new StringBuilder(100);
-        for (String team : invalidTeamList) {
-            errorMessage.append(String.format(ERROR_INVALID_TEAM_NAME,
-                                              SanitizationHelper.sanitizeForHtml(team)));
         }
 
         if (errorMessage.length() != 0) {
