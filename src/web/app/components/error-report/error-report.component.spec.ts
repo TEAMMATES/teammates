@@ -11,7 +11,6 @@ describe('ErrorReportComponent', () => {
   let httpRequestService: HttpRequestService;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [ErrorReportComponent],
       imports: [
@@ -117,12 +116,10 @@ describe('ErrorReportComponent', () => {
   });
 
   it('should snap with disabled send report button after sending report', () => {
-
     component.sendButtonEnabled = false;
     component.errorReportSubmitted = true;
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
 });
