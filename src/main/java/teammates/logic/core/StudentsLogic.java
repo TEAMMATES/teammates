@@ -29,14 +29,14 @@ public final class StudentsLogic {
      * Error message when trying to create entity that already exist.
      */
     public static final String ERROR_INVALID_TEAM_NAME = "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
-            + " Please use different team names in different sections.\n";
+            + " Please use different team names in different sections.";
 
     /**
      * Error message when trying to enroll to a section that has maximum capacity.
      */
     public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
             "You are trying enroll more than %s students in section \"%s\". "
-                    + "To avoid performance problems, please do not enroll more than 100 students in a single section.";
+                    + "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
     private static final int SECTION_SIZE_LIMIT = 100;
 
@@ -311,7 +311,7 @@ public final class StudentsLogic {
 
         StringBuilder errorMessage = new StringBuilder();
         for (String section : invalidSectionList) {
-            errorMessage.append(String.format(ERROR_ENROLL_EXCEED_SECTION_LIMIT, SECTION_SIZE_LIMIT, section));
+            errorMessage.append(String.format(ERROR_ENROLL_EXCEED_SECTION_LIMIT, SECTION_SIZE_LIMIT, section, SECTION_SIZE_LIMIT));
         }
 
         return errorMessage.toString();
@@ -337,7 +337,7 @@ public final class StudentsLogic {
                 invalidTeamList.add(currentStudent.team);
             }
         }
-        
+
         return errorMessage.toString();
     }
 
