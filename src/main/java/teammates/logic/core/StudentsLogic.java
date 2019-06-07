@@ -25,6 +25,18 @@ import teammates.storage.api.StudentsDb;
  * @see StudentsDb
  */
 public final class StudentsLogic {
+    /**
+     * Error message when trying to create entity that already exist.
+     */
+    public static final String ERROR_INVALID_TEAM_NAME = "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
+            + " Please use different team names in different sections.\n";
+
+    /**
+     * Error message when trying to enroll to a section that has maximum capacity.
+     */
+    public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
+            "You are trying enroll more than %s students in section \"%s\". "
+                    + "To avoid performance problems, please do not enroll more than 100 students in a single section.";
 
     private static final int SECTION_SIZE_LIMIT = 100;
 
@@ -299,7 +311,7 @@ public final class StudentsLogic {
 
         StringBuilder errorMessage = new StringBuilder();
         for (String section : invalidSectionList) {
-            errorMessage.append(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section));
+            errorMessage.append(String.format(ERROR_ENROLL_EXCEED_SECTION_LIMIT, SECTION_SIZE_LIMIT, section));
         }
 
         return errorMessage.toString();
@@ -322,7 +334,7 @@ public final class StudentsLogic {
 
         StringBuilder errorMessage = new StringBuilder(100);
         for (String team : invalidTeamList) {
-            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,
+            errorMessage.append(String.format(ERROR_INVALID_TEAM_NAME,
                                               SanitizationHelper.sanitizeForHtml(team)));
         }
 
