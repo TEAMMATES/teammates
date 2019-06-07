@@ -142,7 +142,7 @@ export class StudentProfilePageComponent implements OnInit {
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(response.error.message);
           });
-    }).then(() => {});
+    }).then(() => {}, () => {});
   }
 
   /**
