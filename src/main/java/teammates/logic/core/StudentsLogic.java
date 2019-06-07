@@ -330,17 +330,14 @@ public final class StudentsLogic {
                     && !invalidTeamList.contains(currentStudent.team)) {
 
                 errorMessage.append(String.format(ERROR_INVALID_TEAM_NAME,
+                        currentStudent.team,
                         SanitizationHelper.sanitizeForHtml(previousStudent.section),
                         SanitizationHelper.sanitizeForHtml(currentStudent.section)));
 
                 invalidTeamList.add(currentStudent.team);
             }
         }
-
-        if (errorMessage.length() != 0) {
-            errorMessage.append("Please use the enroll page to edit multiple students");
-        }
-
+        
         return errorMessage.toString();
     }
 
