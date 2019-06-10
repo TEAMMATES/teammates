@@ -2,8 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ErrorReportComponent } from './error-report.component';
-import { HttpRequestService } from "../../../services/http-request.service";
-import { of, throwError } from "rxjs";
+import { throwError, of } from 'rxjs';
+import { HttpRequestService } from '../../../services/http-request.service';
 
 describe('ErrorReportComponent', () => {
   let component: ErrorReportComponent;
@@ -34,14 +34,14 @@ describe('ErrorReportComponent', () => {
   });
 
   it('should have "Something went wrong" header', () => {
-    const h2 = fixture.nativeElement.querySelector('h2');
+    const h2: any = fixture.nativeElement.querySelector('h2');
     if (h2) {
       expect(h2.textContent).toContain('Something went wrong');
     }
   });
 
   it('should display error message', () => {
-    const error = "Error message sample";
+    const error: string = 'Error message sample';
     component.errorMessage = error;
 
     fixture.detectChanges();
@@ -53,7 +53,7 @@ describe('ErrorReportComponent', () => {
   });
 
   it('should have the requestID form disabled ', () => {
-    const input = fixture.nativeElement.querySelector('input');
+    const input: any = fixture.nativeElement.querySelector('input');
     expect(input.disabled).toBeTruthy();
   });
 
@@ -86,7 +86,7 @@ describe('ErrorReportComponent', () => {
     expect(component.errorReportSubmitted).toBeTruthy();
   });
 
-  it('should not disable send report button and leave errorReportSubmitted as false after unsuccessfully sending report', () => {
+  it('should not disable send report button after unsuccessfully sending report', () => {
     const button: any = fixture.nativeElement.querySelector('button');
 
     expect(component.sendButtonEnabled).toBeTruthy();
@@ -96,13 +96,12 @@ describe('ErrorReportComponent', () => {
       error: {
         message: 'This is the error message',
       },
-  }));
+    }));
     button.click();
 
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
   });
-
 
   it('should snap with default view', () => {
     expect(fixture).toMatchSnapshot();
