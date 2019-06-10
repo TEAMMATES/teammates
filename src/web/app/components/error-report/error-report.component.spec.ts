@@ -1,9 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { ErrorReportComponent } from './error-report.component';
-import { throwError, of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { ErrorReportComponent } from './error-report.component';
 
 describe('ErrorReportComponent', () => {
   let component: ErrorReportComponent;
