@@ -4,7 +4,7 @@
     <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
       <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
              container="body">
-        <input class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
+        <input class="form-check-input" type="checkbox" [(ngModel)]="model.hasAssignedWeights"
                (ngModelChange)="triggerModelChange('hasAssignedWeights', $event)" [disabled]="!isEditable"
                (change)="triggerWeightsColumn($event)">
         <b>Choices are weighted</b>
