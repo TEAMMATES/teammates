@@ -329,7 +329,7 @@ public final class StudentsLogic {
             errorMessage.add(String.format(ERROR_ENROLL_EXCEED_SECTION_LIMIT, SECTION_SIZE_LIMIT, section));
         }
 
-        if (invalidSectionList.size() > 0) {
+        if (!invalidSectionList.isEmpty()) {
             errorMessage.add(String.format(ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION, SECTION_SIZE_LIMIT));
         }
 
@@ -357,7 +357,7 @@ public final class StudentsLogic {
             }
         }
 
-        if (invalidTeamList.size() > 0) {
+        if (!invalidTeamList.isEmpty()) {
             errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
         }
 
