@@ -27,7 +27,7 @@ import teammates.storage.api.StudentsDb;
  */
 public final class StudentsLogic {
     /**
-     * Error message when trying to create the same team in more than one sections.
+     * Error message when trying to create the same team in more than one section.
      */
     public static final String ERROR_INVALID_TEAM_NAME =
             "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
@@ -358,7 +358,7 @@ public final class StudentsLogic {
         }
 
         if (invalidTeamList.size() > 0) {
-            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION + " ");
+            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
         }
 
         return errorMessage.toString();
