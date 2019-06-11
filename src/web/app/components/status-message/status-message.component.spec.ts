@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { StatusMessage } from './status-message';
 import { StatusMessageComponent } from './status-message.component';
-import {StatusMessage} from "./status-message";
 
 describe('StatusMessageComponent', () => {
   let component: StatusMessageComponent;
@@ -21,11 +21,10 @@ describe('StatusMessageComponent', () => {
   });
 
   const messages: StatusMessage[] = [
-    {message:'a', color:'black'},
-    {message:'b', color:'red'},
-    {message:'c', color:'green'},
+    { message: 'a', color: 'black' },
+    { message: 'b', color: 'red' },
+    { message: 'c', color: 'green' },
   ];
-
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -59,6 +58,7 @@ describe('StatusMessageComponent', () => {
     expect(statusMessagesAfterClick.length).toEqual(2);
     expect(statusMessagesAfterClick[0].innerHTML).toEqual('b');
     expect(statusMessagesAfterClick[1].innerHTML).toEqual('c');
+    expect(fixture).toMatchSnapshot();
     buttons[1].click();
     buttons[2].click();
     fixture.detectChanges();
