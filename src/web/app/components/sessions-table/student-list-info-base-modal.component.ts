@@ -45,6 +45,7 @@ export abstract class StudentListInfoBaseModalComponent {
           });
         this.sortStudentsTableRows(SortBy.SUBMIT_STATUS);
         this.separateInstructorRows();
+        this.sortInstructorsTableRows(SortBy.SUBMIT_STATUS);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
         this.isAjaxSuccess = false;
