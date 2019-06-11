@@ -113,15 +113,11 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     @Test
     @Override
     protected void testAccessControl() throws Exception {
+        //see independent test cases
+    }
 
-        ______TS("non-existing feedback response");
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        String[] nonExistParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomNonExistId",
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-        assertThrows(EntityNotFoundException.class,
-                () -> getAction(nonExistParams).checkAccessControl());
+    @Test
+    protected void testAccessControl_notAnswerable_cannotAccess() {
 
         ______TS("Not answerable to students");
         loginAsStudent(student1InCourse1.getGoogleId());
@@ -138,32 +134,10 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         verifyCannotAccess(notAnswerableToInstructors);
+    }
 
-        ______TS("Cannot get responses in preview request");
-        String[] inPreviewRequest = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.PREVIEWAS, "randomPreviewers",
-        };
-        verifyCannotAccess(inPreviewRequest);
-
-        ______TS("student access other student's response from different course");
-        loginAsStudent(student1InCourse2.getGoogleId());
-        String[] studentAccessOtherStudentsParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-        assertThrows(EntityNotFoundException.class,
-                () -> getAction(studentAccessOtherStudentsParams).checkAccessControl());
-
-        ______TS("instructor access other instructor's response from different course");
-        loginAsInstructor(instructor1OfCourse2.getGoogleId());
-        String[] instructorAccessOtherInstructorsParams = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-        verifyCannotAccess(instructorAccessOtherInstructorsParams);
-
+    @Test
+    protected void testAccessControl_invalidIntent_shouldFail() {
         ______TS("Unauthorized Intent Full Detail");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] unauthorizedIntentFullDetail = {
@@ -188,7 +162,10 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         assertThrows(InvalidHttpParameterException.class,
                 () -> getAction(unauthorizedIntentStudentResult).checkAccessControl());
+    }
 
+    @Test
+    protected void testAccessControl_typicalStudentAccess_canAccess() {
         ______TS("typical success case as student");
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] validStudentParams = {
@@ -196,7 +173,10 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
         verifyCanAccess(validStudentParams);
+    }
 
+    @Test
+    protected void testAccessControl_typicalInstructorAccess_canAccess() {
         ______TS("typical success case as instructor");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] validInstructorParams = {
@@ -204,7 +184,49 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         verifyCanAccess(validInstructorParams);
+    }
 
+    @Test
+    protected void testAccessControl_getNonExistingFeedbackResponse_shouldFail() {
+        ______TS("non-existing feedback response");
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        String[] nonExistParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomNonExistId",
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+        };
+        assertThrows(EntityNotFoundException.class,
+                () -> getAction(nonExistParams).checkAccessControl());
+    }
+
+    @Test
+    protected void testAccessControl_getResponseInPreview_shouldFail() {
+        ______TS("Cannot get responses in preview request");
+        String[] inPreviewRequest = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+                Const.ParamsNames.PREVIEWAS, instructor1OfCourse1.getEmail(),
+        };
+        verifyCannotAccess(inPreviewRequest);
+    }
+
+    @Test
+    protected void testAccessControl_accessAcrossCourses_shouldFail() {
+        ______TS("student access other student's response from different course");
+        loginAsStudent(student1InCourse2.getGoogleId());
+        String[] studentAccessOtherStudentsParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+        assertThrows(EntityNotFoundException.class,
+                () -> getAction(studentAccessOtherStudentsParams).checkAccessControl());
+
+        ______TS("instructor access other instructor's response from different course");
+        loginAsInstructor(instructor1OfCourse2.getGoogleId());
+        String[] instructorAccessOtherInstructorsParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+        };
+        verifyCannotAccess(instructorAccessOtherInstructorsParams);
     }
 
     private FeedbackResponsesData getFeedbackResponse(String[] params) {
