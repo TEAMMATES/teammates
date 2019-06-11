@@ -24,6 +24,8 @@ export class SendRemindersToStudentModalComponent extends StudentListInfoBaseMod
 
   checkAll: boolean = false;
   checkAllYetSubmitted: boolean = false;
+  checkAllIns: boolean = false;
+  checkAllYetSubmittedIns: boolean = false;
 
   constructor(public activeModal: NgbActiveModal, httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService) {
@@ -66,9 +68,28 @@ export class SendRemindersToStudentModalComponent extends StudentListInfoBaseMod
   }
 
   /**
+   * Check all instructors checkbox to all instructors.
+   */
+  checkAllInstructorsHandler(): void {
+    this.checkAllInstructors(this.instructorStatusTableRows, this.checkAllIns);
+    this.checkAllYetSubmittedIns = this.checkAllIns;
+  }
+
+  /**
+   * Check all yet to submit instructors checkbox to respective instructors.
+   */
+  checkAllYetSubmittedInstructors(): void {
+    for (const remindStudentRow of this.instructorStatusTableRows) {
+      if (!remindStudentRow.feedbackSessionStudentResponse.responseStatus) {
+        remindStudentRow.isChecked = this.checkAllYetSubmittedIns;
+      }
+    }
+  }
+
+  /**
    * Bind individual checkboxes to all submitted and all yet submitted students checkbox.
    */
-  bindSelectedCheckboxes(): void {
+  bindSelectedStudentsCheckboxes(): void {
     this.checkAll = this.studentStatusTableRows.every((tableRow: StudentStatusTableRowModel) => {
       return tableRow.isChecked;
     });
@@ -81,9 +102,24 @@ export class SendRemindersToStudentModalComponent extends StudentListInfoBaseMod
   }
 
   /**
+   * Bind individual checkboxes to all submitted and all yet submitted instructors checkbox.
+   */
+  bindSelectedInstructorsCheckboxes(): void {
+    this.checkAllIns = this.instructorStatusTableRows.every((tableRow: StudentStatusTableRowModel) => {
+      return tableRow.isChecked;
+    });
+
+    this.checkAllYetSubmittedIns = this.instructorStatusTableRows.filter(
+        (tableRow: StudentStatusTableRowModel) => !tableRow.feedbackSessionStudentResponse.responseStatus,
+    ).every((tableRow: StudentStatusTableRowModel) => {
+      return tableRow.isChecked && !tableRow.feedbackSessionStudentResponse.responseStatus;
+    });
+  }
+
+  /**
    * Collates a list of selected students with selected checkbox.
    */
-  collateStudentsToSendHandler(): FeedbackSessionStudentRemindRequest {
-    return this.collateStudentsToSend(this.studentStatusTableRows);
+  collateStudentsInstructorsToSendHandler(): FeedbackSessionStudentRemindRequest {
+    return this.collateStudentsInstructorsToSend(this.studentStatusTableRows, this.instructorStatusTableRows);
   }
 }

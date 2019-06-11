@@ -15,8 +15,11 @@ export abstract class StudentListInfoBaseModalComponent {
   SortOrder: typeof SortOrder = SortOrder;
 
   studentStatusTableRows: StudentStatusTableRowModel[] = [];
+  instructorStatusTableRows: StudentStatusTableRowModel[] = [];
   studentsTableRowSortBy: SortBy = SortBy.NONE;
   studentsTableRowSortOrder: SortOrder = SortOrder.DESC;
+  instructorsTableRowSortBy: SortBy = SortBy.NONE;
+  instructorsTableRowSortOrder: SortOrder = SortOrder.DESC;
 
   loading: boolean = false;
   isAjaxSuccess: boolean = true;
@@ -41,11 +44,28 @@ export abstract class StudentListInfoBaseModalComponent {
             model.push(studentStatusTableRowModel);
           });
         this.sortStudentsTableRows(SortBy.SUBMIT_STATUS);
+        this.separateInstructorRows();
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
         this.isAjaxSuccess = false;
       });
     this.loading = false;
+  }
+
+  /**
+   * Separate the instructors out from the remind list which contains both students and instructors
+   */
+  separateInstructorRows(): void {
+    const newStudentStatusTableRows: StudentStatusTableRowModel[] = [];
+    this.studentStatusTableRows.forEach((row: StudentStatusTableRowModel): void => {
+      if (row.feedbackSessionStudentResponse.sectionName == null
+          || row.feedbackSessionStudentResponse.sectionName === '') {
+        this.instructorStatusTableRows.push(row);
+      } else {
+        newStudentStatusTableRows.push(row);
+      }
+    });
+    this.studentStatusTableRows = newStudentStatusTableRows;
   }
 
   /**
@@ -57,6 +77,17 @@ export abstract class StudentListInfoBaseModalComponent {
     this.studentsTableRowSortOrder =
         this.studentsTableRowSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.studentStatusTableRows.sort(this.sortRowsBy(by, this.studentsTableRowSortOrder));
+  }
+
+  /**
+   * Sort the instructors in according to selection option.
+   */
+  sortInstructorsTableRows(by: SortBy): void {
+    this.instructorsTableRowSortBy = by;
+    // reverse the sort order
+    this.instructorsTableRowSortOrder =
+        this.instructorsTableRowSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.instructorStatusTableRows.sort(this.sortRowsBy(by, this.instructorsTableRowSortOrder));
   }
 
   /**
@@ -111,6 +142,35 @@ export abstract class StudentListInfoBaseModalComponent {
     for (const remindStudentRow of model) {
       remindStudentRow.isChecked = isCheck;
     }
+  }
+
+  /**
+   * Check all the checkbox of the instructors.
+   */
+  checkAllInstructors(model: StudentStatusTableRowModel[], isCheck: boolean): void {
+    for (const remindStudentRow of model) {
+      remindStudentRow.isChecked = isCheck;
+    }
+  }
+
+  /**
+   * Collates a list of selected students and instructors with selected checkbox.
+   */
+  collateStudentsInstructorsToSend(
+      modelStudents: StudentStatusTableRowModel[],
+      modelInstructors: StudentStatusTableRowModel[]): FeedbackSessionStudentRemindRequest {
+    const remindStudentList: string[] = [];
+    for (const studentStatusTableRow of modelStudents) {
+      if (studentStatusTableRow.isChecked) {
+        remindStudentList.push(studentStatusTableRow.feedbackSessionStudentResponse.email);
+      }
+    }
+    for (const instructorStatusTableRow of modelInstructors) {
+      if (instructorStatusTableRow.isChecked) {
+        remindStudentList.push(instructorStatusTableRow.feedbackSessionStudentResponse.email);
+      }
+    }
+    return { usersToRemind: remindStudentList };
   }
 
   /**
