@@ -1,9 +1,13 @@
 package teammates.test.cases.webapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -30,6 +34,8 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
     private CourseAttributes typicalCourse2;
     private FeedbackSessionAttributes session1InCourse1;
     private FeedbackSessionAttributes session1InCourse2;
+    private FeedbackSessionAttributes awaitinfSession;
+    private List<FeedbackResponseAttributes> allResponsesInSession1Course1;
 
     @Override
     protected String getActionUri() {
@@ -82,6 +88,10 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         loginAsStudent(student4InCourse1.getGoogleId());
 
+        for (FeedbackResponseAttributes res : allResponsesInSession1Course1) {
+            assertNotEquals(student4InCourse1.getEmail(), res.getGiver());
+        }
+
         String[] studentNotRespondedParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
@@ -120,6 +130,10 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         loginAsInstructor(instructor2OfCourse1.getGoogleId());
 
+        for (FeedbackResponseAttributes res : allResponsesInSession1Course1) {
+            assertNotEquals(instructor2OfCourse1.getEmail(), res.getGiver());
+        }
+
         String[] instructorNotRespondedParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
@@ -153,6 +167,33 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
     @Override
     protected void testAccessControl() throws Exception {
         useTypicalDataBundle();
+
+        ______TS("preview mode, cannot access");
+
+        loginAsInstructor(instructor1OfCourse1.googleId);
+
+        String[] previewParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
+                Const.ParamsNames.PREVIEWAS, student1InCourse1.email,
+        };
+
+        verifyCannotAccess(previewParams);
+
+        ______TS("session not open for submission, cannot access");
+
+        loginAsStudent(student1InCourse1.googleId);
+
+        String[] sessionNotOpenSubmissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, awaitinfSession.getFeedbackSessionName(),
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
+        };
+
+        verifyCannotAccess(sessionNotOpenSubmissionParams);
 
         ______TS("Student intends to submit feedback session in other course, should not be accessible");
 
@@ -245,6 +286,20 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         typicalCourse2 = typicalBundle.courses.get("typicalCourse2");
         session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         session1InCourse2 = typicalBundle.feedbackSessions.get("session1InCourse2");
+        awaitinfSession = typicalBundle.feedbackSessions.get("awaiting.session");
+        FeedbackResponseAttributes response1ForQ1S1C1 = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponseAttributes response2ForQ1S1C1 = typicalBundle.feedbackResponses.get("response2ForQ1S1C1");
+        FeedbackResponseAttributes response1ForQ2S1C1 = typicalBundle.feedbackResponses.get("response1ForQ2S1C1");
+        FeedbackResponseAttributes response2ForQ2S1C1 = typicalBundle.feedbackResponses.get("response2ForQ2S1C1");
+        FeedbackResponseAttributes response3ForQ2S1C1 = typicalBundle.feedbackResponses.get("response3ForQ2S1C1");
+        FeedbackResponseAttributes response1ForQ3S1C1 = typicalBundle.feedbackResponses.get("response1ForQ3S1C1");
+        allResponsesInSession1Course1 = new ArrayList<>();
+        allResponsesInSession1Course1.add(response1ForQ1S1C1);
+        allResponsesInSession1Course1.add(response2ForQ1S1C1);
+        allResponsesInSession1Course1.add(response1ForQ2S1C1);
+        allResponsesInSession1Course1.add(response2ForQ2S1C1);
+        allResponsesInSession1Course1.add(response3ForQ2S1C1);
+        allResponsesInSession1Course1.add(response1ForQ3S1C1);
     }
 
 }
