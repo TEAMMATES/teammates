@@ -25,10 +25,7 @@ export class InstructorHelpPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.fragment.subscribe((f: string) => {
       setTimeout((): void => {
-        const element: any = document.getElementById(f);
-        if (element) {
-          element.scrollIntoView();
-        }
+        this.scroll(f);
       }, 10);
     });
   }
