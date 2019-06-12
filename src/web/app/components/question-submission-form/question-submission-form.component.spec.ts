@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { CommentBoxModule } from '../comment-box/comment-box.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
 import {
   QuestionEditAnswerFormModule,
@@ -24,6 +25,7 @@ describe('QuestionSubmissionFormComponent', () => {
         RecipientTypeNamePipe,
       ],
       imports: [
+        CommentBoxModule,
         HttpClientTestingModule,
         TeammatesCommonModule,
         VisibilityMessagesModule,

@@ -6,6 +6,7 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
+import { FeedbackResponseCommentModel } from '../comment-box/comment-table/comment-table-model';
 
 /**
  * The mode of operation for question submission form.
@@ -63,4 +64,5 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
   responseId: string;
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
+  comment?: FeedbackResponseCommentModel;
 }

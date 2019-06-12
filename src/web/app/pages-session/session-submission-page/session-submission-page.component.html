@@ -76,6 +76,7 @@
 
 <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
                              [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                             (deleteCommentEvent)="deleteComment(i, $event)"
                              [isDisabled]="isSubmissionFormsDisabled"
 ></tm-question-submission-form>
 

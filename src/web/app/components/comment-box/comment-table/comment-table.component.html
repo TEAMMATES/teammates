@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card-header comment-table-header" *ngIf="false">
+    Comments
+  </div>
+
+  <ul class="list-group list-group-flush" *ngIf="commentTableMode === CommentTableMode.SESSION_RESULT">
+    <li class="list-group-item" *ngFor="let comment of comments; let i = index">
+      <tm-comment-row [isInEditModeInitialValue]="false" [commentModel]="comment"
+                      (deleteCommentEvent)="triggerDeleteCommentEvent(comment.commentId)"
+                      (saveCommentEvent)="triggerUpdateCommentEvent(i, $event)"
+      ></tm-comment-row>
+    </li>
+    <!-- "Add new comment" row -->
+    <li class="list-group-item">
+      <tm-comment-row [isInEditModeInitialValue]="true" [isDiscardButtonEnabled]="false"
+                      (saveCommentEvent)="triggerSaveNewCommentEvent($event)"
+      ></tm-comment-row>
+    </li>
+  </ul>
+
+  <ul class="list-group list-group-flush" *ngIf="commentTableMode === CommentTableMode.SESSION_SUBMISSION">
+    <li class="list-group-item">
+      <!-- Add new comment form -->
+      <tm-comment-row *ngIf="!comment || (comment && !comment.commentId), else existingCommentRow"
+                      [isInEditModeInitialValue]="true" [isDiscardButtonEnabled]="false"
+                      [isSaveButtonEnabled]="false"
+                      [isVisibilityOptionEnabled]="false"
+                      (commentFormChangeEvent)="triggerUpdateCommentEvent($event)"
+      ></tm-comment-row>
+
+      <!-- Existing comment row -->
+      <ng-template #existingCommentRow>
+        <tm-comment-row
+            [isInEditModeInitialValue]="false" [isDiscardButtonEnabled]="false"
+                        [commentModel]="comment"
+                        [isSaveButtonEnabled]="false"
+                        [isVisibilityOptionEnabled]="false"
+                        (deleteCommentEvent)="triggerDeleteCommentEvent(comment.commentId)"
+                        (commentFormChangeEvent)="triggerUpdateCommentEvent($event)"
+        ></tm-comment-row>
+      </ng-template>
+    </li>
+  </ul>
+
+</div>

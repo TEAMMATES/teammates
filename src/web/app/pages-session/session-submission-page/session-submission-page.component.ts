@@ -13,13 +13,15 @@ import {
   FeedbackQuestion,
   FeedbackQuestionRecipient,
   FeedbackQuestionRecipients,
-  FeedbackResponse,
+  FeedbackResponse, FeedbackResponseComment,
+  FeedbackResponseComments,
   FeedbackSession,
   FeedbackSessionSubmissionStatus,
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
   Student,
 } from '../../../types/api-output';
+import { FeedbackResponseCommentModel } from '../../components/comment-box/comment-table/comment-table-model';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
@@ -396,6 +398,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           numberOfRecipientSubmissionFormsNeeded -= 1;
         }
       }
+      this.loadCommentsForResponses(model, existingResponses.responses);
     }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
   }
 
@@ -416,6 +419,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const failToSaveQuestions: Set<number> = new Set();
     const savingRequests: Observable<any>[] = [];
+    const savingCommentRequests: Observable<any>[] = [];
 
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
@@ -462,6 +466,18 @@ export class SessionSubmissionPageComponent implements OnInit {
                         recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
                         recipientSubmissionFormModel.responseDetails = resp.responseDetails;
                         recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+
+                        savingCommentRequests.push(this.createCommentChangeRequest(recipientSubmissionFormModel)
+                            .pipe(
+                                catchError((error: any) => {
+                                  this.statusMessageService.showErrorMessage(
+                                      (error as ErrorMessageOutput).error.message);
+                                  failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                                  return of(error);
+                                }),
+                            ),
+                        );
+
                       }),
                       catchError((error: any) => {
                         this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
@@ -487,6 +503,17 @@ export class SessionSubmissionPageComponent implements OnInit {
                         recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
                         recipientSubmissionFormModel.responseDetails = resp.responseDetails;
                         recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+
+                        savingCommentRequests.push(this.createCommentChangeRequest(recipientSubmissionFormModel)
+                            .pipe(
+                                catchError((error: any) => {
+                                  this.statusMessageService.showErrorMessage(
+                                      (error as ErrorMessageOutput).error.message);
+                                  failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                                  return of(error);
+                                }),
+                            ),
+                        );
                       }),
                       catchError((error: any) => {
                         this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
@@ -495,6 +522,7 @@ export class SessionSubmissionPageComponent implements OnInit {
                       }),
                   ));
             }
+
           });
 
       if (!isQuestionFullyAnswered) {
@@ -505,6 +533,10 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.isSavingResponses = true;
     let hasSubmissionConfirmationError: boolean = false;
     forkJoin(savingRequests).pipe(
+        // Save comments after responses are saved.
+        switchMap(() => {
+          return forkJoin(savingCommentRequests);
+        }),
         switchMap(() => {
           if (failToSaveQuestions.size === 0) {
             this.statusMessageService.showSuccessMessage('All responses submitted successfully!');
@@ -553,6 +585,157 @@ export class SessionSubmissionPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       hasSubmissionConfirmationError = true;
       this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Creates a request to change a comment.
+   * The request can be either of the following: DELETE, CREATE or UPDATE.
+   */
+  private createCommentChangeRequest(
+      recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel): Observable<any> {
+
+    if (!recipientSubmissionFormModel.comment) {
+      return of({});
+    }
+
+    // Create delete comment request if it has an empty comment text.
+    if (recipientSubmissionFormModel.comment.commentText === '') {
+      return this.httpRequestService.delete('/responsecomment', {
+        responsecommentid: recipientSubmissionFormModel.comment.commentId.toString(),
+      });
+
+    }
+
+    // If existing comment, create update request.
+    if (recipientSubmissionFormModel.comment.commentId) {
+      return this.updateComment(recipientSubmissionFormModel.comment.commentId,
+          recipientSubmissionFormModel.comment.commentText).pipe(
+            tap((resp: FeedbackResponseComment) => {
+              recipientSubmissionFormModel.comment = {
+                commentId: resp.feedbackResponseCommentId,
+                createdAt: resp.createdAt,
+                editedAt: resp.updatedAt,
+                commentGiver: resp.commentGiver,
+                commentText: resp.commentText,
+                isEditable: true,
+              };
+            }),
+          );
+    }
+
+    // If new comment, create save request.
+    return this.saveComment(recipientSubmissionFormModel.responseId,
+        recipientSubmissionFormModel.comment.commentText).pipe(
+          tap((resp: FeedbackResponseComment) => {
+            recipientSubmissionFormModel.comment = {
+              commentId: resp.feedbackResponseCommentId,
+              createdAt: resp.createdAt,
+              editedAt: resp.updatedAt,
+              commentGiver: resp.commentGiver,
+              commentText: resp.commentText,
+              isEditable: true,
+            };
+          }),
+    );
+  }
+
+  /**
+   * Deletes a comment.
+   */
+  deleteComment(questionIndex: number, deleteCommentData: any): void {
+    const comment: FeedbackResponseCommentModel | undefined =
+        this.questionSubmissionForms[questionIndex].recipientSubmissionForms[deleteCommentData.recipientIndex].comment;
+
+    if (!comment) {
+      return;
+    }
+
+    this.httpRequestService.delete('/responsecomment', {
+      responsecommentid: comment.commentId.toString(),
+    }).subscribe(() => {
+      this.questionSubmissionForms[questionIndex].recipientSubmissionForms[deleteCommentData.recipientIndex]
+          .comment = undefined;
+    });
+  }
+
+  /**
+   * Saves a comment.
+   */
+  saveComment(responseId: string, commentText: string): Observable<any> {
+    return this.httpRequestService.post('/responsecomment', {
+      responseid: responseId,
+      intent: this.intent,
+    }, {
+      commentText,
+      showCommentTo: [],
+      showGiverNameTo: [],
+    });
+  }
+
+  /**
+   * Updates a comment.
+   */
+  updateComment(commentId: number, commentText: string): Observable<any> {
+    return this.httpRequestService.put('/responsecomment', {
+      responsecommentid: commentId.toString(),
+      intent: this.intent,
+    }, {
+      commentText,
+      showCommentTo: [],
+      showGiverNameTo: [],
+    });
+  }
+
+  /**
+   * Loads comments for responses
+   */
+  loadCommentsForResponses(model: QuestionSubmissionFormModel, feedbackResponses: FeedbackResponse[]): void {
+    feedbackResponses.forEach((feedbackResponse: FeedbackResponse) => {
+      if (feedbackResponse.feedbackResponseId !== '') {
+        this.loadCommentsForResponse(model, feedbackResponse.feedbackResponseId);
+      }
+    });
+  }
+
+  /**
+   * Loads comments for a feedback response.
+   */
+  loadCommentsForResponse(model: QuestionSubmissionFormModel, responseId: string): void {
+    let commentModel: FeedbackResponseCommentModel;
+
+    this.httpRequestService.get('/responsecomment', {
+      responseid: responseId,
+      intent: this.intent,
+    }).subscribe((comments: FeedbackResponseComments) => {
+
+      // For submission, responsecomment/GET will return a list of a single comment.
+      const comment: FeedbackResponseComment = comments.comments[0];
+
+      if (!comment) {
+        return;
+      }
+
+      commentModel = {
+        commentId: comment.feedbackResponseCommentId,
+        createdAt: comment.createdAt,
+        editedAt: comment.updatedAt,
+        commentGiver: comment.commentGiver,
+        commentText: comment.commentText,
+        isEditable: true,
+      };
+
+      const recipientSubmissionFormIndex: number = model.recipientSubmissionForms.findIndex(
+          (rsf: FeedbackResponseRecipientSubmissionFormModel) => rsf.responseId === responseId);
+
+      const updatedForms: FeedbackResponseRecipientSubmissionFormModel[] = model.recipientSubmissionForms.slice();
+
+      updatedForms[recipientSubmissionFormIndex] = {
+        ...updatedForms[recipientSubmissionFormIndex],
+        comment: commentModel,
+      };
+
+      model.recipientSubmissionForms = updatedForms;
     });
   }
 }

@@ -1,13 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackTextQuestionDetails,
+  FeedbackQuestionType,
+  FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { CommentTableMode } from '../comment-box/comment-table/comment-table-model';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
@@ -27,6 +30,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   // enum
   QuestionSubmissionFormMode: typeof QuestionSubmissionFormMode = QuestionSubmissionFormMode;
+  CommentTableMode: typeof CommentTableMode = CommentTableMode;
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
@@ -81,9 +85,14 @@ export class QuestionSubmissionFormComponent implements OnInit {
     showResponsesTo: [],
   };
 
+  @Output() deleteCommentEvent: EventEmitter<any> = new EventEmitter();
+
   visibilityStateMachine: VisibilityStateMachine;
 
-  constructor(private feedbackQuestionsService: FeedbackQuestionsService) {
+  isCommentTableExpanded: boolean[] = [];
+
+  constructor(private feedbackQuestionsService: FeedbackQuestionsService,
+              private  feedbackResponsesService: FeedbackResponsesService) {
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(
             this.model.giverType, this.model.recipientType);
@@ -135,5 +144,26 @@ export class QuestionSubmissionFormComponent implements OnInit {
       ...this.model,
       recipientSubmissionForms,
     });
+  }
+
+  /**
+   * Triggers deletion of a comment
+   */
+  triggerDeleteCommentEvent(index: number, commentId: number): void {
+    this.deleteCommentEvent.emit({ commentId, recipientIndex: index });
+  }
+
+  /**
+   * Checks whether to show the comments table or not.
+   */
+  isCommentsTableShown(questionType: FeedbackQuestionType,
+                       recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel): boolean {
+    if (questionType !== FeedbackQuestionType.MCQ && questionType !== FeedbackQuestionType.MSQ) {
+      return false;
+    }
+
+    return !this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
+        questionType, recipientSubmissionFormModel.responseDetails)
+
   }
 }

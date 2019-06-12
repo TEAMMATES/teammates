@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 
@@ -14,6 +15,7 @@ import { PerQuestionViewResponsesComponent } from './per-question-view-responses
     PerQuestionViewResponsesComponent,
   ],
   imports: [
+    CommentBoxModule,
     CommonModule,
     SingleResponseModule,
   ],

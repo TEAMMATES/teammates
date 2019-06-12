@@ -98,6 +98,23 @@
                                               (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                               [isDisabled]="isDisabled"
             ></tm-msq-question-edit-answer-form>
+            <div *ngIf="isCommentsTableShown(model.questionType, recipientSubmissionFormModel)"
+                 style="margin-top: 7px;">
+              <button class="btn btn-secondary btn-sm"
+                      *ngIf="!isCommentTableExpanded[i] && !(recipientSubmissionFormModel.comment),
+                      else commentTable"
+                      (click)="isCommentTableExpanded[i]=true;">
+                <i class="fas fa-comment"></i> Comment on your response
+              </button>
+              <ng-template #commentTable>
+                <tm-comment-table
+                    [commentTableMode] = CommentTableMode.SESSION_SUBMISSION
+                    [comment] = recipientSubmissionFormModel.comment
+                    (deleteCommentEvent)="triggerDeleteCommentEvent(i, $event)"
+                    (updateCommentEvent)="triggerRecipientSubmissionFormChange(i, 'comment', $event)"
+                ></tm-comment-table>
+              </ng-template>
+            </div>
           </div>
         </div>
       </div>
