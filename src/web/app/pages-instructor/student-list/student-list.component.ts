@@ -24,8 +24,12 @@ export class StudentListComponent implements OnInit, DoCheck {
   @Input() listOfStudentsToHide: string[] = [];
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
+
+  // The input sections data from parent.
   @Input() sections: StudentListSectionData[] = [];
 
+  // The flattened students list derived from the sections list.
+  // The sections data is flattened to allow sorting of the list.
   students: StudentListStudentData[] = [];
   tableSortOrder: SortOrder = SortOrder.ASC;
   tableSortBy: SortBy = SortBy.NONE;
