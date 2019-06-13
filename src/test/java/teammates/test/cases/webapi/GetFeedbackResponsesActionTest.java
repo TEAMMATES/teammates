@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -12,6 +13,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.action.GetFeedbackResponsesAction;
@@ -40,6 +42,21 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     @Override
     protected String getRequestMethod() {
         return GET;
+    }
+
+    @Override
+    protected void prepareTestData() {
+        removeAndRestoreTypicalDataBundle();
+        FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
+        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        qn1InSession1InCourse1 = logic.getFeedbackQuestion(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
+        qn2InGracePeriodInCourse1 = logic.getFeedbackQuestion(
+                gracePeriodSession.getFeedbackSessionName(), gracePeriodSession.getCourseId(), 2);
+        student1InCourse2 = typicalBundle.students.get("student1InCourse2");
+        instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
     }
 
     @Test
@@ -115,12 +132,14 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     protected void testAccessControl_notAnswerable_cannotAccess() {
+
         ______TS("Not answerable to students");
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] notAnswerableToStudents = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
+        assertThrows(UnauthorizedAccessException.class, () -> verifyAnswerableForStudent(qn2InGracePeriodInCourse1));
         verifyCannotAccess(notAnswerableToStudents);
 
         ______TS("Not answerable to instructors");
@@ -129,11 +148,13 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
+        assertThrows(UnauthorizedAccessException.class, () -> verifyAnswerableForInstructor(qn1InSession1InCourse1));
         verifyCannotAccess(notAnswerableToInstructors);
     }
 
     @Test
     protected void testAccessControl_invalidIntent_shouldFail() {
+
         ______TS("Unauthorized Intent Full Detail");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] unauthorizedIntentFullDetail = {
@@ -206,6 +227,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     protected void testAccessControl_accessAcrossCourses_shouldFail() {
+
         ______TS("student access other student's response from different course");
         loginAsStudent(student1InCourse2.getGoogleId());
         String[] studentAccessOtherStudentsParams = {
@@ -241,18 +263,21 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 JsonUtils.toJson(actual.getResponseDetails()));
     }
 
-    @Override
-    protected void prepareTestData() {
-        removeAndRestoreTypicalDataBundle();
-        FeedbackSessionAttributes gracePeriodSession = typicalBundle.feedbackSessions.get("gracePeriodSession");
-        FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        qn1InSession1InCourse1 = logic.getFeedbackQuestion(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 1);
-        qn2InGracePeriodInCourse1 = logic.getFeedbackQuestion(
-                gracePeriodSession.getFeedbackSessionName(), gracePeriodSession.getCourseId(), 2);
-        student1InCourse2 = typicalBundle.students.get("student1InCourse2");
-        instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
+    private void verifyAnswerableForInstructor(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        assertNotNull(feedbackQuestionAttributes);
+
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
+                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.SELF) {
+            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors");
+        }
+    }
+
+    private void verifyAnswerableForStudent(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        assertNotNull(feedbackQuestionAttributes);
+
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
+                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
+            throw new UnauthorizedAccessException("Feedback question is not answerable for students");
+        }
     }
 }
