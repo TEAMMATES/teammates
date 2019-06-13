@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -14,6 +15,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.ui.webapi.action.ConfirmFeedbackSessionSubmissionAction;
 import teammates.ui.webapi.action.ConfirmFeedbackSessionSubmissionAction.ConfirmationResponse;
 import teammates.ui.webapi.action.Intent;
@@ -50,7 +52,6 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
     @Test
     @Override
     protected void testExecute() throws Exception {
-        useTypicalDataBundle();
 
         ______TS("Not enough parameters");
 
@@ -76,6 +77,11 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
         };
 
+        // verify submitted responses are 5 before action
+        FeedbackSessionDetailsBundle details = logic.getFeedbackSessionDetails(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+        assertEquals(5, details.stats.submittedTotal);
+
         ConfirmFeedbackSessionSubmissionAction a = getAction(studentParams);
         JsonResult r = getJsonResult(a);
 
@@ -83,6 +89,18 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         ConfirmationResponse cr = (ConfirmationResponse) r.getOutput();
         assertEquals("Submission confirmed", cr.getMessage());
+
+        // verify 1 email sent
+        verifyNumberOfEmailsSent(a, 1);
+
+        EmailWrapper email = a.getEmailSender().getEmailsSent().get(0);
+
+        assertEquals(student1InCourse1.email, email.getRecipient());
+
+        // verify submitted responses not changed
+        details = logic.getFeedbackSessionDetails(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+        assertEquals(5, details.stats.submittedTotal);
 
         ______TS("Typical success case with student intent, not responded before");
 
@@ -99,6 +117,11 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
         };
 
+        // verify submitted responses are 5 before action
+        details = logic.getFeedbackSessionDetails(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+        assertEquals(5, details.stats.submittedTotal);
+
         a = getAction(studentNotRespondedParams);
         r = getJsonResult(a);
 
@@ -106,6 +129,18 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         cr = (ConfirmationResponse) r.getOutput();
         assertEquals("Submission confirmed", cr.getMessage());
+
+        // verify 1 email sent
+        verifyNumberOfEmailsSent(a, 1);
+
+        email = a.getEmailSender().getEmailsSent().get(0);
+
+        assertEquals(student4InCourse1.email, email.getRecipient());
+
+        // verify submitted responses not changed, since submission is empty and no responses will be created
+        details = logic.getFeedbackSessionDetails(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
+        assertEquals(5, details.stats.submittedTotal);
 
         ______TS("Typical success case with instructor intent");
 
@@ -115,7 +150,7 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
-                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "false",
         };
 
         a = getAction(instructorParams);
@@ -125,6 +160,8 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         cr = (ConfirmationResponse) r.getOutput();
         assertEquals("Submission confirmed", cr.getMessage());
+
+        verifyNumberOfEmailsSent(a, 0);
 
         ______TS("Typical success case with instructor intent, not responded before");
 
@@ -149,6 +186,8 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         cr = (ConfirmationResponse) r.getOutput();
         assertEquals("Submission confirmed", cr.getMessage());
 
+        verifyNumberOfEmailsSent(a, 0);
+
         ______TS("Failed case with invalid intent");
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -166,7 +205,6 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        useTypicalDataBundle();
 
         ______TS("preview mode, cannot access");
 
@@ -182,10 +220,25 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         verifyCannotAccess(previewParams);
 
+        ______TS("session not open for submission but in moderation mode, can access");
+
+        loginAsInstructor(instructor1OfCourse1.googleId);
+
+        String[] moderationParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, awaitinfSession.getFeedbackSessionName(),
+                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
+        };
+
+        verifyCanAccess(moderationParams);
+
         ______TS("session not open for submission, cannot access");
 
         loginAsStudent(student1InCourse1.googleId);
 
+        assertFalse(awaitinfSession.isOpened());
         String[] sessionNotOpenSubmissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
@@ -220,19 +273,6 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
         };
         verifyCanAccess(studentSubmitSessionInCourseParams);
-
-        ______TS("Student intends to submit feedback session only contains instructor questions"
-                + ", should be accessible");
-
-        loginAsStudent(student1InCourse2.googleId);
-
-        String[] studentSubmitInstructorSessionParams = new String[] {
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.COURSE_ID, typicalCourse2.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse2.getFeedbackSessionName(),
-                Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
-        };
-        verifyCanAccess(studentSubmitInstructorSessionParams);
 
         ______TS("Instructor intends to submit feedback session in other course, should not be accessible");
 
@@ -274,7 +314,8 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         assertThrows(InvalidHttpParameterException.class, () -> getAction(unknownIntentParams).checkAccessControl());
     }
 
-    private void useTypicalDataBundle() {
+    @Override
+    protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         student4InCourse1 = typicalBundle.students.get("student4InCourse1");
