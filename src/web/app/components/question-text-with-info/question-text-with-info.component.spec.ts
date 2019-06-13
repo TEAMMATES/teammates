@@ -1,12 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-import { FeedbackQuestionType } from '../../../types/api-output';
-import {
-  QuestionAdditionalInfoModule,
-} from '../question-types/question-additional-info/question-additional-info.module';
-import { QuestionTextWithInfoComponent } from './question-text-with-info.component';
+import {By} from '@angular/platform-browser';
+import {RouterTestingModule} from '@angular/router/testing';
+import {FeedbackQuestionType} from '../../../types/api-output';
+import {QuestionAdditionalInfoModule,} from '../question-types/question-additional-info/question-additional-info.module';
+import {QuestionTextWithInfoComponent} from './question-text-with-info.component';
 
 describe('QuestionTextWithInfoComponent', () => {
   let component: QuestionTextWithInfoComponent;
@@ -34,20 +32,19 @@ describe('QuestionTextWithInfoComponent', () => {
   });
 
   it('should not show control link and question details for TEXT questions', () => {
+    component.questionDetails.questionType = FeedbackQuestionType.TEXT;
     const questionDetailControlLink: any = fixture.debugElement.query(By.css('a'));
-    const explicitQuestionDetail: any = fixture.debugElement.query(By.css('div'));
+    const infoWrapper: any = fixture.debugElement.query(By.css('div'));
+
     expect(questionDetailControlLink).toBeNull();
-    expect(explicitQuestionDetail).toBeNull();
+    expect(infoWrapper).toBeNull();
   });
 
   it('should show control link when question type is not TEXT', () => {
     component.questionDetails.questionType = FeedbackQuestionType.MCQ;
     component.questionDetails.questionText = 'MCQ question details';
     fixture.detectChanges();
-    const questionDetailControlLink: any = fixture.debugElement.query(By.css('a'));
-    const explicitQuestionDetail: any = fixture.debugElement.query(By.css('div'));
-    expect(questionDetailControlLink).not.toBeNull();
-    expect(explicitQuestionDetail).toBeNull();
+
     expect(fixture).toMatchSnapshot();
   });
 
@@ -55,14 +52,12 @@ describe('QuestionTextWithInfoComponent', () => {
     component.questionDetails.questionType = FeedbackQuestionType.MCQ;
     component.questionDetails.questionText = 'MCQ question details';
     fixture.detectChanges();
+
     const questionDetailControlLink: any = fixture.debugElement.query(By.css('a'));
+
     questionDetailControlLink.nativeElement.click();
     fixture.detectChanges();
-    const explicitQuestionDetail: any = fixture.debugElement.query(By.css('div'));
-    const mcqQuestionDetail: any = fixture.debugElement.query(By.css('tm-mcq-question-additional-info'));
-    expect(questionDetailControlLink).not.toBeNull();
-    expect(explicitQuestionDetail).not.toBeNull();
-    expect(mcqQuestionDetail).not.toBeNull();
+
     expect(fixture).toMatchSnapshot();
   });
 });
