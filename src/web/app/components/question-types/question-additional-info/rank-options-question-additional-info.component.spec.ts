@@ -40,11 +40,7 @@ describe('RankOptionsQuestionAdditionalInfoComponent', () => {
   it('should show options', () => {
     component.questionDetails = rankOptionsQuestionDetails;
     fixture.detectChanges();
-    const options: HTMLElement[] = fixture.nativeElement.querySelectorAll('li');
-    expect(options.length).toEqual(3);
-    expect(options[0].textContent).toEqual('1');
-    expect(options[1].textContent).toEqual('2');
-    expect(options[2].textContent).toEqual('3');
+
     expect(fixture).toMatchSnapshot();
   });
 

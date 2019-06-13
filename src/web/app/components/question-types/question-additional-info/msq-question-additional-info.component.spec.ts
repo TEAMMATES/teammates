@@ -74,38 +74,21 @@ describe('MsqQuestionAdditionalInfoComponent', () => {
   it('should show msq options', () => {
     component.questionDetails = msqDetails;
     fixture.detectChanges();
-    const generateOptionFor: HTMLElement = fixture.nativeElement.querySelector('div');
-    const choices: HTMLElement[] = fixture.nativeElement.querySelectorAll('li');
-    expect(generateOptionFor).toBeNull();
-    expect(choices.length).toEqual(3);
-    expect(choices[0].textContent).toEqual('1');
-    expect(choices[1].textContent).toEqual('2');
-    expect(choices[2].textContent).toEqual('3');
+
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show other when "other" option is enabled', () => {
     component.questionDetails = msqDetailsWithOther;
     fixture.detectChanges();
-    const generateOptionFor: HTMLElement = fixture.nativeElement.querySelector('div');
-    const choices: HTMLElement[] = fixture.nativeElement.querySelectorAll('li');
-    expect(generateOptionFor).toBeNull();
-    expect(choices.length).toEqual(4);
-    expect(choices[0].textContent).toEqual('1');
-    expect(choices[1].textContent).toEqual('2');
-    expect(choices[2].textContent).toEqual('3');
-    expect(choices[3].textContent).toEqual('Other');
+
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show generated option message when generateOptionFor is enabled', () => {
     component.questionDetails = msqDetailsWithGeneratedFor;
     fixture.detectChanges();
-    const generateOptionFor: HTMLElement = fixture.nativeElement.querySelector('div');
-    const choices: HTMLElement[] = fixture.nativeElement.querySelectorAll('li');
-    expect(generateOptionFor.textContent).toContain('The options for this question is' +
-        ' automatically generated from the list of all %s in this course.');
-    expect(choices.length).toEqual(0);
+
     expect(fixture).toMatchSnapshot();
   });
 });
