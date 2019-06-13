@@ -52,7 +52,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     protected void testExecute_notEnoughParameters_shouldFail() {
         loginAsStudent(student1InCourse1.getGoogleId());
 
-        ______TS("Not enough parameters");
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId());
         verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
@@ -62,7 +61,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     protected void testExecute_invalidIntent_shouldFail() {
         loginAsStudent(student1InCourse1.getGoogleId());
 
-        ______TS("Invalid Intent");
         String[] paramsForInvalidIntent = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
@@ -74,7 +72,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     protected void testExecute_studentSubmission_shouldGetResponseSuccessfully() {
         loginAsStudent(student1InCourse1.getGoogleId());
 
-        ______TS("Typical success case as a student");
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -93,7 +90,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     @Test
     protected void testExecute_instructorSubmission_shouldGetResponseSuccessfully() {
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        ______TS("Typical success case as a instructor");
+
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -118,7 +115,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     protected void testAccessControl_notAnswerable_cannotAccess() {
-
         ______TS("Not answerable to students");
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] notAnswerableToStudents = {
@@ -166,8 +162,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     protected void testAccessControl_typicalStudentAccess_canAccess() {
-        ______TS("typical success case as student");
         loginAsStudent(student1InCourse1.getGoogleId());
+
         String[] validStudentParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -177,8 +173,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     protected void testAccessControl_typicalInstructorAccess_canAccess() {
-        ______TS("typical success case as instructor");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
+
         String[] validInstructorParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -188,8 +184,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     protected void testAccessControl_getNonExistingFeedbackResponse_shouldFail() {
-        ______TS("non-existing feedback response");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
+
         String[] nonExistParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomNonExistId",
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -200,7 +196,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     protected void testAccessControl_getResponseInPreview_shouldFail() {
-        ______TS("Cannot get responses in preview request");
         String[] inPreviewRequest = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
