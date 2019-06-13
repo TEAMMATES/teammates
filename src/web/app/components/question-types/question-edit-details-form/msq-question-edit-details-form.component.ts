@@ -187,11 +187,11 @@ export class MsqQuestionEditDetailsFormComponent
   triggerWeightsColumn(event: any): void {
     const fieldsToUpdate: any = {};
     if (!event.target.checked) {
-      this.model.hasAssignedWeights = false;
+      fieldsToUpdate.hasAssignedWeights = false;
       fieldsToUpdate.msqWeights = [];
       fieldsToUpdate.msqOtherWeight = 0;
     } else {
-      this.model.hasAssignedWeights = true;
+      fieldsToUpdate.hasAssignedWeights = true;
       fieldsToUpdate.msqWeights = Array(this.model.msqChoices.length).fill(0);
     }
     this.triggerModelChangeBatch(fieldsToUpdate);
