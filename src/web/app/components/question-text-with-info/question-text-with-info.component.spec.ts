@@ -1,10 +1,12 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {By} from '@angular/platform-browser';
-import {RouterTestingModule} from '@angular/router/testing';
-import {FeedbackQuestionType} from '../../../types/api-output';
-import {QuestionAdditionalInfoModule,} from '../question-types/question-additional-info/question-additional-info.module';
-import {QuestionTextWithInfoComponent} from './question-text-with-info.component';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FeedbackQuestionType } from '../../../types/api-output';
+import {
+  QuestionAdditionalInfoModule,
+} from '../question-types/question-additional-info/question-additional-info.module';
+import { QuestionTextWithInfoComponent } from './question-text-with-info.component';
 
 describe('QuestionTextWithInfoComponent', () => {
   let component: QuestionTextWithInfoComponent;
