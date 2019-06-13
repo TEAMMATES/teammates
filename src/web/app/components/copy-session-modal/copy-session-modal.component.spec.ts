@@ -78,46 +78,6 @@ describe('CopySessionModalComponent', () => {
     timeZone: 'UTC',
   };
 
-  it('should bind fields correctly', fakeAsync(() => {
-    component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
-    component.courseCandidates = [courseSessionIn, courseCopyTo];
-    component.sessionToCopyCourseId = courseSessionIn.courseId;
-    fixture.detectChanges();
-    tick();
-
-    const nameInput: any = fixture.debugElement.query(By.css('.form-control'));
-    const sessionInCourseSpan: any = fixture.debugElement.query(By.css('span.text-danger'));
-    const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
-
-    expect(nameInput.nativeElement.value).toEqual('Test session');
-    expect(component.courseCandidates.length).toEqual(2);
-    expect(sessionInCourseSpan.nativeElement.textContent).toEqual('Test01');
-    expect(copyButton.nativeElement.disabled).toBeTruthy();
-  }));
-
-  it('should set the course to copy to', fakeAsync(() => {
-    component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
-    component.courseCandidates = [courseSessionIn, courseCopyTo];
-    component.sessionToCopyCourseId = courseSessionIn.courseId;
-    fixture.detectChanges();
-    tick();
-
-    const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="radio"]'));
-    const secondOption: any = options[1];
-    secondOption.triggerEventHandler('change', { target: secondOption.nativeElement });
-    fixture.detectChanges();
-    tick();
-
-    const nameInput: any = fixture.debugElement.query(By.css('.form-control'));
-    const sessionInCourseSpan: any = fixture.debugElement.query(By.css('span.text-danger'));
-    const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
-
-    expect(nameInput.nativeElement.value).toEqual('Test session');
-    expect(component.courseCandidates.length).toEqual(2);
-    expect(sessionInCourseSpan.nativeElement.textContent).toEqual('Test01');
-    expect(copyButton.nativeElement.disabled).toBeFalsy();
-  }));
-
   it('should snap with some session and courses candidates', fakeAsync(() => {
     component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
     component.courseCandidates = [courseSessionIn, courseCopyTo];
