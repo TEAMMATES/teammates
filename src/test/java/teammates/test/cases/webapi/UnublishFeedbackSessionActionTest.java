@@ -60,6 +60,9 @@ public class UnublishFeedbackSessionActionTest extends BaseActionTest<UnpublishF
         assertFalse(logic.getFeedbackSession(sessionPublishedInCourse1.getFeedbackSessionName(),
                 typicalCourse1.getId()).isPublished());
 
+        // sent unpublish email task is added
+        assertEquals(1, a.getTaskQueuer().getTasksAdded().size());
+
         ______TS("Failed case, session is not published yet");
 
         assertFalse(session1InCourse1.isPublished());
