@@ -118,7 +118,7 @@ export const DEFAULT_NUMSCALE_QUESTION_DETAILS: () => FeedbackNumericalScaleQues
 export const DEFAULT_NUMSCALE_RESPONSE_DETAILS: () => FeedbackNumericalScaleResponseDetails =
     (): FeedbackNumericalScaleResponseDetails => {
       return {
-        answer: 0,
+        answer: -999,
         questionType: FeedbackQuestionType.NUMSCALE,
       };
     };
