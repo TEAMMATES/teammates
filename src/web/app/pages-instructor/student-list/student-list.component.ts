@@ -13,7 +13,7 @@ import {
   SortBy,
   SortOrder,
   StudentListSectionData,
-  StudentListStudentData
+  StudentListStudentData,
 } from './student-list-section-data';
 
 /**
