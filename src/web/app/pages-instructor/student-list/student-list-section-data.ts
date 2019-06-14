@@ -16,8 +16,22 @@ export interface StudentListStudentData {
   email: string;
   status: string;
   team: string;
-  section?: StudentListSectionData;
   photoUrl?: string;
+}
+
+/**
+ * Flattened data which contains details about a student and their section.
+ * The data is flattened to allow sorting of the table.
+ */
+export interface FlatStudentListData {
+  name: string;
+  email: string;
+  status: string;
+  team: string;
+  photoUrl?: string;
+  sectionName: string;
+  isAllowedToViewStudentInSection: boolean;
+  isAllowedToModifyStudent: boolean;
 }
 
 /**

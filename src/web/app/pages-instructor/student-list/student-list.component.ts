@@ -8,7 +8,13 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SortBy, SortOrder, StudentListSectionData, StudentListStudentData } from './student-list-section-data';
+import {
+  FlatStudentListData,
+  SortBy,
+  SortOrder,
+  StudentListSectionData,
+  StudentListStudentData
+} from './student-list-section-data';
 
 /**
  * A table displaying a list of students from a course, with buttons to view/edit/delete students etc.
@@ -30,7 +36,7 @@ export class StudentListComponent implements OnInit, DoCheck {
 
   // The flattened students list derived from the sections list.
   // The sections data is flattened to allow sorting of the list.
-  students: StudentListStudentData[] = [];
+  students: FlatStudentListData[] = [];
   tableSortOrder: SortOrder = SortOrder.ASC;
   tableSortBy: SortBy = SortBy.NONE;
 
@@ -65,17 +71,19 @@ export class StudentListComponent implements OnInit, DoCheck {
   /**
    * Flatten section data.
    */
-  mapStudentsFromSectionData(sections: StudentListSectionData[]): StudentListStudentData[] {
-    const students: StudentListStudentData[] = [];
+  mapStudentsFromSectionData(sections: StudentListSectionData[]): FlatStudentListData[] {
+    const students: FlatStudentListData[] = [];
     sections.forEach((section: StudentListSectionData) =>
         section.students.forEach((student: StudentListStudentData) =>
             students.push({
-              section,
               name: student.name,
               email: student.email,
               status: student.status,
               team: student.team,
               photoUrl: student.photoUrl,
+              sectionName: section.sectionName,
+              isAllowedToModifyStudent: section.isAllowedToModifyStudent,
+              isAllowedToViewStudentInSection: section.isAllowedToViewStudentInSection,
             }),
         ),
     );
@@ -86,21 +94,21 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Returns whether this course are divided into sections
    */
   hasSection(): boolean {
-    return (this.students.some((student: StudentListStudentData) =>
-        student.section ? student.section.sectionName !== 'None' : false));
+    return (this.students.some((student: FlatStudentListData) =>
+        student.sectionName !== 'None'));
   }
 
   /**
    * Function to be passed to ngFor, so that students in the list is tracked by email
    */
-  trackByFn(_index: number, item: StudentListStudentData): any {
+  trackByFn(_index: number, item: FlatStudentListData): any {
     return item.email;
   }
 
   /**
    * Load the profile picture of a student
    */
-  loadPhoto(student: StudentListStudentData): void {
+  loadPhoto(student: FlatStudentListData): void {
     student.photoUrl =
         `${environment.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${student.email}`;
   }
@@ -108,7 +116,7 @@ export class StudentListComponent implements OnInit, DoCheck {
   /**
    * Sets the profile picture of a student as the default image
    */
-  setDefaultPic(student: StudentListStudentData): void {
+  setDefaultPic(student: FlatStudentListData): void {
     student.photoUrl = '/assets/images/profile_picture_default.png';
   }
 
@@ -173,14 +181,14 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy):
-      ((a: StudentListStudentData , b: StudentListStudentData) => number) {
-    return (a: StudentListStudentData, b: StudentListStudentData): number => {
+      ((a: FlatStudentListData , b: FlatStudentListData) => number) {
+    return (a: FlatStudentListData, b: FlatStudentListData): number => {
       let strA: string;
       let strB: string;
       switch (by) {
         case SortBy.SECTION_NAME:
-          strA = a.section ? a.section.sectionName : '';
-          strB = b.section ? b.section.sectionName : '';
+          strA = a.sectionName;
+          strB = b.sectionName;
           break;
         case SortBy.STUDENT_NAME:
           strA = a.name;
