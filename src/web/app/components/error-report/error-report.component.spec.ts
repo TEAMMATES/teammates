@@ -33,37 +33,6 @@ describe('ErrorReportComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have "Something went wrong" header', () => {
-    const h2: any = fixture.nativeElement.querySelector('h2');
-    if (h2) {
-      expect(h2.textContent).toContain('Something went wrong');
-    }
-  });
-
-  it('should display error message', () => {
-    const error: string = 'Error message sample';
-    component.errorMessage = error;
-
-    fixture.detectChanges();
-
-    const p: any = fixture.nativeElement.querySelector('p');
-    if (p) {
-      expect(p.textContent).toContain(error);
-    }
-  });
-
-  it('should have the requestID form disabled ', () => {
-    const input: any = fixture.nativeElement.querySelector('input');
-    expect(input.disabled).toBeTruthy();
-  });
-
-  it('should have pre-filled Subject input form', () => {
-    const input: any = fixture.nativeElement.querySelectorAll('input');
-
-    expect(component.subject).toEqual('User-submitted Error Report');
-    expect(input[1].value).toEqual(component.subject);
-  });
-
   it('should get user input from Subject form', () => {
     const input: any = fixture.nativeElement.querySelectorAll('input');
 
@@ -104,13 +73,6 @@ describe('ErrorReportComponent', () => {
   });
 
   it('should snap with default view', () => {
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap with some content', () => {
-    component.content = 'some content';
-
-    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
