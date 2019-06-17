@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -78,30 +78,27 @@ describe('CopySessionModalComponent', () => {
     timeZone: 'UTC',
   };
 
-  it('should snap with some session and courses candidates', fakeAsync(() => {
+  it('should snap with some session and courses candidates', () => {
     component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
     component.courseCandidates = [courseSessionIn, courseCopyTo];
     component.sessionToCopyCourseId = courseSessionIn.courseId;
     fixture.detectChanges();
-    tick();
 
     expect(fixture).toMatchSnapshot();
-  }));
+  });
 
-  it('should snap with course to copy to is set', fakeAsync(() => {
+  it('should snap with course to copy to is set', () => {
     component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
     component.courseCandidates = [courseSessionIn, courseCopyTo];
     component.sessionToCopyCourseId = courseSessionIn.courseId;
     fixture.detectChanges();
-    tick();
 
     const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="radio"]'));
     const secondOption: any = options[1];
     secondOption.triggerEventHandler('change', { target: secondOption.nativeElement });
     fixture.detectChanges();
-    tick();
 
     expect(fixture).toMatchSnapshot();
-  }));
+  });
 
 });
