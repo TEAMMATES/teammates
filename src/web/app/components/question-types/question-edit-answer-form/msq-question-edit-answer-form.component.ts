@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -82,9 +82,9 @@ export class MsqQuestionEditAnswerFormComponent
     if (!fieldsToUpdate.isOther) {
       fieldsToUpdate.otherFieldContent = '';
     } else {
-      setTimeout(()=>{ // this will make the execution after the above boolean has changed
+      setTimeout(() => {
         (this.inputEle as ElementRef).nativeElement.focus();
-      },0);
+      }, 0);
     }
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
