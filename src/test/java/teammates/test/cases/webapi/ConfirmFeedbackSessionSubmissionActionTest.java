@@ -49,6 +49,35 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         return POST;
     }
 
+    @Override
+    protected void prepareTestData() {
+        removeAndRestoreTypicalDataBundle();
+        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        student4InCourse1 = typicalBundle.students.get("student4InCourse1");
+        student1InCourse2 = typicalBundle.students.get("student1InCourse2");
+        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
+        instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
+        typicalCourse1 = typicalBundle.courses.get("typicalCourse1");
+        typicalCourse2 = typicalBundle.courses.get("typicalCourse2");
+        session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        session1InCourse2 = typicalBundle.feedbackSessions.get("session1InCourse2");
+        awaitinfSession = typicalBundle.feedbackSessions.get("awaiting.session");
+        FeedbackResponseAttributes response1ForQ1S1C1 = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponseAttributes response2ForQ1S1C1 = typicalBundle.feedbackResponses.get("response2ForQ1S1C1");
+        FeedbackResponseAttributes response1ForQ2S1C1 = typicalBundle.feedbackResponses.get("response1ForQ2S1C1");
+        FeedbackResponseAttributes response2ForQ2S1C1 = typicalBundle.feedbackResponses.get("response2ForQ2S1C1");
+        FeedbackResponseAttributes response3ForQ2S1C1 = typicalBundle.feedbackResponses.get("response3ForQ2S1C1");
+        FeedbackResponseAttributes response1ForQ3S1C1 = typicalBundle.feedbackResponses.get("response1ForQ3S1C1");
+        allResponsesInSession1Course1 = new ArrayList<>();
+        allResponsesInSession1Course1.add(response1ForQ1S1C1);
+        allResponsesInSession1Course1.add(response2ForQ1S1C1);
+        allResponsesInSession1Course1.add(response1ForQ2S1C1);
+        allResponsesInSession1Course1.add(response2ForQ2S1C1);
+        allResponsesInSession1Course1.add(response3ForQ2S1C1);
+        allResponsesInSession1Course1.add(response1ForQ3S1C1);
+    }
+
     @Test
     @Override
     protected void testExecute() throws Exception {
@@ -312,35 +341,6 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         };
 
         assertThrows(InvalidHttpParameterException.class, () -> getAction(unknownIntentParams).checkAccessControl());
-    }
-
-    @Override
-    protected void prepareTestData() {
-        removeAndRestoreTypicalDataBundle();
-        student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        student4InCourse1 = typicalBundle.students.get("student4InCourse1");
-        student1InCourse2 = typicalBundle.students.get("student1InCourse2");
-        instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
-        typicalCourse1 = typicalBundle.courses.get("typicalCourse1");
-        typicalCourse2 = typicalBundle.courses.get("typicalCourse2");
-        session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session1InCourse2 = typicalBundle.feedbackSessions.get("session1InCourse2");
-        awaitinfSession = typicalBundle.feedbackSessions.get("awaiting.session");
-        FeedbackResponseAttributes response1ForQ1S1C1 = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
-        FeedbackResponseAttributes response2ForQ1S1C1 = typicalBundle.feedbackResponses.get("response2ForQ1S1C1");
-        FeedbackResponseAttributes response1ForQ2S1C1 = typicalBundle.feedbackResponses.get("response1ForQ2S1C1");
-        FeedbackResponseAttributes response2ForQ2S1C1 = typicalBundle.feedbackResponses.get("response2ForQ2S1C1");
-        FeedbackResponseAttributes response3ForQ2S1C1 = typicalBundle.feedbackResponses.get("response3ForQ2S1C1");
-        FeedbackResponseAttributes response1ForQ3S1C1 = typicalBundle.feedbackResponses.get("response1ForQ3S1C1");
-        allResponsesInSession1Course1 = new ArrayList<>();
-        allResponsesInSession1Course1.add(response1ForQ1S1C1);
-        allResponsesInSession1Course1.add(response2ForQ1S1C1);
-        allResponsesInSession1Course1.add(response1ForQ2S1C1);
-        allResponsesInSession1Course1.add(response2ForQ2S1C1);
-        allResponsesInSession1Course1.add(response3ForQ2S1C1);
-        allResponsesInSession1Course1.add(response1ForQ3S1C1);
     }
 
 }
