@@ -1,6 +1,3 @@
-/**
- * Contains a list of students in a section.
- */
 import { JoinState } from '../../../types/api-output';
 
 /**
