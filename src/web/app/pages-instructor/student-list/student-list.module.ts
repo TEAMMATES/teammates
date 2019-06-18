@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentListComponent } from './student-list.component';
+import { JoinStatePipe } from './join-state.pipe';
 
 /**
  * Module for student list table component.
@@ -10,6 +11,7 @@ import { StudentListComponent } from './student-list.component';
 @NgModule({
   declarations: [
     StudentListComponent,
+    JoinStatePipe,
   ],
   exports: [
     StudentListComponent,

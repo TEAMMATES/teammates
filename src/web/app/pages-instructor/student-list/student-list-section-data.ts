@@ -1,6 +1,8 @@
 /**
  * Contains a list of students in a section.
  */
+import { JoinState } from "../../../types/api-output";
+
 export interface StudentListSectionData {
   sectionName: string;
   isAllowedToViewStudentInSection: boolean;
@@ -14,7 +16,7 @@ export interface StudentListSectionData {
 export interface StudentListStudentData {
   name: string;
   email: string;
-  status: string;
+  status: JoinState;
   team: string;
   photoUrl?: string;
 }

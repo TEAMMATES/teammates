@@ -115,7 +115,7 @@ export class InstructorStudentListPageComponent implements OnInit {
             studentsInSection.forEach((student: Student) => {
               const studentData: StudentListStudentData = {
                 name : student.name,
-                status : (student.joinState === JoinState.JOINED) ? 'Joined' : 'Yet to Join',
+                status : student.joinState,
                 email : student.email,
                 team : student.teamName,
               };
