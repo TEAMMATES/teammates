@@ -61,7 +61,7 @@
       "St Paul's Anglican Grammar School",
       "St. Scholastica's College",
       "Star of the Sea Catholic College",
-	  "S P Jain School of Global Management",
+      "S P Jain School of Global Management",
       "Suzanne Cory High School",
       "Swinburne",
       "Swinburne Business School",
@@ -104,7 +104,7 @@
       "Artevelde University",
       "Artevelde University College Ghent",
       "Arteveldehogeschool",
-	  "AvAnt",
+      "AvAnt",
       "BA Botaniek",
       "BA Stassart",
       "Bacaputsteen",
@@ -122,16 +122,16 @@
       "Hasselt University",
       "Heilig-Hart Heverlee",
       "HoGent",
-	  "Hoofdstedelijk Atheneum Karel Buls",
+      "Hoofdstedelijk Atheneum Karel Buls",
       "Howest",
       "IMI - Roosdaal",
       "KA Avelgem",
       "KdG University College",
       "KSO Glorieux",
       "KU Leuven",
-	  "OLVE College Mortsel",
+      "OLVE College Mortsel",
       "Provinciaal Instituut voor Biotechnisch Onderwijs",
-	  "PTS Boom",
+      "PTS Boom",
       "Sint-Franciscusinstituut Brakel",
       "Sint-Franciscus College",
       "Sint-Lievens College",
@@ -144,7 +144,7 @@
       "Solvay Brussels School of Economics & Management",
       "Spectrum School Campus Deurne",
       "Talentenschool Turnhout",
-	  "Ter Elst",
+      "Ter Elst",
       "Thomas More Vorselaar",
       "Universiteit Gent",
       "Universite Libre de Bruxelles",
@@ -185,7 +185,7 @@
       "Inatel",
       "Instituto Federal do Espírito Santo",
       "Instituto Nacional de Telecomunicações",
-	  "Núcleo Regional de Educação de Jacarezinho",
+      "Núcleo Regional de Educação de Jacarezinho",
       "Pontificia Universidade Catolica de Minas Gerais",
       "PUC Minas",
       "PUC-PR",
@@ -208,7 +208,7 @@
       "Universidade Federal do Rio Grande do Norte",
       "Universidade Federal do Rio Grande do Sul",
       "University of Brasilia"
-	  "UTFPR",
+      "UTFPR",
     ],
     "Brunei Darussalam": [
       "Sekolah Menengah Sayyidina Ali",
@@ -234,10 +234,10 @@
       "Canadian Urban Transit Research and Innovation Consortium",
       "Capilano University",
       "Carleton University",
-	  "CDI college",
+      "CDI college",
       "Cégep de Saint-Jérôme",
       "Cégep du Vieux-Montréal",
-	  "Cégep Édouard-Montpetit",
+      "Cégep Édouard-Montpetit",
       "Cégep Heritage College",
       "Centennial College",
       "Champlain St. Lawrence",
@@ -275,7 +275,7 @@
       "Luther College",
       "MacEwan University",
       "Marianopolis College",
-	  "Massey Secondary",
+      "Massey Secondary",
       "McGill University",
       "McMaster University",
       "Memorial University of Newfoundland",
@@ -299,7 +299,7 @@
       "Simon Fraser University",
       "Sir William Gage Middle School",
       "Southern Alberta Institute of Technology",
-	  "Stratford Elementary",
+      "Stratford Elementary",
       "St. Andrew's College",
       "St. Barbara Catholic Elementary",
       "St. David Catholic Elementary",
@@ -371,7 +371,7 @@
       "TsingHua University High School International",
       "Xi'an Jiaotong-Liverpool University",
       "Yi Dian Zi Xun"
-	  "Zhejiang University"
+      "Zhejiang University"
     ],
     "Colombia": [
       "Colegio Nueva Granada",
@@ -389,7 +389,7 @@
       "Colegio Calasanz Hispanocostarricense"
     ],
     "Croatia": [
-	  "Komercijalna i trgovacka skola Bjelovar",
+      "Komercijalna i trgovacka skola Bjelovar",
       "University of Zagreb"
     ],
     "Cyprus": [
@@ -398,7 +398,7 @@
     "Czech Republic": [
       "Charles University in Prague",
       "Masaryk University",
-	  "Technical University of Liberec",
+      "Technical University of Liberec",
       "UJAK"
     ],
     "Denmark": [
@@ -419,8 +419,8 @@
     ],
     "Ecuador": [
       "Escuela Superior Politecnica Del Litoral",
-      "UEES University"
-	  "Universidad San Francisco de Quito",
+      "UEES University",
+      "Universidad San Francisco de Quito"
     ],
     "Egypt": [
       "Al-Hoda International School",
@@ -483,7 +483,7 @@
       "EMLYON Business School",
       "ENPC",
       "ESC-Dijon",
-	  "ESCEN - Paris",
+      "ESCEN - Paris",
       "ESSEC Business School",
       "Grenoble Ecole de Management",
       "Grenoble Graduate School of Business",
@@ -535,8 +535,8 @@
       "Uni Hamburg",
       "Universität Augsburg",
       "Universität der Bundeswehr München",
-	  "University Koblenz-Landau",
-	  "University of Applied Sciences Europe",
+      "University Koblenz-Landau",
+      "University of Applied Sciences Europe",
       "University of Duisburg-Essen",
       "University of Paderborn",
       "University of Potsdam",
@@ -561,7 +561,7 @@
     ],
     "Honduras": [
       "DelCampo school",
-	  "Dowal School",
+      "Dowal School",
       "The American School of Tegucigalpa"
     ],
     "Hong Kong": [
@@ -572,10 +572,10 @@
       "Education University of Hong Kong",
       "Elsa High School",
       "HKBUAS Wong Kam Fai Secondary and Primary School",
-	  "HK Christian School",
+      "HK Christian School",
       "HKU SPACE Community College",
       "HKUST",
-	  "Hong Kong Baptist University",
+      "Hong Kong Baptist University",
       "Hong Kong University of Science and Technology",
       "Queen Elizabeth School",
       "St Hilary's School",
@@ -624,7 +624,7 @@
       "JUIT",
       "Karmaveer Bhaurao Patil College Of Engineering, Satara",
       "Keshav Memorial Institute of Technology",
-	  "KIIT Univeristy",
+      "KIIT Univeristy",
       "Madanapalle Institute of Technology & Science",
       "Maharaja's College Ernakulam",
       "MakerWala",
@@ -639,7 +639,7 @@
       "Pearl Academy",
       "Pune Institute of Computer Technology",
       "Rajalakshmi School of Business",
-	  "S.P. Jain School of Global Management",
+      "S.P. Jain School of Global Management",
       "Swami Ram Ahimalayan University",
       "Symbiosis International University",
       "Tech Mahindra",
@@ -663,11 +663,11 @@
       "School of Business and Management",
       "Swiss German University",
       "Tarumanagara University",
-	  "Tzu Chi Secondary School",
+      "Tzu Chi Secondary School",
       "Universitas Indonesia",
       "Universitas Padjadjaran",
       "Universitas Pelita Harapan",
-	  "Universitas Pendidikan Ganesha",
+      "Universitas Pendidikan Ganesha",
       "Universitas Pendidikan Indonesia"
     ],
     "Iran": [
@@ -702,15 +702,15 @@
       "Arxo",
       "Bocconi University",
       "IIS Bruno-Franchetti",
-      "Instilla",
-	  "Istituto Comprensivo "Gabriele d'Annunzio"",
+      "Instilla"
+      "Istituto Comprensivo "Gabriele d'Annunzio"",
       "ITD - CNR",
       "ITE LL Gadda Rosselli",
       "Kefato University of Trento",
       "Politecnico di Milano",
       "Università Cattolica - Milano",
       "Università Cattolica del Sacro Cuore",
-	  "University of Genoa",
+      "University of Genoa",
       "University of Padua",
       "University of Trento"
     ],
