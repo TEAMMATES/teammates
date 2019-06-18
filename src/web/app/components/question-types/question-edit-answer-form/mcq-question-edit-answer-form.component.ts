@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild,} from '@angular/core';
 
 import {
   FeedbackMcqQuestionDetails,
@@ -27,6 +27,8 @@ export class McqQuestionEditAnswerFormComponent
   @Input()
   id: string = '';
 
+  @ViewChild('inputEle') inputEle?: ElementRef;
+
   isMcqOptionSelected: boolean[] = [];
 
   constructor() {
@@ -51,9 +53,13 @@ export class McqQuestionEditAnswerFormComponent
    */
   updateIsOtherOption(): void {
     const fieldsToUpdate: any = {};
+    // const div = this.elementRef.nativeElement.querySelector('.form-control');
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
     if (fieldsToUpdate.isOther) {
       fieldsToUpdate.answer = '';
+      setTimeout(()=>{ // this will make the execution after the above boolean has changed
+        (this.inputEle as ElementRef).nativeElement.focus();
+      },0);
     } else {
       fieldsToUpdate.otherFieldContent = '';
     }
