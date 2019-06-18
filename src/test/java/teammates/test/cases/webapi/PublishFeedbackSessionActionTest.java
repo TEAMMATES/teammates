@@ -47,6 +47,8 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         assertEquals(feedbackSessionData.getFeedbackSessionName(), session.getFeedbackSessionName());
         assertEquals(feedbackSessionData.getPublishStatus(), FeedbackSessionPublishStatus.PUBLISHED);
+        assertEquals(logic.getFeedbackSession(
+                session.getFeedbackSessionName(), course.getId()), FeedbackSessionPublishStatus.PUBLISHED);
 
         ______TS("Failure case: Session is already published");
         // Attempt to publish the same session again.
@@ -66,7 +68,8 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         String randomSessionName = "randomName";
-        assertNotNull(course.getId(), session.getFeedbackSessionName());
+
+        assertNotNull(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()));
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
