@@ -43,21 +43,19 @@ describe('ErrorReportComponent', () => {
   });
 
   it('should disable send report button and set errorReportSubmitted to true after successfully sending report', () => {
-    const button: any = fixture.nativeElement.querySelector('button');
-
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
 
     spyOn(httpRequestService, 'post').and.returnValue(of(''));
-    button.click();
+    fixture.nativeElement.querySelector('button').click();
+    fixture.detectChanges();
 
     expect(component.sendButtonEnabled).toBeFalsy();
     expect(component.errorReportSubmitted).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('button')).toBeFalsy();
   });
 
   it('should not disable send report button after unsuccessfully sending report', () => {
-    const button: any = fixture.nativeElement.querySelector('button');
-
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
 
@@ -66,10 +64,12 @@ describe('ErrorReportComponent', () => {
         message: 'This is the error message',
       },
     }));
-    button.click();
+    fixture.nativeElement.querySelector('button').click();
+    fixture.detectChanges();
 
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
+    expect(fixture.nativeElement.querySelector('button')).toBeTruthy();
   });
 
   it('should snap with default view', () => {
