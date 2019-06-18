@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { FeedbackQuestion, FeedbackSession,
-  FeedbackSessions, HasResponses, OngoingSessions } from '../types/api-output';
-import { FeedbackSessionCreateRequest, FeedbackSessionUpdateRequest } from '../types/api-request';
+import {
+  FeedbackQuestion,
+  FeedbackSession,
+  FeedbackSessions, FeedbackSessionSubmittedGiverSet,
+  HasResponses,
+  MessageOutput,
+  OngoingSessions,
+} from '../types/api-output';
+import {
+  FeedbackSessionCreateRequest,
+  FeedbackSessionStudentRemindRequest,
+  FeedbackSessionUpdateRequest,
+} from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -22,7 +32,8 @@ export interface TemplateSession {
 })
 export class FeedbackSessionsService {
 
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {
+  }
 
   /**
    * Gets template sessions.
@@ -70,7 +81,7 @@ export class FeedbackSessionsService {
         entitytype: 'instructor',
         courseid: courseId,
       };
-    }  else {
+    } else {
       paramMap = {
         entitytype: 'instructor',
         isinrecyclebin: 'false',
@@ -123,4 +134,44 @@ export class FeedbackSessionsService {
     return this.httpRequestService.get('/hasResponses', paramMap);
   }
 
+  /**
+   * Sends e-mails to remind students who have not submitted their feedback.
+   */
+  remindFeedbackSessionSubmissionForStudent(
+      courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
+      : Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.post('/session/remind/submission', paramMap, request);
+  }
+
+  /**
+   * Sends e-mails to remind students on the published results link.
+   */
+  remindResultsLinkToStudents(
+      courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
+      : Observable<MessageOutput> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.post('/session/remind/result', paramMap, request);
+  }
+
+  /**
+   * Gets a set of givers that has given at least one response in the feedback session.
+   */
+  getFeedbackSessionSubmittedGiverSet(
+      courseId: string, feedbackSessionName: string): Observable<FeedbackSessionSubmittedGiverSet> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.get('/session/submitted/giverset', paramMap);
+  }
 }

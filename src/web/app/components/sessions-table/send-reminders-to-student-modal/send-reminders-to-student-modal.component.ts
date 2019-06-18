@@ -1,10 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpRequestService } from '../../../../services/http-request.service';
-import { StatusMessageService } from '../../../../services/status-message.service';
-import { FeedbackSessionStudentRemindRequest } from '../../../../types/api-request';
-import { StudentStatusTableRowModel } from '../sessions-table-model';
-import { StudentListInfoBaseModalComponent } from '../student-list-info-base-modal.component';
+import { StudentListInfoTableRowModel } from '../student-list-info-table/student-list-info-table-model';
 
 /**
  * Send reminders to students modal.
@@ -14,112 +10,61 @@ import { StudentListInfoBaseModalComponent } from '../student-list-info-base-mod
   templateUrl: './send-reminders-to-student-modal.component.html',
   styleUrls: ['./send-reminders-to-student-modal.component.scss'],
 })
-export class SendRemindersToStudentModalComponent extends StudentListInfoBaseModalComponent implements OnInit {
+export class SendRemindersToStudentModalComponent implements OnInit {
 
-  @Input()
+  // values below will be injected by other component
   courseId: string = '';
-
-  @Input()
   feedbackSessionName: string = '';
+  studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
 
-  checkAll: boolean = false;
-  checkAllYetSubmitted: boolean = false;
-  checkAllIns: boolean = false;
-  checkAllYetSubmittedIns: boolean = false;
-
-  constructor(public activeModal: NgbActiveModal, httpRequestService: HttpRequestService,
-              statusMessageService: StatusMessageService) {
-    super(httpRequestService, statusMessageService);
+  constructor(public activeModal: NgbActiveModal) {
   }
 
   ngOnInit(): void {
-    this.initializeStudentsStatusTable();
   }
 
   /**
-   * Gets a list of students' response details.
+   * Changes selection state for all students.
    */
-  initializeStudentsStatusTable(): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      fsname: this.feedbackSessionName,
-    };
-
-    this.getStudentStatusTableRowModel(paramMap, this.studentStatusTableRows);
+  changeSelectionStatusForAllStudentsHandler(shouldSelect: boolean): void {
+    for (const model of this.studentListInfoTableRowModels) {
+      model.isSelected = shouldSelect;
+    }
   }
 
   /**
-   * Check all students checkbox to all students.
+   * Changes selection state for all yet to submit students.
    */
-  checkAllStudentsHandler(): void {
-    this.checkAllStudents(this.studentStatusTableRows, this.checkAll);
-    this.checkAllYetSubmitted = this.checkAll;
-  }
-
-  /**
-   * Check all yet to submit students checkbox to respective students.
-   */
-  checkAllYetSubmittedStudents(): void {
-    for (const remindStudentRow of this.studentStatusTableRows) {
-      if (!remindStudentRow.feedbackSessionStudentResponse.responseStatus) {
-        remindStudentRow.isChecked = this.checkAllYetSubmitted;
+  changeSelectionStatusForAllYetSubmittedStudentsHandler(shouldSelect: boolean): void {
+    for (const model of this.studentListInfoTableRowModels) {
+      if (!model.hasSubmittedSession) {
+        model.isSelected = shouldSelect;
       }
     }
   }
 
   /**
-   * Check all instructors checkbox to all instructors.
+   * Collates a list of selected students with selected status.
    */
-  checkAllInstructorsHandler(): void {
-    this.checkAllInstructors(this.instructorStatusTableRows, this.checkAllIns);
-    this.checkAllYetSubmittedIns = this.checkAllIns;
+  collateStudentsToSendHandler(): StudentListInfoTableRowModel[] {
+    return this.studentListInfoTableRowModels
+        .map((model: StudentListInfoTableRowModel) => Object.assign({}, model))
+        .filter((model: StudentListInfoTableRowModel) => model.isSelected);
   }
 
   /**
-   * Check all yet to submit instructors checkbox to respective instructors.
+   * Checks whether all students are selected.
    */
-  checkAllYetSubmittedInstructors(): void {
-    for (const remindStudentRow of this.instructorStatusTableRows) {
-      if (!remindStudentRow.feedbackSessionStudentResponse.responseStatus) {
-        remindStudentRow.isChecked = this.checkAllYetSubmittedIns;
-      }
-    }
+  get isAllStudentsSelected(): boolean {
+    return this.studentListInfoTableRowModels.every((model: StudentListInfoTableRowModel) => model.isSelected);
   }
 
   /**
-   * Bind individual checkboxes to all submitted and all yet submitted students checkbox.
+   * Checks whether all students are slected.
    */
-  bindSelectedStudentsCheckboxes(): void {
-    this.checkAll = this.studentStatusTableRows.every((tableRow: StudentStatusTableRowModel) => {
-      return tableRow.isChecked;
-    });
-
-    this.checkAllYetSubmitted = this.studentStatusTableRows.filter(
-        (tableRow: StudentStatusTableRowModel) => !tableRow.feedbackSessionStudentResponse.responseStatus,
-    ).every((tableRow: StudentStatusTableRowModel) => {
-      return tableRow.isChecked && !tableRow.feedbackSessionStudentResponse.responseStatus;
-    });
-  }
-
-  /**
-   * Bind individual checkboxes to all submitted and all yet submitted instructors checkbox.
-   */
-  bindSelectedInstructorsCheckboxes(): void {
-    this.checkAllIns = this.instructorStatusTableRows.every((tableRow: StudentStatusTableRowModel) => {
-      return tableRow.isChecked;
-    });
-
-    this.checkAllYetSubmittedIns = this.instructorStatusTableRows.filter(
-        (tableRow: StudentStatusTableRowModel) => !tableRow.feedbackSessionStudentResponse.responseStatus,
-    ).every((tableRow: StudentStatusTableRowModel) => {
-      return tableRow.isChecked && !tableRow.feedbackSessionStudentResponse.responseStatus;
-    });
-  }
-
-  /**
-   * Collates a list of selected students with selected checkbox.
-   */
-  collateStudentsInstructorsToSendHandler(): FeedbackSessionStudentRemindRequest {
-    return this.collateStudentsInstructorsToSend(this.studentStatusTableRows, this.instructorStatusTableRows);
+  get isAllYetToSubmitStudentsSelected(): boolean {
+    return this.studentListInfoTableRowModels
+        .filter((model: StudentListInfoTableRowModel) => !model.hasSubmittedSession)
+        .every((model: StudentListInfoTableRowModel) => model.isSelected);
   }
 }

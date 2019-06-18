@@ -1,0 +1,62 @@
+<table class="table table-bordered">
+  <tr class="background-color-medium-gray">
+    <th>
+      <label>
+        <input type="checkbox" [ngModel]="isAllStudentsSelected" (ngModelChange)="changeSelectionStatusForAllStudentsHandler($event)">
+      </label>
+    </th>
+    <th (click)="sortStudentsTableRows(SortBy.SECTION_NAME)" class="clickable">
+      Section
+      <span *ngIf="studentListInfoTableSortBy !== SortBy.SECTION_NAME"><i class="fas fa-sort"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+    </th>
+    <th (click)="sortStudentsTableRows(SortBy.TEAM_NAME)" class="clickable">
+      Team
+      <span *ngIf="studentListInfoTableSortBy !== SortBy.TEAM_NAME"><i class="fas fa-sort"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+    </th>
+    <th (click)="sortStudentsTableRows(SortBy.STUDENT_NAME)" class="clickable">
+      Student Name
+      <span *ngIf="studentListInfoTableSortBy !== SortBy.STUDENT_NAME"><i class="fas fa-sort"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.STUDENT_NAME && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.STUDENT_NAME && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+    </th>
+    <th (click)="sortStudentsTableRows(SortBy.STUDENT_EMAIL)" class="clickable">
+      Email
+      <span *ngIf="studentListInfoTableSortBy !== SortBy.STUDENT_EMAIL"><i class="fas fa-sort"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.STUDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.STUDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+    </th>
+    <th (click)="sortStudentsTableRows(SortBy.HAS_SUBMITTED_SESSION)" class="clickable" *ngIf="shouldDisplayHasSubmittedSessionColumn">
+      Submitted?
+      <span *ngIf="studentListInfoTableSortBy !== SortBy.HAS_SUBMITTED_SESSION"><i class="fas fa-sort"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.HAS_SUBMITTED_SESSION && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.HAS_SUBMITTED_SESSION && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+    </th>
+  </tr>
+  <tr [ngClass]="{'bg-warning': shouldDisplayHasSubmittedSessionColumn && !studentListInfoTableRowModel.hasSubmittedSession}" *ngFor="let studentListInfoTableRowModel of studentListInfoTableRowModels">
+    <td class="align-center">
+      <label>
+        <input type="checkbox" [ngModel]="studentListInfoTableRowModel.isSelected" (ngModelChange)="handleSelectionOfRow(studentListInfoTableRowModel)">
+      </label>
+    </td>
+    <td>
+      {{ studentListInfoTableRowModel.sectionName }}
+    </td>
+    <td>
+      {{ studentListInfoTableRowModel.teamName }}
+    </td>
+    <td>
+      {{ studentListInfoTableRowModel.name }}
+    </td>
+    <td>
+      {{ studentListInfoTableRowModel.email }}
+    </td>
+    <td *ngIf="shouldDisplayHasSubmittedSessionColumn">
+      <span *ngIf="studentListInfoTableRowModel.hasSubmittedSession">Yes</span>
+      <span *ngIf="!studentListInfoTableRowModel.hasSubmittedSession">No</span>
+    </td>
+  </tr>
+</table>

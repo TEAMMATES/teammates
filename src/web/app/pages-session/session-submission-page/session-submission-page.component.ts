@@ -40,9 +40,7 @@ import {
 import {
   FeedbackSessionNotOpenModalComponent,
 } from './feedback-session-not-open-modal/feedback-session-not-open-modal.component';
-import {
-  SavingCompleteModalComponent,
-} from './saving-complete-modal/saving-complete-modal.component';
+import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -50,26 +48,6 @@ interface FeedbackQuestionsResponse {
 
 interface FeedbackResponsesResponse {
   responses: FeedbackResponse[];
-}
-
-/**
- * The result of the confirmation.
- */
-enum ConfirmationResult {
-  /**
-   * The submission has been confirmed successfully.
-   */
-  SUCCESS = 'SUCCESS',
-
-  /**
-   * The submission has been confirmed but the confirmation email failed to send.
-   */
-  SUCCESS_BUT_EMAIL_FAIL_TO_SEND = 'SUCCESS_BUT_EMAIL_FAIL_TO_SEND',
-}
-
-interface ConfirmationResponse {
-  result: ConfirmationResult;
-  message: string;
 }
 
 /**
@@ -458,16 +436,16 @@ export class SessionSubmissionPageComponent implements OnInit {
                     questionType: questionSubmissionFormModel.questionType,
                     responseDetails: recipientSubmissionFormModel.responseDetails,
                   }).pipe(
-                    tap((resp: FeedbackResponse) => {
-                      recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                      recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                      recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                    }),
-                    catchError((error: any) => {
-                      this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
-                      failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
-                      return of(error);
-                    }),
+                      tap((resp: FeedbackResponse) => {
+                        recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
+                        recipientSubmissionFormModel.responseDetails = resp.responseDetails;
+                        recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+                      }),
+                      catchError((error: any) => {
+                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                        return of(error);
+                      }),
                   ));
             }
 
@@ -483,16 +461,16 @@ export class SessionSubmissionPageComponent implements OnInit {
                     questionType: questionSubmissionFormModel.questionType,
                     responseDetails: recipientSubmissionFormModel.responseDetails,
                   }).pipe(
-                    tap((resp: FeedbackResponse) => {
-                      recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                      recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                      recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                    }),
-                    catchError((error: any) => {
-                      this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
-                      failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
-                      return of(error);
-                    }),
+                      tap((resp: FeedbackResponse) => {
+                        recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
+                        recipientSubmissionFormModel.responseDetails = resp.responseDetails;
+                        recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+                      }),
+                      catchError((error: any) => {
+                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                        return of(error);
+                      }),
                   ));
             }
           });
@@ -537,17 +515,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           modalRef.componentInstance.failToSaveQuestions = Array.from(failToSaveQuestions.values()).join(', ');
           modalRef.componentInstance.hasSubmissionConfirmationError = hasSubmissionConfirmationError;
         }),
-    ).subscribe((response: ConfirmationResponse) => {
-      switch (response.result) {
-        case ConfirmationResult.SUCCESS:
-          break;
-        case ConfirmationResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND:
-          this.statusMessageService.showErrorMessage(
-              `Submission confirmation email failed to send: ${response.message}`);
-          break;
-        default:
-          this.statusMessageService.showErrorMessage(`Unknown result ${response.result}`);
-      }
+    ).subscribe(() => {
       hasSubmissionConfirmationError = false;
       this.shouldSendConfirmationEmail = false;
     }, (resp: ErrorMessageOutput) => {

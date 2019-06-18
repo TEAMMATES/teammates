@@ -13,7 +13,6 @@ import {
   FeedbackSessionStats,
   InstructorPrivilege,
 } from '../../types/api-output';
-import { FeedbackSessionStudentRemindRequest } from '../../types/api-request';
 import {
   CopySessionResult,
   SessionsTableRowModel,
@@ -249,41 +248,5 @@ export abstract class InstructorSessionBasePageComponent {
 
           this.statusMessageService.showSuccessMessage('The feedback session has been unpublished.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
-  }
-
-  /**
-   * Sends e-mails to remind students on the published results link.
-   */
-  resendResultsLinkToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentRemindRequest): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.post('/session/remind/result', paramMap, request).subscribe(() => {
-      this.statusMessageService.showSuccessMessage(
-          'Session published notification emails have been resent to those students and instructors. '
-          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
-  }
-
-  /**
-   * Sends e-mails to remind students who have not submitted their feedback.
-   */
-  sendRemindersToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentRemindRequest): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.post('/session/remind/submission', paramMap, request).subscribe(() => {
-      this.statusMessageService.showSuccessMessage(
-          'Reminder e-mails have been sent out to those students and instructors. '
-          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
   }
 }
