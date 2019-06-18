@@ -1,8 +1,11 @@
 /**
  * Contains a list of students in a section.
  */
-import { JoinState } from "../../../types/api-output";
+import { JoinState } from '../../../types/api-output';
 
+/**
+ * Contains a list of students in a section.
+ */
 export interface StudentListSectionData {
   sectionName: string;
   isAllowedToViewStudentInSection: boolean;

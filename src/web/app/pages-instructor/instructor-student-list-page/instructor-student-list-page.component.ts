@@ -4,7 +4,7 @@ import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Course, Courses, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
+import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 

@@ -26,8 +26,8 @@ export class StudentListComponent implements OnInit {
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
 
-  //enum
-  JoinState : typeof JoinState =  JoinState;
+  // enum
+  JoinState: typeof JoinState =  JoinState;
 
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,
