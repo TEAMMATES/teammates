@@ -10,8 +10,8 @@ import { StudentListComponent } from './student-list.component';
  */
 @NgModule({
   declarations: [
-    StudentListComponent,
     JoinStatePipe,
+    StudentListComponent,
   ],
   exports: [
     StudentListComponent,
