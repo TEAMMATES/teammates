@@ -2,6 +2,7 @@ package teammates.ui.webapi.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -27,6 +28,7 @@ public class JsonResult extends ActionResult {
     public JsonResult(ApiOutput output) {
         super(HttpStatus.SC_OK);
         this.output = output;
+        this.cookies = new ArrayList<>();
     }
 
     public JsonResult(ApiOutput output, List<Cookie> cookies) {
@@ -54,7 +56,7 @@ public class JsonResult extends ActionResult {
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
         pw.print(JsonUtils.toJson(output));
-        if (cookies != null && !cookies.isEmpty()) {
+        if (!cookies.isEmpty()) {
             for (Cookie cookie : cookies) {
                 resp.addCookie(cookie);
             }
@@ -65,7 +67,4 @@ public class JsonResult extends ActionResult {
         return cookies;
     }
 
-    public String getFirstCookieValue() {
-        return cookies.get(0).getValue();
-    }
 }

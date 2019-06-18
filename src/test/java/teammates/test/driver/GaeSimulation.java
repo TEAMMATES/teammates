@@ -207,11 +207,11 @@ public class GaeSimulation {
      * @param method The request method
      * @param body The request body
      * @param parts The request parts
-     * @param cookieValue The request's cookie value
+     * @param cookies The request's list of Cookies
      * @param params Parameters that appear in a HttpServletRequest received by the app
      */
     public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
-                                  String cookieValue, String... params) {
+                                  List<Cookie> cookies, String... params) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + uri);
             for (int i = 0; i < params.length; i = i + 2) {
@@ -229,8 +229,10 @@ public class GaeSimulation {
                     }
                 });
             }
-            if (cookieValue != null) {
-                req.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, cookieValue));
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    req.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, cookie.getValue()));
+                }
             }
             MockHttpServletResponse resp = new MockHttpServletResponse();
             Action action = new ActionFactory().getAction(req, method, resp);

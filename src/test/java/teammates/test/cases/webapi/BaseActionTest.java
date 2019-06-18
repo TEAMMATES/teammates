@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
 import org.apache.http.client.methods.HttpDelete;
@@ -73,8 +74,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Gets an action with request body and multipart config.
      */
     @SuppressWarnings("unchecked")
-    protected T getAction(String body, Map<String, Part> parts, String cookieValue, String... params) {
-        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookieValue, params);
+    protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
+        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies, params);
     }
 
     /**
@@ -90,8 +91,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Gets an action with request multipart config.
      */
-    protected T getActionWithCookie(String cookieValue, String... params) {
-        return getAction(null, null, cookieValue, params);
+    protected T getActionWithCookie(List<Cookie> cookies, String... params) {
+        return getAction(null, null, cookies, params);
     }
 
     @BeforeMethod

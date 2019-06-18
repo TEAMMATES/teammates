@@ -1,5 +1,10 @@
 package teammates.test.cases.webapi;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.servlet.http.Cookie;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
@@ -144,16 +149,18 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         GetAuthInfoAction a = getAction(emptyParams);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getFirstCookieValue());
+        assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
 
         ______TS("User logged in with fake csrf token");
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        a = getActionWithCookie("someFakeCsrfToken", emptyParams);
+        Cookie cookieToAdd = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, "someFakeCsrfToken");
+
+        a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
         r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getFirstCookieValue());
+        assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
 
         ______TS("User logged in with non existing csrf token");
 
@@ -162,16 +169,19 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getAction(emptyParams);
         r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getFirstCookieValue());
+        assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
 
         ______TS("User logged in with matched CSRF token cookies");
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        a = getActionWithCookie(StringHelper.encrypt(mockRequest.getSession().getId()), emptyParams);
+        cookieToAdd = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME,
+                StringHelper.encrypt(mockRequest.getSession().getId()));
+
+        a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
         r = getJsonResult(a);
 
-        assertNull(r.getCookies());
+        assertEquals(0, r.getCookies().size());
     }
 
     @Override

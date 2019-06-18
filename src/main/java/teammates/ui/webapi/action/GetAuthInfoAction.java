@@ -1,6 +1,7 @@
 package teammates.ui.webapi.action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.http.Cookie;
 
@@ -59,8 +60,7 @@ public class GetAuthInfoAction extends Action {
             csrfTokenCookie.setSecure(!Config.isDevServer());
             csrfTokenCookie.setPath("/");
             resp.addCookie(csrfTokenCookie);
-            ArrayList<Cookie> cookieLst = new ArrayList<>();
-            cookieLst.add(csrfTokenCookie);
+            ArrayList<Cookie> cookieLst = new ArrayList<>(Arrays.asList(csrfTokenCookie));
             return new JsonResult(output, cookieLst);
         }
 
