@@ -1,4 +1,3 @@
-<tm-loader-bar></tm-loader-bar>
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" (tmClickOutside)="isCollapsed = true">
   <a routerLink="/web" (click)="isCollapsed = true">
     <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
@@ -42,6 +41,7 @@
     </ul>
   </div>
 </nav>
+<tm-loader-bar></tm-loader-bar>
 <tm-loading-spinner *ngIf="isFetchingAuthDetails"></tm-loading-spinner>
 <div *ngIf="!isFetchingAuthDetails" id="main-content" class="container main-content">
   <div *ngIf="isUnsupportedBrowser">

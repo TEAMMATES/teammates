@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { LoaderService } from './loader.service';
 
 /**
  * Handles HTTP requests to the application back-end.
@@ -16,7 +18,7 @@ export class HttpRequestService {
   private backendUrl: string = environment.backendUrl;
   private withCredentials: boolean = environment.withCredentials;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private loaderService: LoaderService) {}
 
   /**
    * Builds an HttpParams object from a standard key-value mapping.
@@ -36,9 +38,20 @@ export class HttpRequestService {
    */
   get(endpoint: string, paramsMap: { [key: string]: string } = {},
       responseType: any = 'json' as 'text'): Observable<any> {
+    this.incrementLoader();
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, responseType, withCredentials });
+    return this.httpClient
+        .get(`${this.backendUrl}/webapi${endpoint}`, { params, responseType, withCredentials })
+        .pipe(finalize(() => this.decrementLoader()));
+  }
+
+  incrementLoader() {
+    this.loaderService.incrementLoader();
+  }
+
+  decrementLoader() {
+    this.loaderService.decrementLoader();
   }
 
   /**
