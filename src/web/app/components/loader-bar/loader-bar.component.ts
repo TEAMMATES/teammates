@@ -8,20 +8,14 @@ import { LoaderService } from '../../../services/loader.service';
 })
 export class LoaderBarComponent implements OnInit {
 
-  value: number = 0;
   isShown: boolean = false;
 
-  constructor(private loaderService: LoaderService) { }
+  constructor(private loaderService: LoaderService) {
+  }
 
   ngOnInit() {
+    this.loaderService.isShown.subscribe((isShown) => this.isShown = isShown);
   }
 
-  ngDoCheck() {
-    this.value = this.loaderService.getValue();
-    this.isShown = true;
-  }
-
-  endLoad() {
-    this.isShown = false;
-  }
 }
+

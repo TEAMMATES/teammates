@@ -1,33 +1,40 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderService {
 
-  private loadCapacity: number = 0;
-  private loadProgress: number = 0;
-  private value: number = 0;
+  private numOfLoadingRequests: number = 0;
+
+  public isShown = new Subject<boolean>();
 
   constructor() { }
 
   startLoad() {
-    this.loadCapacity++;
+    this.numOfLoadingRequests++;
+    console.log("LOADING");
+    this.updateLoadingState()
   }
 
   finishLoad() {
-    this.loadProgress++;
+    console.log("FINISH LOADING");
+    this.numOfLoadingRequests--;
+    this.updateLoadingState();
   }
 
-  getValue() {
-    this.value = this.loadProgress != 0? this.loadProgress/this.loadCapacity*100: 0;
+  updateLoadingState() {
+    console.log(this.numOfLoadingRequests);
 
-    if (this.value >= 100) {
-      this.loadCapacity = 0;
-      this.loadProgress = 0;
+    if (this.numOfLoadingRequests > 0) {
+      this.isShown.next(true);
     }
 
-    return this.value;
+    if (this.numOfLoadingRequests == 0) {
+      console.log("REALLY FINISHED LOADING");
+      this.isShown.next(false);
+    }
   }
 
 }
