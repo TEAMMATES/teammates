@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
 /**
- * Custom HttpParameter encoder
+ * Custom HttpParameter encoder, implements the default parameter encoder, to support encoding
+ * and decoding of plus sign
  */
 class CustomEncoder implements HttpParameterCodec {
 
@@ -25,14 +26,14 @@ class CustomEncoder implements HttpParameterCodec {
   }
 
   /**
-   * the same as default angular encoder.
+   * the same as angular's default encoder.
    */
   decodeKey(key: string): string {
     return decodeURIComponent(key);
   }
 
   /**
-   * the same as default angular encoder.
+   * the same as angular's default encoder.
    */
   decodeValue(value: string): string {
     return decodeURIComponent(value);
