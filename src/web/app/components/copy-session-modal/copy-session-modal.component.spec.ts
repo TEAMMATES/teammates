@@ -87,7 +87,7 @@ describe('CopySessionModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with course to copy to is set', () => {
+  it('should enable copy button after course to copy to is selected', () => {
     component.newFeedbackSessionName = feedbackSessionToCopy.feedbackSessionName;
     component.courseCandidates = [courseSessionIn, courseCopyTo];
     component.sessionToCopyCourseId = courseSessionIn.courseId;
@@ -98,7 +98,8 @@ describe('CopySessionModalComponent', () => {
     secondOption.triggerEventHandler('change', { target: secondOption.nativeElement });
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
+    expect(copyButton.nativeElement.disabled).toBeFalsy();
   });
 
 });
