@@ -51,7 +51,12 @@ describe('StatusMessageComponent', () => {
     fixture.detectChanges();
 
     const statusMessagesAfterClick: HTMLElement[] = fixture.nativeElement.querySelectorAll('div.alert div');
+    const messageAfterDelete: StatusMessage[] = [
+      { message: 'b', color: 'red' },
+      { message: 'c', color: 'green' },
+    ];
 
+    expect(component.messages).toEqual(messageAfterDelete);
     expect(statusMessagesAfterClick.length).toEqual(2);
     expect(statusMessagesAfterClick[0].innerHTML).toEqual('b');
     expect(statusMessagesAfterClick[1].innerHTML).toEqual('c');
@@ -61,6 +66,9 @@ describe('StatusMessageComponent', () => {
     fixture.detectChanges();
 
     const deleteAll: HTMLElement[] = fixture.nativeElement.querySelectorAll('div.alert div');
+    const messageAfterDeleteAll: StatusMessage[] = [];
+
+    expect(component.messages).toEqual(messageAfterDeleteAll);
 
     expect(deleteAll.length).toEqual(0);
   });
