@@ -21,7 +21,7 @@ import {
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
 } from './api-output';
-import {CONTRIBUTION_POINT_NOT_SUBMITTED, NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED} from './feedback-response-details';
+import { CONTRIBUTION_POINT_NOT_SUBMITTED, NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from './feedback-response-details';
 
 /**
  * Structure for default text question details.
