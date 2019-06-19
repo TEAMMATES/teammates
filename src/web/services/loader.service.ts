@@ -14,25 +14,20 @@ export class LoaderService {
 
   startLoad() {
     this.numOfLoadingRequests++;
-    console.log("LOADING");
     this.updateLoadingState()
   }
 
   finishLoad() {
-    console.log("FINISH LOADING");
     this.numOfLoadingRequests--;
     this.updateLoadingState();
   }
 
   updateLoadingState() {
-    console.log(this.numOfLoadingRequests);
-
     if (this.numOfLoadingRequests > 0) {
       this.isShown.next(true);
     }
 
     if (this.numOfLoadingRequests == 0) {
-      console.log("REALLY FINISHED LOADING");
       this.isShown.next(false);
     }
   }
