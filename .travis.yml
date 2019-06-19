@@ -56,12 +56,14 @@ jobs:
       script:
         - ./gradlew createConfigs testClasses
         - ./gradlew lint --continue
+        - npm install
         - npm run lint
     - name: "Component Tests"
       script:
         - ./gradlew createConfigs componentTests
         - ./gradlew jacocoReport
         - ./gradlew generateTypes
+        - npm install
         - npm run coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
@@ -82,6 +84,7 @@ jobs:
         - gcloud -q components install app-engine-java
         - mv src/e2e/resources/test.travis.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
+        - npm install
         - npm run build -- --progress=false
         - ./gradlew appengineStart
       script:
@@ -105,6 +108,7 @@ jobs:
         - gcloud -q components install app-engine-java
         - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
+        - npm install
         - npm run build -- --progress=false
         - ./gradlew appengineStart
       script:
