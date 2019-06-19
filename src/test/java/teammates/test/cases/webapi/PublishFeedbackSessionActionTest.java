@@ -47,8 +47,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         assertEquals(feedbackSessionData.getFeedbackSessionName(), session.getFeedbackSessionName());
         assertEquals(feedbackSessionData.getPublishStatus(), FeedbackSessionPublishStatus.PUBLISHED);
-        assertEquals(logic.getFeedbackSession(
-                session.getFeedbackSessionName(), course.getId()), FeedbackSessionPublishStatus.PUBLISHED);
+        assertTrue(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()).isPublished());
 
         ______TS("Failure case: Session is already published");
         // Attempt to publish the same session again.
