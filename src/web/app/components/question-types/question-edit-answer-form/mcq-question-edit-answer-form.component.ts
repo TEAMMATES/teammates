@@ -27,7 +27,7 @@ export class McqQuestionEditAnswerFormComponent
   @Input()
   id: string = '';
 
-  @ViewChild('inputEle') inputEle?: ElementRef;
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
   isMcqOptionSelected: boolean[] = [];
 
@@ -56,8 +56,8 @@ export class McqQuestionEditAnswerFormComponent
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
     if (fieldsToUpdate.isOther) {
       fieldsToUpdate.answer = '';
-      setTimeout(() => {
-        (this.inputEle as ElementRef).nativeElement.focus();
+      setTimeout(() => { //focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
       }, 0);
     } else {
       fieldsToUpdate.otherFieldContent = '';

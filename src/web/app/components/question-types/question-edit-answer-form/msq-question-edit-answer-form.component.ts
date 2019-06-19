@@ -24,7 +24,7 @@ export class MsqQuestionEditAnswerFormComponent
   readonly NO_VALUE: number = NO_VALUE;
   isMsqOptionSelected: boolean[] = [];
 
-  @ViewChild('inputEle') inputEle?: ElementRef;
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
@@ -82,8 +82,8 @@ export class MsqQuestionEditAnswerFormComponent
     if (!fieldsToUpdate.isOther) {
       fieldsToUpdate.otherFieldContent = '';
     } else {
-      setTimeout(() => {
-        (this.inputEle as ElementRef).nativeElement.focus();
+      setTimeout(() => { //focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
       }, 0);
     }
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
