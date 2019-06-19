@@ -18,13 +18,10 @@ export class LoaderBarComponent implements OnInit {
 
   ngDoCheck() {
     this.value = this.loaderService.getValue();
-    console.log(this.value);
-
-    this.isShown = this.value > 0;
-
-    if (this.value >= 100) {
-      setTimeout(() => this.isShown = false,1000);
-    }
+    this.isShown = true;
   }
 
+  endLoad() {
+    this.isShown = false;
+  }
 }
