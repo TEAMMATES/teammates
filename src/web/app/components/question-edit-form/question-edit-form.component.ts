@@ -195,19 +195,21 @@ export class QuestionEditFormComponent implements OnInit {
     // check if current recipientType is allowed for giverType,
     // if not, set default recipientType to the first allowed type as default.
     const allowedRecipientTypes: FeedbackParticipantType[] | undefined = this.allowedFeedbackPaths.get(giverType);
-    let newRecipientType: FeedbackParticipantType = recipientType;
-    if (allowedRecipientTypes && allowedRecipientTypes.indexOf(recipientType) === -1) {
-      newRecipientType = allowedRecipientTypes[0];
+    if (allowedRecipientTypes) {
+      let newRecipientType: FeedbackParticipantType = recipientType;
+      if (allowedRecipientTypes.indexOf(recipientType) === -1) {
+        newRecipientType = allowedRecipientTypes[0];
+      }
+      this.triggerModelChangeBatch({
+        giverType,
+        recipientType: newRecipientType,
+        commonVisibilitySettingName: 'Please select a visibility option',
+        isUsingOtherVisibilitySetting: false,
+        showResponsesTo: [],
+        showGiverNameTo: [],
+        showRecipientNameTo: [],
+      });
     }
-    this.triggerModelChangeBatch({
-      giverType,
-      newRecipientType,
-      commonVisibilitySettingName: 'Please select a visibility option',
-      isUsingOtherVisibilitySetting: false,
-      showResponsesTo: [],
-      showGiverNameTo: [],
-      showRecipientNameTo: [],
-    });
   }
 
   /**
