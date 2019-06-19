@@ -56,7 +56,7 @@ public class JsonResult extends ActionResult {
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
         pw.print(JsonUtils.toJson(output));
-        if (!cookies.isEmpty()) {
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 resp.addCookie(cookie);
             }
