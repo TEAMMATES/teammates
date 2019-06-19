@@ -38,20 +38,12 @@ export class HttpRequestService {
    */
   get(endpoint: string, paramsMap: { [key: string]: string } = {},
       responseType: any = 'json' as 'text'): Observable<any> {
-    this.incrementLoader();
+    this.loaderService.startLoad();
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     return this.httpClient
         .get(`${this.backendUrl}/webapi${endpoint}`, { params, responseType, withCredentials })
-        .pipe(finalize(() => this.decrementLoader()));
-  }
-
-  incrementLoader() {
-    this.loaderService.incrementLoader();
-  }
-
-  decrementLoader() {
-    this.loaderService.decrementLoader();
+        .pipe(finalize(() => this.loaderService.finishLoad()));
   }
 
   /**

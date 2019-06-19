@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoaderService } from '../../../services/loader.service';
 
 @Component({
   selector: 'tm-loader-bar',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoaderBarComponent implements OnInit {
 
-  constructor() { }
+  value: number = 0;
+  isShown: boolean = false;
+
+  constructor(private loaderService: LoaderService) { }
 
   ngOnInit() {
+  }
+
+  ngDoCheck() {
+    this.value = this.loaderService.getValue();
+    console.log(this.value);
+
+    this.isShown = this.value > 0;
+
+    if (this.value >= 100) {
+      setTimeout(() => this.isShown = false,1000);
+    }
   }
 
 }
