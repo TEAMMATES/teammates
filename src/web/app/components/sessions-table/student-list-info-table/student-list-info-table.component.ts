@@ -84,7 +84,7 @@ export class StudentListInfoTableComponent implements OnInit {
   }
 
   /**
-   * Sort the students in according to selection option.
+   * Sorts the students according to selection option.
    */
   sortStudentsTableRows(by: SortBy): void {
     // reverse the sort order
@@ -98,7 +98,7 @@ export class StudentListInfoTableComponent implements OnInit {
   }
 
   /**
-   * Handler a when a row of the table is selected.
+   * Handles the event when a row of the table is selected.
    */
   handleSelectionOfRow(model: StudentListInfoTableRowModel): void {
     this.studentListInfoTableRowModelsChange.emit(
