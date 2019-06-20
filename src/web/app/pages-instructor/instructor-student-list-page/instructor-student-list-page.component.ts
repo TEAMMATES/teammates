@@ -4,7 +4,7 @@ import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Course, Courses, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
+import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 
@@ -115,7 +115,7 @@ export class InstructorStudentListPageComponent implements OnInit {
             studentsInSection.forEach((student: Student) => {
               const studentData: StudentListStudentData = {
                 name : student.name,
-                status : (student.joinState === JoinState.JOINED) ? 'Joined' : 'Yet to Join',
+                status : student.joinState,
                 email : student.email,
                 team : student.teamName,
               };

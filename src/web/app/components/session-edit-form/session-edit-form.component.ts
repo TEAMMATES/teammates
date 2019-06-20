@@ -225,7 +225,6 @@ export class SessionEditFormComponent implements OnInit {
    * Handles session 'Help' link click event.
    */
   sessionHelpHandler(): void {
-    window.open(`${environment.frontendUrl}/web/instructor/help`);
-    // TODO scroll down to the session setup specific section in the help page
+    window.open(`${environment.frontendUrl}/web/instructor/help#sessions`);
   }
 }
