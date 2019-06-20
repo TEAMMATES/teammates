@@ -32,6 +32,7 @@ export class RichTextEditorComponent implements OnInit {
   readonly init: any = {
     skin_url: '/tinymce/skins/ui/oxide',
     resize: false,
+    width:'800px',
     fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 26pt 28pt 36pt 48pt 72pt',
     font_formats: 'Andale Mono=andale mono,times;'
         + 'Arial=arial,helvetica,sans-serif;'
