@@ -129,12 +129,12 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   archiveCourse(courseId: string): void {
     this.httpRequestService.put('/course', { courseid: courseId, archive: 'true' })
-        .subscribe((resp: MessageOutput) => {
-          this.loadCourses();
-          this.statusMessageService.showSuccessMessage(resp.message);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+      .subscribe((resp: MessageOutput) => {
+        this.loadCourses();
+        this.statusMessageService.showSuccessMessage(resp.message);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**
@@ -144,7 +144,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.courseService.binCourse(courseId).subscribe((course: Course) => {
       this.loadCourses();
       this.statusMessageService.showSuccessMessage(
-          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
