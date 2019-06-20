@@ -798,8 +798,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   doneEditingHandler(modal: any): void {
     if (this.questionEditFormModels.some((questionEditFormModel: QuestionEditFormModel): boolean => {
-      return questionEditFormModel.isEditable == true;
-    }) || this.sessionEditFormModel.isEditable == true) {
+      return questionEditFormModel.isEditable;
+    }) || this.sessionEditFormModel.isEditable) {
       this.modalService.open(modal).result.then(() => {
         this.router.navigateByUrl('/web/instructor/sessions');
       }, () => {});
