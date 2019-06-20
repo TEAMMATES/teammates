@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule } from '@angular/forms';
 import { StudentListInfoTableComponent } from './student-list-info-table.component';
 
 describe('StudentListInfoTableComponent', () => {
@@ -9,6 +9,7 @@ describe('StudentListInfoTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [StudentListInfoTableComponent],
+      imports: [FormsModule],
     })
     .compileComponents();
   }));

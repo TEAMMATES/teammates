@@ -61,6 +61,7 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
   ],
   exports: [
     SessionsTableComponent,
+    StudentListInfoTableComponent,
   ],
 })
 export class SessionsTableModule { }
