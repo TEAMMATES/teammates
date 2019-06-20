@@ -43,7 +43,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     protected String getRequestMethod() {
         return GET;
     }
-    
+
     @Override
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
