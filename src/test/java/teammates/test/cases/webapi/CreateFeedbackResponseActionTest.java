@@ -47,7 +47,7 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
     protected String getRequestMethod() {
         return POST;
     }
-    
+
     @Override
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
