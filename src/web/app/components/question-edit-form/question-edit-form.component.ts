@@ -267,7 +267,7 @@ export class QuestionEditFormComponent implements OnInit {
   saveQuestionHandler(modal: any): void {
     if (this.formMode === QuestionEditFormMode.EDIT) {
       // alert user that editing question may result in deletion of responses
-      if (this.model.isQuestionHasResponses && modal != null) {
+      if (this.model.isQuestionHasResponses) {
         this.modalService.open(modal).result.then(() => {
           this.saveExistingQuestionEvent.emit();
         }, () => {});

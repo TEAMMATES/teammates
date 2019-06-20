@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -32,7 +32,6 @@ import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../components/question-edit-form/question-edit-form-model';
-import { QuestionEditFormComponent } from '../../components/question-edit-form/question-edit-form.component';
 import {
   DateFormat,
   SessionEditFormMode,
@@ -151,8 +150,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   instructorsCanBePreviewedAs: Instructor[] = [];
   emailOfInstructorToPreview: string = '';
 
-  @ViewChildren(QuestionEditFormComponent) editForms: QueryList<QuestionEditFormComponent>;
-
   constructor(router: Router,
               httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService,
@@ -165,7 +162,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               private modalService: NgbModal) {
     super(router, httpRequestService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService);
-    this.editForms = new QueryList();
   }
 
   ngOnInit(): void {
@@ -800,34 +796,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Handles 'Done Editing' click event.
    */
-  doneEditingHandler(modal: any): void {
-    let isAnyQuestionHasResponses: boolean = false;
-    this.editForms.forEach((child: QuestionEditFormComponent) => {
-      if (child.model.isQuestionHasResponses) {
-        isAnyQuestionHasResponses = true;
-      }
-    });
-    if (isAnyQuestionHasResponses) {
-      this.modalService.open(modal).result.then(() => {
-        this.saveAllQuestions();
-        this.router.navigateByUrl('/web/instructor/sessions');
-      }, () => {});
-    } else {
-      this.saveAllQuestions();
-      this.router.navigateByUrl('/web/instructor/sessions');
-    }
+  doneEditingHandler(): void {
+    this.router.navigateByUrl('/web/instructor/sessions');
     // TODO focus on the row of current feedback session in the sessions page
-  }
-
-  /**
-   * Save all the changes to the edited questions
-   */
-  saveAllQuestions(): void {
-    this.editForms.forEach((child: QuestionEditFormComponent) => {
-      if (child.model.isEditable) {
-        child.saveQuestionHandler(null);
-      }
-    });
   }
 
   /**
