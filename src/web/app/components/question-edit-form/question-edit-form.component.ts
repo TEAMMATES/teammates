@@ -194,22 +194,22 @@ export class QuestionEditFormComponent implements OnInit {
   changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
     // check if current recipientType is allowed for giverType,
     // if not, set default recipientType to the first allowed type as default.
-    const allowedRecipientTypes: FeedbackParticipantType[] | undefined = this.allowedFeedbackPaths.get(giverType);
-    if (allowedRecipientTypes) {
-      let newRecipientType: FeedbackParticipantType = recipientType;
-      if (allowedRecipientTypes.indexOf(recipientType) === -1) {
-        newRecipientType = allowedRecipientTypes[0];
-      }
-      this.triggerModelChangeBatch({
-        giverType,
-        recipientType: newRecipientType,
-        commonVisibilitySettingName: 'Please select a visibility option',
-        isUsingOtherVisibilitySetting: false,
-        showResponsesTo: [],
-        showGiverNameTo: [],
-        showRecipientNameTo: [],
-      });
+    /* tslint:disable: no-non-null-assertion */
+    const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
+    /* tslint:enable: no-non-null-assertion */
+    let newRecipientType: FeedbackParticipantType = recipientType;
+    if (allowedRecipientTypes.indexOf(recipientType) === -1) {
+      newRecipientType = allowedRecipientTypes[0];
     }
+    this.triggerModelChangeBatch({
+      giverType,
+      recipientType: newRecipientType,
+      commonVisibilitySettingName: 'Please select a visibility option',
+      isUsingOtherVisibilitySetting: false,
+      showResponsesTo: [],
+      showGiverNameTo: [],
+      showRecipientNameTo: [],
+    });
   }
 
   /**
