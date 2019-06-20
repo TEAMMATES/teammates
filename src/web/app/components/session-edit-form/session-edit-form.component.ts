@@ -97,6 +97,9 @@ export class SessionEditFormComponent implements OnInit {
   @Output()
   copyOtherSessionsEvent: EventEmitter<void> = new EventEmitter<void>();
 
+  @Output()
+  closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -226,5 +229,12 @@ export class SessionEditFormComponent implements OnInit {
    */
   sessionHelpHandler(): void {
     window.open(`${environment.frontendUrl}/web/instructor/help#sessions`);
+  }
+
+  /**
+   * Handles closing of the edit form.
+   */
+  closeEditFormHandler() {
+    this.closeEditFormEvent.emit();
   }
 }
