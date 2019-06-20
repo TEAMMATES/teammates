@@ -11,12 +11,14 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user="undefined"
 >
@@ -96,12 +98,14 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user={[Function String]}
 >
@@ -255,12 +259,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user=""
 >
@@ -823,12 +829,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user=""
 >
@@ -1538,12 +1546,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user={[Function String]}
 >
@@ -1836,12 +1846,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user=""
 >
@@ -2154,12 +2166,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user=""
 >
