@@ -32,7 +32,14 @@
             <span>[<a href="/">TEAMMATES</a>]</span>
           </div>
           <div class="col-md-8">
-            [hosted on <a href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>]
+            <div class="row">
+              <span>
+                [hosted on <a href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>]
+                <br/>
+                Sponsored by School of Computing, National University of Singapore. (<a href="/contact.jsp">Become a
+                sponsor</a>)
+              </span>
+            </div>
           </div>
           <div class="col-md-2">
             <span>[Send <a class="link" href="/contact.jsp" target="_blank" rel="noopener noreferrer">Feedback</a>]</span>

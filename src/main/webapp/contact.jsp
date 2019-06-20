@@ -22,5 +22,10 @@
     <p>
       <b>Interested in joining us?:</b> Visit our <a href="https://github.com/TEAMMATES/teammates">Developer Website</a>.
     </p>
+    <br>
+    <p>
+      <b>Becoming a sponsor</b>:
+      If you are interested to sponsor the TEAMMATES service for a period of time, please contact us at the above email address for details.
+    </p>
   </main>
 </t:staticPage>
