@@ -17,8 +17,7 @@ export class LoaderBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loaderService.isShown.subscribe((isShown: boolean) => {
-      this.isShown = isShown; });
+    this.loaderService.isShown.subscribe((isShown: boolean) => { this.isShown = isShown; });
   }
 
 }
