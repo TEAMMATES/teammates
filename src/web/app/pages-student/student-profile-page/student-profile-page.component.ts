@@ -124,6 +124,10 @@ export class StudentProfilePageComponent implements OnInit {
     const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
     modalRef.componentInstance.profilePicLink = this.profilePicLink;
     modalRef.result.then((formData: FormData) => {
+      if (!formData) {
+        this.statusMessageService.showWarningMessage('No photo uploaded');
+        return;
+      }
       const paramsMap: { [key: string]: string } = {
         user: this.user,
       };
@@ -138,7 +142,7 @@ export class StudentProfilePageComponent implements OnInit {
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(response.error.message);
           });
-    });
+    }, () => {});
   }
 
   /**
