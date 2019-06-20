@@ -8,7 +8,7 @@ describe('LoaderBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoaderBarComponent ]
+      declarations: [LoaderBarComponent],
     })
     .compileComponents();
   }));
