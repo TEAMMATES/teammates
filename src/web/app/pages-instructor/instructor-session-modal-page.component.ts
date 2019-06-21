@@ -8,6 +8,8 @@ import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
 import {
+  FeedbackParticipantType,
+  FeedbackQuestion, FeedbackQuestions,
   FeedbackSessionSubmittedGiverSet, Instructor, Instructors,
   Student, Students,
 } from '../../types/api-output';
@@ -57,14 +59,36 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
       courseid: courseId,
       intent: Intent.FULL_DETAIL,
     };
+    const paramsMapQuestions: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+      intent: Intent.FULL_DETAIL,
+    };
 
     forkJoin(
         this.studentService.getStudentsFromCourse(courseId),
-        this.httpRequestService.get('/instructors', paramsMapInstructors))
+        this.httpRequestService.get('/instructors', paramsMapInstructors),
+        this.httpRequestService.get('/questions', paramsMapQuestions))
         .subscribe(
             (result: any[]) => {
-              const students: Student[] = (result[0] as Students).students;
-              const instructors: Instructor[] = (result[1] as Instructors).instructors;
+              let students: Student[] = [];
+              let instructors: Instructor[] = [];
+              const questions: FeedbackQuestion[] = (result[2] as FeedbackQuestions).questions;
+
+              // check whether there are questions for students
+              if (questions.some((question: any): boolean => {
+                return question.giverType === FeedbackParticipantType.STUDENTS ||
+                    question.giverType === FeedbackParticipantType.TEAMS;
+              })) {
+                students = (result[0] as Students).students;
+              }
+
+              // check whether there are questions for instructors
+              if (questions.some((question: any): boolean => {
+                return question.giverType === FeedbackParticipantType.INSTRUCTORS;
+              })) {
+                instructors = (result[1] as Instructors).instructors;
+              }
 
               const modalRef: NgbModalRef = this.modalService.open(ResendResultsLinkToStudentModalComponent);
 
@@ -112,16 +136,38 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
       courseid: courseId,
       intent: Intent.FULL_DETAIL,
     };
+    const paramsMapQuestions: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+      intent: Intent.FULL_DETAIL,
+    };
 
     forkJoin(
         this.studentService.getStudentsFromCourse(courseId),
         this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet(courseId, feedbackSessionName),
-        this.httpRequestService.get('/instructors', paramsMapInstructors))
+        this.httpRequestService.get('/instructors', paramsMapInstructors),
+        this.httpRequestService.get('/questions', paramsMapQuestions))
         .subscribe(
             (result: any[]) => {
-              const students: Student[] = (result[0] as Students).students;
+              let students: Student[] = [];
               const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
-              const instructors: Instructor[] = (result[2] as Instructors).instructors;
+              let instructors: Instructor[] = [];
+              const questions: FeedbackQuestion[] = (result[3] as FeedbackQuestions).questions;
+
+              // check whether there are questions for students
+              if (questions.some((question: any): boolean => {
+                return question.giverType === FeedbackParticipantType.STUDENTS ||
+                    question.giverType === FeedbackParticipantType.TEAMS;
+              })) {
+                students = (result[0] as Students).students;
+              }
+
+              // check whether there are questions for instructors
+              if (questions.some((question: any): boolean => {
+                return question.giverType === FeedbackParticipantType.INSTRUCTORS;
+              })) {
+                instructors = (result[2] as Instructors).instructors;
+              }
 
               const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
 
