@@ -137,7 +137,7 @@ export class FeedbackSessionsService {
   /**
    * Sends e-mails to remind students who have not submitted their feedback.
    */
-  remindFeedbackSessionSubmissionForStudent(
+  remindFeedbackSessionSubmissionForRespondents(
       courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
       : Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = {
@@ -151,7 +151,7 @@ export class FeedbackSessionsService {
   /**
    * Sends e-mails to remind students on the published results link.
    */
-  remindResultsLinkToStudents(
+  remindResultsLinkToRespondents(
       courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
       : Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = {

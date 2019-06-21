@@ -90,9 +90,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                 isSelected: false,
               } as InstructorListInfoTableRowModel));
 
-              modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-                this.feedbackSessionsService.remindResultsLinkToStudents(courseId, feedbackSessionName, {
-                  usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
+              modalRef.result.then((respondentsToRemind: any[]) => {
+                this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
+                  usersToRemind: respondentsToRemind.map((m: any) => m.email),
                 }).subscribe(() => {
                   this.statusMessageService.showSuccessMessage(
                       'Session published notification emails have been resent to those students and instructors. '
@@ -147,9 +147,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                 isSelected: false,
               } as InstructorListInfoTableRowModel));
 
-              modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-                this.feedbackSessionsService.remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
-                  usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
+              modalRef.result.then((respondentsToRemind: any[]) => {
+                this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
+                  usersToRemind: respondentsToRemind.map((m: any) => m.email),
                 }).subscribe(() => {
                   this.statusMessageService.showSuccessMessage(
                       'Reminder e-mails have been sent out to those students and instructors. '

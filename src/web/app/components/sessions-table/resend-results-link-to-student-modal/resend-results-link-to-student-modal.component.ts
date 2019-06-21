@@ -30,9 +30,13 @@ export class ResendResultsLinkToStudentModalComponent implements OnInit {
   /**
    * Collates a list of selected students with selected status.
    */
-  collateStudentsToSendHandler(): StudentListInfoTableRowModel[] {
-    return this.studentListInfoTableRowModels
+  collateStudentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
+    const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] = this.studentListInfoTableRowModels
         .map((model: StudentListInfoTableRowModel) => Object.assign({}, model))
         .filter((model: StudentListInfoTableRowModel) => model.isSelected);
+    const instructorsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] = this.instructorListInfoTableRowModels
+        .map((model: InstructorListInfoTableRowModel) => Object.assign({}, model))
+        .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
+    return studentsToSend.concat(instructorsToSend);
   }
 }
