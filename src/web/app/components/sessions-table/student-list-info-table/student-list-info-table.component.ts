@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {InstructorListInfoTableRowModel, StudentListInfoTableRowModel} from './student-list-info-table-model';
+import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './student-list-info-table-model';
 
 /**
  * Sort criteria for the student list info table.
@@ -118,7 +118,8 @@ export class StudentListInfoTableComponent implements OnInit {
         this.instructorListInfoTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
 
     this.instructorListInfoTableRowModelsChange.emit(
-        this.instructorListInfoTableRowModels.map((oldModel: InstructorListInfoTableRowModel) => Object.assign({}, oldModel))
+        this.instructorListInfoTableRowModels.map(
+            (oldModel: InstructorListInfoTableRowModel) => Object.assign({}, oldModel))
             .sort(this.sortRowsBy(by, this.instructorListInfoTableSortOrder)),
     );
   }

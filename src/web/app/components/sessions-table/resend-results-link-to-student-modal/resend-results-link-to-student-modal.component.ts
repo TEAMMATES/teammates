@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
-  StudentListInfoTableRowModel
+  StudentListInfoTableRowModel,
 } from '../student-list-info-table/student-list-info-table-model';
 
 /**
@@ -31,11 +31,13 @@ export class ResendResultsLinkToStudentModalComponent implements OnInit {
    * Collates a list of selected students with selected status.
    */
   collateStudentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
-    const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] = this.studentListInfoTableRowModels
-        .map((model: StudentListInfoTableRowModel) => Object.assign({}, model))
+    const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
+        this.studentListInfoTableRowModels.map(
+            (model: StudentListInfoTableRowModel) => Object.assign({}, model))
         .filter((model: StudentListInfoTableRowModel) => model.isSelected);
-    const instructorsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] = this.instructorListInfoTableRowModels
-        .map((model: InstructorListInfoTableRowModel) => Object.assign({}, model))
+    const instructorsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
+        this.instructorListInfoTableRowModels.map(
+            (model: InstructorListInfoTableRowModel) => Object.assign({}, model))
         .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
     return studentsToSend.concat(instructorsToSend);
   }

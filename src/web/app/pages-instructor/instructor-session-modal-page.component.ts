@@ -25,10 +25,10 @@ import {
   StudentListInfoTableRowModel,
 } from '../components/sessions-table/student-list-info-table/student-list-info-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
+import { Intent } from '../Intent';
 import {
   InstructorSessionBasePageComponent,
 } from './instructor-session-base-page.component';
-import {Intent} from "../Intent";
 
 /**
  * The base page for session related page.
@@ -80,15 +80,15 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
                 isSelected: false,
               } as StudentListInfoTableRowModel));
-              modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map(
-                  (instructor: Instructor) => ({
-                email: instructor.email,
-                name: instructor.name,
+              modalRef.componentInstance.instructorListInfoTableRowModels =
+                  instructors.map((instructor: Instructor) => ({
+                    email: instructor.email,
+                    name: instructor.name,
 
-                hasSubmittedSession: false,
+                    hasSubmittedSession: false,
 
-                isSelected: false,
-              } as InstructorListInfoTableRowModel));
+                    isSelected: false,
+                  } as InstructorListInfoTableRowModel));
 
               modalRef.result.then((respondentsToRemind: any[]) => {
                 this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
@@ -139,22 +139,23 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
               } as StudentListInfoTableRowModel));
               modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map(
                   (instructor: Instructor) => ({
-                email: instructor.email,
-                name: instructor.name,
+                    email: instructor.email,
+                    name: instructor.name,
 
-                hasSubmittedSession: giverSet.has(instructor.email),
+                    hasSubmittedSession: giverSet.has(instructor.email),
 
-                isSelected: false,
-              } as InstructorListInfoTableRowModel));
+                    isSelected: false,
+                  } as InstructorListInfoTableRowModel));
 
               modalRef.result.then((respondentsToRemind: any[]) => {
-                this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
-                  usersToRemind: respondentsToRemind.map((m: any) => m.email),
-                }).subscribe(() => {
-                  this.statusMessageService.showSuccessMessage(
+                this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId,
+                    feedbackSessionName,
+                  { usersToRemind: respondentsToRemind.map((m: any) => m.email),
+                  }).subscribe(() => {
+                    this.statusMessageService.showSuccessMessage(
                       'Reminder e-mails have been sent out to those students and instructors. '
                       + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-                }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+                  }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
               }, () => {});
 
             }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
