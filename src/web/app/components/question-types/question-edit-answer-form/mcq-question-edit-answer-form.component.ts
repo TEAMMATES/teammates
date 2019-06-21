@@ -56,7 +56,7 @@ export class McqQuestionEditAnswerFormComponent
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
     if (fieldsToUpdate.isOther) {
       fieldsToUpdate.answer = '';
-      setTimeout(() => { //focus on the text box after the isOther field is updated to enable the text box
+      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
         (this.inputTextBoxOther as ElementRef).nativeElement.focus();
       }, 0);
     } else {
