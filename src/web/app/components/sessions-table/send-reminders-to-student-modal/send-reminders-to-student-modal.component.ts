@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { StudentListInfoTableRowModel } from '../student-list-info-table/student-list-info-table-model';
+import {
+  InstructorListInfoTableRowModel,
+  StudentListInfoTableRowModel
+} from '../student-list-info-table/student-list-info-table-model';
 
 /**
  * Send reminders to students modal.
@@ -16,6 +19,7 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   courseId: string = '';
   feedbackSessionName: string = '';
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
+  instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 
   constructor(public activeModal: NgbActiveModal) {
   }
@@ -44,6 +48,26 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   }
 
   /**
+   * Changes selection state for all instructors.
+   */
+  changeSelectionStatusForAllInstructorsHandler(shouldSelect: boolean): void {
+    for (const model of this.instructorListInfoTableRowModels) {
+      model.isSelected = shouldSelect;
+    }
+  }
+
+  /**
+   * Changes selection state for all yet to submit instructors.
+   */
+  changeSelectionStatusForAllYetSubmittedInstructorsHandler(shouldSelect: boolean): void {
+    for (const model of this.instructorListInfoTableRowModels) {
+      if (!model.hasSubmittedSession) {
+        model.isSelected = shouldSelect;
+      }
+    }
+  }
+
+  /**
    * Collates a list of selected students with selected status.
    */
   collateStudentsToSendHandler(): StudentListInfoTableRowModel[] {
@@ -60,11 +84,27 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   }
 
   /**
-   * Checks whether all students are slected.
+   * Checks whether all students are selected.
    */
   get isAllYetToSubmitStudentsSelected(): boolean {
     return this.studentListInfoTableRowModels
         .filter((model: StudentListInfoTableRowModel) => !model.hasSubmittedSession)
         .every((model: StudentListInfoTableRowModel) => model.isSelected);
+  }
+
+  /**
+   * Checks whether all instructors are selected.
+   */
+  get isAllInstructorsSelected(): boolean {
+    return this.instructorListInfoTableRowModels.every((model: InstructorListInfoTableRowModel) => model.isSelected);
+  }
+
+  /**
+   * Checks whether all instructors are selected.
+   */
+  get isAllYetToSubmitInstructorsSelected(): boolean {
+    return this.instructorListInfoTableRowModels
+        .filter((model: InstructorListInfoTableRowModel) => !model.hasSubmittedSession)
+        .every((model: InstructorListInfoTableRowModel) => model.isSelected);
   }
 }

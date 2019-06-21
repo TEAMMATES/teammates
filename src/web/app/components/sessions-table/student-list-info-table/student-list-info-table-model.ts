@@ -11,3 +11,12 @@ export interface StudentListInfoTableRowModel {
 
   isSelected: boolean;
 }
+
+export interface InstructorListInfoTableRowModel {
+  email: string;
+  name: string;
+
+  hasSubmittedSession: boolean;
+
+  isSelected: boolean;
+}

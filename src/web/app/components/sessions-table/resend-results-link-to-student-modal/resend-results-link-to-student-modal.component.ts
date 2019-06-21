@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { StudentListInfoTableRowModel } from '../student-list-info-table/student-list-info-table-model';
+import {
+  InstructorListInfoTableRowModel,
+  StudentListInfoTableRowModel
+} from '../student-list-info-table/student-list-info-table-model';
 
 /**
  * Re-send results link to students modal.
@@ -16,6 +19,7 @@ export class ResendResultsLinkToStudentModalComponent implements OnInit {
   courseId: string = '';
   feedbackSessionName: string = '';
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
+  instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 
   constructor(public activeModal: NgbActiveModal) {
   }

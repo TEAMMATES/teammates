@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StudentListInfoTableRowModel } from './student-list-info-table-model';
+import {InstructorListInfoTableRowModel, StudentListInfoTableRowModel} from './student-list-info-table-model';
 
 /**
  * Sort criteria for the student list info table.
@@ -22,14 +22,14 @@ enum SortBy {
   TEAM_NAME,
 
   /**
-   * The name of the student.
+   * The name of the student or instructor.
    */
-  STUDENT_NAME,
+  RESPONDENT_NAME,
 
   /**
    * The email of the student.
    */
-  STUDENT_EMAIL,
+  RESPONDENT_EMAIL,
 
   /**
    * The status of the student's feedback submission.
@@ -70,13 +70,25 @@ export class StudentListInfoTableComponent implements OnInit {
   shouldDisplayHasSubmittedSessionColumn: boolean = false;
 
   @Input()
+  isStudent: boolean = false;
+
+  @Input()
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
+
+  @Input()
+  instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 
   @Output()
   studentListInfoTableRowModelsChange: EventEmitter<StudentListInfoTableRowModel[]> = new EventEmitter();
 
+  @Output()
+  instructorListInfoTableRowModelsChange: EventEmitter<InstructorListInfoTableRowModel[]> = new EventEmitter();
+
   studentListInfoTableSortBy: SortBy = SortBy.NONE;
   studentListInfoTableSortOrder: SortOrder = SortOrder.ASC;
+
+  instructorListInfoTableSortBy: SortBy = SortBy.NONE;
+  instructorListInfoTableSortOrder: SortOrder = SortOrder.ASC;
 
   constructor() { }
 
@@ -98,27 +110,56 @@ export class StudentListInfoTableComponent implements OnInit {
   }
 
   /**
+   * Sorts the instructors according to selection option.
+   */
+  sortInstructorsTableRows(by: SortBy): void {
+    // reverse the sort order
+    this.instructorListInfoTableSortOrder =
+        this.instructorListInfoTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+
+    this.instructorListInfoTableRowModelsChange.emit(
+        this.instructorListInfoTableRowModels.map((oldModel: InstructorListInfoTableRowModel) => Object.assign({}, oldModel))
+            .sort(this.sortRowsBy(by, this.instructorListInfoTableSortOrder)),
+    );
+  }
+
+  /**
    * Handles the event when a row of the table is selected.
    */
-  handleSelectionOfRow(model: StudentListInfoTableRowModel): void {
-    this.studentListInfoTableRowModelsChange.emit(
-        this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => {
-          if (oldModel === model) {
-            return Object.assign({}, oldModel, {
-              isSelected: !oldModel.isSelected,
-            });
-          }
-          return Object.assign({}, oldModel);
-        }),
-    );
+  handleSelectionOfRow(model: any): void {
+    if (model.teamName) {
+      // model is StudentListInfoTableRowModel
+      this.studentListInfoTableRowModelsChange.emit(
+          this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => {
+            if (oldModel === model) {
+              return Object.assign({}, oldModel, {
+                isSelected: !oldModel.isSelected,
+              });
+            }
+            return Object.assign({}, oldModel);
+          }),
+      );
+    } else {
+      // model is InstructorListInfoTableRowModel
+      this.instructorListInfoTableRowModelsChange.emit(
+          this.instructorListInfoTableRowModels.map((oldModel: InstructorListInfoTableRowModel) => {
+            if (oldModel === model) {
+              return Object.assign({}, oldModel, {
+                isSelected: !oldModel.isSelected,
+              });
+            }
+            return Object.assign({}, oldModel);
+          }),
+      );
+    }
   }
 
   /**
    * Sorts the rows of students in order.
    */
   sortRowsBy(by: SortBy, order: SortOrder):
-      ((a: StudentListInfoTableRowModel, b: StudentListInfoTableRowModel) => number) {
-    return ((a: StudentListInfoTableRowModel, b: StudentListInfoTableRowModel): number => {
+      ((a: any, b: any) => number) {
+    return ((a: any, b: any): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -130,11 +171,11 @@ export class StudentListInfoTableComponent implements OnInit {
           strA = a.teamName;
           strB = b.teamName;
           break;
-        case SortBy.STUDENT_NAME:
+        case SortBy.RESPONDENT_NAME:
           strA = a.name;
           strB = b.name;
           break;
-        case SortBy.STUDENT_EMAIL:
+        case SortBy.RESPONDENT_EMAIL:
           strA = a.email;
           strB = b.email;
           break;
@@ -169,6 +210,24 @@ export class StudentListInfoTableComponent implements OnInit {
   changeSelectionStatusForAllStudentsHandler(shouldSelect: boolean): void {
     this.studentListInfoTableRowModelsChange.emit(
         this.studentListInfoTableRowModels.map((model: StudentListInfoTableRowModel) => Object.assign({}, model, {
+          isSelected: shouldSelect,
+        })),
+    );
+  }
+
+  /**
+   * Checks whether all instructors are selected.
+   */
+  get isAllInstructorsSelected(): boolean {
+    return this.instructorListInfoTableRowModels.every((model: InstructorListInfoTableRowModel) => model.isSelected);
+  }
+
+  /**
+   * Changes selection state for all instructors.
+   */
+  changeSelectionStatusForAllInstructorsHandler(shouldSelect: boolean): void {
+    this.instructorListInfoTableRowModelsChange.emit(
+        this.instructorListInfoTableRowModels.map((model: InstructorListInfoTableRowModel) => Object.assign({}, model, {
           isSelected: shouldSelect,
         })),
     );
