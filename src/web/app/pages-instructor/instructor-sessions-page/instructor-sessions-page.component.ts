@@ -9,6 +9,7 @@ import { FeedbackSessionsService, TemplateSession } from '../../../services/feed
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import {
   LOCAL_DATE_TIME_FORMAT,
   TimeResolvingResult,
@@ -18,7 +19,8 @@ import {
   Course,
   Courses,
   FeedbackQuestion,
-  FeedbackSession, FeedbackSessionPublishStatus,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
@@ -33,11 +35,14 @@ import {
 } from '../../components/session-edit-form/session-edit-form-model';
 import {
   CopySessionResult,
-  SessionsTableColumn, SessionsTableHeaderColorScheme,
-  SessionsTableRowModel, SortBy, SortOrder,
+  SessionsTableColumn,
+  SessionsTableHeaderColorScheme,
+  SessionsTableRowModel,
+  SortBy,
+  SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
+import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
 import {
   CopyFromOtherSessionsModalComponent,
@@ -61,7 +66,7 @@ interface RecycleBinFeedbackSessionRowModel {
   templateUrl: './instructor-sessions-page.component.html',
   styleUrls: ['./instructor-sessions-page.component.scss'],
 })
-export class InstructorSessionsPageComponent extends InstructorSessionBasePageComponent implements OnInit {
+export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -123,13 +128,18 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
-  constructor(router: Router, httpRequestService: HttpRequestService,
-              statusMessageService: StatusMessageService, navigationService: NavigationService,
-              feedbackSessionsService: FeedbackSessionsService, feedbackQuestionsService: FeedbackQuestionsService,
-              private route: ActivatedRoute, private timezoneService: TimezoneService,
-              private modalService: NgbModal) {
+  constructor(router: Router,
+              httpRequestService: HttpRequestService,
+              statusMessageService: StatusMessageService,
+              navigationService: NavigationService,
+              feedbackSessionsService: FeedbackSessionsService,
+              feedbackQuestionsService: FeedbackQuestionsService,
+              modalService: NgbModal,
+              studentService: StudentService,
+              private route: ActivatedRoute,
+              private timezoneService: TimezoneService) {
     super(router, httpRequestService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService);
+        feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
   }
 
   ngOnInit(): void {
@@ -453,20 +463,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    */
   unpublishSessionEventHandler(rowIndex: number): void {
     this.unpublishSession(this.sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
-   * Sends e-mails to remind students on the published results link.
-   */
-  resendResultsLinkToStudentsEventHandler(remindInfo: any): void {
-    this.resendResultsLinkToStudents(this.sessionsTableRowModels[remindInfo.row], remindInfo.request);
-  }
-
-  /**
-   * Sends e-mails to remind students who have not submitted their feedback.
-   */
-  sendRemindersToStudentsEventHandler(remindInfo: any): void {
-    this.sendRemindersToStudents(this.sessionsTableRowModels[remindInfo.row], remindInfo.request);
   }
 
   /**

@@ -41,7 +41,7 @@
         <td *ngIf="hasSection()">{{section.sectionName}}</td>
         <td>{{student.team}}</td>
         <td>{{student.name}}</td>
-        <td class="align-center">{{student.status}}</td>
+        <td class="align-center">{{student.status | joinState}}</td>
         <td>{{student.email}}</td>
         <td class="no-print align-center">
           <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
@@ -70,7 +70,7 @@
           queryParams: {courseid: courseId, studentemail: student.email}
         }"></ng-container>
         <ng-container *ngIf="enableRemindButton">
-          <ng-container *ngIf="student.status == 'Yet to join'">
+          <ng-container *ngIf="student.status === JoinState.NOT_JOINED">
             <button class="btn btn-light btn-sm mr-2" *ngIf="section.isAllowedToModifyStudent"
               ngbTooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
               + ' Google Account. Note: Students can use TEAMMATES without \'joining\','
