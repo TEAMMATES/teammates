@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -1637,6 +1638,16 @@ public class Logic {
 
         return feedbackSessionsLogic.getFeedbackSessionResultsForInstructorToSectionWithinRange(
                                         feedbackSessionName, courseId, userEmail, section, range);
+    }
+
+    /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnswerFeedbackSession(String courseId, String feedbackSessionName) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
+
+        return feedbackResponsesLogic.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName);
     }
 
     /**
