@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -23,6 +23,8 @@ export class MsqQuestionEditAnswerFormComponent
 
   readonly NO_VALUE: number = NO_VALUE;
   isMsqOptionSelected: boolean[] = [];
+
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
@@ -79,6 +81,10 @@ export class MsqQuestionEditAnswerFormComponent
     this.disableNoneOfTheAboveOption();
     if (!fieldsToUpdate.isOther) {
       fieldsToUpdate.otherFieldContent = '';
+    } else {
+      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
+      }, 0);
     }
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }

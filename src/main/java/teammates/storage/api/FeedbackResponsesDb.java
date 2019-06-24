@@ -33,6 +33,32 @@ import teammates.storage.entity.FeedbackResponse;
 public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
 
     /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnswerFeedbackSession(String courseId, String feedbackSessionName) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+
+        List<Key<FeedbackResponse>> keysOfResponses =
+                load().filter("courseId =", courseId)
+                        .filter("feedbackSessionName =", feedbackSessionName)
+                        .keys()
+                        .list();
+
+        // the following process makes use of the key pattern of feedback response entity
+        // see generateId() in FeedbackResponse.java
+        Set<String> giverSet = new HashSet<>();
+        for (Key<FeedbackResponse> key : keysOfResponses) {
+            String[] tokens = key.getName().split("%");
+            if (tokens.length >= 3) {
+                giverSet.add(tokens[1]);
+            }
+        }
+
+        return giverSet;
+    }
+
+    /**
      * Gets a feedback response.
      */
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
