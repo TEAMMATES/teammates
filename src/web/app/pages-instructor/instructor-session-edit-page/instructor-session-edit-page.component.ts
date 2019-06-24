@@ -797,9 +797,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles 'Done Editing' click event.
    */
   doneEditingHandler(modal: any): void {
-    if (this.questionEditFormModels.some((questionEditFormModel: QuestionEditFormModel): boolean => {
-      return questionEditFormModel.isEditable;
-    }) || this.sessionEditFormModel.isEditable) {
+    if (this.questionEditFormModels.some((q: QuestionEditFormModel) => q.isEditable)
+        || this.sessionEditFormModel.isEditable) {
       this.modalService.open(modal).result.then(() => {
         this.router.navigateByUrl('/web/instructor/sessions');
       }, () => {});
