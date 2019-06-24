@@ -46,7 +46,7 @@ export class StudentListComponent implements OnInit, DoCheck {
   SortOrder: typeof SortOrder = SortOrder;
   JoinState: typeof JoinState =  JoinState;
 
-  private readonly _differ: IterableDiffer<any>;  
+  private readonly _differ: IterableDiffer<any>;
 
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,
@@ -184,7 +184,7 @@ export class StudentListComponent implements OnInit, DoCheck {
    */
   sortBy(by: SortBy):
       ((a: FlatStudentListData , b: FlatStudentListData) => number) {
-    const joinStatePipe = new JoinStatePipe();
+    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
 
     return (a: FlatStudentListData, b: FlatStudentListData): number => {
       let strA: string;
