@@ -3,17 +3,18 @@
 </div>
 
 <div>
-<button class="btn btn-primary" (click)="isSessionEditFormExpanded=true"
-        [disabled]="isSessionEditFormExpanded"><i class="fas fa-plus"></i> Add New Feedback Session</button>
+  <button class="btn btn-primary" (click)="isSessionEditFormExpanded=true"
+          [disabled]="isSessionEditFormExpanded"><i class="fas fa-plus"></i> Add New Feedback Session
+  </button>
 </div>
 
 <div class="margin-top-30px" *ngIf="isSessionEditFormExpanded">
-<tm-session-edit-form
-                      [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
-                      [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
-                      (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
-                      (closeEditFormEvent)="isSessionEditFormExpanded=false"
-></tm-session-edit-form>
+  <tm-session-edit-form
+                        [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
+                        [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
+                        (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
+                        (closeEditFormEvent)="isSessionEditFormExpanded=false"
+  ></tm-session-edit-form>
 </div>
 
 <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0">
