@@ -89,7 +89,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Gets an action with request multipart config.
+     * Gets an action with list of cookies.
      */
     protected T getActionWithCookie(List<Cookie> cookies, String... params) {
         return getAction(null, null, cookies, params);

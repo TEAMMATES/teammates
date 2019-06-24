@@ -43,6 +43,7 @@ public class JsonResult extends ActionResult {
     public JsonResult(String message, int statusCode) {
         super(statusCode);
         this.output = new MessageOutput(message);
+        this.cookies = new ArrayList<>();
     }
 
     public ApiOutput getOutput() {
@@ -56,10 +57,8 @@ public class JsonResult extends ActionResult {
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
         pw.print(JsonUtils.toJson(output));
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                resp.addCookie(cookie);
-            }
+        for (Cookie cookie : cookies) {
+            resp.addCookie(cookie);
         }
     }
 
