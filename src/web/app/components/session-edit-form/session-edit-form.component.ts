@@ -234,7 +234,7 @@ export class SessionEditFormComponent implements OnInit {
   /**
    * Handles closing of the edit form.
    */
-  closeEditFormHandler() {
+  closeEditFormHandler(): void{
     this.closeEditFormEvent.emit();
   }
 }
