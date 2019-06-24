@@ -55,7 +55,7 @@
       <td *ngIf="hasSection()">{{student.sectionName}}</td>
       <td>{{student.team}}</td>
       <td>{{student.name}}</td>
-      <td class="align-center">{{student.status}}</td>
+      <td class="align-center">{{student.status | joinState}}</td>
       <td>{{student.email}}</td>
       <td class="no-print align-center">
         <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"

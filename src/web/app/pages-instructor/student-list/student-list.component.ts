@@ -8,6 +8,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { JoinStatePipe } from './join-state.pipe';
 import {
   FlatStudentListData,
   SortBy,
@@ -183,6 +184,8 @@ export class StudentListComponent implements OnInit, DoCheck {
    */
   sortBy(by: SortBy):
       ((a: FlatStudentListData , b: FlatStudentListData) => number) {
+    const joinStatePipe = new JoinStatePipe();
+
     return (a: FlatStudentListData, b: FlatStudentListData): number => {
       let strA: string;
       let strB: string;
@@ -204,8 +207,8 @@ export class StudentListComponent implements OnInit, DoCheck {
           strB = b.email;
           break;
         case SortBy.STATUS:
-          strA = a.status;
-          strB = b.status;
+          strA = joinStatePipe.transform(a.status);
+          strB = joinStatePipe.transform(b.status);
           break;
         default:
           strA = '';

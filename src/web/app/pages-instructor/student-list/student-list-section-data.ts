@@ -28,7 +28,7 @@ export interface StudentListStudentData {
 export interface FlatStudentListData {
   name: string;
   email: string;
-  status: string;
+  status: JoinState;
   team: string;
   photoUrl?: string;
   sectionName: string;
