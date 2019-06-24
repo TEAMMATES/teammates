@@ -1,3 +1,5 @@
+import { JoinState } from '../../../types/api-output';
+
 /**
  * Contains a list of students in a section.
  */
@@ -14,7 +16,7 @@ export interface StudentListSectionData {
 export interface StudentListStudentData {
   name: string;
   email: string;
-  status: string;
+  status: JoinState;
   team: string;
   photoUrl?: string;
 }

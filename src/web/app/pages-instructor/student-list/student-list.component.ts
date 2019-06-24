@@ -6,7 +6,7 @@ import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { JoinState, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   FlatStudentListData,
@@ -43,8 +43,9 @@ export class StudentListComponent implements OnInit, DoCheck {
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
+  JoinState: typeof JoinState =  JoinState;
 
-  private readonly _differ: IterableDiffer<any>;
+  private readonly _differ: IterableDiffer<any>;  
 
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,

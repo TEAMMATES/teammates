@@ -36,58 +36,58 @@ exports[`StudentListComponent should snap with default fields 1`] = `
           <th>
             Photo
           </th>
-          
+
           <th
             class="sortable-header"
           >
-             Team 
-            
+             Team
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Student Name 
-            
+             Student Name
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Status 
-            
+             Status
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Email 
-            
+             Email
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th>
             Action(s)
@@ -95,7 +95,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
         </tr>
       </thead>
       <tbody>
-        
+
       </tbody>
     </table>
   </div>
@@ -138,71 +138,71 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <th>
             Photo
           </th>
-          
+
           <th
             class="sortable-header"
           >
-             Section 
-            
+             Section
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Team 
-            
+             Team
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Student Name 
-            
+             Student Name
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Status 
-            
+             Status
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Email 
-            
+             Email
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th>
             Action(s)
@@ -210,26 +210,26 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         </tr>
       </thead>
       <tbody>
-        
+
         <tr
           s=""
         >
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             1
           </td>
@@ -242,7 +242,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             tester@tester.com
@@ -250,8 +250,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
@@ -263,8 +263,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
@@ -276,12 +276,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-ngb-tooltip="'Email an invitation to the st"
@@ -291,11 +291,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Send Invite
             </button>
-            
-            
-            
-            
-            
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -304,8 +304,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
@@ -317,7 +317,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -326,19 +326,19 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -359,8 +359,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -372,8 +372,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -385,12 +385,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -399,8 +399,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -412,7 +412,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -421,19 +421,19 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -454,8 +454,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -467,8 +467,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -480,12 +480,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -494,8 +494,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -507,7 +507,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -516,19 +516,19 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -549,8 +549,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -562,8 +562,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -575,12 +575,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -589,8 +589,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -602,7 +602,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -611,19 +611,19 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -636,7 +636,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             emma.f.tmms@gmail.tmt
@@ -644,8 +644,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -657,8 +657,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -670,12 +670,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-ngb-tooltip="'Email an invitation to the st"
@@ -685,11 +685,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Send Invite
             </button>
-            
-            
-            
-            
-            
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -698,8 +698,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -711,7 +711,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
       </tbody>
@@ -756,71 +756,71 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <th>
             Photo
           </th>
-          
+
           <th
             class="sortable-header"
           >
-             Section 
-            
+             Section
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Team 
-            
+             Team
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Student Name 
-            
+             Student Name
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Status 
-            
+             Status
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Email 
-            
+             Email
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th>
             Action(s)
@@ -828,26 +828,26 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         </tr>
       </thead>
       <tbody>
-        
+
         <tr
           s=""
         >
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             1
           </td>
@@ -860,7 +860,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             tester@tester.com
@@ -868,8 +868,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
@@ -881,8 +881,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
@@ -894,12 +894,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-ngb-tooltip="'Email an invitation to the st"
@@ -909,11 +909,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Send Invite
             </button>
-            
-            
-            
-            
-            
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -922,8 +922,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
@@ -935,7 +935,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -944,19 +944,19 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -977,8 +977,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -990,8 +990,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -1003,12 +1003,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1017,8 +1017,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -1030,7 +1030,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -1039,19 +1039,19 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -1072,8 +1072,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -1085,8 +1085,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -1098,12 +1098,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1112,8 +1112,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -1125,7 +1125,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -1134,19 +1134,19 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -1167,8 +1167,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -1180,8 +1180,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -1193,12 +1193,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1207,8 +1207,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -1220,7 +1220,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -1229,19 +1229,19 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -1254,7 +1254,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             emma.f.tmms@gmail.tmt
@@ -1262,8 +1262,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -1275,8 +1275,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -1288,13 +1288,13 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                Edit
             </a>
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-ngb-tooltip="'You do not have the permissio"
@@ -1302,10 +1302,10 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Send Invite
             </button>
-            
-            
-            
-            
+
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1314,8 +1314,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -1327,7 +1327,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
       </tbody>
@@ -1372,71 +1372,71 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <th>
             Photo
           </th>
-          
+
           <th
             class="sortable-header"
           >
-             Section 
-            
+             Section
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Team 
-            
+             Team
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Student Name 
-            
+             Student Name
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Status 
-            
+             Status
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Email 
-            
+             Email
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th>
             Action(s)
@@ -1444,26 +1444,26 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         </tr>
       </thead>
       <tbody>
-        
+
         <tr
           s=""
         >
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             1
           </td>
@@ -1484,8 +1484,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
@@ -1497,8 +1497,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
@@ -1510,9 +1510,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1521,8 +1521,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
@@ -1534,7 +1534,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -1543,19 +1543,19 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -1576,8 +1576,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -1589,8 +1589,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -1602,9 +1602,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1613,8 +1613,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -1626,7 +1626,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -1635,19 +1635,19 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -1668,8 +1668,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -1681,8 +1681,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -1694,9 +1694,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1705,8 +1705,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -1718,7 +1718,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -1727,19 +1727,19 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -1760,8 +1760,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -1773,8 +1773,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -1786,9 +1786,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1797,8 +1797,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -1810,7 +1810,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -1819,19 +1819,19 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -1852,8 +1852,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -1865,8 +1865,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -1878,9 +1878,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1889,8 +1889,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -1902,7 +1902,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
       </tbody>
@@ -1947,71 +1947,71 @@ exports[`StudentListComponent should snap with some student list data and some s
           <th>
             Photo
           </th>
-          
+
           <th
             class="sortable-header"
           >
-             Section 
-            
+             Section
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Team 
-            
+             Team
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Student Name 
-            
+             Student Name
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Status 
-            
+             Status
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Email 
-            
+             Email
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th>
             Action(s)
@@ -2019,7 +2019,7 @@ exports[`StudentListComponent should snap with some student list data and some s
         </tr>
       </thead>
       <tbody>
-        
+
         <tr
           hidden=""
           s=""
@@ -2027,19 +2027,19 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             1
           </td>
@@ -2052,7 +2052,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             tester@tester.com
@@ -2060,8 +2060,8 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
@@ -2073,8 +2073,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
@@ -2086,9 +2086,9 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2097,8 +2097,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
@@ -2110,7 +2110,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -2120,19 +2120,19 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -2153,8 +2153,8 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -2166,8 +2166,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -2179,9 +2179,9 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2190,8 +2190,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -2203,7 +2203,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -2212,19 +2212,19 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -2245,8 +2245,8 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -2258,8 +2258,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -2271,9 +2271,9 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2282,8 +2282,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -2295,7 +2295,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -2304,19 +2304,19 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -2337,8 +2337,8 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -2350,8 +2350,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -2363,9 +2363,9 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2374,8 +2374,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -2387,7 +2387,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -2396,19 +2396,19 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -2429,8 +2429,8 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -2442,8 +2442,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -2455,9 +2455,9 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2466,8 +2466,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -2479,7 +2479,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
       </tbody>
@@ -2524,71 +2524,71 @@ exports[`StudentListComponent should snap with some student list data when not a
           <th>
             Photo
           </th>
-          
+
           <th
             class="sortable-header"
           >
-             Section 
-            
+             Section
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Team 
-            
+             Team
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Student Name 
-            
+             Student Name
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Status 
-            
+             Status
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Email 
-            
+             Email
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th>
             Action(s)
@@ -2596,26 +2596,26 @@ exports[`StudentListComponent should snap with some student list data when not a
         </tr>
       </thead>
       <tbody>
-        
+
         <tr
           s=""
         >
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             1
           </td>
@@ -2636,8 +2636,8 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
@@ -2649,8 +2649,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
@@ -2662,9 +2662,9 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2673,8 +2673,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
@@ -2686,7 +2686,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -2695,19 +2695,19 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -2728,8 +2728,8 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -2741,8 +2741,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -2754,9 +2754,9 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2765,8 +2765,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
@@ -2778,7 +2778,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -2787,19 +2787,19 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -2820,8 +2820,8 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -2833,8 +2833,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -2846,9 +2846,9 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2857,8 +2857,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
@@ -2870,7 +2870,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -2879,19 +2879,19 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -2912,8 +2912,8 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -2925,8 +2925,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -2938,9 +2938,9 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2949,8 +2949,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
@@ -2962,7 +2962,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
         <tr
@@ -2971,19 +2971,19 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             Tutorial Group 1
           </td>
@@ -3004,8 +3004,8 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -3017,8 +3017,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -3030,9 +3030,9 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -3041,8 +3041,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
@@ -3054,7 +3054,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
       </tbody>
@@ -3099,58 +3099,58 @@ exports[`StudentListComponent should snap with some student list data with no se
           <th>
             Photo
           </th>
-          
+
           <th
             class="sortable-header"
           >
-             Team 
-            
+             Team
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Student Name 
-            
+             Student Name
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Status 
-            
+             Status
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Email 
-            
+             Email
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th>
             Action(s)
@@ -3158,26 +3158,26 @@ exports[`StudentListComponent should snap with some student list data with no se
         </tr>
       </thead>
       <tbody>
-        
+
         <tr
           s=""
         >
           <td
             class="align-center"
           >
-            
-            
+
+
             <a
               href="/"
               ng-reflect-query-params-handling="preserve"
               queryparamshandling="preserve"
               role="button"
             >
-               View Photo 
+               View Photo
             </a>
-            
+
           </td>
-          
+
           <td>
             1
           </td>
@@ -3187,7 +3187,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             tester@tester.com
@@ -3195,8 +3195,8 @@ exports[`StudentListComponent should snap with some student list data with no se
           <td
             class="no-print align-center"
           >
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
@@ -3208,8 +3208,8 @@ exports[`StudentListComponent should snap with some student list data with no se
             >
                View
             </a>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
@@ -3221,9 +3221,9 @@ exports[`StudentListComponent should snap with some student list data with no se
             >
                Edit
             </a>
-            
-            
-            
+
+
+
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -3232,8 +3232,8 @@ exports[`StudentListComponent should snap with some student list data with no se
             >
               Delete
             </button>
-            
-            
+
+
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
@@ -3245,7 +3245,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             >
                All Records
             </a>
-            
+
           </td>
         </tr>
       </tbody>
@@ -3291,58 +3291,58 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
           <th>
             Photo
           </th>
-          
+
           <th
             class="sortable-header"
           >
-             Team 
-            
+             Team
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Student Name 
-            
+             Student Name
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Status 
-            
+             Status
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th
             class="sortable-header"
           >
-             Email 
-            
+             Email
+
             <span>
               <i
                 class="fas fa-sort"
               />
             </span>
-            
-            
+
+
           </th>
           <th>
             Action(s)
@@ -3350,7 +3350,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
         </tr>
       </thead>
       <tbody>
-        
+
       </tbody>
     </table>
   </div>
