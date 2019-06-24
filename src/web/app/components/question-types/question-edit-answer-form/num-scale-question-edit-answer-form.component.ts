@@ -67,11 +67,11 @@ export class NumScaleQuestionEditAnswerFormComponent
     const maxValue: number = this.questionDetails.maxScale;
     const increment: number = this.questionDetails.step;
 
-    if (isNaN(Number(value))) {
+    if (isNaN(value)) {
       return false;
     }
-    const currentValue: number = Number(value);
-    return currentValue >= minValue && currentValue <= maxValue && (currentValue - minValue) % increment === 0;
+
+    return value >= minValue && value <= maxValue && (value - minValue) % increment === 0;
   }
 
 }
