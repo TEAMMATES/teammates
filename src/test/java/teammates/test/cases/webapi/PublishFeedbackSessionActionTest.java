@@ -46,7 +46,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         FeedbackSessionData feedbackSessionData = (FeedbackSessionData) result.getOutput();
 
         assertEquals(feedbackSessionData.getFeedbackSessionName(), session.getFeedbackSessionName());
-        assertEquals(feedbackSessionData.getPublishStatus(), FeedbackSessionPublishStatus.PUBLISHED);
+        assertEquals(FeedbackSessionPublishStatus.PUBLISHED, feedbackSessionData.getPublishStatus());
         assertTrue(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()).isPublished());
 
         ______TS("Failure case: Session is already published");
@@ -56,8 +56,8 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         result = getJsonResult(getAction(params));
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        assertEquals(output.getMessage(), "Error publishing feedback session: Session has already been published.");
-        assertEquals(result.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
+        assertEquals("Error publishing feedback session: Session has already been published.", output.getMessage());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         assertEquals(String.format("Trying to update a non-existent feedback session: %s/%s",
                 course.getId(), randomSessionName), output.getMessage());
-        assertEquals(result.getStatusCode(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, result.getStatusCode());
 
         ______TS("non existent course id");
 
@@ -101,7 +101,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         assertEquals(String.format("Trying to update a non-existent feedback session: %s/%s",
                 randomCourseId, session.getFeedbackSessionName()), output.getMessage());
-        assertEquals(result.getStatusCode(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 
     @Test
