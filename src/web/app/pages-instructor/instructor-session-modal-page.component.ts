@@ -25,7 +25,7 @@ import {
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
-} from '../components/sessions-table/student-list-info-table/student-list-info-table-model';
+} from '../components/sessions-table/respondent-list-info-table/student-list-info-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 import { Intent } from '../Intent';
 import {

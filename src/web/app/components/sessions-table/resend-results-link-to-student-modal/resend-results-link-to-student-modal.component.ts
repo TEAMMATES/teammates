@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
-} from '../student-list-info-table/student-list-info-table-model';
+} from '../respondent-list-info-table/student-list-info-table-model';
 
 /**
  * Re-send results link to students modal.

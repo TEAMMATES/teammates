@@ -1,4 +1,4 @@
-<table class="table table-bordered" *ngIf="isStudent">
+<table class="table table-bordered" *ngIf="studentListInfoTableRowModels.length > 0">
   <tr class="background-color-medium-gray">
     <th>
       <label>
@@ -60,7 +60,7 @@
     </td>
   </tr>
 </table>
-<table class="table table-bordered" *ngIf="!isStudent">
+<table class="table table-bordered" *ngIf="instructorListInfoTableRowModels.length > 0">
   <tr class="background-color-medium-gray">
     <th>
       <label>

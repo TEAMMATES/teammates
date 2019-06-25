@@ -21,7 +21,7 @@
 </div>
 <div class="modal-body">
   <div class="table-responsive" *ngIf="studentListInfoTableRowModels.length > 0; else noStudentsToRemind">
-    <tm-student-list-info-table [(studentListInfoTableRowModels)]="studentListInfoTableRowModels" [shouldDisplayHasSubmittedSessionColumn]="true" [isStudent]="true"></tm-student-list-info-table>
+    <tm-respondent-list-info-table [(studentListInfoTableRowModels)]="studentListInfoTableRowModels" [shouldDisplayHasSubmittedSessionColumn]="true"></tm-respondent-list-info-table>
   </div>
   <ng-template #noStudentsToRemind>
     <h4 class="p-2 bg-info text-white">
@@ -29,7 +29,7 @@
     </h4>
   </ng-template>
   <div class="table-responsive" *ngIf="instructorListInfoTableRowModels.length > 0; else noInstructorsToRemind">
-    <tm-student-list-info-table [(instructorListInfoTableRowModels)]="instructorListInfoTableRowModels" [shouldDisplayHasSubmittedSessionColumn]="true" [isStudent]="false"></tm-student-list-info-table>
+    <tm-respondent-list-info-table [(instructorListInfoTableRowModels)]="instructorListInfoTableRowModels" [shouldDisplayHasSubmittedSessionColumn]="true"></tm-respondent-list-info-table>
   </div>
   <ng-template #noInstructorsToRemind>
     <h4 class="p-2 bg-info text-white">

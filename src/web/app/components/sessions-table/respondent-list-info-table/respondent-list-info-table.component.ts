@@ -56,11 +56,11 @@ enum SortOrder {
  * Student list for users to make selection.
  */
 @Component({
-  selector: 'tm-student-list-info-table',
-  templateUrl: './student-list-info-table.component.html',
-  styleUrls: ['./student-list-info-table.component.scss'],
+  selector: 'tm-respondent-list-info-table',
+  templateUrl: './respondent-list-info-table.component.html',
+  styleUrls: ['./respondent-list-info-table.component.scss'],
 })
-export class StudentListInfoTableComponent implements OnInit {
+export class RespondentListInfoTableComponent implements OnInit {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -68,9 +68,6 @@ export class StudentListInfoTableComponent implements OnInit {
 
   @Input()
   shouldDisplayHasSubmittedSessionColumn: boolean = false;
-
-  @Input()
-  isStudent: boolean = false;
 
   @Input()
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
