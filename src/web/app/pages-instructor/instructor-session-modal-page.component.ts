@@ -8,7 +8,6 @@ import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
 import {
-  FeedbackParticipantType,
   FeedbackQuestion, FeedbackQuestions,
   FeedbackSessionSubmittedGiverSet, Instructor, Instructors,
   Student, Students,
@@ -76,17 +75,12 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
               const questions: FeedbackQuestion[] = (result[2] as FeedbackQuestions).questions;
 
               // check whether there are questions for students
-              if (questions.some((question: any): boolean => {
-                return question.giverType === FeedbackParticipantType.STUDENTS ||
-                    question.giverType === FeedbackParticipantType.TEAMS;
-              })) {
+              if (this.feedbackQuestionsService.hasQuestionsForStudent(questions)) {
                 students = (result[0] as Students).students;
               }
 
               // check whether there are questions for instructors
-              if (questions.some((question: any): boolean => {
-                return question.giverType === FeedbackParticipantType.INSTRUCTORS;
-              })) {
+              if (this.feedbackQuestionsService.hasQuestionsForInstructor(questions)) {
                 instructors = (result[1] as Instructors).instructors;
               }
 
@@ -155,17 +149,12 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
               const questions: FeedbackQuestion[] = (result[3] as FeedbackQuestions).questions;
 
               // check whether there are questions for students
-              if (questions.some((question: any): boolean => {
-                return question.giverType === FeedbackParticipantType.STUDENTS ||
-                    question.giverType === FeedbackParticipantType.TEAMS;
-              })) {
+              if (this.feedbackQuestionsService.hasQuestionsForStudent(questions)) {
                 students = (result[0] as Students).students;
               }
 
               // check whether there are questions for instructors
-              if (questions.some((question: any): boolean => {
-                return question.giverType === FeedbackParticipantType.INSTRUCTORS;
-              })) {
+              if (this.feedbackQuestionsService.hasQuestionsForInstructor(questions)) {
                 instructors = (result[2] as Instructors).instructors;
               }
 

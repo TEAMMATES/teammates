@@ -389,16 +389,18 @@ export class FeedbackQuestionsService {
   }
 
   /**
-   * Creates a feedback question by calling API.
+   * Checks whether there are questions for instructors
    */
-  createFeedbackQuestion(courseId: string, feedbackSessionName: string,
-                         request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
-    };
+  hasQuestionsForInstructor(questions: FeedbackQuestion[]): boolean {
+    return questions.some((q: any) => q.giverType === FeedbackParticipantType.INSTRUCTORS);
+  }
 
-    return this.httpRequestService.post('/question', paramMap, request);
+  /**
+   * Checks whether there are questions for students
+   */
+  hasQuestionsForStudent(questions: FeedbackQuestion[]): boolean {
+    return questions.some((q: any) => q.giverType === FeedbackParticipantType.STUDENTS ||
+          q.giverType === FeedbackParticipantType.TEAMS);
   }
 
   /**
@@ -409,6 +411,19 @@ export class FeedbackQuestionsService {
     const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
 
     return this.httpRequestService.put('/question', paramMap, request);
+  }
+
+  /**
+   * Creates a feedback question by calling API.
+   */
+  createFeedbackQuestion(courseId: string, feedbackSessionName: string,
+                         request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.post('/question', paramMap, request);
   }
 
 }
