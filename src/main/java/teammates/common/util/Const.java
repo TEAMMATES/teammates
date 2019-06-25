@@ -1034,7 +1034,7 @@ public final class Const {
     }
 
     /**
-     * These are status messages related to students logic that may be shown to the user
+     * These are status messages related to students logic that may be shown to the user.
      */
     public class StudentsLogicConst {
         /**
