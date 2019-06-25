@@ -75,7 +75,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
 
         // Ensure that student5InCourse1 has a unique team name in the course.
-        // Otherwise, it will give a duplicate team name error.
+        // Otherwise, it will give a duplicate team name error when changing section name.
         assertEquals(1, students.stream().filter(student ->
                 student.section.equals(studentToUpdate.section)).count());
 
