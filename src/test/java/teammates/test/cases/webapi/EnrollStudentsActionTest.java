@@ -68,6 +68,29 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
+    public void testExecute_withSectionFieldChanged_shouldBeUpdatedToDatabase() {
+        StudentAttributes studentToUpdate = typicalBundle.students.get("student5InCourse1");
+        String courseId = studentToUpdate.getCourse();
+
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+
+        // Ensure that student5InCourse1 has a unique team name in the course.
+        // Otherwise, it will give a duplicate team name error.
+        assertEquals(1, students.stream().filter(student ->
+                student.section.equals(studentToUpdate.section)).count());
+
+        studentToUpdate.section = "New Section";
+        StudentsEnrollRequest req = prepareRequest(Arrays.asList(studentToUpdate));
+
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
+        List<StudentData> enrolledStudents = executeActionAndReturnResults(courseId, req);
+
+        assertEquals(1, enrolledStudents.size());
+        verifyStudentInDatabase(studentToUpdate, enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
+        verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
+    }
+
+    @Test
     public void testExecute_withEmailFieldChanged_shouldCreateNewStudent() {
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes originalStudent = typicalBundle.students.get("student1InCourse1");
