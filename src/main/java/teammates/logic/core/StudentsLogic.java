@@ -26,35 +26,6 @@ import teammates.storage.api.StudentsDb;
  * @see StudentsDb
  */
 public final class StudentsLogic {
-    /**
-     * Error message when trying to create the same team in more than one section.
-     */
-    public static final String ERROR_INVALID_TEAM_NAME =
-            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
-
-    /**
-     * Error message to be appended to the ERROR_INVALID_TEAM_NAME message.
-     */
-    public static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
-            "Please use different team names in different sections.";
-
-    /**
-     * Error message when trying to enroll to a section that has maximum capacity.
-     */
-    public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
-            "You are trying enroll more than %s students in section \"%s\".";
-
-    /**
-     * Error message to be appended to the ERROR_ENROLL_EXCEED_SECTION_LIMIT message.
-     */
-    public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
-                    "To avoid performance problems, please do not enroll more than %s students in a single section.";
-
-    /**
-     * The maximum allowable number of students to be enrolled in a section.
-     */
-    public static final int SECTION_SIZE_LIMIT = 100;
-
     private static StudentsLogic instance = new StudentsLogic();
 
     private static final StudentsDb studentsDb = new StudentsDb();
@@ -313,24 +284,28 @@ public final class StudentsLogic {
             if (currentStudent.section.equals(previousStudent.section)) {
                 studentsCount++;
             } else {
-                if (studentsCount > SECTION_SIZE_LIMIT) {
+                if (studentsCount > Const.StudentsLogicConst.SECTION_SIZE_LIMIT) {
                     invalidSectionList.add(previousStudent.section);
                 }
                 studentsCount = 1;
             }
 
-            if (i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT) {
+            if (i == mergedList.size() - 1 && studentsCount > Const.StudentsLogicConst.SECTION_SIZE_LIMIT) {
                 invalidSectionList.add(currentStudent.section);
             }
         }
 
         StringJoiner errorMessage = new StringJoiner(" ");
         for (String section : invalidSectionList) {
-            errorMessage.add(String.format(ERROR_ENROLL_EXCEED_SECTION_LIMIT, SECTION_SIZE_LIMIT, section));
+            errorMessage.add(String.format(
+                    Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                    Const.StudentsLogicConst.SECTION_SIZE_LIMIT, section));
         }
 
         if (!invalidSectionList.isEmpty()) {
-            errorMessage.add(String.format(ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION, SECTION_SIZE_LIMIT));
+            errorMessage.add(String.format(
+                    Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                    Const.StudentsLogicConst.SECTION_SIZE_LIMIT));
         }
 
         return errorMessage.toString();
@@ -348,7 +323,7 @@ public final class StudentsLogic {
                     && !currentStudent.section.equals(previousStudent.section)
                     && !invalidTeamList.contains(currentStudent.team)) {
 
-                errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
+                errorMessage.add(String.format(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME,
                         currentStudent.team,
                         SanitizationHelper.sanitizeForHtml(previousStudent.section),
                         SanitizationHelper.sanitizeForHtml(currentStudent.section)));
@@ -358,7 +333,7 @@ public final class StudentsLogic {
         }
 
         if (!invalidTeamList.isEmpty()) {
-            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
+            errorMessage.add(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME_INSTRUCTION);
         }
 
         return errorMessage.toString();
