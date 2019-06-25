@@ -20,11 +20,11 @@ import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
 import {
   ResendResultsLinkToStudentModalComponent,
 } from './resend-results-link-to-student-modal/resend-results-link-to-student-modal.component';
+import { RespondentListInfoTableComponent } from './respondent-list-info-table/respondent-list-info-table.component';
 import {
   SendRemindersToStudentModalComponent,
 } from './send-reminders-to-student-modal/send-reminders-to-student-modal.component';
 import { SessionsTableComponent } from './sessions-table.component';
-import { RespondentListInfoTableComponent } from './respondent-list-info-table/respondent-list-info-table.component';
 import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 
 /**

@@ -16,15 +16,15 @@ import {
   ResendResultsLinkToStudentModalComponent,
 } from "../components/sessions-table/resend-results-link-to-student-modal/resend-results-link-to-student-modal.component"; // tslint:disable-line
 import {
+  InstructorListInfoTableRowModel,
+  StudentListInfoTableRowModel,
+} from '../components/sessions-table/respondent-list-info-table/student-list-info-table-model';
+import {
   SendRemindersToStudentModalComponent,
 } from '../components/sessions-table/send-reminders-to-student-modal/send-reminders-to-student-modal.component';
 import {
   SessionsTableRowModel,
 } from '../components/sessions-table/sessions-table-model';
-import {
-  InstructorListInfoTableRowModel,
-  StudentListInfoTableRowModel,
-} from '../components/sessions-table/respondent-list-info-table/student-list-info-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 import { Intent } from '../Intent';
 import {
