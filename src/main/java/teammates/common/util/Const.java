@@ -1036,7 +1036,7 @@ public final class Const {
     /**
      * These are status messages related to students logic that may be shown to the user.
      */
-    public class StudentsLogicConst {
+    public static class StudentsLogicConst {
         /**
          * Error message when trying to create the same team in more than one section.
          */
