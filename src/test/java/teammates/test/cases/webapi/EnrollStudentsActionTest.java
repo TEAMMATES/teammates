@@ -159,6 +159,56 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         verifyDuplicatedTeamNameDetected(courseId, req, student1.team, student1.section, student2.section);
     }
 
+    @Test
+    public void testExecute_withNumberOfStudentsMoreThanSectionLimit_shouldThrowInvalidHttpRequestBodyException() {
+        String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
+        String randomSectionName = "randomSectionName";
+        List<StudentAttributes> studentList = new ArrayList<>();
+
+        for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
+            StudentAttributes addedStudent = StudentAttributes
+                    .builder(courseId, i + "email@com")
+                    .withName("Name " + i)
+                    .withSectionName(randomSectionName)
+                    .withTeamName("Team " + i)
+                    .withComment("cmt" + i)
+                    .build();
+            studentList.add(addedStudent);
+        }
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+        };
+
+        // Enroll students up to but not exceeding limit.
+        StudentsEnrollRequest req = prepareRequest(studentList);
+        getAction(req, params).execute();
+
+        // Enroll one more student to exceed limit.
+        StudentAttributes oneMoreStudentToGoBeyondLimit = StudentAttributes
+                .builder(courseId, "email@com")
+                .withName("Name")
+                .withSectionName(randomSectionName)
+                .withTeamName("Team")
+                .withComment("cmt")
+                .build();
+
+        req = prepareRequest(Arrays.asList(oneMoreStudentToGoBeyondLimit));
+        EnrollStudentsAction action = getAction(req, params);
+
+        InvalidHttpRequestBodyException ee = assertThrows(InvalidHttpRequestBodyException.class,
+                () -> action.execute());
+
+        String expectedErrorMessage = String.format(
+                Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                Const.StudentsLogicConst.SECTION_SIZE_LIMIT, randomSectionName)
+                + " "
+                + String.format(Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                Const.StudentsLogicConst.SECTION_SIZE_LIMIT);
+
+        assertEquals(expectedErrorMessage, ee.getMessage());
+    }
+
     private void verifyCorrectResponseData(StudentsEnrollRequest.StudentEnrollRequest request, StudentData response) {
         assertEquals(request.getEmail(), response.getEmail());
         assertEquals(request.getName(), response.getName());
