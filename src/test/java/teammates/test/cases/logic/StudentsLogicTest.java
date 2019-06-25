@@ -134,10 +134,12 @@ public class StudentsLogicTest extends BaseLogicTest {
                 () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
 
         String expectedInvalidSectionError =
-                String.format(StudentsLogic.ERROR_ENROLL_EXCEED_SECTION_LIMIT, StudentsLogic.SECTION_SIZE_LIMIT, "Section 1")
+                String.format(
+                        Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                        Const.StudentsLogicConst.SECTION_SIZE_LIMIT, "Section 1")
                         + " "
-                        + String.format(StudentsLogic.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
-                                StudentsLogic.SECTION_SIZE_LIMIT);
+                        + String.format(Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                        Const.StudentsLogicConst.SECTION_SIZE_LIMIT);
 
         assertEquals(expectedInvalidSectionError, ee.getMessage());
 
@@ -161,9 +163,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         ee = assertThrows(EnrollException.class, () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
 
         String expectedInvalidTeamError =
-                String.format(StudentsLogic.ERROR_INVALID_TEAM_NAME, "Team 1.1", "Section 2", "Section 3")
+                String.format(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME, "Team 1.1", "Section 2", "Section 3")
                 + " "
-                + StudentsLogic.ERROR_INVALID_TEAM_NAME_INSTRUCTION;
+                + Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME_INSTRUCTION;
 
         assertEquals(expectedInvalidTeamError, ee.getMessage());
     }
