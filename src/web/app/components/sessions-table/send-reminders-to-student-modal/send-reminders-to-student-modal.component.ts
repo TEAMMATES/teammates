@@ -3,10 +3,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
-} from '../respondent-list-info-table/student-list-info-table-model';
+} from '../respondent-list-info-table/respondent-list-info-table-model';
 
 /**
- * Send reminders to students modal.
+ * Send reminders to respondents modal.
  */
 @Component({
   selector: 'tm-send-reminders-to-student-modal',
@@ -68,9 +68,9 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   }
 
   /**
-   * Collates a list of selected students with selected status.
+   * Collates a list of selected respondents with selected status.
    */
-  collateStudentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
+  collateRespondentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
     const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
         this.studentListInfoTableRowModels.map(
             (model: StudentListInfoTableRowModel) => Object.assign({}, model))
@@ -90,7 +90,7 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   }
 
   /**
-   * Checks whether all students are selected.
+   * Checks whether all yet to submit students are selected.
    */
   get isAllYetToSubmitStudentsSelected(): boolean {
     return this.studentListInfoTableRowModels
@@ -106,7 +106,7 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   }
 
   /**
-   * Checks whether all instructors are selected.
+   * Checks whether all yet to submit instructors are selected.
    */
   get isAllYetToSubmitInstructorsSelected(): boolean {
     return this.instructorListInfoTableRowModels

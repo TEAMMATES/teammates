@@ -18,7 +18,7 @@ import {
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
-} from '../components/sessions-table/respondent-list-info-table/student-list-info-table-model';
+} from '../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import {
   SendRemindersToStudentModalComponent,
 } from '../components/sessions-table/send-reminders-to-student-modal/send-reminders-to-student-modal.component';

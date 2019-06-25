@@ -3,10 +3,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
-} from '../respondent-list-info-table/student-list-info-table-model';
+} from '../respondent-list-info-table/respondent-list-info-table-model';
 
 /**
- * Re-send results link to students modal.
+ * Re-send results link to respondents modal.
  */
 @Component({
   selector: 'tm-resend-results-link-to-student-modal',
@@ -28,9 +28,9 @@ export class ResendResultsLinkToStudentModalComponent implements OnInit {
   }
 
   /**
-   * Collates a list of selected students with selected status.
+   * Collates a list of selected respondents with selected status.
    */
-  collateStudentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
+  collateRespondentsToSendHandler(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
     const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
         this.studentListInfoTableRowModels.map(
             (model: StudentListInfoTableRowModel) => Object.assign({}, model))

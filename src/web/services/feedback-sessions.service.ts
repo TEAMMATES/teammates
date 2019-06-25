@@ -135,7 +135,7 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Sends e-mails to remind students who have not submitted their feedback.
+   * Sends e-mails to remind respondents who have not submitted their feedback.
    */
   remindFeedbackSessionSubmissionForRespondents(
       courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
@@ -149,7 +149,7 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Sends e-mails to remind students on the published results link.
+   * Sends e-mails to remind respondents on the published results link.
    */
   remindResultsLinkToRespondents(
       courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)

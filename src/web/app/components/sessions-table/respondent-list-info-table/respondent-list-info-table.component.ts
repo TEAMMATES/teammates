@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './student-list-info-table-model';
+import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './respondent-list-info-table-model';
 
 /**
- * Sort criteria for the student list info table.
+ * Sort criteria for the respondent list info table.
  */
 enum SortBy {
 
@@ -22,17 +22,17 @@ enum SortBy {
   TEAM_NAME,
 
   /**
-   * The name of the student or instructor.
+   * The name of the respondent.
    */
   RESPONDENT_NAME,
 
   /**
-   * The email of the student.
+   * The email of the respondent.
    */
   RESPONDENT_EMAIL,
 
   /**
-   * The status of the student's feedback submission.
+   * The status of the respondent's feedback submission.
    */
   HAS_SUBMITTED_SESSION,
 }
