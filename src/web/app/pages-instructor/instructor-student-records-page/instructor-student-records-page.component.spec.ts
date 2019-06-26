@@ -4,11 +4,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { StudentProfile } from '../student-profile/student-profile';
-import { InstructorStudentRecordsPageComponent } from './instructor-student-records-page.component';
 import {
   GrqRgqViewResponsesModule,
 } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
+import { StudentProfile } from '../student-profile/student-profile';
+import { InstructorStudentRecordsPageComponent } from './instructor-student-records-page.component';
 
 @Component({ selector: 'tm-student-profile', template: '' })
 class StudentProfileStubComponent {
