@@ -6,6 +6,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentProfile } from '../student-profile/student-profile';
 import { InstructorStudentRecordsPageComponent } from './instructor-student-records-page.component';
+import {
+  GrqRgqViewResponsesModule,
+} from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
 
 @Component({ selector: 'tm-student-profile', template: '' })
 class StudentProfileStubComponent {
@@ -36,6 +39,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
         RouterTestingModule,
         NgbModule,
         MatSnackBarModule,
+        GrqRgqViewResponsesModule,
       ],
     })
     .compileComponents();
