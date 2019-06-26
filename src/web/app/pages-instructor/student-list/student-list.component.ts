@@ -6,7 +6,7 @@ import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { JoinState, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
 
@@ -25,6 +25,9 @@ export class StudentListComponent implements OnInit {
   @Input() listOfStudentsToHide: string[] = [];
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
+
+  // enum
+  JoinState: typeof JoinState =  JoinState;
 
   constructor(private router: Router,
               private httpRequestService: HttpRequestService,

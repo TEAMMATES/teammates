@@ -458,16 +458,16 @@ export class SessionSubmissionPageComponent implements OnInit {
                     questionType: questionSubmissionFormModel.questionType,
                     responseDetails: recipientSubmissionFormModel.responseDetails,
                   }).pipe(
-                    tap((resp: FeedbackResponse) => {
-                      recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                      recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                      recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                    }),
-                    catchError((error: any) => {
-                      this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
-                      failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
-                      return of(error);
-                    }),
+                      tap((resp: FeedbackResponse) => {
+                        recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
+                        recipientSubmissionFormModel.responseDetails = resp.responseDetails;
+                        recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+                      }),
+                      catchError((error: any) => {
+                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                        return of(error);
+                      }),
                   ));
             }
 
@@ -483,16 +483,16 @@ export class SessionSubmissionPageComponent implements OnInit {
                     questionType: questionSubmissionFormModel.questionType,
                     responseDetails: recipientSubmissionFormModel.responseDetails,
                   }).pipe(
-                    tap((resp: FeedbackResponse) => {
-                      recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                      recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                      recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                    }),
-                    catchError((error: any) => {
-                      this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
-                      failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
-                      return of(error);
-                    }),
+                      tap((resp: FeedbackResponse) => {
+                        recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
+                        recipientSubmissionFormModel.responseDetails = resp.responseDetails;
+                        recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+                      }),
+                      catchError((error: any) => {
+                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                        return of(error);
+                      }),
                   ));
             }
           });
