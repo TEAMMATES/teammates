@@ -37,21 +37,27 @@ public class DeleteInstructorAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String instructorEmail = null;
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
-        if (instructor == null) {
-            return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
+        if (instructorId == null) {
+            instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+        } else {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+            if (instructor == null) {
+                return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
+            }
+            instructorEmail = instructor.email;
         }
 
         // Deleting last instructor from the course is not allowed if you're not the admin
-        if (userInfo.isInstructor && !hasAlternativeInstructor(courseId, instructor.email)) {
+        if (userInfo.isInstructor && !hasAlternativeInstructor(courseId, instructorEmail)) {
             return new JsonResult("The instructor you are trying to delete is the last instructor in the course. "
                     + "Deleting the last instructor from the course is not allowed.", HttpStatus.SC_BAD_REQUEST);
         }
 
-        logic.deleteInstructorCascade(courseId, instructor.email);
+        logic.deleteInstructorCascade(courseId, instructorEmail);
 
         return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
     }
