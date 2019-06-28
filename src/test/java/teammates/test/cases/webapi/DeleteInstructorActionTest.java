@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
+import teammates.storage.entity.Instructor;
 import teammates.ui.webapi.action.DeleteInstructorAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.MessageOutput;
@@ -240,6 +241,29 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(onlyInstructorParameter);
         verifyHttpParameterFailure(onlyCourseParameter);
+    }
+
+    @Test
+    protected void testExecute_noGoogleIdButEmailPresent_shouldPass() {
+        loginAsAdmin();
+
+        InstructorAttributes instructorToDelete = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        String[] onlyEmailParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructorToDelete.courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructorToDelete.email,
+                Const.ParamsNames.INSTRUCTOR_ID, null,
+        };
+
+        DeleteInstructorAction deleteInstructorAction = getAction(onlyEmailParams);
+        JsonResult response = getJsonResult(deleteInstructorAction);
+
+        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
+
+        MessageOutput msg = (MessageOutput) response.getOutput();
+        assertEquals("Instructor is successfully deleted.", msg.getMessage());
+
+        assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructorToDelete.email, instructorToDelete.courseId));
     }
 
     @Test
