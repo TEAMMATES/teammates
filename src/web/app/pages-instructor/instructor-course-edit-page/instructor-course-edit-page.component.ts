@@ -905,7 +905,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const instructorToDelete: InstructorAttributes = this.instructorList[index];
     const paramsMap: { [key: string]: string } = {
       courseid: this.courseToEdit.id,
-      instructorid: this.instructor.googleId,
+      instructorid: instructorToDelete.googleId,
+      instructoremail: instructorToDelete.email,
     };
 
     this.httpRequestService.delete('/instructor', paramsMap)
