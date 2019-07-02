@@ -10,11 +10,16 @@ export class MasqueradeModeService {
 
   constructor(private route: ActivatedRoute) { }
 
-  getMasqueradePerson(): string {
+  fetchMasqueradeUser(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-      return this.user;
+      if (queryParams.user) {
+        this.user = queryParams.user;
+      }
     });
+  }
+
+  getMasqueradeUser(): string {
+    return this.user;
   }
 
 }
