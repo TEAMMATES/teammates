@@ -123,6 +123,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   sessionsTableRowModelsSortBy: SortBy = SortBy.NONE;
   sessionsTableRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
+  isLoadingFeedbackSessions: boolean = true;
+
   isRecycleBinExpanded: boolean = false;
   recycleBinFeedbackSessionRowModels: RecycleBinFeedbackSessionRowModel[] = [];
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
@@ -368,6 +370,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   loadFeedbackSessions(): void {
     this.feedbackSessionsService.getFeedbackSessionsForInstructor()
         .subscribe((response: FeedbackSessions) => {
+          this.isLoadingFeedbackSessions = false;
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             const model: SessionsTableRowModel = {
               feedbackSession: session,
