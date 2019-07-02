@@ -151,12 +151,14 @@
           (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
           (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
           (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+
     <ng-template #loadingspinner>
       <div class="loading-spinner-container">
         <tm-loading-spinner></tm-loading-spinner>
         <div class="text-secondary">Loading feedback sessions...</div>
       </div>
     </ng-template>
+
     </div>
   </div>
 </div>
