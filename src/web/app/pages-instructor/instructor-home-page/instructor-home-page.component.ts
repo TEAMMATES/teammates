@@ -39,6 +39,8 @@ interface CourseTabModel {
   hasPopulated: boolean;
   isAjaxSuccess: boolean;
   isTabExpanded: boolean;
+
+  isLoadingFeedbackSessions: boolean;
 }
 
 /**
@@ -166,6 +168,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           isTabExpanded: false,
           isAjaxSuccess: true,
           hasPopulated: false,
+          isLoadingFeedbackSessions: true,
           sessionsTableRowModelsSortBy: SortBy.NONE,
           sessionsTableRowModelsSortOrder: SortOrder.ASC,
         };
@@ -197,6 +200,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
           .subscribe((response: FeedbackSessions) => {
+            model.isLoadingFeedbackSessions = false;
             response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
               const m: SessionsTableRowModel = {
                 feedbackSession,

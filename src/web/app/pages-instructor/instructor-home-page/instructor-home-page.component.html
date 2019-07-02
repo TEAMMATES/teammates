@@ -141,6 +141,7 @@
 
     <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
       <tm-sessions-table
+          [isLoading]="courseTabModel.isLoadingFeedbackSessions"
           [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
           [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
           [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
