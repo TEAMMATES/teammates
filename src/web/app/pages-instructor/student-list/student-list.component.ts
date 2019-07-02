@@ -10,12 +10,26 @@ import { JoinState, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
 import {
-  FlatStudentListData,
   SortBy,
   SortOrder,
   StudentListSectionData,
   StudentListStudentData,
 } from './student-list-section-data';
+
+/**
+ * Flattened data which contains details about a student and their section.
+ * The data is flattened to allow sorting of the table.
+ */
+interface FlatStudentListData {
+  name: string;
+  email: string;
+  status: JoinState;
+  team: string;
+  photoUrl?: string;
+  sectionName: string;
+  isAllowedToViewStudentInSection: boolean;
+  isAllowedToModifyStudent: boolean;
+}
 
 /**
  * A table displaying a list of students from a course, with buttons to view/edit/delete students etc.
