@@ -140,8 +140,7 @@
     </ng-template>
 
     <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
-      <tm-sessions-table
-          [isLoading]="courseTabModel.isLoadingFeedbackSessions"
+      <tm-sessions-table *ngIf="!courseTabModel.isLoadingFeedbackSessions, else loadingspinner"
           [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
           [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
           [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
@@ -152,6 +151,12 @@
           (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
           (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
           (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+    <ng-template #loadingspinner>
+      <div class="loading-spinner-container">
+        <tm-loading-spinner></tm-loading-spinner>
+        <div class="text-secondary">Loading feedback sessions...</div>
+      </div>
+    </ng-template>
     </div>
   </div>
 </div>
