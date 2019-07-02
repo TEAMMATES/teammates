@@ -749,7 +749,7 @@ public final class Const {
         public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
         public static final String SESSION_REMIND_RESULT = "/session/remind/result";
         public static final String SESSION_STATS = "/session/stats";
-        public static final String SESSION_STUDENTS_RESPONSE = "/session/students/response";
+        public static final String SESSION_SUBMITTED_GIVER_SET = "/session/submitted/giverset";
         public static final String SESSIONS = "/sessions";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
@@ -769,8 +769,6 @@ public final class Const {
         public static final String INSTRUCTOR_COURSES = "/instructor/courses";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
 
-        public static final String INSTRUCTOR_STUDENTS_COURSES = "/instructor/students/courses";
-        public static final String INSTRUCTOR_STUDENTS = "/instructor/students";
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
