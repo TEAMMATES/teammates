@@ -4,7 +4,8 @@
 
 <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
                       [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
-                      (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"></tm-session-edit-form>
+                      (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
+                      [masqueradeUser]="user"></tm-session-edit-form>
 
 <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0">
   You have not created any sessions yet. Use the form above to create a session.

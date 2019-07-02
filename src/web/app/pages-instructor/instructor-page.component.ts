@@ -42,6 +42,7 @@ export class InstructorPageComponent implements OnInit {
     {
       url: '/web/instructor/help',
       display: 'Help',
+      params: {},
     },
   ];
   isFetchingAuthDetails: boolean = false;

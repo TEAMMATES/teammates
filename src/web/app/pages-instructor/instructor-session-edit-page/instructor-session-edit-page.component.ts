@@ -866,16 +866,26 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Previews the submission of the feedback session as a student.
    */
   previewAsStudent(): void {
-    window.open(`${environment.frontendUrl}/web/sessions/submission`
-        + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfStudentToPreview}`);
+    if (this.user != '') {
+      window.open(`${environment.frontendUrl}/web/sessions/submission?courseid=${this.courseId}&fsname=` +
+      `${this.feedbackSessionName}&previewas=${this.emailOfStudentToPreview}&user=${this.user}`);
+    } else {
+      window.open(`${environment.frontendUrl}/web/sessions/submission`
+          + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfStudentToPreview}`);
+    }
   }
 
   /**
    * Previews the submission of the feedback session as an instructor.
    */
   previewAsInstructor(): void {
-    window.open(`${environment.frontendUrl}/web/instructor/sessions/submission`
-        + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfInstructorToPreview}`);
+    if (this.user != '') {
+      window.open(`${environment.frontendUrl}/web/sessions/submission?courseid=${this.courseId}&fsname=` +
+      `${this.feedbackSessionName}&previewas=${this.emailOfInstructorToPreview}&user=${this.user}`);
+    } else {
+      window.open(`${environment.frontendUrl}/web/instructor/sessions/submission?courseid=` +
+      `${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfInstructorToPreview}`);
+    }
   }
 
   private deepCopy<T>(obj: T): T {

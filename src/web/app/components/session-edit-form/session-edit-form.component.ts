@@ -69,6 +69,9 @@ export class SessionEditFormComponent implements OnInit {
     hasEmailSettingsPanelExpanded: false,
   };
 
+  @Input()
+  masqueradeUser: string = '';
+
   @Output()
   modelChange: EventEmitter<SessionEditFormModel> = new EventEmitter();
 
@@ -225,6 +228,10 @@ export class SessionEditFormComponent implements OnInit {
    * Handles session 'Help' link click event.
    */
   sessionHelpHandler(): void {
-    window.open(`${environment.frontendUrl}/web/instructor/help#sessions`);
+    if (this.masqueradeUser != '') {
+      window.open(`${environment.frontendUrl}/web/instructor/help?user=${this.masqueradeUser}#sessions`);
+    } else {
+      window.open(`${environment.frontendUrl}/web/instructor/help#sessions`);
+    }
   }
 }

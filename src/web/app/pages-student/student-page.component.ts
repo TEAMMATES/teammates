@@ -62,6 +62,7 @@ export class StudentPageComponent implements OnInit {
             {
               url: '/web/student/help',
               display: 'Help',
+              params: {},
             },
           ];
         } else {
