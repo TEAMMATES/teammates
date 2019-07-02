@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class LoaderService {
+export class LoadingBarService {
 
   isShown: Subject<boolean> = new Subject<boolean>();
 

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LoaderService } from './loader.service';
+import { LoadingBarService } from './loading-bar.service';
 
-describe('LoaderService', () => {
+describe('LoadingBarService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: LoaderService = TestBed.get(LoaderService);
+    const service: LoadingBarService = TestBed.get(LoadingBarService);
     expect(service).toBeTruthy();
   });
 });

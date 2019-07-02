@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoaderService } from '../../../services/loader.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 
 /**
  * Loading progress bar for ajax requests.
@@ -13,11 +13,11 @@ export class LoaderBarComponent implements OnInit {
 
   isShown: boolean = false;
 
-  constructor(private loaderService: LoaderService) {
+  constructor(private loadingBarService: LoadingBarService) {
   }
 
   ngOnInit(): void {
-    this.loaderService.isShown.subscribe((isShown: boolean) => { this.isShown = isShown; });
+    this.loadingBarService.isShown.subscribe((isShown: boolean) => { this.isShown = isShown; });
   }
 
 }
