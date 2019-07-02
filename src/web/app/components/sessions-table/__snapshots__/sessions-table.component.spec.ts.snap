@@ -13,7 +13,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   courseCandidates={[Function Array]}
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
-  isLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   modalService={[Function NgbModal]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
@@ -461,7 +460,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   courseCandidates={[Function Array]}
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
-  isLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   modalService={[Function NgbModal]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
@@ -852,7 +850,6 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   courseCandidates={[Function Array]}
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
-  isLoading="false"
   loadResponseRateEvent={[Function EventEmitter]}
   modalService={[Function NgbModal]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}

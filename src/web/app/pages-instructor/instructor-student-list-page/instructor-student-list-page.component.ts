@@ -141,16 +141,15 @@ export class InstructorStudentListPageComponent implements OnInit {
       sectionname: sectionName,
     }).pipe(finalize(() => courseTab.isLoading = false))
         .subscribe((instructorPrivilege: InstructorPrivilege) => {
-      const sectionData: StudentListSectionData = {
-        sectionName,
-        students,
-        isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
-        isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
-      };
-
-      courseTab.studentListSectionDataList.push(sectionData);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+          const sectionData: StudentListSectionData = {
+            sectionName,
+            students,
+            isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
+            isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
+          };
+          courseTab.studentListSectionDataList.push(sectionData);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 }

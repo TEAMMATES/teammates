@@ -226,6 +226,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       <div
         class="card-body padding-0"
       >
+        
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
           ng-reflect-course-candidates="[object Object]"
@@ -235,16 +236,14 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
-          
           <div
             class="no-session-message"
           >
              There are no feedback sessions in this course. 
           </div>
           
-          
-          
         </tm-sessions-table>
+        
       </div>
     </div>
   </div>
@@ -549,6 +548,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       <div
         class="card-body padding-0"
       >
+        
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
           ng-reflect-course-candidates="[object Object]"
@@ -814,8 +814,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             </div>
           </div>
           
-          
         </tm-sessions-table>
+        
       </div>
     </div>
   </div>
@@ -1098,6 +1098,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       <div
         class="card-body padding-0"
       >
+        
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
           ng-reflect-course-candidates="[object Object]"
@@ -1532,8 +1533,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             </div>
           </div>
           
-          
         </tm-sessions-table>
+        
       </div>
     </div>
   </div>
@@ -2138,6 +2139,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       <div
         class="card-body padding-0"
       >
+        
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
           ng-reflect-course-candidates="[object Object]"
@@ -2147,16 +2149,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
-          
           <div
             class="no-session-message"
           >
              There are no feedback sessions in this course. 
           </div>
           
-          
-          
         </tm-sessions-table>
+        
       </div>
     </div>
   </div>
@@ -2461,6 +2461,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       <div
         class="card-body padding-0"
       >
+        
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
           ng-reflect-course-candidates="[object Object]"
@@ -2470,16 +2471,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
-          
           <div
             class="no-session-message"
           >
              There are no feedback sessions in this course. 
           </div>
           
-          
-          
         </tm-sessions-table>
+        
       </div>
     </div>
   </div>

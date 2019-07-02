@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
 @Component({ selector: 'tm-add-course-form', template: '' })
@@ -82,6 +83,7 @@ describe('InstructorCoursesPageComponent', () => {
         AddCourseFormStubComponent,
       ],
       imports: [
+        LoadingSpinnerModule,
         HttpClientTestingModule,
         RouterTestingModule,
         NgbModule,
