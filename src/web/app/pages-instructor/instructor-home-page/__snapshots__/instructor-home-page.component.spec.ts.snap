@@ -235,11 +235,14 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
+          
           <div
             class="no-session-message"
           >
              There are no feedback sessions in this course. 
           </div>
+          
+          
           
         </tm-sessions-table>
       </div>
@@ -810,6 +813,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               </table>
             </div>
           </div>
+          
           
         </tm-sessions-table>
       </div>
@@ -1528,6 +1532,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             </div>
           </div>
           
+          
         </tm-sessions-table>
       </div>
     </div>
@@ -2142,11 +2147,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
+          
           <div
             class="no-session-message"
           >
              There are no feedback sessions in this course. 
           </div>
+          
+          
           
         </tm-sessions-table>
       </div>
@@ -2462,11 +2470,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
+          
           <div
             class="no-session-message"
           >
              There are no feedback sessions in this course. 
           </div>
+          
+          
           
         </tm-sessions-table>
       </div>
