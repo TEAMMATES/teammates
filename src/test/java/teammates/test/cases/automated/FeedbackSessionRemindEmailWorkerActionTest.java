@@ -3,6 +3,7 @@ package teammates.test.cases.automated;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -58,17 +59,20 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         // 1 student and 4 instructors sent reminder, 1 instructor notified
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
 
+        Set<String> giverSet =
+                logic.getGiverSetThatAnswerFeedbackSession(session1.getCourseId(), session1.getFeedbackSessionName());
+
         List<String> studentRecipientList = new ArrayList<>();
         for (StudentAttributes student : studentsLogic.getStudentsForCourse(session1.getCourseId())) {
-            if (!fsLogic.isFeedbackSessionCompletedByStudent(session1, student.email)) {
-                studentRecipientList.add(student.email);
+            if (!giverSet.contains(student.getEmail())) {
+                studentRecipientList.add(student.getEmail());
             }
         }
 
         List<String> instructorRecipientList = new ArrayList<>();
         List<String> instructorNotifiedList = new ArrayList<>();
         for (InstructorAttributes instructor : instructorsLogic.getInstructorsForCourse(session1.getCourseId())) {
-            if (!fsLogic.isFeedbackSessionCompletedByInstructor(session1, instructor.email)) {
+            if (!giverSet.contains(instructor.getEmail())) {
                 instructorRecipientList.add(instructor.email);
             }
         }
