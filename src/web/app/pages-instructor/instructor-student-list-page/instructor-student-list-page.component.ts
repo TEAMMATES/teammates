@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -23,6 +24,7 @@ interface CourseTab {
   studentListSectionDataList: StudentListSectionData[];
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
+  isLoading: boolean;
   stats?: Statistic;
 }
 
@@ -64,6 +66,7 @@ export class InstructorStudentListPageComponent implements OnInit {
               studentListSectionDataList: [],
               hasTabExpanded: false,
               hasStudentLoaded: false,
+              isLoading: true,
             };
 
             this.courseTabList.push(courseTab);
@@ -90,6 +93,8 @@ export class InstructorStudentListPageComponent implements OnInit {
   loadStudents(courseTab: CourseTab): void {
     this.studentService.getStudentsFromCourse(courseTab.course.courseId)
         .subscribe((students: Students) => {
+          courseTab.isLoading = !(students.students.length === 0);
+
           const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
             const term: string = x.sectionName;
             (acc[term] = acc[term] || []).push(x);
@@ -134,7 +139,8 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.httpRequestService.get('/instructor/privilege', {
       courseid: courseTab.course.courseId,
       sectionname: sectionName,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+    }).pipe(finalize(() => courseTab.isLoading = false))
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
       const sectionData: StudentListSectionData = {
         sectionName,
         students,
