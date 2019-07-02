@@ -47,7 +47,8 @@ export class MsqQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if None of the above option is enabled and disables it.
+   * Removes the "None of the above" option in an answers list if it's present
+   * then returns the altered list.
    */
   disableNoneOfTheAboveOption(answers: string[]): string[] {
     if (this.isNoneOfTheAboveEnabled) {
