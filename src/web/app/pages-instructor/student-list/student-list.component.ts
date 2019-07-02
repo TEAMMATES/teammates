@@ -10,8 +10,6 @@ import { JoinState, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
 import {
-  SortBy,
-  SortOrder,
   StudentListSectionData,
   StudentListStudentData,
 } from './student-list-section-data';
@@ -29,6 +27,56 @@ interface FlatStudentListData {
   sectionName: string;
   isAllowedToViewStudentInSection: boolean;
   isAllowedToModifyStudent: boolean;
+}
+
+/**
+ * Sort criteria for the students table.
+ */
+enum SortBy {
+  /**
+   * Nothing.
+   */
+  NONE,
+
+  /**
+   * Section Name.
+   */
+  SECTION_NAME,
+
+  /**
+   * Team name.
+   */
+  TEAM_NAME,
+
+  /**
+   * Student Name.
+   */
+  STUDENT_NAME,
+
+  /**
+   * Status.
+   */
+  STATUS,
+
+  /**
+   * Email.
+   */
+  EMAIL,
+}
+
+/**
+ * Sort order for the students table.
+ */
+enum SortOrder {
+  /**
+   * Descending sort order.
+   */
+  DESC,
+
+  /**
+   * Ascending sort order
+   */
+  ASC,
 }
 
 /**
