@@ -106,11 +106,6 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
         };
 
-        // verify submitted responses are 5 before action
-        FeedbackSessionDetailsBundle details = logic.getFeedbackSessionDetails(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        assertEquals(5, details.stats.submittedTotal);
-
         ConfirmFeedbackSessionSubmissionAction a = getAction(studentParams);
         JsonResult r = getJsonResult(a);
 
@@ -125,11 +120,6 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         EmailWrapper email = a.getEmailSender().getEmailsSent().get(0);
 
         assertEquals(student1InCourse1.email, email.getRecipient());
-
-        // verify submitted responses not changed
-        details = logic.getFeedbackSessionDetails(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        assertEquals(5, details.stats.submittedTotal);
 
         ______TS("Typical success case with student intent, not responded before");
 
@@ -146,11 +136,6 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
         };
 
-        // verify submitted responses are 5 before action
-        details = logic.getFeedbackSessionDetails(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        assertEquals(5, details.stats.submittedTotal);
-
         a = getAction(studentNotRespondedParams);
         r = getJsonResult(a);
 
@@ -165,11 +150,6 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         email = a.getEmailSender().getEmailsSent().get(0);
 
         assertEquals(student4InCourse1.email, email.getRecipient());
-
-        // verify submitted responses not changed, since submission is empty and no responses will be created
-        details = logic.getFeedbackSessionDetails(
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        assertEquals(5, details.stats.submittedTotal);
 
         ______TS("Typical success case with instructor intent");
 
