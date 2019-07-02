@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -199,8 +200,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   loadFeedbackSessions(model: CourseTabModel): void {
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
+          .pipe(finalize(() => model.isLoadingFeedbackSessions = false))
           .subscribe((response: FeedbackSessions) => {
-            model.isLoadingFeedbackSessions = false;
             response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
               const m: SessionsTableRowModel = {
                 feedbackSession,

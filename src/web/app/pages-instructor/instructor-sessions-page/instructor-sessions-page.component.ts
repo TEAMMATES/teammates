@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -369,8 +369,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   loadFeedbackSessions(): void {
     this.feedbackSessionsService.getFeedbackSessionsForInstructor()
+        .pipe(finalize(() => this.isLoadingFeedbackSessions = false))
         .subscribe((response: FeedbackSessions) => {
-          this.isLoadingFeedbackSessions = false;
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             const model: SessionsTableRowModel = {
               feedbackSession: session,
