@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -27,6 +28,7 @@ import { InstructorCoursesPageComponent } from './instructor-courses-page.compon
     AddCourseFormComponent,
   ],
   imports: [
+    LoadingSpinnerModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

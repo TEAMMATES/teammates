@@ -4,7 +4,7 @@
 
 <div class="course-section">
   <h2>Active Courses</h2>
-  <div class="table-responsive">
+  <div class="table-responsive" *ngIf="!isCoursesLoading, else loadingspinner">
     <table class="table table-striped table-bordered margin-0">
       <thead>
         <tr class="bg-primary text-white">
@@ -130,6 +130,14 @@
     </table>
     <p *ngIf="!activeCourses.length">No records found.</p>
   </div>
+
+  <ng-template #loadingspinner>
+    <div class="loading-spinner-container">
+      <tm-loading-spinner></tm-loading-spinner>
+      <div class="text-secondary">Loading courses...</div>
+    </div>
+  </ng-template>
+
 </div>
 
 <div class="course-section" *ngIf="archivedCourses.length">

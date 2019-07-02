@@ -118,6 +118,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
+  isCoursesLoading: boolean = true;
+
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -144,6 +146,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       user: this.user,
     };
     this.httpRequestService.get('/instructor/courses', paramMap).subscribe((resp: InstructorCourses) => {
+      this.isCoursesLoading = false;
       this.activeCourses = resp.activeCourses;
       this.archivedCourses = resp.archivedCourses;
       this.softDeletedCourses = resp.softDeletedCourses;
