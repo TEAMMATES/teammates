@@ -21,12 +21,15 @@ export class HttpRequestService {
   /**
    * Builds an HttpParams object from a standard key-value mapping.
    */
-  buildParams(paramsMap: { [key: string]: string }): HttpParams {
+  buildParams(paramsMap: { [key: string]: string }, user?: string): HttpParams {
     let params: HttpParams = new HttpParams();
     for (const key of Object.keys(paramsMap)) {
       if (paramsMap[key]) {
         params = params.append(key, paramsMap[key]);
       }
+    }
+    if (user) {
+      params = params.append('user', user);
     }
     return params;
   }
@@ -34,9 +37,9 @@ export class HttpRequestService {
   /**
    * Executes GET request.
    */
-  get(endpoint: string, paramsMap: { [key: string]: string } = {},
+  get(endpoint: string, paramsMap: { [key: string]: string } = {}, user?: string,
       responseType: any = 'json' as 'text'): Observable<any> {
-    const params: HttpParams = this.buildParams(paramsMap);
+    const params: HttpParams = user != ''? this.buildParams(paramsMap, user) : this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, responseType, withCredentials });
   }
@@ -44,8 +47,8 @@ export class HttpRequestService {
   /**
    * Executes POST request.
    */
-  post(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null): Observable<any> {
-    const params: HttpParams = this.buildParams(paramsMap);
+  post(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null, user?: string): Observable<any> {
+    const params: HttpParams = user != ''? this.buildParams(paramsMap, user) : this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
     return this.httpClient.post(`${this.backendUrl}/webapi${endpoint}`, body, { params, headers, withCredentials });
@@ -54,8 +57,8 @@ export class HttpRequestService {
   /**
    * Executes PUT request.
    */
-  put(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null): Observable<any> {
-    const params: HttpParams = this.buildParams(paramsMap);
+  put(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null, user?: string): Observable<any> {
+    const params: HttpParams = user != ''? this.buildParams(paramsMap, user) : this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
     return this.httpClient.put(`${this.backendUrl}/webapi${endpoint}`, body, { params, headers, withCredentials });
@@ -64,8 +67,8 @@ export class HttpRequestService {
   /**
    * Executes DELETE request.
    */
-  delete(endpoint: string, paramsMap: { [key: string]: string } = {}): Observable<any> {
-    const params: HttpParams = this.buildParams(paramsMap);
+  delete(endpoint: string, paramsMap: { [key: string]: string } = {}, user?: string): Observable<any> {
+    const params: HttpParams = user != ''? this.buildParams(paramsMap, user) : this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
     return this.httpClient.delete(`${this.backendUrl}/webapi${endpoint}`, { params, headers, withCredentials });
