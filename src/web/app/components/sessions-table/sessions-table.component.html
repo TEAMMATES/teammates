@@ -1,4 +1,5 @@
-<div class="row" *ngIf="sessionsTableRowModels.length > 0; else noSessionMessage">
+
+<div class="row" *ngIf="!isLoading && sessionsTableRowModels.length > 0; else noSessionMessage">
   <div class="col-12">
     <table class="table table-responsive-lg table-striped table-bordered margin-bottom-0">
       <thead>
@@ -92,8 +93,13 @@
   </div>
 </div>
 
+<div *ngIf="isLoading" class="loading-spinner-container">
+  <tm-loading-spinner></tm-loading-spinner>
+  <div class="text-secondary">Loading sessions...</div>
+</div>
+
 <ng-template #noSessionMessage>
-  <div class="no-session-message">
+  <div *ngIf="!isLoading" class="no-session-message">
     There are no feedback sessions in this course.
   </div>
 </ng-template>

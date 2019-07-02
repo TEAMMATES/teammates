@@ -57,6 +57,9 @@ export class SessionsTableComponent implements OnInit {
   @Input()
   headerColorScheme: SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme.BLUE;
 
+  @Input()
+  isLoading: boolean = false;
+
   @Output()
   sortSessionsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
 
