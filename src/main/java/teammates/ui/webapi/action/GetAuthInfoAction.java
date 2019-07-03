@@ -60,8 +60,8 @@ public class GetAuthInfoAction extends Action {
             csrfTokenCookie.setSecure(!Config.isDevServer());
             csrfTokenCookie.setPath("/");
             resp.addCookie(csrfTokenCookie);
-            List<Cookie> cookieLst = Arrays.asList(csrfTokenCookie);
-            return new JsonResult(output, cookieLst);
+            List<Cookie> cookieList = Arrays.asList(csrfTokenCookie);
+            return new JsonResult(output, cookieList);
         }
 
         return new JsonResult(output);

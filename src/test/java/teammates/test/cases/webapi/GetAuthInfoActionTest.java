@@ -139,7 +139,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         MockHttpServletRequest mockRequest = new MockHttpServletRequest(getRequestMethod(),
                 Const.ResourceURIs.URI_PREFIX + getActionUri());
-        String expectedCsrfToken = StringHelper.encrypt(mockRequest.getSession().getId());
+        String expectedCsrfToken = StringHelper.encrypt("1234");
         String[] emptyParams = new String[] {};
 
         ______TS("No logged in user");
@@ -176,7 +176,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         loginAsInstructor("idOfInstructor1OfCourse1");
 
         cookieToAdd = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME,
-                StringHelper.encrypt(mockRequest.getSession().getId()));
+                StringHelper.encrypt("1234"));
 
         a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
         r = getJsonResult(a);

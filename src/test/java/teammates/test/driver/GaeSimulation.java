@@ -231,7 +231,7 @@ public class GaeSimulation {
             }
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
-                    req.addCookie(new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, cookie.getValue()));
+                    req.addCookie(cookie);
                 }
             }
             MockHttpServletResponse resp = new MockHttpServletResponse();
