@@ -179,7 +179,7 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
         //verify not answerable to students
-        assertThrows(UnauthorizedAccessException.class, () -> verifyAnswerableForStudent(qn2InGracePeriodInCourse1));
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, qn2InGracePeriodInCourse1.getGiverType());
         verifyCannotAccess(notAnswerableForStudents);
 
         ______TS("not answerable to instructors");
@@ -187,7 +187,7 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        assertThrows(UnauthorizedAccessException.class, () -> verifyAnswerableForInstructor(qn1InSession1InCourse1));
+        assertEquals(FeedbackParticipantType.STUDENTS, qn1InSession1InCourse1.getGiverType());
         verifyCannotAccess(notAnswerableForInstructors);
 
         ______TS("invalid HTTP parameters");
@@ -230,23 +230,5 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
         FeedbackResponseDetails responseDetails = new FeedbackTextResponseDetails("This is the text");
         createRequest.setResponseDetails(responseDetails);
         return createRequest;
-    }
-
-    private void verifyAnswerableForInstructor(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        assertNotNull(feedbackQuestionAttributes);
-
-        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
-                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.SELF) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors");
-        }
-    }
-
-    private void verifyAnswerableForStudent(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        assertNotNull(feedbackQuestionAttributes);
-
-        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
-                && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for students");
-        }
     }
 }
