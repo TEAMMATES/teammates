@@ -5,7 +5,7 @@
           <i class="fas fa-check-circle"></i> All responses submitted successfully!
         </span>
     <span *ngIf="failToSaveQuestions.length !== 0">
-          <i class="fas fa-exclamation-circle"></i> Some questions do not saved!
+          <i class="fas fa-exclamation-circle"></i> Some questions were not saved!
         </span>
   </h5>
   <button type="button" class="close" (click)="activeModal.dismiss()">
@@ -14,7 +14,7 @@
 </div>
 <div class="modal-body">
   <p *ngIf="notYetAnsweredQuestions.length !== 0">
-    <span class="unanswered-exclamation-mark"> &#10071; </span> Note that some questions are yet to be answered.
+    <i class="fas fa-exclamation"></i> Note that some questions are yet to be answered.
     They are: {{ notYetAnsweredQuestions }}.
   </p>
   <p *ngIf="failToSaveQuestions.length !== 0" class="text-danger">
