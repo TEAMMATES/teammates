@@ -13,6 +13,7 @@ import {
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
 import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
+import {NavigationService} from "../../../services/navigation.service";
 
 /**
  * Form to Add/Edit feedback sessions.
@@ -100,7 +101,7 @@ export class SessionEditFormComponent implements OnInit {
   @Output()
   copyOtherSessionsEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private navigationService: NavigationService) { }
 
   ngOnInit(): void {
   }
@@ -228,10 +229,7 @@ export class SessionEditFormComponent implements OnInit {
    * Handles session 'Help' link click event.
    */
   sessionHelpHandler(): void {
-    if (this.masqueradeUser != '') {
-      window.open(`${environment.frontendUrl}/web/instructor/help?user=${this.masqueradeUser}#sessions`);
-    } else {
-      window.open(`${environment.frontendUrl}/web/instructor/help#sessions`);
-    }
+    this.navigationService.openWindow(`${environment.frontendUrl}/web/instructor/help`,
+        {}, 'sessions');
   }
 }

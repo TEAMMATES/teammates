@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { StatusMessageService } from './status-message.service';
+import {MasqueradeModeService} from "./masquerade-mode.service";
 
 /**
  * Handles navigation to different URLs and setting status messages immediately afterwards.
+ * And for opening new windows.
  *
  * Note that this is only effective for internal URLs as it uses Angular routing.
  */
@@ -12,7 +14,8 @@ import { StatusMessageService } from './status-message.service';
 })
 export class NavigationService {
 
-  constructor(private statusMessageService: StatusMessageService) {}
+  constructor(private statusMessageService: StatusMessageService,
+              private masqueradeModeService: MasqueradeModeService) {}
 
   /**
    * Navigates to the selected URL and shows an error message afterwards.
@@ -39,5 +42,28 @@ export class NavigationService {
     router.navigate([url], { queryParamsHandling: 'preserve' }).then(() => {
       this.statusMessageService.showSuccessMessage(message);
     });
+  }
+
+  openWindow(baseUrl: string, params: { [key: string]: string }, fragment?: string): void {
+    this.masqueradeModeService.fetchMasqueradeUser();
+    const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
+    if (masqueradeUser != '') {
+      params['user'] = masqueradeUser;
+    }
+
+    if (Object.keys(params).length >= 1) {
+      baseUrl.concat('?');
+      for (const key of Object.keys(params)) {
+        if (params[key]) {
+          baseUrl.concat(key + '=' + params[key] + '&');
+        }
+      }
+      baseUrl = baseUrl.slice(0, -1);
+    }
+    if (fragment) {
+      baseUrl.concat('#' + fragment);
+    }
+
+    window.open(baseUrl);
   }
 }
