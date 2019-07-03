@@ -25,6 +25,7 @@ interface CourseTab {
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
   isLoading: boolean;
+  numOfSectionsStillLoading: number;
   stats?: Statistic;
 }
 
@@ -67,6 +68,7 @@ export class InstructorStudentListPageComponent implements OnInit {
               hasTabExpanded: false,
               hasStudentLoaded: false,
               isLoading: true,
+              numOfSectionsStillLoading: 0,
             };
 
             this.courseTabList.push(courseTab);
@@ -113,6 +115,8 @@ export class InstructorStudentListPageComponent implements OnInit {
             numOfTeams: Object.keys(teams).length,
           };
 
+          courseTab.numOfSectionsStillLoading = Object.keys(sections).length;
+
           Object.keys(sections).forEach((key: string) => {
             const studentsInSection: Student[] = sections[key];
 
@@ -139,8 +143,14 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.httpRequestService.get('/instructor/privilege', {
       courseid: courseTab.course.courseId,
       sectionname: sectionName,
-    }).pipe(finalize(() => courseTab.isLoading = false))
-        .subscribe((instructorPrivilege: InstructorPrivilege) => {
+    }).pipe(
+        finalize(() => {
+          courseTab.numOfSectionsStillLoading -= 1;
+          if (courseTab.numOfSectionsStillLoading <= 0) {
+            courseTab.isLoading = false
+          }
+        })
+    ).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const sectionData: StudentListSectionData = {
             sectionName,
             students,
