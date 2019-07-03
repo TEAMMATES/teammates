@@ -13,7 +13,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.test.driver.MockHttpServletRequest;
 import teammates.ui.webapi.action.GetAuthInfoAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.AuthInfo;
@@ -137,8 +136,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     @Test
     public void testExecute_addCsrfTokenCookies_shouldAddToResponseAccordingToExistingCsrfToken() {
 
-        MockHttpServletRequest mockRequest = new MockHttpServletRequest(getRequestMethod(),
-                Const.ResourceURIs.URI_PREFIX + getActionUri());
         String expectedCsrfToken = StringHelper.encrypt("1234");
         String[] emptyParams = new String[] {};
 
