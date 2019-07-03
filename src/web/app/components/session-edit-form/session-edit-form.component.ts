@@ -70,9 +70,6 @@ export class SessionEditFormComponent implements OnInit {
     hasEmailSettingsPanelExpanded: false,
   };
 
-  @Input()
-  masqueradeUser: string = '';
-
   @Output()
   modelChange: EventEmitter<SessionEditFormModel> = new EventEmitter();
 

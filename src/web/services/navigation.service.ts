@@ -52,16 +52,16 @@ export class NavigationService {
     }
 
     if (Object.keys(params).length >= 1) {
-      baseUrl.concat('?');
+      baseUrl = baseUrl.concat('?');
       for (const key of Object.keys(params)) {
         if (params[key]) {
-          baseUrl.concat(key + '=' + params[key] + '&');
+          baseUrl = baseUrl.concat(key + '=' + params[key] + '&');
         }
       }
       baseUrl = baseUrl.slice(0, -1);
     }
     if (fragment) {
-      baseUrl.concat('#' + fragment);
+      baseUrl = baseUrl.concat('#' + fragment);
     }
 
     window.open(baseUrl);

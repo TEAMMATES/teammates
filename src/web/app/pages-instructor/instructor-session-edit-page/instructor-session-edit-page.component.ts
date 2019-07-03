@@ -805,7 +805,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles question 'Help' link click event.
    */
   questionsHelpHandler(): void {
-    window.open(`${environment.frontendUrl}/web/instructor/help#questions`);
+    this.navigationService.openWindow(`${environment.frontendUrl}/web/instructor/help`,
+        {}, 'questions');
   }
 
   /**
@@ -866,26 +867,24 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Previews the submission of the feedback session as a student.
    */
   previewAsStudent(): void {
-    if (this.user != '') {
-      window.open(`${environment.frontendUrl}/web/sessions/submission?courseid=${this.courseId}&fsname=` +
-      `${this.feedbackSessionName}&previewas=${this.emailOfStudentToPreview}&user=${this.user}`);
-    } else {
-      window.open(`${environment.frontendUrl}/web/sessions/submission`
-          + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfStudentToPreview}`);
+    const params = {
+      courseid: this.courseId,
+      fsname: this.feedbackSessionName,
+      previewas: this.emailOfStudentToPreview,
     }
+    this.navigationService.openWindow(`${environment.frontendUrl}/web/sessions/submission`, params);
   }
 
   /**
    * Previews the submission of the feedback session as an instructor.
    */
   previewAsInstructor(): void {
-    if (this.user != '') {
-      window.open(`${environment.frontendUrl}/web/sessions/submission?courseid=${this.courseId}&fsname=` +
-      `${this.feedbackSessionName}&previewas=${this.emailOfInstructorToPreview}&user=${this.user}`);
-    } else {
-      window.open(`${environment.frontendUrl}/web/instructor/sessions/submission?courseid=` +
-      `${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfInstructorToPreview}`);
+    const params = {
+      courseid: this.courseId,
+      fsname: this.feedbackSessionName,
+      previewas: this.emailOfInstructorToPreview,
     }
+    this.navigationService.openWindow(`${environment.frontendUrl}/web/instructor/sessions/submission`, params);
   }
 
   private deepCopy<T>(obj: T): T {
