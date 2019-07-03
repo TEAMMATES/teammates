@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorReportComponent should snap with default view 1`] = `
+<tm-error-report
+  content=""
+  errorMessage=""
+  errorReportSubmitted="false"
+  httpRequestService={[Function HttpRequestService]}
+  requestId=""
+  sendButtonEnabled={[Function Boolean]}
+  subject={[Function String]}
+>
+  <div
+    class="container"
+  >
+    <h2>
+      Uh oh! Something went wrong.
+    </h2>
+    <hr />
+    <div
+      class="row"
+    >
+      <div
+        class="col-md-12"
+      >
+        <p>
+           The server returns the following error message: "". 
+        </p>
+        <p>
+           We are sorry that this happened. Please help us troubleshoot the problem by providing us some additional details using the form below: 
+        </p>
+      </div>
+    </div>
+    <div
+      class="form-group"
+    >
+      <label>
+        Request ID:
+      </label>
+      <br />
+      <em>
+        Note: This field is filled by the system and not modifiable.
+      </em>
+      <input
+        class="form-control ng-untouched ng-pristine ng-valid"
+        disabled=""
+        ng-reflect-is-disabled="true"
+        ng-reflect-model=""
+        type="text"
+      />
+    </div>
+    <div
+      class="form-group"
+    >
+      <label>
+        Subject:
+      </label>
+      <br />
+      <em>
+        Note: This field is pre-filled for convenience. Feel free to change it to suit your needs.
+      </em>
+      <input
+        class="form-control ng-untouched ng-pristine ng-valid"
+        ng-reflect-model="User-submitted Error Report"
+        type="text"
+      />
+    </div>
+    <div
+      class="form-group"
+    >
+      <label>
+        Content:
+      </label>
+      <textarea
+        class="form-control ng-untouched ng-pristine ng-valid"
+        ng-reflect-model=""
+        placeholder="Tell us the steps you took that led you to this error page"
+      />
+    </div>
+    
+    <button
+      class="btn btn-success"
+    >
+      Send Error Report
+    </button>
+    
+  </div>
+</tm-error-report>
+`;
