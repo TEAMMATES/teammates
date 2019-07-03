@@ -81,7 +81,7 @@ public class ActionFactory {
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
-        map(ResourceURIs.SESSION_STUDENTS_RESPONSE, GET, GetFeedbackSessionStudentResponseAction.class);
+        map(ResourceURIs.SESSION_SUBMITTED_GIVER_SET, GET, GetFeedbackSessionSubmittedGiverSetAction.class);
         map(ResourceURIs.SESSION_REMIND_SUBMISSION, POST, RemindFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.SESSION_REMIND_RESULT, POST, RemindFeedbackSessionResultAction.class);
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
@@ -121,8 +121,6 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
         map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
         map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
-        map(ResourceURIs.INSTRUCTOR_STUDENTS, GET, GetCourseStudentsAction.class);
-        map(ResourceURIs.INSTRUCTOR_STUDENTS_COURSES, GET, InstructorGetCoursesAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

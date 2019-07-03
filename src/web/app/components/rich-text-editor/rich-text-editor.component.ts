@@ -57,8 +57,8 @@ export class RichTextEditorComponent implements OnInit {
       'placeholder',
       'advlist autolink lists link image charmap print hr anchor',
       'searchreplace wordcount visualblocks visualchars code fullscreen',
-      'insertdatetime nonbreaking save table contextmenu directionality',
-      'emoticons paste textcolor colorpicker textpattern',
+      'insertdatetime nonbreaking save table directionality',
+      'emoticons paste textpattern',
     ],
 
     toolbar1: 'insertfile undo redo | styleselect | bold italic underline '
