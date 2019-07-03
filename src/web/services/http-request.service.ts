@@ -32,7 +32,7 @@ export class HttpRequestService {
     }
     this.masqueradeModeService.fetchMasqueradeUser();
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
-    if (masqueradeUser != '') {
+    if (masqueradeUser !== '') {
       params = params.append('user', masqueradeUser);
     }
     return params;

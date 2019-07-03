@@ -57,8 +57,8 @@ export class StudentProfilePageComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
 
-      this.profilePicLink = this.user != ''? `${this.backendUrl}/webapi/student/profilePic?user=`
-          + this.user : `${this.backendUrl}/webapi/student/profilePic`;
+      this.profilePicLink = this.user !== '' ? `${this.backendUrl}/webapi/student/profilePic?user=`.concat(this.user)
+          : `${this.backendUrl}/webapi/student/profilePic`;
       this.loadStudentProfile();
     });
   }
@@ -139,8 +139,8 @@ export class StudentProfilePageComponent implements OnInit {
 
             // force reload
             const timestamp: number = (new Date()).getTime();
-            this.profilePicLink = this.user != ''? `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=`
-                + this.user : `${this.backendUrl}/webapi/student/profilePic?${timestamp}`;
+            this.profilePicLink = this.user !== '' ? `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=`
+                .concat(this.user) : `${this.backendUrl}/webapi/student/profilePic?${timestamp}`;
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(response.error.message);
           });

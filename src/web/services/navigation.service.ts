@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { MasqueradeModeService } from './masquerade-mode.service';
 import { StatusMessageService } from './status-message.service';
-import {MasqueradeModeService} from "./masquerade-mode.service";
 
 /**
  * Handles navigation to different URLs and setting status messages immediately afterwards.
  * And for opening new windows.
+ * This service will user MasqueradeModeService to check whether it is in masquerade mode.
  *
  * Note that this is only effective for internal URLs as it uses Angular routing.
  */
@@ -21,18 +22,34 @@ export class NavigationService {
    * Navigates to the selected URL and shows an error message afterwards.
    */
   navigateWithErrorMessage(router: Router, url: string, message: string): void {
-    router.navigateByUrl(url).then(() => {
-      this.statusMessageService.showErrorMessage(message);
-    });
+    this.masqueradeModeService.fetchMasqueradeUser();
+    const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
+    if (masqueradeUser !== '') {
+      router.navigate([url], { queryParams: { user: masqueradeUser } }).then(() => {
+        this.statusMessageService.showErrorMessage(message);
+      });
+    } else {
+      router.navigateByUrl(url).then(() => {
+        this.statusMessageService.showErrorMessage(message);
+      });
+    }
   }
 
   /**
    * Navigates to the selected URL and shows a success message afterwards.
    */
   navigateWithSuccessMessage(router: Router, url: string, message: string): void {
-    router.navigateByUrl(url).then(() => {
-      this.statusMessageService.showSuccessMessage(message);
-    });
+    this.masqueradeModeService.fetchMasqueradeUser();
+    const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
+    if (masqueradeUser !== '') {
+      router.navigate([url], { queryParams: { user: masqueradeUser } }).then(() => {
+        this.statusMessageService.showSuccessMessage(message);
+      });
+    } else {
+      router.navigateByUrl(url).then(() => {
+        this.statusMessageService.showSuccessMessage(message);
+      });
+    }
   }
 
   /**
@@ -44,26 +61,47 @@ export class NavigationService {
     });
   }
 
+  /**
+   * Open a new window with url and params provided, and optional fragment.
+   */
   openWindow(baseUrl: string, params: { [key: string]: string }, fragment?: string): void {
+    let url: string = baseUrl;
+    const equalSign: string = '=';
+    const andSigh: string = '&';
+    const hashSign: string = '#';
     this.masqueradeModeService.fetchMasqueradeUser();
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
-    if (masqueradeUser != '') {
-      params['user'] = masqueradeUser;
+    if (masqueradeUser !== '') {
+      const user: string = 'user';
+      params[user] = masqueradeUser;
     }
 
     if (Object.keys(params).length >= 1) {
-      baseUrl = baseUrl.concat('?');
+      url = url.concat('?');
       for (const key of Object.keys(params)) {
         if (params[key]) {
-          baseUrl = baseUrl.concat(key + '=' + params[key] + '&');
+          url = url.concat(key + equalSign + params[key] + andSigh);
         }
       }
-      baseUrl = baseUrl.slice(0, -1);
+      url = url.slice(0, -1);
     }
     if (fragment) {
-      baseUrl = baseUrl.concat('#' + fragment);
+      url = url.concat(hashSign + fragment);
     }
 
-    window.open(baseUrl);
+    window.open(url);
+  }
+
+  /**
+   * Navigates to the selected URL.
+   */
+  navigateWithUrl(router: Router, url: string): void {
+    this.masqueradeModeService.fetchMasqueradeUser();
+    const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
+    if (masqueradeUser !== '') {
+      router.navigate([url], { queryParams: { user: masqueradeUser } });
+    } else {
+      router.navigateByUrl(url);
+    }
   }
 }

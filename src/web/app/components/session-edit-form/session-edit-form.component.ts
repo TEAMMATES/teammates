@@ -3,6 +3,7 @@ import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { environment } from '../../../environments/environment';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
+import { NavigationService } from '../../../services/navigation.service';
 import {
   Course,
   FeedbackSessionPublishStatus,
@@ -13,7 +14,6 @@ import {
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
 import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
-import {NavigationService} from "../../../services/navigation.service";
 
 /**
  * Form to Add/Edit feedback sessions.

@@ -867,11 +867,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Previews the submission of the feedback session as a student.
    */
   previewAsStudent(): void {
-    const params = {
+    const params: { [key: string]: string } = {
       courseid: this.courseId,
       fsname: this.feedbackSessionName,
       previewas: this.emailOfStudentToPreview,
-    }
+    };
     this.navigationService.openWindow(`${environment.frontendUrl}/web/sessions/submission`, params);
   }
 
@@ -879,11 +879,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Previews the submission of the feedback session as an instructor.
    */
   previewAsInstructor(): void {
-    const params = {
+    const params: { [key: string]: string } = {
       courseid: this.courseId,
       fsname: this.feedbackSessionName,
       previewas: this.emailOfInstructorToPreview,
-    }
+    };
     this.navigationService.openWindow(`${environment.frontendUrl}/web/instructor/sessions/submission`, params);
   }
 
