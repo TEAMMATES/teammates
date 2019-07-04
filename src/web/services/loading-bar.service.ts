@@ -16,14 +16,14 @@ export class LoadingBarService {
   /**
    * Displays the loading bar.
    */
-  startLoad(): void {
+  showLoadingBar(): void {
     this.isShown.next(true);
   }
 
   /**
    * Hides the loading progress bar.
    */
-  finishLoad(): void {
+  hideLoadingBar(): void {
     this.isShown.next(false);
   }
 
