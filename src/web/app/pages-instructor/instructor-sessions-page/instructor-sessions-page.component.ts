@@ -128,7 +128,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
-  hasLoadedCourses: boolean = false;
+  hasCoursesLoaded: boolean = false;
 
   constructor(router: Router,
               httpRequestService: HttpRequestService,
@@ -185,7 +185,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.httpRequestService.get('/courses', {
       entitytype: 'instructor',
       coursestatus: 'active',
-    }).pipe(finalize(() => this.hasLoadedCourses = true)).subscribe((courses: Courses) => {
+    }).pipe(finalize(() => this.hasCoursesLoaded = true)).subscribe((courses: Courses) => {
       this.courseCandidates = courses.courses;
 
       this.initDefaultValuesForSessionEditForm();
