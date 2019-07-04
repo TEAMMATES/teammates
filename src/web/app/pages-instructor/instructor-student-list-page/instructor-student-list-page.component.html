@@ -68,11 +68,10 @@
       </div>
 
       <ng-template #noStudentsTemplate>
+        <h4>There are no students in this course.</h4>
         <button class="btn btn-success" routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
           Enroll Students
         </button>
-        <br/><br/>
-        <div>There are no students in this course.</div>
       </ng-template>
 
     </div>
