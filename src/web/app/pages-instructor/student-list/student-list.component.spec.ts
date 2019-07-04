@@ -356,7 +356,8 @@ describe('StudentListComponent', () => {
     fixture.detectChanges();
 
     const buttons: any = fixture.nativeElement.querySelectorAll('button');
-    const button: any = Array.from(buttons).find((button: any) => button.firstChild.nodeValue === 'Send Invite');
-    expect(button).toBeTruthy();
+    const sendInviteButton: any = Array.from(buttons)
+        .find((button: any) => button.firstChild.nodeValue === 'Send Invite');
+    expect(sendInviteButton).toBeTruthy();
   });
 });
