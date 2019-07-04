@@ -805,8 +805,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles question 'Help' link click event.
    */
   questionsHelpHandler(): void {
-    window.open(`${environment.frontendUrl}/web/instructor/help`);
-    // TODO scroll down to the question specific section in the help page
+    window.open(`${environment.frontendUrl}/web/instructor/help#questions`);
   }
 
   /**
