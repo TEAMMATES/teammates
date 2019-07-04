@@ -61,7 +61,8 @@ describe('StudentCourseDetailsPageComponent', () => {
       courseId: '1.1.c-demo2',
       courseName: 'Sample Course 101',
       creationDate: '13 Mar 2019',
-      deletionDate: 'Not Applicable',
+      creationTimestamp: 1552472130000,
+      deletionTimestamp: 0,
       timeZone: 'UTC',
     };
 

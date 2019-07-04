@@ -27,8 +27,9 @@ const instructorPrivilege: InstructorPrivilege = {
 const defaultCourse: Course = {
   courseId: 'CS3281',
   courseName: 'Thematic Systems',
-  creationDate: '26 Feb 23:59 PM',
-  deletionDate: '',
+  creationDate: '26 Feb 2019',
+  creationTimestamp: 4924740000,
+  deletionTimestamp: 0,
   timeZone: 'Asia/Singapore',
 };
 
@@ -88,7 +89,8 @@ describe('InstructorHomePageComponent', () => {
       course: {
         courseId: 'CS3243',
         courseName: 'Introduction to AI',
-        creationDate: '01 Feb 23:59 PM',
+        creationDate: '01 Feb 2019',
+        creationTimestamp: 1546198490630,
         timeZone: 'Asia/Singapore',
       },
       sessionsTableRowModels: [],
