@@ -38,8 +38,7 @@ export class HttpRequestService {
       responseType: any = 'json' as 'text'): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    return this.httpClient
-        .get(`${this.backendUrl}/webapi${endpoint}`, { params, responseType, withCredentials });
+    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, responseType, withCredentials });
   }
 
   /**
