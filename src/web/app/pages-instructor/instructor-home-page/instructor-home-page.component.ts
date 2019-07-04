@@ -10,7 +10,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  Course, CourseArchive,
+  Course,
+  CourseArchive,
   Courses,
   FeedbackSession,
   FeedbackSessions,
