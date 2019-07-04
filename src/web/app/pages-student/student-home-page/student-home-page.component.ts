@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 import { HttpRequestService } from '../../../services/http-request.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -68,7 +70,7 @@ export class StudentHomePageComponent implements OnInit {
   sessionsInfoMap: { [key: string]: SessionInfoMap } = {};
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
-              private statusMessageService: StatusMessageService) { }
+              private statusMessageService: StatusMessageService, private loadingBarService: LoadingBarService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -81,25 +83,28 @@ export class StudentHomePageComponent implements OnInit {
    * Gets the courses and feedback sessions involving the student.
    */
   getStudentCourses(persistencecourse: string): void {
+    this.loadingBarService.showLoadingBar();
     const paramMap: { [key: string]: string } = { persistencecourse };
-    this.httpRequestService.get('/student/courses', paramMap).subscribe((resp: StudentCourses) => {
-      this.recentlyJoinedCourseId = resp.recentlyJoinedCourseId;
-      this.hasEventualConsistencyMsg = resp.hasEventualConsistencyMsg;
-      this.courses = resp.courses;
-      this.sessionsInfoMap = resp.sessionsInfoMap;
+    this.httpRequestService.get('/student/courses', paramMap)
+        .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
+        .subscribe((resp: StudentCourses) => {
+          this.recentlyJoinedCourseId = resp.recentlyJoinedCourseId;
+          this.hasEventualConsistencyMsg = resp.hasEventualConsistencyMsg;
+          this.courses = resp.courses;
+          this.sessionsInfoMap = resp.sessionsInfoMap;
 
-      if (this.hasEventualConsistencyMsg) {
-        this.statusMessageService.showWarningMessage(
-            'You have successfully joined the course ' + `${this.recentlyJoinedCourseId}` + '. '
-            + 'Updating of the course data on our servers is currently in progress '
-            + 'and will be completed in a few minutes. '
-            + 'Please refresh this page in a few minutes to see the course ' + `${this.recentlyJoinedCourseId}`
-            + ' in the list below.');
-      }
+          if (this.hasEventualConsistencyMsg) {
+            this.statusMessageService.showWarningMessage(
+                'You have successfully joined the course ' + `${this.recentlyJoinedCourseId}` + '. '
+                + 'Updating of the course data on our servers is currently in progress '
+                + 'and will be completed in a few minutes. '
+                + 'Please refresh this page in a few minutes to see the course ' + `${this.recentlyJoinedCourseId}`
+                + ' in the list below.');
+          }
 
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
   /**

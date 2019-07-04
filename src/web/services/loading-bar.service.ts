@@ -21,7 +21,7 @@ export class LoadingBarService {
   }
 
   /**
-   * Hides the loading progress bar.
+   * Hides the loading bar.
    */
   hideLoadingBar(): void {
     this.isShown.next(false);

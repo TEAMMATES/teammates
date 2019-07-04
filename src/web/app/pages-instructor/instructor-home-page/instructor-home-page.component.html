@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<ng-template #noCourseMessage class="bg-light-blue">
+<ng-template *ngIf="!isCoursesLoading" #noCourseMessage class="bg-light-blue">
   New to TEAMMATES? You may wish to have a look at our <a routerLink="/web/front/help/instructor">Getting Started Guide</a>.
   A video tour is also available in our <a routerLink="/web">home page</a>.
 </ng-template>
