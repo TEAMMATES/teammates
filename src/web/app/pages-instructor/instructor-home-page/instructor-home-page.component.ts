@@ -66,7 +66,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   // data
   courseTabModels: CourseTabModel[] = [];
 
-  isCoursesLoading: boolean = true;
+  hasCoursesLoaded: boolean = false;
 
   constructor(router: Router,
               httpRequestService: HttpRequestService,
@@ -165,7 +165,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       coursestatus: 'active',
     }).pipe(finalize(() => {
       this.loadingBarService.hideLoadingBar();
-      this.isCoursesLoading = false;
+      this.hasCoursesLoaded = true;
     })).subscribe((courses: Courses) => {
       courses.courses.forEach((course: Course) => {
         const model: CourseTabModel = {
