@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from '../environments/environment';
 import { HttpRequestService } from './http-request.service';
 
@@ -18,6 +19,9 @@ describe('HttpRequestService', () => {
       delete: jest.fn(),
     };
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+      ],
       providers: [
         { provide: HttpClient, useValue: spyHttpClient },
       ],

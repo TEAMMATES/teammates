@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AdminTimezonePageComponent } from './admin-timezone-page.component';
 
 describe('AdminTimezonePageComponent', () => {
@@ -9,7 +10,10 @@ describe('AdminTimezonePageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AdminTimezonePageComponent],
-      imports: [HttpClientTestingModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+      ],
     })
     .compileComponents();
   }));

@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import {
@@ -41,6 +42,7 @@ describe('QuestionEditFormComponent', () => {
         QuestionEditDetailsFormModule,
         NgbModule,
         VisibilityMessagesModule,
+        RouterTestingModule,
       ],
     })
     .compileComponents();

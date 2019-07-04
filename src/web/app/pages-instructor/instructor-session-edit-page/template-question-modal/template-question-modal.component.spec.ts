@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditFormModule } from '../../../components/question-edit-form/question-edit-form.module';
 import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
@@ -20,6 +21,7 @@ describe('TemplateQuestionModalComponent', () => {
         QuestionEditFormModule,
         TeammatesCommonModule,
         HttpClientTestingModule,
+        RouterTestingModule,
       ],
       declarations: [
         TemplateQuestionModalComponent,

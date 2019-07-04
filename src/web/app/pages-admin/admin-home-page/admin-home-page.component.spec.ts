@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { AdminHomePageComponent } from './admin-home-page.component';
@@ -16,6 +17,7 @@ describe('AdminHomePageComponent', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
+        RouterTestingModule,
       ],
       providers: [AccountService],
     })

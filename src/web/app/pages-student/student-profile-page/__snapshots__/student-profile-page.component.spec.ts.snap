@@ -38,7 +38,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           >
             <img
               class="profile-pic"
-              src="http://localhost:8080/webapi/student/profilePic"
+              src="http://localhost:8080/webapi/student/profilePic?user=undefined"
             />
           </div>
         </div>
