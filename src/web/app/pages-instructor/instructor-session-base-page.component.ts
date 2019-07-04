@@ -181,8 +181,11 @@ export abstract class InstructorSessionBasePageComponent {
    * Edits the feedback session.
    */
   editSession(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/edit'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    const params: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+    };
+    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions/edit', params);
   }
 
   /**
@@ -201,16 +204,22 @@ export abstract class InstructorSessionBasePageComponent {
    * Submits the feedback session as instructor.
    */
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/submission'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    const params: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+    };
+    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions/submission', params);
   }
 
   /**
    * Views the result of a feedback session.
    */
   viewSessionResult(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/result'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    const params: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+    };
+    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions/result', params);
   }
 
   /**

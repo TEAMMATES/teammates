@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CourseService } from '../services/course.service';
 import { HttpRequestService } from '../services/http-request.service';
+import { NavigationService } from '../services/navigation.service';
 import { JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
@@ -26,6 +27,7 @@ export class UserJoinPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private navigationService: NavigationService,
               private httpRequestService: HttpRequestService,
               private courseService: CourseService,
               private ngbModal: NgbModal) {}
@@ -62,7 +64,7 @@ export class UserJoinPageComponent implements OnInit {
       instructorinstitution: this.institute,
     };
     this.httpRequestService.put('/join', paramMap).subscribe(() => {
-      this.router.navigate([`/web/${this.entityType}`]);
+      this.navigationService.navigateToUrlWithOptionalParams(this.router, `/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);
       modalRef.componentInstance.requestId = resp.error.requestId;

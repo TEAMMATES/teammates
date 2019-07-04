@@ -6,6 +6,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
@@ -114,7 +115,8 @@ export class SessionSubmissionPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private statusMessageService: StatusMessageService,
               private httpRequestService: HttpRequestService, private timezoneService: TimezoneService,
-              private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal) {
+              private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal,
+              private navigationService: NavigationService) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -177,7 +179,11 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Redirects to join course link for unregistered student.
    */
   joinCourseForUnregisteredStudent(): void {
-    this.router.navigateByUrl(`/web/join?entitytype=student&key=${this.regKey}`);
+    const params: { [key: string]: string } = {
+      entitytype: 'student',
+      key: this.regKey,
+    };
+    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/join', params);
   }
 
   /**

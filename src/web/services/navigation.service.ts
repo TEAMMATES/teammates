@@ -95,13 +95,23 @@ export class NavigationService {
   /**
    * Navigates to the selected URL.
    */
-  navigateWithUrl(router: Router, url: string): void {
+  navigateToUrlWithOptionalParams(router: Router, url: string, params?: { [key: string]: string }): void {
     this.masqueradeModeService.fetchMasqueradeUser();
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
-      router.navigate([url], { queryParams: { user: masqueradeUser } });
+      if (params) {
+        const userKey: string = 'user';
+        params[userKey] = masqueradeUser;
+        router.navigate([url], { queryParams: params });
+      } else {
+        router.navigate([url], { queryParams: { user: masqueradeUser } });
+      }
     } else {
-      router.navigateByUrl(url);
+      if (params) {
+        router.navigate([url], { queryParams: params });
+      } else {
+        router.navigateByUrl(url);
+      }
     }
   }
 }

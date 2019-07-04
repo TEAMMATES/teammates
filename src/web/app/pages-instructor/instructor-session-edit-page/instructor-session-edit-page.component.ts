@@ -797,7 +797,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles 'Done Editing' click event.
    */
   doneEditingHandler(): void {
-    this.router.navigateByUrl('/web/instructor/sessions');
+    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions');
     // TODO focus on the row of current feedback session in the sessions page
   }
 

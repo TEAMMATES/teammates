@@ -240,7 +240,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Redirects to page to create or unarchive courses.
    */
   createOrUnarchiveCourse(): void {
-    this.router.navigateByUrl('/web/instructor/courses');
+    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/courses');
   }
 
   /**
