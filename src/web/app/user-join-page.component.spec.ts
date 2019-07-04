@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UserJoinPageComponent } from './user-join-page.component';
 
@@ -13,6 +14,7 @@ describe('UserJoinPageComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
+        MatSnackBarModule,
       ],
     })
     .compileComponents();
