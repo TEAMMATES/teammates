@@ -11,27 +11,20 @@ export class LoadingBarService {
 
   isShown: Subject<boolean> = new Subject<boolean>();
 
-  private numOfLoadingRequests: number = 0;
-
   constructor() { }
 
   /**
    * Displays the loading bar.
-   * This must always be called first before calling {@link finishLoad()}.
    */
   startLoad(): void {
-    this.numOfLoadingRequests += 1;
     this.isShown.next(true);
   }
 
   /**
-   * Hides the loading progress bar if there are no remaining requests.
+   * Hides the loading progress bar.
    */
   finishLoad(): void {
-    this.numOfLoadingRequests -= 1;
-    if (this.numOfLoadingRequests === 0) {
-      this.isShown.next(false);
-    }
+    this.isShown.next(false);
   }
 
 }
