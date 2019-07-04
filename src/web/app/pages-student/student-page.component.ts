@@ -41,6 +41,25 @@ export class StudentPageComponent implements OnInit {
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
+      if (queryParams.user) {
+        this.navItems = [
+          {
+            url: '/web/student/home',
+            display: 'Home',
+            params: { user: queryParams.user },
+          },
+          {
+            url: '/web/student/profile',
+            display: 'Profile',
+            params: { user: queryParams.user },
+          },
+          {
+            url: '/web/student/help',
+            display: 'Help',
+            params: {},
+          },
+        ];
+      }
       this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
         if (res.user) {
           this.user = res.user.id + (res.masquerade ? ' (M)' : '');
@@ -48,23 +67,6 @@ export class StudentPageComponent implements OnInit {
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;
-          this.navItems = [
-            {
-              url: '/web/student/home',
-              display: 'Home',
-              params: { user: res.user.id },
-            },
-            {
-              url: '/web/student/profile',
-              display: 'Profile',
-              params: { user: res.user.id },
-            },
-            {
-              url: '/web/student/help',
-              display: 'Help',
-              params: {},
-            },
-          ];
         } else {
           window.location.href = `${this.backendUrl}${res.studentLoginUrl}`;
         }

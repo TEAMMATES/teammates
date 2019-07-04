@@ -54,6 +54,39 @@ export class InstructorPageComponent implements OnInit {
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
+      if (queryParams.user) {
+        this.navItems = [
+          {
+            url: '/web/instructor/home',
+            display: 'Home',
+            params: { user: queryParams.user },
+          },
+          {
+            url: '/web/instructor/courses',
+            display: 'Courses',
+            params: { user: queryParams.user },
+          },
+          {
+            url: '/web/instructor/sessions',
+            display: 'Sessions',
+            params: { user: queryParams.user },
+          },
+          {
+            url: '/web/instructor/students',
+            display: 'Students',
+            params: { user: queryParams.user },
+          },
+          {
+            url: '/web/instructor/search',
+            display: 'Search',
+            params: { user: queryParams.user },
+          },
+          {
+            url: '/web/instructor/help',
+            display: 'Help',
+          },
+        ];
+      }
       this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
         if (res.user) {
           this.user = res.user.id + (res.masquerade ? ' (M)' : '');
@@ -61,37 +94,6 @@ export class InstructorPageComponent implements OnInit {
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;
-          this.navItems = [
-            {
-              url: '/web/instructor/home',
-              display: 'Home',
-              params: { user: res.user.id },
-            },
-            {
-              url: '/web/instructor/courses',
-              display: 'Courses',
-              params: { user: res.user.id },
-            },
-            {
-              url: '/web/instructor/sessions',
-              display: 'Sessions',
-              params: { user: res.user.id },
-            },
-            {
-              url: '/web/instructor/students',
-              display: 'Students',
-              params: { user: res.user.id },
-            },
-            {
-              url: '/web/instructor/search',
-              display: 'Search',
-              params: { user: res.user.id },
-            },
-            {
-              url: '/web/instructor/help',
-              display: 'Help',
-            },
-          ];
         } else {
           window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
         }
