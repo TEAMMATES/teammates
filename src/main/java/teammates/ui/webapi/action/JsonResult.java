@@ -53,13 +53,13 @@ public class JsonResult extends ActionResult {
     @Override
     public void send(HttpServletResponse resp) throws IOException {
         output.setRequestId(Config.getRequestId());
+        for (Cookie cookie : cookies) {
+            resp.addCookie(cookie);
+        }
         resp.setStatus(getStatusCode());
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
         pw.print(JsonUtils.toJson(output));
-        for (Cookie cookie : cookies) {
-            resp.addCookie(cookie);
-        }
     }
 
     public List<Cookie> getCookies() {
