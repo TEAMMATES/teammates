@@ -17,7 +17,7 @@ export class CommentRowComponent implements OnInit {
 
   @Input()
   commentModel: FeedbackResponseCommentModel = {
-    commentId: -1,
+    commentId: -999999,
     commentText: '',
     commentGiver: '',
     createdAt: '',

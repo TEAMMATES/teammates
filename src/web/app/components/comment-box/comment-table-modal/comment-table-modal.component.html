@@ -6,7 +6,9 @@
 </div>
 <div class="modal-body">
   <div *ngIf="response">
-    <div>Commenting on feedback given by {{response.giver}} to {{response.recipient}}</div>
+    <div *ngIf="response.giver !== response.recipient, else selfFeedback">
+      Feedback given by {{response.giver}} for {{response.recipient}}</div>
+    <ng-template #selfFeedback>Self-feedback given by {{response.giver}}</ng-template>
     <div class="blockquote" style="margin-top: 10px;">
       <tm-single-response [responseDetails]="response.responseDetails"
                           [questionDetails]="questionDetails"
