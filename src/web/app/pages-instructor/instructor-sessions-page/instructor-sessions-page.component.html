@@ -19,8 +19,8 @@
                     (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
                     (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
                     (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
-                    (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler($event)"
-                    (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler($event)"></tm-sessions-table>
+                     (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(sessionsTableRowModels[$event])"
+                     (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(sessionsTableRowModels[$event])"></tm-sessions-table>
 </div>
 
 <br/>

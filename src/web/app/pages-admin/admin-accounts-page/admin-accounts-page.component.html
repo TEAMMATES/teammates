@@ -42,7 +42,7 @@
       <tr *ngFor="let course of instructorCourses">
         <td>[{{ course.courseId }}] {{ course.courseName }}</td>
         <td>
-          <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(course.id)">
+          <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(course.courseId)">
             <i class="fas fa-trash-alt"></i> Remove From Course
           </button>
         </td>
@@ -73,7 +73,7 @@
       <tr *ngFor="let course of studentCourses">
         <td>[{{ course.courseId }}] {{ course.courseName }}</td>
         <td>
-          <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(course.id)">
+          <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(course.courseId)">
             <i class="fas fa-trash-alt"></i> Remove From Course
           </button>
         </td>

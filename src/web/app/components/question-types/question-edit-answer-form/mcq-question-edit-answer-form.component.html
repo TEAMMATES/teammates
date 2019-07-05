@@ -13,7 +13,7 @@
         (click)="updateIsOtherOption()">
         <strong>Other</strong>
       </label>
-      <input class="form-control" type="text" [disabled]="!responseDetails.isOther"
+      <input  #inputTextBoxOther class="form-control" style="display: inline; width: 60%;" type="text" [disabled]="!responseDetails.isOther"
              [ngModel]="responseDetails.otherFieldContent"
              (ngModelChange)="triggerResponseDetailsChange('otherFieldContent', $event)">
     </div>
