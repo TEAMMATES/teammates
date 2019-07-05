@@ -4,6 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -116,7 +117,8 @@ export class SessionSubmissionPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private statusMessageService: StatusMessageService,
               private httpRequestService: HttpRequestService, private timezoneService: TimezoneService,
-              private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal) {
+              private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal,
+              private commentService: FeedbackResponseCommentService) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -601,16 +603,13 @@ export class SessionSubmissionPageComponent implements OnInit {
 
     // Create delete comment request if it has an empty comment text.
     if (recipientSubmissionFormModel.comment.commentText === '') {
-      return this.httpRequestService.delete('/responsecomment', {
-        responsecommentid: recipientSubmissionFormModel.comment.commentId.toString(),
-      });
-
+      return this.commentService.deleteComment(recipientSubmissionFormModel.comment.commentId.toString());
     }
 
     // If existing comment, create update request.
     if (recipientSubmissionFormModel.comment.commentId) {
-      return this.updateComment(recipientSubmissionFormModel.comment.commentId,
-          recipientSubmissionFormModel.comment.commentText).pipe(
+      return this.commentService.updateComment(recipientSubmissionFormModel.comment.commentId,
+          recipientSubmissionFormModel.comment.commentText, this.intent).pipe(
             tap((resp: FeedbackResponseComment) => {
               recipientSubmissionFormModel.comment = {
                 commentId: resp.feedbackResponseCommentId,
@@ -625,8 +624,8 @@ export class SessionSubmissionPageComponent implements OnInit {
     }
 
     // If new comment, create save request.
-    return this.saveComment(recipientSubmissionFormModel.responseId,
-        recipientSubmissionFormModel.comment.commentText).pipe(
+    return this.commentService.saveComment(recipientSubmissionFormModel.responseId,
+        recipientSubmissionFormModel.comment.commentText, this.intent).pipe(
           tap((resp: FeedbackResponseComment) => {
             recipientSubmissionFormModel.comment = {
               commentId: resp.feedbackResponseCommentId,
@@ -651,39 +650,9 @@ export class SessionSubmissionPageComponent implements OnInit {
       return;
     }
 
-    this.httpRequestService.delete('/responsecomment', {
-      responsecommentid: comment.commentId.toString(),
-    }).subscribe(() => {
+    this.commentService.deleteComment(comment.commentId.toString()).subscribe(() => {
       this.questionSubmissionForms[questionIndex].recipientSubmissionForms[deleteCommentData.recipientIndex]
           .comment = undefined;
-    });
-  }
-
-  /**
-   * Saves a comment.
-   */
-  saveComment(responseId: string, commentText: string): Observable<any> {
-    return this.httpRequestService.post('/responsecomment', {
-      responseid: responseId,
-      intent: this.intent,
-    }, {
-      commentText,
-      showCommentTo: [],
-      showGiverNameTo: [],
-    });
-  }
-
-  /**
-   * Updates a comment.
-   */
-  updateComment(commentId: number, commentText: string): Observable<any> {
-    return this.httpRequestService.put('/responsecomment', {
-      responsecommentid: commentId.toString(),
-      intent: this.intent,
-    }, {
-      commentText,
-      showCommentTo: [],
-      showGiverNameTo: [],
     });
   }
 
@@ -704,38 +673,37 @@ export class SessionSubmissionPageComponent implements OnInit {
   loadCommentsForResponse(model: QuestionSubmissionFormModel, responseId: string): void {
     let commentModel: FeedbackResponseCommentModel;
 
-    this.httpRequestService.get('/responsecomment', {
-      responseid: responseId,
-      intent: this.intent,
-    }).subscribe((comments: FeedbackResponseComments) => {
+    this.commentService.loadCommentsForResponse(responseId, this.intent)
+        .subscribe((comments: FeedbackResponseComments) => {
 
-      // For submission, responsecomment/GET will return a list of a single comment.
-      const comment: FeedbackResponseComment = comments.comments[0];
+          // For submission, responsecomment/GET will return a list of a single comment.
+          const comment: FeedbackResponseComment = comments.comments[0];
 
-      if (!comment) {
-        return;
-      }
+          if (!comment) {
+            return;
+          }
 
-      commentModel = {
-        commentId: comment.feedbackResponseCommentId,
-        createdAt: comment.createdAt,
-        editedAt: comment.updatedAt,
-        commentGiver: comment.commentGiver,
-        commentText: comment.commentText,
-        isEditable: true,
-      };
+          commentModel = {
+            commentId: comment.feedbackResponseCommentId,
+            createdAt: comment.createdAt,
+            editedAt: comment.updatedAt,
+            commentGiver: comment.commentGiver,
+            commentText: comment.commentText,
+            isEditable: true,
+          };
 
-      const recipientSubmissionFormIndex: number = model.recipientSubmissionForms.findIndex(
-          (rsf: FeedbackResponseRecipientSubmissionFormModel) => rsf.responseId === responseId);
+          const recipientSubmissionFormIndex: number = model.recipientSubmissionForms.findIndex(
+              (rsf: FeedbackResponseRecipientSubmissionFormModel) => rsf.responseId === responseId);
 
-      const updatedForms: FeedbackResponseRecipientSubmissionFormModel[] = model.recipientSubmissionForms.slice();
+          const updatedForms: FeedbackResponseRecipientSubmissionFormModel[] = model.recipientSubmissionForms.slice();
 
-      updatedForms[recipientSubmissionFormIndex] = {
-        ...updatedForms[recipientSubmissionFormIndex],
-        comment: commentModel,
-      };
+          updatedForms[recipientSubmissionFormIndex] = {
+            ...updatedForms[recipientSubmissionFormIndex],
+            comment: commentModel,
+          };
 
-      model.recipientSubmissionForms = updatedForms;
-    });
+          model.recipientSubmissionForms = updatedForms;
+        },
+        );
   }
 }
