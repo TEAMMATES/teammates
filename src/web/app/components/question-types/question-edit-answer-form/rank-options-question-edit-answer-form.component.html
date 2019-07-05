@@ -6,7 +6,7 @@
       </label>
       <div class="col-sm-3">
         <select class="form-control" [ngModel]="responseDetails.answers[i]"
-                (ngModelChange)="triggerResponse(i, $event)">
+                (ngModelChange)="triggerResponse(i, $event)" [disabled]="isDisabled">
           <option [ngValue]="RANK_OPTIONS_ANSWER_NOT_SUBMITTED"></option>
           <option *ngFor="let rank of ranksToBeAssigned" [ngValue]="rank">{{ rank }}</option>
         </select>
