@@ -90,7 +90,7 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
               class="col-8"
             >
               <span>
-                
+                UTC
               </span>
             </div>
           </div>
@@ -108,7 +108,7 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
               class="col-8"
             >
               <span>
-                
+                Thu, 01 Jan 1970, 00:00 AM UTC
               </span>
             </div>
           </div>
