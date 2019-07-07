@@ -65,16 +65,16 @@ describe('CopySessionModalComponent', () => {
   const courseSessionIn: Course = {
     courseId: 'Test01',
     courseName: 'Sample Course 101',
-    creationDate: '13 Mar 2019',
-    deletionDate: 'Not Applicable',
+    creationTimestamp: 1557764430000,
+    deletionTimestamp: 0,
     timeZone: 'UTC',
   };
 
   const courseCopyTo: Course = {
     courseId: 'Test02',
     courseName: 'Sample Course 202',
-    creationDate: '14 Mar 2019',
-    deletionDate: 'Not Applicable',
+    creationTimestamp: 1557850830000,
+    deletionTimestamp: 0,
     timeZone: 'UTC',
   };
 
