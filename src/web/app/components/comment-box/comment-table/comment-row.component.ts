@@ -18,11 +18,11 @@ export class CommentRowComponent implements OnInit {
   @Input()
   commentModel: FeedbackResponseCommentModel = {
     commentId: -999999,
+    createdAt: -999999,
     commentText: '',
     commentGiver: '',
-    createdAt: '',
-    editedAt: '',
-    isEditable: false,
+    timeZone: '',
+    isEditable: true,
   };
 
   @Output() editCommentEvent: EventEmitter<any> = new EventEmitter();

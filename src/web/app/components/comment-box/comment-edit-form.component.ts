@@ -29,7 +29,6 @@ export class CommentEditFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("EDIT MODE");
     this.updatedCommentText = this.commentText;
   }
 

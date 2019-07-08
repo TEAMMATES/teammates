@@ -25,21 +25,21 @@ export class CommentTableModalComponent implements OnInit {
   /**
    * Triggers the delete comment event
    */
-  triggerDeleteCommentEvent(commentId: number): void {
+  triggerDeleteCommentEvent(): void {
     // TODO
   }
 
   /**
    * Triggers the update comment event.
    */
-  triggerUpdateCommentEvent(comments: FeedbackResponseCommentModel): void {
+  triggerUpdateCommentEvent(): void {
     // TODO
   }
 
   /**
    * Triggers the add new comment event.
    */
-  triggerSaveNewCommentEvent(commentText: any): void {
+  triggerSaveNewCommentEvent(): void {
     // TODO
   }
 }

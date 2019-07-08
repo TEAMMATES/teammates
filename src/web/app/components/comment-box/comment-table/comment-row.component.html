@@ -8,9 +8,17 @@
                       (saveCommentEvent)="triggerSaveCommentEvent($event)"></tm-comment-edit-form>
 
 <ng-template #displayComment>
-  <!-- TODO format and display createdAt and editedAt time-->
-  <span class="text-secondary">From: {{commentModel.commentGiver}} </span>
+  <span class="text-secondary">
+    <span>{{ commentModel.commentGiver }} commented at </span>
+    <span class="underline-hover" style="margin-right: .25rem;" [ngbTooltip]="commentModel.createdAt | formatDateDetail: commentModel.timeZone">
+      {{ commentModel.createdAt | formatDateBrief: commentModel.timeZone }}</span>
+    <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
+    <span class="underline-hover" style="margin-right: .25rem;" *ngIf="commentModel.editedAt"
+          [ngbTooltip]="commentModel.editedAt | formatDateDetail: commentModel.timeZone">edited</span>
+  </span>
+
   <i class="fa fa-eye-slash" aria-hidden="true" ngbTooltip="This comment is visible to PLACEHOLDER"></i>
+
   <div class="float-right comment-row">
     <button type="button" class="btn btn-secondary btn-sm"  ngbTooltip='Edit this comment'
             (click)="triggerEditCommentEvent()"><i class="fas fa-pencil-alt"></i> Edit</button>

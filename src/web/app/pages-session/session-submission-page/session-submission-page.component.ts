@@ -91,6 +91,7 @@ export class SessionSubmissionPageComponent implements OnInit {
 
   courseId: string = '';
   feedbackSessionName: string = '';
+  timeZone: string = '';
   regKey: string = '';
 
   moderatedPerson: string = '';
@@ -200,6 +201,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.httpRequestService.get('/session', paramMap)
         .subscribe((feedbackSession: FeedbackSession) => {
           this.feedbackSessionInstructions = feedbackSession.instructions;
+          this.timeZone = feedbackSession.timeZone;
           this.formattedSessionOpeningTime =
               moment(feedbackSession.submissionStartTimestamp)
                   .tz(feedbackSession.timeZone).format(TIME_FORMAT);
@@ -615,6 +617,7 @@ export class SessionSubmissionPageComponent implements OnInit {
                 commentId: resp.feedbackResponseCommentId,
                 createdAt: resp.createdAt,
                 editedAt: resp.updatedAt,
+                timeZone: this.timeZone,
                 commentGiver: resp.commentGiver,
                 commentText: resp.commentText,
                 isEditable: true,
@@ -631,6 +634,7 @@ export class SessionSubmissionPageComponent implements OnInit {
               commentId: resp.feedbackResponseCommentId,
               createdAt: resp.createdAt,
               editedAt: resp.updatedAt,
+              timeZone: this.timeZone,
               commentGiver: resp.commentGiver,
               commentText: resp.commentText,
               isEditable: true,
@@ -687,6 +691,7 @@ export class SessionSubmissionPageComponent implements OnInit {
             commentId: comment.feedbackResponseCommentId,
             createdAt: comment.createdAt,
             editedAt: comment.updatedAt,
+            timeZone: this.timeZone,
             commentGiver: comment.commentGiver,
             commentText: comment.commentText,
             isEditable: true,
