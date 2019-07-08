@@ -148,7 +148,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         ______TS("typical successful case for published session");
 
-        FeedbackSessionsLogic.inst().publishFeedbackSession(session);
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
         };
