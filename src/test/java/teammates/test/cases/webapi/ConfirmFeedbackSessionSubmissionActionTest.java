@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 // CHECKSTYLE.ON:IllegalImport
 
 import org.apache.http.HttpStatus;
@@ -277,7 +278,7 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         loginAsInstructor(instructor1OfCourse1.googleId);
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
         Date now = new Date();
         Date start = df.parse(awaitinfSession.getStartTimeInIso8601UtcFormat());
         assertTrue(now.before(start));
