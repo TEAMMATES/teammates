@@ -1,7 +1,11 @@
 package teammates.test.cases.webapi;
 
+// CHECKSTYLE.OFF:IllegalImport
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+// CHECKSTYLE.ON:IllegalImport
 
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
@@ -15,6 +19,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.TaskWrapper;
 import teammates.ui.webapi.action.ConfirmFeedbackSessionSubmissionAction;
 import teammates.ui.webapi.action.ConfirmFeedbackSessionSubmissionAction.ConfirmationResponse;
 import teammates.ui.webapi.action.Intent;
@@ -120,6 +125,16 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         assertEquals(student1InCourse1.email, email.getRecipient());
 
+        // verify update session's respondent list task added
+        TaskWrapper taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
+
+        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(session1InCourse1.getFeedbackSessionName(),
+                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME)[0]);
+        assertEquals(student1InCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL)[0]);
+        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR)[0]);
+        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED)[0]);
+
         ______TS("Typical success case with student intent, not responded before");
 
         loginAsStudent(student4InCourse1.getGoogleId());
@@ -150,6 +165,16 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         assertEquals(student4InCourse1.email, email.getRecipient());
 
+        // verify update session's respondent list task added
+        taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
+
+        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(session1InCourse1.getFeedbackSessionName(),
+                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME)[0]);
+        assertEquals(student4InCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL)[0]);
+        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR)[0]);
+        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED)[0]);
+
         ______TS("Typical success case with instructor intent");
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -170,6 +195,16 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         assertEquals("Submission confirmed", cr.getMessage());
 
         verifyNumberOfEmailsSent(a, 0);
+
+        // verify update session's respondent list task added
+        taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
+
+        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(session1InCourse1.getFeedbackSessionName(),
+                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME)[0]);
+        assertEquals(instructor1OfCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL)[0]);
+        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR)[0]);
+        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED)[0]);
 
         ______TS("Typical success case with instructor intent, not responded before");
 
@@ -195,6 +230,16 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         assertEquals("Submission confirmed", cr.getMessage());
 
         verifyNumberOfEmailsSent(a, 0);
+
+        // verify update session's respondent list task added
+        taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
+
+        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(session1InCourse1.getFeedbackSessionName(),
+                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME)[0]);
+        assertEquals(instructor2OfCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL)[0]);
+        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR)[0]);
+        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED)[0]);
 
         ______TS("Failed case with invalid intent");
 
@@ -231,6 +276,11 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         ______TS("session not open for submission but in moderation mode, can access");
 
         loginAsInstructor(instructor1OfCourse1.googleId);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date now = new Date();
+        Date start = df.parse(awaitinfSession.getStartTimeInIso8601UtcFormat());
+        assertTrue(now.before(start));
 
         String[] moderationParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
