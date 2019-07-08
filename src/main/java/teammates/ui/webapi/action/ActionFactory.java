@@ -130,13 +130,13 @@ public class ActionFactory {
     /**
      * Returns the matching {@link Action} object for the URI and method in {@code req}.
      */
-    public Action getAction(HttpServletRequest req, String method, HttpServletResponse resp) throws ActionMappingException {
+    public Action getAction(HttpServletRequest req, String method) throws ActionMappingException {
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
         Action action = getAction(uri, method);
-        action.init(req, resp);
+        action.init(req);
         return action;
     }
 

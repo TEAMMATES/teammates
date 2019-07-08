@@ -234,8 +234,7 @@ public class GaeSimulation {
                     req.addCookie(cookie);
                 }
             }
-            MockHttpServletResponse resp = new MockHttpServletResponse();
-            Action action = new ActionFactory().getAction(req, method, resp);
+            Action action = new ActionFactory().getAction(req, method);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
             return action;
