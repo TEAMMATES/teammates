@@ -19,7 +19,7 @@ import teammates.ui.webapi.output.MessageOutput;
 public class JsonResultTest extends BaseTestCase {
 
     @Test
-    public void allTests() throws Exception {
+    public void testConstructorAndSendResponse() throws Exception {
 
         ______TS("json result with output message only");
 
