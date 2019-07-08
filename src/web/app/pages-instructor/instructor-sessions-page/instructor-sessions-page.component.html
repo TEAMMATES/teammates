@@ -6,41 +6,48 @@
                       [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
                       (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"></tm-session-edit-form>
 
-<div class="alert alert-warning margin-top-30px" role="alert" *ngIf="!isLoadingFeedbackSessions && sessionsTableRowModels.length === 0">
-  You have not created any sessions yet. Use the form above to create a session.
-</div>
-
-<div class="margin-top-30px">
-  <tm-sessions-table *ngIf="!isLoadingFeedbackSessions, else loadingspinner"
-                     [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
-                     [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
-                     [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
-                     (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
-                    (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
-                    (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
-                    (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
-                    (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
-                     (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(sessionsTableRowModels[$event])"
-                     (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(sessionsTableRowModels[$event])"></tm-sessions-table>
-
-  <ng-template #loadingspinner>
-    <div class="loading-spinner-container">
-      <tm-loading-spinner></tm-loading-spinner>
-      <div class="text-secondary">Loading feedback sessions...</div>
-    </div>
-  </ng-template>
-
-</div>
-
-<br/>
-<div class="row">
-  <div class="col-12 text-muted">
-    <p>
-      Note: The table above doesn't contain sessions from archived courses and soft-deleted courses.
-      To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first.
-    </p>
+<ng-container *ngIf="isLoadingFeedbackSessions,else sessionsTable">
+  <div class="loading-spinner-container margin-top-30px">
+    <tm-loading-spinner></tm-loading-spinner>
+    <div class="text-secondary">Loading feedback sessions...</div>
   </div>
-</div>
+</ng-container>
+
+<ng-template #sessionsTable>
+  <div class="margin-top-30px">
+    <ng-container *ngIf="sessionsTableRowModels.length > 0, else noSessionMessage">
+      <tm-sessions-table [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
+                         [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
+                         [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
+                         (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
+                        (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
+                        (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
+                        (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
+                        (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
+                         (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(sessionsTableRowModels[$event])"
+                         (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(sessionsTableRowModels[$event])"></tm-sessions-table>
+
+      <br/>
+      <div class="row">
+        <div class="col-12 text-muted">
+          <p>
+            Note: The table above doesn't contain sessions from archived courses and soft-deleted courses.
+            To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first.
+          </p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noSessionMessage>
+      <div class="alert alert-warning margin-top-30px" role="alert">
+        You have not created any sessions yet. Use the form above to create a session.
+      </div>
+    </ng-template>
+
+  </div>
+</ng-template>
+
+
 
 <div class="row margin-top-30px" *ngIf="recycleBinFeedbackSessionRowModels.length !== 0">
   <div class="col-12">
