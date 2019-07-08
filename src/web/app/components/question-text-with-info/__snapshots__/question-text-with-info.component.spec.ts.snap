@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`QuestionTextWithInfoComponent should not show control link and question details for TEXT questions 1`] = `
+<tm-question-text-with-info
+  FeedbackQuestionType={[Function Object]}
+  additionalInfoIsExpanded="false"
+  questionDetails={[Function Object]}
+  questionNumber="0"
+>
+  Question 0: Text question details
+  
+</tm-question-text-with-info>
+`;
+
 exports[`QuestionTextWithInfoComponent should show control link when question type is not TEXT 1`] = `
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
@@ -44,11 +56,17 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
       Multiple-choice (single answer) question options:
   
       
-      <div>
-         The options for this question is automatically generated from the list of all %s in this course.
-  
-      </div>
       
+      <ul>
+        
+        <li>
+          a
+        </li>
+        <li>
+          b
+        </li>
+        
+      </ul>
     </tm-mcq-question-additional-info>
     
     
