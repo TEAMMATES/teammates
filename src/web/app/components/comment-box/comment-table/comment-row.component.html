@@ -12,9 +12,11 @@
     <span>{{ commentModel.commentGiver }} commented at </span>
     <span class="underline-hover" style="margin-right: .25rem;" [ngbTooltip]="commentModel.createdAt | formatDateDetail: commentModel.timeZone">
       {{ commentModel.createdAt | formatDateBrief: commentModel.timeZone }}</span>
-    <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
-    <span class="underline-hover" style="margin-right: .25rem;" *ngIf="commentModel.editedAt"
-          [ngbTooltip]="commentModel.editedAt | formatDateDetail: commentModel.timeZone">edited</span>
+    <ng-container *ngIf="commentModel.editedAt">
+      <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
+      <span class="underline-hover" style="margin-right: .25rem;"
+            [ngbTooltip]="commentModel.editedAt | formatDateDetail: commentModel.timeZone">edited</span>
+    </ng-container>
   </span>
 
   <i class="fa fa-eye-slash" aria-hidden="true" ngbTooltip="This comment is visible to PLACEHOLDER"></i>
