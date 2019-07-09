@@ -13,6 +13,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
+import { MasqueradeModeService } from '../services/masquerade-mode.service';
 
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
@@ -66,7 +67,8 @@ export class PageComponent {
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
-              private modalService: NgbModal, location: Location) {
+              private modalService: NgbModal, location: Location,
+              private masqueradeModeService: MasqueradeModeService) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -78,6 +80,11 @@ export class PageComponent {
         r.data.subscribe((resp: any) => {
           this.pageTitle = resp.pageTitle;
           this.title.setTitle(resp.htmlTitle || DEFAULT_TITLE);
+        });
+        this.route.queryParams.subscribe((queryParams: any) => {
+          if (queryParams.user) {
+            this.masqueradeModeService.updateMasqueradeUser(queryParams.user);
+          }
         });
       }
     });

@@ -22,7 +22,6 @@ export class NavigationService {
    * Navigates to the selected URL and shows an error message afterwards.
    */
   navigateWithErrorMessage(router: Router, url: string, message: string): void {
-    this.masqueradeModeService.fetchMasqueradeUser();
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
       router.navigate([url], { queryParams: { user: masqueradeUser } }).then(() => {
@@ -39,7 +38,6 @@ export class NavigationService {
    * Navigates to the selected URL and shows a success message afterwards.
    */
   navigateWithSuccessMessage(router: Router, url: string, message: string): void {
-    this.masqueradeModeService.fetchMasqueradeUser();
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
       router.navigate([url], { queryParams: { user: masqueradeUser } }).then(() => {
@@ -69,7 +67,6 @@ export class NavigationService {
     const equalSign: string = '=';
     const andSigh: string = '&';
     const hashSign: string = '#';
-    this.masqueradeModeService.fetchMasqueradeUser();
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
       const user: string = 'user';
@@ -96,7 +93,6 @@ export class NavigationService {
    * Navigates to the selected URL.
    */
   navigateToUrlWithOptionalParams(router: Router, url: string, params?: { [key: string]: string }): void {
-    this.masqueradeModeService.fetchMasqueradeUser();
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
       if (params) {

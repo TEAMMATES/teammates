@@ -30,9 +30,9 @@ export class HttpRequestService {
         params = params.append(key, paramsMap[key]);
       }
     }
-    this.masqueradeModeService.fetchMasqueradeUser();
+
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
-    if (masqueradeUser !== '') {
+    if (masqueradeUser !== '' && params.keys().indexOf('user') === -1) {
       params = params.append('user', masqueradeUser);
     }
     return params;
