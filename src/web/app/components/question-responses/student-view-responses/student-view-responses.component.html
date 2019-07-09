@@ -3,7 +3,7 @@
     <b>To:</b> {{ recipient }}
   </div>
   <div class="card-body" style="padding: 0;">
-    <table class="table">
+    <table class="table" style="margin-bottom: 0;">
       <tbody>
         <ng-container *ngFor="let response of responses">
           <tr>
@@ -14,6 +14,11 @@
           <tr>
             <td>
               <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails" [isStudentPage]="true"></tm-single-response>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <tm-comment-table [commentTableMode]="CommentTableMode.STUDENT_RESULT" [comments]="comments"></tm-comment-table>
             </td>
           </tr>
         </ng-container>

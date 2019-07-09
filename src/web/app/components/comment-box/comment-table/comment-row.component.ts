@@ -14,6 +14,7 @@ export class CommentRowComponent implements OnInit {
   @Input() isVisibilityOptionEnabled: boolean = true;
   @Input() isDiscardButtonEnabled: boolean = true;
   @Input() isSaveButtonEnabled: boolean = true;
+  @Input() isReadOnlyMode: boolean = false;
 
   @Input()
   commentModel: FeedbackResponseCommentModel = {

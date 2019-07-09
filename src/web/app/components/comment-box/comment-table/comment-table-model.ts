@@ -20,7 +20,11 @@ export enum CommentTableMode {
    */
   SESSION_SUBMISSION,
   /**
-   * Session result mode.
+   * Instructor result mode.
    */
-  SESSION_RESULT,
+  INSTRUCTOR_RESULT,
+  /**
+   * Student result mode.
+   */
+  STUDENT_RESULT,
 }

@@ -3,7 +3,7 @@
     Comments
   </div>
 
-  <ul class="list-group list-group-flush" *ngIf="commentTableMode === CommentTableMode.SESSION_RESULT">
+  <ul class="list-group list-group-flush" *ngIf="commentTableMode === CommentTableMode.INSTRUCTOR_RESULT">
     <li class="list-group-item" *ngFor="let comment of comments; let i = index">
       <tm-comment-row [isInEditModeInitialValue]="false" [commentModel]="comment"
                       (deleteCommentEvent)="triggerDeleteCommentEvent(comment.commentId)"
@@ -14,6 +14,16 @@
     <li class="list-group-item">
       <tm-comment-row [isInEditModeInitialValue]="true" [isDiscardButtonEnabled]="false"
                       (saveCommentEvent)="triggerSaveNewCommentEvent($event)"
+      ></tm-comment-row>
+    </li>
+  </ul>
+
+  <ul class="list-group list-group-flush" *ngIf="commentTableMode === CommentTableMode.STUDENT_RESULT">
+    <li class="list-group-item" *ngFor="let comment of comments; let i = index">
+      <tm-comment-row [isInEditModeInitialValue]="false" [commentModel]="comment"
+                      [isReadOnlyMode]="true"
+                      (deleteCommentEvent)="triggerDeleteCommentEvent(comment.commentId)"
+                      (saveCommentEvent)="triggerUpdateCommentEvent(i, $event)"
       ></tm-comment-row>
     </li>
   </ul>
@@ -30,8 +40,8 @@
 
       <!-- Existing comment row -->
       <ng-template #existingCommentRow>
-        <tm-comment-row
-            [isInEditModeInitialValue]="false" [isDiscardButtonEnabled]="false"
+        <tm-comment-row *ngIf="comment && comment.commentId"
+                        [isInEditModeInitialValue]="false" [isDiscardButtonEnabled]="false"
                         [commentModel]="comment"
                         [isSaveButtonEnabled]="false"
                         [isVisibilityOptionEnabled]="false"

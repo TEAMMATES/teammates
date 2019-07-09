@@ -16,7 +16,7 @@ export class CommentTableModalComponent implements OnInit {
   @Input() questionDetails: any = '';
 
   comments: FeedbackResponseCommentModel[] = [];
-  commentTableMode: CommentTableMode = CommentTableMode.SESSION_RESULT;
+  commentTableMode: CommentTableMode = CommentTableMode.INSTRUCTOR_RESULT;
 
   constructor(public activeModal: NgbActiveModal) { }
 
