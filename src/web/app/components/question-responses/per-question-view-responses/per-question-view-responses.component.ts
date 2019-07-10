@@ -1,10 +1,10 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { CommentTableModalComponent } from '../../comment-box/comment-table-modal/comment-table-modal.component';
-
+import { FeedbackResponseCommentModel } from '../../comment-box/comment-table/comment-table-model';
 /**
  * Component to display list of responses for one question.
  */
@@ -23,6 +23,8 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   @Input() indicateMissingResponses: boolean = true;
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
+
+  @Output() commentsChangeInResponse: EventEmitter<any> = new EventEmitter();
 
   responsesToShow: any[] = [];
 
@@ -72,8 +74,13 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
    */
   triggerShowCommentTableEvent(response: any): void {
     const modalRef: NgbModalRef = this.modalService.open(CommentTableModalComponent);
+    modalRef.componentInstance.comments = response.allComments;
     modalRef.componentInstance.response = response;
     modalRef.componentInstance.questionDetails = this.questionDetails;
+    modalRef.componentInstance.commentsChange.subscribe((comments: FeedbackResponseCommentModel[]) => {
+      // TODO propagate change to parent
+      response.allComments = comments;
+      modalRef.componentInstance.comments = response.allComments;
+    });
   }
-
 }

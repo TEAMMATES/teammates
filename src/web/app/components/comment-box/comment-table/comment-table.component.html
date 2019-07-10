@@ -7,7 +7,7 @@
     <li class="list-group-item" *ngFor="let comment of comments; let i = index">
       <tm-comment-row [isInEditModeInitialValue]="false" [commentModel]="comment"
                       (deleteCommentEvent)="triggerDeleteCommentEvent(comment.commentId)"
-                      (saveCommentEvent)="triggerUpdateCommentEvent(i, $event)"
+                      (saveCommentEvent)="triggerUpdateCommentEvent($event, i)"
       ></tm-comment-row>
     </li>
     <!-- "Add new comment" row -->
@@ -23,7 +23,7 @@
       <tm-comment-row [isInEditModeInitialValue]="false" [commentModel]="comment"
                       [isReadOnlyMode]="true"
                       (deleteCommentEvent)="triggerDeleteCommentEvent(comment.commentId)"
-                      (saveCommentEvent)="triggerUpdateCommentEvent(i, $event)"
+                      (saveCommentEvent)="triggerUpdateCommentEvent($event, i)"
       ></tm-comment-row>
     </li>
   </ul>
