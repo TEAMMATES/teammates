@@ -270,8 +270,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           strB = b.course.courseId;
           break;
         case SortBy.COURSE_CREATION_DATE:
-          strA = a.course.creationDate;
-          strB = b.course.creationDate;
+          strA = String(a.course.creationTimestamp);
+          strB = String(b.course.creationTimestamp);
           break;
         default:
           strA = '';
