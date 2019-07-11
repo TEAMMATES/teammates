@@ -1,4 +1,4 @@
-import { Input, OnInit } from '@angular/core';
+import { EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 
@@ -14,9 +14,19 @@ export abstract class InstructorSessionResultView implements OnInit {
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
 
+  @Output() commentsChangeInResponse: EventEmitter<any> = new EventEmitter();
+
   constructor(protected viewType: InstructorSessionResultViewType) {}
 
   ngOnInit(): void {
   }
 
+  /**
+   * Triggers the event concerning change response comments in a question
+   */
+  triggerCommentsChangeInQuestionEvent(questionId: string, responses: any): void {
+    const questionsModel: any = {...this.responses};
+    questionsModel[questionId].responses = responses;
+    this.commentsChangeInResponse.emit(questionsModel);
+  }
 }

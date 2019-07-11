@@ -157,4 +157,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Updates questionsModel when there's a change in the comments table.
+   */
+  commentsChangeHandler(responsesData: any): void {
+    //this.questionsModel[responsesData.questionId].responses = responsesData.responses;
+    this.questionsModel = responsesData;
+  }
 }

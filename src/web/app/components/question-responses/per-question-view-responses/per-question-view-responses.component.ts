@@ -72,15 +72,19 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   /**
    * Opens the comments table modal.
    */
-  triggerShowCommentTableEvent(response: any): void {
+  triggerShowCommentTableEvent(responseToUpdate: any): void {
     const modalRef: NgbModalRef = this.modalService.open(CommentTableModalComponent);
-    modalRef.componentInstance.comments = response.allComments;
-    modalRef.componentInstance.response = response;
+    modalRef.componentInstance.comments = responseToUpdate.allComments;
+    modalRef.componentInstance.response = responseToUpdate;
     modalRef.componentInstance.questionDetails = this.questionDetails;
     modalRef.componentInstance.commentsChange.subscribe((comments: FeedbackResponseCommentModel[]) => {
-      // TODO propagate change to parent?
-      response.allComments = comments;
-      modalRef.componentInstance.comments = response.allComments;
+      // Update parent
+      const responses: any = this.responses.slice();
+      const responseIndex: number = this.responses.findIndex((response: any) => response.responseId === responseToUpdate.responseId);
+      responses[responseIndex] = { ... responses[responseIndex], allComments: comments };
+      this.commentsChangeInResponse.emit(responses);
+      // Update modal
+      modalRef.componentInstance.comments = comments;
     });
   }
 }
