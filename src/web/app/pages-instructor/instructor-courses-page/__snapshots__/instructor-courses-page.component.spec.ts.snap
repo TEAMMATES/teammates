@@ -11,7 +11,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -104,45 +103,60 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           
           <tr>
             <td>
-              CS3281
+              
             </td>
             <td>
-              Modifiable Students and Courses
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018 
+                
             </td>
             <td>
               
-              
               <span>
-                 1 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 1 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 1 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 1 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td
               class="text-center actions-cell"
@@ -205,45 +219,60 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           </tr>
           <tr>
             <td>
-              CS3282
+              
             </td>
             <td>
-              Nothing modifiable
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
-               2 Feb 2019 
+                
             </td>
             <td>
               
-              
               <span>
-                 2 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 2 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 2 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 2 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td
               class="text-center actions-cell"
@@ -342,17 +371,17 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           
           <tr>
             <td>
-              CS2104
+              
             </td>
             <td>
-              Can modify archived
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
+              ng-reflect-ngb-tooltip=""
             >
-               5 Nov 2002 
+                
             </td>
             <td
               class="text-center"
@@ -376,17 +405,17 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           </tr>
           <tr>
             <td>
-              CS2106
+              
             </td>
             <td>
-              Cannot modify archived
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
+              ng-reflect-ngb-tooltip=""
             >
-               5 Nov 2002 
+                
             </td>
             <td
               class="text-center"
@@ -487,7 +516,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -580,45 +608,60 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           
           <tr>
             <td>
-              CS3281
+              
             </td>
             <td>
-              Modifiable Students and Courses
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018 
+                
             </td>
             <td>
               
-              
               <span>
-                 1 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 1 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 1 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 1 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td
               class="text-center actions-cell"
@@ -681,45 +724,60 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           </tr>
           <tr>
             <td>
-              CS3282
+              
             </td>
             <td>
-              Nothing modifiable
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
-               2 Feb 2019 
+                
             </td>
             <td>
               
-              
               <span>
-                 2 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 2 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 2 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td>
               
-              
               <span>
-                 2 
+                <a
+                  href="null"
+                >
+                   show 
+                </a>
               </span>
+              
             </td>
             <td
               class="text-center actions-cell"
@@ -818,17 +876,17 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           
           <tr>
             <td>
-              CS2104
+              
             </td>
             <td>
-              Can modify archived
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
+              ng-reflect-ngb-tooltip=""
             >
-               5 Nov 2002 
+                
             </td>
             <td
               class="text-center"
@@ -852,17 +910,17 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           </tr>
           <tr>
             <td>
-              CS2106
+              
             </td>
             <td>
-              Cannot modify archived
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
+              ng-reflect-ngb-tooltip=""
             >
-               5 Nov 2002 
+                
             </td>
             <td
               class="text-center"
@@ -969,7 +1027,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -1095,7 +1152,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -1188,17 +1244,16 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
           
           <tr>
             <td>
-              CS3281
+              
             </td>
             <td>
-              Modifiable Students and Courses
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
-               5 Nov 2018 
+                
             </td>
             <td>
               
@@ -1305,17 +1360,16 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
           </tr>
           <tr>
             <td>
-              CS3282
+              
             </td>
             <td>
-              Nothing modifiable
+              
             </td>
             <td
               container="body"
               ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
-               2 Feb 2019 
+                
             </td>
             <td>
               
