@@ -6,9 +6,10 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackSession,
-  QuestionOutput,
+  QuestionOutput, ResponseCommentOutput,
   SessionResults,
 } from '../../../types/api-output';
+import { FeedbackResponseCommentModel } from '../../components/comment-box/comment-table/comment-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
 
@@ -49,6 +50,26 @@ export class SessionResultPageComponent implements OnInit {
         this.httpRequestService.get('/result', paramMap).subscribe((resp2: SessionResults) => {
           this.questions = resp2.questions.sort(
               (a: QuestionOutput, b: QuestionOutput) => a.questionNumber - b.questionNumber);
+
+          // Map comments to FeedbackResponseCommentModel
+          this.questions.forEach((question: any ) => {
+                question.otherResponses.forEach((response: any) => {
+                  response.allComments = response.allComments.map((comment: ResponseCommentOutput) => {
+                    return this.mapComments(comment);
+                  })
+                });
+                question.responsesToSelf.forEach((response: any) => {
+                  response.allComments = response.allComments.map((comment: ResponseCommentOutput) => {
+                    return this.mapComments(comment);
+                  })
+                });
+                question.responsesFromSelf.forEach((response: any) => {
+                  response.allComments = response.allComments.map((comment: ResponseCommentOutput) => {
+                    return this.mapComments(comment);
+                  })
+                });
+              }
+          );
         }, (resp2: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp2.error.message);
         });
@@ -58,4 +79,18 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Maps comments
+   */
+  mapComments(comment: ResponseCommentOutput): FeedbackResponseCommentModel {
+    return {
+      commentId: comment.commentId,
+      createdAt: comment.createdAt,
+      editedAt: comment.updatedAt,
+      timeZone: comment.timezone,
+      commentGiver: comment.commentGiver,
+      commentText: comment.commentText,
+      isEditable: true,
+    };
+  }
 }
