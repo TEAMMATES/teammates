@@ -24,12 +24,31 @@ import {
   CourseSoftDeletionConfirmModalComponent,
 } from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
-interface ActiveCourse extends Course {
+interface ActiveCourseModel {
+  courseId: string;
+  courseName: string;
+  timeZone: string;
+  creationTimestamp: number;
+  deletionTimestamp: number;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
 }
 
-interface ArchivedOrSoftDeletedCourse extends Course {
+interface ArchivedCourseModel {
+  courseId: string;
+  courseName: string;
+  timeZone: string;
+  creationTimestamp: number;
+  deletionTimestamp: number;
+  canModifyCourse: boolean;
+}
+
+interface SoftDeletedCourseModel {
+  courseId: string;
+  courseName: string;
+  timeZone: string;
+  creationTimestamp: number;
+  deletionTimestamp: number;
   canModifyCourse: boolean;
 }
 
@@ -85,9 +104,9 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   user: string = '';
 
-  activeCourses: ActiveCourse[] = [];
-  archivedCourses: ArchivedOrSoftDeletedCourse[] = [];
-  softDeletedCourses: ArchivedOrSoftDeletedCourse[] = [];
+  activeCourses: ActiveCourseModel[] = [];
+  archivedCourses: ArchivedCourseModel[] = [];
+  softDeletedCourses: SoftDeletedCourseModel[] = [];
   courseStats: { [key: string]: { [key: string]: number } } = {};
 
   tableSortOrder: SortOrder = SortOrder.ASC;
@@ -119,9 +138,9 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
-    const activeCourses: ActiveCourse[] = [];
-    const archivedCourses: ArchivedOrSoftDeletedCourse[] = [];
-    const softDeletedCourses: ArchivedOrSoftDeletedCourse[] = [];
+    const activeCourses: ActiveCourseModel[] = [];
+    const archivedCourses: ArchivedCourseModel[] = [];
+    const softDeletedCourses: SoftDeletedCourseModel[] = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
         this.httpRequestService.get('/instructor/privilege', {
@@ -129,7 +148,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const activeCourse: ActiveCourse = Object.assign(course, { canModifyCourse, canModifyStudent });
+          const activeCourse: ActiveCourseModel = Object.assign(course, { canModifyCourse, canModifyStudent });
           activeCourses.push(activeCourse);
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(error.error.message);
@@ -146,7 +165,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           courseid: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const archivedCourse: ArchivedOrSoftDeletedCourse = Object.assign(course, { canModifyCourse });
+          const archivedCourse: ArchivedCourseModel = Object.assign(course, { canModifyCourse });
           archivedCourses.push(archivedCourse);
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(error.error.message);
@@ -163,7 +182,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           courseid: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const softDeletedCourse: ArchivedOrSoftDeletedCourse = Object.assign(course, { canModifyCourse });
+          const softDeletedCourse: SoftDeletedCourseModel = Object.assign(course, { canModifyCourse });
           softDeletedCourses.push(softDeletedCourse);
           if (!softDeletedCourse.canModifyCourse) {
             this.canDeleteAll = false;
@@ -291,7 +310,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.componentInstance.isDeleteAll = true;
     modalRef.result.then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
-      this.softDeletedCourses.forEach((courseToDelete: ArchivedOrSoftDeletedCourse) => {
+      this.softDeletedCourses.forEach((courseToDelete: ArchivedCourseModel) => {
         deleteRequests.push(this.courseService.deleteCourse(courseToDelete.courseId));
       });
 
@@ -310,7 +329,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onRestoreAll(): void {
     const restoreRequests: Observable<MessageOutput>[] = [];
-    this.softDeletedCourses.forEach((courseToRestore: ArchivedOrSoftDeletedCourse) => {
+    this.softDeletedCourses.forEach((courseToRestore: SoftDeletedCourseModel) => {
       restoreRequests.push(this.courseService.restoreCourse(courseToRestore.courseId));
     });
 
@@ -336,8 +355,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy):
-      ((a: ActiveCourse , b: ActiveCourse) => number) {
-    return (a: ActiveCourse, b: ActiveCourse): number => {
+      ((a: ActiveCourseModel , b: ActiveCourseModel) => number) {
+    return (a: ActiveCourseModel, b: ActiveCourseModel): number => {
       let strA: string;
       let strB: string;
       switch (by) {
