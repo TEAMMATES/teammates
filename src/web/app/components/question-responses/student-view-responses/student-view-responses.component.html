@@ -16,9 +16,9 @@
               <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails" [isStudentPage]="true"></tm-single-response>
             </td>
           </tr>
-          <tr>
+          <tr *ngIf="response.allComments.length > 0">
             <td>
-              <tm-comment-table [commentTableMode]="CommentTableMode.STUDENT_RESULT" [comments]="comments"></tm-comment-table>
+              <tm-comment-table [commentTableMode]="CommentTableMode.STUDENT_RESULT" [comments]="response.allComments"></tm-comment-table>
             </td>
           </tr>
         </ng-container>

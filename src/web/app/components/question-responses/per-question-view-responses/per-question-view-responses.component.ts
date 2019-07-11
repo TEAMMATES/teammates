@@ -78,7 +78,7 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
     modalRef.componentInstance.response = response;
     modalRef.componentInstance.questionDetails = this.questionDetails;
     modalRef.componentInstance.commentsChange.subscribe((comments: FeedbackResponseCommentModel[]) => {
-      // TODO propagate change to parent
+      // TODO propagate change to parent?
       response.allComments = comments;
       modalRef.componentInstance.comments = response.allComments;
     });

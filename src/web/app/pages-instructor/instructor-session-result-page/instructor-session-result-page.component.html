@@ -111,7 +111,7 @@
   <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'" [responses]="questionsModel"
       [section]="section" [sectionType]="sectionType"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadQuestion)="loadQuestion($event)" (commentsChange)="commentsChangeHandler($event)"></tm-instructor-session-result-question-view>
+      (loadQuestion)="loadQuestion($event)"></tm-instructor-session-result-question-view>
   <tm-instructor-session-result-grq-view *ngIf="viewType === 'GRQ'" [responses]="sectionsModel"
       [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
