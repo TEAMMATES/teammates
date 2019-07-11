@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { FeedbackResponseComment } from '../../../../types/api-output';
+import { FeedbackVisibilityType } from '../../../../types/api-request';
 import { Intent } from '../../../Intent';
 import { CommentTableMode, FeedbackResponseCommentModel } from '../comment-table/comment-table-model';
 
@@ -22,6 +23,8 @@ export class CommentTableModalComponent implements OnInit {
   @Output() commentsChange: EventEmitter<FeedbackResponseCommentModel[]> = new EventEmitter();
 
   commentTableMode: CommentTableMode = CommentTableMode.INSTRUCTOR_RESULT;
+
+  FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
 
   constructor(private commentService: FeedbackResponseCommentService,
               public activeModal: NgbActiveModal) { }
@@ -62,14 +65,19 @@ export class CommentTableModalComponent implements OnInit {
    * Triggers the add new comment event.
    */
   triggerSaveNewCommentEvent(commentText: string): void {
-    this.commentService.saveComment(this.response.responseId, commentText, Intent.INSTRUCTOR_RESULT)
+    // TODO set visibility options from user input
+    const showCommentTo: FeedbackVisibilityType[] = [FeedbackVisibilityType.GIVER];
+    const showGiverNameTo: FeedbackVisibilityType[] = [FeedbackVisibilityType.GIVER];
+
+    this.commentService.saveComment(this.response.responseId, commentText,
+        Intent.INSTRUCTOR_RESULT, showCommentTo, showGiverNameTo)
         .subscribe((comment: FeedbackResponseComment) => {
           const updatedComments: FeedbackResponseCommentModel[] = this.comments.slice();
           updatedComments.push({
             commentId: comment.feedbackResponseCommentId,
             createdAt: comment.createdAt,
             editedAt: comment.updatedAt,
-            //TODO CHANGE THIS!!!
+            // TODO change this once FeedbackResponseComment is updated to return timezone
             timeZone: 'Asia/Singapore',
             commentGiver: comment.commentGiver,
             commentText: comment.commentText,

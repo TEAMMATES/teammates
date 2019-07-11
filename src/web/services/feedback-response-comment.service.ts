@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Intent } from '../app/Intent';
+import { FeedbackVisibilityType } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -16,14 +17,15 @@ export class FeedbackResponseCommentService {
   /**
    * Create a comment by calling API.
    */
-  saveComment(responseId: string, commentText: string, intent: Intent): Observable<any> {
+  saveComment(responseId: string, commentText: string, intent: Intent,
+              showCommentTo?: FeedbackVisibilityType[], showGiverNameTo?: FeedbackVisibilityType[]): Observable<any> {
     return this.httpRequestService.post('/responsecomment', {
       intent,
       responseid: responseId,
     }, {
       commentText,
-      showCommentTo: [],
-      showGiverNameTo: [],
+      showCommentTo: showCommentTo? showCommentTo: [],
+      showGiverNameTo: showGiverNameTo? showGiverNameTo: [],
     });
   }
 
