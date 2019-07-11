@@ -9,12 +9,12 @@ import { StudentService } from '../../../services/student.service';
 import {
   Course,
   CourseArchive,
+  Courses,
+  InstructorPrivilege,
   JoinState,
   MessageOutput,
   Student,
   Students,
-  Courses,
-  InstructorPrivilege,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
@@ -24,12 +24,12 @@ import {
   CourseSoftDeletionConfirmModalComponent,
 } from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
-interface ActiveCourse extends Course{
+interface ActiveCourse extends Course {
   canModifyCourse: boolean;
   canModifyStudent: boolean;
 }
 
-interface ArchivedOrSoftDeletedCourse extends Course{
+interface ArchivedOrSoftDeletedCourse extends Course {
   canModifyCourse: boolean;
 }
 
@@ -127,12 +127,12 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.httpRequestService.get('/instructor/privilege', {
           courseid: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse = instructorPrivilege.canModifyCourse;
-          const canModifyStudent = instructorPrivilege.canModifyStudent;
+          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
+          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
           const activeCourse: ActiveCourse = Object.assign(course, { canModifyCourse, canModifyStudent });
           activeCourses.push(activeCourse);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+        }, (error: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(error.error.message);
         });
       }
       this.activeCourses = activeCourses;
@@ -145,11 +145,11 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.httpRequestService.get('/instructor/privilege', {
           courseid: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse = instructorPrivilege.canModifyCourse;
+          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const archivedCourse: ArchivedOrSoftDeletedCourse = Object.assign(course, { canModifyCourse });
           archivedCourses.push(archivedCourse);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+        }, (error: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(error.error.message);
         });
       }
       this.archivedCourses = archivedCourses;
@@ -162,11 +162,11 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.httpRequestService.get('/instructor/privilege', {
           courseid: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse = instructorPrivilege.canModifyCourse;
+          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const softDeletedCourse: ArchivedOrSoftDeletedCourse = Object.assign(course, { canModifyCourse });
           softDeletedCourses.push(softDeletedCourse);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+        }, (error: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(error.error.message);
         });
       }
       this.softDeletedCourses = softDeletedCourses;
