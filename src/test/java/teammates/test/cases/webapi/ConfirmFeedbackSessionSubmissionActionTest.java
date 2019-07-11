@@ -36,7 +36,7 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
     private CourseAttributes typicalCourse2;
     private FeedbackSessionAttributes session1InCourse1;
     private FeedbackSessionAttributes session1InCourse2;
-    private FeedbackSessionAttributes awaitinfSession;
+    private FeedbackSessionAttributes awaitingSession;
     private List<FeedbackResponseAttributes> allResponsesInSession1Course1;
 
     @Override
@@ -62,7 +62,7 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         typicalCourse2 = typicalBundle.courses.get("typicalCourse2");
         session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         session1InCourse2 = typicalBundle.feedbackSessions.get("session1InCourse2");
-        awaitinfSession = typicalBundle.feedbackSessions.get("awaiting.session");
+        awaitingSession = typicalBundle.feedbackSessions.get("awaiting.session");
         FeedbackResponseAttributes response1ForQ1S1C1 = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackResponseAttributes response2ForQ1S1C1 = typicalBundle.feedbackResponses.get("response2ForQ1S1C1");
         FeedbackResponseAttributes response1ForQ2S1C1 = typicalBundle.feedbackResponses.get("response1ForQ2S1C1");
@@ -273,12 +273,12 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         loginAsInstructor(instructor1OfCourse1.googleId);
 
-        assertFalse(awaitinfSession.isOpened());
+        assertFalse(awaitingSession.isOpened());
 
         String[] moderationParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, awaitinfSession.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, awaitingSession.getFeedbackSessionName(),
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
         };
@@ -289,11 +289,11 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
 
         loginAsStudent(student1InCourse1.googleId);
 
-        assertFalse(awaitinfSession.isOpened());
+        assertFalse(awaitingSession.isOpened());
         String[] sessionNotOpenSubmissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, awaitinfSession.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, awaitingSession.getFeedbackSessionName(),
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
         };
 
