@@ -165,6 +165,10 @@ export class InstructorCoursesPageComponent implements OnInit {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const softDeletedCourse: ArchivedOrSoftDeletedCourse = Object.assign(course, { canModifyCourse });
           softDeletedCourses.push(softDeletedCourse);
+          if (!softDeletedCourse.canModifyCourse) {
+            this.canDeleteAll = false;
+            this.canRestoreAll = false;
+          }
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(error.error.message);
         });
