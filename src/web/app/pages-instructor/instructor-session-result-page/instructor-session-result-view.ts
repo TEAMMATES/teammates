@@ -24,9 +24,7 @@ export abstract class InstructorSessionResultView implements OnInit {
   /**
    * Triggers the event concerning change response comments in a question
    */
-  triggerCommentsChangeInQuestionEvent(questionId: string, responses: any): void {
-    const questionsModel: any = {...this.responses};
-    questionsModel[questionId].responses = responses;
-    this.commentsChangeInResponse.emit(questionsModel);
+  triggerCommentsChangeInResponseEvent(response: any): void {
+    this.commentsChangeInResponse.emit(response);
   }
 }

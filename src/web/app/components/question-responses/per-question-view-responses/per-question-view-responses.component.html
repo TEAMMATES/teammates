@@ -20,8 +20,12 @@
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails"></tm-single-response>
         </td>
         <td>
-          <button class="btn btn-light btn-sm" style="border: 1px solid #CCC;"
-                  (click)="triggerShowCommentTableEvent(response)">Comment <span class="badge badge-secondary">{{response.allComments.length}}</span></button>
+          <ng-container *ngIf="isCommentsShown">
+            <button class="btn btn-light btn-sm" style="border: 1px solid #CCC;"
+                    (click)="triggerShowCommentTableEvent(response)">Comment <span class="badge badge-secondary">
+              {{response.allComments.length}}</span>
+            </button>
+          </ng-container>
         </td>
       </tr>
     </tbody>

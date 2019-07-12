@@ -9,7 +9,8 @@
   <div class="card-body" *ngIf="question.isTabExpanded">
     <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType"
                                     [indicateMissingResponses]="true" [questionDetails]="question.questionDetails"
-                                    (commentsChangeInResponse)="triggerCommentsChangeInQuestionEvent(question.feedbackQuestionId, $event)"
+                                    [isCommentsShown]="true"
+                                    (commentsChangeInResponse)="triggerCommentsChangeInResponseEvent($event)"
     ></tm-per-question-view-responses>
   </div>
 </div>

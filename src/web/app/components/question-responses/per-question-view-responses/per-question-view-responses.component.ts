@@ -23,7 +23,8 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   @Input() indicateMissingResponses: boolean = true;
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
-
+  @Input() isCommentsShown: boolean = false;
+  
   @Output() commentsChangeInResponse: EventEmitter<any> = new EventEmitter();
 
   responsesToShow: any[] = [];
@@ -79,10 +80,8 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
     modalRef.componentInstance.questionDetails = this.questionDetails;
     modalRef.componentInstance.commentsChange.subscribe((comments: FeedbackResponseCommentModel[]) => {
       // Update parent
-      const responses: any = this.responses.slice();
-      const responseIndex: number = this.responses.findIndex((response: any) => response.responseId === responseToUpdate.responseId);
-      responses[responseIndex] = { ... responses[responseIndex], allComments: comments };
-      this.commentsChangeInResponse.emit(responses);
+      const response:any = this.responses.find((response: any) => response.responseId === responseToUpdate.responseId);
+      this.commentsChangeInResponse.emit({...response, allComments: comments});
       // Update modal
       modalRef.componentInstance.comments = comments;
     });
