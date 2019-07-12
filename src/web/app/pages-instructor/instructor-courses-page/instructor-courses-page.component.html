@@ -220,8 +220,8 @@
               <td container="body" [ngbTooltip]="course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
                 {{course.creationTimestamp | date:'d MMM yyyy'}}
               </td>
-              <td container="body" [ngbTooltip]="course.deletedAt | date:'EEE, dd MMM yyyy, h:mma'">
-                {{course.deletedAt | date:'d MMM yyyy'}}
+              <td container="body" [ngbTooltip]="course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                {{course.deletionTimestamp | date:'d MMM yyyy'}}
               </td>
               <td class="text-center actions-cell">
                 <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"

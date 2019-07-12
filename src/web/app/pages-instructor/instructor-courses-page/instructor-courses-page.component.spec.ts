@@ -14,16 +14,20 @@ describe('InstructorCoursesPageComponent', () => {
   let fixture: ComponentFixture<InstructorCoursesPageComponent>;
   const activeCourses: any[] = [
     {
-      id: 'CS3281',
-      name: 'Modifiable Students and Courses',
-      createdAt: '2018-11-05T08:15:30',
+      courseId: 'CS3281',
+      courseName: 'Modifiable Students and Courses',
+      timeZone: 'UTC',
+      creationTimestamp: 1541376930000,
+      deletionTimestamp: 0,
       canModifyCourse: true,
       canModifyStudent: true,
     },
     {
-      id: 'CS3282',
-      name: 'Nothing modifiable',
-      createdAt: '2019-02-02T08:15:30',
+      courseId: 'CS3282',
+      courseName: 'Nothing modifiable',
+      timeZone: 'UTC',
+      creationTimestamp: 1549066530000,
+      deletionTimestamp: 0,
       canModifyCourse: false,
       canModifyStudent: false,
     },
@@ -31,32 +35,38 @@ describe('InstructorCoursesPageComponent', () => {
 
   const archivedCourses: any[] = [
     {
-      id: 'CS2104',
-      name: 'Can modify archived',
-      createdAt: '2002-11-05T08:15:30',
+      courseId: 'CS2104',
+      courseName: 'Can modify archived',
+      timeZone: 'UTC',
+      creationTimestamp: 1036455330000,
+      deletionTimestamp: 0,
       canModifyCourse: true,
     },
     {
-      id: 'CS2106',
-      name: 'Cannot modify archived',
-      createdAt: '2002-11-05T08:15:30',
+      courseId: 'CS2106',
+      courseName: 'Cannot modify archived',
+      timeZone: 'UTC',
+      creationTimestamp: 1036455330000,
+      deletionTimestamp: 0,
       canModifyCourse: false,
     },
   ];
 
   const deletedCourses: any[] = [
     {
-      id: 'CS1020',
-      name: 'Can modify deleted',
-      createdAt: '2002-11-05T08:15:30',
-      deletedAt: '2003-11-05T08:15:30',
+      courseId: 'CS1020',
+      courseName: 'Can modify deleted',
+      timeZone: 'UTC',
+      creationTimestamp: 1036455330000,
+      deletionTimestamp: 1067991330000,
       canModifyCourse: true,
     },
     {
-      id: 'CS2010',
-      name: 'Cannot modify deleted',
-      createdAt: '2002-12-05T08:15:30',
-      deletedAt: '2003-12-05T08:15:30',
+      courseId: 'CS2010',
+      courseName: 'Cannot modify deleted',
+      timeZone: 'UTC',
+      creationTimestamp: 1036455330000,
+      deletionTimestamp: 1067991330000,
       canModifyCourse: false,
     },
   ];
