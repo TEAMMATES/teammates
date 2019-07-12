@@ -12,12 +12,18 @@ class AddCourseFormStubComponent {}
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
   let fixture: ComponentFixture<InstructorCoursesPageComponent>;
+  const date1: Date = new Date('2018-11-05T08:15:30');
+  const date2: Date = new Date('2019-02-02T08:15:30');
+  const date3: Date = new Date('2002-11-05T08:15:30');
+  const date4: Date = new Date('2003-11-05T08:15:30');
+  const date5: Date = new Date('2002-12-05T08:15:30');
+  const date6: Date = new Date('2003-12-05T08:15:30');
   const activeCourses: any[] = [
     {
       courseId: 'CS3281',
       courseName: 'Modifiable Students and Courses',
       timeZone: 'UTC',
-      creationTimestamp: 1541376930000,
+      creationTimestamp: date1.getTime(),
       deletionTimestamp: 0,
       canModifyCourse: true,
       canModifyStudent: true,
@@ -26,7 +32,7 @@ describe('InstructorCoursesPageComponent', () => {
       courseId: 'CS3282',
       courseName: 'Nothing modifiable',
       timeZone: 'UTC',
-      creationTimestamp: 1549066530000,
+      creationTimestamp: date2.getTime(),
       deletionTimestamp: 0,
       canModifyCourse: false,
       canModifyStudent: false,
@@ -38,7 +44,7 @@ describe('InstructorCoursesPageComponent', () => {
       courseId: 'CS2104',
       courseName: 'Can modify archived',
       timeZone: 'UTC',
-      creationTimestamp: 1036455330000,
+      creationTimestamp: date3.getTime(),
       deletionTimestamp: 0,
       canModifyCourse: true,
     },
@@ -46,7 +52,7 @@ describe('InstructorCoursesPageComponent', () => {
       courseId: 'CS2106',
       courseName: 'Cannot modify archived',
       timeZone: 'UTC',
-      creationTimestamp: 1036455330000,
+      creationTimestamp: date3.getTime(),
       deletionTimestamp: 0,
       canModifyCourse: false,
     },
@@ -57,16 +63,16 @@ describe('InstructorCoursesPageComponent', () => {
       courseId: 'CS1020',
       courseName: 'Can modify deleted',
       timeZone: 'UTC',
-      creationTimestamp: 1036455330000,
-      deletionTimestamp: 1067991330000,
+      creationTimestamp: date3.getTime(),
+      deletionTimestamp: date4.getTime(),
       canModifyCourse: true,
     },
     {
       courseId: 'CS2010',
       courseName: 'Cannot modify deleted',
       timeZone: 'UTC',
-      creationTimestamp: 1036455330000,
-      deletionTimestamp: 1067991330000,
+      creationTimestamp: date5.getTime(),
+      deletionTimestamp: date6.getTime(),
       canModifyCourse: false,
     },
   ];
