@@ -163,7 +163,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
     }
 
     return !this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
-        questionType, recipientSubmissionFormModel.responseDetails)
+        questionType, recipientSubmissionFormModel.responseDetails);
 
   }
 }

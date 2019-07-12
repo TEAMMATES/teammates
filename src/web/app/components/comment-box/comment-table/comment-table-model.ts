@@ -1,3 +1,5 @@
+import { FeedbackVisibilityType } from '../../../../types/api-request';
+
 /**
  * Model for a comment to be displayed in the comment table
  */
@@ -9,6 +11,8 @@ export interface FeedbackResponseCommentModel {
   commentGiver: string;
   commentText: string;
   isEditable: boolean;
+  showCommentTo: FeedbackVisibilityType[];
+  showGiverNameTo: FeedbackVisibilityType[];
 }
 
 /**
@@ -27,4 +31,14 @@ export enum CommentTableMode {
    * Student result mode.
    */
   STUDENT_RESULT,
+}
+
+/**
+ * Contains default values to be used for {@link FeedbackResponseCommentModel}.
+ */
+export enum CommentModelDefaultValues {
+  /**
+   * Represents an invalid comment ID.
+   */
+  INVALID_VALUE = -1,
 }

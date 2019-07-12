@@ -13,6 +13,7 @@ export abstract class InstructorSessionResultView implements OnInit {
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() timeZone: string = '';
 
   @Output() commentsChangeInResponse: EventEmitter<any> = new EventEmitter();
 

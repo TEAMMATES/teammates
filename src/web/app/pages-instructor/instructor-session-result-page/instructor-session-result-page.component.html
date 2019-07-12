@@ -109,7 +109,7 @@
 
 <div class="top-padded" *ngIf="isSectionsLoaded && isQuestionsLoaded">
   <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'" [responses]="questionsModel"
-      [section]="section" [sectionType]="sectionType"
+      [section]="section" [sectionType]="sectionType" [timeZone] = 'session.timeZone'
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadQuestion)="loadQuestion($event)" (commentsChangeInResponse)="commentsChangeHandler($event)"
   ></tm-instructor-session-result-question-view>

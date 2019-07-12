@@ -127,8 +127,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
               commentText: comment.commentText,
               isEditable: true,
             };
-          })
-        })
+          });
+        });
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -161,11 +161,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
    * Updates questionsModel when there's a change in the comments table.
    */
   commentsChangeHandler(responseToUpdate: any): void {
-    for (let key in this.questionsModel) {
+    for (const key of Object.keys(this.questionsModel)) {
       this.questionsModel[key].responses.forEach((response: any, index: number) => {
         if (response.responseId === responseToUpdate.responseId) {
           this.questionsModel[key].responses[index] = responseToUpdate;
-          this.questionsModel = {...this.questionsModel};
+          this.questionsModel = { ...this.questionsModel };
           return;
         }
       });

@@ -24,7 +24,8 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
   @Input() isCommentsShown: boolean = false;
-  
+  @Input() timeZone: string = '';
+
   @Output() commentsChangeInResponse: EventEmitter<any> = new EventEmitter();
 
   responsesToShow: any[] = [];
@@ -73,15 +74,17 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   /**
    * Opens the comments table modal.
    */
-  triggerShowCommentTableEvent(responseToUpdate: any): void {
+  triggerShowCommentTableEvent(selectedResponse: any): void {
     const modalRef: NgbModalRef = this.modalService.open(CommentTableModalComponent);
-    modalRef.componentInstance.comments = responseToUpdate.allComments;
-    modalRef.componentInstance.response = responseToUpdate;
+    modalRef.componentInstance.comments = selectedResponse.allComments;
+    modalRef.componentInstance.response = selectedResponse;
     modalRef.componentInstance.questionDetails = this.questionDetails;
+    modalRef.componentInstance.timeZone = this.timeZone;
     modalRef.componentInstance.commentsChange.subscribe((comments: FeedbackResponseCommentModel[]) => {
       // Update parent
-      const response:any = this.responses.find((response: any) => response.responseId === responseToUpdate.responseId);
-      this.commentsChangeInResponse.emit({...response, allComments: comments});
+      const updatedResponse: any = this.responses.find(
+          (response: any) => response.responseId === selectedResponse.responseId);
+      this.commentsChangeInResponse.emit({ ...updatedResponse, allComments: comments });
       // Update modal
       modalRef.componentInstance.comments = comments;
     });

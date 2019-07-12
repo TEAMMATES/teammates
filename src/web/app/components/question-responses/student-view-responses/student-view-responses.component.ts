@@ -11,9 +11,9 @@ import { CommentTableMode, FeedbackResponseCommentModel } from '../../comment-bo
   styleUrls: ['./student-view-responses.component.scss'],
 })
 export class StudentViewResponsesComponent implements OnInit {
-  private _responses: any[] = [];
-
   @Input() questionDetails: any = {};
+  @Input() isSelfResponses: boolean = false;
+
   @Input('responses')
   set responses(value: any[]) {
     this._responses = value;
@@ -22,7 +22,7 @@ export class StudentViewResponsesComponent implements OnInit {
         return;
       }
       response.allComments = response.allComments.map((comment: any) => {
-        return this.mapComments(comment)
+        return this.mapComments(comment);
       });
     });
   }
@@ -31,12 +31,12 @@ export class StudentViewResponsesComponent implements OnInit {
     return this._responses;
   }
 
-  @Input() isSelfResponses: boolean = false;
-
   // enum
   CommentTableMode: typeof CommentTableMode = CommentTableMode;
 
   recipient: string = '';
+
+  private _responses: any[] = [];
 
   constructor() { }
 
@@ -45,8 +45,7 @@ export class StudentViewResponsesComponent implements OnInit {
   }
 
   /**
-   * Maps a comments from ResponseCommentOutput to FeedbackResponseCommentModel
-   * @param comment
+   * Maps a comments from {@link ResponseCommentOutput} to {@link FeedbackResponseCommentModel}.
    */
   mapComments(comment: ResponseCommentOutput): FeedbackResponseCommentModel {
     return {
@@ -56,6 +55,8 @@ export class StudentViewResponsesComponent implements OnInit {
       timeZone: comment.timezone,
       commentGiver: comment.commentGiver,
       commentText: comment.commentText,
+      showCommentTo: [],
+      showGiverNameTo: [],
       isEditable: true,
     };
   }
