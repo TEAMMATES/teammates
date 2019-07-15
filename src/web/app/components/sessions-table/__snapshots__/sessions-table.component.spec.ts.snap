@@ -105,7 +105,9 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 Response Rate
               </span>
             </th>
-            <th>
+            <th
+              class="text-center"
+            >
               Action(s)
             </th>
           </tr>
@@ -535,7 +537,9 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 Response Rate
               </span>
             </th>
-            <th>
+            <th
+              class="text-center"
+            >
               Action(s)
             </th>
           </tr>

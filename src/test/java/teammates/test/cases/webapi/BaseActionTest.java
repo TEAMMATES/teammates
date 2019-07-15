@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
 import org.apache.http.client.methods.HttpDelete;
@@ -52,7 +53,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Gets an action with empty request body and empty multipart config.
      */
     protected T getAction(String... params) {
-        return getAction(null, null, params);
+        return getAction(null, null, null, params);
     }
 
     /**
@@ -66,15 +67,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Gets an action with request body.
      */
     protected T getAction(String body, String... params) {
-        return getAction(body, null, params);
+        return getAction(body, null, null, params);
     }
 
     /**
      * Gets an action with request body and multipart config.
      */
     @SuppressWarnings("unchecked")
-    protected T getAction(String body, Map<String, Part> parts, String... params) {
-        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, params);
+    protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
+        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies, params);
     }
 
     /**
@@ -84,7 +85,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         Map<String, Part> parts = new HashMap<>();
         parts.put(key, new MockPart(filePath));
 
-        return getAction(null, parts, params);
+        return getAction(null, parts, null, params);
+    }
+
+    /**
+     * Gets an action with list of cookies.
+     */
+    protected T getActionWithCookie(List<Cookie> cookies, String... params) {
+        return getAction(null, null, cookies, params);
     }
 
     @BeforeMethod

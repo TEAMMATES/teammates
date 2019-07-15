@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -18,16 +18,23 @@ const NONE_OF_THE_ABOVE: string = 'None of the above';
   styleUrls: ['./msq-question-edit-answer-form.component.scss'],
 })
 export class MsqQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails> implements OnInit {
+    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
+    implements OnInit, OnChanges {
 
   readonly NO_VALUE: number = NO_VALUE;
-  isMsqOptionSelected: boolean[] = Array(this.questionDetails.msqChoices.length).fill(false);
+  isMsqOptionSelected: boolean[] = [];
+
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
   }
 
   ngOnInit(): void {
+  }
+
+  // sync the internal status with the input data
+  ngOnChanges(): void {
     if (this.responseDetails.answers[0] !== NONE_OF_THE_ABOVE) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
         const indexOfElementInAnswerArray: number
@@ -40,44 +47,48 @@ export class MsqQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if None of the above option is enabled and disables it.
+   * Removes the "None of the above" option in an answers list if it's present
+   * then returns the altered list.
    */
-  disableNoneOfTheAboveOption(): void {
+  disableNoneOfTheAboveOption(answers: string[]): string[] {
     if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
+      const newAnswers: string[] = answers.slice();
+      newAnswers.splice(0 , 1);
+      return newAnswers;
     }
+    return answers;
   }
 
   /**
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
-    this.isMsqOptionSelected[index] = !this.isMsqOptionSelected[index];
-    this.disableNoneOfTheAboveOption();
-    if (this.isMsqOptionSelected[index]) {
-      this.responseDetails.answers.push(this.questionDetails.msqChoices[index]);
+    let newAnswers: string[] = this.responseDetails.answers.slice();
+    newAnswers = this.disableNoneOfTheAboveOption(newAnswers);
+    const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
+    if (indexInResponseArray > -1) {
+      newAnswers.splice(indexInResponseArray, 1);
     } else {
-      const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
-      this.responseDetails.answers.splice(indexInResponseArray, 1);
+      newAnswers.push(this.questionDetails.msqChoices[index]);
     }
+    this.triggerResponseDetailsChange('answers', newAnswers);
   }
 
   /**
    * Updates the other option checkbox when clicked.
    */
   updateIsOtherOption(): void {
-    this.disableNoneOfTheAboveOption();
-    this.responseDetails.isOther = !this.responseDetails.isOther;
-    if (!this.responseDetails.isOther) {
-      this.responseDetails.otherFieldContent = '';
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.isOther = !this.responseDetails.isOther;
+    fieldsToUpdate.answers = this.disableNoneOfTheAboveOption(this.responseDetails.answers);
+    if (!fieldsToUpdate.isOther) {
+      fieldsToUpdate.otherFieldContent = '';
+    } else {
+      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
+      }, 0);
     }
-  }
-
-  /**
-   * Updates the other field content.
-   */
-  updateOtherOptionText(otherOptionText: string): void {
-    this.responseDetails.otherFieldContent = otherOptionText;
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
@@ -91,14 +102,18 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
+    let newAnswers: string[] = this.responseDetails.answers.slice();
+    const fieldsToUpdate: any = {};
     if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
+      newAnswers.splice(0, 1);
     } else {
       this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
-      this.responseDetails.answers = [];
-      this.responseDetails.isOther = false;
-      this.responseDetails.otherFieldContent = '';
-      this.responseDetails.answers[0] = NONE_OF_THE_ABOVE;
+      newAnswers = [];
+      fieldsToUpdate.isOther = false;
+      fieldsToUpdate.otherFieldContent = '';
+      newAnswers[0] = NONE_OF_THE_ABOVE;
     }
+    fieldsToUpdate.answers = newAnswers;
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 }

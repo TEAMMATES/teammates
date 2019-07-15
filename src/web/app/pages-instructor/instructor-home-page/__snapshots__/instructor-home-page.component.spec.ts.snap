@@ -11,12 +11,14 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user="undefined"
 >
@@ -96,12 +98,14 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user={[Function String]}
 >
@@ -255,12 +259,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user=""
 >
@@ -380,7 +386,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -424,7 +430,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -454,7 +460,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -484,7 +490,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -631,7 +637,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         Response Rate
                       </span>
                     </th>
-                    <th>
+                    <th
+                      class="text-center"
+                    >
                       Action(s)
                     </th>
                   </tr>
@@ -821,12 +829,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user=""
 >
@@ -946,7 +956,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -977,7 +987,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -1007,7 +1017,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -1037,7 +1047,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1175,7 +1185,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         Response Rate
                       </span>
                     </th>
-                    <th>
+                    <th
+                      class="text-center"
+                    >
                       Action(s)
                     </th>
                   </tr>
@@ -1534,12 +1546,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user={[Function String]}
 >
@@ -1659,7 +1673,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -1703,7 +1717,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -1733,7 +1747,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -1763,7 +1777,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1832,12 +1846,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user=""
 >
@@ -1957,7 +1973,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -2001,7 +2017,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -2031,7 +2047,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -2061,7 +2077,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2150,12 +2166,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   feedbackSessionsService={[Function FeedbackSessionsService]}
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
+  studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
   user=""
 >
@@ -2275,7 +2293,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -2319,7 +2337,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -2349,7 +2367,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -2379,7 +2397,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
