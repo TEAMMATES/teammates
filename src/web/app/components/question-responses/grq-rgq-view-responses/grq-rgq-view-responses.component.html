@@ -23,7 +23,8 @@
             <div class="card-body" *ngIf="userToTeamName[userInfo].isExpanded">
               <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">
                 <tm-grouped-responses [header]="other.key" [responses]="other.value" [section]="section" [sectionType]="sectionType"
-                    [isGrq]="isGrq"></tm-grouped-responses>
+                    [isGrq]="isGrq" [timeZone]="timeZone" (commentsChangeInResponseEvent)="triggerCommentsChangeInResponseEvent($event)"
+                ></tm-grouped-responses>
               </div>
             </div>
           </div>
@@ -46,7 +47,8 @@
       <div class="card-body" *ngIf="userInfo.value.isExpanded">
         <div class="top-padded" *ngFor="let other of responsesToShow[userInfo.key] | keyvalue">
           <tm-grouped-responses [header]="other.key" [responses]="other.value" [section]="section" [sectionType]="sectionType"
-              [isGrq]="isGrq"></tm-grouped-responses>
+              [isGrq]="isGrq" [timeZone]="timeZone" (commentsChangeInResponseEvent)="triggerCommentsChangeInResponseEvent($event)"
+          ></tm-grouped-responses>
         </div>
       </div>
     </div>

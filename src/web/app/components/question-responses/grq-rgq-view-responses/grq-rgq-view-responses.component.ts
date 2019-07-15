@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -19,8 +19,11 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() timeZone: string = '';
 
   @Input() isGrq: boolean = true;
+
+  @Output() commentsChangeInResponse: EventEmitter<any> = new EventEmitter();
 
   teamsToUsers: { [key: string]: string[] } = {};
   teamExpanded: { [key: string]: boolean } = {};
@@ -135,4 +138,10 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Triggers the commentsChangeInResponse event.
+   */
+  triggerCommentsChangeInResponseEvent(response: any): void {
+    this.commentsChangeInResponse.emit(response);
+  }
 }

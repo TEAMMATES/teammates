@@ -5,7 +5,7 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  FeedbackSession, ResponseCommentOutput,
+  FeedbackSession,
   SessionResults,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -115,20 +115,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.questionsModel[questionId].responses = responses.allResponses;
         this.questionsModel[questionId].statistics = responses.questionStatistics;
         this.questionsModel[questionId].hasPopulated = true;
-        // Map comments from ResponseCommentOutput to FeedbackResponseCommentModel
-        this.questionsModel[questionId].responses.forEach((response: any) => {
-          response.allComments = response.allComments.map((comment: ResponseCommentOutput) => {
-            return {
-              commentId: comment.commentId,
-              createdAt: comment.createdAt,
-              editedAt: comment.updatedAt,
-              timeZone: comment.timezone,
-              commentGiver: comment.commentGiver,
-              commentText: comment.commentText,
-              isEditable: true,
-            };
-          });
-        });
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -162,12 +148,31 @@ export class InstructorSessionResultPageComponent implements OnInit {
    */
   commentsChangeHandler(responseToUpdate: any): void {
     for (const key of Object.keys(this.questionsModel)) {
+      if (!this.questionsModel[key].hasPopulated) {
+        continue;
+      }
       this.questionsModel[key].responses.forEach((response: any, index: number) => {
         if (response.responseId === responseToUpdate.responseId) {
-          this.questionsModel[key].responses[index] = responseToUpdate;
-          this.questionsModel = { ...this.questionsModel };
+          const updatedResponses: any[] = this.questionsModel[key].responses.slice();
+          updatedResponses[index] = responseToUpdate;
+          this.questionsModel[key].responses = updatedResponses;
           return;
         }
+      });
+    }
+
+    for (const key of Object.keys(this.sectionsModel)) {
+      if (!this.sectionsModel[key].hasPopulated) {
+        continue;
+      }
+      this.sectionsModel[key].questions.forEach((question: any, questionIndex: number) => {
+        question.allResponses.forEach((response: any, responseIndex: number) => {
+          if (response.responseId === responseToUpdate.responseId) {
+            const updatedResponses: any[] = question.allResponses;
+            updatedResponses[responseIndex] = responseToUpdate;
+            this.sectionsModel[key].questions[questionIndex].allResponses = updatedResponses;
+          }
+        });
       });
     }
   }

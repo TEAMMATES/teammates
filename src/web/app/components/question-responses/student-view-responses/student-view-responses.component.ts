@@ -57,7 +57,6 @@ export class StudentViewResponsesComponent implements OnInit {
       commentText: comment.commentText,
       showCommentTo: [],
       showGiverNameTo: [],
-      isEditable: true,
     };
   }
 }

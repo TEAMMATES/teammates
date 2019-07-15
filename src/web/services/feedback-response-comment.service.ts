@@ -18,14 +18,14 @@ export class FeedbackResponseCommentService {
    * Create a comment by calling API.
    */
   saveComment(responseId: string, commentText: string, intent: Intent,
-              showCommentTo?: FeedbackVisibilityType[], showGiverNameTo?: FeedbackVisibilityType[]): Observable<any> {
+              showCommentTo: FeedbackVisibilityType[], showGiverNameTo: FeedbackVisibilityType[]): Observable<any> {
     return this.httpRequestService.post('/responsecomment', {
       intent,
       responseid: responseId,
     }, {
       commentText,
-      showCommentTo: showCommentTo ? showCommentTo : [],
-      showGiverNameTo: showGiverNameTo ? showGiverNameTo : [],
+      showCommentTo: showCommentTo,
+      showGiverNameTo: showGiverNameTo,
     });
   }
 
@@ -33,14 +33,14 @@ export class FeedbackResponseCommentService {
    * Updates a comment by calling API.
    */
   updateComment(commentId: number, commentText: string, intent: Intent,
-                showCommentTo?: FeedbackVisibilityType[], showGiverNameTo?: FeedbackVisibilityType[]): Observable<any> {
+                showCommentTo: FeedbackVisibilityType[], showGiverNameTo: FeedbackVisibilityType[]): Observable<any> {
     return this.httpRequestService.put('/responsecomment', {
       intent,
       responsecommentid: commentId.toString(),
     }, {
       commentText,
-      showCommentTo: showCommentTo ? showCommentTo : [],
-      showGiverNameTo: showGiverNameTo ? showGiverNameTo : [],
+      showCommentTo: showCommentTo,
+      showGiverNameTo: showGiverNameTo,
     });
   }
 

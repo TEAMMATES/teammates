@@ -109,24 +109,28 @@
 
 <div class="top-padded" *ngIf="isSectionsLoaded && isQuestionsLoaded">
   <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'" [responses]="questionsModel"
-      [section]="section" [sectionType]="sectionType" [timeZone] = 'session.timeZone'
+      [section]="section" [sectionType]="sectionType" [timeZone]='session.timeZone'
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadQuestion)="loadQuestion($event)" (commentsChangeInResponse)="commentsChangeHandler($event)"
   ></tm-instructor-session-result-question-view>
   <tm-instructor-session-result-grq-view *ngIf="viewType === 'GRQ'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [timeZone]="session.timeZone"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadSection)="loadSection($event)"></tm-instructor-session-result-grq-view>
+      (loadSection)="loadSection($event)"(commentsChangeInResponse)="commentsChangeHandler($event)"
+  ></tm-instructor-session-result-grq-view>
   <tm-instructor-session-result-rgq-view *ngIf="viewType === 'RGQ'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [timeZone]="session.timeZone"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadSection)="loadSection($event)"></tm-instructor-session-result-rgq-view>
+      (loadSection)="loadSection($event)" (commentsChangeInResponse)="commentsChangeHandler($event)"
+  ></tm-instructor-session-result-rgq-view>
   <tm-instructor-session-result-gqr-view *ngIf="viewType === 'GQR'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [timeZone]="session.timeZone"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadSection)="loadSection($event)"></tm-instructor-session-result-gqr-view>
+      (loadSection)="loadSection($event)" (commentsChangeInResponse)="commentsChangeHandler($event)"
+  ></tm-instructor-session-result-gqr-view>
   <tm-instructor-session-result-rqg-view *ngIf="viewType === 'RQG'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [timeZone]="session.timeZone"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadSection)="loadSection($event)"></tm-instructor-session-result-rqg-view>
+      (loadSection)="loadSection($event)" (commentsChangeInResponse)="commentsChangeHandler($event)"
+  ></tm-instructor-session-result-rqg-view>
 </div>

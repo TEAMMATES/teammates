@@ -625,7 +625,6 @@ export class SessionSubmissionPageComponent implements OnInit {
                 commentText: resp.commentText,
                 showCommentTo: questionSubmissionFormModel.showResponsesTo,
                 showGiverNameTo: questionSubmissionFormModel.showGiverNameTo,
-                isEditable: true,
               };
             }),
           );
@@ -645,7 +644,6 @@ export class SessionSubmissionPageComponent implements OnInit {
               commentText: resp.commentText,
               showCommentTo: questionSubmissionFormModel.showResponsesTo,
               showGiverNameTo: questionSubmissionFormModel.showGiverNameTo,
-              isEditable: true,
             };
           }),
     );
@@ -703,7 +701,6 @@ export class SessionSubmissionPageComponent implements OnInit {
             commentText: comment.commentText,
             showCommentTo: model.showResponsesTo,
             showGiverNameTo: model.showGiverNameTo,
-            isEditable: true,
           };
 
           const recipientSubmissionFormIndex: number = model.recipientSubmissionForms.findIndex(

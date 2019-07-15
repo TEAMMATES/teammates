@@ -29,7 +29,6 @@ export class CommentTableComponent implements OnInit {
     showGiverNameTo: [],
     showCommentTo: [],
     timeZone: '',
-    isEditable: true,
   };
 
   @Output() saveNewCommentEvent: EventEmitter<any> = new EventEmitter();
@@ -57,10 +56,9 @@ export class CommentTableComponent implements OnInit {
    */
   triggerUpdateCommentEvent(commentText: any, index?: number): void {
     if (index !== undefined) {
-      this.updateCommentEvent.emit({ commentText, commentId: this.comments[index].commentId });
+      this.updateCommentEvent.emit({ ...this.comments[index], commentText });
     } else {
-      const updatedComment: FeedbackResponseCommentModel = { ...this.comment, commentText };
-      this.updateCommentEvent.emit(updatedComment);
+      this.updateCommentEvent.emit({ ...this.comment, commentText });
     }
   }
 

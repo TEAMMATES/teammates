@@ -15,7 +15,17 @@
           <tm-question-text-with-info [questionNumber]="response.questionNumber" [questionDetails]="response.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
-          <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.questionDetails"></tm-single-response>
+          <div>
+            <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.questionDetails"></tm-single-response>
+          </div>
+          <div style="margin-top: 1rem;">
+            <tm-comment-table [commentTableMode]="CommentTableMode.INSTRUCTOR_RESULT"
+                              [comments]="response.allResponses[0].mappedComments"
+                              (saveNewCommentEvent)="triggerSaveNewCommentEvent($event, response)"
+                              (updateCommentEvent)="triggerUpdateCommentEvent($event, response)"
+                              (deleteCommentEvent)="triggerDeleteCommentEvent($event, response)"
+            ></tm-comment-table>
+          </div>
         </div>
       </div>
     </div>

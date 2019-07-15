@@ -88,7 +88,6 @@ export class CommentTableModalComponent implements OnInit {
             timeZone: this.timeZone,
             commentGiver: comment.commentGiver,
             commentText: comment.commentText,
-            isEditable: true,
           });
           this.commentsChange.emit(updatedComments);
         });

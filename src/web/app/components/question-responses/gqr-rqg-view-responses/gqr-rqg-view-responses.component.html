@@ -31,7 +31,10 @@
                 </div>
                 <div class="card-body" *ngIf="question.isTabExpanded">
                   <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType"
-                      [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails"></tm-per-question-view-responses>
+                                                  [timeZone]="timeZone" [indicateMissingResponses]="true" [showGiver]="!isGqr"
+                                                  [showRecipient]="isGqr" [questionDetails]="question.questionDetails"
+                                                  (commentsChangeInResponse)="triggerCommentChangeInResponseEvent($event)"
+                  ></tm-per-question-view-responses>
                 </div>
               </div>
             </div>
@@ -63,7 +66,11 @@
           </div>
           <div class="card-body" *ngIf="question.isTabExpanded">
             <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType"
-                [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails"></tm-per-question-view-responses>
+                                            [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr"
+                                            [timeZone]="timeZone"
+                                            [questionDetails]="question.questionDetails"
+                                            (commentsChangeInResponse)="triggerCommentChangeInResponseEvent($event)"
+            ></tm-per-question-view-responses>
           </div>
         </div>
       </div>

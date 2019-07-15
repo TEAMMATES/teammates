@@ -23,7 +23,6 @@ export class CommentRowComponent implements OnInit {
     commentText: '',
     commentGiver: '',
     timeZone: '',
-    isEditable: true,
     showCommentTo: [],
     showGiverNameTo: [],
   };

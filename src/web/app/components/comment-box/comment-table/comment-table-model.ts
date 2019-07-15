@@ -10,7 +10,6 @@ export interface FeedbackResponseCommentModel {
   timeZone: string;
   commentGiver: string;
   commentText: string;
-  isEditable: boolean;
   showCommentTo: FeedbackVisibilityType[];
   showGiverNameTo: FeedbackVisibilityType[];
 }
