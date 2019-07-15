@@ -126,9 +126,9 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
-    const activeCourses: ActiveCourseModel[] = [];
-    const archivedCourses: ArchivedCourseModel[] = [];
-    const softDeletedCourses: SoftDeletedCourseModel[] = [];
+    this.activeCourses = [];
+    this.archivedCourses = [];
+    this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
         this.httpRequestService.get('/instructor/privilege', {
@@ -137,12 +137,11 @@ export class InstructorCoursesPageComponent implements OnInit {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
           const activeCourse: ActiveCourseModel = Object.assign({}, { course ,canModifyCourse, canModifyStudent });
-          activeCourses.push(activeCourse);
+          this.activeCourses.push(activeCourse);
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(error.error.message);
         });
       }
-      this.activeCourses = activeCourses;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -154,12 +153,11 @@ export class InstructorCoursesPageComponent implements OnInit {
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const archivedCourse: ArchivedCourseModel = Object.assign({}, { course, canModifyCourse });
-          archivedCourses.push(archivedCourse);
+          this.archivedCourses.push(archivedCourse);
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(error.error.message);
         });
       }
-      this.archivedCourses = archivedCourses;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -171,7 +169,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const softDeletedCourse: SoftDeletedCourseModel = Object.assign({}, { course,  canModifyCourse });
-          softDeletedCourses.push(softDeletedCourse);
+          this.softDeletedCourses.push(softDeletedCourse);
           if (!softDeletedCourse.canModifyCourse) {
             this.canDeleteAll = false;
             this.canRestoreAll = false;
@@ -180,7 +178,6 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.statusMessageService.showErrorMessage(error.error.message);
         });
       }
-      this.softDeletedCourses = softDeletedCourses;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
