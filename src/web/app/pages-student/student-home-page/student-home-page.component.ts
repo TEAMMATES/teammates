@@ -1,9 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {AuthService} from "../../../services/auth.service";
+import {FeedbackSessionsService} from "../../../services/feedback-sessions.service";
 
-import { HttpRequestService } from '../../../services/http-request.service';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../error-message-output';
+import {HttpRequestService} from '../../../services/http-request.service';
+import {StatusMessageService} from '../../../services/status-message.service';
+import {
+  Courses,
+  Course,
+  FeedbackSessions,
+  FeedbackSession, AuthInfo, FeedbackSessionSubmittedGiverSet,
+} from "../../../types/api-output";
+import {ErrorMessageOutput} from '../../error-message-output';
 
 interface SessionInfoMap {
   endTime: string;
@@ -13,30 +21,9 @@ interface SessionInfoMap {
   isSubmitted: boolean;
 }
 
-interface FeedbackSessionAttributes {
-  feedbackSessionName: string;
-  courseId: string;
-}
-
-interface FeedbackSessionDetailsBundle {
-  feedbackSession: FeedbackSessionAttributes;
-}
-
-interface StudentCourseAttributes {
-  id: string;
-  name: string;
-}
-
 interface StudentCourse {
-  course: StudentCourseAttributes;
-  feedbackSessions: FeedbackSessionDetailsBundle[];
-}
-
-interface StudentCourses {
-  recentlyJoinedCourseId: string;
-  hasEventualConsistencyMsg: boolean;
-  courses: StudentCourse[];
-  sessionsInfoMap: { [key: string]: SessionInfoMap };
+  course: Course;
+  feedbackSessions: FeedbackSession[];
 }
 
 /**
@@ -62,31 +49,85 @@ export class StudentHomePageComponent implements OnInit {
 
   user: string = '';
 
+  id: string = '';
   recentlyJoinedCourseId?: string = '';
   hasEventualConsistencyMsg: boolean = false;
   courses: StudentCourse[] = [];
   sessionsInfoMap: { [key: string]: SessionInfoMap } = {};
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
-              private statusMessageService: StatusMessageService) { }
+              private authService: AuthService,
+              private statusMessageService: StatusMessageService,
+              private feedbackSessionsService: FeedbackSessionsService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      this.getStudentCourses(queryParams.persistencecourse);
+      this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
+        if (auth.user) {
+          this.id = auth.user.id;
+        }
+      });
+      if (queryParams.persistencecourse) {
+        this.recentlyJoinedCourseId = queryParams.persistencecourse;
+      }
+      this.getStudentCourses();
     });
   }
 
   /**
    * Gets the courses and feedback sessions involving the student.
    */
-  getStudentCourses(persistencecourse: string): void {
-    const paramMap: { [key: string]: string } = { persistencecourse };
-    this.httpRequestService.get('/student/courses', paramMap).subscribe((resp: StudentCourses) => {
-      this.recentlyJoinedCourseId = resp.recentlyJoinedCourseId;
-      this.hasEventualConsistencyMsg = resp.hasEventualConsistencyMsg;
-      this.courses = resp.courses;
-      this.sessionsInfoMap = resp.sessionsInfoMap;
+  getStudentCourses(): void {
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'student',
+    };
+    this.httpRequestService.get('/courses', paramMap).subscribe((resp: Courses) => {
+      for (const course of resp.courses) {
+        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId).subscribe((fss: FeedbackSessions) => {
+          this.courses.push(Object.assign({}, { course, feedbackSessions: fss.feedbackSessions }));
+        });
+      }
+
+      // if (this.recentlyJoinedCourseId && this.recentlyJoinedCourseId != '') {
+      //   let isDataConsistent: boolean = true;
+      //   for (const course of resp.courses) {
+      //     if (course.courseId === this.recentlyJoinedCourseId) {
+      //       isDataConsistent = false;
+      //       break;
+      //     }
+      //   }
+      //   if (!isDataConsistent) {
+      //     const params: { [key: string]: string } = {
+      //       entitytype: 'student',
+      //       courseid: this.recentlyJoinedCourseId,
+      //     };
+      //     this.httpRequestService.get('/course', params).subscribe((course: Course) => {
+      //       if (course) {
+      //         this.hasEventualConsistencyMsg = false;
+      //       }
+      //     }, (err: ErrorMessageOutput) => {
+      //       if (err.status === 404) {
+      //         this.hasEventualConsistencyMsg = true;
+      //       }
+      //     });
+      //   }
+      // }
+
+      for (const course of resp.courses) {
+        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId).subscribe((resp: FeedbackSessions) => {
+          for (const fs of resp.feedbackSessions) {
+            const fid: string = course.courseId + '%' + fs.feedbackSessionName;
+            const endTime: string = new Date(fs.submissionEndTimestamp).toDateString();
+            const isOpened: boolean = this.isOpened(fs);
+            const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
+            const isPublished: boolean = true;
+            const isSubmitted: boolean = this.hasStudentSubmittedForFeedbackSession(course.courseId, fs);
+            alert(isSubmitted);
+            this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted};
+          }
+        });
+      }
 
       if (this.hasEventualConsistencyMsg) {
         this.statusMessageService.showWarningMessage(
@@ -96,10 +137,38 @@ export class StudentHomePageComponent implements OnInit {
             + 'Please refresh this page in a few minutes to see the course ' + `${this.recentlyJoinedCourseId}`
             + ' in the list below.');
       }
-
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+    }, (e: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(e.error.message);
     });
+  }
+
+  isOpened(fs: FeedbackSession): boolean {
+    const now: number = new Date().getTime();
+    return now >= fs.submissionStartTimestamp && now < fs.submissionEndTimestamp;
+  }
+
+  isWaitingToOpen(fs: FeedbackSession): boolean {
+    const now: number = new Date().getTime();
+    return now < fs.submissionStartTimestamp;
+  }
+
+  isPublished(fs: FeedbackSession): boolean {
+    return fs.publishStatus.toString() === 'PUBLISHED';
+  }
+
+  hasStudentSubmittedForFeedbackSession(courseId: string, fs: FeedbackSession): boolean {
+    let hasSubmitted = false;
+    this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet(courseId, fs.feedbackSessionName).subscribe(
+        (giverSet: FeedbackSessionSubmittedGiverSet) => {
+          for (const giver of giverSet.giverIdentifiers) {
+            if (giver === this.id) {
+              hasSubmitted = true;
+              break;
+            }
+          }
+        }
+    );
+    return hasSubmitted;
   }
 
   /**

@@ -1,9 +1,9 @@
 <ng-container *ngFor="let studentCourse of courses">
   <div class="card bg-light top-padded">
     <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
-      <strong>[{{ course.id }}]: {{ course.name }}</strong>
+      <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
       <span class="float-sm-right">
-        <a routerLink="../course" [queryParams]="{user: this.user, courseid: course.id}"
+        <a routerLink="../course" [queryParams]="{user: this.user, courseid: course.courseId}"
            class="btn btn-light btn-sm button" ngbTooltip='View and edit information regarding your team'>
           View team
         </a>
@@ -23,8 +23,8 @@
         </thead>
         <tbody>
         <tr *ngFor="let session of studentCourse.feedbackSessions">
-          <ng-container *ngIf="sessionsInfoMap[session.feedbackSession.courseId + '%' + session.feedbackSession.feedbackSessionName] as sessionInfo">
-            <td>{{ session.feedbackSession.feedbackSessionName }}</td>
+          <ng-container *ngIf="sessionsInfoMap[session.courseId + '%' + session.feedbackSessionName] as sessionInfo">
+            <td>{{ session.feedbackSessionName }}</td>
             <td>{{ sessionInfo.endTime }}</td>
             <td>
               <a style="border-bottom: 1px dashed black;"
@@ -40,7 +40,7 @@
             </td>
             <td>
               <a *ngIf="sessionInfo.isPublished"
-                 routerLink="../sessions/result" [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
+                 routerLink="../sessions/result" [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, user: this.user}"
                  class="btn btn-light btn-sm btn-left button" ngbTooltip='View the submitted responses for this feedback session'>
                 View Responses
               </a>
@@ -52,19 +52,19 @@
               </a>
               <a *ngIf="sessionInfo.isOpened && !sessionInfo.isSubmitted"
                  routerLink="../sessions/submission"
-                 [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
+                 [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, user: this.user}"
                  class="btn btn-light btn-sm button" ngbTooltip='Start submitting feedback'>
                 Start Submission
               </a>
               <a *ngIf="sessionInfo.isOpened && sessionInfo.isSubmitted"
                  routerLink="../sessions/submission"
-                 [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
+                 [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, user: this.user}"
                  class="btn btn-light btn-sm button" ngbTooltip='Edit submitted feedback'>
                 Edit Submission
               </a>
               <a *ngIf="!sessionInfo.isOpened && !sessionInfo.isWaitingToOpen"
                  routerLink="../sessions/submission"
-                 [queryParams]="{courseid: session.feedbackSession.courseId, fsname: session.feedbackSession.feedbackSessionName, user: this.user}"
+                 [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, user: this.user}"
                  class="btn btn-light btn-sm button" ngbTooltip='View submitted feedback'>
                 View Submission
               </a>
