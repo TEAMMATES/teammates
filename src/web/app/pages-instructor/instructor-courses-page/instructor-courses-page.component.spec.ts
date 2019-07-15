@@ -20,20 +20,24 @@ describe('InstructorCoursesPageComponent', () => {
   const date6: Date = new Date('2003-12-05T08:15:30');
   const activeCourses: any[] = [
     {
-      courseId: 'CS3281',
-      courseName: 'Modifiable Students and Courses',
-      timeZone: 'UTC',
-      creationTimestamp: date1.getTime(),
-      deletionTimestamp: 0,
+      course: {
+        courseId: 'CS3281',
+        courseName: 'Modifiable Students and Courses',
+        timeZone: 'UTC',
+        creationTimestamp: date1.getTime(),
+        deletionTimestamp: 0,
+      },
       canModifyCourse: true,
       canModifyStudent: true,
     },
     {
-      courseId: 'CS3282',
-      courseName: 'Nothing modifiable',
-      timeZone: 'UTC',
-      creationTimestamp: date2.getTime(),
-      deletionTimestamp: 0,
+      course: {
+        courseId: 'CS3282',
+        courseName: 'Nothing modifiable',
+        timeZone: 'UTC',
+        creationTimestamp: date2.getTime(),
+        deletionTimestamp: 0,
+      },
       canModifyCourse: false,
       canModifyStudent: false,
     },
@@ -41,38 +45,46 @@ describe('InstructorCoursesPageComponent', () => {
 
   const archivedCourses: any[] = [
     {
-      courseId: 'CS2104',
-      courseName: 'Can modify archived',
-      timeZone: 'UTC',
-      creationTimestamp: date3.getTime(),
-      deletionTimestamp: 0,
+      course: {
+        courseId: 'CS2104',
+        courseName: 'Can modify archived',
+        timeZone: 'UTC',
+        creationTimestamp: date3.getTime(),
+        deletionTimestamp: 0,
+      },
       canModifyCourse: true,
     },
     {
-      courseId: 'CS2106',
-      courseName: 'Cannot modify archived',
-      timeZone: 'UTC',
-      creationTimestamp: date3.getTime(),
-      deletionTimestamp: 0,
+      course: {
+        courseId: 'CS2106',
+        courseName: 'Cannot modify archived',
+        timeZone: 'UTC',
+        creationTimestamp: date3.getTime(),
+        deletionTimestamp: 0,
+      },
       canModifyCourse: false,
     },
   ];
 
   const deletedCourses: any[] = [
     {
-      courseId: 'CS1020',
-      courseName: 'Can modify deleted',
-      timeZone: 'UTC',
-      creationTimestamp: date3.getTime(),
-      deletionTimestamp: date4.getTime(),
+      course: {
+        courseId: 'CS1020',
+        courseName: 'Can modify deleted',
+        timeZone: 'UTC',
+        creationTimestamp: date3.getTime(),
+        deletionTimestamp: date4.getTime(),
+      },
       canModifyCourse: true,
     },
     {
-      courseId: 'CS2010',
-      courseName: 'Cannot modify deleted',
-      timeZone: 'UTC',
-      creationTimestamp: date5.getTime(),
-      deletionTimestamp: date6.getTime(),
+      course: {
+        courseId: 'CS2010',
+        courseName: 'Cannot modify deleted',
+        timeZone: 'UTC',
+        creationTimestamp: date5.getTime(),
+        deletionTimestamp: date6.getTime(),
+      },
       canModifyCourse: false,
     },
   ];

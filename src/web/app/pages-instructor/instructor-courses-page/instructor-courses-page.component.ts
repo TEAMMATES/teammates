@@ -25,30 +25,18 @@ import {
 } from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
 interface ActiveCourseModel {
-  courseId: string;
-  courseName: string;
-  timeZone: string;
-  creationTimestamp: number;
-  deletionTimestamp: number;
+  course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
 }
 
 interface ArchivedCourseModel {
-  courseId: string;
-  courseName: string;
-  timeZone: string;
-  creationTimestamp: number;
-  deletionTimestamp: number;
+  course: Course;
   canModifyCourse: boolean;
 }
 
 interface SoftDeletedCourseModel {
-  courseId: string;
-  courseName: string;
-  timeZone: string;
-  creationTimestamp: number;
-  deletionTimestamp: number;
+  course: Course;
   canModifyCourse: boolean;
 }
 
@@ -148,7 +136,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const activeCourse: ActiveCourseModel = Object.assign(course, { canModifyCourse, canModifyStudent });
+          const activeCourse: ActiveCourseModel = Object.assign({}, { course ,canModifyCourse, canModifyStudent });
           activeCourses.push(activeCourse);
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(error.error.message);
@@ -165,7 +153,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           courseid: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const archivedCourse: ArchivedCourseModel = Object.assign(course, { canModifyCourse });
+          const archivedCourse: ArchivedCourseModel = Object.assign({}, { course, canModifyCourse });
           archivedCourses.push(archivedCourse);
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(error.error.message);
@@ -182,7 +170,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           courseid: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const softDeletedCourse: SoftDeletedCourseModel = Object.assign(course, { canModifyCourse });
+          const softDeletedCourse: SoftDeletedCourseModel = Object.assign({}, { course,  canModifyCourse });
           softDeletedCourses.push(softDeletedCourse);
           if (!softDeletedCourse.canModifyCourse) {
             this.canDeleteAll = false;
@@ -311,7 +299,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.result.then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: ArchivedCourseModel) => {
-        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.courseId));
+        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
       });
 
       forkJoin(deleteRequests).subscribe(() => {
@@ -330,7 +318,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   onRestoreAll(): void {
     const restoreRequests: Observable<MessageOutput>[] = [];
     this.softDeletedCourses.forEach((courseToRestore: SoftDeletedCourseModel) => {
-      restoreRequests.push(this.courseService.restoreCourse(courseToRestore.courseId));
+      restoreRequests.push(this.courseService.restoreCourse(courseToRestore.course.courseId));
     });
 
     forkJoin(restoreRequests).subscribe(() => {
@@ -361,16 +349,16 @@ export class InstructorCoursesPageComponent implements OnInit {
       let strB: string;
       switch (by) {
         case SortBy.COURSE_ID:
-          strA = a.courseId ? a.courseId : '';
-          strB = b.courseId ? b.courseId : '';
+          strA = a.course.courseId ? a.course.courseId : '';
+          strB = b.course.courseId ? b.course.courseId : '';
           break;
         case SortBy.COURSE_NAME:
-          strA = a.courseName;
-          strB = b.courseName;
+          strA = a.course.courseName;
+          strB = b.course.courseName;
           break;
         case SortBy.CREATION_DATE:
-          strA = a.creationTimestamp.toString();
-          strB = b.creationTimestamp.toString();
+          strA = a.course.creationTimestamp.toString();
+          strB = b.course.creationTimestamp.toString();
           break;
         default:
           strA = '';
