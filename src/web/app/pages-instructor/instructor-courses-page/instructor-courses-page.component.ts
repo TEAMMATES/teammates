@@ -136,7 +136,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const activeCourse: ActiveCourseModel = Object.assign({}, { course ,canModifyCourse, canModifyStudent });
+          const activeCourse: ActiveCourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.activeCourses.push(activeCourse);
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(error.error.message);
