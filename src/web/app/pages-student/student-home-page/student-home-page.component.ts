@@ -78,40 +78,43 @@ export class StudentHomePageComponent implements OnInit {
     this.httpRequestService.get('/courses', paramMap).subscribe((resp: Courses) => {
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId).subscribe((fss: FeedbackSessions) => {
+          fss.feedbackSessions.sort((a, b) =>
+              (a.createdAtTimestamp > b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
+                  ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1 );
           this.courses.push(Object.assign({}, { course, feedbackSessions: fss.feedbackSessions }));
         });
       }
 
-      // if (this.recentlyJoinedCourseId && this.recentlyJoinedCourseId != '') {
-      //   let isDataConsistent: boolean = true;
-      //   for (const course of resp.courses) {
-      //     if (course.courseId === this.recentlyJoinedCourseId) {
-      //       isDataConsistent = false;
-      //       break;
-      //     }
-      //   }
-      //   if (!isDataConsistent) {
-      //     const params: { [key: string]: string } = {
-      //       entitytype: 'student',
-      //       courseid: this.recentlyJoinedCourseId,
-      //     };
-      //     this.httpRequestService.get('/course', params).subscribe((course: Course) => {
-      //       if (course) {
-      //         this.hasEventualConsistencyMsg = false;
-      //       }
-      //     }, (err: ErrorMessageOutput) => {
-      //       if (err.status === 404) {
-      //         this.hasEventualConsistencyMsg = true;
-      //       }
-      //     });
-      //   }
-      // }
+      if (this.recentlyJoinedCourseId && this.recentlyJoinedCourseId != '') {
+        let isDataConsistent: boolean = false;
+        for (const course of resp.courses) {
+          if (course.courseId === this.recentlyJoinedCourseId) {
+            isDataConsistent = true;
+            break;
+          }
+        }
+        if (!isDataConsistent) {
+          const params: { [key: string]: string } = {
+            entitytype: 'student',
+            courseid: this.recentlyJoinedCourseId,
+          };
+          this.httpRequestService.get('/course', params).subscribe((course: Course) => {
+            if (course) {
+              this.hasEventualConsistencyMsg = false;
+            }
+          }, (err: ErrorMessageOutput) => {
+            if (err.status === 404) {
+              this.hasEventualConsistencyMsg = true;
+            }
+          });
+        }
+      }
 
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId).subscribe((resp: FeedbackSessions) => {
           for (const fs of resp.feedbackSessions) {
             const fid: string = course.courseId + '%' + fs.feedbackSessionName;
-            const endTime: string = new Date(fs.submissionEndTimestamp).toString();
+            const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
             const isOpened: boolean = this.isOpened(fs);
             const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
             const isPublished: boolean = this.isPublished(fs);
