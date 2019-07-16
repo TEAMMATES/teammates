@@ -85,6 +85,8 @@ export class StudentHomePageComponent implements OnInit {
                   (a.createdAtTimestamp > b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
                       ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1 );
           this.courses.push(Object.assign({}, { course, feedbackSessions: sortedFss }));
+          this.courses.sort((a: StudentCourse, b: StudentCourse) =>
+              (a.course.courseId > b.course.courseId) ? 1 : -1);
         });
       }
 
