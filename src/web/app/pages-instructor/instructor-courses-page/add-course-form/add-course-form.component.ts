@@ -22,6 +22,7 @@ export class AddCourseFormComponent implements OnInit {
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('newCourseMessageTemplate') newCourseMessageTemplate!: TemplateRef<any>;
+  @ViewChild('courseForm') form: any;
 
   timezones: string[] = [];
   timezone: string = '';
@@ -64,11 +65,12 @@ export class AddCourseFormComponent implements OnInit {
     if (!this.isEnabled) {
       return;
     }
-    if (!this.newCourseId || !this.newCourseName) {
-      this.statusMessageService.showErrorMessage(
-          'Please make sure you have filled in both Course ID and Name before adding the course!');
+
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((control: any) => control.markAsTouched());
       return;
     }
+
     this.courseService.createCourse({
       courseName: this.newCourseName,
       timeZone: this.timezone,
@@ -80,8 +82,6 @@ export class AddCourseFormComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-    this.newCourseId = '';
-    this.newCourseName = '';
-    this.timezone = moment.tz.guess();
+    this.form.reset({ timezone: moment.tz.guess() });
   }
 }
