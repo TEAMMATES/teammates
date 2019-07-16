@@ -78,10 +78,13 @@ export class StudentHomePageComponent implements OnInit {
     this.httpRequestService.get('/courses', paramMap).subscribe((resp: Courses) => {
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId).subscribe((fss: FeedbackSessions) => {
-          fss.feedbackSessions.sort((a, b) =>
-              (a.createdAtTimestamp > b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
-                  ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1 );
-          this.courses.push(Object.assign({}, { course, feedbackSessions: fss.feedbackSessions }));
+
+          const sortedFss: FeedbackSession[] = fss.feedbackSessions
+              .map((fs: FeedbackSession) => Object.assign({}, fs))
+              .sort((a: FeedbackSession, b: FeedbackSession) =>
+                  (a.createdAtTimestamp > b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
+                      ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1 );
+          this.courses.push(Object.assign({}, { course, feedbackSessions: sortedFss }));
         });
       }
 
