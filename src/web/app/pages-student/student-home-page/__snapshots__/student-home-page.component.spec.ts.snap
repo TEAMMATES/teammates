@@ -3,6 +3,7 @@
 exports[`StudentHomePageComponent should snap with all feedback sessions over 2 courses 1`] = `
 <tm-student-home-page
   courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
   recentlyJoinedCourseId=""
@@ -78,7 +79,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               First Session
             </td>
             <td>
-              1200
+              Thu, 01 Jan 1970, 07:30 AM GMT+7
             </td>
             <td>
               <a
@@ -141,7 +142,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               Second Session
             </td>
             <td>
-              1200
+              Thu, 01 Jan 1970, 07:30 AM GMT+7
             </td>
             <td>
               <a
@@ -251,7 +252,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               Third Session
             </td>
             <td>
-              1200
+              Thu, 01 Jan 1970, 07:30 AM GMT+7
             </td>
             <td>
               <a
@@ -303,7 +304,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               Fourth Session
             </td>
             <td>
-              1200
+              Thu, 01 Jan 1970, 07:30 AM GMT+7
             </td>
             <td>
               <a
@@ -359,6 +360,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
 exports[`StudentHomePageComponent should snap with default fields 1`] = `
 <tm-student-home-page
   courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
   recentlyJoinedCourseId=""
@@ -380,6 +382,7 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
 exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
   courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
   recentlyJoinedCourseId=""

@@ -2,6 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  SessionVisibleSetting,
+  ResponseVisibleSetting,
+  FeedbackSessionSubmissionStatus, FeedbackSessionPublishStatus
+} from "../../../types/api-output";
 import { StudentHomePageComponent } from './student-home-page.component';
 
 import { MatSnackBarModule } from '@angular/material';
@@ -47,8 +52,11 @@ describe('StudentHomePageComponent', () => {
     const studentName: string = '';
     const studentCourse: any = {
       course: {
-        id: 'CS3281',
-        name: 'Thematic Systems',
+        courseId: 'CS3281',
+        courseName: 'Thematic Systems',
+        timeZone: 'UTC',
+        creationTimestamp: new Date('2019-02-02T08:15:30').getTime(),
+        deletionTimestamp: 0,
       },
       feedbackSessions: [],
     };
@@ -62,42 +70,88 @@ describe('StudentHomePageComponent', () => {
     const studentName: string = 'John Doe';
     const studentCourseA: any = {
       course: {
-        id: 'CS2103',
-        name: 'Software Engineering',
+        courseId: 'CS2103',
+        courseName: 'Software Engineering',
+        timeZone: 'UTC',
+        creationTimestamp: new Date('2019-02-02T08:15:30').getTime(),
+        deletionTimestamp: 0,
       },
       feedbackSessions: [
         {
-          feedbackSession: {
-            feedbackSessionName: 'First Session',
-            courseId: 'CS2103',
-          },
+          feedbackSessionName: 'First Session',
+          courseId: 'CS2103',
+          timeZone: '',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1200,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
         },
         {
-          feedbackSession: {
-            feedbackSessionName: 'Second Session',
-            courseId: 'CS2103',
-          },
+          feedbackSessionName: 'Second Session',
+          courseId: 'CS2103',
+          timeZone: '',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1200,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
         },
       ],
     };
 
     const studentCourseB: any = {
       course: {
-        id: 'CS2102',
-        name: 'Databases',
+        courseId: 'CS2102',
+        courseName: 'Databases',
+        timeZone: 'UTC',
+        creationTimestamp: new Date('2019-02-02T08:15:30').getTime(),
+        deletionTimestamp: 0,
       },
       feedbackSessions: [
         {
-          feedbackSession: {
-            feedbackSessionName: 'Third Session',
-            courseId: 'CS2102',
-          },
+          feedbackSessionName: 'Third Session',
+          courseId: 'CS2102',
+          timeZone: '',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1200,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
         },
         {
-          feedbackSession: {
-            feedbackSessionName: 'Fourth Session',
-            courseId: 'CS2102',
-          },
+          feedbackSessionName: 'Fourth Session',
+          courseId: 'CS2102',
+          timeZone: '',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 0,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
         },
       ],
     };
