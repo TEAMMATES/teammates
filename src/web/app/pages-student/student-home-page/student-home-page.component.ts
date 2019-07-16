@@ -9,7 +9,7 @@ import {
   Course,
   FeedbackSessions,
   FeedbackSession,
-  HasResponses,
+  HasResponses, FeedbackSessionPublishStatus,
 } from "../../../types/api-output";
 import {ErrorMessageOutput} from '../../error-message-output';
 
@@ -111,12 +111,15 @@ export class StudentHomePageComponent implements OnInit {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId).subscribe((resp: FeedbackSessions) => {
           for (const fs of resp.feedbackSessions) {
             const fid: string = course.courseId + '%' + fs.feedbackSessionName;
-            const endTime: string = new Date(fs.submissionEndTimestamp).toDateString();
+            const endTime: string = new Date(fs.submissionEndTimestamp).toString();
             const isOpened: boolean = this.isOpened(fs);
             const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
             const isPublished: boolean = this.isPublished(fs);
-            const isSubmitted: boolean = this.hasStudentSubmittedForFeedbackSession(course.courseId, fs);
-            this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted};
+            this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId, fs.feedbackSessionName)
+                .subscribe((resp: HasResponses) => {
+              const isSubmitted: boolean = resp.hasResponses;
+              this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted };
+            });
           }
         });
       }
@@ -145,17 +148,7 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   isPublished(fs: FeedbackSession): boolean {
-    return fs.publishStatus === 'PUBLISHED';
-  }
-
-  hasStudentSubmittedForFeedbackSession(courseId: string, fs: FeedbackSession): boolean {
-    let hasSubmitted = false;
-    this.feedbackSessionsService.hasStudentResponseForFeedbackSession(courseId, fs.feedbackSessionName).subscribe(
-        (resp: HasResponses) => {
-          hasSubmitted = resp.hasResponses;
-        }
-    );
-    return hasSubmitted;
+    return fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
   }
 
   /**
