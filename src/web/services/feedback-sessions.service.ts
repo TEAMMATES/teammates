@@ -125,11 +125,25 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Checks if there are responses for a specific question in a feedback session.
+   * Checks if there are responses for a specific question in a feedback session, with instructor entity type.
    */
   hasResponsesForQuestion(questionId: string): Observable<HasResponses> {
     const paramMap: { [key: string]: string } = {
+      entitytype: 'instructor',
       questionid: questionId,
+    };
+    return this.httpRequestService.get('/hasResponses', paramMap);
+  }
+
+  /**
+   * Checks if there is response of a student for a feedback session, with student entity type.
+   */
+  hasStudentResponseForFeedbackSession(courseId: string, feedbackSessionName: string): Observable<HasResponses> {
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'student',
+      courseid: courseId,
+      fsname: feedbackSessionName,
+
     };
     return this.httpRequestService.get('/hasResponses', paramMap);
   }

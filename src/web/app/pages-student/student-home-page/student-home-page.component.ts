@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {AuthService} from "../../../services/auth.service";
 import {FeedbackSessionsService} from "../../../services/feedback-sessions.service";
 
 import {HttpRequestService} from '../../../services/http-request.service';
@@ -9,7 +8,8 @@ import {
   Courses,
   Course,
   FeedbackSessions,
-  FeedbackSession, AuthInfo, FeedbackSessionSubmittedGiverSet,
+  FeedbackSession,
+  HasResponses,
 } from "../../../types/api-output";
 import {ErrorMessageOutput} from '../../error-message-output';
 
@@ -49,25 +49,18 @@ export class StudentHomePageComponent implements OnInit {
 
   user: string = '';
 
-  id: string = '';
   recentlyJoinedCourseId?: string = '';
   hasEventualConsistencyMsg: boolean = false;
   courses: StudentCourse[] = [];
   sessionsInfoMap: { [key: string]: SessionInfoMap } = {};
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
-              private authService: AuthService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
-        if (auth.user) {
-          this.id = auth.user.id;
-        }
-      });
       if (queryParams.persistencecourse) {
         this.recentlyJoinedCourseId = queryParams.persistencecourse;
       }
@@ -121,9 +114,8 @@ export class StudentHomePageComponent implements OnInit {
             const endTime: string = new Date(fs.submissionEndTimestamp).toDateString();
             const isOpened: boolean = this.isOpened(fs);
             const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
-            const isPublished: boolean = true;
+            const isPublished: boolean = this.isPublished(fs);
             const isSubmitted: boolean = this.hasStudentSubmittedForFeedbackSession(course.courseId, fs);
-            alert(isSubmitted);
             this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted};
           }
         });
@@ -153,19 +145,14 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   isPublished(fs: FeedbackSession): boolean {
-    return fs.publishStatus.toString() === 'PUBLISHED';
+    return fs.publishStatus === 'PUBLISHED';
   }
 
   hasStudentSubmittedForFeedbackSession(courseId: string, fs: FeedbackSession): boolean {
     let hasSubmitted = false;
-    this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet(courseId, fs.feedbackSessionName).subscribe(
-        (giverSet: FeedbackSessionSubmittedGiverSet) => {
-          for (const giver of giverSet.giverIdentifiers) {
-            if (giver === this.id) {
-              hasSubmitted = true;
-              break;
-            }
-          }
+    this.feedbackSessionsService.hasStudentResponseForFeedbackSession(courseId, fs.feedbackSessionName).subscribe(
+        (resp: HasResponses) => {
+          hasSubmitted = resp.hasResponses;
         }
     );
     return hasSubmitted;

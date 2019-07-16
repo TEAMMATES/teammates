@@ -179,10 +179,11 @@ export class CourseService {
   }
 
   /**
-   * Checks if there are responses for a course.
+   * Checks if there are responses for a course, with instructor entity type.
    */
   hasResponsesForCourse(courseId: string): Observable<HasResponses> {
     const paramMap: { [key: string]: string } = {
+      entitytype: 'instructor',
       courseid: courseId,
     };
     return this.httpRequestService.get('/hasResponses', paramMap);
