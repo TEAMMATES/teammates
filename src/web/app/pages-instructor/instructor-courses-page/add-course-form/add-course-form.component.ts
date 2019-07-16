@@ -79,9 +79,9 @@ export class AddCourseFormComponent implements OnInit {
       this.courseAdded.emit();
       this.course = course;
       this.statusMessageService.showSuccessMessageTemplate(this.newCourseMessageTemplate);
+      this.form.reset({ timezone: moment.tz.guess() });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-    this.form.reset({ timezone: moment.tz.guess() });
   }
 }
