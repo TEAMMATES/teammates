@@ -15,7 +15,7 @@ import {
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface SessionInfoMap {
-  endTime: string;
+  endTime: string | number;
   isOpened: boolean;
   isWaitingToOpen: boolean;
   isPublished: boolean;
