@@ -973,13 +973,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 "Team 1.3=Team 1.3",
                 "Team 1.4=Team 1.4",
                 "FSRTest.instr1@course1.tmt=Instructor1 Course1",
-                "FSRTest.student1InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
-                "FSRTest.student2InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
-                "FSRTest.student4InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.2",
                 student2AnonEmail + "=" + student2AnonName,
                 student4AnonEmail + "=" + student4AnonName);
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(13, results.emailNameTable.size());
+        assertEquals(10, results.emailNameTable.size());
 
         // Test the user email-teamName maps used for display purposes
         mapString = results.emailTeamNameTable.toString();
@@ -987,9 +984,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         Collections.addAll(expectedStrings,
                 "FSRTest.student4InCourse1@gmail.tmt=Team 1.2",
                 "FSRTest.student1InCourse1@gmail.tmt=Team 1.1</td></div>'\"",
-                "FSRTest.student1InCourse1@gmail.tmt's Team=",
-                "FSRTest.student2InCourse1@gmail.tmt's Team=",
-                "FSRTest.student4InCourse1@gmail.tmt's Team=",
                 "FSRTest.student2InCourse1@gmail.tmt=Team 1.1</td></div>'\"",
                 "Team 1.1</td></div>'\"=",
                 "Team 1.3=",
@@ -999,7 +993,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 student2AnonEmail + "=" + student2AnonName + Const.TEAM_OF_EMAIL_OWNER,
                 student4AnonEmail + "=" + student4AnonName + Const.TEAM_OF_EMAIL_OWNER);
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(13, results.emailTeamNameTable.size());
+        assertEquals(10, results.emailTeamNameTable.size());
 
         // Test 'Append TeamName to Name' for display purposes with Typical Cases
         expectedStrings.clear();
