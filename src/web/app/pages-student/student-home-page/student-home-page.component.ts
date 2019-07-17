@@ -88,12 +88,7 @@ export class StudentHomePageComponent implements OnInit {
               this.courses.push(Object.assign({}, { course, feedbackSessions: sortedFss }));
               this.courses.sort((a: StudentCourse, b: StudentCourse) =>
                   (a.course.courseId > b.course.courseId) ? 1 : -1);
-            });
-      }
 
-      for (const course of resp.courses) {
-        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
-            .subscribe((fss: FeedbackSessions) => {
               for (const fs of fss.feedbackSessions) {
                 const fid: string = course.courseId.concat('%').concat(fs.feedbackSessionName);
                 const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
