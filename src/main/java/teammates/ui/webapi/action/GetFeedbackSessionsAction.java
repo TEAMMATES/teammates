@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackSessionData;
@@ -71,12 +68,7 @@ public class GetFeedbackSessionsAction extends Action {
                 List<StudentAttributes> students = logic.getStudentsForGoogleId(userInfo.getId());
                 feedbackSessionAttributes = new ArrayList<>();
                 for (StudentAttributes student : students) {
-                    try {
-                        feedbackSessionAttributes.addAll(
-                                logic.getFeedbackSessionsForUserInCourse(student.getCourse(), student.email));
-                    } catch (EntityDoesNotExistException e) {
-                        return new JsonResult("Course does not exist.", HttpStatus.SC_NOT_FOUND);
-                    }
+                    feedbackSessionAttributes.addAll(logic.getFeedbackSessionsForCourse(student.getCourse()));
                 }
             } else {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
@@ -90,21 +82,7 @@ public class GetFeedbackSessionsAction extends Action {
                 }
             }
         } else {
-            if (entityType.equals(Const.EntityType.STUDENT)) {
-                StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
-                try {
-                    feedbackSessionAttributes = logic.getFeedbackSessionsForUserInCourse(courseId, student.email);
-                } catch (EntityDoesNotExistException e) {
-                    return new JsonResult("Course does not exist.", HttpStatus.SC_NOT_FOUND);
-                }
-            } else {
-                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-                try {
-                    feedbackSessionAttributes = logic.getFeedbackSessionsForUserInCourse(courseId, instructor.email);
-                } catch (EntityDoesNotExistException e) {
-                    return new JsonResult("Course does not exist.", HttpStatus.SC_NOT_FOUND);
-                }
-            }
+            feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
         }
 
         if (entityType.equals(Const.EntityType.STUDENT)) {
