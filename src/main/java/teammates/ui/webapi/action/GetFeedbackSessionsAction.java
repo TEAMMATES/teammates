@@ -90,10 +90,20 @@ public class GetFeedbackSessionsAction extends Action {
                 }
             }
         } else {
-            try {
-                feedbackSessionAttributes = logic.getFeedbackSessionsForUserInCourse(courseId, userInfo.id);
-            } catch (EntityDoesNotExistException e) {
-                return new JsonResult("Course does not exist.", HttpStatus.SC_NOT_FOUND);
+            if (entityType.equals(Const.EntityType.STUDENT)) {
+                StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+                try {
+                    feedbackSessionAttributes = logic.getFeedbackSessionsForUserInCourse(courseId, student.email);
+                } catch (EntityDoesNotExistException e) {
+                    return new JsonResult("Course does not exist.", HttpStatus.SC_NOT_FOUND);
+                }
+            } else {
+                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+                try {
+                    feedbackSessionAttributes = logic.getFeedbackSessionsForUserInCourse(courseId, instructor.email);
+                } catch (EntityDoesNotExistException e) {
+                    return new JsonResult("Course does not exist.", HttpStatus.SC_NOT_FOUND);
+                }
             }
         }
 

@@ -54,6 +54,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, "fake-course",
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         assertNull(logic.getCourse("fake-course"));
@@ -75,6 +76,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "fake-question-id",
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         GetHasResponsesAction getHasResponsesAction = getAction(params);
@@ -95,6 +97,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         GetHasResponsesAction getHasResponsesAction = getAction(params);
@@ -113,6 +116,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse4.courseId,
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         getHasResponsesAction = getAction(params);
@@ -138,6 +142,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fQuestion.getFeedbackQuestionId(),
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         GetHasResponsesAction getHasResponsesAction = getAction(params);
@@ -163,6 +168,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fQuestion.getFeedbackQuestionId(),
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         getHasResponsesAction = getAction(params);
@@ -191,6 +197,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fQuestion.getFeedbackQuestionId(),
                 Const.ParamsNames.COURSE_ID, currentInstructor.courseId,
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         GetHasResponsesAction getHasResponsesAction = getAction(params);
@@ -209,6 +216,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
@@ -222,6 +230,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionAttributesList.get(0).getFeedbackQuestionId(),
+                Const.ParamsNames.ENTITY_TYPE, "instructor",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);

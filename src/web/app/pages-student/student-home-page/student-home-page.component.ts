@@ -1,17 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {FeedbackSessionsService} from "../../../services/feedback-sessions.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 
-import {HttpRequestService} from '../../../services/http-request.service';
-import {StatusMessageService} from '../../../services/status-message.service';
+import { HttpRequestService } from '../../../services/http-request.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import {
-  Courses,
   Course,
-  FeedbackSessions,
+  Courses,
   FeedbackSession,
-  HasResponses, FeedbackSessionPublishStatus,
-} from "../../../types/api-output";
-import {ErrorMessageOutput} from '../../error-message-output';
+  FeedbackSessionPublishStatus,
+  FeedbackSessions,
+  HasResponses,
+} from '../../../types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface SessionInfoMap {
   endTime: string;
@@ -77,20 +78,20 @@ export class StudentHomePageComponent implements OnInit {
     };
     this.httpRequestService.get('/courses', paramMap).subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId).subscribe((fss: FeedbackSessions) => {
-
-          const sortedFss: FeedbackSession[] = fss.feedbackSessions
-              .map((fs: FeedbackSession) => Object.assign({}, fs))
-              .sort((a: FeedbackSession, b: FeedbackSession) =>
-                  (a.createdAtTimestamp > b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
-                      ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1 );
-          this.courses.push(Object.assign({}, { course, feedbackSessions: sortedFss }));
-          this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-              (a.course.courseId > b.course.courseId) ? 1 : -1);
-        });
+        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
+            .subscribe((fss: FeedbackSessions) => {
+              const sortedFss: FeedbackSession[] = fss.feedbackSessions
+                  .map((fs: FeedbackSession) => Object.assign({}, fs))
+                  .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
+                      b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
+                      ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
+              this.courses.push(Object.assign({}, { course, feedbackSessions: sortedFss }));
+              this.courses.sort((a: StudentCourse, b: StudentCourse) =>
+                  (a.course.courseId > b.course.courseId) ? 1 : -1);
+            });
       }
 
-      if (this.recentlyJoinedCourseId && this.recentlyJoinedCourseId != '') {
+      if (this.recentlyJoinedCourseId && this.recentlyJoinedCourseId !== '') {
         let isDataConsistent: boolean = false;
         for (const course of resp.courses) {
           if (course.courseId === this.recentlyJoinedCourseId) {
@@ -116,20 +117,22 @@ export class StudentHomePageComponent implements OnInit {
       }
 
       for (const course of resp.courses) {
-        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId).subscribe((resp: FeedbackSessions) => {
-          for (const fs of resp.feedbackSessions) {
-            const fid: string = course.courseId + '%' + fs.feedbackSessionName;
-            const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
-            const isOpened: boolean = this.isOpened(fs);
-            const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
-            const isPublished: boolean = this.isPublished(fs);
-            this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId, fs.feedbackSessionName)
-                .subscribe((resp: HasResponses) => {
-              const isSubmitted: boolean = resp.hasResponses;
-              this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted };
+        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
+            .subscribe((fss: FeedbackSessions) => {
+              for (const fs of fss.feedbackSessions) {
+                const fid: string = course.courseId.concat('%').concat(fs.feedbackSessionName);
+                const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
+                const isOpened: boolean = this.isOpened(fs);
+                const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
+                const isPublished: boolean = this.isPublished(fs);
+                this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId,
+                    fs.feedbackSessionName)
+                    .subscribe((hasRes: HasResponses) => {
+                      const isSubmitted: boolean = hasRes.hasResponses;
+                      this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted };
+                    });
+              }
             });
-          }
-        });
       }
 
       if (this.hasEventualConsistencyMsg) {
@@ -145,16 +148,25 @@ export class StudentHomePageComponent implements OnInit {
     });
   }
 
+  /**
+   * Checks if feedback session is opened.
+   */
   isOpened(fs: FeedbackSession): boolean {
     const now: number = new Date().getTime();
     return now >= fs.submissionStartTimestamp && now < fs.submissionEndTimestamp;
   }
 
+  /**
+   * Checks if feedback session is waiting to open.
+   */
   isWaitingToOpen(fs: FeedbackSession): boolean {
     const now: number = new Date().getTime();
     return now < fs.submissionStartTimestamp;
   }
 
+  /**
+   * Checks if feedback session is published.
+   */
   isPublished(fs: FeedbackSession): boolean {
     return fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
   }

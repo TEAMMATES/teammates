@@ -3,10 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
-  SessionVisibleSetting,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
-  FeedbackSessionSubmissionStatus, FeedbackSessionPublishStatus
-} from "../../../types/api-output";
+  SessionVisibleSetting,
+} from '../../../types/api-output';
 import { StudentHomePageComponent } from './student-home-page.component';
 
 import { MatSnackBarModule } from '@angular/material';
