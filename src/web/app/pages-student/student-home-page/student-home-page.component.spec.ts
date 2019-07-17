@@ -158,7 +158,7 @@ describe('StudentHomePageComponent', () => {
     };
 
     const publishedSessionInfoMap: any = {
-      endTime: '2019-02-02T08:15:30+08:00',
+      endTime: new Date('2019-02-02T08:15:30').toISOString(),
       isOpened: true,
       isWaitingToOpen: true,
       isPublished: true,
@@ -166,7 +166,7 @@ describe('StudentHomePageComponent', () => {
     };
 
     const unpublishedSessionInfoMap: any = {
-      endTime: '2019-02-02T08:15:30+08:00',
+      endTime: new Date('2019-02-02T08:15:30').toISOString(),
       isOpened: true,
       isWaitingToOpen: false,
       isPublished: false,
@@ -174,7 +174,7 @@ describe('StudentHomePageComponent', () => {
     };
 
     const submittedSessionInfoMap: any = {
-      endTime: '2019-02-02T08:15:30+08:00',
+      endTime: new Date('2019-02-02T08:15:30').toISOString(),
       isOpened: true,
       isWaitingToOpen: false,
       isPublished: false,
@@ -182,7 +182,7 @@ describe('StudentHomePageComponent', () => {
     };
 
     const concludedSessionInfoMap: any = {
-      endTime: '2019-02-02T08:15:30+08:00',
+      endTime: new Date('2019-02-02T08:15:30').toISOString(),
       isOpened: false,
       isWaitingToOpen: false,
       isPublished: false,
