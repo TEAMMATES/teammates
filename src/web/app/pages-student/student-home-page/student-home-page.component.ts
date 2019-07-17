@@ -91,6 +91,25 @@ export class StudentHomePageComponent implements OnInit {
             });
       }
 
+      for (const course of resp.courses) {
+        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
+            .subscribe((fss: FeedbackSessions) => {
+              for (const fs of fss.feedbackSessions) {
+                const fid: string = course.courseId.concat('%').concat(fs.feedbackSessionName);
+                const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
+                const isOpened: boolean = this.isOpened(fs);
+                const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
+                const isPublished: boolean = this.isPublished(fs);
+                this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId,
+                    fs.feedbackSessionName)
+                    .subscribe((hasRes: HasResponses) => {
+                      const isSubmitted: boolean = hasRes.hasResponses;
+                      this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted };
+                    });
+              }
+            });
+      }
+
       if (this.recentlyJoinedCourseId && this.recentlyJoinedCourseId !== '') {
         let isDataConsistent: boolean = false;
         for (const course of resp.courses) {
@@ -114,25 +133,6 @@ export class StudentHomePageComponent implements OnInit {
             }
           });
         }
-      }
-
-      for (const course of resp.courses) {
-        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
-            .subscribe((fss: FeedbackSessions) => {
-              for (const fs of fss.feedbackSessions) {
-                const fid: string = course.courseId.concat('%').concat(fs.feedbackSessionName);
-                const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
-                const isOpened: boolean = this.isOpened(fs);
-                const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
-                const isPublished: boolean = this.isPublished(fs);
-                this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId,
-                    fs.feedbackSessionName)
-                    .subscribe((hasRes: HasResponses) => {
-                      const isSubmitted: boolean = hasRes.hasResponses;
-                      this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted };
-                    });
-              }
-            });
       }
 
       if (this.hasEventualConsistencyMsg) {

@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetHasResponsesAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -46,7 +47,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    protected void testExecute_fakeCourse_shouldFail() {
+    protected void testExecute_asInstructorWithFakeCourse_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.googleId);
 
@@ -68,7 +69,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    protected void testExecute_fakeQuestion_shouldFail() {
+    protected void testExecute_asInstructorWithFakeQuestion_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         loginAsInstructor(instructor1OfCourse1.googleId);
@@ -88,7 +89,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    protected void testExecute_getRespondentsInCourse_shouldPass() {
+    protected void testExecute_asInstructorGetRespondentsInCourse_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.googleId);
 
@@ -128,7 +129,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    protected void getRespondentsForQuestion_shouldPass() {
+    protected void asInstructor_getRespondentsForQuestion_shouldPass() {
         ______TS("Question with more than 1 response");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -180,7 +181,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    protected void testExecute_hasQuestionIdAndCourseId_preferQuestionId() {
+    protected void testExecute_asInstructorWithQuestionIdAndCourseId_preferQuestionId() {
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("awaiting.session");
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(feedbackSessionAttributes.getCourseId());
         FeedbackQuestionAttributes fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession4InCourse1");
@@ -209,6 +210,50 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
+    protected void testExecute_asStudentWithFakeFeedbackSessionName_shouldFail() {
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        loginAsStudent(student1InCourse1.googleId);
+
+        assertNull(logic.getFeedbackSession("fake-session-name", student1InCourse1.course));
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "fake-session-name",
+                Const.ParamsNames.ENTITY_TYPE, "student",
+        };
+
+        GetHasResponsesAction getHasResponsesAction = getAction(params);
+        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
+        MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
+        assertEquals("No feedback session found with name: fake-session-name", messageOutput.getMessage());
+    }
+
+    @Test
+    protected void testExecute_asStudentGetHasRespondedForSession_shouldPass() {
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        loginAsStudent(student1InCourse1.googleId);
+
+        FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.ENTITY_TYPE, "student",
+        };
+
+        GetHasResponsesAction getHasResponsesAction = getAction(params);
+        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
+        HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
+
+        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
+        assertTrue(hasResponsesData.hasResponses());
+    }
+
+    @Test
     @Override
     protected void testAccessControl() throws Exception {
         ______TS("Only instructors of the course can check if there are responses.");
@@ -234,6 +279,18 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
+
+        ______TS("Students of the course can check if they responded.");
+
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.ENTITY_TYPE, "student",
+        };
+
+        verifyAccessibleForStudentsOfTheSameCourse(params);
     }
 
     @Test
@@ -244,5 +301,20 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
+    }
+
+    @Test
+    public void testAccessControl_wrongEntityType_shouldFail() {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor1OfCourse1.googleId);
+
+        ______TS("wrong entity type");
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.ENTITY_TYPE, "wrongtype",
+        };
+
+        verifyCannotAccess(params);
     }
 }
