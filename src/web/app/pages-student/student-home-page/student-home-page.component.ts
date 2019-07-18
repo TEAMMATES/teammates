@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import moment from 'moment-timezone';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   Courses,
@@ -15,7 +17,7 @@ import {
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface SessionInfoMap {
-  endTime: string | number;
+  endTime: string;
   isOpened: boolean;
   isWaitingToOpen: boolean;
   isPublished: boolean;
@@ -57,7 +59,10 @@ export class StudentHomePageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
-              private feedbackSessionsService: FeedbackSessionsService) { }
+              private feedbackSessionsService: FeedbackSessionsService,
+              private timezoneService: TimezoneService) {
+    this.timezoneService.getTzVersion();
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -91,7 +96,8 @@ export class StudentHomePageComponent implements OnInit {
 
               for (const fs of fss.feedbackSessions) {
                 const fid: string = course.courseId.concat('%').concat(fs.feedbackSessionName);
-                const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
+                const endTime: string = moment(fs.submissionEndTimestamp).tz(fs.timeZone)
+                    .format('ddd, DD MMM, YYYY, hh:mm A zz');
                 const isOpened: boolean = this.isOpened(fs);
                 const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
                 const isPublished: boolean = this.isPublished(fs);

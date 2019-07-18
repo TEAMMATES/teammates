@@ -16,6 +16,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  timezoneService={[Function TimezoneService]}
   user={[Function String]}
 >
   <div
@@ -79,7 +80,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               First Session
             </td>
             <td>
-              Sat, 02 Feb 2019, 08:15 AM GMT+8
+              1200
             </td>
             <td>
               <a
@@ -142,7 +143,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               Second Session
             </td>
             <td>
-              Sat, 02 Feb 2019, 08:15 AM GMT+8
+              1200
             </td>
             <td>
               <a
@@ -252,7 +253,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               Third Session
             </td>
             <td>
-              Sat, 02 Feb 2019, 08:15 AM GMT+8
+              1200
             </td>
             <td>
               <a
@@ -304,7 +305,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               Fourth Session
             </td>
             <td>
-              Sat, 02 Feb 2019, 08:15 AM GMT+8
+              1200
             </td>
             <td>
               <a
@@ -373,6 +374,7 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  timezoneService={[Function TimezoneService]}
   user="undefined"
 >
   
@@ -395,6 +397,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  timezoneService={[Function TimezoneService]}
   user=""
 >
   <div
