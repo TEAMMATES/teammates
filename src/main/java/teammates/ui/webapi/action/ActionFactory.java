@@ -117,7 +117,6 @@ public class ActionFactory {
         map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
-        map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

@@ -785,7 +785,6 @@ public final class Const {
 
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
         public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
-        public static final String STUDENT_RECORDS = "/students/records";
         public static final String COURSE_ENROLL_STUDENTS = "/course/enroll/students";
     }
 
