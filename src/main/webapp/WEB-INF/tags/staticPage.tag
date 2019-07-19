@@ -52,11 +52,12 @@
         <jsp:doBody />
       </div>
     </div>
-    <footer id="footerComponent">
+    <footer id="staticFooterComponent">
       <div class="container text-nowrap">
         <div class="row">
-          <div class="col-xs-12 col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
-            Hosted on <a class="footer" href="https://cloud.google.com/appengine/" target="_blank" rel="noopener noreferrer">Google App Engine</a>
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            Sponsored by School of Computing, National University of Singapore. (<a href="/contact.jsp">Become a
+            sponsor</a>)
           </div>
         </div>
       </div>

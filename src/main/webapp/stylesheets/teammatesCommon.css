@@ -1422,12 +1422,25 @@ Default to alert color for visibility titles used within an alert context.
 ////////////////////////// Footer //////////////////////////
 ///////////////////////////////////////////////////////// */
 
-#footerComponent {
+#staticFooterComponent {
     background-color: black;
     background-image: linear-gradient(to bottom, #3C3C3C 0, #222 100%);
     bottom: 0;
     color: gray;
     height: 20px;
+    margin: 0;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 999;
+}
+
+#footerComponent {
+    background-color: black;
+    background-image: linear-gradient(to bottom, #3C3C3C 0, #222 100%);
+    bottom: 0;
+    color: gray;
+    height: 40px;
     margin: 0;
     position: fixed;
     text-align: center;
