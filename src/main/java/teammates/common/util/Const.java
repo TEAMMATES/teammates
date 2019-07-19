@@ -1033,6 +1033,40 @@ public final class Const {
                         + "It can refer to %s or %s. It was resolved to %s.";
     }
 
+    /**
+     * These are status messages related to students logic that may be shown to the user.
+     */
+    public static class StudentsLogicConst {
+        /**
+         * Error message when trying to create the same team in more than one section.
+         */
+        public static final String ERROR_INVALID_TEAM_NAME =
+                "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
+
+        /**
+         * Error message to be appended to the ERROR_INVALID_TEAM_NAME message.
+         */
+        public static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
+                "Please use different team names in different sections.";
+
+        /**
+         * Error message when trying to enroll to a section that has maximum capacity.
+         */
+        public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
+                "You are trying enroll more than %s students in section \"%s\".";
+
+        /**
+         * Error message to be appended to the ERROR_ENROLL_EXCEED_SECTION_LIMIT message.
+         */
+        public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
+                "To avoid performance problems, please do not enroll more than %s students in a single section.";
+
+        /**
+         * The maximum allowable number of students to be enrolled in a section.
+         */
+        public static final int SECTION_SIZE_LIMIT = 100;
+    }
+
     /* These indicate status of an operation, but they are not shown to the user */
     public static class StatusCodes {
 

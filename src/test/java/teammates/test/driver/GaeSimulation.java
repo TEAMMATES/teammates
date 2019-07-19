@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
@@ -206,9 +207,11 @@ public class GaeSimulation {
      * @param method The request method
      * @param body The request body
      * @param parts The request parts
+     * @param cookies The request's list of Cookies
      * @param params Parameters that appear in a HttpServletRequest received by the app
      */
-    public Action getActionObject(String uri, String method, String body, Map<String, Part> parts, String... params) {
+    public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
+                                  List<Cookie> cookies, String... params) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + uri);
             for (int i = 0; i < params.length; i = i + 2) {
@@ -226,8 +229,12 @@ public class GaeSimulation {
                     }
                 });
             }
-            MockHttpServletResponse resp = new MockHttpServletResponse();
-            Action action = new ActionFactory().getAction(req, method, resp);
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    req.addCookie(cookie);
+                }
+            }
+            Action action = new ActionFactory().getAction(req, method);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
             return action;
