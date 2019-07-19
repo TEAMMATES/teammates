@@ -61,12 +61,9 @@
               "node_modules/tinymce/plugins/nonbreaking/plugin.js",
               "node_modules/tinymce/plugins/save/plugin.js",
               "node_modules/tinymce/plugins/table/plugin.js",
-              "node_modules/tinymce/plugins/contextmenu/plugin.js",
               "node_modules/tinymce/plugins/directionality/plugin.js",
               "node_modules/tinymce/plugins/emoticons/plugin.js",
               "node_modules/tinymce/plugins/paste/plugin.js",
-              "node_modules/tinymce/plugins/textcolor/plugin.js",
-              "node_modules/tinymce/plugins/colorpicker/plugin.js",
               "node_modules/tinymce/plugins/textpattern/plugin.js"
             ]
           },

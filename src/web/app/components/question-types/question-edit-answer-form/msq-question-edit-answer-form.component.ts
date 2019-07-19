@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -24,6 +24,8 @@ export class MsqQuestionEditAnswerFormComponent
   readonly NO_VALUE: number = NO_VALUE;
   isMsqOptionSelected: boolean[] = [];
 
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
+
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
   }
@@ -45,22 +47,24 @@ export class MsqQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if None of the above option is enabled and disables it.
+   * Removes the "None of the above" option in an answers list if it's present
+   * then returns the altered list.
    */
-  disableNoneOfTheAboveOption(): void {
+  disableNoneOfTheAboveOption(answers: string[]): string[] {
     if (this.isNoneOfTheAboveEnabled) {
-      const newAnswers: string[] = this.responseDetails.answers.slice();
+      const newAnswers: string[] = answers.slice();
       newAnswers.splice(0 , 1);
-      this.triggerResponseDetailsChange('answers', newAnswers);
+      return newAnswers;
     }
+    return answers;
   }
 
   /**
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
-    this.disableNoneOfTheAboveOption();
-    const newAnswers: string[] = this.responseDetails.answers.slice();
+    let newAnswers: string[] = this.responseDetails.answers.slice();
+    newAnswers = this.disableNoneOfTheAboveOption(newAnswers);
     const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
     if (indexInResponseArray > -1) {
       newAnswers.splice(indexInResponseArray, 1);
@@ -76,9 +80,13 @@ export class MsqQuestionEditAnswerFormComponent
   updateIsOtherOption(): void {
     const fieldsToUpdate: any = {};
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
-    this.disableNoneOfTheAboveOption();
+    fieldsToUpdate.answers = this.disableNoneOfTheAboveOption(this.responseDetails.answers);
     if (!fieldsToUpdate.isOther) {
       fieldsToUpdate.otherFieldContent = '';
+    } else {
+      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
+      }, 0);
     }
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }

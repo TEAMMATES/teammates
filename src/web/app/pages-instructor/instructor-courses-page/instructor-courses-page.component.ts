@@ -53,6 +53,45 @@ interface InstructorCourses {
   softDeletedCourses: SoftDeletedCourse[];
   instructorList: Instructor[];
 }
+/**
+ * Sort criteria for the courses table.
+ */
+export enum SortBy {
+  /**
+   * Nothing.
+   */
+  NONE,
+
+  /**
+   * Course ID.
+   */
+  COURSE_ID,
+
+  /**
+   * Course Name.
+   */
+  COURSE_NAME,
+
+  /**
+   * Creation Date.
+   */
+  CREATION_DATE,
+}
+
+/**
+ * Sort order for the courses table.
+ */
+export enum SortOrder {
+  /**
+   * Descending sort order.
+   */
+  DESC,
+
+  /**
+   * Ascending sort order
+   */
+  ASC,
+}
 
 /**
  * Instructor courses list page.
@@ -71,6 +110,13 @@ export class InstructorCoursesPageComponent implements OnInit {
   softDeletedCourses: SoftDeletedCourse[] = [];
   instructorList: Instructor[] = [];
   courseStats: { [key: string]: { [key: string]: number } } = {};
+
+  tableSortOrder: SortOrder = SortOrder.ASC;
+  tableSortBy: SortBy = SortBy.NONE;
+
+  // enum
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
 
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
@@ -173,9 +219,8 @@ export class InstructorCoursesPageComponent implements OnInit {
     }).subscribe((courseArchive: CourseArchive) => {
       this.loadInstructorCourses();
       if (courseArchive.isArchived) {
-        this.statusMessageService.showSuccessMessage(`The course has been archived.
-          It will not appear in the home page any more. You can access archived courses from the 'Courses' tab.
-          Go there to undo the archiving and bring the course back to the home page.`);
+        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been archived.
+          It will not appear on the home page anymore.`);
       } else {
         this.statusMessageService.showSuccessMessage('The course has been unarchived.');
       }
@@ -283,4 +328,50 @@ export class InstructorCoursesPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Sorts the courses table
+   */
+  sortCoursesEvent(by: SortBy): void {
+    this.tableSortBy = by;
+    this.tableSortOrder =
+        this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.activeCourses.sort(this.sortBy(by));
+  }
+
+  /**
+   * Returns a function to determine the order of sort
+   */
+  sortBy(by: SortBy):
+      ((a: ActiveCourse , b: ActiveCourse) => number) {
+    return (a: ActiveCourse, b: ActiveCourse): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.COURSE_ID:
+          strA = a.id ? a.id : '';
+          strB = b.id ? b.id : '';
+          break;
+        case SortBy.COURSE_NAME:
+          strA = a.name;
+          strB = b.name;
+          break;
+        case SortBy.CREATION_DATE:
+          strA = a.createdAt;
+          strB = b.createdAt;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+
+      if (this.tableSortOrder === SortOrder.ASC) {
+        return strA.localeCompare(strB);
+      }
+      if (this.tableSortOrder === SortOrder.DESC) {
+        return strB.localeCompare(strA);
+      }
+
+      return 0;
+    };
+  }
 }

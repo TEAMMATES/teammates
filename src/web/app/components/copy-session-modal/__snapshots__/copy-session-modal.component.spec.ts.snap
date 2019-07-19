@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopySessionModalComponent should snap with default fields 1`] = `
+<tm-copy-session-modal
+  FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
+  activeModal={[Function NgbActiveModal]}
+  copyToCourseId=""
+  courseCandidates={[Function Array]}
+  newFeedbackSessionName=""
+  sessionToCopyCourseId=""
+>
+  <div
+    class="modal-header"
+  >
+    <h5
+      class="modal-title"
+    >
+      <div>
+        Copy this feedback session to other courses
+      </div>
+      <small
+        class="text-secondary"
+      >
+        (Select the course(s) you want to copy this feedback session to)
+      </small>
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div
+          class="form-group"
+        >
+          <label>
+            <b>
+              Name for copied session
+            </b>
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            maxlength="38"
+            ng-reflect-maxlength="38"
+            ng-reflect-model=""
+            type="text"
+          />
+          <span>
+            38 characters left
+          </span>
+        </div>
+        
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      type="button"
+    >
+      Copy
+    </button>
+  </div>
+</tm-copy-session-modal>
+`;
+
+exports[`CopySessionModalComponent should snap with some session and courses candidates 1`] = `
+<tm-copy-session-modal
+  FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
+  activeModal={[Function NgbActiveModal]}
+  copyToCourseId=""
+  courseCandidates={[Function Array]}
+  newFeedbackSessionName={[Function String]}
+  sessionToCopyCourseId={[Function String]}
+>
+  <div
+    class="modal-header"
+  >
+    <h5
+      class="modal-title"
+    >
+      <div>
+        Copy this feedback session to other courses
+      </div>
+      <small
+        class="text-secondary"
+      >
+        (Select the course(s) you want to copy this feedback session to)
+      </small>
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div
+          class="form-group"
+        >
+          <label>
+            <b>
+              Name for copied session
+            </b>
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            maxlength="38"
+            ng-reflect-maxlength="38"
+            ng-reflect-model="Test session"
+            type="text"
+          />
+          <span>
+            26 characters left
+          </span>
+        </div>
+        
+        <div
+          class="form-check"
+        >
+          <input
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            name="copySessionChooseCourse"
+            ng-reflect-model=""
+            ng-reflect-name="copySessionChooseCourse"
+            ng-reflect-value="Test01"
+            type="radio"
+          />
+          <label
+            class="form-check-label"
+          >
+             [
+            <span
+              class="text-danger"
+              ng-reflect-ng-class="[object Object]"
+            >
+              Test01
+            </span>
+            ] : Sample Course 101 
+          </label>
+          
+          <div
+            class="text-danger"
+          >
+             {Session currently in this course} 
+          </div>
+        </div>
+        <div
+          class="form-check"
+        >
+          <input
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            name="copySessionChooseCourse"
+            ng-reflect-model=""
+            ng-reflect-name="copySessionChooseCourse"
+            ng-reflect-value="Test02"
+            type="radio"
+          />
+          <label
+            class="form-check-label"
+          >
+             [
+            <span
+              ng-reflect-ng-class="[object Object]"
+            >
+              Test02
+            </span>
+            ] : Sample Course 202 
+          </label>
+          
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      type="button"
+    >
+      Copy
+    </button>
+  </div>
+</tm-copy-session-modal>
+`;

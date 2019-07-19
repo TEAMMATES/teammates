@@ -6,4 +6,8 @@
   <div>
     Possible Acceptable Values are: {{ possibleValues }}
   </div>
+  <div>
+    <p *ngIf="!isValidPossibleValue(responseDetails.answer) && responseDetails.answer != NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED" style="margin-left: 1em;" class="text-danger">The scale entered is not a possible value.</p>
+    <p *ngIf="responseDetails.answer == NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED" style="margin-left: 1em; color: blue;">Please enter a scale number.</p>
+  </div>
 </div>
