@@ -796,8 +796,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Handles 'Done Editing' click event.
    */
-  doneEditingHandler(): void {
-    this.router.navigateByUrl('/web/instructor/sessions');
+  doneEditingHandler(modal: any): void {
+    if (this.questionEditFormModels.some((q: QuestionEditFormModel) => q.isEditable)
+        || this.sessionEditFormModel.isEditable) {
+      this.modalService.open(modal).result.then(() => {
+        this.router.navigateByUrl('/web/instructor/sessions');
+      }, () => {});
+    } else {
+      this.router.navigateByUrl('/web/instructor/sessions');
+    }
     // TODO focus on the row of current feedback session in the sessions page
   }
 
@@ -805,8 +812,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles question 'Help' link click event.
    */
   questionsHelpHandler(): void {
-    window.open(`${environment.frontendUrl}/web/instructor/help`);
-    // TODO scroll down to the question specific section in the help page
+    window.open(`${environment.frontendUrl}/web/instructor/help#questions`);
   }
 
   /**
