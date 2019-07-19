@@ -112,9 +112,11 @@ export class McqQuestionEditDetailsFormComponent
   triggerWeightsColumn(event: any): void {
     const fieldsToUpdate: any = {};
     if (!event.target.checked) {
+      fieldsToUpdate.hasAssignedWeights = false;
       fieldsToUpdate.mcqWeights = [];
       fieldsToUpdate.mcqOtherWeight = 0;
     } else {
+      fieldsToUpdate.hasAssignedWeights = true;
       fieldsToUpdate.mcqWeights = Array(this.model.numOfMcqChoices).fill(0);
     }
     this.triggerModelChangeBatch(fieldsToUpdate);
