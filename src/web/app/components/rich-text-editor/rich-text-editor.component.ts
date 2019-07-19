@@ -69,14 +69,14 @@ export class RichTextEditorComponent implements AfterViewInit, OnDestroy {
         + '| alignleft aligncenter alignright alignjustify '
         + '| bullist numlist outdent indent | link image',
     toolbar2: 'print | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen',
-    setup: (editor: any) => {
+    setup: (editor: any): void => {
       this.editor = editor;
       editor.on('keyup change', () => {
-        const content = editor.getContent();
+        const content: any = editor.getContent();
         this.richTextChange.emit(content);
       });
     },
-    init_instance_callback: (editor: any) => editor.setContent(this.richText),
+    init_instance_callback: (editor: any): void => editor.setContent(this.richText),
   };
 
   constructor() { }
@@ -85,7 +85,7 @@ export class RichTextEditorComponent implements AfterViewInit, OnDestroy {
     tinymce.init({ ...this.init, readonly: this.isDisabled, inline: this.isInlineMode });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     tinymce.remove(this.editor);
   }
 }
