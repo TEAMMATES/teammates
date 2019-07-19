@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -37,7 +36,6 @@ public abstract class Action {
     protected EmailSender emailSender = new EmailSender();
 
     protected HttpServletRequest req;
-    protected HttpServletResponse resp;
     protected UserInfo userInfo;
     protected AuthType authType;
 
@@ -47,9 +45,8 @@ public abstract class Action {
     /**
      * Initializes the action object based on the HTTP request.
      */
-    protected void init(HttpServletRequest req, HttpServletResponse resp) {
+    protected void init(HttpServletRequest req) {
         this.req = req;
-        this.resp = resp;
         initAuthInfo();
     }
 
