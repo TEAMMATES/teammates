@@ -1,4 +1,6 @@
-<editor class="editor" [ngClass]="{ 'editor-disabled': isDisabled }" [ngStyle]="{ 'min-height.px': minHeightInPx }"
-        [init]="init" [disabled]="isDisabled" [inline]="isInlineMode"
-        [ngModel]="richText" (ngModelChange)="richTextChange.emit($event)" [attr.placeholder]="placeholderText">
-</editor>
+<div [attr.placeholder]="placeholderText">
+  <div class="editor"
+     [ngClass]="{ 'editor-disabled': isDisabled }"
+     [ngStyle]="{ 'min-height.px': minHeightInPx }"
+  ></div>
+</div>
