@@ -126,7 +126,7 @@ const routes: Routes = [
         path: '',
         component: InstructorSessionsPageComponent,
         data: {
-          pageTitle: 'Add New Feedback Session',
+          pageTitle: 'Feedback Sessions',
         },
       },
       {

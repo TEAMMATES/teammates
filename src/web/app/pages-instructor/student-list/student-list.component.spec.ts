@@ -334,4 +334,30 @@ describe('StudentListComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should display "Send Invite" button when a student has not joined the course', () => {
+    component.enableRemindButton = true;
+    component.sections = [
+      {
+        students: [
+          {
+            name: 'tester',
+            team: '1',
+            email: 'tester@tester.com',
+            status: JoinState.NOT_JOINED,
+          },
+        ],
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+    ];
+
+    fixture.detectChanges();
+
+    const buttons: any = fixture.nativeElement.querySelectorAll('button');
+    const sendInviteButton: any = Array.from(buttons)
+        .find((button: any) => button.firstChild.nodeValue === 'Send Invite');
+    expect(sendInviteButton).toBeTruthy();
+  });
 });
