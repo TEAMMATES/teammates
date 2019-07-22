@@ -20,22 +20,11 @@
   <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
 </div>
 <div class="modal-body">
-  <div class="table-responsive" *ngIf="studentListInfoTableRowModels.length > 0; else noStudentsToRemind">
-    <tm-respondent-list-info-table [(studentListInfoTableRowModels)]="studentListInfoTableRowModels" [shouldDisplayHasSubmittedSessionColumn]="true"></tm-respondent-list-info-table>
+  <div class="table-responsive">
+    <tm-respondent-list-info-table [(studentListInfoTableRowModels)]="studentListInfoTableRowModels"
+                                   [shouldDisplayHasSubmittedSessionColumn]="true"
+                                   [(instructorListInfoTableRowModels)]="instructorListInfoTableRowModels"></tm-respondent-list-info-table>
   </div>
-  <ng-template #noStudentsToRemind>
-    <h4 class="p-2 bg-info text-white">
-      There are no students enrolled to remind.
-    </h4>
-  </ng-template>
-  <div class="table-responsive" *ngIf="instructorListInfoTableRowModels.length > 0; else noInstructorsToRemind">
-    <tm-respondent-list-info-table [(instructorListInfoTableRowModels)]="instructorListInfoTableRowModels" [shouldDisplayHasSubmittedSessionColumn]="true"></tm-respondent-list-info-table>
-  </div>
-  <ng-template #noInstructorsToRemind>
-    <h4 class="p-2 bg-info text-white">
-      There are no instructors involved to remind.
-    </h4>
-  </ng-template>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
