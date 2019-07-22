@@ -53,7 +53,6 @@ export class StudentHomePageComponent implements OnInit {
 
   user: string = '';
 
-  recentlyJoinedCourseId?: string = '';
   hasEventualConsistencyMsg: boolean = false;
   courses: StudentCourse[] = [];
   sessionsInfoMap: { [key: string]: SessionInfoMap } = {};
