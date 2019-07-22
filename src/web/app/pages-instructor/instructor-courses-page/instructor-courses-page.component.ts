@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -132,23 +133,27 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses = [];
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active')
-      .pipe(tap(() => this.isCoursesLoading = false;))
       .subscribe((resp: Courses) => {
-      for (const course of resp.courses) {
-        this.httpRequestService.get('/instructor/privilege', {
-          courseid: course.courseId,
-        }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const activeCourse: ActiveCourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
-          this.activeCourses.push(activeCourse);
-        }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(error.error.message);
-        });
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+        for (const course of resp.courses) {
+          forkJoin(
+              this.httpRequestService.get('/instructor/privilege', {
+                courseid: course.courseId,
+              }).pipe(tap((instructorPrivilege: InstructorPrivilege) => {
+                const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
+                const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+                const activeCourse: ActiveCourseModel =
+                    Object.assign({}, { course, canModifyCourse, canModifyStudent });
+                this.activeCourses.push(activeCourse);
+              }, (error: ErrorMessageOutput) => {
+                this.statusMessageService.showErrorMessage(error.error.message);
+              })),
+          ).pipe(
+              finalize(() => this.isCoursesLoading = false),
+          ).subscribe();
+        }
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
