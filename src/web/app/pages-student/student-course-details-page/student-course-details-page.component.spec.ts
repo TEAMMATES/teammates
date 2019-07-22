@@ -4,6 +4,7 @@ import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Course, Instructor, JoinState, Student } from '../../../types/api-output';
 import { Gender } from '../../../types/gender';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentCourseDetailsPageComponent, StudentProfileWithPicture } from './student-course-details-page.component';
 
 describe('StudentCourseDetailsPageComponent', () => {
@@ -16,6 +17,7 @@ describe('StudentCourseDetailsPageComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
+        TeammatesCommonModule,
         MatSnackBarModule,
       ],
     })
@@ -60,8 +62,8 @@ describe('StudentCourseDetailsPageComponent', () => {
     const course: Course = {
       courseId: '1.1.c-demo2',
       courseName: 'Sample Course 101',
-      creationDate: '13 Mar 2019',
-      deletionDate: 'Not Applicable',
+      creationTimestamp: 1552472130000,
+      deletionTimestamp: 0,
       timeZone: 'UTC',
     };
 

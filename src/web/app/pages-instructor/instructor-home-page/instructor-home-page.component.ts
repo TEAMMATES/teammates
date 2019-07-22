@@ -13,11 +13,11 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseArchive,
   Courses,
   FeedbackSession,
   FeedbackSessions,
   InstructorPrivilege,
-  MessageOutput,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import {
@@ -133,13 +133,15 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    this.httpRequestService.put('/course', { courseid: courseId, archive: 'true' })
-      .subscribe((resp: MessageOutput) => {
-        this.loadCourses();
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
+    this.courseService.changeArchiveStatus(courseId, {
+      archiveStatus: true,
+    }).subscribe((courseArchive: CourseArchive) => {
+      this.loadCourses();
+      this.statusMessageService.showSuccessMessage(`The course ${courseArchive.courseId} has been archived.
+          You can retrieve it from the Courses page.`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -277,8 +279,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           strB = b.course.courseId;
           break;
         case SortBy.COURSE_CREATION_DATE:
-          strA = a.course.creationDate;
-          strB = b.course.creationDate;
+          strA = String(a.course.creationTimestamp);
+          strB = String(b.course.creationTimestamp);
           break;
         default:
           strA = '';

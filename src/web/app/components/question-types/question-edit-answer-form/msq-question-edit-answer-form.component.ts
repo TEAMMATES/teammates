@@ -47,22 +47,24 @@ export class MsqQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if None of the above option is enabled and disables it.
+   * Removes the "None of the above" option in an answers list if it's present
+   * then returns the altered list.
    */
-  disableNoneOfTheAboveOption(): void {
+  disableNoneOfTheAboveOption(answers: string[]): string[] {
     if (this.isNoneOfTheAboveEnabled) {
-      const newAnswers: string[] = this.responseDetails.answers.slice();
+      const newAnswers: string[] = answers.slice();
       newAnswers.splice(0 , 1);
-      this.triggerResponseDetailsChange('answers', newAnswers);
+      return newAnswers;
     }
+    return answers;
   }
 
   /**
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
-    this.disableNoneOfTheAboveOption();
-    const newAnswers: string[] = this.responseDetails.answers.slice();
+    let newAnswers: string[] = this.responseDetails.answers.slice();
+    newAnswers = this.disableNoneOfTheAboveOption(newAnswers);
     const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
     if (indexInResponseArray > -1) {
       newAnswers.splice(indexInResponseArray, 1);
@@ -78,7 +80,7 @@ export class MsqQuestionEditAnswerFormComponent
   updateIsOtherOption(): void {
     const fieldsToUpdate: any = {};
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
-    this.disableNoneOfTheAboveOption();
+    fieldsToUpdate.answers = this.disableNoneOfTheAboveOption(this.responseDetails.answers);
     if (!fieldsToUpdate.isOther) {
       fieldsToUpdate.otherFieldContent = '';
     } else {

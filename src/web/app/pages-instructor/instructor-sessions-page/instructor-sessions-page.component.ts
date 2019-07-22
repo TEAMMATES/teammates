@@ -119,6 +119,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     hasEmailSettingsPanelExpanded: false,
   };
 
+  isSessionEditFormExpanded: boolean = false;
+
   sessionsTableRowModels: SessionsTableRowModel[] = [];
   sessionsTableRowModelsSortBy: SortBy = SortBy.NONE;
   sessionsTableRowModelsSortOrder: SortOrder = SortOrder.ASC;
@@ -150,6 +152,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       this.courseId = queryParams.courseid;
     });
 
+    this.isSessionEditFormExpanded = !!this.courseId;
     this.templateSessions = this.feedbackSessionsService.getTemplateSessions();
     this.loadCandidatesCourse();
     this.loadFeedbackSessions();
