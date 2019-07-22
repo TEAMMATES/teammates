@@ -192,9 +192,17 @@ export class QuestionEditFormComponent implements OnInit {
    * Change the {@code giverType} and {@code recipientType} and reset the visibility settings.
    */
   changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
+    // check if current recipientType is allowed for giverType,
+    // if not, set default recipientType to the first allowed type as default.
+    /* tslint:disable-next-line: no-non-null-assertion */
+    const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
+    let newRecipientType: FeedbackParticipantType = recipientType;
+    if (allowedRecipientTypes.indexOf(recipientType) === -1) {
+      newRecipientType = allowedRecipientTypes[0];
+    }
     this.triggerModelChangeBatch({
       giverType,
-      recipientType,
+      recipientType: newRecipientType,
       commonVisibilitySettingName: 'Please select a visibility option',
       isUsingOtherVisibilitySetting: false,
       showResponsesTo: [],

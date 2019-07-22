@@ -33,7 +33,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
     <h2>
       Active Courses
     </h2>
-    
+
     <div
       class="loading-spinner-container"
     >
@@ -55,7 +55,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         Loading courses...
       </div>
     </div>
-    
+
   </div><div
     class="course-section"
   >
@@ -65,7 +65,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       <span
         class="fa fa-file-archive"
       />
-       Archived Courses 
+       Archived Courses
     </h2>
     <div
       class="table-responsive"
@@ -94,7 +94,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           </tr>
         </thead>
         <tbody>
-          
+
           <tr>
             <td>
               CS2104
@@ -107,7 +107,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002 
+               5 Nov 2002
             </td>
             <td
               class="text-center"
@@ -115,18 +115,18 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               <button
                 class="btn btn-light btn-sm"
               >
-                 Unarchive 
+                 Unarchive
               </button>
-              
+
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete 
+                 Delete
               </button>
-              
-              
+
+
             </td>
           </tr>
           <tr>
@@ -141,7 +141,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002 
+               5 Nov 2002
             </td>
             <td
               class="text-center"
@@ -149,14 +149,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               <button
                 class="btn btn-light btn-sm"
               >
-                 Unarchive 
+                 Unarchive
               </button>
-              
-              
+
+
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete 
+                 Delete
               </button>
             </td>
           </tr>
@@ -175,7 +175,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         <span
           class="fa fa-trash-alt"
         />
-         Deleted Courses 
+         Deleted Courses
       </h2>
       <div
         class="card bg-light top-padded"
@@ -196,35 +196,35 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             <div
               class="col-6 text-right bin-header-button"
             >
-              
-              
+
+
               <button
                 class="btn btn-light btn-sm disabled"
               >
                 <i
                   class="fas fa-check"
                 />
-                 Restore All 
+                 Restore All
               </button>
-              
-              
+
+
               <button
                 class="btn btn-light btn-sm disabled text-danger"
               >
                 <i
                   class="fas fa-times"
                 />
-                 Delete All 
+                 Delete All
               </button>
-              
+
               <i
                 class="fas fa-chevron-down text-white"
               />
-              
+
             </div>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -264,7 +264,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
     <h2>
       Active Courses
     </h2>
-    
+
     <div
       class="loading-spinner-container"
     >
@@ -286,7 +286,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         Loading courses...
       </div>
     </div>
-    
+
   </div><div
     class="course-section"
   >
@@ -296,7 +296,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       <span
         class="fa fa-file-archive"
       />
-       Archived Courses 
+       Archived Courses
     </h2>
     <div
       class="table-responsive"
@@ -325,7 +325,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           </tr>
         </thead>
         <tbody>
-          
+
           <tr>
             <td>
               CS2104
@@ -338,7 +338,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002 
+               5 Nov 2002
             </td>
             <td
               class="text-center"
@@ -346,18 +346,18 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               <button
                 class="btn btn-light btn-sm"
               >
-                 Unarchive 
+                 Unarchive
               </button>
-              
+
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Delete the course and its corr"
                 ngbtooltip="Delete the course and its corresponding students and sessions"
               >
-                 Delete 
+                 Delete
               </button>
-              
-              
+
+
             </td>
           </tr>
           <tr>
@@ -372,7 +372,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ng-reflect-container="body"
               ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
             >
-               5 Nov 2002 
+               5 Nov 2002
             </td>
             <td
               class="text-center"
@@ -380,14 +380,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               <button
                 class="btn btn-light btn-sm"
               >
-                 Unarchive 
+                 Unarchive
               </button>
-              
-              
+
+
               <button
                 class="btn btn-light btn-sm disabled"
               >
-                 Delete 
+                 Delete
               </button>
             </td>
           </tr>
@@ -406,7 +406,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         <span
           class="fa fa-trash-alt"
         />
-         Deleted Courses 
+         Deleted Courses
       </h2>
       <div
         class="card bg-light top-padded"
@@ -427,7 +427,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             <div
               class="col-6 text-right bin-header-button"
             >
-              
+
               <button
                 class="btn btn-light btn-sm"
                 ng-reflect-ngb-tooltip="Restore all deleted courses an"
@@ -436,11 +436,11 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <i
                   class="fas fa-check"
                 />
-                 Restore All 
+                 Restore All
               </button>
-              
-              
-              
+
+
+
               <button
                 class="btn btn-light btn-sm text-danger"
                 ng-reflect-ngb-tooltip="Permanently delete all courses"
@@ -449,19 +449,19 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <i
                   class="fas fa-times"
                 />
-                 Delete All 
+                 Delete All
               </button>
-              
-              
-              
+
+
+
               <i
                 class="fas fa-chevron-down text-white"
               />
-              
+
             </div>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -501,7 +501,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
     <h2>
       Active Courses
     </h2>
-    
+
     <div
       class="loading-spinner-container"
     >
@@ -523,7 +523,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
         Loading courses...
       </div>
     </div>
-    
+
   </div>
 </tm-instructor-courses-page>
 `;
@@ -561,7 +561,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
     <h2>
       Active Courses
     </h2>
-    
+
     <div
       class="loading-spinner-container"
     >
@@ -583,7 +583,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
         Loading courses...
       </div>
     </div>
-    
+
   </div>
 </tm-instructor-courses-page>
 `;

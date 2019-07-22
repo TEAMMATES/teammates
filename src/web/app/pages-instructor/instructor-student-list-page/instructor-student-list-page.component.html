@@ -27,6 +27,7 @@
           </div>
         </div>
       </div>
+
       <div class="card-body" *ngIf="courseTab.hasTabExpanded">
         <div *ngIf="!courseTab.isLoading, else loadingspinner">
           <div class="card-deck" *ngIf="courseTab.stats">
@@ -73,6 +74,14 @@
         </ng-template>
 
       </div>
+
+      <ng-template #noStudentsTemplate>
+        <h4>There are no students in this course.</h4>
+        <button class="btn btn-success" routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
+          Enroll Students
+        </button>
+      </ng-template>
+
     </div>
     <br/>
   </div>
