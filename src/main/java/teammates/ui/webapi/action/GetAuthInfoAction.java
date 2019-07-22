@@ -1,5 +1,8 @@
 package teammates.ui.webapi.action;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -56,7 +59,8 @@ public class GetAuthInfoAction extends Action {
             Cookie csrfTokenCookie = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, csrfToken);
             csrfTokenCookie.setSecure(!Config.isDevServer());
             csrfTokenCookie.setPath("/");
-            resp.addCookie(csrfTokenCookie);
+            List<Cookie> cookieList = Arrays.asList(csrfTokenCookie);
+            return new JsonResult(output, cookieList);
         }
 
         return new JsonResult(output);
