@@ -54,12 +54,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       this.studentName = resp.name;
       this.studentEmail = resp.email;
       this.studentProfile = resp;
-      if (!this.studentProfile) {
-        this.statusMessageService.showWarningMessage(
-            'Normally, we would show the student\'s profile here. '
-            + 'However, either this student has not created a profile yet, '
-            + 'or you do not have access to view this student\'s profile.');
-      }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
