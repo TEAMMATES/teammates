@@ -134,6 +134,9 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active')
       .subscribe((resp: Courses) => {
+        if (!resp.courses.length) {
+          this.isCoursesLoading = false;
+        }
         for (const course of resp.courses) {
           forkJoin(
               this.httpRequestService.get('/instructor/privilege', {
