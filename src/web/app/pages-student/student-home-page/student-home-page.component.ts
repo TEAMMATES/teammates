@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import moment from 'moment-timezone';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import {FeedbackSessionsService} from '../../../services/feedback-sessions.service';
 
-import { HttpRequestService } from '../../../services/http-request.service';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { TimezoneService } from '../../../services/timezone.service';
+import {HttpRequestService} from '../../../services/http-request.service';
+import {StatusMessageService} from '../../../services/status-message.service';
+import {TimezoneService} from '../../../services/timezone.service';
 import {
   Course,
   Courses,
@@ -13,8 +13,9 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   HasResponses,
+  FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
+import {ErrorMessageOutput} from '../../error-message-output';
 
 interface SessionInfoMap {
   endTime: string;
@@ -67,9 +68,6 @@ export class StudentHomePageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      if (queryParams.persistencecourse) {
-        this.recentlyJoinedCourseId = queryParams.persistencecourse;
-      }
       this.getStudentCourses();
     });
   }
@@ -153,16 +151,14 @@ export class StudentHomePageComponent implements OnInit {
    * Checks if feedback session is opened.
    */
   isOpened(fs: FeedbackSession): boolean {
-    const now: number = new Date().getTime();
-    return now >= fs.submissionStartTimestamp && now < fs.submissionEndTimestamp;
+    return fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
   }
 
   /**
    * Checks if feedback session is waiting to open.
    */
   isWaitingToOpen(fs: FeedbackSession): boolean {
-    const now: number = new Date().getTime();
-    return now < fs.submissionStartTimestamp;
+    return fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
   }
 
   /**

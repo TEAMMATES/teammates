@@ -22,7 +22,7 @@ public class GetHasResponsesAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        //Only an instructor of the feedback session can check responses for questions within it.
+
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (!(entityType.equals(Const.EntityType.STUDENT) || entityType.equals(Const.EntityType.INSTRUCTOR))) {
@@ -30,6 +30,7 @@ public class GetHasResponsesAction extends Action {
         }
 
         if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
+            //An instructor of the feedback session can check responses for questions within it.
             String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
             if (questionId != null) {
                 FeedbackQuestionAttributes feedbackQuestionAttributes = logic.getFeedbackQuestion(questionId);
@@ -52,6 +53,7 @@ public class GetHasResponsesAction extends Action {
                         logic.getCourse(courseId));
             }
         } else {
+            //An student can check whether he has submitted responses for a feedback session in his course.
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
             String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 

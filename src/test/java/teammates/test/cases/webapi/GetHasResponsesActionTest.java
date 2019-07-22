@@ -5,10 +5,7 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.*;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetHasResponsesAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -238,6 +235,11 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         loginAsStudent(student1InCourse1.googleId);
 
         FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        FeedbackResponseAttributes feedbackResponse = typicalBundle.feedbackResponses.get("response1ForQ1S1C1");
+
+        assertEquals(feedbackResponse.getFeedbackSessionName(), feedbackSession.getFeedbackSessionName());
+        assertEquals(feedbackResponse.getGiver(), student1InCourse1.getEmail());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.course,
