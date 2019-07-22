@@ -110,61 +110,36 @@ export class McqQuestionEditDetailsFormComponent
    * Triggers the display of the weight column for the Mcq options if weights option is checked/unchecked.
    */
   triggerWeightsColumn(checked: boolean): void {
-    const fieldsToUpdate: any = {};
-    if (checked) {
-      fieldsToUpdate.mcqWeights = Array(this.model.numOfMcqChoices).fill(0);
-      fieldsToUpdate.mcqOtherWeight = 0;
-      fieldsToUpdate.hasAssignedWeights = true;
-    } else {
-      fieldsToUpdate.mcqWeights = [];
-      fieldsToUpdate.mcqOtherWeight = 0;
-      fieldsToUpdate.hasAssignedWeights = false;
-    }
-    this.triggerModelChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch({
+      mcqWeights: checked ? Array(this.model.numOfMcqChoices).fill(0) : [],
+      mcqOtherWeight: 0,
+      hasAssignedWeights: checked,
+    });
   }
 
   /**
    * Triggers the setting of choosing other option.
    */
   triggerOtherEnabled(checked: boolean): void {
-    if (checked) {
-      this.triggerModelChangeBatch({
-        otherEnabled: true,
-        mcqOtherWeight: 0,
-      });
-    } else {
-      this.triggerModelChangeBatch({
-        otherEnabled: false,
-        mcqOtherWeight: 0,
-      });
-    }
+    this.triggerModelChangeBatch({
+      otherEnabled: checked,
+      mcqOtherWeight: 0,
+    });
   }
 
   /**
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
   triggerGeneratedOptionsChange(checked: boolean): void {
-    if (checked) {
-      this.triggerModelChangeBatch({
-        generateOptionsFor: FeedbackParticipantType.STUDENTS,
-        numOfMcqChoices: 0,
-        mcqChoices: [],
-        otherEnabled: false,
-        hasAssignedWeights: false,
-        mcqWeights: [],
-        mcqOtherWeight: 0,
-      });
-    } else {
-      this.triggerModelChangeBatch({
-        generateOptionsFor: FeedbackParticipantType.NONE,
-        mcqChoices: ['', ''],
-        numOfMcqChoices: 2,
-        otherEnabled: false,
-        hasAssignedWeights: false,
-        mcqWeights: [],
-        mcqOtherWeight: 0,
-      });
-    }
+    this.triggerModelChangeBatch({
+      generateOptionsFor: checked ? FeedbackParticipantType.STUDENTS : FeedbackParticipantType.NONE,
+      numOfMcqChoices: checked ? 0 : 2,
+      mcqChoices: checked ? [] : ['', ''],
+      otherEnabled: false,
+      hasAssignedWeights: false,
+      mcqWeights: [],
+      mcqOtherWeight: 0,
+    });
   }
 
   /**

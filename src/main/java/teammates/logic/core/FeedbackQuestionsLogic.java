@@ -528,6 +528,7 @@ public final class FeedbackQuestionsLogic {
             optionList = feedbackMsqQuestionDetails.getMsqChoices();
             generateOptionsFor = feedbackMsqQuestionDetails.getGenerateOptionsFor();
         } else {
+            // other question types
             return;
         }
 

@@ -96,14 +96,10 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
-    const fieldsToUpdate: any = {};
-    if (this.isNoneOfTheAboveEnabled) {
-      fieldsToUpdate.answers = [];
-    } else {
-      fieldsToUpdate.answers = [NONE_OF_THE_ABOVE];
-    }
-    fieldsToUpdate.isOther = false;
-    fieldsToUpdate.otherFieldContent = '';
-    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
+    this.triggerResponseDetailsChangeBatch({
+      answers: this.isNoneOfTheAboveEnabled ? [] : [NONE_OF_THE_ABOVE],
+      isOther: false,
+      otherFieldContent: '',
+    });
   }
 }

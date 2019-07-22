@@ -32,10 +32,10 @@ export class MsqQuestionEditDetailsFormComponent
     const newOptions: string[] = this.model.msqChoices.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
     moveItemInArray(newWeights, event.previousIndex, event.currentIndex);
-    const fieldsToUpdate: any = {};
-    fieldsToUpdate.msqChoices = newOptions;
-    fieldsToUpdate.msqWeights = newWeights;
-    this.triggerModelChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch({
+      msqChoices: newOptions,
+      msqWeights: newWeights,
+    });
   }
 
   /**
@@ -131,43 +131,31 @@ export class MsqQuestionEditDetailsFormComponent
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
   triggerGeneratedOptionsChange(checked: boolean): void {
-    if (checked) {
-      this.triggerModelChangeBatch({
-        generateOptionsFor: FeedbackParticipantType.STUDENTS,
-        msqChoices: [],
-        otherEnabled: false,
-        hasAssignedWeights: false,
-        msqWeights: [],
-        msqOtherWeight: 0,
-        minSelectableChoices: NO_VALUE,
-        maxSelectableChoices: NO_VALUE,
-      });
-    } else {
-      this.triggerModelChangeBatch({
-        generateOptionsFor: FeedbackParticipantType.NONE,
-        msqChoices: ['', ''],
-        otherEnabled: false,
-        hasAssignedWeights: false,
-        msqWeights: [],
-        msqOtherWeight: 0,
-        minSelectableChoices: NO_VALUE,
-        maxSelectableChoices: NO_VALUE,
-      });
-    }
+    this.triggerModelChangeBatch({
+      generateOptionsFor: checked ? FeedbackParticipantType.STUDENTS : FeedbackParticipantType.NONE,
+      msqChoices: checked ? [] : ['', ''],
+      otherEnabled: false,
+      hasAssignedWeights: false,
+      msqWeights: [],
+      msqOtherWeight: 0,
+      minSelectableChoices: NO_VALUE,
+      maxSelectableChoices: NO_VALUE,
+    });
   }
 
   /**
    * Assigns a default value to maxSelectableOptions when checkbox is clicked.
    */
   triggerMaxSelectableOptionsChange(checked: boolean): void {
-    if (checked) {
-      if (this.isMinSelectableChoicesEnabled) {
-        this.triggerModelChange('maxSelectableChoices', this.model.minSelectableChoices);
-      } else {
-        this.triggerModelChange('maxSelectableChoices', 2);
-      }
-    } else {
+    if (!checked) {
       this.triggerModelChange('maxSelectableChoices', NO_VALUE);
+      return;
+    }
+
+    if (this.isMinSelectableChoicesEnabled) {
+      this.triggerModelChange('maxSelectableChoices', this.model.minSelectableChoices);
+    } else {
+      this.triggerModelChange('maxSelectableChoices', 2);
     }
   }
 
@@ -238,16 +226,10 @@ export class MsqQuestionEditDetailsFormComponent
    * Triggers the display of the weight column for the Msq options if weights option is checked/unchecked.
    */
   triggerWeightsColumn(checked: boolean): void {
-    const fieldsToUpdate: any = {};
-    if (checked) {
-      fieldsToUpdate.msqWeights = Array(this.model.msqChoices.length).fill(0);
-      fieldsToUpdate.msqOtherWeight = 0;
-      fieldsToUpdate.hasAssignedWeights = true;
-    } else {
-      fieldsToUpdate.msqWeights = [];
-      fieldsToUpdate.msqOtherWeight = 0;
-      fieldsToUpdate.hasAssignedWeights = false;
-    }
-    this.triggerModelChangeBatch(fieldsToUpdate);
+    this.triggerModelChangeBatch({
+      msqWeights: checked ? Array(this.model.msqChoices.length).fill(0) : [],
+      msqOtherWeight: 0,
+      hasAssignedWeights: checked,
+    });
   }
 }
