@@ -1,21 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
-import {FeedbackSessionsService} from '../../../services/feedback-sessions.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 
-import {HttpRequestService} from '../../../services/http-request.service';
-import {StatusMessageService} from '../../../services/status-message.service';
-import {TimezoneService} from '../../../services/timezone.service';
+import { HttpRequestService } from '../../../services/http-request.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   Courses,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
-  HasResponses,
   FeedbackSessionSubmissionStatus,
+  HasResponses,
 } from '../../../types/api-output';
-import {ErrorMessageOutput} from '../../error-message-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface SessionInfoMap {
   endTime: string;
@@ -107,40 +107,6 @@ export class StudentHomePageComponent implements OnInit {
                     });
               }
             });
-      }
-
-      if (this.recentlyJoinedCourseId && this.recentlyJoinedCourseId !== '') {
-        let isDataConsistent: boolean = false;
-        for (const course of resp.courses) {
-          if (course.courseId === this.recentlyJoinedCourseId) {
-            isDataConsistent = true;
-            break;
-          }
-        }
-        if (!isDataConsistent) {
-          const params: { [key: string]: string } = {
-            entitytype: 'student',
-            courseid: this.recentlyJoinedCourseId,
-          };
-          this.httpRequestService.get('/course', params).subscribe((course: Course) => {
-            if (course) {
-              this.hasEventualConsistencyMsg = false;
-            }
-          }, (err: ErrorMessageOutput) => {
-            if (err.status === 404) {
-              this.hasEventualConsistencyMsg = true;
-            }
-          });
-        }
-      }
-
-      if (this.hasEventualConsistencyMsg) {
-        this.statusMessageService.showWarningMessage(
-            'You have successfully joined the course ' + `${this.recentlyJoinedCourseId}` + '. '
-            + 'Updating of the course data on our servers is currently in progress '
-            + 'and will be completed in a few minutes. '
-            + 'Please refresh this page in a few minutes to see the course ' + `${this.recentlyJoinedCourseId}`
-            + ' in the list below.');
       }
     }, (e: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(e.error.message);
