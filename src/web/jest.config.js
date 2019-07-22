@@ -7,4 +7,5 @@ module.exports = {
   ],
   coverageDirectory: './coverage',
   coverageReporters: ['lcov', 'text-summary'],
+  setupFiles : ['../../node_modules/tinymce/tinymce.js'],
 };
