@@ -71,9 +71,8 @@ export class RichTextEditorComponent implements AfterViewInit, OnDestroy {
     toolbar2: 'print | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen',
     setup: (editor: any): void => {
       this.editor = editor;
-      editor.on('keyup change', () => {
-        const content: any = editor.getContent();
-        this.richTextChange.emit(content);
+      editor.on('keyup change undo redo', () => {
+        this.richTextChange.emit(editor.getContent());
       });
     },
     init_instance_callback: (editor: any): void => editor.setContent(this.richText),
