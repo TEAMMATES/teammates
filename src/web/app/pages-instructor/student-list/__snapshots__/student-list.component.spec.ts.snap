@@ -286,6 +286,20 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm mr-2"
+              ng-reflect-ngb-tooltip="'Email an invitation to the st"
+              ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
+              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
+              + ' but a joined student can access extra features e.g. set up a user profile'"
+            >
+              Send Invite
+            </button>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="Delete the student and the cor"
@@ -659,6 +673,20 @@ exports[`StudentListComponent should snap with enable remind button set to true 
                Edit
             </a>
             
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+              ng-reflect-ngb-tooltip="'Email an invitation to the st"
+              ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
+              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
+              + ' but a joined student can access extra features e.g. set up a user profile'"
+            >
+              Send Invite
+            </button>
             
             
             
@@ -877,6 +905,20 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             <button
               class="btn btn-light btn-sm mr-2"
+              ng-reflect-ngb-tooltip="'Email an invitation to the st"
+              ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
+              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
+              + ' but a joined student can access extra features e.g. set up a user profile'"
+            >
+              Send Invite
+            </button>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="Delete the student and the cor"
@@ -1251,6 +1293,18 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             
             
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
+              ng-reflect-ngb-tooltip="'You do not have the permissio"
+              ngbtooltip="'You do not have the permissions to access this feature'"
+            >
+              Send Invite
+            </button>
             
             
             

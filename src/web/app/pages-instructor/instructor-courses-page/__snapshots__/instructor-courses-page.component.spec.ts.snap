@@ -11,7 +11,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -487,7 +486,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -969,7 +967,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -1095,7 +1092,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
