@@ -40,14 +40,4 @@ export class NavigationService {
       this.statusMessageService.showSuccessMessage(message);
     });
   }
-
-  /**
-   * Navigates to the selected URL with given params and shows a success message afterwards.
-   */
-  navigateWithSuccessMessageNewParams(router: Router, url: string, message: string,
-                                          params: { [key: string]: string }): void {
-    router.navigate([url], { queryParams: params }).then(() => {
-      this.statusMessageService.showSuccessMessage(message);
-    });
-  }
 }

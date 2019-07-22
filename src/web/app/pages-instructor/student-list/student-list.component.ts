@@ -81,9 +81,8 @@ export class StudentListComponent implements OnInit {
   remindStudentFromCourse(studentEmail: string): void {
     this.courseService.remindStudentForJoin(this.courseId, studentEmail)
       .subscribe((resp: MessageOutput) => {
-        const params: { [key: string]: string } = { courseid: this.courseId };
-        this.navigationService.navigateWithSuccessMessageNewParams(this.router,
-            '/web/instructor/courses/details', resp.message, params);
+        this.navigationService.navigateWithSuccessMessage(this.router,
+            `/web/instructor/courses/details?courseid=${this.courseId}`, resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
