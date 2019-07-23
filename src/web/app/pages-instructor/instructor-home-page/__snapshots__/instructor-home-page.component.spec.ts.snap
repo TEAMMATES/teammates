@@ -62,7 +62,8 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
+        href="/web/instructor/courses?addNewCourse=true"
+        ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
@@ -149,7 +150,8 @@ exports[`InstructorHomePageComponent should snap with one course with error load
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
+        href="/web/instructor/courses?addNewCourse=true"
+        ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
@@ -310,7 +312,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
+        href="/web/instructor/courses?addNewCourse=true"
+        ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
@@ -880,7 +883,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
+        href="/web/instructor/courses?addNewCourse=true"
+        ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
@@ -1597,7 +1601,8 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
+        href="/web/instructor/courses?addNewCourse=true"
+        ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
@@ -1897,7 +1902,8 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
+        href="/web/instructor/courses?addNewCourse=true"
+        ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
@@ -2217,7 +2223,8 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
+        href="/web/instructor/courses?addNewCourse=true"
+        ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
