@@ -3,8 +3,8 @@
     <span>&#8597; </span>
     <input type="radio" class="disabled_radio" disabled>
   </span>
-  <input type="text" class="form-control" [disabled]="!isEditable" [(ngModel)]="text" #mcq
-         (blur)="onMcqOptionEntered(mcq.value)">
+  <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #mcq
+         (ngModelChange)="onMcqOptionEntered($event)">
   <span class="input-group-btn">
     <button type="button" class="btn btn-default input-group-addon" style="cursor: initial" tabindex="-1"
                       [disabled]="!isEditable" (click)="deleteMcqOption()">
