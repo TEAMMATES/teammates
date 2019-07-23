@@ -7,6 +7,21 @@
   margin: 2px;
 }
 
+.action-dropdown::after {
+  display: none;
+}
+
+.action-dropdown {
+  border: 0;
+  background-color: transparent;
+}
+
+.table td.fit,
+.table th.fit {
+  white-space: nowrap;
+  width: 1%;
+}
+
 .tool-tip-decorate {
   border-bottom: 1px dotted #808080;
   text-decoration: none;
@@ -22,4 +37,8 @@
 
 .margin-bottom-0 {
   margin-bottom: 0;
+}
+
+.dropdown-menu {
+  min-width: .5rem;
 }
