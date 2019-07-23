@@ -86,7 +86,7 @@ export class RankOptionsQuestionEditDetailsFormComponent
       this.triggerModelChange('maxOptionsToBeRanked', NO_VALUE);
       return;
     }
-    
+
     if (this.isMinOptionsToBeRankedEnabled) {
       this.triggerModelChange('maxOptionsToBeRanked', this.model.minOptionsToBeRanked);
     } else {

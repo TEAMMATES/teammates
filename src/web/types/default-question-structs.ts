@@ -23,7 +23,8 @@ import {
 } from './api-output';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
-  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED, NO_VALUE
+  NO_VALUE,
+  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED, RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
 } from './feedback-response-details';
 
 /**
@@ -250,8 +251,8 @@ export const DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS: () => FeedbackRankOptionsRes
 export const DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS: () => FeedbackRankRecipientsQuestionDetails =
     (): FeedbackRankRecipientsQuestionDetails => {
       return {
-        minOptionsToBeRanked: Number.MIN_VALUE,
-        maxOptionsToBeRanked: Number.MIN_VALUE,
+        minOptionsToBeRanked: NO_VALUE,
+        maxOptionsToBeRanked: NO_VALUE,
         areDuplicatesAllowed: false,
         questionType: FeedbackQuestionType.RANK_RECIPIENTS,
         questionText: '',
@@ -264,7 +265,7 @@ export const DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS: () => FeedbackRankRecipie
 export const DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS: () => FeedbackRankRecipientsResponseDetails =
     (): FeedbackRankRecipientsResponseDetails => {
       return {
-        answer: 0,
+        answer: RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
         questionType: FeedbackQuestionType.RANK_RECIPIENTS,
       };
     };
