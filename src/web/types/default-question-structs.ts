@@ -21,7 +21,10 @@ import {
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
 } from './api-output';
-import { CONTRIBUTION_POINT_NOT_SUBMITTED, NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from './feedback-response-details';
+import {
+  CONTRIBUTION_POINT_NOT_SUBMITTED,
+  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED, NO_VALUE
+} from './feedback-response-details';
 
 /**
  * Structure for default text question details.
@@ -221,8 +224,8 @@ export const DEFAULT_RUBRIC_RESPONSE_DETAILS: () => FeedbackRubricResponseDetail
 export const DEFAULT_RANK_OPTIONS_QUESTION_DETAILS: () => FeedbackRankOptionsQuestionDetails =
     (): FeedbackRankOptionsQuestionDetails => {
       return {
-        minOptionsToBeRanked: Number.MIN_VALUE,
-        maxOptionsToBeRanked: Number.MIN_VALUE,
+        minOptionsToBeRanked: NO_VALUE,
+        maxOptionsToBeRanked: NO_VALUE,
         areDuplicatesAllowed: false,
         options: [],
         questionType: FeedbackQuestionType.RANK_OPTIONS,
