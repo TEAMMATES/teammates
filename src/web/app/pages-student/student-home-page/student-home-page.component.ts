@@ -17,17 +17,18 @@ import {
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface SessionInfoMap {
+interface StudentCourse {
+  course: Course;
+  feedbackSessions: StudentSession[];
+}
+
+interface StudentSession {
+  session: FeedbackSession;
   endTime: string;
   isOpened: boolean;
   isWaitingToOpen: boolean;
   isPublished: boolean;
   isSubmitted: boolean;
-}
-
-interface StudentCourse {
-  course: Course;
-  feedbackSessions: FeedbackSession[];
 }
 
 /**
@@ -55,7 +56,6 @@ export class StudentHomePageComponent implements OnInit {
 
   hasEventualConsistencyMsg: boolean = false;
   courses: StudentCourse[] = [];
-  sessionsInfoMap: { [key: string]: SessionInfoMap } = {};
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
@@ -87,12 +87,9 @@ export class StudentHomePageComponent implements OnInit {
                   .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
                       b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
                       ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
-              this.courses.push(Object.assign({}, { course, feedbackSessions: sortedFss }));
-              this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-                  (a.course.courseId > b.course.courseId) ? 1 : -1);
 
-              for (const fs of fss.feedbackSessions) {
-                const fid: string = course.courseId.concat('%').concat(fs.feedbackSessionName);
+              const studentSessions: StudentSession[] = [];
+              for (const fs of sortedFss) {
                 const endTime: string = moment(fs.submissionEndTimestamp).tz(fs.timeZone)
                     .format('ddd, DD MMM, YYYY, hh:mm A zz');
                 const isOpened: boolean = this.isOpened(fs);
@@ -102,9 +99,14 @@ export class StudentHomePageComponent implements OnInit {
                     fs.feedbackSessionName)
                     .subscribe((hasRes: HasResponses) => {
                       const isSubmitted: boolean = hasRes.hasResponses;
-                      this.sessionsInfoMap[fid] = { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted };
+                      studentSessions.push(Object.assign({},
+                          { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
                     });
               }
+
+              this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
+              this.courses.sort((a: StudentCourse, b: StudentCourse) =>
+                  (a.course.courseId > b.course.courseId) ? 1 : -1);
             });
       }
     }, (e: ErrorMessageOutput) => {
@@ -136,17 +138,17 @@ export class StudentHomePageComponent implements OnInit {
   /**
    * Gets the tooltip message for the submission status.
    */
-  getSubmissionStatusTooltip(sessionInfoMap: SessionInfoMap): string {
+  getSubmissionStatusTooltip(session: StudentSession): string {
     let msg: string = '';
 
-    if (sessionInfoMap.isWaitingToOpen) {
+    if (session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;
-    } else if (sessionInfoMap.isSubmitted) {
+    } else if (session.isSubmitted) {
       msg += this.studentFeedbackSessionStatusSubmitted;
     } else {
       msg += this.studentFeedbackSessionStatusPending;
     }
-    if (!sessionInfoMap.isOpened && !sessionInfoMap.isWaitingToOpen) {
+    if (!session.isOpened && !session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusClosed;
     }
     return msg;

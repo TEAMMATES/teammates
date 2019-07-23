@@ -6,9 +6,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
-  recentlyJoinedCourseId=""
   route={[Function ActivatedRoute]}
-  sessionsInfoMap={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -75,7 +73,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           
           <tr>
             
-            
             <td>
               First Session
             </td>
@@ -137,7 +134,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
           </tr>
           <tr>
-            
             
             <td>
               Second Session
@@ -248,7 +244,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           
           <tr>
             
-            
             <td>
               Third Session
             </td>
@@ -299,7 +294,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
           </tr>
           <tr>
-            
             
             <td>
               Fourth Session
@@ -364,9 +358,7 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
-  recentlyJoinedCourseId=""
   route={[Function ActivatedRoute]}
-  sessionsInfoMap={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -387,9 +379,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
-  recentlyJoinedCourseId=""
   route={[Function ActivatedRoute]}
-  sessionsInfoMap={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
