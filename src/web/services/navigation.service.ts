@@ -22,32 +22,18 @@ export class NavigationService {
    * Navigates to the selected URL and shows an error message afterwards.
    */
   navigateWithErrorMessage(router: Router, url: string, message: string): void {
-    const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
-    if (masqueradeUser !== '') {
-      router.navigate([url], { queryParams: { user: masqueradeUser } }).then(() => {
-        this.statusMessageService.showErrorMessage(message);
-      });
-    } else {
-      router.navigateByUrl(url).then(() => {
-        this.statusMessageService.showErrorMessage(message);
-      });
-    }
+    this.navigateToUrlWithOptionalParams(router, url).then(() => {
+      this.statusMessageService.showSuccessMessage(message);
+    });
   }
 
   /**
    * Navigates to the selected URL and shows a success message afterwards.
    */
   navigateWithSuccessMessage(router: Router, url: string, message: string): void {
-    const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
-    if (masqueradeUser !== '') {
-      router.navigate([url], { queryParams: { user: masqueradeUser } }).then(() => {
-        this.statusMessageService.showSuccessMessage(message);
-      });
-    } else {
-      router.navigateByUrl(url).then(() => {
-        this.statusMessageService.showSuccessMessage(message);
-      });
-    }
+    this.navigateToUrlWithOptionalParams(router, url).then(() => {
+      this.statusMessageService.showSuccessMessage(message);
+    });
   }
 
   /**
@@ -90,24 +76,22 @@ export class NavigationService {
   }
 
   /**
-   * Navigates to the selected URL.
+   * Navigates to the selected URL providing optional params.
+   * Also check if it is in masquerade mode.
    */
-  navigateToUrlWithOptionalParams(router: Router, url: string, params?: { [key: string]: string }): void {
+  navigateToUrlWithOptionalParams(router: Router, url: string, params?: { [key: string]: string }): Promise<boolean> {
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
       if (params) {
         const userKey: string = 'user';
         params[userKey] = masqueradeUser;
-        router.navigate([url], { queryParams: params });
-      } else {
-        router.navigate([url], { queryParams: { user: masqueradeUser } });
+        return router.navigate([url], { queryParams: params });
       }
-    } else {
-      if (params) {
-        router.navigate([url], { queryParams: params });
-      } else {
-        router.navigateByUrl(url);
-      }
+      return router.navigate([url], { queryParams: { user: masqueradeUser } });
     }
+    if (params) {
+      return router.navigate([url], { queryParams: params });
+    }
+    return router.navigateByUrl(url);
   }
 }
