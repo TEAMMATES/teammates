@@ -107,6 +107,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
+  isAddNewCourseFormExpanded: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private httpRequestService: HttpRequestService,
@@ -118,6 +119,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
+      this.isAddNewCourseFormExpanded = queryParams.addNewCourse;
       this.loadInstructorCourses();
     });
   }

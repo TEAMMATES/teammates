@@ -1,9 +1,16 @@
-<div class="course-section">
-  <tm-add-course-form (courseAdded)="loadInstructorCourses()"></tm-add-course-form>
+<div>
+  <button class="btn btn-primary" (click)="isAddNewCourseFormExpanded = true"
+          [disabled]="isAddNewCourseFormExpanded"><i class="fas fa-plus"></i> Add New Course
+  </button>
+</div>
+
+<div class="course-section" [hidden]="!isAddNewCourseFormExpanded">
+  <tm-add-course-form (courseAdded)="loadInstructorCourses()"
+                      (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
+  ></tm-add-course-form>
 </div>
 
 <div class="course-section">
-  <h2>Active Courses</h2>
   <div class="table-responsive">
     <table class="table table-striped table-bordered margin-0">
       <thead>
