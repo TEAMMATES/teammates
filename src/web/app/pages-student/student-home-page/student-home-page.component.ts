@@ -88,7 +88,7 @@ export class StudentHomePageComponent implements OnInit {
 
               const studentSessions: StudentSession[] = [];
               for (const fs of sortedFss) {
-                const endTime: string = new Date(fs.submissionEndTimestamp).toUTCString();
+                const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
                 const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
                 const isWaitingToOpen: boolean =
                     fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
