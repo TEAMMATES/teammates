@@ -16,6 +16,9 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -496,6 +499,103 @@ public final class FeedbackQuestionsLogic {
             break;
         }
         return recipients;
+    }
+
+    /**
+     * Populates fields that need dynamic generation in a question.
+     *
+     * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
+     *
+     * @param feedbackQuestionAttributes the question to populate
+     * @param emailOfEntityDoingQuestion the email of the entity doing the question
+     * @param teamOfEntityDoingQuestion the team of the entity doing the question. If the entity is an instructor,
+     *                                  it can be {@code null}.
+     */
+    public void populateFieldsToGenerateInQuestion(FeedbackQuestionAttributes feedbackQuestionAttributes,
+            String emailOfEntityDoingQuestion, String teamOfEntityDoingQuestion) {
+        List<String> optionList;
+
+        FeedbackParticipantType generateOptionsFor;
+
+        if (feedbackQuestionAttributes.getQuestionType() == FeedbackQuestionType.MCQ) {
+            FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
+                    (FeedbackMcqQuestionDetails) feedbackQuestionAttributes.getQuestionDetails();
+            optionList = feedbackMcqQuestionDetails.getMcqChoices();
+            generateOptionsFor = feedbackMcqQuestionDetails.getGenerateOptionsFor();
+        } else if (feedbackQuestionAttributes.getQuestionType() == FeedbackQuestionType.MSQ) {
+            FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
+                    (FeedbackMsqQuestionDetails) feedbackQuestionAttributes.getQuestionDetails();
+            optionList = feedbackMsqQuestionDetails.getMsqChoices();
+            generateOptionsFor = feedbackMsqQuestionDetails.getGenerateOptionsFor();
+        } else {
+            // other question types
+            return;
+        }
+
+        switch (generateOptionsFor) {
+        case NONE:
+            break;
+        case STUDENTS:
+            //fallthrough
+        case STUDENTS_EXCLUDING_SELF:
+            List<StudentAttributes> studentList =
+                    studentsLogic.getStudentsForCourse(feedbackQuestionAttributes.getCourseId());
+
+            if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+                studentList.removeIf(studentInList -> studentInList.email.equals(emailOfEntityDoingQuestion));
+            }
+
+            for (StudentAttributes student : studentList) {
+                optionList.add(student.name + " (" + student.team + ")");
+            }
+
+            optionList.sort(null);
+            break;
+        case TEAMS:
+            //fallthrough
+        case TEAMS_EXCLUDING_SELF:
+            try {
+                List<TeamDetailsBundle> teamList = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
+
+                if (generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
+                    teamList.removeIf(teamInList -> teamInList.name.equals(teamOfEntityDoingQuestion));
+                }
+
+                for (TeamDetailsBundle team : teamList) {
+                    optionList.add(team.name);
+                }
+
+                optionList.sort(null);
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail("Course disappeared");
+            }
+            break;
+        case INSTRUCTORS:
+            List<InstructorAttributes> instructorList =
+                    instructorsLogic.getInstructorsForCourse(feedbackQuestionAttributes.getCourseId());
+
+            for (InstructorAttributes instructor : instructorList) {
+                optionList.add(instructor.getName());
+            }
+
+            optionList.sort(null);
+            break;
+        default:
+            Assumption.fail("Trying to generate options for neither students, teams nor instructors");
+            break;
+        }
+
+        if (feedbackQuestionAttributes.getQuestionType() == FeedbackQuestionType.MCQ) {
+            FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
+                    (FeedbackMcqQuestionDetails) feedbackQuestionAttributes.getQuestionDetails();
+            feedbackMcqQuestionDetails.setMcqChoices(optionList);
+            feedbackQuestionAttributes.setQuestionDetails(feedbackMcqQuestionDetails);
+        } else if (feedbackQuestionAttributes.getQuestionType() == FeedbackQuestionType.MSQ) {
+            FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
+                    (FeedbackMsqQuestionDetails) feedbackQuestionAttributes.getQuestionDetails();
+            feedbackMsqQuestionDetails.setMsqChoices(optionList);
+            feedbackQuestionAttributes.setQuestionDetails(feedbackMsqQuestionDetails);
+        }
     }
 
     private String getGiverTeam(String defaultTeam, InstructorAttributes instructorGiver,

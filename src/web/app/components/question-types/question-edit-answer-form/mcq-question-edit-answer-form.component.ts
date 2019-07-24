@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 
 import {
   FeedbackMcqQuestionDetails,
@@ -27,6 +27,8 @@ export class McqQuestionEditAnswerFormComponent
   @Input()
   id: string = '';
 
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
+
   isMcqOptionSelected: boolean[] = [];
 
   constructor() {
@@ -54,6 +56,9 @@ export class McqQuestionEditAnswerFormComponent
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
     if (fieldsToUpdate.isOther) {
       fieldsToUpdate.answer = '';
+      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
+      }, 0);
     } else {
       fieldsToUpdate.otherFieldContent = '';
     }

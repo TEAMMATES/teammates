@@ -7,7 +7,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
@@ -188,10 +187,8 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
         gaeSimulation.loginAsInstructor(instructor.googleId);
 
-        FeedbackSessionAttributes fs =
-                FeedbackSessionsLogic.inst().getFeedbackSession(feedbackResponseComment.feedbackSessionName,
-                                                                feedbackResponseComment.courseId);
-        FeedbackSessionsLogic.inst().publishFeedbackSession(fs);
+        FeedbackSessionsLogic.inst().publishFeedbackSession(
+                feedbackResponseComment.feedbackSessionName, feedbackResponseComment.courseId);
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),

@@ -95,47 +95,51 @@ export class McqQuestionEditDetailsFormComponent
   /**
    * Tracks the Mcq option by index.
    */
-  trackMcqOption(index: number, item: string[]): string {
-    return item[index];
+  trackMcqOption(index: number): string {
+    return index.toString();
   }
 
   /**
    * Tracks the Mcq weight by index.
    */
-  trackMcqWeight(index: number, item: number[]): number {
-    return item[index];
+  trackMcqWeight(index: number): string {
+    return index.toString();
   }
 
   /**
    * Triggers the display of the weight column for the Mcq options if weights option is checked/unchecked.
    */
-  triggerWeightsColumn(event: any): void {
-    const fieldsToUpdate: any = {};
-    if (!event.target.checked) {
-      fieldsToUpdate.mcqWeights = [];
-      fieldsToUpdate.mcqOtherWeight = 0;
-    } else {
-      fieldsToUpdate.mcqWeights = Array(this.model.numOfMcqChoices).fill(0);
-    }
-    this.triggerModelChangeBatch(fieldsToUpdate);
+  triggerWeightsColumn(checked: boolean): void {
+    this.triggerModelChangeBatch({
+      mcqWeights: checked ? Array(this.model.numOfMcqChoices).fill(0) : [],
+      mcqOtherWeight: 0,
+      hasAssignedWeights: checked,
+    });
   }
 
   /**
-   * Triggers the display of the weight for the other option.
+   * Triggers the setting of choosing other option.
    */
-  triggerOtherWeight(event: any): void {
-    if (!event.target.checked) {
-      this.triggerModelChange('mcqOtherWeight', 0);
-    }
+  triggerOtherEnabled(checked: boolean): void {
+    this.triggerModelChangeBatch({
+      otherEnabled: checked,
+      mcqOtherWeight: 0,
+    });
   }
 
   /**
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
-  triggerGeneratedOptionsChange(event: any): void {
-    const feedbackParticipantType: FeedbackParticipantType
-        = event.target.checked ? FeedbackParticipantType.STUDENTS : FeedbackParticipantType.NONE;
-    this.triggerModelChange('generateOptionsFor', feedbackParticipantType);
+  triggerGeneratedOptionsChange(checked: boolean): void {
+    this.triggerModelChangeBatch({
+      generateOptionsFor: checked ? FeedbackParticipantType.STUDENTS : FeedbackParticipantType.NONE,
+      numOfMcqChoices: checked ? 0 : 2,
+      mcqChoices: checked ? [] : ['', ''],
+      otherEnabled: false,
+      hasAssignedWeights: false,
+      mcqWeights: [],
+      mcqOtherWeight: 0,
+    });
   }
 
   /**

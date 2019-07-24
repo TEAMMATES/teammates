@@ -61,10 +61,17 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             switch (intent) {
             case STUDENT_SUBMISSION:
                 questions = logic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
+                StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+                questions.forEach(question ->
+                        logic.populateFieldsToGenerateInQuestion(question,
+                                studentAttributes.getEmail(), studentAttributes.getTeam()));
                 break;
             case INSTRUCTOR_SUBMISSION:
                 InstructorAttributes instructor = getInstructorOfCourseFromRequest(courseId);
                 questions = logic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, instructor.getEmail());
+                questions.forEach(question ->
+                        logic.populateFieldsToGenerateInQuestion(question,
+                                instructor.getEmail(), null));
                 break;
             case FULL_DETAIL:
             case INSTRUCTOR_RESULT:

@@ -70,6 +70,10 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
         return answer;
     }
 
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return SanitizationHelper.sanitizeForCsv(getAnswerString());

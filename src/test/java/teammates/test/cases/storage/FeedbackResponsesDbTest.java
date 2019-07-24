@@ -9,6 +9,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.common.collect.Sets;
+
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SectionDetail;
@@ -66,6 +68,22 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
             fra.feedbackQuestionId = fqa.getId();
             frDb.createEntity(fra);
         }
+    }
+
+    @Test
+    public void testGetGiverSetThatAnswerFeedbackSession_emptyResponses_shouldReturnEmptySet() {
+        Set<String> giverSet = frDb.getGiverSetThatAnswerFeedbackSession("courseA", "session");
+
+        assertTrue(giverSet.isEmpty());
+    }
+
+    @Test
+    public void testGetGiverSetThatAnswerFeedbackSession_giverIsUser_shouldReturnCorrectIdentifier() {
+        Set<String> giverSet = frDb.getGiverSetThatAnswerFeedbackSession("idOfTypicalCourse1", "First feedback session");
+
+        assertEquals(Sets.newHashSet("student1InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt",
+                "student5InCourse1@gmail.tmt", "student3InCourse1@gmail.tmt", "instructor1@course1.tmt"),
+                giverSet);
     }
 
     @Test
