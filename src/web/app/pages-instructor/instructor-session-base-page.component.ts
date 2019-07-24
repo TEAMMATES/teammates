@@ -185,7 +185,7 @@ export abstract class InstructorSessionBasePageComponent {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
-    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions/edit', params);
+    this.navigationService.navigateToUrl(this.router, '/web/instructor/sessions/edit', params);
   }
 
   /**
@@ -208,7 +208,7 @@ export abstract class InstructorSessionBasePageComponent {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
-    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions/submission', params);
+    this.navigationService.navigateToUrl(this.router, '/web/instructor/sessions/submission', params);
   }
 
   /**
@@ -219,7 +219,7 @@ export abstract class InstructorSessionBasePageComponent {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
-    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions/result', params);
+    this.navigationService.navigateToUrl(this.router, '/web/instructor/sessions/result', params);
   }
 
   /**

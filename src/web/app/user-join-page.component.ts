@@ -64,7 +64,7 @@ export class UserJoinPageComponent implements OnInit {
       instructorinstitution: this.institute,
     };
     this.httpRequestService.put('/join', paramMap).subscribe(() => {
-      this.navigationService.navigateToUrlWithOptionalParams(this.router, `/web/${this.entityType}`);
+      this.navigationService.navigateToUrl(this.router, `/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);
       modalRef.componentInstance.requestId = resp.error.requestId;

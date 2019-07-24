@@ -22,7 +22,7 @@ export class NavigationService {
    * Navigates to the selected URL and shows an error message afterwards.
    */
   navigateWithErrorMessage(router: Router, url: string, message: string): void {
-    this.navigateToUrlWithOptionalParams(router, url).then(() => {
+    this.navigateToUrl(router, url).then(() => {
       this.statusMessageService.showSuccessMessage(message);
     });
   }
@@ -31,7 +31,7 @@ export class NavigationService {
    * Navigates to the selected URL and shows a success message afterwards.
    */
   navigateWithSuccessMessage(router: Router, url: string, message: string): void {
-    this.navigateToUrlWithOptionalParams(router, url).then(() => {
+    this.navigateToUrl(router, url).then(() => {
       this.statusMessageService.showSuccessMessage(message);
     });
   }
@@ -79,7 +79,7 @@ export class NavigationService {
    * Navigates to the selected URL providing optional params.
    * Also check if it is in masquerade mode.
    */
-  navigateToUrlWithOptionalParams(router: Router, url: string, params?: { [key: string]: string }): Promise<boolean> {
+  navigateToUrl(router: Router, url: string, params?: { [key: string]: string }): Promise<boolean> {
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
       if (params) {

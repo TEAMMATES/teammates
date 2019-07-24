@@ -800,10 +800,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     if (this.questionEditFormModels.some((q: QuestionEditFormModel) => q.isEditable)
         || this.sessionEditFormModel.isEditable) {
       this.modalService.open(modal).result.then(() => {
-        this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions');
+        this.navigationService.navigateToUrl(this.router, '/web/instructor/sessions');
       }, () => {});
     } else {
-      this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/instructor/sessions');
+      this.navigationService.navigateToUrl(this.router, '/web/instructor/sessions');
     }
     // TODO focus on the row of current feedback session in the sessions page
   }

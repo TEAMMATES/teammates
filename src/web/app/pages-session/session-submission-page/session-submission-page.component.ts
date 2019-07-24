@@ -183,7 +183,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       entitytype: 'student',
       key: this.regKey,
     };
-    this.navigationService.navigateToUrlWithOptionalParams(this.router, '/web/join', params);
+    this.navigationService.navigateToUrl(this.router, '/web/join', params);
   }
 
   /**
