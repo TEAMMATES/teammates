@@ -119,7 +119,9 @@ export class InstructorCoursesPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.user = queryParams.user;
-      this.isAddNewCourseFormExpanded = queryParams.addNewCourse;
+      if (queryParams.isAddNewCourse) {
+        this.isAddNewCourseFormExpanded = queryParams.isAddNewCourse;
+      }
       this.loadInstructorCourses();
     });
   }
