@@ -122,15 +122,13 @@
         <ul ngbDropdownMenu>
           <li class="dropdown-header">Common feedback path combinations</li>
           <li class="dropdown-item" *ngFor="let path of this.commonFeedbackPaths | keyvalue">
-            <div ngbDropdown #subMenu="ngbDropdown" placement="right">
-              <div (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
-                <span ngbDropdownAnchor class="float-right invisible"></span>
-                {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
-                <ul ngbDropdownMenu>
-                  <li class="dropdown-item" *ngFor="let recipient of path.value"
-                      (click)="changeGiverRecipientType(path.key, recipient)">{{ recipient | recipientTypeDescription }}</li>
-                </ul>
-              </div>
+            <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
+              <span ngbDropdownAnchor class="float-right invisible"></span>
+              {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
+              <ul ngbDropdownMenu>
+                <li class="dropdown-item" *ngFor="let recipient of path.value"
+                    (click)="changeGiverRecipientType(path.key, recipient)">{{ recipient | recipientTypeDescription }}</li>
+              </ul>
             </div>
           </li>
           <li class="dropdown-divider"></li>

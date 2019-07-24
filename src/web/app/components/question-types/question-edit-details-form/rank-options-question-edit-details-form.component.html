@@ -37,7 +37,7 @@
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isMinOptionsToBeRankedEnabled"
-             (change)="triggerMinOptionsToBeRankedChange($event)">
+             (ngModelChange)="triggerMinOptionsToBeRankedChange($event)">
       <b>Minimum number of options a respondent must rank</b>
     </label>
     <input type="number" class="form-control width-auto inline" [disabled]="!isMinOptionsToBeRankedEnabled"
@@ -47,7 +47,7 @@
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isMaxOptionsToBeRankedEnabled"
-             (change)="triggerMaxOptionsToBeRankedChange($event)">
+             (ngModelChange)="triggerMaxOptionsToBeRankedChange($event)">
       <b>Maximum number of options a respondent can rank</b>
     </label>
     <input type="number" class="form-control width-auto inline" [disabled]="!isMaxOptionsToBeRankedEnabled"

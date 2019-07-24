@@ -97,7 +97,6 @@ public class ArchitectureTest {
     public void testArchitecture_commonShouldNotTouchLogic() {
         noClasses().that().resideInAPackage(includeSubpackages(COMMON_PACKAGE))
                 // TODO fix these violations
-                .and().doNotHaveSimpleName("FeedbackMcqQuestionDetails")
                 .and().doNotHaveSimpleName("FeedbackMsqQuestionDetails")
                 .and().doNotHaveSimpleName("FeedbackConstantSumQuestionDetails")
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
