@@ -90,9 +90,9 @@ export class PageComponent {
       } else {
         // user is not in url but present in MasqueradeModeService, append it to url
         const userParam: string = this.masqueradeModeService.getMasqueradeUser();
-        if (userParam != '') {
+        if (userParam !== '') {
           this.router.navigate([this.router.url.split('?')[0]],
-              { queryParams: { user: userParam },  queryParamsHandling: "merge" });
+              { queryParams: { user: userParam },  queryParamsHandling: 'merge' });
         }
       }
     });
