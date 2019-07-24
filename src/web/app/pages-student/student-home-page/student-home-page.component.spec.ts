@@ -2,6 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment-timezone';
+import { default as timezone } from '../../../data/timezone.json';
 import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -36,6 +38,7 @@ describe('StudentHomePageComponent', () => {
   }));
 
   beforeEach(() => {
+    moment.tz.load(timezone);
     fixture = TestBed.createComponent(StudentHomePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

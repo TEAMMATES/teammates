@@ -4,7 +4,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
 <tm-student-home-page
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
@@ -356,7 +355,6 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
 <tm-student-home-page
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
@@ -377,7 +375,6 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasEventualConsistencyMsg="false"
   httpRequestService={[Function HttpRequestService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}

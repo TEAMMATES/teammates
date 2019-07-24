@@ -53,7 +53,6 @@ export class StudentHomePageComponent implements OnInit {
 
   user: string = '';
 
-  hasEventualConsistencyMsg: boolean = false;
   courses: StudentCourse[] = [];
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
