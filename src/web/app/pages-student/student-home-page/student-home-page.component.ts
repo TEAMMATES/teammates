@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import moment from 'moment-timezone';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -86,15 +85,15 @@ export class StudentHomePageComponent implements OnInit {
                   .map((fs: FeedbackSession) => Object.assign({}, fs))
                   .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
                       b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
-                      ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
+                        ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
 
               const studentSessions: StudentSession[] = [];
               for (const fs of sortedFss) {
-                const endTime: string = moment(fs.submissionEndTimestamp).tz(fs.timeZone)
-                    .format('ddd, DD MMM, YYYY, hh:mm A zz');
-                const isOpened: boolean = this.isOpened(fs);
-                const isWaitingToOpen: boolean = this.isWaitingToOpen(fs);
-                const isPublished: boolean = this.isPublished(fs);
+                const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
+                const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
+                const isWaitingToOpen: boolean =
+                    fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+                const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
                 this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId,
                     fs.feedbackSessionName)
                     .subscribe((hasRes: HasResponses) => {
@@ -112,27 +111,6 @@ export class StudentHomePageComponent implements OnInit {
     }, (e: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(e.error.message);
     });
-  }
-
-  /**
-   * Checks if feedback session is opened.
-   */
-  isOpened(fs: FeedbackSession): boolean {
-    return fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
-  }
-
-  /**
-   * Checks if feedback session is waiting to open.
-   */
-  isWaitingToOpen(fs: FeedbackSession): boolean {
-    return fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-  }
-
-  /**
-   * Checks if feedback session is published.
-   */
-  isPublished(fs: FeedbackSession): boolean {
-    return fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
   }
 
   /**
