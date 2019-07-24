@@ -25,7 +25,8 @@
         <tr *ngFor="let session of studentCourse.feedbackSessions">
           <ng-container>
             <td>{{ session.session.feedbackSessionName }}</td>
-            <td>{{ session.endTime | date: 'EEE, dd MMM yyyy, hh:mm a z' }}</td>
+            <td *ngIf="isNumber(session.endTime)">{{ session.endTime | date: 'EEE, dd MMM yyyy, hh:mm a z' }}</td>
+            <td *ngIf="!isNumber(session.endTime)">{{ session.endTime }}</td>
             <td>
               <a style="border-bottom: 1px dashed black;"
                  [ngbTooltip]="getSubmissionStatusTooltip(session)">

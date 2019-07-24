@@ -23,7 +23,7 @@ interface StudentCourse {
 
 interface StudentSession {
   session: FeedbackSession;
-  endTime: string;
+  endTime: number;
   isOpened: boolean;
   isWaitingToOpen: boolean;
   isPublished: boolean;
@@ -88,7 +88,7 @@ export class StudentHomePageComponent implements OnInit {
 
               const studentSessions: StudentSession[] = [];
               for (const fs of sortedFss) {
-                const endTime: string = new Date(fs.submissionEndTimestamp).toISOString();
+                const endTime: number = fs.submissionEndTimestamp;
                 const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
                 const isWaitingToOpen: boolean =
                     fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
@@ -139,5 +139,12 @@ export class StudentHomePageComponent implements OnInit {
       return this.studentFeedbackSessionStatusPublished;
     }
     return this.studentFeedbackSessionStatusNotPublished;
+  }
+
+  /**
+   * Checks whether the input is a number.
+   */
+  isNumber(val: any): boolean {
+    return typeof val === 'number';
   }
 }

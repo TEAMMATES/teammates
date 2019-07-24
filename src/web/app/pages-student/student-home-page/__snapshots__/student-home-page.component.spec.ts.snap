@@ -75,8 +75,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <td>
               First Session
             </td>
+            
+            
             <td>
-              Sat, 02 Feb 2019, 08:15 AM GMT+8
+              1200
             </td>
             <td>
               <a
@@ -137,8 +139,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <td>
               Second Session
             </td>
+            
+            
             <td>
-              Sat, 02 Feb 2019, 08:15 AM GMT+8
+              1200
             </td>
             <td>
               <a
@@ -246,8 +250,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <td>
               Third Session
             </td>
+            
+            
             <td>
-              Sat, 02 Feb 2019, 08:15 AM GMT+8
+              1200
             </td>
             <td>
               <a
@@ -297,8 +303,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <td>
               Fourth Session
             </td>
+            
+            
             <td>
-              Sat, 02 Feb 2019, 08:15 AM GMT+8
+              1200
             </td>
             <td>
               <a
