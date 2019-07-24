@@ -117,7 +117,7 @@ export class GroupedResponsesComponent implements OnInit, OnChanges {
             timezone: this.timeZone,
             commentGiver: comment.commentGiver,
             commentText: comment.commentText,
-            isFromFeedbackParticipant: true,
+            isFromFeedbackParticipant: false,
           });
           const updatedResponse: any = { ...response.allResponses[0], allComments: updatedComments };
           this.commentsChangeInResponseEvent.emit(updatedResponse);
