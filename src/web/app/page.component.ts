@@ -81,13 +81,22 @@ export class PageComponent {
           this.pageTitle = resp.pageTitle;
           this.title.setTitle(resp.htmlTitle || DEFAULT_TITLE);
         });
-        this.route.queryParams.subscribe((queryParams: any) => {
-          if (queryParams.user) {
-            this.masqueradeModeService.updateMasqueradeUser(queryParams.user);
-          }
-        });
       }
     });
+    // fetch the user param from url and update it in MasqueradeModeService
+    this.route.queryParams.subscribe((queryParams: any) => {
+      if (queryParams.user) {
+        this.masqueradeModeService.updateMasqueradeUser(queryParams.user);
+      } else {
+        // user is not in url but present in MasqueradeModeService, append it to url
+        const userParam: string = this.masqueradeModeService.getMasqueradeUser();
+        if (userParam != '') {
+          this.router.navigate([this.router.url.split('?')[0]],
+              { queryParams: { user: userParam },  queryParamsHandling: "merge" });
+        }
+      }
+    });
+
     if (environment.frontendUrl) {
       this.logoutUrl += `?frontendUrl=${environment.frontendUrl}`;
     }
