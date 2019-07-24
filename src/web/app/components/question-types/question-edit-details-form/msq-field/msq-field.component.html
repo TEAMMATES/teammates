@@ -3,8 +3,8 @@
     <span>&#8597; </span>
     <input type="checkbox" disabled>
   </span>
-  <input type="text" class="form-control" [disabled]="!isEditable" [(ngModel)]="text" #msq
-         (blur)="onMsqOptionEntered(msq.value.trim())">
+  <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #msq
+         (ngModelChange)="onMsqOptionEntered($event)">
   <span class="input-group-btn">
     <button type="button" class="btn btn-default input-group-addon" style="cursor: initial" tabindex="-1"
             [disabled]="!isEditable" (click)="deleteMsqOption()">

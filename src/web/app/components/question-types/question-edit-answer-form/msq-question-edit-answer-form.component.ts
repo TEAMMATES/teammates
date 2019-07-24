@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -24,6 +24,8 @@ export class MsqQuestionEditAnswerFormComponent
   readonly NO_VALUE: number = NO_VALUE;
   isMsqOptionSelected: boolean[] = [];
 
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
+
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
   }
@@ -33,7 +35,8 @@ export class MsqQuestionEditAnswerFormComponent
 
   // sync the internal status with the input data
   ngOnChanges(): void {
-    if (this.responseDetails.answers[0] !== NONE_OF_THE_ABOVE) {
+    this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
+    if (!this.isNoneOfTheAboveEnabled) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
         const indexOfElementInAnswerArray: number
             = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[i]);
@@ -45,28 +48,20 @@ export class MsqQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if None of the above option is enabled and disables it.
-   */
-  disableNoneOfTheAboveOption(): void {
-    if (this.isNoneOfTheAboveEnabled) {
-      const newAnswers: string[] = this.responseDetails.answers.slice();
-      newAnswers.splice(0 , 1);
-      this.triggerResponseDetailsChange('answers', newAnswers);
-    }
-  }
-
-  /**
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
-    this.disableNoneOfTheAboveOption();
-    const newAnswers: string[] = this.responseDetails.answers.slice();
+    let newAnswers: string[] = [];
+    if (!this.isNoneOfTheAboveEnabled) {
+      newAnswers = this.responseDetails.answers.slice();
+    }
     const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
     if (indexInResponseArray > -1) {
       newAnswers.splice(indexInResponseArray, 1);
     } else {
       newAnswers.push(this.questionDetails.msqChoices[index]);
     }
+
     this.triggerResponseDetailsChange('answers', newAnswers);
   }
 
@@ -76,9 +71,15 @@ export class MsqQuestionEditAnswerFormComponent
   updateIsOtherOption(): void {
     const fieldsToUpdate: any = {};
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
-    this.disableNoneOfTheAboveOption();
+    if (this.isNoneOfTheAboveEnabled) {
+      fieldsToUpdate.answers = [];
+    }
     if (!fieldsToUpdate.isOther) {
       fieldsToUpdate.otherFieldContent = '';
+    } else {
+      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
+      }, 0);
     }
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
@@ -87,25 +88,18 @@ export class MsqQuestionEditAnswerFormComponent
    * Checks if None of the above checkbox is enabled.
    */
   get isNoneOfTheAboveEnabled(): boolean {
-    return this.responseDetails.answers[0] === NONE_OF_THE_ABOVE;
+    return this.responseDetails.answers.length === 1
+        && this.responseDetails.answers[0] === NONE_OF_THE_ABOVE;
   }
 
   /**
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
-    let newAnswers: string[] = this.responseDetails.answers.slice();
-    const fieldsToUpdate: any = {};
-    if (this.isNoneOfTheAboveEnabled) {
-      newAnswers.splice(0, 1);
-    } else {
-      this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
-      newAnswers = [];
-      fieldsToUpdate.isOther = false;
-      fieldsToUpdate.otherFieldContent = '';
-      newAnswers[0] = NONE_OF_THE_ABOVE;
-    }
-    fieldsToUpdate.answers = newAnswers;
-    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
+    this.triggerResponseDetailsChangeBatch({
+      answers: this.isNoneOfTheAboveEnabled ? [] : [NONE_OF_THE_ABOVE],
+      isOther: false,
+      otherFieldContent: '',
+    });
   }
 }

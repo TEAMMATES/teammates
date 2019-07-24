@@ -7,14 +7,15 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseArchive,
   Courses,
   FeedbackSession,
   FeedbackSessions,
   InstructorPrivilege,
-  MessageOutput,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import {
@@ -26,7 +27,7 @@ import {
   SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
+import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
 interface CourseTabModel {
   course: Course;
@@ -48,7 +49,7 @@ interface CourseTabModel {
   templateUrl: './instructor-home-page.component.html',
   styleUrls: ['./instructor-home-page.component.scss'],
 })
-export class InstructorHomePageComponent extends InstructorSessionBasePageComponent implements OnInit {
+export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
 
   private static readonly coursesToLoad: number = 3;
   // enum
@@ -69,12 +70,14 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
+              modalService: NgbModal,
+              studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private ngbModal: NgbModal,
               private timezoneService: TimezoneService) {
     super(router, httpRequestService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService);
+        feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
     // need timezone data for moment()
     this.timezoneService.getTzVersion();
   }
@@ -125,13 +128,15 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    this.httpRequestService.put('/course', { courseid: courseId, archive: 'true' })
-      .subscribe((resp: MessageOutput) => {
-        this.loadCourses();
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
+    this.courseService.changeArchiveStatus(courseId, {
+      archiveStatus: true,
+    }).subscribe((courseArchive: CourseArchive) => {
+      this.loadCourses();
+      this.statusMessageService.showSuccessMessage(`The course ${courseArchive.courseId} has been archived.
+          You can retrieve it from the Courses page.`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -265,8 +270,8 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           strB = b.course.courseId;
           break;
         case SortBy.COURSE_CREATION_DATE:
-          strA = a.course.creationDate;
-          strB = b.course.creationDate;
+          strA = String(a.course.creationTimestamp);
+          strB = String(b.course.creationTimestamp);
           break;
         default:
           strA = '';
@@ -355,21 +360,5 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   unpublishSessionEventHandler(tabIndex: number, rowIndex: number): void {
     this.unpublishSession(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
-   * Sends e-mails to remind students on the published results link.
-   */
-  resendResultsLinkToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
-    this.resendResultsLinkToStudents(this.courseTabModels[tabIndex]
-        .sessionsTableRowModels[remindInfo.row], remindInfo.request);
-  }
-
-  /**
-   * Sends e-mails to remind students who have not submitted their feedback.
-   */
-  sendRemindersToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
-    this.sendRemindersToStudents(this.courseTabModels[tabIndex]
-      .sessionsTableRowModels[remindInfo.row], remindInfo.request);
   }
 }

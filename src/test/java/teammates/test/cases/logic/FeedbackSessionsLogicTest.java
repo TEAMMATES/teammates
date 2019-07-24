@@ -1620,7 +1620,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .withResultsVisibleFromTime(sessionUnderTest.getResultsVisibleFromTime())
                         .build());
 
-        fsLogic.publishFeedbackSession(sessionUnderTest);
+        fsLogic.publishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
 
         // Set real time of publishing
         FeedbackSessionAttributes sessionPublished =
@@ -1632,12 +1632,13 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("failure: already published");
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> fsLogic.publishFeedbackSession(sessionUnderTest));
+                () -> fsLogic.publishFeedbackSession(
+                        sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId()));
         assertEquals("Error publishing feedback session: Session has already been published.", ipe.getMessage());
 
         ______TS("success: unpublish");
 
-        fsLogic.unpublishFeedbackSession(sessionUnderTest);
+        fsLogic.unpublishFeedbackSession(sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId());
 
         sessionUnderTest.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
 
@@ -1648,8 +1649,21 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: not published");
 
-        ipe = assertThrows(InvalidParametersException.class, () -> fsLogic.unpublishFeedbackSession(sessionUnderTest));
+        ipe = assertThrows(InvalidParametersException.class,
+                () -> fsLogic.unpublishFeedbackSession(
+                        sessionUnderTest.getFeedbackSessionName(), sessionUnderTest.getCourseId()));
         assertEquals("Error unpublishing feedback session: Session has already been unpublished.", ipe.getMessage());
+
+        ______TS("failure: publish/unpublish non-existent session");
+
+        assertNull(fsLogic.getFeedbackSession("randomName", "randomId"));
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.publishFeedbackSession("randomName", "randomId"));
+        assertEquals("Trying to update a non-existent feedback session: randomId/randomName", ednee.getMessage());
+
+        ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.unpublishFeedbackSession("randomName", "randomId"));
+        assertEquals("Trying to update a non-existent feedback session: randomId/randomName", ednee.getMessage());
 
     }
 
@@ -1748,7 +1762,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             if (fs.isPublished()) {
-                fsLogic.unpublishFeedbackSession(fs);
+                fsLogic.unpublishFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
             }
         }
     }

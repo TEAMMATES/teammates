@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,10 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -517,6 +522,187 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         // test that questions in other courses are unaffected
         assertNotNull(getQuestionFromDatastore("qn1InSessionInArchivedCourse"));
         assertNotNull(getQuestionFromDatastore("qn1InSession4InCourse1"));
+    }
+
+    @Test
+    public void testPopulateFieldsToGenerateInQuestion_mcqQuestionDifferentGenerateOptions_shouldPopulateCorrectly() {
+        StudentAttributes typicalStudent = dataBundle.students.get("student1InCourse1");
+        InstructorAttributes typicalInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+
+        FeedbackQuestionAttributes fqa = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        // construct a typical question
+        fqa = FeedbackQuestionAttributes.builder()
+                        .withCourseId(fqa.getCourseId())
+                        .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                        .withNumberOfEntitiesToGiveFeedbackTo(2)
+                        .withQuestionDescription("test")
+                        .withQuestionNumber(fqa.getQuestionNumber())
+                        .withGiverType(FeedbackParticipantType.STUDENTS)
+                        .withRecipientType(FeedbackParticipantType.STUDENTS)
+                        .withQuestionDetails(new FeedbackMcqQuestionDetails())
+                        .withShowResponsesTo(new ArrayList<>())
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withShowRecipientNameTo(new ArrayList<>())
+                        .build();
+
+        FeedbackMcqQuestionDetails feedbackMcqQuestionDetails = new FeedbackMcqQuestionDetails();
+
+        // NONE
+        List<String> expected = Arrays.asList("test");
+
+        feedbackMcqQuestionDetails.setMcqChoices(Arrays.asList("test"));
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(Arrays.asList("test"));
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // STUDENTS
+        expected = Arrays.asList("student1 In Course1</td></div>'\" (Team 1.1</td></div>'\")",
+                        "student2 In Course1 (Team 1.1</td></div>'\")",
+                        "student3 In Course1 (Team 1.1</td></div>'\")",
+                        "student4 In Course1 (Team 1.1</td></div>'\")",
+                        "student5 In Course1 (Team 1.2)");
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // STUDENTS_EXCLUDING_SELF
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(Arrays.asList("student2 In Course1 (Team 1.1</td></div>'\")",
+                "student3 In Course1 (Team 1.1</td></div>'\")",
+                "student4 In Course1 (Team 1.1</td></div>'\")",
+                "student5 In Course1 (Team 1.2)"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(Arrays.asList("student1 In Course1</td></div>'\" (Team 1.1</td></div>'\")",
+                "student2 In Course1 (Team 1.1</td></div>'\")",
+                "student3 In Course1 (Team 1.1</td></div>'\")",
+                "student4 In Course1 (Team 1.1</td></div>'\")",
+                "student5 In Course1 (Team 1.2)"), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // TEAMS
+        expected = Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2");
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // TEAMS_EXCLUDING_SELF
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(Arrays.asList("Team 1.2"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // INSTRUCTORS
+        expected = Arrays.asList("Helper Course1",
+                "Instructor Not Yet Joined Course 1",
+                "Instructor1 Course1",
+                "Instructor2 Course1",
+                "Instructor3 Course1");
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+    }
+
+    @Test
+    public void testPopulateFieldsToGenerateInQuestion_msqQuestionDifferentGenerateOptions_shouldPopulateCorrectly() {
+        StudentAttributes typicalStudent = dataBundle.students.get("student1InCourse1");
+        InstructorAttributes typicalInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+
+        FeedbackQuestionAttributes fqa = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        // construct a typical question
+        fqa = FeedbackQuestionAttributes.builder()
+                .withCourseId(fqa.getCourseId())
+                .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                .withNumberOfEntitiesToGiveFeedbackTo(2)
+                .withQuestionDescription("test")
+                .withQuestionNumber(fqa.getQuestionNumber())
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.STUDENTS)
+                .withQuestionDetails(new FeedbackMsqQuestionDetails())
+                .withShowResponsesTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .build();
+
+        FeedbackMsqQuestionDetails feedbackMsqQuestionDetails = new FeedbackMsqQuestionDetails();
+
+        // TEAMS_EXCLUDING_SELF
+        feedbackMsqQuestionDetails.setMsqChoices(new ArrayList<>());
+        feedbackMsqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMsqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(Arrays.asList("Team 1.2"),
+                ((FeedbackMsqQuestionDetails) fqa.getQuestionDetails()).getMsqChoices());
+
+        feedbackMsqQuestionDetails.setMsqChoices(new ArrayList<>());
+        feedbackMsqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMsqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
+                ((FeedbackMsqQuestionDetails) fqa.getQuestionDetails()).getMsqChoices());
     }
 
     private void testGetFeedbackQuestionsForInstructor() throws Exception {

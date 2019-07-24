@@ -2,8 +2,13 @@
 
 exports[`StudentListComponent should snap with default fields 1`] = `
 <tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -13,6 +18,9 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
   <div
@@ -30,35 +38,57 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             Photo
           </th>
           
-          <th>
-             Section 
-            <span
-              class="fas fa-sort float-right"
-            />
-          </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Team 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Student Name 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Status 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Email 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
           <th>
             Action(s)
@@ -75,8 +105,13 @@ exports[`StudentListComponent should snap with default fields 1`] = `
 
 exports[`StudentListComponent should snap with enable remind button set to true and two students yet to join 1`] = `
 <tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton={[Function Boolean]}
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -86,6 +121,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
   <div
@@ -103,35 +141,70 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             Photo
           </th>
           
-          <th>
+          <th
+            class="sortable-header"
+          >
              Section 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Team 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Student Name 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Status 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Email 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
           <th>
             Action(s)
@@ -139,8 +212,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         </tr>
       </thead>
       <tbody>
-        
-        
         
         <tr
           s=""
@@ -173,7 +244,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             tester@tester.com
@@ -217,8 +288,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               class="btn btn-light btn-sm mr-2"
               ng-reflect-ngb-tooltip="'Email an invitation to the st"
               ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
-                + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
-                + ' but a joined student can access extra features e.g. set up a user profile'"
+              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
+              + ' but a joined student can access extra features e.g. set up a user profile'"
             >
               Send Invite
             </button>
@@ -251,9 +322,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
           </td>
         </tr>
-        
-        
-        
         <tr
           s=""
         >
@@ -570,7 +638,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             emma.f.tmms@gmail.tmt
@@ -614,8 +682,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               class="btn btn-light btn-sm mr-2"
               ng-reflect-ngb-tooltip="'Email an invitation to the st"
               ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
-                + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
-                + ' but a joined student can access extra features e.g. set up a user profile'"
+              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
+              + ' but a joined student can access extra features e.g. set up a user profile'"
             >
               Send Invite
             </button>
@@ -648,7 +716,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
           </td>
         </tr>
-        
       </tbody>
     </table>
   </div>
@@ -657,8 +724,13 @@ exports[`StudentListComponent should snap with enable remind button set to true 
 
 exports[`StudentListComponent should snap with enable remind button set to true, one student yet to join when not allowed to modify student 1`] = `
 <tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton={[Function Boolean]}
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -668,6 +740,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
   <div
@@ -685,35 +760,70 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             Photo
           </th>
           
-          <th>
+          <th
+            class="sortable-header"
+          >
              Section 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Team 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Student Name 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Status 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Email 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
           <th>
             Action(s)
@@ -721,8 +831,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         </tr>
       </thead>
       <tbody>
-        
-        
         
         <tr
           s=""
@@ -755,7 +863,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             tester@tester.com
@@ -799,8 +907,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               class="btn btn-light btn-sm mr-2"
               ng-reflect-ngb-tooltip="'Email an invitation to the st"
               ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
-                + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
-                + ' but a joined student can access extra features e.g. set up a user profile'"
+              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
+              + ' but a joined student can access extra features e.g. set up a user profile'"
             >
               Send Invite
             </button>
@@ -833,9 +941,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
           </td>
         </tr>
-        
-        
-        
         <tr
           s=""
         >
@@ -1152,7 +1257,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             emma.f.tmms@gmail.tmt
@@ -1228,7 +1333,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
           </td>
         </tr>
-        
       </tbody>
     </table>
   </div>
@@ -1237,8 +1341,13 @@ exports[`StudentListComponent should snap with enable remind button set to true,
 
 exports[`StudentListComponent should snap with some student list data 1`] = `
 <tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -1248,6 +1357,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
   <div
@@ -1265,35 +1377,70 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             Photo
           </th>
           
-          <th>
+          <th
+            class="sortable-header"
+          >
              Section 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Team 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Student Name 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Status 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Email 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
           <th>
             Action(s)
@@ -1301,8 +1448,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         </tr>
       </thead>
       <tbody>
-        
-        
         
         <tr
           s=""
@@ -1396,9 +1541,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
           </td>
         </tr>
-        
-        
-        
         <tr
           s=""
         >
@@ -1767,7 +1909,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
           </td>
         </tr>
-        
       </tbody>
     </table>
   </div>
@@ -1776,8 +1917,13 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
 
 exports[`StudentListComponent should snap with some student list data and some students to hide 1`] = `
 <tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -1787,6 +1933,9 @@ exports[`StudentListComponent should snap with some student list data and some s
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
   <div
@@ -1804,35 +1953,70 @@ exports[`StudentListComponent should snap with some student list data and some s
             Photo
           </th>
           
-          <th>
+          <th
+            class="sortable-header"
+          >
              Section 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Team 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Student Name 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Status 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Email 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
           <th>
             Action(s)
@@ -1840,8 +2024,6 @@ exports[`StudentListComponent should snap with some student list data and some s
         </tr>
       </thead>
       <tbody>
-        
-        
         
         <tr
           hidden=""
@@ -1875,7 +2057,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             tester@tester.com
@@ -1936,9 +2118,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             
           </td>
         </tr>
-        
-        
-        
         <tr
           hidden=""
           s=""
@@ -2308,7 +2487,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             
           </td>
         </tr>
-        
       </tbody>
     </table>
   </div>
@@ -2317,8 +2495,13 @@ exports[`StudentListComponent should snap with some student list data and some s
 
 exports[`StudentListComponent should snap with some student list data when not allowed to modify student for a specific section 1`] = `
 <tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -2328,6 +2511,9 @@ exports[`StudentListComponent should snap with some student list data when not a
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
   <div
@@ -2345,35 +2531,70 @@ exports[`StudentListComponent should snap with some student list data when not a
             Photo
           </th>
           
-          <th>
+          <th
+            class="sortable-header"
+          >
              Section 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Team 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Student Name 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Status 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Email 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
           <th>
             Action(s)
@@ -2381,8 +2602,6 @@ exports[`StudentListComponent should snap with some student list data when not a
         </tr>
       </thead>
       <tbody>
-        
-        
         
         <tr
           s=""
@@ -2476,9 +2695,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             
           </td>
         </tr>
-        
-        
-        
         <tr
           s=""
         >
@@ -2847,7 +3063,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             
           </td>
         </tr>
-        
       </tbody>
     </table>
   </div>
@@ -2856,8 +3071,13 @@ exports[`StudentListComponent should snap with some student list data when not a
 
 exports[`StudentListComponent should snap with some student list data with no sections 1`] = `
 <tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
@@ -2867,6 +3087,9 @@ exports[`StudentListComponent should snap with some student list data with no se
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
   <div
@@ -2884,29 +3107,57 @@ exports[`StudentListComponent should snap with some student list data with no se
             Photo
           </th>
           
-          <th>
+          <th
+            class="sortable-header"
+          >
              Team 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Student Name 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Status 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Email 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
           <th>
             Action(s)
@@ -2914,8 +3165,6 @@ exports[`StudentListComponent should snap with some student list data with no se
         </tr>
       </thead>
       <tbody>
-        
-        
         
         <tr
           s=""
@@ -2945,7 +3194,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           <td
             class="align-center"
           >
-            Yet to join
+            Yet to Join
           </td>
           <td>
             tester@tester.com
@@ -3006,7 +3255,6 @@ exports[`StudentListComponent should snap with some student list data with no se
             
           </td>
         </tr>
-        
       </tbody>
     </table>
   </div>
@@ -3015,8 +3263,13 @@ exports[`StudentListComponent should snap with some student list data with no se
 
 exports[`StudentListComponent should snap with table head set to hidden 1`] = `
 <tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
+  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead={[Function Boolean]}
@@ -3026,6 +3279,9 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
   <div
@@ -3044,35 +3300,57 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             Photo
           </th>
           
-          <th>
-             Section 
-            <span
-              class="fas fa-sort float-right"
-            />
-          </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Team 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Student Name 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Status 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
-          <th>
+          <th
+            class="sortable-header"
+          >
              Email 
-            <span
-              class="fas fa-sort float-right"
-            />
+            
+            <span>
+              <i
+                class="fas fa-sort"
+              />
+            </span>
+            
+            
           </th>
           <th>
             Action(s)
