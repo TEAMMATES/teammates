@@ -1,15 +1,19 @@
 package teammates.test.cases.datatransfer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.AssertHelper;
 
 /**
  * SUT: {@link FeedbackMsqQuestionDetails}.
@@ -409,5 +413,42 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertFalse(msqDetails.hasAssignedWeights());
         assertTrue(msqDetails.getMsqWeights().isEmpty());
         assertEquals(0.0, msqDetails.getMsqOtherWeight());
+    }
+
+    @Test
+    public void testValidateQuestionDetails_maxSelectableChoicesMoreThanTotalNumberOfChoice_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+
+        msqDetails.setMsqChoices(Arrays.asList("a", "b"));
+        // 'other' is NOT one of the choices
+        msqDetails.setOtherEnabled(false);
+        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+        msqDetails.setHasAssignedWeights(false);
+        msqDetails.setMsqOtherWeight(0);
+        msqDetails.setMsqWeights(new ArrayList<>());
+        msqDetails.setMaxSelectableChoices(3);
+        msqDetails.setMinSelectableChoices(Integer.MIN_VALUE);
+
+        List<String> errors = msqDetails.validateQuestionDetails("dummyCourse");
+        assertEquals(1, errors.size());
+        AssertHelper.assertContains(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_maxSelectableChoicesEqualTotalNumberOfChoice_shouldNotReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+
+        msqDetails.setMsqChoices(Arrays.asList("a", "b"));
+        // 'other' is one of the choices
+        msqDetails.setOtherEnabled(true);
+        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+        msqDetails.setHasAssignedWeights(false);
+        msqDetails.setMsqOtherWeight(0);
+        msqDetails.setMsqWeights(new ArrayList<>());
+        msqDetails.setMaxSelectableChoices(3);
+        msqDetails.setMinSelectableChoices(Integer.MIN_VALUE);
+
+        List<String> errors = msqDetails.validateQuestionDetails("dummyCourse");
+        assertEquals(0, errors.size());
     }
 }

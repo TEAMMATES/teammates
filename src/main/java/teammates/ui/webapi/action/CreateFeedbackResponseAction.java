@@ -83,11 +83,15 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             giverIdentifier = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
             giverSection = studentAttributes.getSection();
+            logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                    studentAttributes.getEmail(), studentAttributes.getTeam());
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructorAttributes.getEmail();
             giverSection = Const.DEFAULT_SECTION;
+            logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                    instructorAttributes.getEmail(), null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
