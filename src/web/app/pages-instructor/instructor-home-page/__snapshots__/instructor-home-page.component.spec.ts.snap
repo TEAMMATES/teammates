@@ -562,7 +562,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               class="col-12"
             >
               <table
-                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                class="table table-responsive-lg table-striped table-bordered table-hover margin-bottom-0"
               >
                 <thead>
                   <tr
@@ -619,13 +619,18 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       
                       
                     </th>
-                    <th>
+                    <th
+                      class="fit"
+                    >
                       Submissions
                     </th>
-                    <th>
+                    <th
+                      class="fit"
+                    >
                       Responses
                     </th>
                     <th
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="Number of students submitted /"
@@ -638,7 +643,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       </span>
                     </th>
                     <th
-                      class="text-center"
+                      class="text-center fit"
                     >
                       Action(s)
                     </th>
@@ -653,6 +658,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     </td>
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 06:43 AM +07"
@@ -666,6 +672,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 06:46 AM +07"
@@ -678,6 +685,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     </td>
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="The feedback session has been "
@@ -689,7 +697,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       </span>
                     </td>
                     <td
-                      class="tool-tip-decorate"
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="The responses for this session"
@@ -700,7 +708,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         Not Published
                       </span>
                     </td>
-                    <td>
+                    <td
+                      class="fit"
+                    >
                       
                       
                       <div>
@@ -709,41 +719,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       
                     </td>
                     <td
-                      class="actions-cell"
+                      class="actions-cell fit"
                     >
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
-                        ngbtooltip="Edit feedback session details"
-                        type="button"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
-                        ngbtooltip="Delete the feedback session"
-                        type="button"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
-                        ngbtooltip="Copy feedback session details"
-                        type="button"
-                      >
-                        Copy
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
-                        ngbtooltip="Start submitting feedback"
-                        type="button"
-                      >
-                        Submit
-                      </button>
                       <div
                         class="d-inline-block dropdown"
                         ng-reflect-ngb-tooltip="View the submitted responses f"
@@ -753,7 +730,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         <button
                           aria-expanded="false"
                           aria-haspopup="true"
-                          class="btn btn-light btn-sm dropdown-toggle"
+                          class="btn btn-primary btn-sm dropdown-toggle"
                           ngbdropdowntoggle=""
                         >
                           Results
@@ -791,18 +768,63 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                           </button>
                         </div>
                       </div>
+                      <button
+                        class="btn btn-primary btn-sm"
+                        ng-reflect-ngb-tooltip="Edit feedback session details"
+                        ngbtooltip="Edit feedback session details"
+                      >
+                        Edit
+                      </button>
                       <div
-                        class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                        class="d-inline-block dropdown"
+                        ng-reflect-ngb-tooltip="Actions"
                         ngbdropdown=""
-                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                        ngbtooltip="Actions"
                       >
                         <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="action-dropdown btn btn-sm dropdown-toggle"
+                          ngbdropdowntoggle=""
                         >
-                          Remind
+                          <i
+                            class="fas fa-ellipsis-v"
+                          />
                         </button>
+                        <div
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom-left"
+                        >
+                          <button
+                            class="dropdown-item clickable"
+                            disabled=""
+                            ng-reflect-ngb-tooltip="Start submitting feedback"
+                            ngbtooltip="Start submitting feedback"
+                          >
+                            Submit
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            ng-reflect-ngb-tooltip="Delete the feedback session"
+                            ngbtooltip="Delete the feedback session"
+                          >
+                            Delete
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            ng-reflect-ngb-tooltip="Copy feedback session details"
+                            ngbtooltip="Copy feedback session details"
+                          >
+                            Copy
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            disabled=""
+                          >
+                            Remind
+                          </button>
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -1110,7 +1132,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               class="col-12"
             >
               <table
-                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                class="table table-responsive-lg table-striped table-bordered table-hover margin-bottom-0"
               >
                 <thead>
                   <tr
@@ -1167,13 +1189,18 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       
                       
                     </th>
-                    <th>
+                    <th
+                      class="fit"
+                    >
                       Submissions
                     </th>
-                    <th>
+                    <th
+                      class="fit"
+                    >
                       Responses
                     </th>
                     <th
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="Number of students submitted /"
@@ -1186,7 +1213,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </span>
                     </th>
                     <th
-                      class="text-center"
+                      class="text-center fit"
                     >
                       Action(s)
                     </th>
@@ -1201,6 +1228,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     </td>
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
@@ -1214,6 +1242,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
@@ -1226,6 +1255,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     </td>
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="The feedback session has been "
@@ -1237,7 +1267,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </span>
                     </td>
                     <td
-                      class="tool-tip-decorate"
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="The responses for this session"
@@ -1248,7 +1278,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         Published
                       </span>
                     </td>
-                    <td>
+                    <td
+                      class="fit"
+                    >
                       
                       
                       <div>
@@ -1257,43 +1289,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       
                     </td>
                     <td
-                      class="actions-cell"
+                      class="actions-cell fit"
                     >
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
-                        ngbtooltip="Edit feedback session details"
-                        type="button"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
-                        ngbtooltip="Delete the feedback session"
-                        type="button"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
-                        ngbtooltip="Copy feedback session details"
-                        type="button"
-                      >
-                        Copy
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
-                        ngbtooltip="Start submitting feedback"
-                        type="button"
-                      >
-                        Submit
-                      </button>
                       <div
                         class="d-inline-block dropdown"
                         ng-reflect-ngb-tooltip="View the submitted responses f"
@@ -1303,7 +1300,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <button
                           aria-expanded="false"
                           aria-haspopup="true"
-                          class="btn btn-light btn-sm dropdown-toggle"
+                          class="btn btn-primary btn-sm dropdown-toggle"
                           ngbdropdowntoggle=""
                         >
                           Results
@@ -1346,18 +1343,65 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           </button>
                         </div>
                       </div>
+                      <button
+                        class="btn btn-primary btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Edit feedback session details"
+                        ngbtooltip="Edit feedback session details"
+                      >
+                        Edit
+                      </button>
                       <div
-                        class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                        class="d-inline-block dropdown"
+                        ng-reflect-ngb-tooltip="Actions"
                         ngbdropdown=""
-                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                        ngbtooltip="Actions"
                       >
                         <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="action-dropdown btn btn-sm dropdown-toggle"
+                          ngbdropdowntoggle=""
                         >
-                          Remind
+                          <i
+                            class="fas fa-ellipsis-v"
+                          />
                         </button>
+                        <div
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom-left"
+                        >
+                          <button
+                            class="dropdown-item clickable"
+                            disabled=""
+                            ng-reflect-ngb-tooltip="Start submitting feedback"
+                            ngbtooltip="Start submitting feedback"
+                          >
+                            Submit
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            disabled=""
+                            ng-reflect-ngb-tooltip="Delete the feedback session"
+                            ngbtooltip="Delete the feedback session"
+                          >
+                            Delete
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            ng-reflect-ngb-tooltip="Copy feedback session details"
+                            ngbtooltip="Copy feedback session details"
+                          >
+                            Copy
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            disabled=""
+                          >
+                            Remind
+                          </button>
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -1368,6 +1412,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     </td>
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
@@ -1381,6 +1426,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
@@ -1393,6 +1439,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     </td>
                     
                     <td
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="The feedback session has been "
@@ -1404,7 +1451,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </span>
                     </td>
                     <td
-                      class="tool-tip-decorate"
+                      class="fit"
                       container="body"
                       ng-reflect-container="body"
                       ng-reflect-ngb-tooltip="The responses for this session"
@@ -1415,7 +1462,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         Not Published
                       </span>
                     </td>
-                    <td>
+                    <td
+                      class="fit"
+                    >
                       
                       
                       <div>
@@ -1424,43 +1473,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       
                     </td>
                     <td
-                      class="actions-cell"
+                      class="actions-cell fit"
                     >
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
-                        ngbtooltip="Edit feedback session details"
-                        type="button"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
-                        ngbtooltip="Delete the feedback session"
-                        type="button"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
-                        ngbtooltip="Copy feedback session details"
-                        type="button"
-                      >
-                        Copy
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
-                        ngbtooltip="Start submitting feedback"
-                        type="button"
-                      >
-                        Submit
-                      </button>
                       <div
                         class="d-inline-block dropdown"
                         ng-reflect-ngb-tooltip="View the submitted responses f"
@@ -1470,7 +1484,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <button
                           aria-expanded="false"
                           aria-haspopup="true"
-                          class="btn btn-light btn-sm dropdown-toggle"
+                          class="btn btn-primary btn-sm dropdown-toggle"
                           ngbdropdowntoggle=""
                         >
                           Results
@@ -1508,18 +1522,65 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           </button>
                         </div>
                       </div>
+                      <button
+                        class="btn btn-primary btn-sm"
+                        disabled=""
+                        ng-reflect-ngb-tooltip="Edit feedback session details"
+                        ngbtooltip="Edit feedback session details"
+                      >
+                        Edit
+                      </button>
                       <div
-                        class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
+                        class="d-inline-block dropdown"
+                        ng-reflect-ngb-tooltip="Actions"
                         ngbdropdown=""
-                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                        ngbtooltip="Actions"
                       >
                         <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          class="action-dropdown btn btn-sm dropdown-toggle"
+                          ngbdropdowntoggle=""
                         >
-                          Remind
+                          <i
+                            class="fas fa-ellipsis-v"
+                          />
                         </button>
+                        <div
+                          class="dropdown-menu"
+                          ngbdropdownmenu=""
+                          x-placement="bottom-left"
+                        >
+                          <button
+                            class="dropdown-item clickable"
+                            disabled=""
+                            ng-reflect-ngb-tooltip="Start submitting feedback"
+                            ngbtooltip="Start submitting feedback"
+                          >
+                            Submit
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            disabled=""
+                            ng-reflect-ngb-tooltip="Delete the feedback session"
+                            ngbtooltip="Delete the feedback session"
+                          >
+                            Delete
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            ng-reflect-ngb-tooltip="Copy feedback session details"
+                            ngbtooltip="Copy feedback session details"
+                          >
+                            Copy
+                          </button>
+                          <button
+                            class="dropdown-item clickable"
+                            disabled=""
+                          >
+                            Remind
+                          </button>
+                        </div>
                       </div>
                     </td>
                   </tr>
