@@ -7,7 +7,8 @@ import {
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionDetails,
-  FeedbackQuestionType, FeedbackRankOptionsQuestionDetails,
+  FeedbackQuestionType,
+  FeedbackRankOptionsQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
@@ -17,7 +18,7 @@ import {
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MSQ_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
-  DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
+  DEFAULT_RANK_OPTIONS_QUESTION_DETAILS, DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../types/default-question-structs';
 import { NO_VALUE } from '../types/feedback-response-details';
@@ -52,6 +53,19 @@ export class FeedbackQuestionsService {
     switch (type) {
       case FeedbackQuestionType.CONTRIB:
         paths.set(FeedbackParticipantType.STUDENTS, [FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
+        break;
+      case FeedbackQuestionType.RANK_RECIPIENTS:
+        paths.set(FeedbackParticipantType.SELF,
+            [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS]);
+        paths.set(FeedbackParticipantType.STUDENTS,
+          [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS,
+            FeedbackParticipantType.OWN_TEAM_MEMBERS,
+            FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
+        paths.set(FeedbackParticipantType.INSTRUCTORS,
+            [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS]);
+        paths.set(FeedbackParticipantType.TEAMS,
+          [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS,
+            FeedbackParticipantType.TEAMS, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         break;
       case FeedbackQuestionType.TEXT:
       case FeedbackQuestionType.MCQ:
@@ -89,6 +103,13 @@ export class FeedbackQuestionsService {
     switch (type) {
       case FeedbackQuestionType.CONTRIB:
         paths.set(FeedbackParticipantType.STUDENTS, [FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
+        break;
+      case FeedbackQuestionType.RANK_RECIPIENTS:
+        paths.set(FeedbackParticipantType.SELF, [FeedbackParticipantType.INSTRUCTORS]);
+        paths.set(FeedbackParticipantType.STUDENTS,
+          [FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.OWN_TEAM_MEMBERS,
+            FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
+        paths.set(FeedbackParticipantType.INSTRUCTORS, [FeedbackParticipantType.INSTRUCTORS]);
         break;
       case FeedbackQuestionType.TEXT:
       case FeedbackQuestionType.MCQ:
@@ -149,6 +170,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.MSQ:
       case FeedbackQuestionType.NUMSCALE:
       case FeedbackQuestionType.RANK_OPTIONS:
+      case FeedbackQuestionType.RANK_RECIPIENTS:
         settings.push({
           name: 'Shown anonymously to recipient and instructors',
           visibilitySettings: {
@@ -240,6 +262,8 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.MSQ:
         return true;
       case FeedbackQuestionType.RANK_OPTIONS:
+        return true;
+      case FeedbackQuestionType.RANK_RECIPIENTS:
         return true;
       default:
         throw new Error(`Unsupported question type: ${type}`);
@@ -376,6 +400,25 @@ export class FeedbackQuestionsService {
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
+
+      case FeedbackQuestionType.RANK_RECIPIENTS:
+
+        return {
+          questionBrief: '',
+          questionDescription: '',
+
+          questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+          questionDetails: DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(),
+          giverType: FeedbackParticipantType.STUDENTS,
+          recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+          numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+          showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+          showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+          showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+        };
+
       default:
         throw new Error(`Unsupported question type ${type}`);
     }
