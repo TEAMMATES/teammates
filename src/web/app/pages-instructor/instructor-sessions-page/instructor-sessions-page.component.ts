@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -130,6 +130,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
+  hasCoursesLoaded: boolean = false;
+
   constructor(router: Router,
               httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService,
@@ -186,7 +188,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.httpRequestService.get('/courses', {
       entitytype: 'instructor',
       coursestatus: 'active',
-    }).subscribe((courses: Courses) => {
+    }).pipe(finalize(() => this.hasCoursesLoaded = true)).subscribe((courses: Courses) => {
       this.courseCandidates = courses.courses;
 
       this.initDefaultValuesForSessionEditForm();
