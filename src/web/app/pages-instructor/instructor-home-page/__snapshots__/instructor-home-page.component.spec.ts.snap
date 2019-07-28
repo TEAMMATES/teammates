@@ -9,8 +9,10 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoaded="false"
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
@@ -70,20 +72,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       </a>
     </div>
     
-  </div> New to TEAMMATES? You may wish to have a look at our <a
-    href="/web/front/help/instructor"
-    ng-reflect-router-link="/web/front/help/instructor"
-    routerlink="/web/front/help/instructor"
-  >
-    Getting Started Guide
-  </a>. A video tour is also available in our <a
-    href="/web"
-    ng-reflect-router-link="/web"
-    routerlink="/web"
-  >
-    home page
-  </a>.
-  
+  </div>
 </tm-instructor-home-page>
 `;
 
@@ -96,8 +85,10 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoaded="false"
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
@@ -257,8 +248,10 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoaded="false"
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
@@ -827,8 +820,10 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoaded="false"
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
@@ -1544,8 +1539,10 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoaded="false"
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
@@ -1844,8 +1841,10 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoaded="false"
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
@@ -2164,8 +2163,10 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoaded="false"
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
+  loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
