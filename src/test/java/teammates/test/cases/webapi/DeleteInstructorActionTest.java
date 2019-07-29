@@ -251,7 +251,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         String[] onlyEmailParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructorToDelete.courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructorToDelete.email,
-                Const.ParamsNames.INSTRUCTOR_ID, null,
         };
 
         DeleteInstructorAction deleteInstructorAction = getAction(onlyEmailParams);
