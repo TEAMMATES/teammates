@@ -87,7 +87,7 @@ public class StudentsEnrollRequest extends BasicRequest {
         }
 
         public String getSection() {
-            return this.section;
+            return this.section.isEmpty() ? Const.DEFAULT_SECTION : this.section;
         }
 
         public String getComments() {
