@@ -104,6 +104,7 @@
             <tm-msq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-msq-question-edit-details-form>
             <tm-num-scale-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-num-scale-question-edit-details-form>
             <tm-rank-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-options-question-edit-details-form>
+            <tm-rank-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-recipients-question-edit-details-form>
           </div>
         </div>
       </div>
@@ -122,15 +123,13 @@
         <ul ngbDropdownMenu>
           <li class="dropdown-header">Common feedback path combinations</li>
           <li class="dropdown-item" *ngFor="let path of this.commonFeedbackPaths | keyvalue">
-            <div ngbDropdown #subMenu="ngbDropdown" placement="right">
-              <div (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
-                <span ngbDropdownAnchor class="float-right invisible"></span>
-                {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
-                <ul ngbDropdownMenu>
-                  <li class="dropdown-item" *ngFor="let recipient of path.value"
-                      (click)="changeGiverRecipientType(path.key, recipient)">{{ recipient | recipientTypeDescription }}</li>
-                </ul>
-              </div>
+            <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
+              <span ngbDropdownAnchor class="float-right invisible"></span>
+              {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
+              <ul ngbDropdownMenu>
+                <li class="dropdown-item" *ngFor="let recipient of path.value"
+                    (click)="changeGiverRecipientType(path.key, recipient)">{{ recipient | recipientTypeDescription }}</li>
+              </ul>
             </div>
           </li>
           <li class="dropdown-divider"></li>

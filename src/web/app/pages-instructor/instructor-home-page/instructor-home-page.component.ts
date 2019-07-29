@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseArchive,
   Courses,
   FeedbackSession,
   FeedbackSessions,
   InstructorPrivilege,
-  MessageOutput,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import {
@@ -64,6 +66,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   // data
   courseTabModels: CourseTabModel[] = [];
 
+  hasCoursesLoaded: boolean = false;
+
   constructor(router: Router,
               httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService,
@@ -75,7 +79,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               private courseService: CourseService,
               private route: ActivatedRoute,
               private ngbModal: NgbModal,
-              private timezoneService: TimezoneService) {
+              private timezoneService: TimezoneService,
+              private loadingBarService: LoadingBarService) {
     super(router, httpRequestService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
     // need timezone data for moment()
@@ -128,13 +133,15 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    this.httpRequestService.put('/course', { courseid: courseId, archive: 'true' })
-      .subscribe((resp: MessageOutput) => {
-        this.loadCourses();
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      });
+    this.courseService.changeArchiveStatus(courseId, {
+      archiveStatus: true,
+    }).subscribe((courseArchive: CourseArchive) => {
+      this.loadCourses();
+      this.statusMessageService.showSuccessMessage(`The course ${courseArchive.courseId} has been archived.
+          You can retrieve it from the Courses page.`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -154,10 +161,14 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   loadCourses(): void {
     this.courseTabModels = [];
+    this.loadingBarService.showLoadingBar();
     this.httpRequestService.get('/courses', {
       entitytype: 'instructor',
       coursestatus: 'active',
-    }).subscribe((courses: Courses) => {
+    }).pipe(finalize(() => {
+      this.loadingBarService.hideLoadingBar();
+      this.hasCoursesLoaded = true;
+    })).subscribe((courses: Courses) => {
       courses.courses.forEach((course: Course) => {
         const model: CourseTabModel = {
           course,
@@ -268,8 +279,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           strB = b.course.courseId;
           break;
         case SortBy.COURSE_CREATION_DATE:
-          strA = a.course.creationDate;
-          strB = b.course.creationDate;
+          strA = String(a.course.creationTimestamp);
+          strB = String(b.course.creationTimestamp);
           break;
         default:
           strA = '';

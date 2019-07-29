@@ -814,6 +814,28 @@ public class Logic {
     }
 
     /**
+     * Populates fields that need dynamic generation in a question.
+     *
+     * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters except <code>teamOfEntityDoingQuestion</code> are non-null.
+     *
+     * @param feedbackQuestionAttributes the question to populate
+     * @param emailOfEntityDoingQuestion the email of the entity doing the question
+     * @param teamOfEntityDoingQuestion the team of the entity doing the question. If the entity is an instructor,
+     *                                  it can be {@code null}.
+     */
+    public void populateFieldsToGenerateInQuestion(FeedbackQuestionAttributes feedbackQuestionAttributes,
+            String emailOfEntityDoingQuestion, String teamOfEntityDoingQuestion) {
+        Assumption.assertNotNull(feedbackQuestionAttributes);
+        Assumption.assertNotNull(emailOfEntityDoingQuestion);
+
+        feedbackQuestionsLogic.populateFieldsToGenerateInQuestion(
+                feedbackQuestionAttributes, emailOfEntityDoingQuestion, teamOfEntityDoingQuestion);
+    }
+
+    /**
      * Resets the googleId associated with the student.
      *
      * <br/>Preconditions: <br/>
