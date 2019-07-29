@@ -16,6 +16,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   user="undefined"
 >
   <div>
@@ -68,6 +69,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </p>
             </div>
           </div>
+          
+          
           <div
             class="form-group row"
           >
@@ -188,6 +191,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   user="undefined"
 >
   <div>
@@ -240,6 +244,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </p>
             </div>
           </div>
+          
+          
           <div
             class="form-group row"
           >
@@ -398,6 +404,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-details-page
   clipboardService={[Function ClipboardService]}
+  courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv=""
   httpRequestService={[Function HttpRequestService]}
@@ -410,6 +417,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   user="undefined"
 >
   
