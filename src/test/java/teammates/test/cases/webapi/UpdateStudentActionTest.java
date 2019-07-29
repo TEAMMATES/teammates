@@ -177,6 +177,40 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 invalidParamsOutput.getMessage());
     }
 
+    @Test
+    public void testExecute_withEmptySectionName_shouldBeUpdatedWithDefaultSectionName() {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        StudentUpdateRequest emptySectionUpdateRequest =
+                new StudentUpdateRequest(student1InCourse1.name, student1InCourse1.email,
+                        student1InCourse1.team, "", student1InCourse1.comments, true);
+
+        String[] emptySectionSubmissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+        };
+
+        UpdateStudentAction updateEmptySectionAction =
+                getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
+        JsonResult emptySectionActionOutput = getJsonResult(updateEmptySectionAction);
+
+        assertEquals(HttpStatus.SC_OK, emptySectionActionOutput.getStatusCode());
+        MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
+        assertEquals("Student has been updated", emptySectionMsgOutput.getMessage());
+        verifyNoEmailsSent(updateEmptySectionAction);
+
+        // verify student in database
+        StudentAttributes actualStudent =
+                logic.getStudentForEmail(student1InCourse1.course, student1InCourse1.email);
+        assertEquals(student1InCourse1.getCourse(), actualStudent.getCourse());
+        assertEquals(student1InCourse1.getName(), actualStudent.getName());
+        assertEquals(student1InCourse1.getEmail(), actualStudent.getEmail());
+        assertEquals(student1InCourse1.getTeam(), actualStudent.getTeam());
+        assertEquals(Const.DEFAULT_SECTION, actualStudent.getSection());
+        assertEquals(student1InCourse1.getComments(), actualStudent.getComments());
+    }
+
     @Override
     @Test
     protected void testAccessControl() {
