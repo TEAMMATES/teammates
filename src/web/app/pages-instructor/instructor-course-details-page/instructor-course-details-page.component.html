@@ -1,4 +1,4 @@
-<div *ngIf="courseDetails">
+<div *ngIf="courseDetails.course && courseDetails.stats">
   <h1>Course Details</h1>
   <div class="card">
     <div class="card-body fill-plain">
@@ -15,41 +15,43 @@
             <p class="form-control-static">{{courseDetails.course.name}}</p>
           </div>
         </div>
-        <div class="form-group row">
-          <label class="col-sm-3 text-right">Sections:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{courseDetails.stats.sectionsTotal}}</p>
+        <ng-container *ngIf="courseDetails.stats">
+          <div class="form-group row">
+            <label class="col-sm-3 text-right">Sections:</label>
+            <div class="col-sm-6">
+              <p class="form-control-static">{{courseDetails.stats.sectionsTotal}}</p>
+            </div>
           </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-3 text-right">Teams:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{courseDetails.stats.teamsTotal}}</p>
+          <div class="form-group row">
+            <label class="col-sm-3 text-right">Teams:</label>
+            <div class="col-sm-6">
+              <p class="form-control-static">{{courseDetails.stats.teamsTotal}}</p>
+            </div>
           </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-3 text-right">Total students:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{courseDetails.stats.studentsTotal}}</p>
+          <div class="form-group row">
+            <label class="col-sm-3 text-right">Total students:</label>
+            <div class="col-sm-6">
+              <p class="form-control-static">{{courseDetails.stats.studentsTotal}}</p>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 control-label text-right">Instructors:</label>
         <div class="col-sm-6">
           <div *ngFor="let instructor of instructors">
-            <ng-container *ngIf="instructor.role; else showRole">
-              Co-owner: {{instructor.name}} ({{instructor.email}})
+            <ng-container *ngIf="instructor.role; else noRole">
+              {{instructor.role}}: {{instructor.name}} ({{instructor.email}})
             </ng-container>
-            <ng-template #showRole >
+            <ng-template #noRole >
               <p>
-                {{instructor.role}} {{instructor.name}} ({{instructor.email}})
+                {{instructor.name}} ({{instructor.email}})
               </p>
             </ng-template>
           </div>
         </div>
       </div>
-      <div *ngIf="courseDetails.stats.studentsTotal;">
+      <div *ngIf="sections.length > 0">
         <div class="form-group">
           <div class="text-center">
             <button type="button" class="btn btn-primary" (click)="openModal(remindStudentsModal)" value="Remind Students to Join">
@@ -76,7 +78,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="courseDetails.stats.studentsTotal == 0; else studentListTable" class="alert alert-warning">
+  <div *ngIf="sections.length === 0, else studentListTable" class="alert alert-warning">
     <i class="fa fa-exclamation-circle text-muted"></i>
     There are no students in this course. Click
     <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.id}">here</a> to enroll students.

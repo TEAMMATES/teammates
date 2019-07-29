@@ -7,9 +7,19 @@ import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { StudentService } from '../../../services/student.service';
+import {
+  Course,
+  Instructor,
+  InstructorPrivilege,
+  Instructors,
+  MessageOutput,
+  Student,
+  Students,
+} from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentListSectionData } from '../student-list/student-list-section-data';
+import { Intent } from '../../Intent';
+import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 
 interface CourseAttributes {
   id: string;
@@ -23,27 +33,18 @@ interface CourseStats {
 }
 
 interface CourseDetailsBundle {
-  course: CourseAttributes;
-  stats: CourseStats;
+  course?: CourseAttributes;
+  stats?: CourseStats;
 }
 
-interface InstructorAttributes {
-  googleId: string;
+interface StudentIndexedData {
+  [key: string]: Student[];
+}
+
+interface InstructorData {
   name: string;
   email: string;
-  key: string;
   role: string;
-  displayedName: string;
-  isArchived: boolean;
-  isDisplayedToStudents: boolean;
-}
-
-interface CourseInfo {
-  courseDetails: CourseDetailsBundle;
-  currentInstructor: InstructorAttributes;
-  instructors: InstructorAttributes[];
-  sections: StudentListSectionData[];
-  hasSection: boolean;
 }
 
 /**
@@ -57,9 +58,8 @@ interface CourseInfo {
 export class InstructorCourseDetailsPageComponent implements OnInit {
 
   user: string = '';
-  courseDetails?: CourseDetailsBundle;
-  currentInstructor?: InstructorAttributes;
-  instructors: InstructorAttributes[] = [];
+  courseDetails: CourseDetailsBundle = {};
+  instructors: InstructorData[] = [];
   sections: StudentListSectionData[] = [];
   courseStudentListAsCsv: string = '';
 
@@ -71,7 +71,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
               private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
-              private ngbModal: NgbModal, private navigationService: NavigationService) { }
+              private ngbModal: NgbModal, private navigationService: NavigationService,
+              private studentService: StudentService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -81,19 +82,106 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   /**
-   * Loads the course's details based on the given course ID and email.
+   * Loads the course's details based on the given course ID.
    */
   loadCourseDetails(courseid: string): void {
-    const paramMap: { [key: string]: string } = { courseid };
-    this.httpRequestService.get('/courses/details', paramMap).subscribe((resp: CourseInfo) => {
-      this.courseDetails = resp.courseDetails;
-      this.currentInstructor = resp.currentInstructor;
-      this.instructors = resp.instructors;
-      this.sections = resp.sections;
+    this.loadCourseName(courseid);
+    this.loadInstructors(courseid);
+    this.loadStudents(courseid);
+  }
 
-      if (!this.courseDetails) {
-        this.statusMessageService.showErrorMessage('Error retrieving course details');
-      }
+  /**
+   * Loads the name of the course
+   */
+  private loadCourseName(courseid: string): void {
+    this.courseService.getCourseAsInstructor(courseid).subscribe((course: Course) => {
+      this.courseDetails.course = {
+        id: courseid,
+        name: course.courseName,
+      };
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Loads the instructors in the course
+   */
+  private loadInstructors(courseid: string): void {
+    const paramMap: any = { courseid, intent: Intent.FULL_DETAIL };
+    this.httpRequestService.get('/instructors', paramMap).subscribe((instructors: Instructors) => {
+      this.instructors = instructors.instructors.map((instructor: Instructor) => {
+        return {
+          email: instructor.email,
+          name: instructor.name,
+          role: instructor.role,
+        };
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Loads the students in the course
+   */
+  private loadStudents(courseid: string): void {
+    this.studentService.getStudentsFromCourse(courseid).subscribe((students: Students) => {
+      const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
+        const term: string = x.sectionName;
+        (acc[term] = acc[term] || []).push(x);
+        return acc;
+      }, {});
+
+      const teams: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
+        const term: string = x.teamName;
+        (acc[term] = acc[term] || []).push(x);
+        return acc;
+      }, {});
+
+      this.courseDetails.stats = {
+        sectionsTotal: Object.keys(sections).length,
+        teamsTotal: Object.keys(teams).length,
+        studentsTotal: students.students.length,
+      };
+
+      Object.keys(sections).forEach((key: string) => {
+        const studentsInSection: Student[] = sections[key];
+
+        const data: StudentListStudentData[] = [];
+        studentsInSection.forEach((student: Student) => {
+          const studentData: StudentListStudentData = {
+            name: student.name,
+            status: student.joinState,
+            email: student.email,
+            team: student.teamName,
+          };
+          data.push(studentData);
+        });
+
+        this.loadPrivilege(courseid, key, data);
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Loads privilege of an instructor for a specified course and section.
+   */
+  private loadPrivilege(courseid: string, sectionName: string, students: StudentListStudentData[]): void {
+    this.httpRequestService.get('/instructor/privilege', {
+      courseid,
+      sectionname: sectionName,
+    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+      const sectionData: StudentListSectionData = {
+        sectionName,
+        students,
+        isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
+        isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
+      };
+
+      this.sections.push(sectionData);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -137,7 +225,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     const filename: string = `${courseId.concat('_studentList')}.csv`;
     let blob: any;
 
-    // Calling REST API only the first time to laod the downloadable data
+    // Calling REST API only the first time to load the downloadable data
     if (this.loading) {
       blob = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
       saveAs(blob, filename);

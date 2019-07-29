@@ -109,6 +109,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         assertEquals("helper@course1.tmt", typicalInstructor.getEmail());
         assertEquals("Helper Course1", typicalInstructor.getName());
         assertEquals("Helper", typicalInstructor.getDisplayedToStudentsAs());
+        assertEquals("Custom", typicalInstructor.getRole());
         assertFalse(typicalInstructor.getIsDisplayedToStudents());
         assertEquals(JoinState.JOINED, typicalInstructor.getJoinState());
     }
