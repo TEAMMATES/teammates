@@ -6,6 +6,7 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -67,6 +68,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   // data
   courseTabModels: CourseTabModel[] = [];
 
+  hasCoursesLoaded: boolean = false;
+
   constructor(router: Router,
               httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService,
@@ -78,7 +81,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               private courseService: CourseService,
               private route: ActivatedRoute,
               private ngbModal: NgbModal,
-              private timezoneService: TimezoneService) {
+              private timezoneService: TimezoneService,
+              private loadingBarService: LoadingBarService) {
     super(router, httpRequestService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
     // need timezone data for moment()
@@ -159,10 +163,14 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   loadCourses(): void {
     this.courseTabModels = [];
+    this.loadingBarService.showLoadingBar();
     this.httpRequestService.get('/courses', {
       entitytype: 'instructor',
       coursestatus: 'active',
-    }).subscribe((courses: Courses) => {
+    }).pipe(finalize(() => {
+      this.loadingBarService.hideLoadingBar();
+      this.hasCoursesLoaded = true;
+    })).subscribe((courses: Courses) => {
       courses.courses.forEach((course: Course) => {
         const model: CourseTabModel = {
           course,

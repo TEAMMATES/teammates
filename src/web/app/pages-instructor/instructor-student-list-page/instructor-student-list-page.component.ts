@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
@@ -45,7 +46,8 @@ export class InstructorStudentListPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private loadingBarService: LoadingBarService) {
   }
 
   ngOnInit(): void {
@@ -59,7 +61,9 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads courses of current instructor.
    */
   loadCourses(): void {
+    this.loadingBarService.showLoadingBar();
     this.courseService.getAllCoursesAsInstructor('active')
+        .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
         .subscribe((courses: Courses) => {
           courses.courses.forEach((course: Course) => {
             const courseTab: CourseTab = {

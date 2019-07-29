@@ -16,17 +16,16 @@
         <br>
       </div>
     </div>
-    <br>
-    <div>
-      <div>
+    <div class="row">
+      <div class="col-sm-9">
         <button class="btn btn-primary" name="button" ngDefaultControl
                 [disabled]="!isEditable" (click)="increaseNumberOfRankOptions()">
-          <span>&#10133;</span> add more options
+          <i class="fas fa-plus"></i> add more options
         </button>
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
+  <div class="col-sm-6 col-lg-5 col-lg-offset-1">
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox"  [ngModel]="model.areDuplicatesAllowed"
              (ngModelChange)="triggerModelChange('areDuplicatesAllowed', $event)" [disabled]="!isEditable">
@@ -37,21 +36,21 @@
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isMinOptionsToBeRankedEnabled"
-             (change)="triggerMinOptionsToBeRankedChange($event)">
+             (ngModelChange)="triggerMinOptionsToBeRankedChange($event)">
       <b>Minimum number of options a respondent must rank</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMinOptionsToBeRankedEnabled"
+    <input type="number" class="form-control width-auto inline" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMinOptionsToBeRanked"
            (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" min="1" max="{{ maxMinOptionsValue }}">
     <br>
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isMaxOptionsToBeRankedEnabled"
-             (change)="triggerMaxOptionsToBeRankedChange($event)">
+             (ngModelChange)="triggerMaxOptionsToBeRankedChange($event)">
       <b>Maximum number of options a respondent can rank</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMaxOptionsToBeRankedEnabled"
+    <input type="number" class="form-control width-auto inline" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMaxOptionsToBeRanked"
-           (ngModelChange)="triggerModelChange('maxOptionsToBeRanked', $event)" min="1" max="{{model.options.length}}">
+           (ngModelChange)="triggerModelChange('maxOptionsToBeRanked', $event)" [min]="isMinOptionsToBeRankedEnabled ? model.minOptionsToBeRanked : 1" max="{{model.options.length}}">
   </div>
 </div>

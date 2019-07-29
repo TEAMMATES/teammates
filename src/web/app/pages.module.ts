@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
+import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { StatusMessageModule } from './components/status-message/status-message.module';
 import { Intent } from './Intent';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
@@ -83,6 +84,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    LoaderBarModule,
     NgbModule,
     LoadingSpinnerModule,
     ErrorReportModule,
