@@ -1,4 +1,4 @@
-<div *ngIf="courseDetails.course && courseDetails.stats">
+<div>
   <h1>Course Details</h1>
   <div class="card">
     <div class="card-body fill-plain">
@@ -15,26 +15,24 @@
             <p class="form-control-static">{{courseDetails.course.name}}</p>
           </div>
         </div>
-        <ng-container *ngIf="courseDetails.stats">
-          <div class="form-group row">
-            <label class="col-sm-3 text-right">Sections:</label>
-            <div class="col-sm-6">
-              <p class="form-control-static">{{courseDetails.stats.sectionsTotal}}</p>
-            </div>
+        <div class="form-group row">
+          <label class="col-sm-3 text-right">Sections:</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{courseDetails.stats.sectionsTotal}}</p>
           </div>
-          <div class="form-group row">
-            <label class="col-sm-3 text-right">Teams:</label>
-            <div class="col-sm-6">
-              <p class="form-control-static">{{courseDetails.stats.teamsTotal}}</p>
-            </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 text-right">Teams:</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{courseDetails.stats.teamsTotal}}</p>
           </div>
-          <div class="form-group row">
-            <label class="col-sm-3 text-right">Total students:</label>
-            <div class="col-sm-6">
-              <p class="form-control-static">{{courseDetails.stats.studentsTotal}}</p>
-            </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 text-right">Total students:</label>
+          <div class="col-sm-6">
+            <p class="form-control-static">{{courseDetails.stats.studentsTotal}}</p>
           </div>
-        </ng-container>
+        </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-3 control-label text-right">Instructors:</label>
