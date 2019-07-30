@@ -12,6 +12,7 @@ import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-e
 import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { RankOptionsQuestionEditDetailsFormComponent } from './rank-options-question-edit-details-form.component';
 import { RankRecipientsQuestionEditDetailsFormComponent } from './rank-recipients-question-edit-details-form.component';
+import { RubricQuestionEditDetailsFormComponent } from './rubric-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
 
@@ -31,6 +32,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     RankRecipientsQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
+    RubricQuestionEditDetailsFormComponent,
   ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
@@ -44,6 +46,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     RankRecipientsQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
+    RubricQuestionEditDetailsFormComponent,
   ],
   imports: [
     CommonModule,

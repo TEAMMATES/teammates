@@ -341,6 +341,8 @@ public final class Const {
                 "At least some options must be given a different number of points.";
 
         // Rubric
+        public static final int RUBRIC_ANSWER_NOT_CHOSEN = -1;
+
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
         public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
@@ -356,6 +358,9 @@ public final class Const {
                 "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
+
+        public static final String RUBRIC_EMPTY_ANSWER = "Empty answer.";
+        public static final String RUBRIC_INVALID_ANSWER = "The answer for the rubric question is not valid.";
 
         // Text Question
         public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
