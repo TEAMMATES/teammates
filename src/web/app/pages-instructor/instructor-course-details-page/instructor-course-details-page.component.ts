@@ -133,15 +133,12 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         return acc;
       }, {});
 
-      const teams: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
-        const term: string = x.teamName;
-        (acc[term] = acc[term] || []).push(x);
-        return acc;
-      }, {});
+      const teams: Set<string> = new Set();
+      students.students.forEach((student: Student) => teams.add(student.teamName));
 
       this.courseDetails.stats = {
         sectionsTotal: Object.keys(sections).length,
-        teamsTotal: Object.keys(teams).length,
+        teamsTotal: teams.size,
         studentsTotal: students.students.length,
       };
 
