@@ -8,11 +8,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 public class InstructorData extends ApiOutput {
     private final String courseId;
     private final String email;
-    private final String role;
     private Boolean isDisplayedToStudents;
     private final String displayedToStudentsAs;
     private final String name;
 
+    private String role;
     private JoinState joinState;
 
     public InstructorData(InstructorAttributes instructorAttributes) {
@@ -36,6 +36,10 @@ public class InstructorData extends ApiOutput {
 
     public String getRole() {
         return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Boolean getIsDisplayedToStudents() {

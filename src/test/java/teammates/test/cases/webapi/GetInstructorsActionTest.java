@@ -79,6 +79,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         assertEquals("instructorNotYetJoinedCourse1@email.tmt", typicalInstructor.getEmail());
         assertEquals("Instructor Not Yet Joined Course 1", typicalInstructor.getName());
         assertEquals("Instructor", typicalInstructor.getDisplayedToStudentsAs());
+        assertNull(typicalInstructor.getRole());
         assertNull(typicalInstructor.getIsDisplayedToStudents());
         assertNull(typicalInstructor.getJoinState()); // information is hidden
     }
