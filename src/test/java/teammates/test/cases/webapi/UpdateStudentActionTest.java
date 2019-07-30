@@ -177,6 +177,29 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 invalidParamsOutput.getMessage());
     }
 
+    @Test
+    public void testExecute_withTeamNameAlreadyExistsInAnotherSection_shouldFail() {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        StudentAttributes student5InCourse1 = typicalBundle.students.get("student5InCourse1");
+
+        assertNotEquals(student1InCourse1.getSection(), student5InCourse1.getSection());
+
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.name, student1InCourse1.email,
+                student5InCourse1.team, student1InCourse1.section, student1InCourse1.comments, true);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+        };
+
+        UpdateStudentAction duplicateTeamAction = getAction(updateRequest, submissionParams);
+        JsonResult duplicateTeamOutput = getJsonResult(duplicateTeamAction);
+        assertEquals("Team \"Team 1.2\" is detected in both Section \"Section 1\" "
+                        + "and Section \"Section 2\". Please use different team names in different sections.",
+                ((MessageOutput) duplicateTeamOutput.getOutput()).getMessage());
+    }
+
     @Override
     @Test
     protected void testAccessControl() {
