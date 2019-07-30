@@ -33,8 +33,8 @@ interface CourseStats {
 }
 
 interface CourseDetailsBundle {
-  course?: CourseAttributes;
-  stats?: CourseStats;
+  course: CourseAttributes;
+  stats: CourseStats;
 }
 
 interface StudentIndexedData {
@@ -58,7 +58,17 @@ interface InstructorData {
 export class InstructorCourseDetailsPageComponent implements OnInit {
 
   user: string = '';
-  courseDetails: CourseDetailsBundle = {};
+  courseDetails: CourseDetailsBundle = {
+    course: {
+      id: '',
+      name: '',
+    },
+    stats: {
+      sectionsTotal: 0,
+      teamsTotal: 0,
+      studentsTotal: 0,
+    },
+  };
   instructors: InstructorData[] = [];
   sections: StudentListSectionData[] = [];
   courseStudentListAsCsv: string = '';
