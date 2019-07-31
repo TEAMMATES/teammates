@@ -46,7 +46,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               <p
                 class="form-control-static"
               >
-                CS101
+                
               </p>
             </div>
           </div>
@@ -65,7 +65,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               <p
                 class="form-control-static"
               >
-                Introduction to CS
+                
               </p>
             </div>
           </div>
@@ -219,7 +219,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               <p
                 class="form-control-static"
               >
-                CS101
+                
               </p>
             </div>
           </div>
@@ -238,7 +238,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               <p
                 class="form-control-static"
               >
-                Introduction to CS
+                
               </p>
             </div>
           </div>
@@ -547,7 +547,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
       />
        There are no students in this course. Click 
       <a
-        href="/web/instructor/courses/enroll?courseid="
+        href="/web/instructor/courses/enroll"
         ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses/enroll"
         routerlink="/web/instructor/courses/enroll"

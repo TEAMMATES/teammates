@@ -21,11 +21,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 
-interface CourseAttributes {
-  id: string;
-  name: string;
-}
-
 interface CourseStats {
   sectionsTotal: number;
   teamsTotal: number;
@@ -33,18 +28,12 @@ interface CourseStats {
 }
 
 interface CourseDetailsBundle {
-  course: CourseAttributes;
+  course: Course;
   stats: CourseStats;
 }
 
 interface StudentIndexedData {
   [key: string]: Student[];
-}
-
-interface InstructorData {
-  name: string;
-  email: string;
-  role: string;
 }
 
 /**
@@ -60,8 +49,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   user: string = '';
   courseDetails: CourseDetailsBundle = {
     course: {
-      id: '',
-      name: '',
+      courseId: '',
+      courseName: '',
+      timeZone: '',
+      creationTimestamp: 0,
+      deletionTimestamp: 0,
     },
     stats: {
       sectionsTotal: 0,
@@ -69,7 +61,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       studentsTotal: 0,
     },
   };
-  instructors: InstructorData[] = [];
+  instructors: Instructor[] = [];
   sections: StudentListSectionData[] = [];
   courseStudentListAsCsv: string = '';
 
@@ -105,10 +97,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   private loadCourseName(courseid: string): void {
     this.courseService.getCourseAsInstructor(courseid).subscribe((course: Course) => {
-      this.courseDetails.course = {
-        id: courseid,
-        name: course.courseName,
-      };
+      this.courseDetails.course = course;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -120,13 +109,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   private loadInstructors(courseid: string): void {
     const paramMap: any = { courseid, intent: Intent.FULL_DETAIL };
     this.httpRequestService.get('/instructors', paramMap).subscribe((instructors: Instructors) => {
-      this.instructors = instructors.instructors.map((instructor: Instructor) => {
-        return {
-          email: instructor.email,
-          name: instructor.name,
-          role: instructor.role,
-        };
-      });
+      this.instructors = instructors.instructors;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
