@@ -11,6 +11,7 @@ import { MsqQuestionEditDetailsFormComponent } from './msq-question-edit-details
 import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
 import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { RankOptionsQuestionEditDetailsFormComponent } from './rank-options-question-edit-details-form.component';
+import { RankRecipientsQuestionEditDetailsFormComponent } from './rank-recipients-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
 
@@ -27,6 +28,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     NumScaleQuestionEditDetailsFormComponent,
     RankOptionsFieldComponent,
     RankOptionsQuestionEditDetailsFormComponent,
+    RankRecipientsQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
   ],
@@ -39,6 +41,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     NumScaleQuestionEditDetailsFormComponent,
     RankOptionsFieldComponent,
     RankOptionsQuestionEditDetailsFormComponent,
+    RankRecipientsQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
   ],

@@ -8,6 +8,7 @@ import { McqQuestionEditAnswerFormComponent } from './mcq-question-edit-answer-f
 import { MsqQuestionEditAnswerFormComponent } from './msq-question-edit-answer-form.component';
 import { NumScaleQuestionEditAnswerFormComponent } from './num-scale-question-edit-answer-form.component';
 import { RankOptionsQuestionEditAnswerFormComponent } from './rank-options-question-edit-answer-form.component';
+import { RankRecipientsQuestionEditAnswerFormComponent } from './rank-recipients-question-edit-answer-form.component';
 import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer-form.component';
 
 /**
@@ -22,6 +23,7 @@ import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer
     ContributionPointDescriptionPipe,
     MsqQuestionEditAnswerFormComponent,
     RankOptionsQuestionEditAnswerFormComponent,
+    RankRecipientsQuestionEditAnswerFormComponent,
   ],
   exports: [
     ContributionQuestionEditAnswerFormComponent,
@@ -31,6 +33,7 @@ import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer
     ContributionPointDescriptionPipe,
     MsqQuestionEditAnswerFormComponent,
     RankOptionsQuestionEditAnswerFormComponent,
+    RankRecipientsQuestionEditAnswerFormComponent,
   ],
   imports: [
     CommonModule,

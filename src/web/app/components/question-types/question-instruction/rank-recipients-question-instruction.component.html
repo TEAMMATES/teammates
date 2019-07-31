@@ -1,0 +1,6 @@
+<p *ngIf="questionDetails.minOptionsToBeRanked !== NO_VALUE || questionDetails.maxOptionsToBeRanked !== NO_VALUE"
+   class="text-muted">Instructions:</p>
+<ul>
+  <li *ngIf="questionDetails.minOptionsToBeRanked !== NO_VALUE" class="text-muted">You need to rank at least {{ questionDetails.minOptionsToBeRanked }} options.</li>
+  <li *ngIf="questionDetails.maxOptionsToBeRanked !== NO_VALUE" class="text-muted">Rank no more than {{ questionDetails.maxOptionsToBeRanked }} options.</li>
+</ul>
