@@ -74,19 +74,37 @@ export const DEFAULT_CONTRIBUTION_RESPONSE_DETAILS: () => FeedbackContributionRe
     };
 
 /**
- * Structure for default constant sum question details.
+ * Structure for default constant sum (among options) question details.
  */
-export const DEFAULT_CONSTSUM_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
+export const DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
     (): FeedbackConstantSumQuestionDetails => {
       return {
-        numOfConstSumOptions: 0,
+        numOfConstSumOptions: 2,
         constSumOptions: ['', ''],
         distributeToRecipients: false,
         pointsPerOption: false,
         forceUnevenDistribution: false,
         distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
         points: 100,
-        questionType: FeedbackQuestionType.CONSTSUM,
+        questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+        questionText: '',
+      };
+    };
+
+/**
+ * Structure for default constant sum (among recipient) question details.
+ */
+export const DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
+    (): FeedbackConstantSumQuestionDetails => {
+      return {
+        numOfConstSumOptions: 0,
+        constSumOptions: ['', ''],
+        distributeToRecipients: true,
+        pointsPerOption: false,
+        forceUnevenDistribution: false,
+        distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
+        points: 100,
+        questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
         questionText: '',
       };
     };

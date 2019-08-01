@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Assumption;
@@ -21,7 +22,7 @@ public class FeedbackQuestionData extends ApiOutput {
 
     private final FeedbackQuestionDetails questionDetails;
 
-    private final FeedbackQuestionType questionType;
+    private FeedbackQuestionType questionType;
     private final FeedbackParticipantType giverType;
     private final FeedbackParticipantType recipientType;
 
@@ -71,6 +72,17 @@ public class FeedbackQuestionData extends ApiOutput {
             // remove the redundant visibility type as GIVER_TEAM_MEMBERS is just RECIPIENT_TEAM_MEMBERS
             // contribution question keep the redundancy for legacy reason
             this.showResponsesTo.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
+        }
+
+        // TODO: remove the abstraction after migration
+        // need to migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
+        if (this.questionType == FeedbackQuestionType.CONSTSUM) {
+            // correct to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
+            FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
+                    (FeedbackConstantSumQuestionDetails) this.questionDetails;
+            this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
+                    ? FeedbackQuestionType.CONSTSUM_RECIPIENTS : FeedbackQuestionType.CONSTSUM_OPTIONS;
+            this.questionDetails.setQuestionType(this.questionType);
         }
     }
 
