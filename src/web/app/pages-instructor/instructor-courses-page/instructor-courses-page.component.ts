@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { ModalService } from '../../../services/modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -16,13 +17,8 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
+import { ModalTypes } from '../../components/modal/modal-types';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  CoursePermanentDeletionConfirmModalComponent,
-} from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
-import {
-  CourseSoftDeletionConfirmModalComponent,
-} from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
 interface ActiveCourseModel {
   course: Course;
@@ -114,7 +110,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private modalService: NgbModal) { }
+              private modalService: ModalService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -239,7 +235,10 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
+
+    const modalRef: NgbModalRef =
+        this.modalService.open(`Warning: The course ${courseId} will be moved to the recycle bin.`,
+            ModalTypes.WARNING, 'Are you sure you want to continue?');
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.loadInstructorCourses();
@@ -259,7 +258,14 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+
+    const modalContent: string =
+        `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>` +
+        'This operation will delete all students and sessions in these courses.' +
+        'All instructors of these courses will not be able to access them hereafter as well.';
+
+    const modalRef: NgbModalRef =
+        this.modalService.open('Confirm deleting a course', ModalTypes.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
@@ -295,8 +301,13 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
-    modalRef.componentInstance.isDeleteAll = true;
+    const modalContent: any =
+        '<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>' +
+        'This operation will delete all students and sessions in these courses.' +
+        'All instructors of these courses will not be able to access them hereafter as well.';
+
+    const modalRef: NgbModalRef =
+        this.modalService.open('Confirm deleting all courses', ModalTypes.DANGER, modalContent);
     modalRef.result.then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: ArchivedCourseModel) => {
