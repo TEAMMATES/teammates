@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
+import { ModalModule } from './components/modal/modal.module';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    ModalModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatSnackBarModule,

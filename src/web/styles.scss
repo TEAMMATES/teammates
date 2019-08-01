@@ -58,8 +58,8 @@ body {
   min-width: 800px;
 }
 
-.modal-content {
-  padding: 30px 20px;
+.modal {
+  z-index: 3000;
 }
 
 // The following few properties are for the usermap page.
