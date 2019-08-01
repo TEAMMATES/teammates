@@ -95,8 +95,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         List<StudentData> enrolledStudents = executeActionAndReturnResults(courseId, req);
 
         assertEquals(1, enrolledStudents.size());
-        verifyStudentInDatabase(
-                studentToUpdate, enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
+        verifyStudentInDatabase(studentToUpdate, enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
     }
 
