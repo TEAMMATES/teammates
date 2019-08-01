@@ -30,6 +30,8 @@ export class QuestionTypeNamePipe implements PipeTransform {
         return 'Rank (recipients) question';
       case FeedbackQuestionType.RUBRIC:
         return 'Rubric question';
+      case FeedbackQuestionType.CONSTSUM_OPTIONS:
+        return 'Distribute points (among options) question';
       default:
         return 'Unknown';
     }
