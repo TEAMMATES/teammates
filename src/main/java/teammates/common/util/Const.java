@@ -766,8 +766,6 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
 
-        public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
-
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
