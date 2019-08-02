@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -76,6 +76,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
+              ngbModalService: NgbModal,
               modalService: ModalService,
               studentService: StudentService,
               private courseService: CourseService,
@@ -83,7 +84,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               private timezoneService: TimezoneService,
               private loadingBarService: LoadingBarService) {
     super(router, httpRequestService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
+        feedbackSessionsService, feedbackQuestionsService, ngbModalService, modalService, studentService);
     // need timezone data for moment()
     this.timezoneService.getTzVersion();
   }
@@ -127,7 +128,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    const modalContent: string = `Are you sure you want to delete the course: ${courseId}?` +
+    const modalContent: string = `Are you sure you want to delete the course: ${courseId}? ` +
         'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
     const modalRef: NgbModalRef =
@@ -147,7 +148,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Archives a course
    */
   archiveCourse(courseId: string): void {
-    const modalContent: string = `Are you sure you want to archive ${courseId}?` +
+    const modalContent: string = `Are you sure you want to archive ${courseId}? ` +
         'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
 
     const modalRef: NgbModalRef =

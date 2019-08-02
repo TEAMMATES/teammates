@@ -40,6 +40,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         navigationService: NavigationService,
                         feedbackSessionsService: FeedbackSessionsService,
                         feedbackQuestionsService: FeedbackQuestionsService,
+                        protected ngbModalService: NgbModal,
                         protected modalService: ModalService,
                         protected studentService: StudentService) {
     super(router, httpRequestService, statusMessageService, navigationService,
@@ -54,7 +55,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
     this.studentService.getStudentsFromCourse(courseId).subscribe((students: Students) => {
-      const modalRef: NgbModalRef = this.modalService.open(ResendResultsLinkToStudentModalComponent);
+      const modalRef: NgbModalRef = this.ngbModalService.open(ResendResultsLinkToStudentModalComponent);
 
       modalRef.componentInstance.courseId = courseId;
       modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
@@ -96,7 +97,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
               const students: Student[] = (result[0] as Students).students;
               const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
 
-              const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
+              const modalRef: NgbModalRef = this.ngbModalService.open(SendRemindersToStudentModalComponent);
 
               modalRef.componentInstance.courseId = courseId;
               modalRef.componentInstance.feedbackSessionName = feedbackSessionName;

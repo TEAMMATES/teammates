@@ -6,15 +6,6 @@ import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../ajax-preload/ajax-preload.module';
 import { CopySessionModalModule } from '../copy-session-modal/copy-session-modal.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-import {
-  ConfirmPublishingSessionModalComponent,
-} from './confirm-publishing-session-modal/confirm-publishing-session-modal.component';
-import {
-  ConfirmSessionMoveToRecycleBinModalComponent,
-} from './confirm-session-move-to-recycle-bin-modal/confirm-session-move-to-recycle-bin-modal.component';
-import {
-  ConfirmUnpublishingSessionModalComponent,
-} from './confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
 import {
@@ -35,12 +26,9 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     SubmissionStatusTooltipPipe,
     PublishStatusTooltipPipe,
     SessionsTableComponent,
-    ConfirmUnpublishingSessionModalComponent,
-    ConfirmPublishingSessionModalComponent,
     ResendResultsLinkToStudentModalComponent,
     SendRemindersToStudentModalComponent,
     FormatDateBriefPipe,
-    ConfirmSessionMoveToRecycleBinModalComponent,
     StudentListInfoTableComponent,
   ],
   imports: [
@@ -53,9 +41,6 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     CopySessionModalModule,
   ],
   entryComponents: [
-    ConfirmSessionMoveToRecycleBinModalComponent,
-    ConfirmUnpublishingSessionModalComponent,
-    ConfirmPublishingSessionModalComponent,
     ResendResultsLinkToStudentModalComponent,
     SendRemindersToStudentModalComponent,
   ],
