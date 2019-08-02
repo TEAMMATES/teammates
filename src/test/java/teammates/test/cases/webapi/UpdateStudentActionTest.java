@@ -1,5 +1,8 @@
 package teammates.test.cases.webapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
@@ -197,6 +200,57 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         JsonResult duplicateTeamOutput = getJsonResult(duplicateTeamAction);
         assertEquals("Team \"Team 1.2\" is detected in both Section \"Section 1\" "
                         + "and Section \"Section 2\". Please use different team names in different sections.",
+                ((MessageOutput) duplicateTeamOutput.getOutput()).getMessage());
+    }
+
+    @Test
+    public void testExecute_withSectionAlreadyHasMaxNumberOfStudents_shouldFail() throws Exception {
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructor1OfCourse1.getCourseId();
+        String sectionInMaxCapacity = "sectionInMaxCapacity";
+
+        StudentAttributes studentToJoinMaxSection = StudentAttributes
+                .builder(courseId, "studentToJoinMaxSection@com")
+                .withName("studentToJoinMaxSection ")
+                .withSectionName("RandomUniqueSection")
+                .withTeamName("RandomUniqueTeamName")
+                .withComment("cmt")
+                .build();
+
+        logic.createStudent(studentToJoinMaxSection);
+
+        for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
+            StudentAttributes addedStudent = StudentAttributes
+                    .builder(courseId, i + "email@com")
+                    .withName("Name " + i)
+                    .withSectionName(sectionInMaxCapacity)
+                    .withTeamName("Team " + i)
+                    .withComment("cmt" + i)
+                    .build();
+
+            logic.createStudent(addedStudent);
+        }
+
+        List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
+
+        assertEquals(Const.StudentsLogicConst.SECTION_SIZE_LIMIT,
+                studentList.stream().filter(student -> student.section.equals(sectionInMaxCapacity)).count());
+        assertEquals(courseId, studentToJoinMaxSection.getCourse());
+
+        StudentUpdateRequest updateRequest =
+                new StudentUpdateRequest(studentToJoinMaxSection.name, studentToJoinMaxSection.email,
+                        studentToJoinMaxSection.team, sectionInMaxCapacity,
+                        studentToJoinMaxSection.comments, true);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, studentToJoinMaxSection.email,
+        };
+
+        UpdateStudentAction duplicateTeamAction = getAction(updateRequest, submissionParams);
+        JsonResult duplicateTeamOutput = getJsonResult(duplicateTeamAction);
+        assertEquals("You are trying enroll more than 100 students in section \"sectionInMaxCapacity\". "
+                        + "To avoid performance problems, please do not enroll more than 100 students in a single section.",
                 ((MessageOutput) duplicateTeamOutput.getOutput()).getMessage());
     }
 
