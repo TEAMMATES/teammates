@@ -156,7 +156,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
       />
        There are no students in this course. Click 
       <a
-        href="/web/instructor/courses/enroll"
+        href="/web/instructor/courses/enroll?courseid=CS101"
         ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses/enroll"
         routerlink="/web/instructor/courses/enroll"
@@ -376,12 +376,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
       <div
         class="card-header text-dark-blue bg-light-blue font-weight-bold"
       >
-        []
+        [CS101]
       </div>
       <div
         class="card-body p-0"
       >
         <tm-student-list
+          ng-reflect-course-id="CS101"
           ng-reflect-enable-remind-button="true"
           ng-reflect-sections="[object Object]"
           ng-reflect-use-gray-heading="true"
@@ -546,7 +547,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
       />
        There are no students in this course. Click 
       <a
-        href="/web/instructor/courses/enroll"
+        href="/web/instructor/courses/enroll?courseid="
         ng-reflect-query-params="[object Object]"
         ng-reflect-router-link="/web/instructor/courses/enroll"
         routerlink="/web/instructor/courses/enroll"

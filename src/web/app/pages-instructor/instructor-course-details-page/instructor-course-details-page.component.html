@@ -56,7 +56,7 @@
               <i class="fa fa-envelope"></i>
               Remind Students to Join
             </button>
-            <button type="button" class="btn btn-primary" (click)="downloadAllStudentsFromCourse(courseDetails.course.id)">
+            <button type="button" class="btn btn-primary" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
               <i class="fa fa-download"></i>
               Download Student List
             </button>
@@ -66,7 +66,7 @@
             </button>
             <div>
               <span>Non-English characters not displayed properly in the downloaded file?
-                <span class="btn-link" (click)="openModal(studentTableModal); loadStudentsListCsv(courseDetails.course.id)">
+                <span class="btn-link" (click)="openModal(studentTableModal); loadStudentsListCsv(courseDetails.course.courseId)">
                   Click here.
                 </span>
               </span>
@@ -79,13 +79,13 @@
   <div *ngIf="sections.length === 0, else studentListTable" class="alert alert-warning">
     <i class="fa fa-exclamation-circle text-muted"></i>
     There are no students in this course. Click
-    <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.id}">here</a> to enroll students.
+    <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.courseId}">here</a> to enroll students.
   </div>
   <ng-template #studentListTable class="card border border-primary mb-4">
     <div class="card-body p-0">
-      <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{courseDetails.course.id}}]</div>
+      <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{courseDetails.course.courseId}}]</div>
       <div class="card-body p-0">
-        <tm-student-list [courseId]="courseDetails.course.id" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true">
+        <tm-student-list [courseId]="courseDetails.course.courseId" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true">
         </tm-student-list>
       </div>
     </div>
@@ -98,12 +98,12 @@
     </div>
     <div class="modal-body">
       Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students at the opening
-      time of each session. Send a join request to all yet-to-join students in {{courseDetails.course.id}} anyway?
+      time of each session. Send a join request to all yet-to-join students in {{courseDetails.course.courseId}} anyway?
       <br>
     </div>
     <div class="modal-footer">
       <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
+      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
   <ng-template #deleteAllStudentsModal let-modal>
@@ -113,12 +113,12 @@
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
     </div>
     <div class="modal-body">
-      Are you sure you want to remove all students from the course {{courseDetails.course.id}}?
+      Are you sure you want to remove all students from the course {{courseDetails.course.courseId}}?
       <br>
     </div>
     <div class="modal-footer">
       <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
+      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
   <ng-template #studentTableModal let-modal>
