@@ -66,6 +66,7 @@ public class GetInstructorsAction extends Action {
             data.getInstructors().forEach(i -> {
                 i.setJoinState(null);
                 i.setIsDisplayedToStudents(null);
+                i.setRole(null);
             });
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding

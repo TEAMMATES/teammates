@@ -53,6 +53,38 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
+    public void testExecute_withNewStudentWithEmptySectionName_shouldBeAddedToDatabaseWithDefaultSectionName() {
+        String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
+        StudentAttributes newStudent = getTypicalNewStudent(courseId);
+        newStudent.section = "";
+        StudentsEnrollRequest req = prepareRequest(Arrays.asList(newStudent));
+
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
+        List<StudentData> enrolledStudents = executeActionAndReturnResults(courseId, req);
+
+        assertEquals(1, enrolledStudents.size());
+
+        // verify student in database
+        StudentAttributes actualStudent =
+                logic.getStudentForEmail(enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
+        assertEquals(newStudent.getCourse(), actualStudent.getCourse());
+        assertEquals(newStudent.getName(), actualStudent.getName());
+        assertEquals(newStudent.getEmail(), actualStudent.getEmail());
+        assertEquals(newStudent.getTeam(), actualStudent.getTeam());
+        assertEquals(Const.DEFAULT_SECTION, actualStudent.getSection());
+        assertEquals(newStudent.getComments(), actualStudent.getComments());
+
+        // verify response data is correct
+        StudentsEnrollRequest.StudentEnrollRequest request = req.getStudentEnrollRequests().get(0);
+        StudentData response = enrolledStudents.get(0);
+        assertEquals(request.getEmail(), response.getEmail());
+        assertEquals(request.getName(), response.getName());
+        assertEquals(Const.DEFAULT_SECTION, response.getSectionName());
+        assertEquals(request.getTeam(), response.getTeamName());
+        assertEquals(request.getComments(), response.getComments());
+    }
+
+    @Test
     public void testExecute_withExistingStudent_shouldBeUpdatedToDatabase() {
         StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
         String courseId = studentToUpdate.getCourse();

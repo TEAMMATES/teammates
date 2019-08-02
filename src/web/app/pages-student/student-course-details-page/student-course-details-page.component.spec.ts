@@ -57,6 +57,7 @@ describe('StudentCourseDetailsPageComponent', () => {
       email: '1@1.com',
       name: '1',
       joinState: JoinState.JOINED,
+      role: 'Co-owner',
     }];
 
     const course: Course = {
