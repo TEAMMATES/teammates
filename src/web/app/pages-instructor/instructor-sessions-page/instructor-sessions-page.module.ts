@@ -11,9 +11,6 @@ import {
 import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
 import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
 import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
-import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 
@@ -32,7 +29,6 @@ import {
   declarations: [
     InstructorSessionsPageComponent,
     CopyFromOtherSessionsModalComponent,
-    SessionPermanentDeletionConfirmModalComponent,
     SessionsPermanentDeletionConfirmModalComponent,
     RecycleBinTableFormatDatePipe,
   ],
@@ -41,7 +37,6 @@ import {
   ],
   entryComponents: [
     CopyFromOtherSessionsModalComponent,
-    SessionPermanentDeletionConfirmModalComponent,
     SessionsPermanentDeletionConfirmModalComponent,
   ],
 })

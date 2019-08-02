@@ -7,6 +7,7 @@ import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { ModalService } from '../../../services/modal.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -27,6 +28,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { ModalTypes } from '../../components/modal/modal-types';
 import {
   DateFormat,
   SessionEditFormMode,
@@ -47,9 +49,6 @@ import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/co
 import {
   CopyFromOtherSessionsModalComponent,
 } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
-import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
 import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
@@ -138,12 +137,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
-              modalService: NgbModal,
+              ngbModalService: NgbModal,
+              modalService: ModalService,
               studentService: StudentService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
     super(router, httpRequestService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
+        feedbackSessionsService, feedbackQuestionsService, ngbModalService, modalService, studentService);
   }
 
   ngOnInit(): void {
@@ -163,7 +163,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Copies from other sessions.
    */
   copyFromOtherSessionsHandler(): void {
-    const modalRef: NgbModalRef = this.modalService.open(CopyFromOtherSessionsModalComponent);
+    const modalRef: NgbModalRef = this.ngbModalService.open(CopyFromOtherSessionsModalComponent);
     // select the current course Id.
     modalRef.componentInstance.copyToCourseId = this.sessionEditFormModel.courseId;
 
@@ -558,9 +558,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Deletes the feedback session permanently.
    */
   permanentDeleteSession(model: RecycleBinFeedbackSessionRowModel): void {
-    const modalRef: NgbModalRef = this.modalService.open(SessionPermanentDeletionConfirmModalComponent);
-    modalRef.componentInstance.courseId = model.feedbackSession.courseId;
-    modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
+    const modalContent: string = 'Are you sure you want to permanently delete the feedback session ' +
+        `${model.feedbackSession.feedbackSessionName} in ${model.feedbackSession.courseId}?`;
+
+    const modalRef: NgbModalRef =
+        this.modalService.open('Confirm deleting feedback session', ModalTypes.DANGER, modalContent);
 
     modalRef.result.then(() => {
       const paramMap: { [key: string]: string } = {
@@ -582,7 +584,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Deletes all feedback sessions in the recycle bin permanently.
    */
   permanentDeleteAllSessions(): void {
-    const modalRef: NgbModalRef = this.modalService.open(SessionsPermanentDeletionConfirmModalComponent);
+    const modalRef: NgbModalRef = this.ngbModalService.open(SessionsPermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.sessionsToDelete =
         this.recycleBinFeedbackSessionRowModels.map(
             (model: RecycleBinFeedbackSessionRowModel) => model.feedbackSession);
