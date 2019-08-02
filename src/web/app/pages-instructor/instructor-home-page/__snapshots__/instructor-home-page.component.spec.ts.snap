@@ -13,9 +13,9 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
   loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
@@ -90,9 +90,9 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
   loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
@@ -214,8 +214,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       </div>
       
       
-      
-      
       <div
         class="card-body padding-0"
       >
@@ -254,9 +252,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
   loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
@@ -535,8 +533,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           </div>
         </div>
       </div>
-      
-      
       
       
       <div
@@ -827,9 +823,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
   loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
@@ -1086,8 +1082,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           </div>
         </div>
       </div>
-      
-      
       
       
       <div
@@ -1547,9 +1541,9 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
   loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
@@ -1830,8 +1824,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       </div>
       
       
-      
-      
     </div>
   </div>
 </tm-instructor-home-page>
@@ -1850,9 +1842,9 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
   loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
@@ -2133,8 +2125,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       </div>
       
       
-      
-      
       <div
         class="card-body padding-0"
       >
@@ -2173,9 +2163,9 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   httpRequestService={[Function HttpRequestService]}
   instructorCoursesSortBy={[Function Number]}
   loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
+  ngbModalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
@@ -2454,8 +2444,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           </div>
         </div>
       </div>
-      
-      
       
       
       <div

@@ -13,8 +13,8 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -116,8 +116,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -297,7 +297,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -306,7 +305,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -392,7 +390,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -401,7 +398,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -487,7 +483,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -496,7 +491,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -582,7 +576,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -591,7 +584,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -691,7 +683,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -700,7 +691,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -735,8 +725,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -916,7 +906,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -925,7 +914,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1011,7 +999,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1020,7 +1007,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1106,7 +1092,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1115,7 +1100,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1201,7 +1185,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1210,7 +1193,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1308,7 +1290,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1317,7 +1298,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1352,8 +1332,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -1516,7 +1496,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1525,7 +1504,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1608,7 +1586,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1617,7 +1594,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1700,7 +1676,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1709,7 +1684,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1792,7 +1766,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1801,7 +1774,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1884,7 +1856,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -1893,7 +1864,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1928,8 +1898,8 @@ exports[`StudentListComponent should snap with some student list data and some s
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -2093,7 +2063,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2102,7 +2071,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2186,7 +2154,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2195,7 +2162,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2278,7 +2244,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2287,7 +2252,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2370,7 +2334,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2379,7 +2342,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2462,7 +2424,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2471,7 +2432,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2506,8 +2466,8 @@ exports[`StudentListComponent should snap with some student list data when not a
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -2670,7 +2630,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2679,7 +2638,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2762,7 +2720,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2771,7 +2728,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2854,7 +2810,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2863,7 +2818,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2946,7 +2900,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -2955,7 +2908,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -3038,7 +2990,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -3047,7 +2998,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -3082,8 +3032,8 @@ exports[`StudentListComponent should snap with some student list data with no se
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
@@ -3230,7 +3180,6 @@ exports[`StudentListComponent should snap with some student list data with no se
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
@@ -3239,7 +3188,6 @@ exports[`StudentListComponent should snap with some student list data with no se
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -3274,8 +3222,8 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   httpRequestService={[Function HttpRequestService]}
   isHideTableHead={[Function Boolean]}
   listOfStudentsToHide={[Function Array]}
+  modalService={[Function ModalService]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
