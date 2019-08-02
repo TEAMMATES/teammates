@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ModalTypes } from '../app/components/modal/modal-types';
+import { ModalType } from '../app/components/modal/modal-type';
 import { ModalComponent } from '../app/components/modal/modal.component';
 
 /**
@@ -21,7 +21,7 @@ export class ModalService {
    * @param type which determines the look of the modal
    * @param content to be displayed in the body of the modal. content supports HTML tags
    */
-  open(header: string, type: ModalTypes, content: any): NgbModalRef {
+  open(header: string, type: ModalType, content: any): NgbModalRef {
     const modalRef: NgbModalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.header = header;
     modalRef.componentInstance.content = content;

@@ -1,7 +1,7 @@
 /**
- * Contains a list of students in a section.
+ * Represents the type of  the modal to be displayed.
  */
-export enum ModalTypes {
+export enum ModalType {
   /**
    * Warning modal.
    */
@@ -15,7 +15,7 @@ export enum ModalTypes {
    */
   INFO,
   /**
-   * NEUTRAL
+   * Neutral modal.
    */
   NEUTRAL,
 }

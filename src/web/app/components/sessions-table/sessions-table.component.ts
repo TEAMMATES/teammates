@@ -4,7 +4,7 @@ import { ModalService } from '../../../services/modal.service';
 import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
-import { ModalTypes } from '../modal/modal-types';
+import { ModalType } from '../modal/modal-type';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -99,7 +99,7 @@ export class SessionsTableComponent implements OnInit {
   moveSessionToRecycleBin(rowIndex: number): void {
     const modalContent: string = 'Are you sure you want to move the session to the recycle bin?';
     const modalRef: NgbModalRef = this.modalService.open('Confirm moving session to recycle bin',
-            ModalTypes.WARNING, modalContent);
+            ModalType.WARNING, modalContent);
     modalRef.result.then(() => {
       this.moveSessionToRecycleBinEvent.emit(rowIndex);
     }, () => {});
@@ -133,7 +133,7 @@ export class SessionsTableComponent implements OnInit {
         'An email will be sent to students to inform them that the responses are ready for viewing.';
 
     const modalRef: NgbModalRef = this.modalService.open('Confirm publishing responses',
-        ModalTypes.WARNING, modalContent);
+        ModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.publishSessionEvent.emit(rowIndex);
@@ -151,7 +151,7 @@ export class SessionsTableComponent implements OnInit {
         'and the session responses will no longer be viewable by students.';
 
     const modalRef: NgbModalRef = this.modalService.open('Confirm unpublishing responses',
-        ModalTypes.WARNING, modalContent);
+        ModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.unpublishSessionEvent.emit(rowIndex);

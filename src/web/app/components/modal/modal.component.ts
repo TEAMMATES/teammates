@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalTypes } from './modal-types';
+import { ModalType } from './modal-type';
 
 /**
  * A component to display contents of confirmation modals.
@@ -13,10 +13,10 @@ import { ModalTypes } from './modal-types';
 export class ModalComponent implements OnInit {
   @Input() header: string = '';
   @Input() content: any = '';
-  @Input() type: ModalTypes = ModalTypes.NEUTRAL;
+  @Input() type: ModalType = ModalType.NEUTRAL;
 
   // enum
-  ModalTypes: typeof  ModalTypes = ModalTypes;
+  ModalType: typeof  ModalType = ModalType;
 
   constructor(public activeModal: NgbActiveModal) { }
 

@@ -8,7 +8,7 @@ import { ModalService } from '../../../services/modal.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
-import { ModalTypes } from '../../components/modal/modal-types';
+import { ModalType } from '../../components/modal/modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
 import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
@@ -191,7 +191,7 @@ export class StudentListComponent implements OnInit, DoCheck {
         `<strong>"${studentName}"</strong> from the course ` +
         `<strong>"${courseId}"</strong>?`;
 
-    const modalRef: NgbModalRef = this.modalService.open('Confirm deletion', ModalTypes.DANGER, modalContent);
+    const modalRef: NgbModalRef = this.modalService.open('Confirm deletion', ModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       this.removeStudentFromCourse(studentEmail);
     }, () => {});
@@ -207,7 +207,7 @@ export class StudentListComponent implements OnInit, DoCheck {
         `Send a join request to <strong>${studentEmail}</strong> anyway?`;
 
     const modalRef: NgbModalRef =
-        this.modalService.open('Confirm sending join requests', ModalTypes.INFO, modalContent);
+        this.modalService.open('Confirm sending join requests', ModalType.INFO, modalContent);
     modalRef.result.then(() => {
       this.remindStudentFromCourse(studentEmail);
     }, () => {});

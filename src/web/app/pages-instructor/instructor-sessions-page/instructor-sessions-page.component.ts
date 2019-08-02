@@ -28,7 +28,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
-import { ModalTypes } from '../../components/modal/modal-types';
+import { ModalType } from '../../components/modal/modal-type';
 import {
   DateFormat,
   SessionEditFormMode,
@@ -562,7 +562,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         `${model.feedbackSession.feedbackSessionName} in ${model.feedbackSession.courseId}?`;
 
     const modalRef: NgbModalRef =
-        this.modalService.open('Confirm deleting feedback session', ModalTypes.DANGER, modalContent);
+        this.modalService.open('Confirm deleting feedback session', ModalType.DANGER, modalContent);
 
     modalRef.result.then(() => {
       const paramMap: { [key: string]: string } = {

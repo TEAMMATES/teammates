@@ -1,14 +1,14 @@
 <div class="modal-header"
      [ngClass]="{
-     'bg-danger text-white' : type === ModalTypes.DANGER,
-     'bg-warning' : type === ModalTypes.WARNING,
-     'bg-info' : type === ModalTypes.INFO,
-     'bg-white' : type === ModalTypes.NEUTRAL}">
+     'bg-danger text-white' : type === ModalType.DANGER,
+     'bg-warning' : type === ModalType.WARNING,
+     'bg-info' : type === ModalType.INFO,
+     'bg-white' : type === ModalType.NEUTRAL}">
   <div>
     <h5 class="modal-title">
-      <i *ngIf="type === ModalTypes.DANGER" class="fas fa-times-circle"></i>
-      <i *ngIf="type === ModalTypes.WARNING" class="fas fa-exclamation-circle"></i>
-      <i *ngIf="type === ModalTypes.INFO" class="fas fa-info-circle"></i>
+      <i *ngIf="type === ModalType.DANGER" class="fas fa-times-circle"></i>
+      <i *ngIf="type === ModalType.WARNING" class="fas fa-exclamation-circle"></i>
+      <i *ngIf="type === ModalType.INFO" class="fas fa-info-circle"></i>
       {{header}}
     </h5>
   </div>
@@ -23,9 +23,9 @@
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
   <button type="button" class="btn"
           [ngClass]="{
-          'btn-danger' : type === ModalTypes.DANGER,
-          'btn-warning' : type === ModalTypes.WARNING,
-          'btn-info' : type === ModalTypes.INFO,
-          'btn-primary' : type === ModalTypes.NEUTRAL}"
+          'btn-danger' : type === ModalType.DANGER,
+          'btn-warning' : type === ModalType.WARNING,
+          'btn-info' : type === ModalType.INFO,
+          'btn-primary' : type === ModalType.NEUTRAL}"
           (click)="activeModal.close()">Yes</button>
 </div>

@@ -21,7 +21,7 @@ import {
   InstructorPrivilege,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
-import { ModalTypes } from '../../components/modal/modal-types';
+import { ModalType } from '../../components/modal/modal-type';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -132,7 +132,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
     const modalRef: NgbModalRef =
-        this.modalService.open('Confirm moving course to recycle bin', ModalTypes.WARNING, modalContent);
+        this.modalService.open('Confirm moving course to recycle bin', ModalType.WARNING, modalContent);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.loadCourses();
@@ -152,7 +152,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
 
     const modalRef: NgbModalRef =
-        this.modalService.open('Confirm archiving course', ModalTypes.INFO, modalContent);
+        this.modalService.open('Confirm archiving course', ModalType.INFO, modalContent);
     modalRef.result.then(() => {
       this.courseService.changeArchiveStatus(courseId, {
         archiveStatus: true,

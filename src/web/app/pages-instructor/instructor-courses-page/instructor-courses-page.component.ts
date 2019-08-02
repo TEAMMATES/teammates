@@ -17,7 +17,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { ModalTypes } from '../../components/modal/modal-types';
+import { ModalType } from '../../components/modal/modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface ActiveCourseModel {
@@ -238,7 +238,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     const modalRef: NgbModalRef =
         this.modalService.open('Confirm moving course to recycle bin',
-            ModalTypes.WARNING, `Are you sure you want to move <strong>${courseId}</strong> to the recycle bin?`);
+            ModalType.WARNING, `Are you sure you want to move <strong>${courseId}</strong> to the recycle bin?`);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.loadInstructorCourses();
@@ -265,7 +265,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         'All instructors of these courses will not be able to access them hereafter as well.';
 
     const modalRef: NgbModalRef =
-        this.modalService.open('Confirm deleting a course', ModalTypes.DANGER, modalContent);
+        this.modalService.open('Confirm deleting a course', ModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
@@ -307,7 +307,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         'All instructors of these courses will not be able to access them hereafter as well.';
 
     const modalRef: NgbModalRef =
-        this.modalService.open('Confirm deleting all courses', ModalTypes.DANGER, modalContent);
+        this.modalService.open('Confirm deleting all courses', ModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: ArchivedCourseModel) => {
