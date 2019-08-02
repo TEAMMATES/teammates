@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalTypes } from './modal-types';
 
+/**
+ * A component to display contents of confirmation modals.
+ */
 @Component({
   selector: 'tm-modal',
   templateUrl: './modal.component.html',
