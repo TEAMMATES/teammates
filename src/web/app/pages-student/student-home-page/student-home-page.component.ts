@@ -140,11 +140,4 @@ export class StudentHomePageComponent implements OnInit {
     }
     return this.studentFeedbackSessionStatusNotPublished;
   }
-
-  /**
-   * Checks whether the input is a number.
-   */
-  isNumber(val: any): boolean {
-    return typeof val === 'number';
-  }
 }
