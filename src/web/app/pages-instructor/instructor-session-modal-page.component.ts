@@ -4,6 +4,7 @@ import { forkJoin } from 'rxjs';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../services/http-request.service';
+import { ModalService } from '../../services/modal.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
@@ -39,7 +40,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         navigationService: NavigationService,
                         feedbackSessionsService: FeedbackSessionsService,
                         feedbackQuestionsService: FeedbackQuestionsService,
-                        protected modalService: NgbModal,
+                        protected modalService: ModalService,
                         protected studentService: StudentService) {
     super(router, httpRequestService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService);
