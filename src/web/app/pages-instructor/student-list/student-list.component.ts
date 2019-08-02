@@ -187,10 +187,9 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Opens the student delete confirmation modal.
    */
   openDeleteModal(studentName: string, courseId: string, studentEmail: string): void {
-    const modalContent: string = '<p class="font-weight-bold">Are you sure you want to remove ' +
-        `<span class="text-primary">"${studentName}"</span> from the course ` +
-        `<span class="text-primary">"${courseId}"</span>?` +
-        '</p>';
+    const modalContent: string = 'Are you sure you want to remove ' +
+        `<strong>"${studentName}"</strong> from the course ` +
+        `<strong>"${courseId}"</strong>?`;
 
     const modalRef: NgbModalRef = this.modalService.open('Confirm deletion', ModalTypes.DANGER, modalContent);
     modalRef.result.then(() => {

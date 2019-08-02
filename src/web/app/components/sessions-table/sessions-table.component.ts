@@ -97,8 +97,8 @@ export class SessionsTableComponent implements OnInit {
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBin(rowIndex: number): void {
-    const modalContent: string = 'Are you sure you want to continue?';
-    const modalRef: NgbModalRef = this.modalService.open('Warning: The session will be moved to the recycle bin.',
+    const modalContent: string = 'Are you sure you want to move the session to the recycle bin?';
+    const modalRef: NgbModalRef = this.modalService.open('Confirm moving session to recycle bin',
             ModalTypes.WARNING, modalContent);
     modalRef.result.then(() => {
       this.moveSessionToRecycleBinEvent.emit(rowIndex);
@@ -129,7 +129,7 @@ export class SessionsTableComponent implements OnInit {
   publishSession(rowIndex: number): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
     const modalContent: string = 'Are you sure you want to publish the responses for the session ' +
-        `"${model.feedbackSession.feedbackSessionName}"? ` +
+        `<strong>${model.feedbackSession.feedbackSessionName}</strong>? ` +
         'An email will be sent to students to inform them that the responses are ready for viewing.';
 
     const modalRef: NgbModalRef = this.modalService.open('Confirm publishing responses',
@@ -146,7 +146,7 @@ export class SessionsTableComponent implements OnInit {
   unpublishSession(rowIndex: number): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
     const modalContent: string = 'Are you sure you want to unpublish the session ' +
-        `"${model.feedbackSession.feedbackSessionName}"? ` +
+        `<strong>${model.feedbackSession.feedbackSessionName}</strong>? ` +
         'An email will be sent to students to inform them that the session has been unpublished ' +
         'and the session responses will no longer be viewable by students.';
 

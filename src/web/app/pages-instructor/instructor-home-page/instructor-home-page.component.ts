@@ -128,11 +128,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    const modalContent: string = `Are you sure you want to delete the course: ${courseId}? ` +
+    const modalContent: string = `Are you sure you want to move <strong>${courseId}</strong> to the recycle bin? ` +
         'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
     const modalRef: NgbModalRef =
-        this.modalService.open('Confirm archiving course', ModalTypes.WARNING, modalContent);
+        this.modalService.open('Confirm moving course to recycle bin', ModalTypes.WARNING, modalContent);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.loadCourses();
@@ -148,11 +148,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Archives a course
    */
   archiveCourse(courseId: string): void {
-    const modalContent: string = `Are you sure you want to archive ${courseId}? ` +
+    const modalContent: string = `Are you sure you want to archive <strong>${courseId}</strong>? ` +
         'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
 
     const modalRef: NgbModalRef =
-        this.modalService.open('Confirm archiving course', ModalTypes.WARNING, modalContent);
+        this.modalService.open('Confirm archiving course', ModalTypes.INFO, modalContent);
     modalRef.result.then(() => {
       this.courseService.changeArchiveStatus(courseId, {
         archiveStatus: true,

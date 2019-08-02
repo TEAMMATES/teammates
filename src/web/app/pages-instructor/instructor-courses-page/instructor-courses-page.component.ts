@@ -237,8 +237,8 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
 
     const modalRef: NgbModalRef =
-        this.modalService.open(`Warning: The course ${courseId} will be moved to the recycle bin.`,
-            ModalTypes.WARNING, 'Are you sure you want to continue?');
+        this.modalService.open('Confirm moving course to recycle bin',
+            ModalTypes.WARNING, `Are you sure you want to move <strong>${courseId}</strong> to the recycle bin?`);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.loadInstructorCourses();

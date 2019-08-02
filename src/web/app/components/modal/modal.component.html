@@ -2,7 +2,8 @@
      [ngClass]="{
      'bg-danger text-white' : type === ModalTypes.DANGER,
      'bg-warning' : type === ModalTypes.WARNING,
-     'bg-info' : type === ModalTypes.INFO}">
+     'bg-info' : type === ModalTypes.INFO,
+     'bg-white' : type === ModalTypes.NEUTRAL}">
   <div>
     <h5 class="modal-title">
       <i *ngIf="type === ModalTypes.DANGER" class="fas fa-times-circle"></i>
@@ -20,5 +21,11 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
-  <button type="button" class="btn btn-danger" (click)="activeModal.close()">Yes</button>
+  <button type="button" class="btn"
+          [ngClass]="{
+          'btn-danger' : type === ModalTypes.DANGER,
+          'btn-warning' : type === ModalTypes.WARNING,
+          'btn-info' : type === ModalTypes.INFO,
+          'btn-primary' : type === ModalTypes.NEUTRAL}"
+          (click)="activeModal.close()">Yes</button>
 </div>
