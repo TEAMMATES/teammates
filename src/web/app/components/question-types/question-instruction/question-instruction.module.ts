@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ContributionQuestionInstructionComponent } from './contribution-question-instruction.component';
 import { NumScaleQuestionInstructionComponent } from './num-scale-question-instruction.component';
 import { RankOptionsQuestionInstructionComponent } from './rank-options-question-instruction.component';
+import { RankRecipientsQuestionInstructionComponent } from './rank-recipients-question-instruction.component';
 import { TextQuestionInstructionComponent } from './text-question-instruction.component';
 
 /**
@@ -14,12 +15,14 @@ import { TextQuestionInstructionComponent } from './text-question-instruction.co
     NumScaleQuestionInstructionComponent,
     TextQuestionInstructionComponent,
     RankOptionsQuestionInstructionComponent,
+    RankRecipientsQuestionInstructionComponent,
   ],
   exports: [
     ContributionQuestionInstructionComponent,
     NumScaleQuestionInstructionComponent,
     TextQuestionInstructionComponent,
     RankOptionsQuestionInstructionComponent,
+    RankRecipientsQuestionInstructionComponent,
   ],
   imports: [
     CommonModule,

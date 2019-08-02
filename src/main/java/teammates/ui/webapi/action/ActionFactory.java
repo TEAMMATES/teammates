@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;
@@ -104,7 +103,6 @@ public class ActionFactory {
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
         map(ResourceURIs.JOIN_REMIND, POST, SendJoinReminderEmailAction.class);
         map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
         map(ResourceURIs.COURSE_STUDENT_DETAILS, GET, GetCourseStudentDetailsAction.class);
         map(ResourceURIs.STUDENT_COURSE, GET, StudentGetCourseDetailsAction.class);
         map(ResourceURIs.STUDENT_PROFILE, GET, GetStudentProfileAction.class);
@@ -130,13 +128,13 @@ public class ActionFactory {
     /**
      * Returns the matching {@link Action} object for the URI and method in {@code req}.
      */
-    public Action getAction(HttpServletRequest req, String method, HttpServletResponse resp) throws ActionMappingException {
+    public Action getAction(HttpServletRequest req, String method) throws ActionMappingException {
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
         Action action = getAction(uri, method);
-        action.init(req, resp);
+        action.init(req);
         return action;
     }
 

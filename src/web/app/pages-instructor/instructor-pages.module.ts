@@ -82,7 +82,7 @@ const routes: Routes = [
       {
         path: '',
         data: {
-          pageTitle: 'Add New Course',
+          pageTitle: 'Courses',
         },
         component: InstructorCoursesPageComponent,
       },
@@ -126,7 +126,7 @@ const routes: Routes = [
         path: '',
         component: InstructorSessionsPageComponent,
         data: {
-          pageTitle: 'Add New Feedback Session',
+          pageTitle: 'Feedback Sessions',
         },
       },
       {
