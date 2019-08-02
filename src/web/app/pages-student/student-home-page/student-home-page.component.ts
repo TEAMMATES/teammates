@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-
 import { HttpRequestService } from '../../../services/http-request.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
@@ -58,7 +59,8 @@ export class StudentHomePageComponent implements OnInit {
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
-              private timezoneService: TimezoneService) {
+              private timezoneService: TimezoneService,
+              private loadingBarService: LoadingBarService) {
     this.timezoneService.getTzVersion();
   }
 
@@ -73,12 +75,14 @@ export class StudentHomePageComponent implements OnInit {
    * Gets the courses and feedback sessions involving the student.
    */
   getStudentCourses(): void {
+    this.loadingBarService.showLoadingBar();
     const paramMap: { [key: string]: string } = {
       entitytype: 'student',
     };
     this.httpRequestService.get('/courses', paramMap).subscribe((resp: Courses) => {
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
+            .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
             .subscribe((fss: FeedbackSessions) => {
               const sortedFss: FeedbackSession[] = fss.feedbackSessions
                   .map((fs: FeedbackSession) => Object.assign({}, fs))

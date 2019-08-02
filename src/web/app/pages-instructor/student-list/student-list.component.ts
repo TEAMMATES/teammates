@@ -197,8 +197,8 @@ export class StudentListComponent implements OnInit, DoCheck {
   remindStudentFromCourse(studentEmail: string): void {
     this.courseService.remindStudentForJoin(this.courseId, studentEmail)
       .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
-            '/web/instructor/courses/details', resp.message);
+        this.navigationService.navigateWithSuccessMessage(this.router,
+            `/web/instructor/courses/details?courseid=${this.courseId}`, resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });

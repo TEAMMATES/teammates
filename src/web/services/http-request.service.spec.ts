@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { HttpRequestService } from './http-request.service';
 
@@ -17,6 +18,7 @@ describe('HttpRequestService', () => {
       put: jest.fn(),
       delete: jest.fn(),
     };
+    spyHttpClient.get.mockReturnValue(new Observable<ArrayBuffer>());
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpClient, useValue: spyHttpClient },

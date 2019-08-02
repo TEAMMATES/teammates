@@ -11,7 +11,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  isAddNewCourseFormExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -22,16 +22,23 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   tableSortOrder={[Function Number]}
   user="undefined"
 >
-  <div
+  <div>
+    <button
+      class="btn btn-primary"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
     class="course-section"
+    hidden=""
   >
     <tm-add-course-form />
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
     <div
       class="table-responsive"
     >
@@ -487,7 +494,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  isAddNewCourseFormExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -498,16 +505,23 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   tableSortOrder={[Function Number]}
   user="undefined"
 >
-  <div
+  <div>
+    <button
+      class="btn btn-primary"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
     class="course-section"
+    hidden=""
   >
     <tm-add-course-form />
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
     <div
       class="table-responsive"
     >
@@ -969,7 +983,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  isAddNewCourseFormExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -980,16 +994,23 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   tableSortOrder={[Function Number]}
   user="undefined"
 >
-  <div
+  <div>
+    <button
+      class="btn btn-primary"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
     class="course-section"
+    hidden=""
   >
     <tm-add-course-form />
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
     <div
       class="table-responsive"
     >
@@ -1095,7 +1116,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  isAddNewCourseFormExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -1106,16 +1127,23 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   tableSortOrder={[Function Number]}
   user="undefined"
 >
-  <div
+  <div>
+    <button
+      class="btn btn-primary"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
     class="course-section"
+    hidden=""
   >
     <tm-add-course-form />
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
     <div
       class="table-responsive"
     >

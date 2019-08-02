@@ -21,6 +21,7 @@ export class AddCourseFormComponent implements OnInit {
 
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
+  @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('newCourseMessageTemplate') newCourseMessageTemplate!: TemplateRef<any>;
 
   timezones: string[] = [];
@@ -83,5 +84,12 @@ export class AddCourseFormComponent implements OnInit {
     this.newCourseId = '';
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
+  }
+
+  /**
+   * Handles closing of the edit form.
+   */
+  closeEditFormHandler(): void {
+    this.closeCourseFormEvent.emit();
   }
 }

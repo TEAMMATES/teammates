@@ -766,7 +766,6 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
 
-        public static final String INSTRUCTOR_COURSES = "/instructor/courses";
         public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
@@ -1030,6 +1029,40 @@ public final class Const {
         public static final String AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP =
                 "The %s, %s, falls within the overlap period when clocks fall back at the end of DST. "
                         + "It can refer to %s or %s. It was resolved to %s.";
+    }
+
+    /**
+     * These are status messages related to students logic that may be shown to the user.
+     */
+    public static class StudentsLogicConst {
+        /**
+         * Error message when trying to create the same team in more than one section.
+         */
+        public static final String ERROR_INVALID_TEAM_NAME =
+                "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
+
+        /**
+         * Error message to be appended to the ERROR_INVALID_TEAM_NAME message.
+         */
+        public static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
+                "Please use different team names in different sections.";
+
+        /**
+         * Error message when trying to enroll to a section that has maximum capacity.
+         */
+        public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
+                "You are trying enroll more than %s students in section \"%s\".";
+
+        /**
+         * Error message to be appended to the ERROR_ENROLL_EXCEED_SECTION_LIMIT message.
+         */
+        public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
+                "To avoid performance problems, please do not enroll more than %s students in a single section.";
+
+        /**
+         * The maximum allowable number of students to be enrolled in a section.
+         */
+        public static final int SECTION_SIZE_LIMIT = 100;
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

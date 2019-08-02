@@ -1,10 +1,20 @@
-<div class="alert alert-warning" role="alert" *ngIf="courseCandidates.length === 0">
+<div class="alert alert-warning" role="alert" *ngIf="hasCoursesLoaded && courseCandidates.length === 0">
   You have not created any courses yet, or you have no active courses. Go <a href="#" (click)="createOrUnarchiveCourse(); $event.preventDefault()">here</a> to create or unarchive a course.
 </div>
 
-<tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
-                      [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
-                      (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"></tm-session-edit-form>
+<div>
+  <button class="btn btn-primary" (click)="isSessionEditFormExpanded = true"
+          [disabled]="isSessionEditFormExpanded"><i class="fas fa-plus"></i> Add New Feedback Session
+  </button>
+</div>
+
+<div class="margin-top-30px" *ngIf="isSessionEditFormExpanded">
+  <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
+                        [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
+                        (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
+                        (closeEditFormEvent)="isSessionEditFormExpanded = false"
+  ></tm-session-edit-form>
+</div>
 
 <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0">
   You have not created any sessions yet. Use the form above to create a session.
