@@ -1,18 +1,17 @@
 import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
+import { ModalService } from '../../../services/modal.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
+import { ModalTypes } from '../../components/modal/modal-types';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
-import {
-  StudentListSectionData,
-  StudentListStudentData,
-} from './student-list-section-data';
+import { StudentListSectionData, StudentListStudentData } from './student-list-section-data';
 
 /**
  * Flattened data which contains details about a student and their section.
@@ -115,8 +114,8 @@ export class StudentListComponent implements OnInit, DoCheck {
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
-              private ngbModal: NgbModal,
-              private differs: IterableDiffers) {
+              private differs: IterableDiffers,
+              private modalService: ModalService) {
     this._differ = this.differs.find(this.sections).create();
   }
 
@@ -185,10 +184,34 @@ export class StudentListComponent implements OnInit, DoCheck {
   }
 
   /**
-   * Open the student delete confirmation modal.
+   * Opens the student delete confirmation modal.
    */
-  openModal(content: any): void {
-    this.ngbModal.open(content);
+  openDeleteModal(studentName: string, courseId: string, studentEmail: string): void {
+    const modalContent: string = '<p class="font-weight-bold">Are you sure you want to remove ' +
+        `<span class="text-primary">"${studentName}"</span> from the course ` +
+        `<span class="text-primary">"${courseId}"</span>?` +
+        '</p>';
+
+    const modalRef: NgbModalRef = this.modalService.open('Confirm deletion', ModalTypes.DANGER, modalContent);
+    modalRef.result.then(() => {
+      this.removeStudentFromCourse(studentEmail);
+    }, () => {});
+  }
+
+  /**
+   * Opens the remind modal
+   */
+  openRemindModal(studentEmail: string): void {
+    const modalContent: string =
+        'Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students ' +
+        'at the opening time of each session.<br><br>' +
+        `Send a join request to <strong>${studentEmail}</strong> anyway?`;
+
+    const modalRef: NgbModalRef =
+        this.modalService.open('Confirm sending join requests', ModalTypes.INFO, modalContent);
+    modalRef.result.then(() => {
+      this.remindStudentFromCourse(studentEmail);
+    }, () => {});
   }
 
   /**
