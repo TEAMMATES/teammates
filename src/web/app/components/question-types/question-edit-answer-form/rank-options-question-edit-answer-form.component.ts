@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
@@ -17,7 +17,7 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 })
 export class RankOptionsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails>
-    implements OnInit, OnChanges {
+    implements OnInit {
 
   readonly RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
 
@@ -26,13 +26,6 @@ export class RankOptionsQuestionEditAnswerFormComponent
   }
 
   ngOnInit(): void {}
-
-  ngOnChanges(): void {
-    if (this.responseDetails.answers.length !== this.questionDetails.options.length) {
-      this.triggerResponseDetailsChange('answers',
-          Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED));
-    }
-  }
 
   /**
    * Populates the possible Ranks that can be assigned.
@@ -58,7 +51,12 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Assigns a Rank to the option specified by index.
    */
   triggerResponse(index: number, event: any): void {
-    const newAnswers: number[] = this.responseDetails.answers.slice();
+    let newAnswers: number[] = this.responseDetails.answers.slice();
+    if (newAnswers.length !== this.questionDetails.options.length) {
+      // initialize answers array on the fly
+      newAnswers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
+    }
+
     newAnswers[index] = event;
     this.triggerResponseDetailsChange('answers', newAnswers);
   }
