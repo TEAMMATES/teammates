@@ -13,7 +13,7 @@ export class FormatDateBriefPipe implements PipeTransform {
    * Transforms a timestamp to a date string briefly.
    */
   transform(timestamp: number, timeZone: string): string {
-    return moment(timestamp).tz(timeZone).format('D MMM H:mm A');
+    return moment(timestamp).tz(timeZone).format('D MMM h:mm A');
   }
 
 }
