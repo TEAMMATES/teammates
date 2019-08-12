@@ -100,7 +100,8 @@ jobs:
         - export PATH=$HOME/google-cloud-sdk/bin:$PATH
         - cd $HOME
         - curl -fsS -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
-        - curl -fsSL -o chromedriver.zip https://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip
+        - LATEST_CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"`
+        - curl -fsSL -o chromedriver.zip "https://chromedriver.storage.googleapis.com/${LATEST_CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
         - tar -xzf google-cloud-sdk.tar.gz
         - unzip chromedriver.zip
         - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
