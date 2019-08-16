@@ -23,11 +23,6 @@ import teammates.ui.webapi.action.StudentGetCourseDetailsAction.StudentGetCourse
 public class StudentGetCourseDetailsActionTest extends BaseActionTest<StudentGetCourseDetailsAction> {
 
     @Override
-    protected String getActionUri() {
-        return Const.ResourceURIs.STUDENT_COURSE;
-    }
-
-    @Override
     protected String getRequestMethod() {
         return GET;
     }
