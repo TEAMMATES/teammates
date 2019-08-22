@@ -24,7 +24,6 @@ interface StudentCourse {
 
 interface StudentSession {
   session: FeedbackSession;
-  endTime: number;
   isOpened: boolean;
   isWaitingToOpen: boolean;
   isPublished: boolean;
@@ -84,15 +83,10 @@ export class StudentHomePageComponent implements OnInit {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
             .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
             .subscribe((fss: FeedbackSessions) => {
-              const sortedFss: FeedbackSession[] = fss.feedbackSessions
-                  .map((fs: FeedbackSession) => Object.assign({}, fs))
-                  .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
-                      b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
-                        ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
+              const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
               const studentSessions: StudentSession[] = [];
               for (const fs of sortedFss) {
-                const endTime: number = fs.submissionEndTimestamp;
                 const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
                 const isWaitingToOpen: boolean =
                     fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
@@ -102,7 +96,7 @@ export class StudentHomePageComponent implements OnInit {
                     .subscribe((hasRes: HasResponses) => {
                       const isSubmitted: boolean = hasRes.hasResponses;
                       studentSessions.push(Object.assign({},
-                          { endTime, isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
+                          { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
                     });
               }
 
@@ -143,5 +137,16 @@ export class StudentHomePageComponent implements OnInit {
       return this.studentFeedbackSessionStatusPublished;
     }
     return this.studentFeedbackSessionStatusNotPublished;
+  }
+
+  /**
+   * Sorts the feedback sessions based on creation and end timestamp.
+   */
+  sortFeedbackSessions(fss: FeedbackSessions): FeedbackSession[] {
+    return fss.feedbackSessions
+        .map((fs: FeedbackSession) => Object.assign({}, fs))
+        .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
+            b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
+            ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
   }
 }

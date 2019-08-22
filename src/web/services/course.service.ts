@@ -179,7 +179,7 @@ export class CourseService {
   }
 
   /**
-   * Checks if there are responses for a course, with instructor entity type.
+   * Checks if there are responses for a course (request sent by instructor).
    */
   hasResponsesForCourse(courseId: string): Observable<HasResponses> {
     const paramMap: { [key: string]: string } = {

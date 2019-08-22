@@ -125,7 +125,7 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Checks if there are responses for a specific question in a feedback session, with instructor entity type.
+   * Checks if there are responses for a specific question in a feedback session (request sent by instructor).
    */
   hasResponsesForQuestion(questionId: string): Observable<HasResponses> {
     const paramMap: { [key: string]: string } = {
@@ -136,7 +136,7 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Checks if there is response of a student for a feedback session, with student entity type.
+   * Checks if there is response of a student for a feedback session (request sent by student).
    */
   hasStudentResponseForFeedbackSession(courseId: string, feedbackSessionName: string): Observable<HasResponses> {
     const paramMap: { [key: string]: string } = {
