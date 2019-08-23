@@ -268,6 +268,7 @@ public final class Const {
                 + " must be valid non-negative numbers with precision up to 2 decimal places.";
         public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
         public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
+        public static final String MCQ_ERROR_DUPLICATE_MCQ_OPTION = "The Mcq options cannot be duplicate";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;

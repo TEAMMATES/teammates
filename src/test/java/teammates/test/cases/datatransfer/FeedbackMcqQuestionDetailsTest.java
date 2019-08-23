@@ -386,6 +386,33 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testValidateQuestionDetails_duplicateMcqOptions_errorReturned() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        Map<String, String[]> requestParams = new HashMap<>();
+
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MCQ" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "mcq question text" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS, new String[] { "NONE" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", new String[] { "Choice 1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", new String[] { "Choice 1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED, new String[] { "off" });
+
+        assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
+        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        assertEquals(1, errors.size());
+        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
+
+        //duplicate cases that has trailing and leading spaces
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", new String[] { " Choice 1 " });
+
+        assertTrue(mcqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MCQ));
+        errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        assertEquals(1, errors.size());
+        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
+    }
+
+    @Test
     public void testExtractQuestionDetails_weightsEnabledForGenerateOptions_weightShouldRemainDisabled() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         Map<String, String[]> requestParams = new HashMap<>();
