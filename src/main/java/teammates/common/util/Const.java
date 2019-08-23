@@ -299,6 +299,7 @@ public final class Const {
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
                 + " must be valid numbers with precision up to 2 decimal places.";
         public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "None of the above";
+        public static final String MSQ_ERROR_DUPLICATE_MSQ_OPTION = "The Msq options cannot be duplicate";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =

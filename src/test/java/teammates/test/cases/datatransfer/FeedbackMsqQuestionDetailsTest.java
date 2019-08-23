@@ -390,6 +390,34 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testValidateQuestionDetails_duplicateMsqOptions_errorReturned() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        Map<String, String[]> requestParams = new HashMap<>();
+
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TYPE, new String[] { "MSQ" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_TEXT, new String[] { "msq question text" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS, new String[] { "NONE" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, new String[] { "2" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-0", new String[] { "Choice 1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", new String[] { "Choice 1" });
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED, new String[] { "off" });
+
+        assertTrue(msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ));
+        List<String> errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        assertEquals(1, errors.size());
+        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
+
+        //duplicate cases that has trailing and leading spaces
+        requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-1", new String[] { " Choice 1 " });
+
+        assertTrue(msqDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.MSQ));
+        errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        assertEquals(1, errors.size());
+        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
+
+    }
+
+    @Test
     public void testExtractQuestionDetails_weightsEnabledForGenerateOptions_weightShouldRemainDisabled() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         Map<String, String[]> requestParams = new HashMap<>();
