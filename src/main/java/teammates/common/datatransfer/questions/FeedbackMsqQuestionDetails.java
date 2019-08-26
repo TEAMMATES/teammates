@@ -693,8 +693,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
 
             //If there are duplicate mcq options trigger this error
-            boolean isDuplicateOptionsEntered = msqChoices.stream().map(String::trim).distinct().count() != msqChoices.size();
-            if(isDuplicateOptionsEntered) {
+            boolean isDuplicateOptionsEntered = msqChoices.stream().map(String::trim).distinct().count()
+                                                != msqChoices.size();
+            if (isDuplicateOptionsEntered) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION);
             }
         }
