@@ -82,7 +82,7 @@ const routes: Routes = [
       {
         path: '',
         data: {
-          pageTitle: 'Add New Course',
+          pageTitle: 'Courses',
         },
         component: InstructorCoursesPageComponent,
       },

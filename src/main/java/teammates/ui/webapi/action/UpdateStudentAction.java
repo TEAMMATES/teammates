@@ -53,11 +53,17 @@ public class UpdateStudentAction extends Action {
         }
 
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
+        StudentAttributes studentToUpdate = StudentAttributes.builder(courseId, updateRequest.getEmail())
+                .withName(updateRequest.getName())
+                .withSectionName(updateRequest.getSection())
+                .withTeamName(updateRequest.getTeam())
+                .withComment(updateRequest.getComments())
+                .build();
+
         boolean emailSent = false;
 
         try {
-            logic.validateSectionsAndTeams(Arrays.asList(student), student.course);
-            logic.validateTeams(Arrays.asList(student), student.course);
+            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.course);
             logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
                             .withName(updateRequest.getName())

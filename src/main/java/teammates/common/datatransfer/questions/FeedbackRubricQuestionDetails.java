@@ -1090,6 +1090,26 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.numOfRubricSubQuestions = numOfRubricSubQuestions;
     }
 
+    public void setHasAssignedWeights(boolean hasAssignedWeights) {
+        this.hasAssignedWeights = hasAssignedWeights;
+    }
+
+    public void setRubricWeightsForEachCell(List<List<Double>> rubricWeightsForEachCell) {
+        this.rubricWeightsForEachCell = rubricWeightsForEachCell;
+    }
+
+    public void setRubricChoices(List<String> rubricChoices) {
+        this.rubricChoices = rubricChoices;
+    }
+
+    public void setRubricSubQuestions(List<String> rubricSubQuestions) {
+        this.rubricSubQuestions = rubricSubQuestions;
+    }
+
+    public void setRubricDescriptions(List<List<String>> rubricDescriptions) {
+        this.rubricDescriptions = rubricDescriptions;
+    }
+
     public List<String> getRubricSubQuestions() {
         return rubricSubQuestions;
     }
