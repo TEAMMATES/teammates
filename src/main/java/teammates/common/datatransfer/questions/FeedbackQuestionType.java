@@ -10,7 +10,13 @@ public enum FeedbackQuestionType {
     MCQ(FeedbackMcqQuestionDetails.class, FeedbackMcqResponseDetails.class),
     MSQ(FeedbackMsqQuestionDetails.class, FeedbackMsqResponseDetails.class),
     NUMSCALE(FeedbackNumericalScaleQuestionDetails.class, FeedbackNumericalScaleResponseDetails.class),
+
     CONSTSUM(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
+
+    // TODO: dummy enum, need to migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
+    CONSTSUM_OPTIONS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
+    CONSTSUM_RECIPIENTS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
+
     CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class),
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),
     RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),

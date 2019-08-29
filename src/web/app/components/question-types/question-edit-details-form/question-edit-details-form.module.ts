@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
+import {
+  ConstsumOptionsQuestionEditDetailsFormComponent,
+} from './constsum-options-question-edit-details-form.component';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
@@ -33,6 +37,8 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
     RubricQuestionEditDetailsFormComponent,
+    ConstsumOptionsQuestionEditDetailsFormComponent,
+    ConstsumOptionsFieldComponent,
   ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
@@ -47,6 +53,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
     RubricQuestionEditDetailsFormComponent,
+    ConstsumOptionsQuestionEditDetailsFormComponent,
   ],
   imports: [
     CommonModule,

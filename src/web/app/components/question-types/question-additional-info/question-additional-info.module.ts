@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ConstsumQuestionAdditionalInfoComponent } from './constsum-question-additional-info.component';
+import { ConstsumOptionsQuestionAdditionalInfoComponent } from './constsum-options-question-additional-info.component';
+import {
+  ConstsumRecipientsQuestionAdditionalInfoComponent,
+} from './constsum-recipients-question-additional-info.component';
 import { ContributionQuestionAdditionalInfoComponent } from './contribution-question-additional-info.component';
 import { McqQuestionAdditionalInfoComponent } from './mcq-question-additional-info.component';
 import { MsqQuestionAdditionalInfoComponent } from './msq-question-additional-info.component';
@@ -18,23 +21,25 @@ import { TextQuestionAdditionalInfoComponent } from './text-question-additional-
     ContributionQuestionAdditionalInfoComponent,
     TextQuestionAdditionalInfoComponent,
     NumScaleQuestionAdditionalInfoComponent,
-    ConstsumQuestionAdditionalInfoComponent,
     MsqQuestionAdditionalInfoComponent,
     McqQuestionAdditionalInfoComponent,
     RubricQuestionAdditionalInfoComponent,
     RankOptionsQuestionAdditionalInfoComponent,
     RankRecipientsQuestionAdditionalInfoComponent,
+    ConstsumOptionsQuestionAdditionalInfoComponent,
+    ConstsumRecipientsQuestionAdditionalInfoComponent,
   ],
   exports: [
     ContributionQuestionAdditionalInfoComponent,
     TextQuestionAdditionalInfoComponent,
     NumScaleQuestionAdditionalInfoComponent,
-    ConstsumQuestionAdditionalInfoComponent,
     MsqQuestionAdditionalInfoComponent,
     McqQuestionAdditionalInfoComponent,
     RubricQuestionAdditionalInfoComponent,
     RankOptionsQuestionAdditionalInfoComponent,
     RankRecipientsQuestionAdditionalInfoComponent,
+    ConstsumOptionsQuestionAdditionalInfoComponent,
+    ConstsumRecipientsQuestionAdditionalInfoComponent,
   ],
   imports: [
     CommonModule,
