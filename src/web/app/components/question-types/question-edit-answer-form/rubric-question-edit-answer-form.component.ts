@@ -38,6 +38,10 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
    * Selects an answer.
    */
   selectAnswer(subQuestionIndex: number, answerIndex: number): void {
+    if (this.isDisabled) {
+      return;
+    }
+
     let newAnswer: number[] = this.responseDetails.answer.slice();
     if (newAnswer.length !== this.questionDetails.numOfRubricSubQuestions) {
       // initialize new answer on the fly

@@ -3,6 +3,7 @@
       <input type="number" class="form-control"
              [ngModel]="responseDetails.answers.length == 1 ? responseDetails.answers[0] : ''"
              (ngModelChange)="triggerResponse($event)"
+             [disabled]="isDisabled"
              min="0" step="1">
   </div>
 </div>

@@ -7,12 +7,13 @@
       <input type="number" class="form-control"
              [ngModel]="i < responseDetails.answers.length ? responseDetails.answers[i] : ''"
              (ngModelChange)="triggerResponse(i, $event)"
+             [disabled]="isDisabled"
              min="0" step="1">
     </div>
   </div>
   <div class="form-group row" *ngIf="responseDetails.answers.length !== 0">
     <div class="col-sm-5 text-right">
-      <button type="button" class="btn btn-light btn-sm" (click)="triggerResponseDetailsChange('answers', [])">Clear Points</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="triggerResponseDetailsChange('answers', [])" [disabled]="isDisabled">Clear Points</button>
     </div>
   </div>
 </div>
