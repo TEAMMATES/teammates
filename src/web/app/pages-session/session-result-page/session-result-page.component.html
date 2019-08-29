@@ -1,21 +1,32 @@
 <h1>
   Feedback Session Results
 </h1>
-<div class="card bg-light top-padded" *ngIf="session">
-  <div class="card-body row" style="padding: 40px;">
-    <label class="col-sm-2 control-label">Course ID:</label>
-    <div class="col-sm-10">{{ session.courseId }}</div>
-
-    <label class="col-sm-2 control-label">Session:</label>
-    <div class="col-sm-10">{{ session.feedbackSessionName }}</div>
-
-    <label class="col-sm-2 control-label">Opening Time:</label>
-    <div class="col-sm-10">{{ formattedSessionOpeningTime }}</div>
-
-    <label class="col-sm-2 control-label">Closing Time:</label>
-    <div class="col-sm-10">{{ formattedSessionClosingTime }}</div>
+<div class="card card-plain">
+  <div class="card-body">
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Course ID:</b></div>
+      <div class="col-5">{{ session.courseId }}</div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Session:</b></div>
+      <div class="col-5">{{ session.feedbackSessionName }}</div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Opening time:</b></div>
+      <div class="col-5">{{ formattedSessionOpeningTime }}</div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-2 text-right"><b>Closing time:</b></div>
+      <div class="col-5">{{ formattedSessionClosingTime }}</div>
+    </div>
+    <br/>
   </div>
 </div>
+
 <div class="card bg-light top-padded" *ngFor="let question of questions">
   <div class="card-body" style="padding: 20px;">
     <tm-question-text-with-info [questionNumber]="question.questionNumber" [questionDetails]="question.questionDetails" style="font-size: 20px;"></tm-question-text-with-info>
