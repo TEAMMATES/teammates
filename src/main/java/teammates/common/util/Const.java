@@ -340,6 +340,7 @@ public final class Const {
         public static final String CONST_SUM_ERROR_SOME_UNIQUE =
                 "At least some options must be given a different number of points.";
         public static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
+        public static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
 
         // Rubric
         public static final int RUBRIC_ANSWER_NOT_CHOSEN = -1;
