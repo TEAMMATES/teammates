@@ -33,6 +33,10 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Reorders the list on dragging the Rank options.
    */
   onRankOptionDropped(event: CdkDragDrop<string[]>): void {
+    if (!this.isEditable) {
+      return;
+    }
+
     const newOptions: string[] = this.model.options.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
     this.triggerModelChange('options', newOptions);

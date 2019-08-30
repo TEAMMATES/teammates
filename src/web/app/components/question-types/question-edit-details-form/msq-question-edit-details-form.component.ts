@@ -28,6 +28,10 @@ export class MsqQuestionEditDetailsFormComponent
    * Reorders the list on dragging the Msq options.
    */
   onMsqOptionDropped(event: CdkDragDrop<string[]>): void {
+    if (!this.isEditable) {
+      return;
+    }
+
     const newWeights: number[] = this.model.msqWeights.slice();
     const newOptions: string[] = this.model.msqChoices.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);

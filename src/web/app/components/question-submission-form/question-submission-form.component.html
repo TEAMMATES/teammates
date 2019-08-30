@@ -35,6 +35,7 @@
     <tm-rank-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="model.questionDetails"></tm-rank-options-question-instruction>
     <tm-msq-question-constraint *ngIf="model.questionType === FeedbackQuestionType.MSQ" [questionDetails]="model.questionDetails"></tm-msq-question-constraint>
     <tm-rank-recipients-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="model.questionDetails"></tm-rank-recipients-question-instruction>
+    <tm-constsum-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="model.questionDetails"></tm-constsum-options-question-instruction>
 
     <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
       <span class="evaluee-span" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
@@ -108,7 +109,11 @@
                                                  (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                  [isDisabled]="isDisabled"
                                                  [id]="model.feedbackQuestionId + recipientSubmissionFormModel.recipientIdentifier"></tm-rubric-question-edit-answer-form>
-
+            <tm-constsum-options-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="model.questionDetails"
+                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                           [isDisabled]="isDisabled">
+            </tm-constsum-options-question-edit-answer-form>
           </div>
         </div>
       </div>
