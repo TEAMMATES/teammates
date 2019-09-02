@@ -98,7 +98,7 @@ export const DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS: () => FeedbackConstan
     (): FeedbackConstantSumQuestionDetails => {
       return {
         numOfConstSumOptions: 0,
-        constSumOptions: ['', ''],
+        constSumOptions: [],
         distributeToRecipients: true,
         pointsPerOption: false,
         forceUnevenDistribution: false,

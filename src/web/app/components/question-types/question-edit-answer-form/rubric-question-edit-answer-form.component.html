@@ -9,7 +9,7 @@
       <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
       <td *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;" class="text-secondary answer-cell" (click)="selectAnswer(i, j)">
         <label>
-          <input type="radio"
+          <input type="radio" [disabled]="isDisabled"
                  [name]="id + i" [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"/> {{ rubricDescriptionCell }}
         </label>
       </td>

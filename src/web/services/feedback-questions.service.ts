@@ -14,7 +14,7 @@ import {
 } from '../types/api-output';
 import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest } from '../types/api-request';
 import {
-  DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS, DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MSQ_QUESTION_DETAILS,
@@ -58,6 +58,7 @@ export class FeedbackQuestionsService {
         paths.set(FeedbackParticipantType.STUDENTS, [FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         break;
       case FeedbackQuestionType.RANK_RECIPIENTS:
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         paths.set(FeedbackParticipantType.SELF,
             [FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.TEAMS]);
         paths.set(FeedbackParticipantType.STUDENTS,
@@ -110,6 +111,7 @@ export class FeedbackQuestionsService {
         paths.set(FeedbackParticipantType.STUDENTS, [FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF]);
         break;
       case FeedbackQuestionType.RANK_RECIPIENTS:
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         paths.set(FeedbackParticipantType.SELF, [FeedbackParticipantType.INSTRUCTORS]);
         paths.set(FeedbackParticipantType.STUDENTS,
           [FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -180,6 +182,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_RECIPIENTS:
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         settings.push({
           name: 'Shown anonymously to recipient and instructors',
           visibilitySettings: {
@@ -276,6 +279,8 @@ export class FeedbackQuestionsService {
         return true;
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
+        return true;
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return true;
       default:
         throw new Error(`Unsupported question type: ${type}`);
@@ -470,6 +475,24 @@ export class FeedbackQuestionsService {
 
           questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
           questionDetails: DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(),
+          giverType: FeedbackParticipantType.STUDENTS,
+          recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+          numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+          showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+          showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+          showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+        };
+
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+
+        return {
+          questionBrief: '',
+          questionDescription: '',
+
+          questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
+          questionDetails: DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS(),
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
