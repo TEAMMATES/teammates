@@ -31,6 +31,7 @@ before_cache:
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
   - rm -rf $HOME/.gradle/caches/*/javaCompile/
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -rf $HOME/.gradle/caches/*/scripts/
   - rm -rf $HOME/.gradle/caches/*/workerMain/
   - rm -rf $HOME/.gradle/caches/*/gc.properties
   - rm -rf $HOME/.gradle/caches/journal-1/
