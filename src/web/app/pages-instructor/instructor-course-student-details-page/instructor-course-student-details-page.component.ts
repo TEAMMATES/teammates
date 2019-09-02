@@ -23,7 +23,6 @@ interface StudentDetails {
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
 
-  user: string = '';
   student?: StudentAttributes;
   studentProfile?: StudentProfile;
   photoUrl: string = '';
@@ -36,7 +35,6 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
       const courseId: string = queryParams.courseid;
       const studentEmail: string = queryParams.studentemail;
 
-      this.user = queryParams.user;
       this.loadStudentDetails(courseId, studentEmail);
       this.photoUrl
           = `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;

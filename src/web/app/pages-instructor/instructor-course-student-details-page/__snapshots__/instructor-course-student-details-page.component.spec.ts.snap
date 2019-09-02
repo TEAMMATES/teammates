@@ -6,7 +6,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
   photoUrl={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
 >
   
 </tm-instructor-course-student-details-page>
@@ -20,7 +19,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with populated 
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfile={[Function Object]}
-  user="undefined"
 >
   <h1>
     firstName

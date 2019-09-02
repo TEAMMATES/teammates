@@ -13,7 +13,6 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
   teammateProfiles={[Function Array]}
-  user="undefined"
 >
   <h1
     class="page-title"
@@ -228,7 +227,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
   teammateProfiles={[Function Array]}
-  user="undefined"
 >
   <h1
     class="page-title"

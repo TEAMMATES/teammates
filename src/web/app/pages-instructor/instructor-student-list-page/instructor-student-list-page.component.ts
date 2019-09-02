@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -25,7 +24,7 @@ interface CourseTab {
   studentListSectionDataList: StudentListSectionData[];
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
-  stats?: Statistic;
+  stats: Statistic;
 }
 
 /**
@@ -37,22 +36,18 @@ interface CourseTab {
   styleUrls: ['./instructor-student-list-page.component.scss'],
 })
 export class InstructorStudentListPageComponent implements OnInit {
-  user: string = '';
+
   courseTabList: CourseTab[] = [];
 
   constructor(private httpRequestService: HttpRequestService,
               private courseService: CourseService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
-              private route: ActivatedRoute,
               private loadingBarService: LoadingBarService) {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-      this.loadCourses();
-    });
+    this.loadCourses();
   }
 
   /**
@@ -69,6 +64,11 @@ export class InstructorStudentListPageComponent implements OnInit {
               studentListSectionDataList: [],
               hasTabExpanded: false,
               hasStudentLoaded: false,
+              stats: {
+                numOfSections: 0,
+                numOfStudents: 0,
+                numOfTeams: 0,
+              },
             };
 
             this.courseTabList.push(courseTab);

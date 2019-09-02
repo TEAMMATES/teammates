@@ -10,12 +10,9 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   httpRequestService={[Function HttpRequestService]}
   id=""
   ngbModal={[Function NgbModal]}
-  profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   <div>
     <h1>
@@ -38,7 +35,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           >
             <img
               class="profile-pic"
-              src="http://localhost:8080/webapi/student/profilePic"
+              src=""
             />
           </div>
         </div>
@@ -241,11 +238,8 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   httpRequestService={[Function HttpRequestService]}
   id=""
   ngbModal={[Function NgbModal]}
-  profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   
 </tm-student-profile-page>
@@ -263,11 +257,9 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   nationalities={[Function Array]}
   ngbModal={[Function NgbModal]}
   profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   <div>
     <h1>

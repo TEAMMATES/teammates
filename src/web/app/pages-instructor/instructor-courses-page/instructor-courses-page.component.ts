@@ -90,8 +90,6 @@ export enum SortOrder {
 })
 export class InstructorCoursesPageComponent implements OnInit {
 
-  user: string = '';
-
   activeCourses: ActiveCourseModel[] = [];
   archivedCourses: ArchivedCourseModel[] = [];
   softDeletedCourses: SoftDeletedCourseModel[] = [];
@@ -118,7 +116,6 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       if (queryParams.isAddNewCourse) {
         this.isAddNewCourseFormExpanded = queryParams.isAddNewCourse;
       }
@@ -281,7 +278,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
-      user: this.user,
     };
     this.httpRequestService.delete('/bin/course', paramMap).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();

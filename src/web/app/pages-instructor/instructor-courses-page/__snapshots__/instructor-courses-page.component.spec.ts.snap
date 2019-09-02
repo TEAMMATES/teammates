@@ -20,7 +20,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   studentService={[Function StudentService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
-  user="undefined"
 >
   <div>
     <button
@@ -503,7 +502,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   studentService={[Function StudentService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
-  user="undefined"
 >
   <div>
     <button
@@ -992,7 +990,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   studentService={[Function StudentService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
-  user="undefined"
 >
   <div>
     <button
@@ -1125,7 +1122,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   studentService={[Function StudentService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
-  user="undefined"
 >
   <div>
     <button

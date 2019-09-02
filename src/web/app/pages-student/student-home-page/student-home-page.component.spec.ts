@@ -44,7 +44,6 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with no feedback sessions', () => {
-    const studentName: string = '';
     const studentCourse: any = {
       course: {
         id: 'CS3281',
@@ -52,14 +51,12 @@ describe('StudentHomePageComponent', () => {
       },
       feedbackSessions: [],
     };
-    component.user = studentName;
     component.courses = [studentCourse];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with all feedback sessions over 2 courses', () => {
-    const studentName: string = 'John Doe';
     const studentCourseA: any = {
       course: {
         id: 'CS2103',
@@ -134,7 +131,6 @@ describe('StudentHomePageComponent', () => {
       isSubmitted: true,
     };
 
-    component.user = studentName;
     component.courses = [studentCourseA, studentCourseB];
     component.sessionsInfoMap = {
       'CS2103%First Session': publishedSessionInfoMap,
