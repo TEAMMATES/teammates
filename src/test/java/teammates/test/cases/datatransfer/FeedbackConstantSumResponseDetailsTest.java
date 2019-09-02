@@ -18,6 +18,54 @@ import teammates.test.cases.BaseTestCase;
 public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
 
     @Test
+    public void testValidateResponseDetails_amongRecipientsValidAnswer_shouldReturnEmptyErrorList() {
+        FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        constantSumQuestionDetails.setDistributeToRecipients(true);
+        constantSumQuestionDetails.setConstSumOptions(new ArrayList<>());
+        constantSumQuestionDetails.setNumOfConstSumOptions(0);
+        constantSumQuestionDetails.setPoints(100);
+        constantSumQuestionDetails.setForceUnevenDistribution(false);
+        constantSumQuestionDetails.setDistributePointsFor(
+                FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption());
+
+        FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
+
+        constantSumResponseDetails.setAnswers(Arrays.asList(0));
+        assertTrue(constantSumResponseDetails
+                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+
+        constantSumResponseDetails.setAnswers(Arrays.asList(100));
+        assertTrue(constantSumResponseDetails
+                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+    }
+
+    @Test
+    public void testValidateResponseDetails_amongRecipientsInvalidAnswer_shouldReturnNonEmptyErrorList() {
+        FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        constantSumQuestionDetails.setDistributeToRecipients(true);
+        constantSumQuestionDetails.setConstSumOptions(new ArrayList<>());
+        constantSumQuestionDetails.setNumOfConstSumOptions(0);
+        constantSumQuestionDetails.setPoints(100);
+        constantSumQuestionDetails.setForceUnevenDistribution(false);
+        constantSumQuestionDetails.setDistributePointsFor(
+                FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption());
+
+        FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
+
+        constantSumResponseDetails.setAnswers(Arrays.asList());
+        assertFalse(constantSumResponseDetails
+                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+
+        constantSumResponseDetails.setAnswers(Arrays.asList(-1));
+        assertFalse(constantSumResponseDetails
+                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+
+        constantSumResponseDetails.setAnswers(Arrays.asList(100, 101));
+        assertFalse(constantSumResponseDetails
+                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+    }
+
+    @Test
     public void testValidateResponseDetails_amongOptionsValidAnswer_shouldReturnEmptyErrorList() {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(false);

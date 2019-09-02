@@ -66,6 +66,8 @@ export class FeedbackResponsesService {
         return DEFAULT_RUBRIC_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+        return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
@@ -107,6 +109,10 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         const constumDetails: FeedbackConstantSumResponseDetails = details as FeedbackConstantSumResponseDetails;
         return constumDetails.answers.length === 0;
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+        const constumRecipientsDetails: FeedbackConstantSumResponseDetails =
+            details as FeedbackConstantSumResponseDetails;
+        return constumRecipientsDetails.answers.length === 0;
       default:
         return true;
     }

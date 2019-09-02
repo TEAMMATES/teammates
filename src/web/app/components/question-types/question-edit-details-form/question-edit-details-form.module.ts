@@ -7,6 +7,9 @@ import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum
 import {
   ConstsumOptionsQuestionEditDetailsFormComponent,
 } from './constsum-options-question-edit-details-form.component';
+import {
+  ConstsumRecipientsQuestionEditDetailsFormComponent,
+} from './constsum-recipients-question-edit-details-form.component';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
@@ -39,6 +42,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     RubricQuestionEditDetailsFormComponent,
     ConstsumOptionsQuestionEditDetailsFormComponent,
     ConstsumOptionsFieldComponent,
+    ConstsumRecipientsQuestionEditDetailsFormComponent,
   ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
@@ -54,6 +58,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     WeightFieldComponent,
     RubricQuestionEditDetailsFormComponent,
     ConstsumOptionsQuestionEditDetailsFormComponent,
+    ConstsumRecipientsQuestionEditDetailsFormComponent,
   ],
   imports: [
     CommonModule,

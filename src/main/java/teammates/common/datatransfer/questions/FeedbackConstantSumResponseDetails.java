@@ -65,12 +65,24 @@ public class FeedbackConstantSumResponseDetails extends
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         FeedbackConstantSumQuestionDetails questionDetails =
                 (FeedbackConstantSumQuestionDetails) correspondingQuestion.getQuestionDetails();
-        if (questionDetails.isDistributeToRecipients()) {
-            // difficult to do cross-responses validation
-            return new ArrayList<>();
-        }
 
         List<String> errors = new ArrayList<>();
+
+        if (questionDetails.isDistributeToRecipients()) {
+            if (answers.size() != 1) {
+                // distribute to recipient must have array size one
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH);
+                return errors;
+            }
+
+            if (answers.get(0) < 0) {
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
+                return errors;
+            }
+
+            // difficult to do cross-responses validation
+            return errors;
+        }
 
         if (answers.size() != questionDetails.getNumOfConstSumOptions()) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_OPTIONS_NOT_MATCH);
