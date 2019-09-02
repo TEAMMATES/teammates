@@ -147,7 +147,7 @@
           "options": {
             "tsConfig": [
               "src/web/tsconfig.app.json",
-              "src/web/tsconfig.tslint-spec.json"
+              "src/web/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
