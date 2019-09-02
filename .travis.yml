@@ -20,7 +20,7 @@ before_install:
         echo "Only doc files or images were updated in PR, not running the CI."
         exit
       fi
-  - nvm install 10
+  - nvm install 12
 
 install: true
 
@@ -70,7 +70,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
     - name: "E2E Tests - Firefox"
       addons:
-        firefox: "66.0"
+        firefox: "72.0"
       services:
         - xvfb
       before_script:
