@@ -32,10 +32,9 @@ build-eclipse/
 .tern-project
 
 # IntelliJ
-/.idea/
+.idea/
 *.iml
-/out/
-/.stylelintrc.yml
+out/
 
 # JMeter
 jmeter.log

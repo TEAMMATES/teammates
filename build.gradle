@@ -196,6 +196,8 @@ task createConfigs {
     }
 }
 
+// IDE SETUP TASKS (MAINTENANCE MODE ONLY)
+
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
 eclipse {
