@@ -308,24 +308,6 @@ idea {
     }
 }
 
-task setupIntellijRunConfigs(type: Copy) {
-    description 'Sets up the run configurations in the IntelliJ project.'
-    group intellijSetupGroup
-    doFirst {
-        if (!file('.idea').exists()) {
-            throw new GradleException('Please import the project into IntelliJ first.')
-        }
-    }
-    from '.templates/ideaRunConfigurations'
-    into '.idea/runConfigurations'
-}
-
-task setupIntellij {
-    description 'Sets up the IntelliJ-specific configurations for the project.'
-    group intellijSetupGroup
-    dependsOn setupIntellijRunConfigs
-}
-
 // IntelliJ project static analysis plugins setup
 
 task copyStylelintConfiguration {

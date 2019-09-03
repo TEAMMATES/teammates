@@ -157,12 +157,6 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 
 1. Click `OK`.
 
-1. Run this command to set up the run configurations for IntelliJ:
-
-   ```sh
-   ./gradlew setupIntellij
-   ```
-
 1. To set up some static analysis tools, refer to [this document](static-analysis.md).
 
 1. To move on to the development phase, refer to [this document](development.md).
