@@ -289,10 +289,6 @@ task setupEclipse {
     dependsOn eclipseClasspath, eclipseProject, createEclipseLaunches
 }
 
-String intellijSetupGroup = 'IntelliJ IDEA Setup'
-
-// IntelliJ Project Setup
-
 // Use a different buildDir for IntelliJ builds to avoid conflict with CLI builds.
 // IDE detection is achieved by checking `idea.paths.selector`, a system property that IntelliJ sets.
 // Note that this property is not documented and may change anytime.
@@ -306,58 +302,6 @@ idea {
         // Exclude the CLI and Eclipse build directories
         excludeDirs += [file('build'), file('build-eclipse')]
     }
-}
-
-// IntelliJ project static analysis plugins setup
-
-task copyStylelintConfiguration {
-    // Cannot use copy task directly when copying to project root on Windows due to the
-    // file-locking mechanism interfering with the way inputs and outputs are monitored
-    // (see https://issues.gradle.org/browse/GRADLE-3002).
-    // We use the copy method instead, which works because it does not do incremental
-    // building (inputs and outputs are not monitored).
-    group intellijSetupGroup
-    doLast {
-        copy {
-            from 'static-analysis/teammates-stylelint.yml'
-            into projectDir
-            rename { '.stylelintrc.yml' }
-        }
-    }
-}
-
-task copyIntelliJProjectPluginsSettings(type: Copy) {
-    group intellijSetupGroup
-    from '.templates/ideaPlugins'
-    into '.idea'
-    mustRunAfter copyStylelintConfiguration
-}
-
-task syncIntelliJCheckStyleVersion {
-    description 'Syncs the CheckStyle-IDEA version to the same with the build script.' +
-            'Also executes automatically during configuration phase'
-    group intellijSetupGroup
-
-    if (file('.idea/checkstyle-idea.xml').exists()) {
-        String filePath = '.idea/checkstyle-idea.xml'
-        Node xml = new XmlParser().parse(filePath)
-        Node checkStyleComponent = (Node) (xml.component.find { it.@name == 'CheckStyle-IDEA' })
-        Node checkStyleConfigurationMap = (Node) (checkStyleComponent.option.find { it.@name == 'configuration' })
-        Node checkStyleVersionEntry =
-                (Node) (checkStyleConfigurationMap.map.entry.find { it.@key == 'checkstyle-version' })
-
-        checkStyleVersionEntry.@value = checkstyleVersion
-
-        writeXmlToPath(xml, filePath)
-    }
-}
-
-task setupIntellijStaticAnalysis {
-    description 'Sets up the static analysis plugins in the IntelliJ project.'
-    group intellijSetupGroup
-
-    dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
-    finalizedBy syncIntelliJCheckStyleVersion
 }
 
 task downloadDependencies {
