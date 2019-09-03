@@ -90,8 +90,6 @@ Supported Eclipse versions: [Eclipse IDE for Java EE Developers version Neon, Ox
 
    ![eclipsesetupguide-8.png](images/eclipsesetupguide-8.png)
 
-1. To set up some static analysis tools, refer to [this document](static-analysis.md).
-
 1. To move on to the development phase, refer to [this document](development.md)
 
 > Note: It is not encouraged to run Gradle tasks via Eclipse.
@@ -156,7 +154,5 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
      Go to `Editor → File Encodings` and ensure that `Project Encoding` and `Default Encoding for properties files` is set to `UTF-8`.
 
 1. Click `OK`.
-
-1. To set up some static analysis tools, refer to [this document](static-analysis.md).
 
 1. To move on to the development phase, refer to [this document](development.md).
