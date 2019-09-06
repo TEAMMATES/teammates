@@ -51,8 +51,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   showEnrollResults?: boolean = false;
   statusMessage: StatusMessage[] = [];
 
-  @ViewChild('moreInfo') moreInfo?: ElementRef;
-  @ContentChild('pasteModalBox') pasteModalBox?: NgbModal;
+  @ViewChild('moreInfo', { static: false }) moreInfo?: ElementRef;
+  @ContentChild('pasteModalBox', { static: false }) pasteModalBox?: NgbModal;
 
   @Input() isNewStudentsPanelCollapsed: boolean = false;
   @Input() isExistingStudentsPanelCollapsed: boolean = true;

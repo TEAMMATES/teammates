@@ -13,7 +13,7 @@ import {
 })
 export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
 
-  @Input() responses: any = {};
+  @Input() responses: any[] = [];
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
