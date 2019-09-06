@@ -8,6 +8,8 @@ import teammates.storage.entity.BaseEntity;
 /**
  * Base class for Attribute classes (Attribute classes represent attributes of
  * persistable entities).
+ *
+ * @param <E> type of persistable entity being wrapped
  */
 public abstract class EntityAttributes<E extends BaseEntity> {
 
@@ -57,6 +59,8 @@ public abstract class EntityAttributes<E extends BaseEntity> {
      * Helper class to determine whether a field should be updated or not.
      *
      * <p>The class behaves like {@link java.util.Optional} but allows null value.
+     *
+     * @param <T> type of object being updated
      */
     protected static class UpdateOption<T> {
 

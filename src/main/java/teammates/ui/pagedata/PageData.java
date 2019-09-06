@@ -25,8 +25,10 @@ import teammates.ui.template.FeedbackResponseCommentRow;
  */
 public class PageData {
 
-    /** The user for whom the pages are displayed (i.e. the 'nominal user').
-     *  May not be the logged in user (under masquerade mode) */
+    /**
+     * The user for whom the pages are displayed (i.e. the 'nominal user').
+     * May not be the logged in user (under masquerade mode).
+     */
     public AccountAttributes account;
     public StudentAttributes student;
 
