@@ -1,0 +1,45 @@
+/* 
+ * This file is used by CodeMix's Build Pipeline feature to provide fully compliant 
+ * validation using the TypeScript compiler (tsc) configured at the project level. It has been 
+ * generated to facilitate usage.  To learn more about the tasks.json format, 
+ * see: https://www.genuitec.com/go/about-tasks.json
+ */
+ 
+{
+	"version": "2.0.0",
+    "tasks": [
+        {
+            "type": "typescript",
+            "tsconfig": "${workspaceFolder}/tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "codemix": {
+                "lifecycle": "build",
+                "validatedExtensions": [
+                    "ts"
+                ],
+                "readyChecks": [
+                    "node_modules_ready"
+                ]
+            }
+        },
+        {
+            "type": "typescript",
+            "tsconfig": "${workspaceFolder}/tsconfig.json",
+            "option": "watch",
+            "problemMatcher": [
+                "$tsc-watch"
+            ],
+            "codemix": {
+                "lifecycle": "watch",
+                "validatedExtensions": [
+                    "ts"
+                ],
+                "readyChecks": [
+                    "node_modules_ready"
+                ]
+            }
+        }
+    ]
+}
