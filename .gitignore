@@ -26,7 +26,6 @@ bin/
 .settings
 .launches
 test-output/*
-build-eclipse/
 .checkstyle
 .eclipse-pmd
 .tern-project
