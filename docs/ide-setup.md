@@ -103,21 +103,21 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
 
 ### Prerequisites
 
-1. You need a Java 8 SDK with the name `1.8` defined in IntelliJ IDEA as follows:
+1. You need a Java 8 SDK defined in IntelliJ IDEA as follows:
 
    * Click `Configure → Project Defaults → Project Structure` (or `File → Project Structure` if a project is open).
-     Select SDKs in Platform Settings and check if there is an SDK named `1.8` with a JDK home path pointing to a JDK 8 path.
-     Otherwise, add a new SDK using JDK 8 with a name of `1.8`.
+     Select `SDKs` under` Platform Settings` and check if there is an SDK with JDK home path pointing to a JDK 8 path.
+     If there is none, add a new SDK which uses JDK 8.
      ![intellijsetupguide-1.png](images/intellijsetupguide-1.png)
 
-1. You need the [Google Cloud Tools](https://cloud.google.com/tools/intellij/docs/quickstart-IDEA#install) plugin installed and configured:
+1. You need the [Google Cloud Code](https://cloud.google.com/code/docs/intellij/quickstart-IDEA) plugin installed and configured:
 
    ![intellijsetupguide-2.png](images/intellijsetupguide-2.png)
    * During installation, you may encounter a prompt to disable the obsolete `Google App Engine Integration` plugin. Answer `Yes`.
-   * After installation, restart IntelliJ IDEA and configure the plugin.
-     Click `Configure → Settings/Preferences` (or `IntelliJ IDEA → Preferences` if a project is open),
-     go to `Other Settings → Google → Cloud SDK`, and select your Google Cloud SDK directory.
-     ![intellijsetupguide-3.png](images/intellijsetupguide-3.png)
+   * After installation, restart IntelliJ IDEA.
+   * (Optional) To configure the plugin to use a specific Cloud SDK installation,
+     click `Configure → Settings/Preferences` (or `IntelliJ IDEA → Preferences` if a project is open),
+     go to `Other Settings → Cloud Code → Cloud SDK`, choose `Use a custom local installation`, and select your Google Cloud SDK directory.
 
 ### Project Setup
 
@@ -129,7 +129,7 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
    1. Check `Use auto-import` and uncheck `Create separate module per source set`.
    1. Ensure `Create directories for empty content root automatically` is unchecked.
    1. Ensure `Use default gradle wrapper` is selected.
-   1. Ensure for `Gradle JVM:` that a JDK 8 with a name of `1.8` is selected.
+   1. Ensure for `Gradle JVM:` that a JDK 8 is selected.
    1. Click `Finish`. Wait for the indexing process to complete.
    1. You should see a dialog box with the message:\
       `Frameworks detected: Google App Engine Standard, Angular CLI frameworks are detected.`.\
