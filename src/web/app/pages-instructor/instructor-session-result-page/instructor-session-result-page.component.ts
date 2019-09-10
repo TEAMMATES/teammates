@@ -6,7 +6,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackSession,
-  SessionResults,
+  SessionResults, Student,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
@@ -40,6 +40,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
   isSectionsLoaded: boolean = false;
   questionsModel: { [key: string]: any } = {};
   isQuestionsLoaded: boolean = false;
+  noResponseStudents: Student[] = [];
+  isNoResponsePanelLoaded: boolean = false;
 
   constructor(private httpRequestService: HttpRequestService, private route: ActivatedRoute,
       private timezoneService: TimezoneService, private statusMessageService: StatusMessageService) {
@@ -89,6 +91,22 @@ export class InstructorSessionResultPageComponent implements OnInit {
         }, (resp2: any) => {
           this.statusMessageService.showErrorMessage(resp2.error.message);
         });
+
+        this.httpRequestService.get('/students', paramMap).subscribe((resp3: any) => {
+          const students: Student[] = resp3.students;
+
+          this.httpRequestService.get('/session/submitted/giverset', paramMap).subscribe((resp4: any) => {
+            this.noResponseStudents =
+                students.filter((student: Student) => !resp4.giverIdentifiers.includes(student.email));
+          }, (resp4: any) => {
+            this.statusMessageService.showErrorMessage(resp4.error.message);
+          });
+
+          this.isNoResponsePanelLoaded = true;
+        }, (resp3: any) => {
+          this.statusMessageService.showErrorMessage(resp3.error.message);
+        });
+
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
