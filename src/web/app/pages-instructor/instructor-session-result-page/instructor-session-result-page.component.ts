@@ -5,8 +5,8 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  FeedbackSession,
-  SessionResults, Student,
+  FeedbackSession, FeedbackSessionSubmittedGiverSet,
+  SessionResults, Student, Students,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
@@ -92,12 +92,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.statusMessageService.showErrorMessage(resp2.error.message);
         });
 
-        this.httpRequestService.get('/students', paramMap).subscribe((resp3: any) => {
-          const students: Student[] = resp3.students;
+        this.httpRequestService.get('/students', paramMap).subscribe((allStudents: Students) => {
+          const students: Student[] = allStudents.students;
 
-          this.httpRequestService.get('/session/submitted/giverset', paramMap).subscribe((resp4: any) => {
+          this.httpRequestService.get('/session/submitted/giverset', paramMap).subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
             this.noResponseStudents =
-                students.filter((student: Student) => !resp4.giverIdentifiers.includes(student.email));
+                students.filter((student: Student) => !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
           }, (resp4: any) => {
             this.statusMessageService.showErrorMessage(resp4.error.message);
           });

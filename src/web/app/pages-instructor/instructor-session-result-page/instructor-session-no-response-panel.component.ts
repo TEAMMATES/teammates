@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import { Student } from '../../../types/api-output';
 
 /**
@@ -13,7 +13,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
   @Input() noResponseStudents: Student[] = [];
   @Input() section: string = '';
-  isTabExpanded: Boolean = false;
+  isTabExpanded: boolean = false;
 
   noResponseStudentsInSection: Student[] = [];
   constructor() { }
