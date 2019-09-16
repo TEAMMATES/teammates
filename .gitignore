@@ -26,16 +26,14 @@ bin/
 .settings
 .launches
 test-output/*
-build-eclipse/
 .checkstyle
 .eclipse-pmd
 .tern-project
 
 # IntelliJ
-/.idea/
+.idea/
 *.iml
-/out/
-/.stylelintrc.yml
+out/
 
 # JMeter
 jmeter.log

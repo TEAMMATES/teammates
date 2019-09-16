@@ -1,5 +1,3 @@
-apply plugin: "eclipse"
-apply plugin: "eclipse-wtp"
 apply plugin: "idea"
 
 apply plugin: "war"
@@ -196,102 +194,7 @@ task createConfigs {
     }
 }
 
-import org.gradle.plugins.ide.eclipse.model.SourceFolder
-
-eclipse {
-    project {
-        natures "org.eclipse.jdt.core.javanature", "org.eclipse.buildship.core.gradleprojectnature", "org.eclipse.wst.jsdt.core.jsNature"
-        buildCommand "org.eclipse.jdt.core.javabuilder"
-        buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
-        buildCommand "org.eclipse.wst.validation.validationbuilder"
-        buildCommand "com.google.cloud.tools.eclipse.appengine.standard.java8.appengineWeb"
-
-        // Exclude the CLI and IntelliJ build directories
-        // Gradle Eclipse plugin does not support generation of resource filters yet
-        // Use the method lined out in https://discuss.gradle.org/t/eclipse-pluging-adding-resource-filters/5408/2
-        file {
-            withXml { xmlProvider ->
-                Node node = xmlProvider.asNode().filteredResources[0]
-                ['build', 'out'].each { folder ->
-                    Node filter = node.appendNode('filter')
-                    filter.appendNode('id', folder.hashCode())
-                    filter.appendNode('name', '')
-                    filter.appendNode('type', 10)
-                    Node matcher = filter.appendNode('matcher')
-                    matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
-                    matcher.appendNode('arguments', "1.0-name-matches-false-false-${folder}")
-                }
-            }
-        }
-    }
-    classpath {
-        containers "org.eclipse.buildship.core.gradleclasspathcontainer",
-                   "org.eclipse.jst.server.core.container/com.google.cloud.tools.eclipse.appengine.standard.runtimeClasspathProvider/App Engine Standard Runtime"
-        defaultOutputDir = file("build-eclipse/classes")
-        file {
-            whenMerged { cp ->
-                cp.entries.findAll {
-                    it instanceof SourceFolder && !it.path.startsWith("src/main/")
-                }*.output = "build-eclipse/test-classes"
-            }
-        }
-    }
-    wtp {
-        facet {
-            facets = []
-            facet name: "jst.web", version: "3.1"
-            facet name: "jst.java", version: "1.8"
-            facet name: "wst.jsdt.web", version: "1.0"
-            facet name: "com.google.cloud.tools.eclipse.appengine.facets.standard", version: "JRE8"
-        }
-    }
-}
-
-eclipseProject {
-    onlyIf {
-        !(new File(".project")).exists()
-    }
-}
-
-eclipseClasspath {
-    onlyIf {
-        !(new File(".classpath")).exists()
-    }
-}
-
-task createEclipseLaunches {
-    doLast {
-        def templatesToCopy = [
-                ".templates/eclipseLaunches/All tests.launch.xml",
-                ".templates/eclipseLaunches/Component tests.launch.xml",
-                ".templates/eclipseLaunches/Failed tests.launch.xml",
-                ".templates/eclipseLaunches/E2E tests.launch.xml"
-        ]
-        templatesToCopy.findAll {
-            !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
-        }.each { filename ->
-            copy {
-                from filename
-                into ".launches"
-                rename '(.*).xml', '$1'
-            }
-            filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
-            def fileContents = new File(filename).getText("UTF-8")
-            def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
-            new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
-        }
-    }
-}
-
-task setupEclipse {
-    description "Sets up the Eclipse-specific configurations for the project."
-    group "Setup"
-    dependsOn eclipseClasspath, eclipseProject, createEclipseLaunches
-}
-
-String intellijSetupGroup = 'IntelliJ IDEA Setup'
-
-// IntelliJ Project Setup
+// IDE SETUP TASKS (MAINTENANCE MODE ONLY)
 
 // Use a different buildDir for IntelliJ builds to avoid conflict with CLI builds.
 // IDE detection is achieved by checking `idea.paths.selector`, a system property that IntelliJ sets.
@@ -303,79 +206,9 @@ if (System.getProperty('idea.paths.selector') != null) {
 
 idea {
     module {
-        // Exclude the CLI and Eclipse build directories
-        excludeDirs += [file('build'), file('build-eclipse')]
+        // Exclude the CLI build directory
+        excludeDirs += [file('build')]
     }
-}
-
-task setupIntellijRunConfigs(type: Copy) {
-    description 'Sets up the run configurations in the IntelliJ project.'
-    group intellijSetupGroup
-    doFirst {
-        if (!file('.idea').exists()) {
-            throw new GradleException('Please import the project into IntelliJ first.')
-        }
-    }
-    from '.templates/ideaRunConfigurations'
-    into '.idea/runConfigurations'
-}
-
-task setupIntellij {
-    description 'Sets up the IntelliJ-specific configurations for the project.'
-    group intellijSetupGroup
-    dependsOn setupIntellijRunConfigs
-}
-
-// IntelliJ project static analysis plugins setup
-
-task copyStylelintConfiguration {
-    // Cannot use copy task directly when copying to project root on Windows due to the
-    // file-locking mechanism interfering with the way inputs and outputs are monitored
-    // (see https://issues.gradle.org/browse/GRADLE-3002).
-    // We use the copy method instead, which works because it does not do incremental
-    // building (inputs and outputs are not monitored).
-    group intellijSetupGroup
-    doLast {
-        copy {
-            from 'static-analysis/teammates-stylelint.yml'
-            into projectDir
-            rename { '.stylelintrc.yml' }
-        }
-    }
-}
-
-task copyIntelliJProjectPluginsSettings(type: Copy) {
-    group intellijSetupGroup
-    from '.templates/ideaPlugins'
-    into '.idea'
-    mustRunAfter copyStylelintConfiguration
-}
-
-task syncIntelliJCheckStyleVersion {
-    description 'Syncs the CheckStyle-IDEA version to the same with the build script.' +
-            'Also executes automatically during configuration phase'
-    group intellijSetupGroup
-
-    if (file('.idea/checkstyle-idea.xml').exists()) {
-        String filePath = '.idea/checkstyle-idea.xml'
-        Node xml = new XmlParser().parse(filePath)
-        Node checkStyleComponent = (Node) (xml.component.find { it.@name == 'CheckStyle-IDEA' })
-        Node checkStyleConfigurationMap = (Node) (checkStyleComponent.option.find { it.@name == 'configuration' })
-        Node checkStyleVersionEntry =
-                (Node) (checkStyleConfigurationMap.map.entry.find { it.@key == 'checkstyle-version' })
-
-        checkStyleVersionEntry.@value = checkstyleVersion
-
-        writeXmlToPath(xml, filePath)
-    }
-}
-
-task setupIntellijStaticAnalysis {
-    description 'Sets up the static analysis plugins in the IntelliJ project.'
-    group intellijSetupGroup
-
-    dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
-    finalizedBy syncIntelliJCheckStyleVersion
 }
 
 task downloadDependencies {
