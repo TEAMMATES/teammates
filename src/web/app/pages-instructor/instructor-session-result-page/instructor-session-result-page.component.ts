@@ -95,12 +95,14 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.httpRequestService.get('/students', paramMap).subscribe((allStudents: Students) => {
           const students: Student[] = allStudents.students;
 
-          this.httpRequestService.get('/session/submitted/giverset', paramMap).subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
-            this.noResponseStudents =
-                students.filter((student: Student) => !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
-          }, (resp4: any) => {
-            this.statusMessageService.showErrorMessage(resp4.error.message);
-          });
+          this.httpRequestService
+              .get('/session/submitted/giverset', paramMap)
+              .subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+                this.noResponseStudents = students.filter((student: Student) =>
+                                            !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
+              }, (resp4: any) => {
+                this.statusMessageService.showErrorMessage(resp4.error.message);
+              });
 
           this.isNoResponsePanelLoaded = true;
         }, (resp3: any) => {
