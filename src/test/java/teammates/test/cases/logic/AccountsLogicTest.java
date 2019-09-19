@@ -456,4 +456,11 @@ public class AccountsLogicTest extends BaseLogicTest {
         // other irrelevant instructors remain
         assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
     }
+
+    @Test
+    public void testGetCourseInstitute() {
+        assertNull(accountsLogic.getCourseInstitute("0"))
+        assertEquals(accountsLogic.getCourseInstitute("1"), "dev")
+        assertEquals(accountsLogic.getCourseInstitute("2"), "TEAMMATES Test Institute 1")
+    }
 }
