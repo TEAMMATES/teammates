@@ -97,16 +97,10 @@ If you want to develop front-end, you need to install the following:
    ```
    **Verification:** A folder named `node_modules` should be added to the project root directory.
 
-## Step 4: Set up an IDE (Recommended)
+**Q:** Can I set up the project in IDEs, e.g. Eclipse, IntelliJ?<br>
+**A:** You are welcome to; the core team have been using IntelliJ to a varying degree of success, but IDE-based development (even with IntelliJ) is not actively supported/maintained by the team.
 
-You are encouraged, but not required, to use an IDE to assist development tasks.
-
-We currently support two IDEs: Eclipse IDE and IntelliJ IDEA.
-Support requests related to other IDEs will not be entertained.
-
-Refer to [this document](ide-setup.md) if you wish to set up an IDE for developing TEAMMATES.
-
-## Step 5: Start developing
+## Step 4: Start developing
 
 If you have followed every step correctly, your development environment should be set up successfully.
 
