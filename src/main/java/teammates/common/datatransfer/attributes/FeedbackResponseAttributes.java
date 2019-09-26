@@ -22,6 +22,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     * "anonymous", etc.
     */
     public String giver;
+    public String giverEmail;
     /**
      * Depending on the question recipient type, {@code recipient} may contain the recipient's email, the team
      * name, "%GENERAL%", etc.
@@ -41,9 +42,10 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     private String feedbackResponseId;
 
-    FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
+    FeedbackResponseAttributes(String feedbackQuestionId, String giver, String giverEmail, String recipient) {
         this.feedbackQuestionId = feedbackQuestionId;
         this.giver = giver;
+        this.giverEmail = giverEmail;
         this.recipient = recipient;
 
         this.giverSection = Const.DEFAULT_SECTION;
@@ -56,6 +58,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.courseId = copy.courseId;
         this.feedbackQuestionId = copy.feedbackQuestionId;
         this.giver = copy.giver;
+        this.giverEmail = copy.giverEmail;
         this.giverSection = copy.giverSection;
         this.recipient = copy.recipient;
         this.recipientSection = copy.recipientSection;
@@ -66,7 +69,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
         FeedbackResponseAttributes fra =
-                new FeedbackResponseAttributes(fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
+                new FeedbackResponseAttributes(fr.getFeedbackQuestionId(), fr.getGiver(), fr.getGiverEmail(), fr.getRecipientEmail());
 
         fra.feedbackResponseId = fr.getId();
         fra.feedbackSessionName = fr.getFeedbackSessionName();
@@ -121,6 +124,10 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return giver;
     }
 
+    public String getGiverEmail() {
+        return giverEmail;
+    }
+
     public String getRecipient() {
         return recipient;
     }
@@ -154,7 +161,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public FeedbackResponse toEntity() {
         return new FeedbackResponse(feedbackSessionName, courseId,
                 feedbackQuestionId, getFeedbackQuestionType(),
-                giver, giverSection, recipient, recipientSection, getSerializedFeedbackResponseDetail());
+                giver, giverEmail, giverSection, recipient, recipientSection, getSerializedFeedbackResponseDetail());
     }
 
     @Override
@@ -210,8 +217,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     /**
      * Returns a builder for {@link FeedbackResponseAttributes}.
      */
-    public static Builder builder(String feedbackQuestionId, String giver, String recipient) {
-        return new Builder(feedbackQuestionId, giver, recipient);
+    public static Builder builder(String feedbackQuestionId, String giver, String giverEmail, String recipient) {
+        return new Builder(feedbackQuestionId, giver, giverEmail, recipient);
     }
 
     /**
@@ -239,14 +246,15 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
         private FeedbackResponseAttributes fra;
 
-        private Builder(String feedbackQuestionId, String giver, String recipient) {
+        private Builder(String feedbackQuestionId, String giver, String giverEmail, String recipient) {
             super(new UpdateOptions(""));
             thisBuilder = this;
 
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackQuestionId);
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giver);
+            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverEmail);
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipient);
-            fra = new FeedbackResponseAttributes(feedbackQuestionId, giver, recipient);
+            fra = new FeedbackResponseAttributes(feedbackQuestionId, giver, giverEmail, recipient);
         }
 
         public Builder withCourseId(String courseId) {

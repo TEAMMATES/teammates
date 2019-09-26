@@ -36,6 +36,8 @@ public class FeedbackResponse extends BaseEntity {
 
     private FeedbackQuestionType feedbackQuestionType;
 
+    private String giver;
+
     private String giverEmail;
 
     private String giverSection;
@@ -64,19 +66,20 @@ public class FeedbackResponse extends BaseEntity {
     }
 
     public FeedbackResponse(String feedbackSessionName, String courseId,
-            String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType,
+            String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType, String giver,
             String giverEmail, String giverSection, String recipient, String recipientSection, String answer) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.feedbackQuestionId = feedbackQuestionId;
         this.feedbackQuestionType = feedbackQuestionType;
+        this.giver = giver;
         this.giverEmail = giverEmail;
         this.giverSection = giverSection;
         this.receiver = recipient;
         this.receiverSection = recipientSection;
         setAnswer(answer);
 
-        this.feedbackResponseId = generateId(feedbackQuestionId, giverEmail, receiver);
+        this.feedbackResponseId = generateId(feedbackQuestionId, giver, receiver);
 
         this.setCreatedAt(Instant.now());
     }
@@ -85,7 +88,7 @@ public class FeedbackResponse extends BaseEntity {
      * Generates an unique ID for the feedback response.
      */
     public static String generateId(String feedbackQuestionId, String giver, String receiver) {
-        // Format is feedbackQuestionId%giverEmail%receiver
+        // Format is feedbackQuestionId%giver%receiver
         // i.e. if response is feedback for team: qnId%giver@gmail.com%Team1
         //         if response is feedback for person: qnId%giver@gmail.com%reciever@email.com
         return feedbackQuestionId + '%' + giver + '%' + receiver;
@@ -125,6 +128,14 @@ public class FeedbackResponse extends BaseEntity {
 
     public void setFeedbackQuestionType(FeedbackQuestionType feedbackQuestionType) {
         this.feedbackQuestionType = feedbackQuestionType;
+    }
+
+    public String getGiver() {
+        return giver;
+    }
+
+    public void setGiver(String giver) {
+        this.giver = giver;
     }
 
     public String getGiverEmail() {

@@ -346,7 +346,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         }
 
         if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
-                && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
+                && newAttributes.giver.equals(oldResponse.getGiver())) {
 
             // update only if change
             boolean hasSameAttributes =
@@ -370,7 +370,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         } else {
             // need to recreate the entity
             newAttributes = FeedbackResponseAttributes
-                    .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(), newAttributes.getRecipient())
+                    .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(), newAttributes.getGiverEmail(), newAttributes.getRecipient())
                     .withCourseId(newAttributes.getCourseId())
                     .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
                     .withResponseDetails(newAttributes.getResponseDetails())
@@ -608,7 +608,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             String feedbackQuestionId, String giverEmail) {
         return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverEmail =", giverEmail)
+                .filter("giver =", giverEmail)
                 .list();
     }
 
