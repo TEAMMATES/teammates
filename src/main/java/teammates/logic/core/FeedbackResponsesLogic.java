@@ -223,8 +223,8 @@ public final class FeedbackResponsesLogic {
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
-            String courseId, String userEmail) {
-        return frDb.getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
+            String courseId, String giver) {
+        return frDb.getFeedbackResponsesFromGiverForCourse(courseId, giver);
     }
 
     /**

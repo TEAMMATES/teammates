@@ -309,11 +309,11 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Gets all responses given by a user in a course.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
-            String courseId, String giverEmail) {
+            String courseId, String giver) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giver);
 
-        return makeAttributes(getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail));
+        return makeAttributes(getFeedbackResponseEntitiesFromGiverForCourse(courseId, giver));
     }
 
     /**
@@ -660,7 +660,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             String courseId, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
-                .filter("giverEmail =", giverEmail)
+                .filter("giver =", giverEmail)
                 .list();
     }
 

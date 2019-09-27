@@ -76,12 +76,14 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         String giverIdentifier;
+        String giverEmail;
         String giverSection;
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
+            giverEmail = studentAttributes.getEmail();
             giverSection = studentAttributes.getSection();
             logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
                     studentAttributes.getEmail(), studentAttributes.getTeam());
@@ -90,6 +92,7 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructorAttributes.getEmail();
             giverSection = Const.DEFAULT_SECTION;
+            giverEmail = giverIdentifier;
             logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
                     instructorAttributes.getEmail(), null);
             break;
@@ -100,7 +103,7 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         FeedbackResponseCreateRequest createRequest = getAndValidateRequestBody(FeedbackResponseCreateRequest.class);
         FeedbackResponseAttributes feedbackResponse =
                 FeedbackResponseAttributes
-                        .builder(feedbackQuestion.getId(), giverIdentifier, createRequest.getRecipientIdentifier())
+                        .builder(feedbackQuestion.getId(), giverIdentifier, giverEmail, createRequest.getRecipientIdentifier())
                 .withGiverSection(giverSection)
                 .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(),
                         feedbackQuestion.getRecipientType(), createRequest.getRecipientIdentifier()))

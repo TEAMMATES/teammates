@@ -74,7 +74,7 @@ public class JsonUtilsTest extends BaseTestCase {
     public void testFeedbackResponseDetailsAdaptor_withComposedResponseDetails_shouldSerializeToConcreteClass() {
         FeedbackResponseAttributes fra =
                 FeedbackResponseAttributes.builder(
-                        "questionId", "giver@email.com", "recipient@email.com")
+                        "questionId", "giver@email.com","giver@email.com", "recipient@email.com")
                 .withFeedbackSessionName("Session1")
                 .withCourseId("CS3281")
                 .withGiverSection("giverSection")
@@ -87,6 +87,7 @@ public class JsonUtilsTest extends BaseTestCase {
             assertEquals("{\n"
                     + "  \"feedbackQuestionId\": \"questionId\",\n"
                     + "  \"giver\": \"giver@email.com\",\n"
+                    + "  \"giverEmail\": \"giver@email.com\",\n"
                     + "  \"recipient\": \"recipient@email.com\",\n"
                     + "  \"feedbackSessionName\": \"Session1\",\n"
                     + "  \"courseId\": \"CS3281\",\n"

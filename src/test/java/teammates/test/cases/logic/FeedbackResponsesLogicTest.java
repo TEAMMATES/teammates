@@ -152,7 +152,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes existingResponse =
                 FeedbackResponseAttributes.builder(
-                        responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(), "student3InCourse1@gmail.tmt")
+                        responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(), responseToUpdate.getGiverEmail(), "student3InCourse1@gmail.tmt")
                 .withFeedbackSessionName(responseToUpdate.feedbackSessionName)
                 .withCourseId(responseToUpdate.courseId)
                 .withGiverSection(responseToUpdate.giverSection)
@@ -272,7 +272,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes responseToAdd =
                 FeedbackResponseAttributes.builder(
                         getQuestionFromDatastore("qn1InSession1InCourse1").getId(),
-                        studentToUpdate.email, studentToUpdate.email)
+                        studentToUpdate.email, studentToUpdate.email, studentToUpdate.email)
                 .withFeedbackSessionName("First feedback session")
                 .withCourseId("idOfTypicalCourse1")
                 .withGiverSection("Section 1")
@@ -505,7 +505,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         //Create a "null" response to simulate trying to get a null student's response
         FeedbackResponseAttributes newResponse =
                 FeedbackResponseAttributes.builder(
-                        existingResponse.feedbackQuestionId, existingResponse.giver, "nullRecipient@gmail.tmt")
+                        existingResponse.feedbackQuestionId, existingResponse.giver, existingResponse.giverEmail, "nullRecipient@gmail.tmt")
                 .withFeedbackSessionName(existingResponse.feedbackSessionName)
                 .withCourseId("nullCourse")
                 .withGiverSection("Section 1")

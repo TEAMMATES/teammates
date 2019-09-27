@@ -966,7 +966,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
     private FeedbackResponseAttributes getNewFeedbackResponseAttributes() {
         return FeedbackResponseAttributes.builder(
-                "testFeedbackQuestionId", "giver@email.tmt", "recipient@email.tmt")
+                "testFeedbackQuestionId", "giver@email.tmt", "giver@email.tmt", "recipient@email.tmt")
                 .withCourseId("testCourse")
                 .withFeedbackSessionName("fsTest1")
                 .withGiverSection("None")
@@ -978,7 +978,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     private FeedbackResponseAttributes getResponseAttributes(String id) {
         FeedbackResponseAttributes result = fras.get(id);
 
-        return FeedbackResponseAttributes.builder(result.feedbackQuestionId, result.giver, result.recipient)
+        return FeedbackResponseAttributes.builder(result.feedbackQuestionId, result.giver, result.giverEmail, result.recipient)
                 .withCourseId(result.courseId)
                 .withFeedbackSessionName(result.feedbackSessionName)
                 .withGiverSection(result.giverSection)

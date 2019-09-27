@@ -18,7 +18,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf_withAllFieldPopulatedFeedbackResponse_shouldGenerateAttributesCorrectly() {
         FeedbackResponse response = new FeedbackResponse("session", "course", "id",
-                FeedbackQuestionType.TEXT, "giver@email.com", "section1",
+                FeedbackQuestionType.TEXT, "giver", "giver@email.com", "section1",
                 "recipient@email.com", "section2", "answer");
 
         FeedbackResponseAttributes fra = FeedbackResponseAttributes.valueOf(response);
@@ -28,7 +28,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(response.getCourseId(), fra.getCourseId());
         assertEquals(response.getFeedbackQuestionId(), fra.getFeedbackQuestionId());
         assertEquals(response.getFeedbackQuestionType(), fra.getFeedbackQuestionType());
-        assertEquals(response.getGiverEmail(), fra.getGiver());
+        assertEquals(response.getGiver(), fra.getGiver());
         assertEquals(response.getGiverSection(), fra.getGiverSection());
         assertEquals(response.getRecipientEmail(), fra.getRecipient());
         assertEquals(response.getRecipientSection(), fra.getRecipientSection());
@@ -40,7 +40,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
         FeedbackResponse response = new FeedbackResponse("session", "course", "id",
-                FeedbackQuestionType.TEXT, "giver@email.com", null,
+                FeedbackQuestionType.TEXT, "giver", "giver@email.com", null,
                 "recipient@email.com", null, "answer");
         response.setLastUpdate(null);
         response.setCreatedAt(null);
@@ -53,7 +53,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(response.getCourseId(), fra.getCourseId());
         assertEquals(response.getFeedbackQuestionId(), fra.getFeedbackQuestionId());
         assertEquals(response.getFeedbackQuestionType(), fra.getFeedbackQuestionType());
-        assertEquals(response.getGiverEmail(), fra.getGiver());
+        assertEquals(response.getGiver(), fra.getGiver());
         assertEquals(Const.DEFAULT_SECTION, fra.getGiverSection());
         assertEquals(response.getRecipientEmail(), fra.getRecipient());
         assertEquals(Const.DEFAULT_SECTION, fra.getRecipientSection());
@@ -65,7 +65,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     @Test
     public void testBuilder_buildNothing_shouldUseDefaultValue() {
         FeedbackResponseAttributes fra =
-                FeedbackResponseAttributes.builder("1", "giver", "recipient").build();
+                FeedbackResponseAttributes.builder("1", "giver", "giver@email.com", "recipient").build();
 
         assertEquals("1", fra.getFeedbackQuestionId());
         assertEquals("giver", fra.getGiver());
@@ -84,53 +84,53 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testBuilder_withNullArguments_shouldThrowException() {
         assertThrows(AssertionError.class, () -> {
             FeedbackResponseAttributes
-                    .builder(null, "giver", "recipient")
+                    .builder(null, "giver", "giver@email.com", "recipient")
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             FeedbackResponseAttributes
-                    .builder("id", null, "recipient")
+                    .builder("id", null, "giver@email.com", "recipient")
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             FeedbackResponseAttributes
-                    .builder("id", "giver", null)
+                    .builder("id", "giver", "giver@email.com", null)
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             FeedbackResponseAttributes
-                    .builder("id", "giver", "recipient")
+                    .builder("id", "giver", "giver@email.com", "recipient")
                     .withCourseId(null)
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             FeedbackResponseAttributes
-                    .builder("id", "giver", "recipient")
+                    .builder("id", "giver", "giver@email.com", "recipient")
                     .withFeedbackSessionName(null)
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             FeedbackResponseAttributes
-                    .builder("id", "giver", "recipient")
+                    .builder("id", "giver", "giver@email.com", "recipient")
                     .withGiverSection(null)
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             FeedbackResponseAttributes
-                    .builder("id", "giver", "recipient")
+                    .builder("id", "giver", "giver@email.com", "recipient")
                     .withRecipientSection(null)
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             FeedbackResponseAttributes
-                    .builder("id", "giver", "recipient")
+                    .builder("id", "giver", "giver@email.com", "recipient")
                     .withResponseDetails(null)
                     .build();
         });
@@ -140,7 +140,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testBuilder_withTypicalData_shouldBuildCorrectAttributes() {
         FeedbackResponseAttributes fra =
                 FeedbackResponseAttributes.builder(
-                        "questionId", "giver@email.com", "recipient@email.com")
+                        "questionId", "giver@email.com", "giver@email.com", "recipient@email.com")
                 .withFeedbackSessionName("Session1")
                 .withCourseId("CS3281")
                 .withGiverSection("giverSection")
@@ -162,7 +162,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testCopyConstructor_shouldDoDeepCopyOfResponseDetails() {
         FeedbackResponseAttributes fra1 =
                 FeedbackResponseAttributes.builder(
-                        "questionId", "giver@email.com", "recipient@email.com")
+                        "questionId", "giver@email.com", "giver@email.com", "recipient@email.com")
                 .withResponseDetails(new FeedbackTextResponseDetails("My original answer"))
                 .build();
         FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
@@ -177,7 +177,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testGetResponseDetails_shouldDoDeepCopy() {
         FeedbackResponseAttributes fra =
                 FeedbackResponseAttributes.builder(
-                        "questionId", "giver@email.com", "recipient@email.com")
+                        "questionId", "giver@email.com", "giver@email.com", "recipient@email.com")
                 .withResponseDetails(new FeedbackTextResponseDetails("My original answer"))
                 .build();
         FeedbackResponseDetails frdDeep = fra.getResponseDetails();
@@ -190,7 +190,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
     public void testSetResponseDetails_shouldDoDeepCopy() {
         FeedbackResponseAttributes fra =
                 FeedbackResponseAttributes.builder(
-                        "questionId", "giver@email.com", "recipient@email.com")
+                        "questionId", "giver@email.com", "giver@email.com", "recipient@email.com")
                 .withResponseDetails(new FeedbackTextResponseDetails("My original answer"))
                 .build();
         FeedbackTextResponseDetails updatedDetails = new FeedbackTextResponseDetails("Updated answer");
@@ -216,7 +216,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals("responseId", updateOptions.getFeedbackResponseId());
 
         FeedbackResponseAttributes feedbackResponseAttributes =
-                FeedbackResponseAttributes.builder("questionId", "giver2", "recipient2")
+                FeedbackResponseAttributes.builder("questionId", "giver2", "giver@email.com", "recipient2")
                 .withCourseId("course")
                 .withFeedbackSessionName("session")
                 .withGiverSection("section3")

@@ -68,7 +68,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         feedbackMcqResponseDetails.setAnswer(studentAttributes.getTeam());
         FeedbackResponseAttributes feedbackResponse =
                 FeedbackResponseAttributes
-                        .builder(fqa.getId(), studentAttributes.getEmail(), studentAttributes.getEmail())
+                        .builder(fqa.getId(), studentAttributes.getEmail(), studentAttributes.getEmail(), studentAttributes.getEmail())
                         .withGiverSection(studentAttributes.getSection())
                         .withRecipientSection(studentAttributes.getSection())
                         .withCourseId(fqa.getCourseId())
@@ -125,7 +125,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         feedbackMcqResponseDetails.setAnswer(studentAttributes.getTeam());
         FeedbackResponseAttributes feedbackResponse =
                 FeedbackResponseAttributes
-                        .builder(fqa.getId(), instructorAttributes.getEmail(), instructorAttributes.getEmail())
+                        .builder(fqa.getId(), instructorAttributes.getEmail(), instructorAttributes.getEmail(), instructorAttributes.getEmail())
                         .withGiverSection(Const.DEFAULT_SECTION)
                         .withRecipientSection(Const.DEFAULT_SECTION)
                         .withCourseId(fqa.getCourseId())

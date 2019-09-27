@@ -1068,7 +1068,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
 
         // Create response for the new question
         FeedbackResponseAttributes feedbackResponse =
-                FeedbackResponseAttributes.builder("1", "tmms.test@gmail.tmt", "alice.b.tmms@gmail.tmt")
+                FeedbackResponseAttributes.builder("1", "tmms.test@gmail.tmt", "tmms.test@gmail.tmt", "alice.b.tmms@gmail.tmt")
                 .withCourseId(courseId)
                 .withFeedbackSessionName(feedbackSessionName)
                 .withGiverSection(Const.DEFAULT_SECTION)
