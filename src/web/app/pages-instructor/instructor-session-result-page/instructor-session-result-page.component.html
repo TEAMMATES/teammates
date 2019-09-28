@@ -129,3 +129,7 @@
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadSection)="loadSection($event)"></tm-instructor-session-result-rqg-view>
 </div>
+
+<div class="top-padded" *ngIf="isNoResponsePanelLoaded">
+  <tm-instructor-session-no-response-panel [noResponseStudents]="noResponseStudents" [section]="section"></tm-instructor-session-no-response-panel>
+</div>
