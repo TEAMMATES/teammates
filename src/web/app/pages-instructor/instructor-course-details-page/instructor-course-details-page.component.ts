@@ -46,7 +46,6 @@ interface StudentIndexedData {
 })
 export class InstructorCourseDetailsPageComponent implements OnInit {
 
-  user: string = '';
   courseDetails: CourseDetailsBundle = {
     course: {
       courseId: '',
@@ -78,7 +77,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       this.loadCourseDetails(queryParams.courseid);
     });
   }
@@ -196,7 +194,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   deleteAllStudentsFromCourse(courseId: string): void {
     const paramsMap: { [key: string]: string } = {
-      user: this.user,
       courseid: courseId,
     };
     this.httpRequestService.delete('/students', paramsMap)
@@ -222,7 +219,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     } else {
 
       const paramsMap: { [key: string]: string } = {
-        user: this.user,
         courseid: courseId,
       };
       this.httpRequestService.get('/students/csv', paramsMap, 'text')
@@ -250,7 +246,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }
 
     const paramsMap: { [key: string]: string } = {
-      user: this.user,
       courseid: courseId,
     };
     this.httpRequestService.get('/students/csv', paramsMap, 'text')

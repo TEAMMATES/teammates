@@ -14,7 +14,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentemail=""
-  user="undefined"
 >
   
 </tm-instructor-course-student-edit-page>
@@ -36,7 +35,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentemail=""
-  user="undefined"
 >
   <div>
     <div

@@ -17,7 +17,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
 >
   <div>
     <h1>
@@ -190,7 +189,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
 >
   <div>
     <h1>
@@ -414,7 +412,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
 >
   <div>
     <h1>

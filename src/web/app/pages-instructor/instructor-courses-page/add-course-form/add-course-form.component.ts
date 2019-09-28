@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -17,8 +16,6 @@ import { ErrorMessageOutput } from '../../../error-message-output';
 })
 export class AddCourseFormComponent implements OnInit {
 
-  user: string = '';
-
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
@@ -30,8 +27,7 @@ export class AddCourseFormComponent implements OnInit {
   newCourseName: string = '';
   course!: Course;
 
-  constructor(private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
+  constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private timezoneService: TimezoneService) { }
 
@@ -41,9 +37,6 @@ export class AddCourseFormComponent implements OnInit {
       this.timezone = 'UTC';
       return;
     }
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-    });
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
     this.timezone = moment.tz.guess();
   }

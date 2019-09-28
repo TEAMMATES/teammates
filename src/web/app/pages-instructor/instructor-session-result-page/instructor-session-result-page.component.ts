@@ -34,7 +34,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
   groupByTeam: boolean = true;
   showStatistics: boolean = true;
   indicateMissingResponses: boolean = true;
-  user: string = '';
 
   sectionsModel: { [key: string]: any } = {};
   isSectionsLoaded: boolean = false;
@@ -48,12 +47,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       const paramMap: { [key: string]: string } = {
         courseid: queryParams.courseid,
         fsname: queryParams.fsname,
         intent: Intent.INSTRUCTOR_RESULT,
-        user: this.user,
       };
       this.httpRequestService.get('/session', paramMap).subscribe((resp: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
@@ -65,7 +62,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
         const sectionsParamMap: { [key: string]: string } = {
           courseid: queryParams.courseid,
-          user: this.user,
         };
         this.httpRequestService.get('/course/sections', sectionsParamMap).subscribe((resp2: any) => {
           for (const sectionName of resp2.sectionNames) {

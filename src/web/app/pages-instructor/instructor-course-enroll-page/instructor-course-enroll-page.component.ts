@@ -46,7 +46,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   // enum
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
-  user: string = '';
   courseid: string = '';
   coursePresent?: boolean;
   showEnrollResults?: boolean = false;
@@ -93,7 +92,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       this.getCourseEnrollPageData(queryParams.courseid);
     });
   }
@@ -310,7 +308,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const paramMap: { [key: string]: string } = {
       courseid: this.courseid,
-      user: this.user,
     };
     this.httpRequestService.get('/course/enroll/students', paramMap).subscribe(
         (resp: StudentListResults) => {
