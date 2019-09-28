@@ -37,8 +37,7 @@ public final class AssertHelper {
     /**
      * Asserts that the {@link String} {@code superstringActual} contains the exact occurrence of
      * <b>every</b> String in the {@link List} of Strings {@code substringsExpected}.
-     * Display the difference between the two on failure (in
-     * Eclipse).
+     * Display the difference between the two on failure.
      */
     public static void assertContains(List<String> substringsExpected,
             String superstringActual) {
@@ -50,9 +49,8 @@ public final class AssertHelper {
     }
 
     /**
-     * Asserts that the superstringActual contains the exact occurence of
-     * substringExpected. Display the difference between the two on failure (in
-     * Eclipse).
+     * Asserts that the superstringActual contains the exact occurrence of
+     * substringExpected. Display the difference between the two on failure.
      */
     public static void assertContains(String substringExpected,
             String superstringActual) {
@@ -63,8 +61,8 @@ public final class AssertHelper {
 
     /**
      * Asserts that the superstringActual contains the exact occurence of
-     * substringExpected. Display the difference between the two on failure (in
-     * Eclipse) with the specified message.
+     * substringExpected. Display the difference between the two on failure
+     * with the specified message.
      */
     public static void assertContains(String message, String substringExpected,
             String superstringActual) {
@@ -76,8 +74,8 @@ public final class AssertHelper {
     /**
      * Asserts that the stringActual contains the occurence regexExpected.
      * Replaces occurences of {*} at regexExpected to match anything in
-     * stringActual. Tries to display the difference between the two on failure
-     * (in Eclipse). Ignores the tab character (i.e., ignore indentation using
+     * stringActual. Tries to display the difference between the two on failure.
+     * Ignores the tab character (i.e., ignore indentation using
      * tabs) and ignores the newline when comparing.
      */
     public static void assertContainsRegex(String regexExpected,
@@ -91,7 +89,7 @@ public final class AssertHelper {
      * Asserts that the stringActual contains the occurence regexExpected.
      * Replaces occurences of {*} at regexExpected to match anything in
      * stringActual. Tries to display the difference between the two on failure
-     * (in Eclipse) with the specified message.
+     * with the specified message.
      */
     public static void assertContainsRegex(String message,
             String regexExpected, String stringActual) {

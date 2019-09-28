@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-light bg-light" *ngIf="moderatedPerson">
+<nav class="navbar fixed-top navbar-light bg-light override-nav" *ngIf="moderatedPerson">
   <div class="col-12 text-center">
     <h5>You are moderating responses for
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
@@ -18,7 +18,7 @@
     </div>
   </div>
 </nav>
-<nav class="navbar fixed-top navbar-light bg-light" *ngIf="previewAsPerson">
+<nav class="navbar fixed-top navbar-light bg-light override-nav" *ngIf="previewAsPerson">
   <div class="col-12 text-center">
     <h4>Previewing Session as
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>

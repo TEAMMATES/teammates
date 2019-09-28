@@ -21,7 +21,6 @@ skip_commits:
     - '**/*.gif'
     - LICENSE
     - docs/**/*
-    - .templates/**/*
 
 build_script:
   - gradlew.bat createConfigs testClasses

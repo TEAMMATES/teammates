@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -59,7 +59,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
   SortBy: typeof SortBy = SortBy;
 
-  user: string = '';
   studentSearchkey: string = '';
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
@@ -77,7 +76,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               modalService: NgbModal,
               studentService: StudentService,
               private courseService: CourseService,
-              private route: ActivatedRoute,
               private ngbModal: NgbModal,
               private timezoneService: TimezoneService,
               private loadingBarService: LoadingBarService) {
@@ -88,11 +86,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-
-      this.loadCourses();
-    });
+    this.loadCourses();
   }
 
   /**
@@ -151,7 +145,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.courseService.binCourse(courseId).subscribe((course: Course) => {
       this.loadCourses();
       this.statusMessageService.showSuccessMessage(
-        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

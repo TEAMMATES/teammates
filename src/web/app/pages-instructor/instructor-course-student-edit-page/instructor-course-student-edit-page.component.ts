@@ -36,7 +36,6 @@ interface StudentEditDetails {
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 
-  user: string = '';
   @Input() isEnabled: boolean = true;
   courseid: string = '';
   studentemail: string = '';
@@ -77,9 +76,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     }
 
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       this.courseid = queryParams.courseid;
-      this.loadStudentEditDetails(queryParams.courseid, queryParams.studentemail, queryParams.user);
+      this.loadStudentEditDetails(queryParams.courseid, queryParams.studentemail);
     });
   }
 
@@ -95,8 +93,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   /**
    * Loads student details required for this page.
    */
-  loadStudentEditDetails(courseid: string, studentemail: string, user: string): void {
-    const paramsMap: { [key: string]: string } = { courseid, studentemail, user };
+  loadStudentEditDetails(courseid: string, studentemail: string): void {
+    const paramsMap: { [key: string]: string } = { courseid, studentemail };
     this.httpRequestService.get('/students/editDetails', paramsMap)
         .subscribe((resp: StudentEditDetails) => {
           this.student = resp.student;
@@ -201,7 +199,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   submitEditForm(): void {
     // creates a new object instead of using its reference
     const paramsMap: { [key: string]: string } = {
-      user: this.user,
       courseid: this.courseid,
       studentemail: this.studentemail,
     };

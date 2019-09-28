@@ -76,7 +76,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
   // url params
-  user: string = '';
   courseId: string = '';
 
   // data
@@ -148,7 +147,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       this.courseId = queryParams.courseid;
     });
 
