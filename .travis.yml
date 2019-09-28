@@ -91,9 +91,7 @@ jobs:
         - ./gradlew e2eTests
     - name: "E2E Tests - Chrome"
       addons:
-        apt:
-          sources:
-            - google-chrome
+        chrome: stable
       services:
         - xvfb
       before_script:
