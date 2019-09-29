@@ -11,6 +11,7 @@ import {
 import { StudentHomePageComponent } from './student-home-page.component';
 
 import { MatSnackBarModule } from '@angular/material';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 
@@ -30,6 +31,7 @@ describe('StudentHomePageComponent', () => {
         NgbModule,
         RouterTestingModule,
         MatSnackBarModule,
+        TeammatesCommonModule,
       ],
     })
     .compileComponents();
@@ -54,8 +56,8 @@ describe('StudentHomePageComponent', () => {
       course: {
         courseId: 'CS3281',
         courseName: 'Thematic Systems',
-        timeZone: 'UTC',
-        creationTimestamp: new Date('2019-02-02T08:15:30').getTime(),
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
@@ -70,8 +72,8 @@ describe('StudentHomePageComponent', () => {
       course: {
         courseId: 'CS2103',
         courseName: 'Software Engineering',
-        timeZone: 'UTC',
-        creationTimestamp: new Date('2019-02-02T08:15:30').getTime(),
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
         deletionTimestamp: 0,
       },
       feedbackSessions: [
@@ -79,10 +81,10 @@ describe('StudentHomePageComponent', () => {
           session: {
             feedbackSessionName: 'First Session',
             courseId: 'CS2103',
-            timeZone: '',
+            timeZone: 'Asia/Singapore',
             instructions: '',
             submissionStartTimestamp: 0,
-            submissionEndTimestamp: 1200,
+            submissionEndTimestamp: 1549095330000,
             gracePeriod: 0,
             sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -92,7 +94,6 @@ describe('StudentHomePageComponent', () => {
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
           },
-          endTime: new Date('2019-02-02T08:15:30').getTime(),
           isOpened: true,
           isWaitingToOpen: true,
           isPublished: true,
@@ -102,10 +103,10 @@ describe('StudentHomePageComponent', () => {
           session: {
             feedbackSessionName: 'Second Session',
             courseId: 'CS2103',
-            timeZone: '',
+            timeZone: 'Asia/Singapore',
             instructions: '',
             submissionStartTimestamp: 0,
-            submissionEndTimestamp: 1200,
+            submissionEndTimestamp: 1549095330000,
             gracePeriod: 0,
             sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -115,7 +116,6 @@ describe('StudentHomePageComponent', () => {
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
           },
-          endTime: new Date('2019-02-02T08:15:30').getTime(),
           isOpened: true,
           isWaitingToOpen: false,
           isPublished: false,
@@ -128,8 +128,8 @@ describe('StudentHomePageComponent', () => {
       course: {
         courseId: 'CS2102',
         courseName: 'Databases',
-        timeZone: 'UTC',
-        creationTimestamp: new Date('2019-02-02T08:15:30').getTime(),
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
         deletionTimestamp: 0,
       },
       feedbackSessions: [
@@ -137,10 +137,10 @@ describe('StudentHomePageComponent', () => {
           session: {
             feedbackSessionName: 'Third Session',
             courseId: 'CS2102',
-            timeZone: '',
+            timeZone: 'Asia/Singapore',
             instructions: '',
             submissionStartTimestamp: 0,
-            submissionEndTimestamp: 1200,
+            submissionEndTimestamp: 1549095330000,
             gracePeriod: 0,
             sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -150,7 +150,6 @@ describe('StudentHomePageComponent', () => {
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
           },
-          endTime: new Date('2019-02-02T08:15:30').getTime(),
           isOpened: true,
           isWaitingToOpen: false,
           isPublished: false,
@@ -160,10 +159,10 @@ describe('StudentHomePageComponent', () => {
           session: {
             feedbackSessionName: 'Fourth Session',
             courseId: 'CS2102',
-            timeZone: '',
+            timeZone: 'Asia/Singapore',
             instructions: '',
             submissionStartTimestamp: 0,
-            submissionEndTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
             gracePeriod: 0,
             sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
             responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -173,7 +172,6 @@ describe('StudentHomePageComponent', () => {
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
           },
-          endTime: new Date('2019-02-02T08:15:30').getTime(),
           isOpened: false,
           isWaitingToOpen: false,
           isPublished: false,
