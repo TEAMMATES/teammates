@@ -92,7 +92,6 @@ interface CourseEditDetails {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
-  user: string = '';
   timezone: string = '';
   timezones: string[] = [];
 
@@ -125,7 +124,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       this.getCourseEditDetails(queryParams.courseid);
     });
 

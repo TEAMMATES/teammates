@@ -29,7 +29,6 @@ interface Session {
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
 
-  user: string = '';
   courseId: string = '';
   studentName: string = '';
   studentEmail: string = '';
@@ -45,7 +44,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       const courseId: string = queryParams.courseid;
       const studentEmail: string = queryParams.studentemail;
 
-      this.user = queryParams.user;
       this.loadStudentRecords(courseId, studentEmail);
       this.photoUrl
           = `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;

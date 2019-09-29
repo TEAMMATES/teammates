@@ -9,7 +9,6 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
   searchKey={[Function String]}
   statusMessageService={[Function StatusMessageService]}
   studentTables={[Function Array]}
-  user="undefined"
 >
   <tm-instructor-search-bar
     ng-reflect-search-key="TEST"
@@ -26,7 +25,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
   searchKey=""
   statusMessageService={[Function StatusMessageService]}
   studentTables={[Function Array]}
-  user="undefined"
 >
   <tm-instructor-search-bar
     ng-reflect-search-key=""
@@ -45,7 +43,6 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
   searchKey=""
   statusMessageService={[Function StatusMessageService]}
   studentTables={[Function Array]}
-  user="undefined"
 >
   <tm-instructor-search-bar
     ng-reflect-search-key=""

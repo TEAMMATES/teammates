@@ -50,7 +50,6 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with no feedback sessions', () => {
-    const studentName: string = '';
     const studentCourse: any = {
       course: {
         courseId: 'CS3281',
@@ -61,14 +60,12 @@ describe('StudentHomePageComponent', () => {
       },
       feedbackSessions: [],
     };
-    component.user = studentName;
     component.courses = [studentCourse];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with all feedback sessions over 2 courses', () => {
-    const studentName: string = 'John Doe';
     const studentCourseA: any = {
       course: {
         courseId: 'CS2103',
@@ -185,7 +182,6 @@ describe('StudentHomePageComponent', () => {
       ],
     };
 
-    component.user = studentName;
     component.courses = [studentCourseA, studentCourseB];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

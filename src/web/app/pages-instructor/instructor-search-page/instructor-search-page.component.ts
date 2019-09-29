@@ -43,7 +43,6 @@ export interface SearchQuery {
 })
 export class InstructorSearchPageComponent implements OnInit {
 
-  user: string = '';
   searchKey: string = '';
   studentTables: SearchStudentsTable[] = [];
   fbSessionDataTables: SearchFeedbackSessionDataTable[] = [];
@@ -55,7 +54,6 @@ export class InstructorSearchPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       if (queryParams.studentSearchkey) {
         this.searchKey = queryParams.studentSearchkey;
       }

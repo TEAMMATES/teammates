@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardModule } from 'ngx-clipboard';
+import { Course } from '../../../types/api-output';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 
 @Component({ selector: 'tm-student-list', template: '' })
@@ -16,9 +17,12 @@ class StudentListStubComponent {
 @Component({ selector: 'tm-ajax-preload', template: '' })
 class AjaxPreloadComponent {}
 
-const course: any = {
-  id: 'CS101',
-  name: 'Introduction to CS',
+const course: Course = {
+  courseId: 'CS101',
+  courseName: 'Introduction to CS',
+  timeZone: '',
+  creationTimestamp: 0,
+  deletionTimestamp: 0,
 };
 
 const student: any = {

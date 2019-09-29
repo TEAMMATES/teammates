@@ -5,8 +5,8 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  FeedbackSession,
-  SessionResults,
+  FeedbackSession, FeedbackSessionSubmittedGiverSet,
+  SessionResults, Student, Students,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../Intent';
@@ -34,12 +34,13 @@ export class InstructorSessionResultPageComponent implements OnInit {
   groupByTeam: boolean = true;
   showStatistics: boolean = true;
   indicateMissingResponses: boolean = true;
-  user: string = '';
 
   sectionsModel: { [key: string]: any } = {};
   isSectionsLoaded: boolean = false;
   questionsModel: { [key: string]: any } = {};
   isQuestionsLoaded: boolean = false;
+  noResponseStudents: Student[] = [];
+  isNoResponsePanelLoaded: boolean = false;
 
   constructor(private httpRequestService: HttpRequestService, private route: ActivatedRoute,
       private timezoneService: TimezoneService, private statusMessageService: StatusMessageService) {
@@ -48,12 +49,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       const paramMap: { [key: string]: string } = {
         courseid: queryParams.courseid,
         fsname: queryParams.fsname,
         intent: Intent.INSTRUCTOR_RESULT,
-        user: this.user,
       };
       this.httpRequestService.get('/session', paramMap).subscribe((resp: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
@@ -65,7 +64,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
         const sectionsParamMap: { [key: string]: string } = {
           courseid: queryParams.courseid,
-          user: this.user,
         };
         this.httpRequestService.get('/course/sections', sectionsParamMap).subscribe((resp2: any) => {
           for (const sectionName of resp2.sectionNames) {
@@ -89,6 +87,24 @@ export class InstructorSessionResultPageComponent implements OnInit {
         }, (resp2: any) => {
           this.statusMessageService.showErrorMessage(resp2.error.message);
         });
+
+        this.httpRequestService.get('/students', paramMap).subscribe((allStudents: Students) => {
+          const students: Student[] = allStudents.students;
+
+          this.httpRequestService
+              .get('/session/submitted/giverset', paramMap)
+              .subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+                this.noResponseStudents = students.filter((student: Student) =>
+                                            !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
+              }, (resp4: any) => {
+                this.statusMessageService.showErrorMessage(resp4.error.message);
+              });
+
+          this.isNoResponsePanelLoaded = true;
+        }, (resp3: any) => {
+          this.statusMessageService.showErrorMessage(resp3.error.message);
+        });
+
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });

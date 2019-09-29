@@ -14,8 +14,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
-  timezoneService={[Function TimezoneService]}
-  user={[Function String]}
 >
   <div
     class="card bg-light top-padded"
@@ -32,7 +30,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
       >
         <a
           class="btn btn-light btn-sm button"
-          href="/course?user=John%20Doe&courseid=CS2103"
+          href="/course?courseid=CS2103"
           ng-reflect-ngb-tooltip="View and edit information rega"
           ng-reflect-query-params="[object Object]"
           ng-reflect-router-link="../course"
@@ -100,7 +98,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm btn-left button"
-                href="/sessions/result?courseid=CS2103&fsname=First%20Session&user=John%20Doe"
+                href="/sessions/result?courseid=CS2103&fsname=First%20Session"
                 ng-reflect-ngb-tooltip="View the submitted responses f"
                 ng-reflect-query-params="[object Object]"
                 ng-reflect-router-link="../sessions/result"
@@ -121,7 +119,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm button"
-                href="/sessions/submission?courseid=CS2103&fsname=First%20Session&user=John%20Doe"
+                href="/sessions/submission?courseid=CS2103&fsname=First%20Session"
                 ng-reflect-ngb-tooltip="Edit submitted feedback"
                 ng-reflect-query-params="[object Object]"
                 ng-reflect-router-link="../sessions/submission"
@@ -172,7 +170,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm button"
-                href="/sessions/submission?courseid=CS2103&fsname=Second%20Session&user=John%20Doe"
+                href="/sessions/submission?courseid=CS2103&fsname=Second%20Session"
                 ng-reflect-ngb-tooltip="Start submitting feedback"
                 ng-reflect-query-params="[object Object]"
                 ng-reflect-router-link="../sessions/submission"
@@ -205,7 +203,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
       >
         <a
           class="btn btn-light btn-sm button"
-          href="/course?user=John%20Doe&courseid=CS2102"
+          href="/course?courseid=CS2102"
           ng-reflect-ngb-tooltip="View and edit information rega"
           ng-reflect-query-params="[object Object]"
           ng-reflect-router-link="../course"
@@ -283,7 +281,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm button"
-                href="/sessions/submission?courseid=CS2102&fsname=Third%20Session&user=John%20Doe"
+                href="/sessions/submission?courseid=CS2102&fsname=Third%20Session"
                 ng-reflect-ngb-tooltip="Edit submitted feedback"
                 ng-reflect-query-params="[object Object]"
                 ng-reflect-router-link="../sessions/submission"
@@ -336,7 +334,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm button"
-                href="/sessions/submission?courseid=CS2102&fsname=Fourth%20Session&user=John%20Doe"
+                href="/sessions/submission?courseid=CS2102&fsname=Fourth%20Session"
                 ng-reflect-ngb-tooltip="View submitted feedback"
                 ng-reflect-query-params="[object Object]"
                 ng-reflect-router-link="../sessions/submission"
@@ -370,8 +368,6 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
-  timezoneService={[Function TimezoneService]}
-  user="undefined"
 >
   
 </tm-student-home-page>
@@ -391,8 +387,6 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
-  timezoneService={[Function TimezoneService]}
-  user=""
 >
   <div
     class="card bg-light top-padded"
@@ -409,7 +403,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
       >
         <a
           class="btn btn-light btn-sm button"
-          href="/course?user=&courseid=CS3281"
+          href="/course?courseid=CS3281"
           ng-reflect-ngb-tooltip="View and edit information rega"
           ng-reflect-query-params="[object Object]"
           ng-reflect-router-link="../course"

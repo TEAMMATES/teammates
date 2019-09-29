@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { MasqueradeModeService } from './masquerade-mode.service';
 import { StatusMessageService } from './status-message.service';
 
 /**
@@ -12,7 +13,8 @@ import { StatusMessageService } from './status-message.service';
 })
 export class NavigationService {
 
-  constructor(private statusMessageService: StatusMessageService) {}
+  constructor(private statusMessageService: StatusMessageService,
+              private masqueradeModeService: MasqueradeModeService) {}
 
   /**
    * Navigates to the selected URL and shows an error message afterwards.
@@ -39,5 +41,16 @@ export class NavigationService {
     router.navigate([url], { queryParamsHandling: 'preserve' }).then(() => {
       this.statusMessageService.showSuccessMessage(message);
     });
+  }
+
+  /**
+   * Opens a new browser window.
+   */
+  openNewWindow(urlStr: string): void {
+    const url: URL = new URL(urlStr);
+    if (this.masqueradeModeService.isInMasqueradingMode()) {
+      url.searchParams.set('user', this.masqueradeModeService.getMasqueradeUser());
+    }
+    window.open(url.toString());
   }
 }

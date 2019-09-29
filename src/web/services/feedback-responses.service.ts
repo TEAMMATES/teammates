@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  FeedbackConstantSumResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
@@ -9,23 +10,26 @@ import {
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
   FeedbackResponse,
-  FeedbackResponseDetails,
+  FeedbackResponseDetails, FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
 } from '../types/api-output';
 import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest } from '../types/api-request';
 import {
+  DEFAULT_CONSTSUM_RESPONSE_DETAILS,
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
   DEFAULT_MSQ_RESPONSE_DETAILS,
   DEFAULT_NUMSCALE_RESPONSE_DETAILS,
-  DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS, DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
+  DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
+  DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
+  DEFAULT_RUBRIC_RESPONSE_DETAILS,
   DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
-  RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
+  RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED, RUBRIC_ANSWER_NOT_CHOSEN,
 } from '../types/feedback-response-details';
 import { HttpRequestService } from './http-request.service';
 
@@ -58,6 +62,12 @@ export class FeedbackResponsesService {
         return DEFAULT_MCQ_RESPONSE_DETAILS();
       case FeedbackQuestionType.MSQ:
         return DEFAULT_MSQ_RESPONSE_DETAILS();
+      case FeedbackQuestionType.RUBRIC:
+        return DEFAULT_RUBRIC_RESPONSE_DETAILS();
+      case FeedbackQuestionType.CONSTSUM_OPTIONS:
+        return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+        return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
@@ -92,6 +102,17 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.MSQ:
         const msqDetails: FeedbackMsqResponseDetails = details as FeedbackMsqResponseDetails;
         return msqDetails.answers.length === 0 && !msqDetails.isOther;
+      case FeedbackQuestionType.RUBRIC:
+        const rubricDetails: FeedbackRubricResponseDetails = details as FeedbackRubricResponseDetails;
+        return rubricDetails.answer.length === 0
+            || rubricDetails.answer.every((val: number) => val === RUBRIC_ANSWER_NOT_CHOSEN);
+      case FeedbackQuestionType.CONSTSUM_OPTIONS:
+        const constumDetails: FeedbackConstantSumResponseDetails = details as FeedbackConstantSumResponseDetails;
+        return constumDetails.answers.length === 0;
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+        const constumRecipientsDetails: FeedbackConstantSumResponseDetails =
+            details as FeedbackConstantSumResponseDetails;
+        return constumRecipientsDetails.answers.length === 0;
       default:
         return true;
     }

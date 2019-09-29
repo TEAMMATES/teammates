@@ -3,6 +3,7 @@ import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { environment } from '../../../environments/environment';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
+import { NavigationService } from '../../../services/navigation.service';
 import {
   Course,
   FeedbackSessionPublishStatus,
@@ -100,7 +101,7 @@ export class SessionEditFormComponent implements OnInit {
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private navigationService: NavigationService) { }
 
   ngOnInit(): void {
   }
@@ -228,7 +229,7 @@ export class SessionEditFormComponent implements OnInit {
    * Handles session 'Help' link click event.
    */
   sessionHelpHandler(): void {
-    window.open(`${environment.frontendUrl}/web/instructor/help#sessions`);
+    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help#sessions`);
   }
 
   /**

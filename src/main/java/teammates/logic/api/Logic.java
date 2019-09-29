@@ -988,22 +988,6 @@ public class Logic {
     }
 
     /**
-     * Validates teams for any team name violations.
-     *
-     * <p>Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see StudentsLogic#validateTeams(List, String)
-     */
-    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
-
-        Assumption.assertNotNull(studentList);
-        Assumption.assertNotNull(courseId);
-
-        studentsLogic.validateTeams(studentList, courseId);
-    }
-
-    /**
      * Gets all students of a team.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {

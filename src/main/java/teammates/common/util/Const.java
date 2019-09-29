@@ -268,6 +268,7 @@ public final class Const {
                 + " must be valid non-negative numbers with precision up to 2 decimal places.";
         public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
         public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
+        public static final String MCQ_ERROR_DUPLICATE_MCQ_OPTION = "The Mcq options cannot be duplicate";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
@@ -298,6 +299,7 @@ public final class Const {
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
                 + " must be valid numbers with precision up to 2 decimal places.";
         public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "None of the above";
+        public static final String MSQ_ERROR_DUPLICATE_MSQ_OPTION = "The Msq options cannot be duplicate";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -339,8 +341,12 @@ public final class Const {
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
         public static final String CONST_SUM_ERROR_SOME_UNIQUE =
                 "At least some options must be given a different number of points.";
+        public static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
+        public static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
 
         // Rubric
+        public static final int RUBRIC_ANSWER_NOT_CHOSEN = -1;
+
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
         public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
@@ -356,6 +362,9 @@ public final class Const {
                 "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
+
+        public static final String RUBRIC_EMPTY_ANSWER = "Empty answer.";
+        public static final String RUBRIC_INVALID_ANSWER = "The answer for the rubric question is not valid.";
 
         // Text Question
         public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
@@ -765,8 +774,6 @@ public final class Const {
         public static final String LOCAL_DATE_TIME = "/localdatetime";
         public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
-
-        public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
         public static final String STUDENT_COURSE = "/student/course";

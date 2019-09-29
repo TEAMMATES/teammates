@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HttpRequestService } from '../../../services/http-request.service';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -30,20 +29,17 @@ import {
 export class StudentProfilePageComponent implements OnInit {
 
   Gender: typeof Gender = Gender; // enum
-  user: string = '';
   id: string = '';
   student!: StudentProfile;
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
   profilePicLink!: string;
-  currentTime?: number;
   defaultPictureLink: string = '/assets/images/profile_picture_default.png';
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private route: ActivatedRoute,
-              private ngbModal: NgbModal,
+  constructor(private ngbModal: NgbModal,
               private httpRequestService: HttpRequestService,
               private authService: AuthService,
               private statusMessageService: StatusMessageService,
@@ -53,13 +49,7 @@ export class StudentProfilePageComponent implements OnInit {
   ngOnInit(): void {
     // populate drop-down menu for nationality list
     this.initNationalities();
-
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-
-      this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic`;
-      this.loadStudentProfile();
-    });
+    this.loadStudentProfile();
   }
 
   /**
@@ -78,6 +68,8 @@ export class StudentProfilePageComponent implements OnInit {
     this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
       if (auth.user) {
         this.id = auth.user.id;
+
+        this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?user=${this.id}`;
 
         // retrieve profile once we have the student's googleId
         this.studentProfileService.getStudentProfile().subscribe((response: StudentProfile) => {
@@ -128,17 +120,14 @@ export class StudentProfilePageComponent implements OnInit {
         this.statusMessageService.showWarningMessage('No photo uploaded');
         return;
       }
-      const paramsMap: { [key: string]: string } = {
-        user: this.user,
-      };
 
-      this.httpRequestService.post('/student/profilePic', paramsMap, formData)
+      this.httpRequestService.post('/student/profilePic', {}, formData)
           .subscribe(() => {
             this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
 
             // force reload
             const timestamp: number = (new Date()).getTime();
-            this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}`;
+            this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=${this.id}`;
           }, (response: ErrorMessageOutput) => {
             this.statusMessageService.showErrorMessage(response.error.message);
           });
@@ -149,7 +138,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Submits the form data to edit the student profile details.
    */
   submitEditForm(): void {
-    this.studentProfileService.updateStudentProfile(this.user, this.id, {
+    this.studentProfileService.updateStudentProfile(this.id, {
       shortName: this.editForm.controls.studentshortname.value,
       email: this.editForm.controls.studentprofileemail.value,
       institute: this.editForm.controls.studentprofileinstitute.value,
@@ -178,7 +167,6 @@ export class StudentProfilePageComponent implements OnInit {
    */
   deleteProfilePicture(): void {
     const paramMap: { [key: string]: string } = {
-      user: this.user,
       googleid: this.id,
     };
     this.httpRequestService.delete('/student/profilePic', paramMap)

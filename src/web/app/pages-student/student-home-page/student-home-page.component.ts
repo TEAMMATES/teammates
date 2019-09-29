@@ -51,8 +51,6 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusSubmitted: string = 'You have submitted your feedback for this session.';
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
 
-  user: string = '';
-
   courses: StudentCourse[] = [];
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
@@ -64,8 +62,7 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
+    this.route.queryParams.subscribe(() => {
       this.getStudentCourses();
     });
   }

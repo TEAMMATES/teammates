@@ -10,6 +10,7 @@ Question {{ questionNumber }}: {{ questionDetails.questionText }}
   <tm-rank-options-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
   <tm-rank-recipients-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
   <tm-rubric-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RUBRIC" [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
-  <tm-constsum-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM" [questionDetails]="questionDetails"></tm-constsum-question-additional-info>
+  <tm-constsum-options-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
+  <tm-constsum-recipients-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
   <tm-num-scale-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
 </div>

@@ -16,13 +16,11 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
-  user="undefined"
 >
   <h1>
     Home
@@ -93,13 +91,11 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
-  user={[Function String]}
 >
   <h1>
     Home
@@ -257,13 +253,11 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
-  user=""
 >
   <h1>
     Home
@@ -830,13 +824,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
-  user=""
 >
   <h1>
     Home
@@ -1550,13 +1542,11 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
-  user={[Function String]}
 >
   <h1>
     Home
@@ -1853,13 +1843,11 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
-  user=""
 >
   <h1>
     Home
@@ -2176,13 +2164,11 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
-  user=""
 >
   <h1>
     Home

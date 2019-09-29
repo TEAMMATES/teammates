@@ -13,11 +13,11 @@ notifications:
 
 before_install:
   - |
-      git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md)|(\.txt)|(\.png)|(\.jpg)|(\.gif)|^(LICENSE)|^(docs)|^(\.templates)'
+      git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md)|(\.txt)|(\.png)|(\.jpg)|(\.gif)|^(LICENSE)|^(docs)'
       status_codes=( ${PIPESTATUS[*]} ); git_diff_status=${status_codes[0]}; grep_status=${status_codes[1]}
       if [[ $git_diff_status == 0 && $grep_status == 1 && $TRAVIS_PULL_REQUEST != "false" ]]
       then
-        echo "Only doc files or IDE configurations were updated in PR, not running the CI."
+        echo "Only doc files or images were updated in PR, not running the CI."
         exit
       fi
   - nvm install 10
@@ -91,16 +91,15 @@ jobs:
         - ./gradlew e2eTests
     - name: "E2E Tests - Chrome"
       addons:
-        apt:
-          sources:
-            - google-chrome
+        chrome: stable
       services:
         - xvfb
       before_script:
         - export PATH=$HOME/google-cloud-sdk/bin:$PATH
         - cd $HOME
         - curl -fsS -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
-        - curl -fsSL -o chromedriver.zip https://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip
+        - LATEST_CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"`
+        - curl -fsSL -o chromedriver.zip "https://chromedriver.storage.googleapis.com/${LATEST_CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
         - tar -xzf google-cloud-sdk.tar.gz
         - unzip chromedriver.zip
         - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false

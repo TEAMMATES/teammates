@@ -34,10 +34,9 @@ export class StudentProfileService {
   /**
    * Updates a student profile by calling API.
    */
-  updateStudentProfile(user: string, googleId: string, requestBody: StudentProfileUpdateRequest)
+  updateStudentProfile(googleId: string, requestBody: StudentProfileUpdateRequest)
       : Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
-      user,
       googleid: googleId,
     };
     return this.httpRequestService.put('/student/profile', paramsMap, requestBody);
