@@ -109,7 +109,7 @@
 
 <div class="top-padded" *ngIf="isSectionsLoaded && isQuestionsLoaded">
   <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'" [responses]="questionsModel"
-      [section]="section" [sectionType]="sectionType"
+      [section]="section" [sectionType]="sectionType" [session] = "session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadQuestion)="loadQuestion($event)"></tm-instructor-session-result-question-view>
   <tm-instructor-session-result-grq-view *ngIf="viewType === 'GRQ'" [responses]="sectionsModel"

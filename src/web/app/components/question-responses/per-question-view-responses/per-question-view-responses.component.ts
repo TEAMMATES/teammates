@@ -21,8 +21,11 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   @Input() indicateMissingResponses: boolean = true;
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
+  @Input() session: any = {};
 
   responsesToShow: any[] = [];
+
+  readonly anonymousEmail: string = "Anonymous";
 
   constructor() { }
 
