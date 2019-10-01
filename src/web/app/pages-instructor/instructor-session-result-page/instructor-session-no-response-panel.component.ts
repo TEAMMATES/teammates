@@ -13,6 +13,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
   @Input() noResponseStudents: Student[] = [];
   @Input() section: string = '';
+  @Input() session: any = {};
   isTabExpanded: boolean = false;
 
   noResponseStudentsInSection: Student[] = [];

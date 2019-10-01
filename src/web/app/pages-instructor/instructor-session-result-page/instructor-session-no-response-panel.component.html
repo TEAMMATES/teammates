@@ -19,7 +19,13 @@
       <tr *ngFor="let noResponseStudent of noResponseStudentsInSection">
         <td>{{ noResponseStudent.teamName }}</td>
         <td>{{ noResponseStudent.name }}</td>
-        <td></td>
+        <td>
+          <a routerLink="/web/student/sessions/submission"
+             [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
+             class="btn btn-light btn-sm button">
+            Moderate response
+          </a>
+        </td>
       </tr>
       </tbody>
     </table>

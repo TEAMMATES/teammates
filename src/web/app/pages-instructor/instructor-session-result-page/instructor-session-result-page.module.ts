@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule } from "@angular/router";
 import {
   GqrRqgViewResponsesModule,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
@@ -40,6 +41,7 @@ import { InstructorSessionResultRqgViewComponent } from './instructor-session-re
     CommonModule,
     FormsModule,
     NgbModule,
+    RouterModule,
     QuestionTextWithInfoModule,
     PerQuestionViewResponsesModule,
     GqrRqgViewResponsesModule,
