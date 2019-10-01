@@ -832,7 +832,7 @@ public class EmailGenerator {
     private String generateCoOwnersEmailsLine(String courseId) {
         List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(courseId);
         if (coOwners.isEmpty()) {
-            return "(No contactable instructors found)";
+            return "(No contactable instructors found yet)";
         }
         StringBuilder coOwnersEmailsLine = new StringBuilder();
         for (InstructorAttributes coOwner : coOwners) {

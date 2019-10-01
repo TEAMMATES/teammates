@@ -191,7 +191,7 @@ public class BaseTestCase {
     // This method is adapted from JUnit 5's assertThrows.
     // Once we upgrade to JUnit 5, their built-in method shall be used instead.
     @SuppressWarnings({
-            "unchecked",
+            "unchecked message",
             "PMD.AvoidCatchingThrowable", // As per reference method's specification
     })
     protected static <T extends Throwable> T assertThrows(Class<T> expectedType, Executable executable) {
