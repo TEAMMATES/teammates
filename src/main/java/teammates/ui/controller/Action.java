@@ -360,7 +360,7 @@ public abstract class Action {
         return authenticationRedirectUrl;
     }
 
-    /** ------------------------------------------------ */
+    /* ------------------------------------------------ */
 
     /**
      * Executes the action (as implemented by a child class). Before passing

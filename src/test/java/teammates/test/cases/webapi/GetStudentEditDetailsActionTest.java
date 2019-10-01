@@ -64,7 +64,7 @@ public class GetStudentEditDetailsActionTest extends BaseActionTest<GetStudentEd
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         StudentEditDetails output = (StudentEditDetails) result.getOutput();
 
-        /**
+        /*
          * Checks that the same student is being requested and the value of boolean
          * 'isOpenOrPublishedEmailSentForTheCourse' is correct
          */
