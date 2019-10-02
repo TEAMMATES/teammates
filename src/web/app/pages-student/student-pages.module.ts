@@ -31,10 +31,7 @@ const routes: Routes = [
     path: 'profile',
     component: StudentProfilePageComponent,
   },
-  {
-    path: 'course',
-    component: StudentCourseDetailsPageComponent,
-  },
+  
   {
     path: 'sessions',
     children: [
