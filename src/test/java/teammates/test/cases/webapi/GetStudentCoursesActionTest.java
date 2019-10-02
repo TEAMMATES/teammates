@@ -19,11 +19,6 @@ import teammates.ui.webapi.output.MessageOutput;
 public class GetStudentCoursesActionTest extends BaseActionTest<GetStudentCoursesAction> {
 
     @Override
-    protected String getActionUri() {
-        return Const.ResourceURIs.STUDENT_COURSES;
-    }
-
-    @Override
     protected String getRequestMethod() {
         return GET;
     }
