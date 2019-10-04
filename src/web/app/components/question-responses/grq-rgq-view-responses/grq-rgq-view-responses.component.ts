@@ -19,6 +19,7 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() session: any = {};
 
   @Input() isGrq: boolean = true;
 
@@ -135,4 +136,15 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
     }
   }
 
+  public getGRQGiverForResponses(userInfo: string): string {
+      return Object.values(this.responsesToShow[userInfo])[0][0].allResponses[0].giverEmail;
+  }
+
+  public getRGQGiverForResponses(userInfo: string, other: string): string {
+    return this.responsesToShow[userInfo][other][0].allResponses[0].giverEmail;
+  }
+
+  public isAnonymous(userInfo: string): boolean {
+    return userInfo.includes("Anonymous");
+  }
 }

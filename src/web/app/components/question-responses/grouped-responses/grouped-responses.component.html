@@ -7,6 +7,13 @@
     <div class="top-padded">
       {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][isGrq ? 'giver' : 'recipient']}}
     </div>
+    <div class="top-padded">
+      <a routerLink="/web/student/sessions/submission" *ngIf="!isGrq && !isAnonymous"
+            [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedPerson: moderatedPerson}"
+            class="btn btn-light btn-sm button">
+        Moderate response
+      </a>
+    </div>
   </div>
   <div class="col-md-9">
     <div *ngFor="let response of responses">

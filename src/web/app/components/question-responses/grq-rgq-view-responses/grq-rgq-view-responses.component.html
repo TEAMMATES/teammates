@@ -19,11 +19,17 @@
                 <i class="fas fa-chevron-down" *ngIf="!userToTeamName[userInfo].isExpanded"></i>
                 <i class="fas fa-chevron-up" *ngIf="userToTeamName[userInfo].isExpanded"></i>
               </div>
+              <a routerLink="/web/student/sessions/submission" *ngIf="isGrq && !isAnonymous(userInfo)"
+                 [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedPerson: getGRQGiverForResponses(userInfo)}"
+                 class="btn btn-light btn-sm button float-right">
+                Moderate response
+              </a>
             </div>
             <div class="card-body" *ngIf="userToTeamName[userInfo].isExpanded">
               <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">
                 <tm-grouped-responses [header]="other.key" [responses]="other.value" [section]="section" [sectionType]="sectionType"
-                    [isGrq]="isGrq"></tm-grouped-responses>
+                    [isGrq]="isGrq" [session]="session" [isAnonymous]="isAnonymous(other.key)" [moderatedPerson]="getGRQGiverForResponses(userInfo)">
+                </tm-grouped-responses>
               </div>
             </div>
           </div>
@@ -42,11 +48,16 @@
           <i class="fas fa-chevron-down" *ngIf="!userInfo.value.isExpanded"></i>
           <i class="fas fa-chevron-up" *ngIf="userInfo.value.isExpanded"></i>
         </div>
+        <a routerLink="/web/student/sessions/submission" *ngIf="isGrq && !isAnonymous(userInfo.key)"
+           [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedPerson: getGRQGiverForResponses(userInfo.key)}"
+           class="btn btn-light btn-sm button float-right">
+          Moderate response
+        </a>
       </div>
       <div class="card-body" *ngIf="userInfo.value.isExpanded">
         <div class="top-padded" *ngFor="let other of responsesToShow[userInfo.key] | keyvalue">
           <tm-grouped-responses [header]="other.key" [responses]="other.value" [section]="section" [sectionType]="sectionType"
-              [isGrq]="isGrq"></tm-grouped-responses>
+              [isGrq]="isGrq" [session]="session" [isAnonymous]="isAnonymous(other.key)" [moderatedPerson]="getRGQGiverForResponses(userInfo.key, other.key)"></tm-grouped-responses>
         </div>
       </div>
     </div>
