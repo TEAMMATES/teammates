@@ -80,7 +80,8 @@
         <div class="col-sm-9">
           <div *ngFor="let section of this.allSections">
             <input type="checkbox" [ngModel]="sectionLevel.sectionNames.includes(section)"
-                   (ngModelChange)="editSectionToSectionLevelPermission(i, section, $event)">
+                   (ngModelChange)="editSectionToSectionLevelPermission(i, section, $event)"
+                   [disabled]="!sectionLevel.sectionNames.includes(section) && hasSectionLevelPermission(section)">
             {{ section }}
           </div>
         </div>
@@ -164,6 +165,7 @@
     </div>
   </div>
 
-  <button class="btn btn-link" (click)="addSectionLevelPermission()">Give different permissions for a specific section</button>
+  <button class="btn btn-link" (click)="addSectionLevelPermission()"
+          [disabled]="hasSectionLevelPermissionForAllSections">Give different permissions for a specific section</button>
 
 </div>

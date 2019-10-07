@@ -651,6 +651,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     of(...requests).pipe(concatAll()).subscribe(() => {
       // privileges updated
+      // filter out empty permission setting
+      permission.sectionLevel = permission.sectionLevel.filter(
+          (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

@@ -67,7 +67,24 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
   }
 
   /**
-   * Trigger overall permission change.
+   * Checks whether there is a section level permission for a give section.
+   */
+  hasSectionLevelPermission(sectionName: string): boolean {
+    return this.permission.sectionLevel.some(
+        (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.includes(sectionName));
+  }
+
+  /**
+   * Checks whether there is section level permission for all sections.
+   */
+  get hasSectionLevelPermissionForAllSections(): boolean {
+    return this.permission.sectionLevel
+        .map((sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length)
+        .reduce((prev: number, curr: number) => prev + curr, 0) === this.allSections.length;
+  }
+
+  /**
+   * Triggers overall permission change.
    */
   triggerOverallPermissionChange(privilegeName: string, shouldEnabled: string): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
@@ -77,7 +94,7 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
   }
 
   /**
-   * Trigger section level permission change at index.
+   * Triggers section level permission change at index.
    */
   triggerSectionLevelPermissionChange(index: number, privilegeName: string, shouldEnabled: string): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
@@ -87,7 +104,7 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
   }
 
   /**
-   * Trigger session level permission change at index.
+   * Triggers session level permission change at index.
    */
   triggerSessionLevelPermissionChange(
       indexSection: number, indexSession: number, privilegeName: string, shouldEnabled: string): void {
