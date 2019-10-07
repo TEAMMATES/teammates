@@ -38,7 +38,7 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
         // Only check that the version number is returned, and some sample values for timezone offset
         assertNotNull(output.getVersion());
 
-        /**
+        /*
          * There is a quirk in the ETC/GMT time zones due to the tzdb using POSIX-style signs in the zone names and the
          * output abbreviations. POSIX has positive signs west of Greenwich, while we are used to positive signs east
          * of Greenwich in practice. For example, TZ='Etc/GMT+8' uses the abbreviation "GMT+8" and corresponds to 8
