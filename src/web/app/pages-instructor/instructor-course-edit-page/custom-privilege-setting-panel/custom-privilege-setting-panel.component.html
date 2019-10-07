@@ -51,8 +51,8 @@
                    (ngModelChange)="triggerOverallPermissionChange('canSubmitSessionInSections', $event)">
             Sessions: Submit Responses and Add Comments
             <br>
-            <input type="checkbox"
-                   [ngModel]="permission.privilege.canViewSessionInSections"
+            <input type="checkbox" [disabled]="permission.privilege.canModifySessionCommentsInSections"
+                   [ngModel]="permission.privilege.canViewSessionInSections || permission.privilege.canModifySessionCommentsInSections"
                    (ngModelChange)="triggerOverallPermissionChange('canViewSessionInSections', $event)">
             Sessions: View Responses and Comments
             <br>
@@ -113,8 +113,8 @@
                  (ngModelChange)="triggerSectionLevelPermissionChange(i, 'canSubmitSessionInSections', $event)">&nbsp;
           <span>Sessions: Submit Responses and Add Comments</span>
           <br>
-          <input type="checkbox"
-                 [ngModel]="sectionLevel.privilege.canViewSessionInSections"
+          <input type="checkbox" [disabled]="sectionLevel.privilege.canModifySessionCommentsInSections"
+                 [ngModel]="sectionLevel.privilege.canViewSessionInSections || sectionLevel.privilege.canModifySessionCommentsInSections"
                  (ngModelChange)="triggerSectionLevelPermissionChange(i, 'canViewSessionInSections', $event)">&nbsp;
           <span>Sessions: View Responses and Comments</span>
           <br>
@@ -149,8 +149,8 @@
                    (ngModelChange)="triggerSessionLevelPermissionChange(i, j, 'canSubmitSessionInSections', $event)">
           </td>
           <td>
-            <input type="checkbox"
-                   [ngModel]="sessionLevel.privilege.canViewSessionInSections"
+            <input type="checkbox" [disabled]="sessionLevel.privilege.canModifySessionCommentsInSections"
+                   [ngModel]="sessionLevel.privilege.canViewSessionInSections || sessionLevel.privilege.canModifySessionCommentsInSections"
                    (ngModelChange)="triggerSessionLevelPermissionChange(i, j, 'canViewSessionInSections', $event)">
           </td>
           <td>

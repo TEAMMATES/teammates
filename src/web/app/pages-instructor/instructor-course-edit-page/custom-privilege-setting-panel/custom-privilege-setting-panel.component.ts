@@ -86,7 +86,7 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
   /**
    * Triggers overall permission change.
    */
-  triggerOverallPermissionChange(privilegeName: string, shouldEnabled: string): void {
+  triggerOverallPermissionChange(privilegeName: string, shouldEnabled: boolean): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
     (permission.privilege as any)[privilegeName] = shouldEnabled;
 
@@ -96,7 +96,7 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
   /**
    * Triggers section level permission change at index.
    */
-  triggerSectionLevelPermissionChange(index: number, privilegeName: string, shouldEnabled: string): void {
+  triggerSectionLevelPermissionChange(index: number, privilegeName: string, shouldEnabled: boolean): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
     (permission.sectionLevel[index].privilege as any)[privilegeName] = shouldEnabled;
 
@@ -107,7 +107,7 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
    * Triggers session level permission change at index.
    */
   triggerSessionLevelPermissionChange(
-      indexSection: number, indexSession: number, privilegeName: string, shouldEnabled: string): void {
+      indexSection: number, indexSession: number, privilegeName: string, shouldEnabled: boolean): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
     (permission.sectionLevel[indexSection].sessionLevel[indexSession].privilege as any)[privilegeName] = shouldEnabled;
 
