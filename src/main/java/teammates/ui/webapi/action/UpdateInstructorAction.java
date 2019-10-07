@@ -112,9 +112,7 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
      * This includes basic information as well as custom privileges (if applicable).
      *
      * @param courseId        Id of the course the instructor is being added to.
-     * @param instructorId    Id of the instructor.
-     * @param instructorName  Name of the instructor.
-     * @param instructorEmail Email of the instructor.
+     * @param instructorRequest Instructor request.
      * @return The updated instructor with all relevant info filled in.
      */
     private InstructorAttributes extractUpdatedInstructor(String courseId, InstructorCreateRequest instructorRequest) {

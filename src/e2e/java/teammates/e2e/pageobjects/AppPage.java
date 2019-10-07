@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidElementStateException;
@@ -28,6 +29,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
+import org.openqa.selenium.interactions.Actions;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -177,7 +179,7 @@ public abstract class AppPage {
      * @param element the WebElement
      * @throws TimeoutException if the timeout defined in
      * {@link TestProperties#TEST_TIMEOUT} expires
-     * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
+     * @see org.openqa.selenium.support.ui.FluentWait#until(Function) (com.google.common.base.Function)
      */
     public void waitForElementStaleness(WebElement element) {
         waitFor(ExpectedConditions.stalenessOf(element));

@@ -11,7 +11,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#ADMIN_ACCOUNT_DETAILS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#ADMIN_ACCOUNTS_PAGE}.
  */
 @Priority(1)
 public class AdminAccountDetailsPageUiTest extends BaseE2ETestCase {

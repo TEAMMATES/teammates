@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
@@ -276,7 +277,7 @@ public abstract class AppPage {
      * @param element the WebElement
      * @throws org.openqa.selenium.TimeoutException if the timeout defined in
      * {@link TestProperties#TEST_TIMEOUT} expires
-     * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
+     * @see org.openqa.selenium.support.ui.FluentWait#until(Function) (com.google.common.base.Function)
      */
     public void waitForElementStaleness(WebElement element) {
         waitFor(ExpectedConditions.stalenessOf(element));
@@ -288,7 +289,7 @@ public abstract class AppPage {
      * @param elementClass the class that the element must belong to
      * @throws org.openqa.selenium.TimeoutException if the timeout defined in
      * {@link TestProperties#TEST_TIMEOUT} expires
-     * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
+     * @see org.openqa.selenium.support.ui.FluentWait#until(Function) (com.google.common.base.Function)
      */
     void waitForElementToBeMemberOfClass(WebElement element, String elementClass) {
         waitFor(driver -> {

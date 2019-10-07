@@ -19,7 +19,7 @@ import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AdminSearchPage;
 
 /**
- * SUT: {@link Const.ActionURIs#ADMIN_SEARCH_PAGE}.
+ * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
  */
 public class AdminSearchPageUiTest extends BaseE2ETestCase {
     private static final int ADMIN_SEARCH_INSTRUCTOR_TABLE_NUM_COLUMNS = 5;
