@@ -121,7 +121,7 @@
           <span *ngIf="!model.isUsingOtherFeedbackPath">
             {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
           </span>
-          <span *ngIf="model.isUsingOtherFeedbackPath">Custom Visibility Options</span>
+          <span *ngIf="model.isUsingOtherFeedbackPath">Custom Feedback Path</span>
         </button>
         <ul ngbDropdownMenu>
           <li class="dropdown-header">Common feedback path combinations</li>
@@ -216,11 +216,11 @@
           <span *ngIf="model.isUsingOtherVisibilitySetting">Custom Visibility Options</span>
         </button>
         <ul ngbDropdownMenu>
-          <li class="dropdown-header">Common feedback path combinations</li>
+          <li class="dropdown-header">Custom Visibility Options</li>
           <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
               (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
           <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
-          <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerModelChange('isUsingOtherVisibilitySetting', true)">Other predefined combinations...</li>
+          <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerModelChange('isUsingOtherVisibilitySetting', true)">Other Visibility Options...</li>
         </ul>
       </div>
       <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
@@ -239,7 +239,7 @@
                        (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
                        [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
                        [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable">
-              </td>
+              </td> 
             </tr>
           </ng-container>
         </tbody>
