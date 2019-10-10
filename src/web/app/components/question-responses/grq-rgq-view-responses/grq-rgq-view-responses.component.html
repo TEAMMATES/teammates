@@ -16,14 +16,14 @@
             <div class="card-header bg-primary text-white" (click)="userToTeamName[userInfo].isExpanded = !userToTeamName[userInfo].isExpanded">
               {{ isGrq ? 'From' : 'To' }}: {{ userInfo }}
               <div class="float-right">
+                <a routerLink="/web/student/sessions/submission" *ngIf="isGrq && !isAnonymous(userInfo)"
+                   [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedPerson: getGRQGiverForResponses(userInfo)}"
+                   class="btn btn-light btn-sm button margin-right-10px">
+                  Moderate response
+                </a>
                 <i class="fas fa-chevron-down" *ngIf="!userToTeamName[userInfo].isExpanded"></i>
                 <i class="fas fa-chevron-up" *ngIf="userToTeamName[userInfo].isExpanded"></i>
               </div>
-              <a routerLink="/web/student/sessions/submission" *ngIf="isGrq && !isAnonymous(userInfo)"
-                 [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedPerson: getGRQGiverForResponses(userInfo)}"
-                 class="btn btn-light btn-sm button float-right">
-                Moderate response
-              </a>
             </div>
             <div class="card-body" *ngIf="userToTeamName[userInfo].isExpanded">
               <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">
