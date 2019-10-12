@@ -38,6 +38,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
   isDisabled: boolean = false;
 
   @Input()
+  isModeratedQuestion = false;
+
+  @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
 

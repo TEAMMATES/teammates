@@ -111,6 +111,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   isSubmissionFormsDisabled: boolean = false;
 
   isModerationHintExpanded: boolean = false;
+  moderatedQuestionId: string = '';
 
   constructor(private route: ActivatedRoute, private router: Router, private statusMessageService: StatusMessageService,
               private httpRequestService: HttpRequestService, private timezoneService: TimezoneService,
@@ -130,6 +131,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       this.regKey = queryParams.key ? queryParams.key : '';
       this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
+      this.moderatedQuestionId = queryParams.moderatedQuestionId ? queryParams.moderatedQuestionId : '';
 
       if (this.previewAsPerson) {
         // disable submission in the preview mode
@@ -137,6 +139,15 @@ export class SessionSubmissionPageComponent implements OnInit {
       }
       this.loadPersonName();
       this.loadFeedbackSession();
+    });
+  }
+
+  public ngAfterViewChecked(): void {
+    this.route.fragment.subscribe(fragment => {
+      const targetElement = document.getElementById(fragment);
+      if (fragment && targetElement) {
+        window.scrollTo({top: targetElement.getBoundingClientRect().top + window.pageYOffset - 70});
+      }
     });
   }
 

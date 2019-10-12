@@ -20,8 +20,8 @@
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails"></tm-single-response>
         </td>
         <td>
-          <a routerLink="/web/student/sessions/submission" *ngIf="response.giverEmail != anonymousEmail"
-             [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: response.giverEmail}"
+          <a routerLink="/web/student/sessions/submission" fragment="moderated-question" *ngIf="response.giverEmail != anonymousEmail"
+             [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: response.giverEmail, moderatedQuestionId: questionId}"
              class="btn btn-light btn-sm button">
             Moderate response
           </a>

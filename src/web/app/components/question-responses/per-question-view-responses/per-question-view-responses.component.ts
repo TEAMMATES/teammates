@@ -13,6 +13,7 @@ import {
 })
 export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
 
+  @Input() questionId: string = '';
   @Input() questionDetails: any = {};
   @Input() responses: any[] = [];
   @Input() section: string = '';
