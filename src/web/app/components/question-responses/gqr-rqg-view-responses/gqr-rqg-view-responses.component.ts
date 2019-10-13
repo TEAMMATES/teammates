@@ -19,6 +19,7 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() session: any = {};
 
   @Input() isGqr: boolean = true;
 
@@ -125,4 +126,11 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
     }
   }
 
+  public isAnonymous(userInfo: string): boolean {
+      return userInfo.includes("Anonymous");
+  }
+
+  public getGQRGiverForResponses(userInfo: string): string {
+    return Object.values(this.responsesToShow[userInfo])[0].allResponses[0].giverEmail;
+  }
 }

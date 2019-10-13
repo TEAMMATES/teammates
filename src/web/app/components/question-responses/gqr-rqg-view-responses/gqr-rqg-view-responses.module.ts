@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { QuestionTextWithInfoModule } from '../../question-text-with-info/question-text-with-info.module';
 import { PerQuestionViewResponsesModule } from '../per-question-view-responses/per-question-view-responses.module';
 import { GqrRqgViewResponsesComponent } from './gqr-rqg-view-responses.component';
+import { RouterModule } from "@angular/router";
 
 /**
  * Module for component to display list of responses in GQR/RQG view.
@@ -14,6 +15,7 @@ import { GqrRqgViewResponsesComponent } from './gqr-rqg-view-responses.component
     CommonModule,
     QuestionTextWithInfoModule,
     PerQuestionViewResponsesModule,
+    RouterModule,
   ],
 })
 export class GqrRqgViewResponsesModule { }
