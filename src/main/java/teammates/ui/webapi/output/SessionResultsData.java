@@ -30,7 +30,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, questionDetails,
+            QuestionOutput qnOutput = new QuestionOutput(question.getId(), question.questionNumber, questionDetails,
                     questionDetails.getQuestionResultStatisticsJson(responses, question, instructor.email, bundle, false));
 
             List<ResponseOutput> allResponses = buildResponses(responses, bundle);
@@ -48,7 +48,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, questionDetails,
+            QuestionOutput qnOutput = new QuestionOutput(question.getId(), question.questionNumber, questionDetails,
                     questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle, true));
 
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
@@ -167,6 +167,7 @@ public class SessionResultsData extends ApiOutput {
 
     private static class QuestionOutput {
 
+        private final String questionId;
         private final FeedbackQuestionDetails questionDetails;
         private final int questionNumber;
         private final String questionStatistics;
@@ -179,10 +180,15 @@ public class SessionResultsData extends ApiOutput {
         private List<ResponseOutput> responsesFromSelf = new ArrayList<>();
         private List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
-        QuestionOutput(int questionNumber, FeedbackQuestionDetails questionDetails, String questionStatistics) {
+        QuestionOutput(String questionId, int questionNumber, FeedbackQuestionDetails questionDetails, String questionStatistics) {
+            this.questionId = questionId;
             this.questionNumber = questionNumber;
             this.questionDetails = questionDetails;
             this.questionStatistics = questionStatistics;
+        }
+
+        public String getQuestionId() {
+            return questionId;
         }
 
         public FeedbackQuestionDetails getQuestionDetails() {
