@@ -180,7 +180,8 @@ public class SessionResultsData extends ApiOutput {
         private List<ResponseOutput> responsesFromSelf = new ArrayList<>();
         private List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
-        QuestionOutput(String questionId, int questionNumber, FeedbackQuestionDetails questionDetails, String questionStatistics) {
+        QuestionOutput(String questionId, int questionNumber,
+                       FeedbackQuestionDetails questionDetails, String questionStatistics) {
             this.questionId = questionId;
             this.questionNumber = questionNumber;
             this.questionDetails = questionDetails;

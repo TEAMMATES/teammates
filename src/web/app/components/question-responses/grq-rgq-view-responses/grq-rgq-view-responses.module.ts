@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { GroupedResponsesModule } from '../grouped-responses/grouped-responses.module';
 import { GrqRgqViewResponsesComponent } from './grq-rgq-view-responses.component';
-import { RouterModule } from "@angular/router";
 
 /**
  * Module for component to display list of responses in GRQ/RGQ view.

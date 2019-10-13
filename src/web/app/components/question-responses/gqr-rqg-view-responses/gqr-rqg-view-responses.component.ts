@@ -126,11 +126,17 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
     }
   }
 
-  public isAnonymous(userInfo: string): boolean {
-      return userInfo.includes("Anonymous");
+  /**
+   * check if userInfo is anonymous
+   */
+  isAnonymous(userInfo: string): boolean {
+    return userInfo.includes('Anonymous');
   }
 
-  public getGQRGiverForResponses(userInfo: string): string {
+  /**
+   * get giver for specific user's responses in GQR view
+   */
+  getGQRGiverForResponses(userInfo: string): string {
     return Object.values(this.responsesToShow[userInfo])[0].allResponses[0].giverEmail;
   }
 }

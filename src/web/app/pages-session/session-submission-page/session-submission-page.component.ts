@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -80,7 +80,7 @@ interface ConfirmationResponse {
   templateUrl: './session-submission-page.component.html',
   styleUrls: ['./session-submission-page.component.scss'],
 })
-export class SessionSubmissionPageComponent implements OnInit {
+export class SessionSubmissionPageComponent implements OnInit, AfterViewChecked {
 
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
@@ -142,11 +142,11 @@ export class SessionSubmissionPageComponent implements OnInit {
     });
   }
 
-  public ngAfterViewChecked(): void {
-    this.route.fragment.subscribe(fragment => {
-      const targetElement = document.getElementById(fragment);
+  ngAfterViewChecked(): void {
+    this.route.fragment.subscribe((fragment: string) => {
+      const targetElement: any = document.getElementById(fragment);
       if (fragment && targetElement) {
-        window.scrollTo({top: targetElement.getBoundingClientRect().top + window.pageYOffset - 70});
+        window.scrollTo({ top: targetElement.getBoundingClientRect().top + window.pageYOffset - 70 });
       }
     });
   }

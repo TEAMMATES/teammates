@@ -136,15 +136,24 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
     }
   }
 
-  public getGRQGiverForResponses(userInfo: string): string {
-      return Object.values(this.responsesToShow[userInfo])[0][0].allResponses[0].giverEmail;
+  /**
+   * get giver for user's responses in grq view
+   */
+  getGRQGiverForResponses(userInfo: string): string {
+    return Object.values(this.responsesToShow[userInfo])[0][0].allResponses[0].giverEmail;
   }
 
-  public getRGQGiverForResponses(userInfo: string, other: string): string {
+  /**
+   * get giver for user's responses in grq view
+   */
+  getRGQGiverForResponses(userInfo: string, other: string): string {
     return this.responsesToShow[userInfo][other][0].allResponses[0].giverEmail;
   }
 
-  public isAnonymous(userInfo: string): boolean {
-    return userInfo.includes("Anonymous");
+  /**
+   * check if userInfo is anonymous
+   */
+  isAnonymous(userInfo: string): boolean {
+    return userInfo.includes('Anonymous');
   }
 }

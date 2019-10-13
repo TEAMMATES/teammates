@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 
 import { GroupedResponsesModule } from '../grouped-responses/grouped-responses.module';
 import { GrqRgqViewResponsesComponent } from './grq-rgq-view-responses.component';
@@ -10,7 +11,10 @@ describe('GrqRgqViewResponsesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [GrqRgqViewResponsesComponent],
-      imports: [GroupedResponsesModule],
+      imports: [
+        GroupedResponsesModule,
+        RouterModule,
+      ],
     })
     .compileComponents();
   }));

@@ -103,7 +103,8 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         FeedbackResponseCreateRequest createRequest = getAndValidateRequestBody(FeedbackResponseCreateRequest.class);
         FeedbackResponseAttributes feedbackResponse =
                 FeedbackResponseAttributes
-                        .builder(feedbackQuestion.getId(), giverIdentifier, giverEmail, createRequest.getRecipientIdentifier())
+                        .builder(feedbackQuestion.getId(), giverIdentifier,
+                                giverEmail, createRequest.getRecipientIdentifier())
                 .withGiverSection(giverSection)
                 .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(),
                         feedbackQuestion.getRecipientType(), createRequest.getRecipientIdentifier()))
