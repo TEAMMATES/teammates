@@ -346,7 +346,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         }
 
         if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
-                && newAttributes.giver.equals(oldResponse.getGiver())) {
+                && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
 
             // update only if change
             boolean hasSameAttributes =
@@ -609,7 +609,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             String feedbackQuestionId, String giverEmail) {
         return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giver =", giverEmail)
+                .filter("giverEmail =", giverEmail)
                 .list();
     }
 
