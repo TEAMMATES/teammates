@@ -309,11 +309,11 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Gets all responses given by a user in a course.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
-            String courseId, String giver) {
+            String courseId, String giverEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giver);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
 
-        return makeAttributes(getFeedbackResponseEntitiesFromGiverForCourse(courseId, giver));
+        return makeAttributes(getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail));
     }
 
     /**
@@ -371,7 +371,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             // need to recreate the entity
             newAttributes = FeedbackResponseAttributes
                     .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(),
-                            newAttributes.getGiverEmail(), newAttributes.getRecipient())
+                             newAttributes.getRecipient())
                     .withCourseId(newAttributes.getCourseId())
                     .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
                     .withResponseDetails(newAttributes.getResponseDetails())
@@ -661,7 +661,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             String courseId, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
-                .filter("giver =", giverEmail)
+                .filter("giverEmail =", giverEmail)
                 .list();
     }
 

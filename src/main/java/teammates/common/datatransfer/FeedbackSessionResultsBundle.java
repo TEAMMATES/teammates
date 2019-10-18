@@ -361,7 +361,6 @@ public class FeedbackSessionResultsBundle {
                     emailTeamNameTable.put(anonEmail, name);
                 }
                 response.giver = anonEmail;
-                response.giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
             }
         }
     }

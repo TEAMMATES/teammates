@@ -128,7 +128,7 @@ public class SessionResultsData extends ApiOutput {
                 // TODO fetch feedback response comments
 
                 // Student does not need to know the teams for giver and/or recipient
-                output.add(new ResponseOutput(displayedGiverName, null, null, response.giverSection,
+                output.add(new ResponseOutput(displayedGiverName, null, response.giverSection,
                         recipientName, null, response.recipientSection, response.responseDetails));
             }
 
@@ -152,12 +152,11 @@ public class SessionResultsData extends ApiOutput {
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
                 String giverName = removeAnonymousHash(bundle.getGiverNameForResponse(response));
-                String giverEmail = response.giverEmail;
                 String giverTeam = bundle.getTeamNameForEmail(response.giver);
 
                 // TODO fetch feedback response comments
 
-                output.add(new ResponseOutput(giverName, giverTeam, giverEmail, response.giverSection,
+                output.add(new ResponseOutput(giverName, giverTeam, response.giverSection,
                         recipientName, recipientTeam, response.recipientSection, response.responseDetails));
             }
 
@@ -225,7 +224,6 @@ public class SessionResultsData extends ApiOutput {
     private static class ResponseOutput {
 
         private final String giver;
-        private final String giverEmail;
         private final String giverTeam;
         private final String giverSection;
         private String recipient;
@@ -233,10 +231,9 @@ public class SessionResultsData extends ApiOutput {
         private final String recipientSection;
         private final FeedbackResponseDetails responseDetails;
 
-        ResponseOutput(String giver, String giverTeam, String giverEmail, String giverSection, String recipient,
+        ResponseOutput(String giver, String giverTeam, String giverSection, String recipient,
                 String recipientTeam, String recipientSection, FeedbackResponseDetails responseDetails) {
             this.giver = giver;
-            this.giverEmail = giverEmail;
             this.giverTeam = giverTeam;
             this.giverSection = giverSection;
             this.recipient = recipient;
