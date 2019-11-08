@@ -62,6 +62,11 @@ footer a {
   margin-right: 20px;
 }
 
+.dropdown-menu-right {
+  right: -20px;
+  left: auto;
+}
+
 @media (max-width: 992px) {
   .navbar-collapse {
     padding: 15px 0;
