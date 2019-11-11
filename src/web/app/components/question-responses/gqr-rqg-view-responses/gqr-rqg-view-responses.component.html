@@ -16,11 +16,7 @@
             <div class="card-header bg-primary text-white" (click)="userToTeamName[userInfo].isExpanded = !userToTeamName[userInfo].isExpanded">
               {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
               <div class="float-right">
-                <a routerLink="/web/student/sessions/submission" *ngIf="isGqr && !isAnonymous(userInfo)"
-                   [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedPerson: getGQRGiverForResponses(userInfo)}"
-                   class="btn btn-light btn-sm button margin-right-10px">
-                  Moderate response
-                </a>
+                <tm-response-moderation-button *ngIf="isGqr" [session]="session" [relatedGiverEmail]="getGQRRelatedGiverEmailForUser(userInfo)"></tm-response-moderation-button>
                 <i class="fas fa-chevron-down" *ngIf="!userToTeamName[userInfo].isExpanded"></i>
                 <i class="fas fa-chevron-up" *ngIf="userToTeamName[userInfo].isExpanded"></i>
               </div>
@@ -53,11 +49,7 @@
       <div class="card-header bg-primary text-white" (click)="userInfo.value.isExpanded = !userInfo.value.isExpanded">
         {{ isGqr ? 'From' : 'To' }}: {{ userInfo.key }}
         <div class="float-right">
-          <a routerLink="/web/student/sessions/submission" *ngIf="isGqr && !isAnonymous(userInfo.key)"
-             [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedPerson: getGQRGiverForResponses(userInfo.key)}"
-             class="btn btn-light btn-sm button margin-right-10px">
-            Moderate response
-          </a>
+          <tm-response-moderation-button [session]="session" [relatedGiverEmail]="getGQRRelatedGiverEmailForUser(userInfo.key)"></tm-response-moderation-button>
           <i class="fas fa-chevron-down" *ngIf="!userInfo.value.isExpanded"></i>
           <i class="fas fa-chevron-up" *ngIf="userInfo.value.isExpanded"></i>
         </div>

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 
+import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
 import { QuestionTextWithInfoModule } from '../../question-text-with-info/question-text-with-info.module';
 import { PerQuestionViewResponsesModule } from '../per-question-view-responses/per-question-view-responses.module';
 import { GqrRqgViewResponsesComponent } from './gqr-rqg-view-responses.component';
@@ -15,7 +15,7 @@ describe('GqrRqgViewResponsesComponent', () => {
       imports: [
         QuestionTextWithInfoModule,
         PerQuestionViewResponsesModule,
-        RouterModule,
+        ResponseModerationButtonModule,
       ],
     })
     .compileComponents();

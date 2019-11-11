@@ -8,11 +8,7 @@
       {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][isGrq ? 'giver' : 'recipient']}}
     </div>
     <div class="top-padded">
-      <a routerLink="/web/student/sessions/submission" *ngIf="!isGrq && !isAnonymous"
-            [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedPerson: moderatedPerson}"
-            class="btn btn-outline-info btn-sm button">
-        Moderate response
-      </a>
+      <tm-response-moderation-button *ngIf="!isGrq" [session]="session" [relatedGiverEmail]="moderatedResponse.relatedGiverEmail"></tm-response-moderation-button>
     </div>
   </div>
   <div class="col-md-9">

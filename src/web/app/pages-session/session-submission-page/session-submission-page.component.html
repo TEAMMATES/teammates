@@ -75,8 +75,9 @@
 </div>
 
 <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
+                             [attr.id]="questionSubmissionForm.feedbackQuestionId"
                              [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
-                             [isDisabled]="isSubmissionFormsDisabled" [isModeratedQuestion] = "questionSubmissionForm.feedbackQuestionId == moderatedQuestionId"
+                             [isDisabled]="isSubmissionFormsDisabled"
 ></tm-question-submission-form>
 
 <br/>

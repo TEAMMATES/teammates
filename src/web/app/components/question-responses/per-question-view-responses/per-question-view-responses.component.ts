@@ -26,8 +26,6 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
 
   responsesToShow: any[] = [];
 
-  readonly anonymousEmail: string = 'Anonymous';
-
   constructor() { }
 
   ngOnInit(): void {

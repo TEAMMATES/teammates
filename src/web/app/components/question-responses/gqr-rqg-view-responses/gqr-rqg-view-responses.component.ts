@@ -58,6 +58,7 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
+            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = false;
@@ -127,16 +128,9 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
   }
 
   /**
-   * check if userInfo is anonymous
+   * Get related giver email of specific user in GQR view.
    */
-  isAnonymous(userInfo: string): boolean {
-    return userInfo.includes('Anonymous');
-  }
-
-  /**
-   * get giver for specific user's responses in GQR view
-   */
-  getGQRGiverForResponses(userInfo: string): string {
-    return Object.values(this.responsesToShow[userInfo])[0].allResponses[0].giverEmail;
+  getGQRRelatedGiverEmailForUser(userInfo: string): string {
+    return Object.values(this.responsesToShow[userInfo])[0].allResponses[0].relatedGiverEmail;
   }
 }

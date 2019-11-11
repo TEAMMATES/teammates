@@ -1,7 +1,9 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
@@ -80,7 +82,7 @@ interface ConfirmationResponse {
   templateUrl: './session-submission-page.component.html',
   styleUrls: ['./session-submission-page.component.scss'],
 })
-export class SessionSubmissionPageComponent implements OnInit, AfterViewChecked {
+export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
@@ -115,7 +117,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewChecked 
 
   constructor(private route: ActivatedRoute, private router: Router, private statusMessageService: StatusMessageService,
               private httpRequestService: HttpRequestService, private timezoneService: TimezoneService,
-              private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal) {
+              private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal,
+              private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -131,7 +134,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewChecked 
       this.regKey = queryParams.key ? queryParams.key : '';
       this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
-      this.moderatedQuestionId = queryParams.moderatedQuestionId ? queryParams.moderatedQuestionId : '';
+      this.moderatedQuestionId = queryParams.moderatedquestionId ? queryParams.moderatedquestionId : '';
 
       if (this.previewAsPerson) {
         // disable submission in the preview mode
@@ -142,13 +145,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewChecked 
     });
   }
 
-  ngAfterViewChecked(): void {
-    this.route.fragment.subscribe((fragment: string) => {
-      const targetElement: any = document.getElementById(fragment);
-      if (fragment && targetElement) {
-        window.scrollTo({ top: targetElement.getBoundingClientRect().top + window.pageYOffset - 70 });
-      }
-    });
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.pageScrollService.scroll({
+        document: this.document,
+        scrollTarget: `#${this.moderatedQuestionId}`,
+        scrollOffset: 70,
+      });
+    }, 500);
   }
 
   /**

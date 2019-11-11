@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 
+import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 
@@ -14,6 +15,7 @@ describe('PerQuestionViewResponsesComponent', () => {
       imports: [
         SingleResponseModule,
         RouterModule,
+        ResponseModerationButtonModule,
       ],
     })
     .compileComponents();

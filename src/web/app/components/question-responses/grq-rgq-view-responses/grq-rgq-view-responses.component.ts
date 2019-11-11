@@ -58,6 +58,7 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
+            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = false;
@@ -137,23 +138,16 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
   }
 
   /**
-   * get giver for user's responses in grq view
+   * Get first response for specific user in grq view.
    */
-  getGRQGiverForResponses(userInfo: string): string {
-    return Object.values(this.responsesToShow[userInfo])[0][0].allResponses[0].giverEmail;
+  getGRQRelatedGiverEmailForUser(userInfo: string): any {
+    return Object.values(this.responsesToShow[userInfo])[0][0].allResponses[0].relatedGiverEmail;
   }
 
   /**
-   * get giver for user's responses in grq view
+   * Get first response for specific user in rgq view.
    */
-  getRGQGiverForResponses(userInfo: string, other: string): string {
-    return this.responsesToShow[userInfo][other][0].allResponses[0].giverEmail;
-  }
-
-  /**
-   * check if userInfo is anonymous
-   */
-  isAnonymous(userInfo: string): boolean {
-    return userInfo.includes('Anonymous');
+  getRGQRelatedGiverEmailForUser(other: any): any {
+    return other.value[0].allResponses[0].relatedGiverEmail;
   }
 }

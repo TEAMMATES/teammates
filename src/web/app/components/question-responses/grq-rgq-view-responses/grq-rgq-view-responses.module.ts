@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+
+import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
 import { GroupedResponsesModule } from '../grouped-responses/grouped-responses.module';
 import { GrqRgqViewResponsesComponent } from './grq-rgq-view-responses.component';
 
@@ -13,7 +14,7 @@ import { GrqRgqViewResponsesComponent } from './grq-rgq-view-responses.component
   imports: [
     CommonModule,
     GroupedResponsesModule,
-    RouterModule,
+    ResponseModerationButtonModule,
   ],
 })
 export class GrqRgqViewResponsesModule { }

@@ -20,9 +20,7 @@ export class GroupedResponsesComponent implements OnInit {
   @Input() isGrq: boolean = true;
   @Input() header: string = '';
   @Input() session: any = {};
-  @Input() isAnonymous: boolean = true;
-  @Input() moderatedPerson: string = '';
-
+  @Input() moderatedResponse: any = {};
   constructor() { }
 
   ngOnInit(): void {
