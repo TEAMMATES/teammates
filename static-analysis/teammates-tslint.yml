@@ -81,10 +81,7 @@ rules:
   label-position: true
   max-line-length: [
     true,
-    {
-      "limit": 120,
-      "ignore-pattern": "^import [^,]+ from |^export | implements "
-    }
+    120
   ]
   member-access: [
     true,
