@@ -55,7 +55,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row"
   >
     <div
       class="col-4"
@@ -130,7 +130,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row"
   >
     <div
       class="col-4"
@@ -292,7 +292,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row"
   >
     <div
       class="col-4"
@@ -863,7 +863,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row"
   >
     <div
       class="col-4"
@@ -1581,7 +1581,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row"
   >
     <div
       class="col-4"
@@ -1882,7 +1882,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row"
   >
     <div
       class="col-4"
@@ -2203,7 +2203,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row"
   >
     <div
       class="col-4"
