@@ -106,15 +106,15 @@ export class PageComponent {
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
-  
+
   /**
-   * Method to toggle the isCollapsed property when an item on the navbar is clicked, 
+   * Method to toggle the isCollapsed property when an item on the navbar is clicked,
    * when the user is using a mobile device.
    */
-  toggleCollapse() {
+  toggleCollapse(): void {
 
-    //Check if the device is a mobile device
-    if(window.innerWidth < 992) {
+    // Check if the device is a mobile device
+    if (window.innerWidth < 992) {
       this.isCollapsed = !this.isCollapsed;
     }
   }
