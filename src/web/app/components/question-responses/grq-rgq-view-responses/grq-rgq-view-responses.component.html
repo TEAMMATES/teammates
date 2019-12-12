@@ -16,6 +16,7 @@
             <div class="card-header bg-primary text-white" (click)="userToTeamName[userInfo].isExpanded = !userToTeamName[userInfo].isExpanded">
               {{ isGrq ? 'From' : 'To' }}: {{ userInfo }}
               <div class="float-right">
+                <tm-response-moderation-button *ngIf="isGrq" [session]="session" [relatedGiverEmail]="getGRQRelatedGiverEmailForUser(userInfo)"></tm-response-moderation-button>
                 <i class="fas fa-chevron-down" *ngIf="!userToTeamName[userInfo].isExpanded"></i>
                 <i class="fas fa-chevron-up" *ngIf="userToTeamName[userInfo].isExpanded"></i>
               </div>
@@ -23,7 +24,8 @@
             <div class="card-body" *ngIf="userToTeamName[userInfo].isExpanded">
               <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">
                 <tm-grouped-responses [header]="other.key" [responses]="other.value" [section]="section" [sectionType]="sectionType"
-                    [isGrq]="isGrq"></tm-grouped-responses>
+                    [isGrq]="isGrq" [session]="session" [relatedGiverEmail]="getRGQRelatedGiverEmailForUser(other)">
+                </tm-grouped-responses>
               </div>
             </div>
           </div>
@@ -39,14 +41,16 @@
       <div class="card-header bg-primary text-white" (click)="userInfo.value.isExpanded = !userInfo.value.isExpanded">
         {{ isGrq ? 'From' : 'To' }}: {{ userInfo.key }}
         <div class="float-right">
+          <tm-response-moderation-button *ngIf="isGrq" [relatedGiverEmail]="getGRQRelatedGiverEmailForUser(userInfo.key)"></tm-response-moderation-button>
           <i class="fas fa-chevron-down" *ngIf="!userInfo.value.isExpanded"></i>
           <i class="fas fa-chevron-up" *ngIf="userInfo.value.isExpanded"></i>
         </div>
+
       </div>
       <div class="card-body" *ngIf="userInfo.value.isExpanded">
         <div class="top-padded" *ngFor="let other of responsesToShow[userInfo.key] | keyvalue">
           <tm-grouped-responses [header]="other.key" [responses]="other.value" [section]="section" [sectionType]="sectionType"
-              [isGrq]="isGrq"></tm-grouped-responses>
+              [isGrq]="isGrq" [session]="session" [relatedGiverEmail]="getRGQRelatedGiverEmailForUser(other)"></tm-grouped-responses>
         </div>
       </div>
     </div>

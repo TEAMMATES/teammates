@@ -19,6 +19,7 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() session: any = {};
 
   @Input() isGrq: boolean = true;
 
@@ -57,6 +58,7 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
+            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = false;
@@ -135,4 +137,17 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Get first response for specific user in grq view.
+   */
+  getGRQRelatedGiverEmailForUser(userInfo: string): any {
+    return Object.values(this.responsesToShow[userInfo])[0][0].allResponses[0].relatedGiverEmail;
+  }
+
+  /**
+   * Get first response for specific user in rgq view.
+   */
+  getRGQRelatedGiverEmailForUser(other: any): any {
+    return other.value[0].allResponses[0].relatedGiverEmail;
+  }
 }

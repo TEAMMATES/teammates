@@ -66,7 +66,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
         FeedbackResponseAttributes fra =
-                new FeedbackResponseAttributes(fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
+                new FeedbackResponseAttributes(
+                        fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
 
         fra.feedbackResponseId = fr.getId();
         fra.feedbackSessionName = fr.getFeedbackSessionName();
