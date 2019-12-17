@@ -133,7 +133,7 @@ public final class ActivityLogEntry {
      * Builds an {@link ActivityLogEntry} from {@link AppLogLine} provided by GAE.
      *
      * <p>If the log message in {@link AppLogLine} is not in desired format, an instance will still
-     * be constructed, but with log message: {@link Const.ActivityLog.MESSAGE_ERROR_LOG_MESSAGE_FORMAT}
+     * be constructed, but with log message: {@link Const.ActivityLog#MESSAGE_ERROR_LOG_MESSAGE_FORMAT}
      */
     public static ActivityLogEntry buildFromAppLog(AppLogLine appLog) {
         String[] tokens = appLog.getLogMessage().split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR), -1);
@@ -187,7 +187,7 @@ public final class ActivityLogEntry {
     /**
      * A builder class for {@link ActivityLogEntry}.
      *
-     * <p>All optional fields are initialized to {@link Const.ActivityLog.UNKNOWN}.
+     * <p>All optional fields are initialized to {@link Const.ActivityLog#UNKNOWN}.
      * Field actionResponse will be initialized to have the same value as actionName.
      * All null values (if possible) that are passed into the builder will be ignored.
      *
