@@ -38,14 +38,7 @@
         <label class="col-sm-3 control-label text-right">Instructors:</label>
         <div class="col-sm-6">
           <div *ngFor="let instructor of instructors">
-            <ng-container *ngIf="instructor.role; else noRole">
-              {{instructor.role}}: {{instructor.name}} ({{instructor.email}})
-            </ng-container>
-            <ng-template #noRole >
-              <p>
-                {{instructor.name}} ({{instructor.email}})
-              </p>
-            </ng-template>
+            {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
           </div>
         </div>
       </div>

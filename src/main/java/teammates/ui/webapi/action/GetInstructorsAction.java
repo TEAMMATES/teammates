@@ -64,6 +64,7 @@ public class GetInstructorsAction extends Action {
 
             // hide information
             data.getInstructors().forEach(i -> {
+                i.setGoogleId(null);
                 i.setJoinState(null);
                 i.setIsDisplayedToStudents(null);
                 i.setRole(null);
