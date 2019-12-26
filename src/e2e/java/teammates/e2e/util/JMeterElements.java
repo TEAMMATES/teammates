@@ -259,7 +259,7 @@ public final class JMeterElements {
     }
 
     /**
-     * Returns a HTTP Request element with a GET method to the endpoint specified by {@path}.
+     * Returns a HTTP Request element with a GET method to the endpoint specified by {@code path}.
      */
     public static HTTPSamplerProxy httpGetSampler(String path) {
         return httpSampler(path, HttpGet.METHOD_NAME, null);

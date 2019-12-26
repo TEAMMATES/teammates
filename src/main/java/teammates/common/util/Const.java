@@ -776,7 +776,6 @@ public final class Const {
         public static final String NATIONALITIES = "/nationalities";
 
         public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
-        public static final String STUDENT_COURSE = "/student/course";
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSES = "/student/courses";
@@ -784,7 +783,6 @@ public final class Const {
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
 
         public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
-        public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
         public static final String COURSE_ENROLL_STUDENTS = "/course/enroll/students";
     }
 
