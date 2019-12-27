@@ -78,6 +78,8 @@
                              [attr.id]="questionSubmissionForm.feedbackQuestionId"
                              [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
                              [isDisabled]="isSubmissionFormsDisabled"
+                             (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                             (saveCommentEvent)="updateParticipantComment(i, $event)"
 ></tm-question-submission-form>
 
 <br/>

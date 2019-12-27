@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommentBoxModule } from '../comment-box/comment-box.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
 import {
   QuestionEditAnswerFormModule,
@@ -32,6 +34,8 @@ describe('QuestionSubmissionFormComponent', () => {
         QuestionEditAnswerFormModule,
         RichTextEditorModule,
         FormsModule,
+        CommentBoxModule,
+        NgbModule,
       ],
     })
     .compileComponents();
