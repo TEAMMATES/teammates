@@ -13,6 +13,7 @@ export abstract class InstructorSessionResultView implements OnInit {
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() session: any = {};
 
   constructor(protected viewType: InstructorSessionResultViewType) {}
 

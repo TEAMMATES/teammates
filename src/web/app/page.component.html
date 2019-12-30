@@ -2,7 +2,7 @@
   <a routerLink="/web" (click)="isCollapsed = true">
     <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
   </a>
-  <button class="navbar-toggler d-lg-none" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
+  <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
@@ -11,11 +11,11 @@
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
           <div class="dropdown-menu" ngbDropdownMenu>
-            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="isCollapsed = !isCollapsed">{{ childItem.display}}</a>
+            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="toggleCollapse()">{{ childItem.display}}</a>
           </div>
         </li>
         <li *ngIf="!navItem.children" class="nav-item">
-          <a class="nav-link" [routerLink]="navItem.url" (click)="isCollapsed = !isCollapsed">{{ navItem.display }}</a>
+          <a class="nav-link" [routerLink]="navItem.url" (click)="toggleCollapse()">{{ navItem.display }}</a>
         </li>
       </ng-template>
     </ul>

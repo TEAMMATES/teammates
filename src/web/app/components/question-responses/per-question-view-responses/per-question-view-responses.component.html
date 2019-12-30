@@ -19,7 +19,9 @@
         <td>
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails"></tm-single-response>
         </td>
-        <td></td>
+        <td>
+          <tm-response-moderation-button [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="questionId"></tm-response-moderation-button>
+        </td>
       </tr>
     </tbody>
   </table>

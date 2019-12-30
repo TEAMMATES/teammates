@@ -19,6 +19,7 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() session: any = {};
 
   @Input() isGqr: boolean = true;
 
@@ -57,6 +58,7 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
+            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = false;
@@ -125,4 +127,10 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Get related giver email of specific user in GQR view.
+   */
+  getGQRRelatedGiverEmailForUser(userInfo: string): string {
+    return Object.values(this.responsesToShow[userInfo])[0].allResponses[0].relatedGiverEmail;
+  }
 }
