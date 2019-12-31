@@ -3,12 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
+import { Student, StudentProfile } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentAttributes } from '../student-profile/student-attributes';
-import { StudentProfile } from '../student-profile/student-profile';
 
 interface StudentDetails {
-  student: StudentAttributes;
+  student: Student;
   studentProfile: StudentProfile;
   hasSection: boolean;
 }
@@ -23,12 +23,12 @@ interface StudentDetails {
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
 
-  student?: StudentAttributes;
+  student?: Student;
   studentProfile?: StudentProfile;
   photoUrl: string = '';
 
   constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
-    private statusMessageService: StatusMessageService) { }
+    private statusMessageService: StatusMessageService, private studentService: StudentService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -47,17 +47,18 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   loadStudentDetails(courseid: string, studentemail: string): void {
     const paramMap: { [key: string]: string } = { courseid, studentemail };
     this.httpRequestService.get('/courses/students/details', paramMap).subscribe((resp: StudentDetails) => {
-      this.student = resp.student;
       this.studentProfile = resp.studentProfile;
-      if (!this.student) {
-        this.statusMessageService.showErrorMessage('Error retrieving student details');
-      }
       if (!this.studentProfile) {
         this.statusMessageService.showWarningMessage(
                 'Normally, we would show the student\'s profile here. '
                 + 'However, either this student has not created a profile yet, '
                 + 'or you do not have access to view this student\'s profile.');
       }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+    this.studentService.getStudentFromCourse(studentemail, courseid).subscribe((student: Student) => {
+      this.student = student;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
