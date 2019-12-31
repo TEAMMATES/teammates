@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Students } from '../types/api-output';
+import { Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -33,6 +33,17 @@ export class StudentService {
     };
     return this.httpRequestService.get('/students', paramsMapWithoutTeamName);
 
+  }
+
+  /**
+   * Get a student using their course ID and email by calling API.
+   */
+  getStudentFromCourse(studentEmail: string, courseId: string): Observable<Student> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      studentemail: studentEmail,
+    };
+    return this.httpRequestService.get('/student', paramMap);
   }
 
   /**
