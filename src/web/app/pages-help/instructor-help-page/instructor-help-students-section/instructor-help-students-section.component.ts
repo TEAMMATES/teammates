@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { JoinState } from '../../../../types/api-output';
+import { JoinState, Student } from '../../../../types/api-output';
 import { Gender } from '../../../../types/gender';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
-import { StudentAttributes } from '../../../pages-instructor/student-profile/student-attributes';
 import { StudentProfile } from '../../../pages-instructor/student-profile/student-profile';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
@@ -28,14 +27,15 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
       + 'Aspiring to become a Software Architect in a well reputed organization.',
     pictureKey: '',
   };
-  readonly exampleStudentAttributes: StudentAttributes = {
+  readonly exampleStudentAttributes: Student = {
     email: 'alice@email.com',
-    course: 'test.exa-demo',
+    courseId: 'test.exa-demo',
     name: 'Alice Betsy',
     lastName: 'Betsy',
     comments: 'Alice is a transfer student.',
-    team: 'Team A',
-    section: 'Section A',
+    teamName: 'Team A',
+    sectionName: 'Section A',
+    joinState: JoinState.JOINED,
   };
   readonly exampleSingleStudentResultTables: SearchStudentsTable[] = [{
     courseId: 'Course name appears here',
