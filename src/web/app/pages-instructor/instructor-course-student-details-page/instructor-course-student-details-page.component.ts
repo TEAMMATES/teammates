@@ -40,13 +40,13 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   /**
    * Loads the student's details based on the given course ID and email.
    */
-  loadStudentDetails(courseid: string, studentemail: string): void {
-    this.studentProfileService.getStudentProfile(studentemail, courseid).subscribe((studentProfile: StudentProfile) => {
+  loadStudentDetails(courseId: string, studentEmail: string): void {
+    this.studentProfileService.getStudentProfile(studentEmail, courseId).subscribe((studentProfile: StudentProfile) => {
       this.studentProfile = studentProfile;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-    this.studentService.getStudentFromCourse(studentemail, courseid).subscribe((student: Student) => {
+    this.studentService.getStudent(courseId, studentEmail).subscribe((student: Student) => {
       this.student = student;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
