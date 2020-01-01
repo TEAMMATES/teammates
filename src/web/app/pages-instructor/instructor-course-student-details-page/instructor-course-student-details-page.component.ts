@@ -43,12 +43,6 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   loadStudentDetails(courseid: string, studentemail: string): void {
     this.studentProfileService.getStudentProfile(studentemail, courseid).subscribe((studentProfile: StudentProfile) => {
       this.studentProfile = studentProfile;
-      if (!this.studentProfile) {
-        this.statusMessageService.showWarningMessage(
-          'Normally, we would show the student\'s profile here. '
-          + 'However, either this student has not created a profile yet, '
-          + 'or you do not have access to view this student\'s profile.');
-      }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
