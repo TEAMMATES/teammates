@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
+<tm-instructor-student-records-page
+  courseId="undefined"
+  photoUrl={[Function String]}
+  route={[Function ActivatedRoute]}
+  sessions={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  studentEmail="undefined"
+  studentProfile={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+>
+  <h1>
+    's Records
+    <small
+      class="text-muted"
+    >
+       - 
+    </small>
+  </h1><tm-student-profile
+    ng-reflect-photo-url="http://localhost:8080/webapi/s"
+    ng-reflect-student-profile="[object Object]"
+  /><tm-more-info
+    ng-reflect-more-info-text=""
+    ng-reflect-student-name=""
+  />
+</tm-instructor-student-records-page>
+`;
