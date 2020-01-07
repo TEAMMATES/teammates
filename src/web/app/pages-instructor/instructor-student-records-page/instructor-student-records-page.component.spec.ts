@@ -54,4 +54,8 @@ describe('InstructorStudentRecordsPageComponent', () => {
   it('should snap with default fields', () => {
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should output a correctly formatted url string', () => {
+    expect(component.photoUrl).toEqual('http://localhost:8080/webapi/student/profilePic?courseid=undefined&studentemail=undefined');
+  });
 });
