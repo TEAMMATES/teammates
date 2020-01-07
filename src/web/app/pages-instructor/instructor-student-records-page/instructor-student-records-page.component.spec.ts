@@ -56,6 +56,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
   });
 
   it('should output a correctly formatted url string', () => {
-    expect(component.photoUrl).toEqual('http://localhost:8080/webapi/student/profilePic?courseid=undefined&studentemail=undefined');
+    expect(component.photoUrl)
+      .toEqual('http://localhost:8080/webapi/student/profilePic?courseid=undefined&studentemail=undefined');
   });
 });
