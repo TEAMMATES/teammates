@@ -2,12 +2,12 @@
 
 exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
 <tm-instructor-student-records-page
-  courseId="undefined"
+  courseId={[Function String]}
   photoUrl={[Function String]}
-  route={[Function ActivatedRoute]}
+  route={[Function Object]}
   sessions={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
-  studentEmail="undefined"
+  studentEmail={[Function String]}
   studentProfile={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
 >
@@ -16,7 +16,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
     <small
       class="text-muted"
     >
-       - 
+       - su1337
     </small>
   </h1><tm-student-profile
     ng-reflect-photo-url="http://localhost:8080/webapi/s"
@@ -32,10 +32,10 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
 <tm-instructor-student-records-page
   courseId={[Function String]}
   photoUrl={[Function String]}
-  route={[Function ActivatedRoute]}
+  route={[Function Object]}
   sessions={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
-  studentEmail="undefined"
+  studentEmail={[Function String]}
   studentProfile={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
 >

@@ -2,8 +2,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
 import { Gender, StudentProfile } from '../../../types/api-output';
 import { InstructorStudentRecordsPageComponent } from './instructor-student-records-page.component';
 
@@ -36,6 +38,14 @@ describe('InstructorStudentRecordsPageComponent', () => {
         RouterTestingModule,
         NgbModule,
         MatSnackBarModule,
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({ courseid: 'su1337', studentemail: 'punk@punk.com' }),
+          },
+        },
       ],
     })
     .compileComponents();
@@ -74,6 +84,6 @@ describe('InstructorStudentRecordsPageComponent', () => {
 
   it('should output a correctly formatted url string', () => {
     expect(component.photoUrl)
-      .toEqual('http://localhost:8080/webapi/student/profilePic?courseid=undefined&studentemail=undefined');
+      .toEqual('http://localhost:8080/webapi/student/profilePic?courseid=su1337&studentemail=punk@punk.com');
   });
 });
