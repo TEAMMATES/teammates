@@ -1,4 +1,4 @@
-import { Gender } from '../../../types/gender';
+import { Gender } from '../../../types/api-output';
 
 /**
  * Contains a student's profile

@@ -11,7 +11,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
-import { Gender } from '../../../types/gender';
+import { Gender } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 import {
