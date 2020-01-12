@@ -9,8 +9,8 @@ import {
   QuestionOutput,
   SessionResults,
 } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../../types/Intent';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Feedback session result page.

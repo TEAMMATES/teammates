@@ -8,8 +8,8 @@ import {
   FeedbackSession, FeedbackSessionSubmittedGiverSet,
   SessionResults, Student, Students,
 } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { Intent } from '../../../types/Intent';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 
 /**
