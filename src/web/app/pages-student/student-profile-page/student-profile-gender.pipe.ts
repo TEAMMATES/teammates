@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Gender } from '../../../types/api-output';
 
-
 /**
  * Pipe to handle the display of gender options in the student profile page.
  */
