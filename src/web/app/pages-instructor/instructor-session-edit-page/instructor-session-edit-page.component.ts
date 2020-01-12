@@ -39,7 +39,7 @@ import {
   TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
+import { Intent } from '../../../types/Intent';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import {
   QuestionToCopyCandidate,

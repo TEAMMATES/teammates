@@ -10,7 +10,7 @@ import {
   SessionResults,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
+import { Intent } from '../../../types/Intent';
 
 /**
  * Feedback session result page.

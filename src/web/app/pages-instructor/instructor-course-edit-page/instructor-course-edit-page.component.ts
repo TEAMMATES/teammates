@@ -30,7 +30,7 @@ import {
 } from '../../../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
+import { Intent } from '../../../types/Intent';
 import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission, InstructorSessionLevelPermission,

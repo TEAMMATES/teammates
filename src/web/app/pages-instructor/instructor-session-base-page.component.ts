@@ -20,7 +20,7 @@ import {
   SortOrder,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import { Intent } from '../Intent';
+import { Intent } from '../../types/Intent';
 
 /**
  * The base page for session related page.
