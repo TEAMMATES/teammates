@@ -119,6 +119,8 @@ public final class AccountsLogic {
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId);
 
+        validateInstructorInstitute(instructor, institute);
+
         // Register the instructor
         instructor.googleId = googleId;
         try {
@@ -160,6 +162,16 @@ public final class AccountsLogic {
         }
 
         return instructor;
+    }
+
+    private void validateInstructorInstitute (InstructorAttributes instructor, String institute)
+            throws InvalidParametersException {
+        assert instructor != null : "Should have been checked in validateInstructorJoinRequest() method.";
+        AccountAttributes account = getAccount(instructor.email);
+
+        if (account != null && !account.institute.equals(institute)) {
+            throw new InvalidParametersException("Instructor institute manually modified.");
+        }
     }
 
     private InstructorAttributes validateInstructorJoinRequest(String encryptedKey, String googleId)
