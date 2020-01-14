@@ -5,9 +5,11 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -45,26 +47,36 @@ public class CreateAccountAction extends Action {
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
-        String courseId = null;
+        String courseId;
 
         try {
             courseId = importDemoData(instructorEmail, instructorName);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+
+            String instructorInstitution = createRequest.getInstructorInstitution().trim();
+            List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+            String registrationKey = StringHelper.encrypt(instructorList.get(0).key);
+            String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                    .withRegistrationKey(registrationKey)
+                    .withInstructorInstitution(instructorInstitution)
+                    .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                    .toAbsoluteString();
+            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
+                    instructorList.get(0).email, instructorName, joinLink);
+            emailSender.sendEmail(email);
+
+            logic.createAccount(AccountAttributes.builder(registrationKey)
+                    .withName(instructorName)
+                    .withEmail(instructorEmail)
+                    .withInstitute(instructorInstitution)
+                    .withIsInstructor(false)
+                    .build());
+
+            JoinLinkData output = new JoinLinkData(joinLink);
+            return new JsonResult(output);
+
+        } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
-        String instructorInstitution = createRequest.getInstructorInstitution().trim();
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
-                .withInstructorInstitution(instructorInstitution)
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
-        EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                instructorList.get(0).email, instructorName, joinLink);
-        emailSender.sendEmail(email);
-
-        JoinLinkData output = new JoinLinkData(joinLink);
-        return new JsonResult(output);
     }
 
     /**

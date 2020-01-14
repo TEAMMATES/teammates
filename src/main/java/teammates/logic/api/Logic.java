@@ -370,6 +370,13 @@ public class Logic {
         return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
     }
 
+    public AccountAttributes createAccount(AccountAttributes accountData)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Assumption.assertNotNull(accountData);
+
+        return accountsLogic.createAccount(accountData);
+    }
+
     /**
      * Downgrades an instructor account to student account.
      *

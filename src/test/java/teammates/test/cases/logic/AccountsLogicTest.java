@@ -259,6 +259,17 @@ public class AccountsLogicTest extends BaseLogicTest {
                 instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
         };
 
+        ______TS("failure: institute string different from account value");
+
+        accountsLogic.createAccount(AccountAttributes.builder(encryptedKey[0])
+                .withEmail(instructor.email).withInstitute("NUS").withName(instructor.name).build());
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, "NTU"));
+        assertEquals("Instructor institute manually modified.", ipe.getMessage());
+
+        accountsLogic.deleteAccountCascade(encryptedKey[0]);
+
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
