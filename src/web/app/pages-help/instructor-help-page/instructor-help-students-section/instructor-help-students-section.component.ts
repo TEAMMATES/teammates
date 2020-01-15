@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { JoinState, Student } from '../../../../types/api-output';
-import { Gender } from '../../../../types/gender';
+import { Gender, JoinState, Student } from '../../../../types/api-output';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentProfile } from '../../../pages-instructor/student-profile/student-profile';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';

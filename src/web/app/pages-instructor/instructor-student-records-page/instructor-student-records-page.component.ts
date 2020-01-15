@@ -47,8 +47,8 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
 
       this.loadStudentRecords();
       this.photoUrl
-          = `${environment.backendUrl}/webapi/student/profilePic
-          ?courseid=${this.courseId}&studentemail=${this.studentEmail}`;
+          = `${environment.backendUrl}/webapi/student/profilePic?`
+            + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
     });
   }
 
