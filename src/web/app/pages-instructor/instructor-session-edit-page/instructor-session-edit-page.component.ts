@@ -26,6 +26,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting, Student, Students,
 } from '../../../types/api-output';
+import { Intent } from '../../../types/Intent';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
@@ -39,7 +40,6 @@ import {
   TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import {
   QuestionToCopyCandidate,
