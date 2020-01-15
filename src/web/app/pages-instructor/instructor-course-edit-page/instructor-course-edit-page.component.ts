@@ -29,8 +29,8 @@ import {
   Students,
 } from '../../../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest } from '../../../types/api-request';
+import { Intent } from '../../../types/Intent';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
 import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission, InstructorSessionLevelPermission,
