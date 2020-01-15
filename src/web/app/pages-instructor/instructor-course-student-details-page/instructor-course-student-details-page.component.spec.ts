@@ -3,8 +3,7 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
-import { JoinState, Student } from '../../../types/api-output';
-import { Gender } from '../../../types/gender';
+import { Gender, JoinState, Student } from '../../../types/api-output';
 import { StudentProfile } from '../student-profile/student-profile';
 import {
   InstructorCourseStudentDetailsPageComponent,

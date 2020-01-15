@@ -6,9 +6,8 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
-import { Course, Instructor, Instructors, JoinState, Student, StudentProfile,
+import { Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile,
   Students } from '../../../types/api-output';
-import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
