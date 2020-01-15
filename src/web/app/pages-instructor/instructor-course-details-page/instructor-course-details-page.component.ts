@@ -17,8 +17,8 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
+import { Intent } from '../../../types/Intent';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 
 interface CourseStats {

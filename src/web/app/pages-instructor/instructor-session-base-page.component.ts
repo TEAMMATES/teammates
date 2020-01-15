@@ -13,6 +13,7 @@ import {
   FeedbackSessionStats,
   InstructorPrivilege,
 } from '../../types/api-output';
+import { Intent } from '../../types/Intent';
 import {
   CopySessionResult,
   SessionsTableRowModel,
@@ -20,7 +21,6 @@ import {
   SortOrder,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import { Intent } from '../Intent';
 
 /**
  * The base page for session related page.
