@@ -11,6 +11,8 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
+  ConfirmationResponse,
+  ConfirmationResult,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
@@ -52,26 +54,6 @@ interface FeedbackQuestionsResponse {
 
 interface FeedbackResponsesResponse {
   responses: FeedbackResponse[];
-}
-
-/**
- * The result of the confirmation.
- */
-enum ConfirmationResult {
-  /**
-   * The submission has been confirmed successfully.
-   */
-  SUCCESS = 'SUCCESS',
-
-  /**
-   * The submission has been confirmed but the confirmation email failed to send.
-   */
-  SUCCESS_BUT_EMAIL_FAIL_TO_SEND = 'SUCCESS_BUT_EMAIL_FAIL_TO_SEND',
-}
-
-interface ConfirmationResponse {
-  result: ConfirmationResult;
-  message: string;
 }
 
 /**
