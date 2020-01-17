@@ -16,6 +16,19 @@ export class NavigationService {
   constructor(private statusMessageService: StatusMessageService,
               private masqueradeModeService: MasqueradeModeService) {}
 
+  encodeParams(params: {[key: string]: string}): string {
+    return Object.keys(params).map(((key: string): string => `${key}=${encodeURIComponent(params[key])}`))
+      .join('&');
+  }
+
+  /**
+   * Navigates to the selected URL with URL param encoding
+   */
+  navigateByURLWithParamEncoding(router: Router,
+    urlWithoutParams: string, params: {[key: string]: string}): Promise<Boolean> {
+    return router.navigateByUrl(`${urlWithoutParams}?${this.encodeParams(params)}`);
+  }
+
   /**
    * Navigates to the selected URL and shows an error message afterwards.
    */
@@ -44,6 +57,14 @@ export class NavigationService {
   }
 
   /**
+   * Navigates to the selected URL and shows successful message with URL param encoding
+   */
+  navigateWithSuccessMessageWithParamEncoding(router: Router, urlWithoutParams: string,
+    params: {[key: string]: string}, message: string): void {
+    return this.navigateWithSuccessMessage(router, `${urlWithoutParams}?${this.encodeParams(params)}`, message);
+  }
+
+  /**
    * Opens a new browser window.
    */
   openNewWindow(urlStr: string): void {
@@ -52,5 +73,12 @@ export class NavigationService {
       url.searchParams.set('user', this.masqueradeModeService.getMasqueradeUser());
     }
     window.open(url.toString());
+  }
+
+  /**
+   * Opens a new browser window with URL Param encoding
+   */
+  openNewWindowWithParamEncoding(urlWithoutParams: string, params: {[key: string]: string}): void {
+    return this.openNewWindow(`${urlWithoutParams}?${this.encodeParams(params)}`);
   }
 }
