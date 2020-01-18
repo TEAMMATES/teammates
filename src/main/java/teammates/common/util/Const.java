@@ -108,8 +108,11 @@ public final class Const {
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
-        /** This is the limit after which TEAMMATES will send error message.
-         * Must be within the range of int */
+        /**
+         * This is the limit after which TEAMMATES will send error message.
+         *
+         * <p>Must be within the range of int.
+         */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
 
         /** e.g. "2014-04-01 11:59 PM UTC" */

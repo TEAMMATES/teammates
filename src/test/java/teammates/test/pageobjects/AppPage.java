@@ -474,7 +474,8 @@ public abstract class AppPage {
         return javascriptExecutor.executeScript(script, args);
     }
 
-    /** Equivalent to pressing the 'back' button of the browser. <br>
+    /**
+     * Equivalent to pressing the 'back' button of the browser. <br>
      * Fails if the page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPreviousPage}.
      */

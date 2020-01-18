@@ -243,7 +243,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
            (Who is giving feedback about whom?) 
         </div>
         <div
-          class="margin-top-15px"
+          class="margin-top-15px dropdown"
           ngbdropdown=""
         >
           <button
@@ -386,7 +386,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           <ul
             class="dropdown-menu"
             ngbdropdownmenu=""
-            x-placement="bottom-left"
+            x-placement="bottom"
           >
             <li
               class="dropdown-header"

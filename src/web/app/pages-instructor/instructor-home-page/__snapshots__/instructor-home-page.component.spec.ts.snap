@@ -384,7 +384,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   
@@ -428,7 +428,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -458,7 +458,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -488,7 +488,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -751,7 +751,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         <div
                           class="dropdown-menu"
                           ngbdropdownmenu=""
-                          x-placement="bottom-left"
+                          x-placement="bottom"
                         >
                           <button
                             class="dropdown-item clickable"
@@ -955,7 +955,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   <a
@@ -986,7 +986,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -1016,7 +1016,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -1046,7 +1046,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -1302,7 +1302,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <div
                           class="dropdown-menu"
                           ngbdropdownmenu=""
-                          x-placement="bottom-left"
+                          x-placement="bottom"
                         >
                           <button
                             class="dropdown-item clickable"
@@ -1469,7 +1469,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <div
                           class="dropdown-menu"
                           ngbdropdownmenu=""
-                          x-placement="bottom-left"
+                          x-placement="bottom"
                         >
                           <button
                             class="dropdown-item clickable"
@@ -1673,7 +1673,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   
@@ -1717,7 +1717,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -1747,7 +1747,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -1777,7 +1777,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -1974,7 +1974,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   
@@ -2018,7 +2018,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -2048,7 +2048,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -2078,7 +2078,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -2295,7 +2295,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   
@@ -2339,7 +2339,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -2369,7 +2369,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -2399,7 +2399,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"

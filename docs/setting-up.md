@@ -42,40 +42,13 @@ These tools are necessary regardless of whether you are developing front-end or 
 
 1. Install JDK 1.8.
 1. Install Python 2.7.
-1. Install Google Cloud SDK (minimum version 222.0.0). Follow the directions given [here](https://cloud.google.com/sdk/downloads).
-   Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
-   ```sh
-   # Run the following command at the Google Cloud SDK directory
-
-   # Linux/OS X
-   ./install.sh --path-update true
-
-   # Windows
-   install.bat --path-update true
-   ```
-   If you are installing in Red Hat, CentOS, Fedora, Debian or Ubuntu, refer to the quick start of Google Cloud SDK for [Debian/Ubuntu](https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu) or [Red Hat/CentOS/Fedora](https://cloud.google.com/sdk/docs/quickstart-redhat-centos) respectively.
-
-   **Verification**: Run a `gcloud` command (e.g. `gcloud version`) in order to verify that you can access the SDK from the command line.
-
-1. Run the following command to install App Engine Java SDK bundled with the Cloud SDK:
-   ```sh
-   # Linux/OS X/Windows
-   gcloud -q components install app-engine-java
-   
-   # Red Hat/CentOS/Fedora
-   sudo yum install google-cloud-sdk-app-engine-java
-   
-   # Debian/Ubuntu
-   sudo apt-get install google-cloud-sdk-app-engine-java
-   ```
-   **Verification:** Run `gcloud version` and there should be an entry on `app-engine-java`.
 
 If you want to develop front-end, you need to install the following:
 
 1. Install Node.js (minimum version 8.9.4).
-1. (Optional but highly recommended) Install Angular CLI version 7 globally.
+1. (Optional but highly recommended) Install Angular CLI version 8 globally.
    ```sh
-   npm install -g @angular/cli@7
+   npm install -g @angular/cli@8
    ```
    **Verification:** Run `ng` and you should see a list of available Angular CLI commands.
 
@@ -88,8 +61,9 @@ If you want to develop front-end, you need to install the following:
    **Verification:** The file named `gradle.properties` should be added to the project root directory.
 
 1. Modify the following config file:
-   * `gradle.properties`<br>
-      If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
+   * `gradle.properties`
+     * If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
+     * If you want to use a specific Google Cloud SDK installation, add the value to the variable `cloud.sdk.home`. A minimum version of `222.0.0` is required.
 
 1. Run this command to download the necessary tools for front-end development (if you are going to be involved):
    ```sh
