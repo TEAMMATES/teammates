@@ -20,7 +20,7 @@ before_install:
         echo "Only doc files or images were updated in PR, not running the CI."
         exit
       fi
-  - nvm install 10
+  - nvm install 12
 
 install: true
 
@@ -31,6 +31,7 @@ before_cache:
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
   - rm -rf $HOME/.gradle/caches/*/javaCompile/
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -rf $HOME/.gradle/caches/*/scripts/
   - rm -rf $HOME/.gradle/caches/*/workerMain/
   - rm -rf $HOME/.gradle/caches/*/gc.properties
   - rm -rf $HOME/.gradle/caches/journal-1/
@@ -69,19 +70,14 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
     - name: "E2E Tests - Firefox"
       addons:
-        firefox: "66.0"
+        firefox: "72.0"
       services:
         - xvfb
       before_script:
-        - export PATH=$HOME/google-cloud-sdk/bin:$PATH
         - cd $HOME
-        - curl -fsS -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
         - curl -fsSL -o geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
-        - tar -xzf google-cloud-sdk.tar.gz
         - tar -xzf geckodriver.tar.gz
-        - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
         - cd $TRAVIS_BUILD_DIR
-        - gcloud -q components install app-engine-java
         - mv src/e2e/resources/test.travis.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
         - npm install
@@ -95,16 +91,11 @@ jobs:
       services:
         - xvfb
       before_script:
-        - export PATH=$HOME/google-cloud-sdk/bin:$PATH
         - cd $HOME
-        - curl -fsS -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
         - LATEST_CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"`
         - curl -fsSL -o chromedriver.zip "https://chromedriver.storage.googleapis.com/${LATEST_CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
-        - tar -xzf google-cloud-sdk.tar.gz
         - unzip chromedriver.zip
-        - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
         - cd $TRAVIS_BUILD_DIR
-        - gcloud -q components install app-engine-java
         - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
         - npm install

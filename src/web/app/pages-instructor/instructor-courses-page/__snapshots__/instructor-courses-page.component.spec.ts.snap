@@ -301,9 +301,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>
@@ -783,9 +781,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>
@@ -1079,19 +1075,17 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
         <tbody>
           
         </tbody>
-        <tbody>
-          
-          <tr>
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-          </tr>
-        </tbody>
+        
+        <tr>
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+        </tr>
       </table>
       
       <p>
@@ -1435,9 +1429,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>

@@ -14,6 +14,7 @@ import teammates.ui.webapi.action.GetInstructorsAction;
 import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.InstructorData;
+import teammates.ui.webapi.output.InstructorPermissionRole;
 import teammates.ui.webapi.output.InstructorsData;
 import teammates.ui.webapi.output.JoinState;
 
@@ -81,6 +82,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         assertEquals("Instructor", typicalInstructor.getDisplayedToStudentsAs());
         assertNull(typicalInstructor.getRole());
         assertNull(typicalInstructor.getIsDisplayedToStudents());
+        assertNull(typicalInstructor.getGoogleId());
         assertNull(typicalInstructor.getJoinState()); // information is hidden
     }
 
@@ -106,11 +108,12 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         // without information hiding, it is still 5
         assertEquals(5, instructors.size());
         InstructorData typicalInstructor = instructors.get(0);
+        assertEquals("idOfHelperOfCourse1", typicalInstructor.getGoogleId());
         assertEquals("idOfTypicalCourse1", typicalInstructor.getCourseId());
         assertEquals("helper@course1.tmt", typicalInstructor.getEmail());
         assertEquals("Helper Course1", typicalInstructor.getName());
         assertEquals("Helper", typicalInstructor.getDisplayedToStudentsAs());
-        assertEquals("Custom", typicalInstructor.getRole());
+        assertEquals(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, typicalInstructor.getRole());
         assertFalse(typicalInstructor.getIsDisplayedToStudents());
         assertEquals(JoinState.JOINED, typicalInstructor.getJoinState());
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -30,7 +31,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, questionDetails,
+            QuestionOutput qnOutput = new QuestionOutput(question.getId(), question.questionNumber, questionDetails,
                     questionDetails.getQuestionResultStatisticsJson(responses, question, instructor.email, bundle, false));
 
             List<ResponseOutput> allResponses = buildResponses(responses, bundle);
@@ -48,7 +49,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-            QuestionOutput qnOutput = new QuestionOutput(question.questionNumber, questionDetails,
+            QuestionOutput qnOutput = new QuestionOutput(question.getId(), question.questionNumber, questionDetails,
                     questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle, true));
 
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
@@ -128,7 +129,7 @@ public class SessionResultsData extends ApiOutput {
                 // TODO fetch feedback response comments
 
                 // Student does not need to know the teams for giver and/or recipient
-                output.add(new ResponseOutput(displayedGiverName, null, response.giverSection,
+                output.add(new ResponseOutput(displayedGiverName, null, null, response.giverSection,
                         recipientName, null, response.recipientSection, response.responseDetails));
             }
 
@@ -152,11 +153,15 @@ public class SessionResultsData extends ApiOutput {
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
                 String giverName = removeAnonymousHash(bundle.getGiverNameForResponse(response));
+                Map<String, Set<String>> teamNameToMembersEmailTable = bundle.rosterTeamNameMembersTable;
+                String relatedGiverEmail = teamNameToMembersEmailTable.containsKey(response.giver)
+                        ? teamNameToMembersEmailTable.get(response.giver).iterator().next() : response.giver;
+
                 String giverTeam = bundle.getTeamNameForEmail(response.giver);
 
                 // TODO fetch feedback response comments
 
-                output.add(new ResponseOutput(giverName, giverTeam, response.giverSection,
+                output.add(new ResponseOutput(giverName, giverTeam, relatedGiverEmail, response.giverSection,
                         recipientName, recipientTeam, response.recipientSection, response.responseDetails));
             }
 
@@ -166,6 +171,7 @@ public class SessionResultsData extends ApiOutput {
 
     private static class QuestionOutput {
 
+        private final String questionId;
         private final FeedbackQuestionDetails questionDetails;
         private final int questionNumber;
         private final String questionStatistics;
@@ -178,10 +184,16 @@ public class SessionResultsData extends ApiOutput {
         private List<ResponseOutput> responsesFromSelf = new ArrayList<>();
         private List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
-        QuestionOutput(int questionNumber, FeedbackQuestionDetails questionDetails, String questionStatistics) {
+        QuestionOutput(String questionId, int questionNumber,
+                       FeedbackQuestionDetails questionDetails, String questionStatistics) {
+            this.questionId = questionId;
             this.questionNumber = questionNumber;
             this.questionDetails = questionDetails;
             this.questionStatistics = questionStatistics;
+        }
+
+        public String getQuestionId() {
+            return questionId;
         }
 
         public FeedbackQuestionDetails getQuestionDetails() {
@@ -217,6 +229,11 @@ public class SessionResultsData extends ApiOutput {
     private static class ResponseOutput {
 
         private final String giver;
+        /**
+         * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
+         * email or "anonymous".
+         */
+        private final String relatedGiverEmail;
         private final String giverTeam;
         private final String giverSection;
         private String recipient;
@@ -224,9 +241,10 @@ public class SessionResultsData extends ApiOutput {
         private final String recipientSection;
         private final FeedbackResponseDetails responseDetails;
 
-        ResponseOutput(String giver, String giverTeam, String giverSection, String recipient,
-                String recipientTeam, String recipientSection, FeedbackResponseDetails responseDetails) {
+        ResponseOutput(String giver, String giverTeam, String relatedGiverEmail, String giverSection, String recipient,
+                       String recipientTeam, String recipientSection, FeedbackResponseDetails responseDetails) {
             this.giver = giver;
+            this.relatedGiverEmail = relatedGiverEmail;
             this.giverTeam = giverTeam;
             this.giverSection = giverSection;
             this.recipient = recipient;

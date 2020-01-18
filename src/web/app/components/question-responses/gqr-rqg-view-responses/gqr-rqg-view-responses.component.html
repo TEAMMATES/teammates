@@ -16,6 +16,7 @@
             <div class="card-header bg-primary text-white" (click)="userToTeamName[userInfo].isExpanded = !userToTeamName[userInfo].isExpanded">
               {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
               <div class="float-right">
+                <tm-response-moderation-button *ngIf="isGqr" [session]="session" [relatedGiverEmail]="getGQRRelatedGiverEmailForUser(userInfo)"></tm-response-moderation-button>
                 <i class="fas fa-chevron-down" *ngIf="!userToTeamName[userInfo].isExpanded"></i>
                 <i class="fas fa-chevron-up" *ngIf="userToTeamName[userInfo].isExpanded"></i>
               </div>
@@ -30,8 +31,8 @@
                   </div>
                 </div>
                 <div class="card-body" *ngIf="question.isTabExpanded">
-                  <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType"
-                      [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails"></tm-per-question-view-responses>
+                  <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
+                      [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails" [questionId]="question.questionId"></tm-per-question-view-responses>
                 </div>
               </div>
             </div>
@@ -48,6 +49,7 @@
       <div class="card-header bg-primary text-white" (click)="userInfo.value.isExpanded = !userInfo.value.isExpanded">
         {{ isGqr ? 'From' : 'To' }}: {{ userInfo.key }}
         <div class="float-right">
+          <tm-response-moderation-button [session]="session" [relatedGiverEmail]="getGQRRelatedGiverEmailForUser(userInfo.key)"></tm-response-moderation-button>
           <i class="fas fa-chevron-down" *ngIf="!userInfo.value.isExpanded"></i>
           <i class="fas fa-chevron-up" *ngIf="userInfo.value.isExpanded"></i>
         </div>
@@ -62,7 +64,7 @@
             </div>
           </div>
           <div class="card-body" *ngIf="question.isTabExpanded">
-            <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType"
+            <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
                 [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails"></tm-per-question-view-responses>
           </div>
         </div>

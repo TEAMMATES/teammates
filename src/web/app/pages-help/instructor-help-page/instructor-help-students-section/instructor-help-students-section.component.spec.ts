@@ -3,9 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Gender } from '../../../../types/gender';
+import { Gender, JoinState, Student } from '../../../../types/api-output';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
-import { StudentAttributes } from '../../../pages-instructor/student-profile/student-attributes';
 import { StudentProfile } from '../../../pages-instructor/student-profile/student-profile';
 import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section.component';
 
@@ -33,14 +32,15 @@ class StudentProfileStubComponent {
 }
 @Component({ selector: 'tm-course-related-info', template: '' })
 class CourseRelatedInfoStubComponent {
-  @Input() student: StudentAttributes = {
+  @Input() student: Student = {
     email: '',
-    course: '',
+    courseId: '',
     name: '',
     lastName: '',
     comments: '',
-    team: '',
-    section: '',
+    teamName: '',
+    sectionName: '',
+    joinState: JoinState.JOINED,
   };
 }
 @Component({ selector: 'tm-more-info', template: '' })

@@ -177,7 +177,7 @@ public abstract class AppPage {
      * @param element the WebElement
      * @throws TimeoutException if the timeout defined in
      * {@link TestProperties#TEST_TIMEOUT} expires
-     * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
+     * @see org.openqa.selenium.support.ui.FluentWait#until(java.util.function.Function)
      */
     public void waitForElementStaleness(WebElement element) {
         waitFor(ExpectedConditions.stalenessOf(element));
@@ -479,10 +479,11 @@ public abstract class AppPage {
     /**
      * Scrolls element to center and clicks on it.
      *
-     * <p>As compared to {@link Actions#moveToElement(WebElement)}, this method is more reliable as the element will not get
-     * blocked by elements such as the header.
+     * <p>As compared to {@link org.openqa.selenium.interactions.Actions#moveToElement(WebElement)}, this method is
+     * more reliable as the element will not get blocked by elements such as the header.
      *
-     * <p>Furthermore, {@link Actions#moveToElement(WebElement)} is currently not working in Geckodriver.
+     * <p>Furthermore, {@link org.openqa.selenium.interactions.Actions#moveToElement(WebElement)} is currently not
+     * working in Geckodriver.
      *
      * <p><b>Note:</b> A "scroll into view" Actions primitive is in progress and may allow scrolling element to center.
      * Tracking issue:

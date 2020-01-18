@@ -9,7 +9,7 @@
     </div>
     <div class="card-body" *ngIf="sectionInfo.value.isTabExpanded">
       <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="section" [sectionType]="sectionType"
-          [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="true"
+          [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="true" [session]="session"
           style="margin-bottom: 20px;"></tm-gqr-rqg-view-responses>
     </div>
   </div>

@@ -22,6 +22,21 @@ describe('QuestionEditFormComponent', () => {
   let component: QuestionEditFormComponent;
   let fixture: ComponentFixture<QuestionEditFormComponent>;
 
+  // Mock Date and Math.random so that TinyMCE generates a fixed UUID
+  const mockDate: Date = new Date('2020');
+  const realDate: DateConstructor = Date;
+  const realMath: Math = Math;
+
+  beforeAll(() => {
+    global.Date = jest.fn(() => mockDate) as any;
+    global.Math.random = jest.fn(() => 0);
+  });
+
+  afterAll(() => {
+    global.Date = realDate;
+    global.Math = realMath;
+  });
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -54,5 +69,9 @@ describe('QuestionEditFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should snap with default view', () => {
+    expect(fixture).toMatchSnapshot();
   });
 });

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Gender } from '../../../types/gender';
+import { Gender } from '../../../types/api-output';
 import { StudentProfile } from './student-profile';
 
 /**

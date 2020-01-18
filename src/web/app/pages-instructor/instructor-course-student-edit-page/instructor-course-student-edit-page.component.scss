@@ -10,11 +10,11 @@ label {
   margin-bottom: 15px;
 }
 
-/deep/.modal-content {
+::ng-deep.modal-content {
   padding: 0 !important;
 }
 
-/deep/.close:focus {
+::ng-deep.close:focus {
   outline: 0;
 }
 

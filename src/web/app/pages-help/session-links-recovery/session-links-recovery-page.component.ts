@@ -26,7 +26,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   formSessionLinksRecovery!: FormGroup;
   readonly captchaSiteKey: string = environment.captchaSiteKey;
 
-  @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
+  @ViewChild('captchaElem', { static: false }) captchaElem!: ReCaptcha2Component;
 
   constructor(private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,

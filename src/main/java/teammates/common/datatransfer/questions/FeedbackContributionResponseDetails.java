@@ -18,8 +18,9 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     private static final Logger log = Logger.getLogger();
 
-    /**This is the claimed points from giver to recipient.
-    */
+    /**
+     * This is the claimed points from giver to recipient.
+     */
     private int answer;
 
     public FeedbackContributionResponseDetails() {

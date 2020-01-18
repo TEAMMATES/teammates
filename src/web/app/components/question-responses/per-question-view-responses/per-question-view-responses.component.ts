@@ -13,6 +13,7 @@ import {
 })
 export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
 
+  @Input() questionId: string = '';
   @Input() questionDetails: any = {};
   @Input() responses: any[] = [];
   @Input() section: string = '';
@@ -21,6 +22,7 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   @Input() indicateMissingResponses: boolean = true;
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
+  @Input() session: any = {};
 
   responsesToShow: any[] = [];
 
