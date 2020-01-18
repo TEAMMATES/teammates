@@ -216,7 +216,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.courseService.changeArchiveStatus(courseId, {
       archiveStatus: toArchive,
     }).subscribe((courseArchive: CourseArchive) => {
-      this.loadInstructorCourses();
+      this.changeFrontEndArchiveStatus(courseId, toArchive);
       if (courseArchive.isArchived) {
         this.statusMessageService.showSuccessMessage(`The course ${courseId} has been archived.
           It will not appear on the home page anymore.`);
@@ -226,6 +226,78 @@ export class InstructorCoursesPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Changes the status of an archived course in front-end only.
+   * This is to reduce the need to refresh the entire list of courses multiple times.
+   */
+  changeFrontEndArchiveStatus(courseId: string, toArchive: boolean): void {
+    if (toArchive) {
+      const courseToBeRemoved: ActiveCourseModel | undefined = this.findAndRemoveActiveCourse(courseId);
+      if (courseToBeRemoved !== undefined) {
+        const course: Course = courseToBeRemoved.course;
+        const canModifyCourse: boolean = courseToBeRemoved.canModifyCourse;
+        const courseToBeArchived: ArchivedCourseModel = Object.assign({}, { course, canModifyCourse });
+        this.archivedCourses.push(courseToBeArchived);
+      }
+    } else {
+      const courseToBeRemoved: ArchivedCourseModel | undefined = this.findAndRemoveArchivedCourse(courseId);
+      if (courseToBeRemoved !== undefined) {
+        this.httpRequestService.get('/instructor/privilege', {
+          courseid: courseToBeRemoved.course.courseId,
+        }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+          const course: Course = courseToBeRemoved.course;
+          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
+          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+          const activeCourse: ActiveCourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+          this.activeCourses.push(activeCourse);
+        }, (error: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(error.error.message);
+        });
+      }
+    }
+  }
+
+  /**
+   * Finds and removes an active course from the active course list.
+   */
+  findAndRemoveActiveCourse(courseId: string): ActiveCourseModel | undefined {
+    const courseToBeRemoved: ActiveCourseModel | undefined = this.activeCourses.find((model: ActiveCourseModel) => {
+      return model.course.courseId === courseId;
+    });
+    this.activeCourses = this.activeCourses.filter((model: ActiveCourseModel) => {
+      return model.course.courseId !== courseId;
+    });
+    return courseToBeRemoved;
+  }
+
+  /**
+   * Finds and removes an archived course from the archived course list.
+   */
+  findAndRemoveArchivedCourse(courseId: string): ArchivedCourseModel | undefined {
+    const courseToBeRemoved: ArchivedCourseModel | undefined = this.archivedCourses.find(
+        (model: ArchivedCourseModel) => {
+          return model.course.courseId === courseId;
+        });
+    this.archivedCourses = this.archivedCourses.filter((model: ArchivedCourseModel) => {
+      return model.course.courseId !== courseId;
+    });
+    return courseToBeRemoved;
+  }
+
+  /**
+   * Finds and removes an soft-deleted course from the Recycle Bin.
+   */
+  findAndRemoveSoftDeletedCourse(courseId: string): SoftDeletedCourseModel | undefined {
+    const courseToBeRemoved: SoftDeletedCourseModel | undefined = this.softDeletedCourses.find(
+        (model: SoftDeletedCourseModel) => {
+          return model.course.courseId === courseId;
+        });
+    this.softDeletedCourses = this.softDeletedCourses.filter((model: SoftDeletedCourseModel) => {
+      return model.course.courseId !== courseId;
+    });
+    return courseToBeRemoved;
   }
 
   /**
@@ -239,13 +311,35 @@ export class InstructorCoursesPageComponent implements OnInit {
     const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
-        this.loadInstructorCourses();
+        this.onDeleteFrontEnd(courseId);
         this.statusMessageService.showSuccessMessage(
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
     }, () => {});
+  }
+
+  /**
+   * Moves an active/archived course to Recycle Bin in front-end only.
+   * This is to reduce the need to refresh the entire list of courses multiple times.
+   */
+  onDeleteFrontEnd(courseId: string): void {
+    const activeCourseToBeRemoved: ActiveCourseModel | undefined = this.findAndRemoveActiveCourse(courseId);
+    if (activeCourseToBeRemoved !== undefined) {
+      const course: Course = activeCourseToBeRemoved.course;
+      const canModifyCourse: boolean = activeCourseToBeRemoved.canModifyCourse;
+      const courseToBeDeleted: SoftDeletedCourseModel = Object.assign({}, { course, canModifyCourse });
+      this.softDeletedCourses.push(courseToBeDeleted);
+    } else {
+      const archivedCourseToBeRemoved: ArchivedCourseModel | undefined = this.findAndRemoveArchivedCourse(courseId);
+      if (archivedCourseToBeRemoved !== undefined) {
+        const course: Course = archivedCourseToBeRemoved.course;
+        const canModifyCourse: boolean = archivedCourseToBeRemoved.canModifyCourse;
+        const courseToBeDeleted: SoftDeletedCourseModel = Object.assign({}, { course, canModifyCourse });
+        this.softDeletedCourses.push(courseToBeDeleted);
+      }
+    }
   }
 
   /**
@@ -260,7 +354,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
-        this.loadInstructorCourses();
+        this.findAndRemoveSoftDeletedCourse(courseId);
         this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
@@ -300,7 +394,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       });
 
       forkJoin(deleteRequests).subscribe(() => {
-        this.loadInstructorCourses();
+        this.softDeletedCourses = [];
         this.statusMessageService.showSuccessMessage('All courses have been permanently deleted.');
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
