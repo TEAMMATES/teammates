@@ -321,10 +321,12 @@ export class InstructorCoursesPageComponent implements OnInit {
   moveCourseToRecycleBin(courseId: string): void {
     const activeCourseToBeRemoved: CourseModel | undefined = this.findAndRemoveActiveCourse(courseId);
     if (activeCourseToBeRemoved !== undefined) {
+      activeCourseToBeRemoved.course.deletionTimestamp = Date.now();
       this.softDeletedCourses.push(activeCourseToBeRemoved);
     } else {
       const archivedCourseToBeRemoved: CourseModel | undefined = this.findAndRemoveArchivedCourse(courseId);
       if (archivedCourseToBeRemoved !== undefined) {
+        archivedCourseToBeRemoved.course.deletionTimestamp = Date.now();
         this.softDeletedCourses.push(archivedCourseToBeRemoved);
       }
     }
