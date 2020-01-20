@@ -239,17 +239,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   changeModelFromArchivedToActive(courseId: string): void {
     const courseToBeRemoved: CourseModel | undefined = this.findAndRemoveArchivedCourse(courseId);
     if (courseToBeRemoved !== undefined) {
-      this.httpRequestService.get('/instructor/privilege', {
-        courseid: courseToBeRemoved.course.courseId,
-      }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-        const course: Course = courseToBeRemoved.course;
-        const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-        const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-        const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
-        this.activeCourses.push(activeCourse);
-      }, (error: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(error.error.message);
-      });
+      this.activeCourses.push(courseToBeRemoved);
+      this.activeCourses.sort(this.sortBy(this.tableSortBy));
     }
   }
 
