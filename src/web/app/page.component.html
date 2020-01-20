@@ -23,7 +23,7 @@
     <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo && !isFetchingAuthDetails">
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="!user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
-        <div class="dropdown-menu" ngbDropdownMenu>
+        <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
           <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
         </div>
