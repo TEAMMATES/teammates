@@ -66,6 +66,9 @@ interface FeedbackResponsesResponse {
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
+  // constant
+  DEFAULT_NAVBAR_HEIGHT: number = 50;
+
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   Intent: typeof Intent = Intent;
@@ -135,6 +138,18 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         scrollOffset: 70,
       });
     }, 500);
+  }
+
+  ngDoCheck(): void {
+    // Pads the main body to prevent navbar from covering main content
+    const navbar: Element | null = document.querySelector('.override-nav');
+    const navbarHeight: number = navbar != null ? navbar.clientHeight : 0;
+    if (navbarHeight > this.DEFAULT_NAVBAR_HEIGHT) {
+      const container: Element | null = document.querySelector('.container');
+      if (container) {
+        (container as HTMLElement).style.marginTop = `${navbarHeight}px`;
+      }
+    }
   }
 
   /**
