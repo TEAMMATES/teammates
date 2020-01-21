@@ -79,4 +79,12 @@ export class StudentService {
     return this.httpRequestService.get('/students', paramsMap);
   }
 
+  /**
+   * Removes student from course.
+   * @param endpoint
+   * @param paramsMap consists of courseId and studentEmail
+   */
+  removeStudentFromCourse(endpoint: string, paramsMap: { [key: string]: string } = {}): Observable<any> {
+    return this.httpRequestService.delete(endpoint, paramsMap);
+  }
 }

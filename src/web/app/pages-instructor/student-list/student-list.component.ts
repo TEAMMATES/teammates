@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
@@ -13,6 +12,7 @@ import {
   StudentListSectionData,
   StudentListStudentData,
 } from './student-list-section-data';
+import {StudentService} from "../../../services/student.service";
 
 /**
  * Flattened data which contains details about a student and their section.
@@ -111,10 +111,10 @@ export class StudentListComponent implements OnInit, DoCheck {
   private readonly _differ: IterableDiffer<any>;
 
   constructor(private router: Router,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
+              private studentService: StudentService,
               private ngbModal: NgbModal,
               private differs: IterableDiffers) {
     this._differ = this.differs.find(this.sections).create();
@@ -212,7 +212,7 @@ export class StudentListComponent implements OnInit, DoCheck {
       courseid: this.courseId,
       studentemail: studentEmail,
     };
-    this.httpRequestService.delete('/student', paramMap).subscribe(() => {
+    this.studentService.removeStudentFromCourse('/student', paramMap).subscribe(() => {
       this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${this.courseId}"`);
       this.sections.forEach(
         (section: StudentListSectionData) => {
