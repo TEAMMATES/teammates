@@ -66,9 +66,6 @@ interface FeedbackResponsesResponse {
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
-  // constant
-  DEFAULT_NAVBAR_HEIGHT: number = 50;
-
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   Intent: typeof Intent = Intent;
