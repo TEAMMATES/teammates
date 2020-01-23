@@ -226,7 +226,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * This is to reduce the need to refresh the entire list of courses multiple times.
    */
   changeModelFromActiveToArchived(courseId: string): void {
-    const courseToBeRemoved: CourseModel | undefined = this.findAndRemoveActiveCourse(courseId);
+    const courseToBeRemoved: CourseModel | undefined = this.findCourse(this.activeCourses, courseId);
+    this.activeCourses = this.removeCourse(this.activeCourses, courseId);
     if (courseToBeRemoved !== undefined) {
       this.archivedCourses.push(courseToBeRemoved);
     }
@@ -237,7 +238,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * This is to reduce the need to refresh the entire list of courses multiple times.
    */
   changeModelFromArchivedToActive(courseId: string): void {
-    const courseToBeRemoved: CourseModel | undefined = this.findAndRemoveArchivedCourse(courseId);
+    const courseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
+    this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
     if (courseToBeRemoved !== undefined) {
       this.activeCourses.push(courseToBeRemoved);
       this.activeCourses.sort(this.sortBy(this.tableSortBy));
@@ -245,44 +247,21 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Finds and removes an active course from the active course list.
+   * Finds and returns a course from the target course list.
    */
-  findAndRemoveActiveCourse(courseId: string): CourseModel | undefined {
-    const courseToBeRemoved: CourseModel | undefined = this.activeCourses.find((model: CourseModel) => {
+  findCourse(targetList: CourseModel[], courseId: string): CourseModel | undefined {
+    return targetList.find((model: CourseModel) => {
       return model.course.courseId === courseId;
     });
-    this.activeCourses = this.activeCourses.filter((model: CourseModel) => {
-      return model.course.courseId !== courseId;
-    });
-    return courseToBeRemoved;
   }
 
   /**
-   * Finds and removes an archived course from the archived course list.
+   * Removes a course from the target course list and returns the result list.
    */
-  findAndRemoveArchivedCourse(courseId: string): CourseModel | undefined {
-    const courseToBeRemoved: CourseModel | undefined = this.archivedCourses.find(
-        (model: CourseModel) => {
-          return model.course.courseId === courseId;
-        });
-    this.archivedCourses = this.archivedCourses.filter((model: CourseModel) => {
+  removeCourse(targetList: CourseModel[], courseId: string): CourseModel[] {
+    return targetList.filter((model: CourseModel) => {
       return model.course.courseId !== courseId;
     });
-    return courseToBeRemoved;
-  }
-
-  /**
-   * Finds and removes an soft-deleted course from the Recycle Bin.
-   */
-  findAndRemoveSoftDeletedCourse(courseId: string): CourseModel | undefined {
-    const courseToBeRemoved: CourseModel | undefined = this.softDeletedCourses.find(
-        (model: CourseModel) => {
-          return model.course.courseId === courseId;
-        });
-    this.softDeletedCourses = this.softDeletedCourses.filter((model: CourseModel) => {
-      return model.course.courseId !== courseId;
-    });
-    return courseToBeRemoved;
   }
 
   /**
@@ -296,7 +275,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
-        this.moveCourseToRecycleBin(courseId);
+        this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
         this.statusMessageService.showSuccessMessage(
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
       }, (resp: ErrorMessageOutput) => {
@@ -306,18 +285,20 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Moves an active/archived course to Recycle Bin in front-end only.
+   * Moves an active/archived course to Recycle Bin.
    * This is to reduce the need to refresh the entire list of courses multiple times.
    */
-  moveCourseToRecycleBin(courseId: string): void {
-    const activeCourseToBeRemoved: CourseModel | undefined = this.findAndRemoveActiveCourse(courseId);
+  moveCourseToRecycleBin(courseId: string, deletionTimeStamp: number): void {
+    const activeCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.activeCourses, courseId);
+    this.activeCourses = this.removeCourse(this.activeCourses, courseId);
     if (activeCourseToBeRemoved !== undefined) {
-      activeCourseToBeRemoved.course.deletionTimestamp = Date.now();
+      activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
       this.softDeletedCourses.push(activeCourseToBeRemoved);
     } else {
-      const archivedCourseToBeRemoved: CourseModel | undefined = this.findAndRemoveArchivedCourse(courseId);
+      const archivedCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
+      this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
       if (archivedCourseToBeRemoved !== undefined) {
-        archivedCourseToBeRemoved.course.deletionTimestamp = Date.now();
+        archivedCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
         this.softDeletedCourses.push(archivedCourseToBeRemoved);
       }
     }
@@ -335,7 +316,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
-        this.findAndRemoveSoftDeletedCourse(courseId);
+        this.removeCourse(this.softDeletedCourses, courseId);
         this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);

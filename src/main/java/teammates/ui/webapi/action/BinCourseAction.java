@@ -33,7 +33,7 @@ public class BinCourseAction extends Action {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
             CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
-            logic.moveCourseToRecycleBin(idOfCourseToBin);
+            courseAttributes.deletedAt = logic.moveCourseToRecycleBin(idOfCourseToBin);
 
             return new JsonResult(new CourseData(courseAttributes));
         } catch (EntityDoesNotExistException e) {
