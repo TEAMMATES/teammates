@@ -30,7 +30,7 @@
       </li>
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ user }}</a>
-        <div class="dropdown-menu" ngbDropdownMenu>
+        <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" routerLink="/web/student" *ngIf="isStudent">To student pages</a>
           <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor">To instructor pages</a>
           <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin">To admin pages</a>
