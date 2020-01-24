@@ -5,7 +5,6 @@ import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentService } from '../../../services/student.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
@@ -114,7 +113,6 @@ export class StudentListComponent implements OnInit, DoCheck {
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
-              private studentService: StudentService,
               private ngbModal: NgbModal,
               private differs: IterableDiffers) {
     this._differ = this.differs.find(this.sections).create();
@@ -208,7 +206,7 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Removes the student from course.
    */
   removeStudentFromCourse(studentEmail: string): void {
-    this.studentService.removeStudentFromCourse(this.courseId, studentEmail).subscribe(() => {
+    this.courseService.removeStudentFromCourse(this.courseId, studentEmail).subscribe(() => {
       this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${this.courseId}"`);
       this.sections.forEach(
         (section: StudentListSectionData) => {
