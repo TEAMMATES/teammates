@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { Gender, JoinState, Student } from '../../../../types/api-output';
+import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
-import { StudentProfile } from '../../../pages-instructor/student-profile/student-profile';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -17,6 +16,7 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
 
   readonly supportEmail: string = environment.supportEmail;
   readonly exampleStudentProfile: StudentProfile = {
+    name: 'Alice Betsy',
     shortName: 'Alice',
     email: 'alice@email.com',
     institute: 'National University of Singapore',
@@ -24,7 +24,6 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     gender: Gender.FEMALE,
     moreInfo: 'Hi I am Alice Betsy! I am from Colorado, America. I am a programming and gaming enthusiast. '
       + 'Aspiring to become a Software Architect in a well reputed organization.',
-    pictureKey: '',
   };
   readonly exampleStudentAttributes: Student = {
     email: 'alice@email.com',
