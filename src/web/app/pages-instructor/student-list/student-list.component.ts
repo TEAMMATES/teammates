@@ -1,4 +1,6 @@
-import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnInit } from '@angular/core';
+import {
+  Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
@@ -95,6 +97,8 @@ export class StudentListComponent implements OnInit, DoCheck {
 
   // The input sections data from parent.
   @Input() sections: StudentListSectionData[] = [];
+
+  @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
 
   // The flattened students list derived from the sections list.
   // The sections data is flattened to allow sorting of the list.
@@ -206,16 +210,7 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Removes the student from course.
    */
   removeStudentFromCourse(studentEmail: string): void {
-    this.courseService.removeStudentFromCourse(this.courseId, studentEmail).subscribe(() => {
-      this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${this.courseId}"`);
-      this.sections.forEach(
-        (section: StudentListSectionData) => {
-          section.students = section.students.filter(
-            (student: StudentListStudentData) => student.email !== studentEmail);
-        });
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    this.removeStudentFromCourseEvent.emit(studentEmail);
   }
 
   /**
