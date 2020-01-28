@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
@@ -158,7 +159,31 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        // TODO
+        // TODO: Edit copy from UpdateFeedbackQuestionActionTest
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestionAttributes typicalQuestion =
+                logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
+
+        ______TS("non-existent feedback question");
+
+        loginAsInstructor(instructor1OfCourse1.googleId);
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            getAction(new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, "random"}).checkSpecificAccessControl();
+        });
+
+        ______TS("inaccessible without ModifySessionPrivilege");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
+        };
+
+        verifyInaccessibleWithoutModifySessionPrivilege(submissionParams);
+
+        ______TS("only instructors of the same course can access");
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }
