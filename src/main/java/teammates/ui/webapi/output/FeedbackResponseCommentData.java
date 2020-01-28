@@ -22,6 +22,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
     private List<CommentVisibilityType> showGiverNameTo;
     private List<CommentVisibilityType> showCommentTo;
     private boolean isVisibilityFollowingFeedbackQuestion;
+    private boolean isCommentFromFeedbackParticipant;
 
     public FeedbackResponseCommentData(FeedbackResponseCommentAttributes frc) {
         this.feedbackResponseCommentId = frc.getId();
@@ -33,6 +34,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
         this.lastEditedAt = frc.getLastEditedAt().toEpochMilli();
         this.lastEditorEmail = frc.getLastEditorEmail();
         this.isVisibilityFollowingFeedbackQuestion = frc.isVisibilityFollowingFeedbackQuestion;
+        this.isCommentFromFeedbackParticipant = frc.isCommentFromFeedbackParticipant;
     }
 
     /**
@@ -100,5 +102,9 @@ public class FeedbackResponseCommentData extends ApiOutput {
 
     public boolean isVisibilityFollowingFeedbackQuestion() {
         return isVisibilityFollowingFeedbackQuestion;
+    }
+
+    public boolean isCommentFromFeedbackParticipant() {
+        return isCommentFromFeedbackParticipant;
     }
 }

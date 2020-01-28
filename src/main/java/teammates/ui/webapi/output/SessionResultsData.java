@@ -5,15 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 /**
@@ -32,7 +35,8 @@ public class SessionResultsData extends ApiOutput {
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             QuestionOutput qnOutput = new QuestionOutput(question.getId(), question.questionNumber, questionDetails,
-                    questionDetails.getQuestionResultStatisticsJson(responses, question, instructor.email, bundle, false));
+                    questionDetails.getQuestionResultStatisticsJson(responses, question, instructor.email, bundle,
+                            false), question.showResponsesTo);
 
             List<ResponseOutput> allResponses = buildResponses(responses, bundle);
             for (ResponseOutput respOutput : allResponses) {
@@ -50,7 +54,8 @@ public class SessionResultsData extends ApiOutput {
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             QuestionOutput qnOutput = new QuestionOutput(question.getId(), question.questionNumber, questionDetails,
-                    questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle, true));
+                    questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle,
+                            true), question.showResponsesTo);
 
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
             if (questionDetails.isIndividualResponsesShownToStudents()) {
@@ -129,7 +134,7 @@ public class SessionResultsData extends ApiOutput {
                 // TODO fetch feedback response comments
 
                 // Student does not need to know the teams for giver and/or recipient
-                output.add(new ResponseOutput(displayedGiverName, null, null, response.giverSection,
+                output.add(new ResponseOutput(response.getId(), displayedGiverName, null, null, response.giverSection,
                         recipientName, null, response.recipientSection, response.responseDetails));
             }
 
@@ -140,6 +145,7 @@ public class SessionResultsData extends ApiOutput {
     private List<ResponseOutput> buildResponses(
             List<FeedbackResponseAttributes> responses, FeedbackSessionResultsBundle bundle) {
         Map<String, List<FeedbackResponseAttributes>> responsesMap = new HashMap<>();
+        Map<String, List<FeedbackResponseCommentAttributes>> commentsMap = bundle.getResponseComments();
 
         for (FeedbackResponseAttributes response : responses) {
             responsesMap.computeIfAbsent(response.recipient, k -> new ArrayList<>()).add(response);
@@ -159,13 +165,39 @@ public class SessionResultsData extends ApiOutput {
 
                 String giverTeam = bundle.getTeamNameForEmail(response.giver);
 
-                // TODO fetch feedback response comments
+                List<FeedbackResponseCommentAttributes> comments = commentsMap.get(response.getId());
+                ResponseOutput responseOutput = new ResponseOutput(response.getId(), giverName, giverTeam, relatedGiverEmail,
+                        response.giverSection, recipientName, recipientTeam, response.recipientSection,
+                        response.responseDetails);
+                List<FeedbackResponseCommentData> commentOutputs = buildComments(comments, bundle);
+                for (FeedbackResponseCommentData commentOutput : commentOutputs) {
+                    if (commentOutput.isCommentFromFeedbackParticipant()) {
+                        responseOutput.commentFromParticipant = commentOutput;
+                    } else {
+                        responseOutput.commentFromInstructors.add(commentOutput);
+                    }
+                }
+                responseOutput.allComments = commentOutputs;
 
-                output.add(new ResponseOutput(giverName, giverTeam, relatedGiverEmail, response.giverSection,
-                        recipientName, recipientTeam, response.recipientSection, response.responseDetails));
+                output.add(responseOutput);
             }
 
         });
+        return output;
+    }
+
+    private List<FeedbackResponseCommentData> buildComments(
+            List<FeedbackResponseCommentAttributes> comments, FeedbackSessionResultsBundle bundle) {
+        List<FeedbackResponseCommentData> output = new ArrayList<>();
+
+        if (comments == null) {
+            return output;
+        }
+
+        for (FeedbackResponseCommentAttributes comment : comments) {
+            FeedbackResponseCommentData commentOutput = new FeedbackResponseCommentData(comment);
+            output.add(commentOutput);
+        }
         return output;
     }
 
@@ -181,6 +213,7 @@ public class SessionResultsData extends ApiOutput {
 
         // For instructor view
         private List<ResponseOutput> allResponses = new ArrayList<>();
+        private List<FeedbackVisibilityType> showResponsesTo;
 
         // For student view
         private List<ResponseOutput> responsesToSelf = new ArrayList<>();
@@ -188,11 +221,13 @@ public class SessionResultsData extends ApiOutput {
         private List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
         QuestionOutput(String questionId, int questionNumber,
-                       FeedbackQuestionDetails questionDetails, String questionStatistics) {
+                       FeedbackQuestionDetails questionDetails, String questionStatistics,
+                       List<FeedbackParticipantType> showResponsesTo) {
             this.questionId = questionId;
             this.questionNumber = questionNumber;
             this.questionDetails = questionDetails;
             this.questionStatistics = questionStatistics;
+            this.showResponsesTo = convertToFeedbackVisibilityType(showResponsesTo);
         }
 
         public String getQuestionId() {
@@ -227,6 +262,30 @@ public class SessionResultsData extends ApiOutput {
             return otherResponses;
         }
 
+        /**
+         * Converts a list of feedback participant type to a list of visibility type.
+         */
+        private List<FeedbackVisibilityType> convertToFeedbackVisibilityType(
+                List<FeedbackParticipantType> feedbackParticipantTypeList) {
+            return feedbackParticipantTypeList.stream().map(feedbackParticipantType -> {
+                switch (feedbackParticipantType) {
+                case STUDENTS:
+                    return FeedbackVisibilityType.STUDENTS;
+                case INSTRUCTORS:
+                    return FeedbackVisibilityType.INSTRUCTORS;
+                case RECEIVER:
+                    return FeedbackVisibilityType.RECIPIENT;
+                case OWN_TEAM_MEMBERS:
+                    return FeedbackVisibilityType.GIVER_TEAM_MEMBERS;
+                case RECEIVER_TEAM_MEMBERS:
+                    return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
+                default:
+                    Assumption.fail("Unknown feedbackParticipantType" + feedbackParticipantType);
+                    break;
+                }
+                return null;
+            }).collect(Collectors.toList());
+        }
     }
 
     /**
@@ -234,6 +293,7 @@ public class SessionResultsData extends ApiOutput {
      */
     public static class ResponseOutput {
 
+        private final String responseId;
         private final String giver;
         /**
          * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
@@ -246,9 +306,16 @@ public class SessionResultsData extends ApiOutput {
         private final String recipientTeam;
         private final String recipientSection;
         private final FeedbackResponseDetails responseDetails;
+        //for instructor view
+        private List<FeedbackResponseCommentData> allComments = new ArrayList<>();
+        //for students view
+        private FeedbackResponseCommentData commentFromParticipant;
+        private List<FeedbackResponseCommentData> commentFromInstructors = new ArrayList<>();
 
-        ResponseOutput(String giver, String giverTeam, String relatedGiverEmail, String giverSection, String recipient,
-                       String recipientTeam, String recipientSection, FeedbackResponseDetails responseDetails) {
+        ResponseOutput(String responseId, String giver, String giverTeam, String relatedGiverEmail, String giverSection,
+                       String recipient, String recipientTeam, String recipientSection,
+                       FeedbackResponseDetails responseDetails) {
+            this.responseId = responseId;
             this.giver = giver;
             this.relatedGiverEmail = relatedGiverEmail;
             this.giverTeam = giverTeam;
@@ -257,6 +324,10 @@ public class SessionResultsData extends ApiOutput {
             this.recipientTeam = recipientTeam;
             this.recipientSection = recipientSection;
             this.responseDetails = responseDetails;
+        }
+
+        public String getResponseId() {
+            return responseId;
         }
 
         public String getGiver() {
@@ -285,6 +356,18 @@ public class SessionResultsData extends ApiOutput {
 
         public FeedbackResponseDetails getResponseDetails() {
             return responseDetails;
+        }
+
+        public List<FeedbackResponseCommentData> getAllComments() {
+            return allComments;
+        }
+
+        public List<FeedbackResponseCommentData> getCommentFromInstructors() {
+            return commentFromInstructors;
+        }
+
+        public FeedbackResponseCommentData getCommentFromParicipant() {
+            return commentFromParticipant;
         }
 
     }
