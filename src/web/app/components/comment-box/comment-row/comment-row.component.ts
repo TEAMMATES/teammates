@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackResponseComment } from '../../../../types/api-output';
+import { CommentVisibilityType, FeedbackResponseComment } from '../../../../types/api-output';
+import { CommentVisibilityControl } from '../../../../types/visibility-control';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
-import {
-  ConfirmDeleteCommentModalComponent,
-} from '../confirm-delete-comment-modal/confirm-delete-comment-modal.component';
+// tslint:disable-next-line:max-line-length
+import { ConfirmDeleteCommentModalComponent } from '../confirm-delete-comment-modal/confirm-delete-comment-modal.component';
 
 /**
  * Model for a comment row.
@@ -49,35 +49,23 @@ export class CommentRowComponent implements OnInit {
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
-  @Input()
-  mode: CommentRowMode = CommentRowMode.EDIT;
-
-  @Input()
-  isVisibilityOptionEnabled: boolean = true;
-
-  @Input()
-  isDisabled: boolean = false;
-
-  @Input()
-  shouldHideSavingButton: boolean = false;
-
-  @Input()
-  model: CommentRowModel = {
+  @Input() mode: CommentRowMode = CommentRowMode.EDIT;
+  @Input() isVisibilityOptionEnabled: boolean = true;
+  @Input() isDisabled: boolean = false;
+  @Input() shouldHideSavingButton: boolean = false;
+  @Input() model: CommentRowModel = {
     commentEditFormModel: {
       commentText: '',
+      commentVisibility: new Map(),
     },
-
     isEditing: false,
   };
-  @Output()
-  modelChange: EventEmitter<CommentRowModel> = new EventEmitter();
+  @Input() showResponsesToInCommentVisibilityType: CommentVisibilityType[] = [];
 
-  @Output()
-  saveCommentEvent: EventEmitter<void> = new EventEmitter();
-  @Output()
-  deleteCommentEvent: EventEmitter<void> = new EventEmitter();
-  @Output()
-  closeEditingEvent: EventEmitter<void> = new EventEmitter();
+  @Output() modelChange: EventEmitter<CommentRowModel> = new EventEmitter();
+  @Output() saveCommentEvent: EventEmitter<void> = new EventEmitter();
+  @Output() deleteCommentEvent: EventEmitter<void> = new EventEmitter();
+  @Output() closeEditingEvent: EventEmitter<void> = new EventEmitter();
 
   constructor(private modalService: NgbModal) { }
 
@@ -114,5 +102,48 @@ export class CommentRowComponent implements OnInit {
    */
   triggerModelChange(field: string, data: any): void {
     this.modelChange.emit(Object.assign({}, this.model, { [field]: data }));
+  }
+
+  /**
+   * Gets hint for visibility setting
+   */
+  getVisibilityHint(): string {
+    const showCommentTo: Set<CommentVisibilityType> =
+        // tslint:disable-next-line: no-non-null-assertion
+        this.model.commentEditFormModel.commentVisibility.get(CommentVisibilityControl.SHOW_COMMENT)!;
+    if (showCommentTo.size === 0) {
+      return 'nobody';
+    }
+    let hint: string = '';
+    let i: number = 0;
+    showCommentTo.forEach((commentVisibilityType: CommentVisibilityType) => {
+      if (i === showCommentTo.size - 1 && showCommentTo.size > 1) {
+        hint += 'and ';
+      }
+
+      switch (commentVisibilityType) {
+        case CommentVisibilityType.GIVER:
+          hint += 'response giver, ';
+          break;
+        case CommentVisibilityType.RECIPIENT:
+          hint += 'response recipient, ';
+          break;
+        case CommentVisibilityType.GIVER_TEAM_MEMBERS:
+          hint += "response giver's team members, ";
+          break;
+        case CommentVisibilityType.RECIPIENT_TEAM_MEMBERS:
+          hint += "response recipient's team, ";
+          break;
+        case CommentVisibilityType.STUDENTS:
+          hint += 'other students in this course, ';
+          break;
+        case CommentVisibilityType.INSTRUCTORS:
+          hint += 'instructors, ';
+          break;
+        default:
+      }
+      i = i + 1;
+    });
+    return hint.substr(0, hint.length - 2);
   }
 }

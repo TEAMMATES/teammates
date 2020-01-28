@@ -1,9 +1,9 @@
-<tm-comment-edit-form *ngIf="model.isEditing || mode == CommentRowMode.ADD"
-                      [model]="model.commentEditFormModel"
+<tm-comment-edit-form *ngIf="model.isEditing || mode == CommentRowMode.ADD" [model]="model.commentEditFormModel"
                       (modelChange)="triggerModelChange('commentEditFormModel', $event)"
                       [isVisibilityOptionEnabled]="isVisibilityOptionEnabled"
                       [isDisabled]="isDisabled"
                       [shouldHideSavingButton]="shouldHideSavingButton"
+                      [showResponsesToInCommentVisibilityType]="showResponsesToInCommentVisibilityType"
                       (closeCommentBoxEvent)="triggerCloseEditing()"
                       (saveCommentEvent)="triggerSaveCommentEvent()"></tm-comment-edit-form>
 
@@ -22,7 +22,7 @@
           </ng-container>
         </span>
 
-        <i class="fa fa-eye-slash" aria-hidden="true" ngbTooltip="This comment is visible to PLACEHOLDER"></i>
+        <i class="fa fa-eye-slash" aria-hidden="true" ngbTooltip="This comment is visible to {{getVisibilityHint()}}"></i>
 
         <div class="float-right comment-row">
           <button type="button" class="btn btn-secondary btn-sm"  ngbTooltip='Edit this comment'

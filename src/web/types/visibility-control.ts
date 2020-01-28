@@ -18,3 +18,18 @@ export enum VisibilityControl {
    */
   SHOW_RECIPIENT_NAME = 'SHOW_RECIPIENT_NAME',
 }
+
+/**
+ * The comment visibility controls.
+ */
+export enum CommentVisibilityControl {
+  /**
+   * Show Comment visibility control.
+   */
+  SHOW_COMMENT = 'SHOW_COMMENT',
+
+  /**
+   * Show giver name visibility control.
+   */
+  SHOW_GIVER_NAME = 'SHOW_GIVER_NAME',
+}

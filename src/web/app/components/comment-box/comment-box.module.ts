@@ -6,7 +6,13 @@ import { SingleResponseModule } from '../question-responses/single-response/sing
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { CommentEditFormComponent } from './comment-edit-form/comment-edit-form.component';
+import {
+  CommentVisibilityControlNamePipe,
+  CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe,
+} from './comment-edit-form/comment-visibility-setting.pipe';
 import { CommentRowComponent } from './comment-row/comment-row.component';
+import { CommentTableModalComponent } from './comment-table-modal/comment-table-modal.component';
+import { CommentTableComponent } from './comment-table/comment-table.component';
 import {
   ConfirmDeleteCommentModalComponent,
 } from './confirm-delete-comment-modal/confirm-delete-comment-modal.component';
@@ -19,6 +25,11 @@ import {
     CommentEditFormComponent,
     CommentRowComponent,
     ConfirmDeleteCommentModalComponent,
+    CommentTableModalComponent,
+    CommentTableComponent,
+    CommentVisibilityControlNamePipe,
+    CommentVisibilityTypeDescriptionPipe,
+    CommentVisibilityTypeNamePipe,
   ],
   imports: [
     TeammatesCommonModule,
@@ -30,9 +41,11 @@ import {
   ],
   exports: [
     CommentRowComponent,
+    CommentTableComponent,
   ],
   entryComponents: [
     ConfirmDeleteCommentModalComponent,
+    CommentTableModalComponent,
   ],
 })
 export class CommentBoxModule { }

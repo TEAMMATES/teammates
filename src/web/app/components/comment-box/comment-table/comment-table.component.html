@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header comment-table-header" *ngIf="false">
+    Comments
+  </div>
+
+  <ul class="list-group list-group-flush" >
+    <li class="list-group-item" *ngFor="let comment of commentsTableModel.slice(1); let i = index">
+      <tm-comment-row *ngIf="comment.originalComment" [model]="comment" [isVisibilityOptionEnabled]="true"
+                      [isDisabled]="false" [mode]="CommentRowMode.EDIT"
+                      [showResponsesToInCommentVisibilityType]="showResponsesToInCommentVisibilityType"
+                      (modelChange)="triggerModelChange(i + 1, $event)"
+                      (deleteCommentEvent)="triggerDeleteCommentEvent(comment.originalComment!.feedbackResponseCommentId)"
+                      (saveCommentEvent)="triggerUpdateCommentEvent(i + 1)"
+                      (closeEditingEvent)="triggerCloseEditingEvent(i + 1)"
+      ></tm-comment-row>
+      <!-- "Add new comment" row -->
+    <li class="list-group-item">
+      <tm-comment-row [model]="commentsTableModel[0]" [isDisabled]="false" [isVisibilityOptionEnabled]="true"
+                      [mode]="CommentRowMode.ADD"
+                      [showResponsesToInCommentVisibilityType]="showResponsesToInCommentVisibilityType"
+                      (modelChange)="triggerModelChange(0, $event)"
+                      (saveCommentEvent)="triggerSaveNewCommentEvent()"
+                      (closeEditingEvent)="triggerCloseEditingEvent(0)"
+      ></tm-comment-row>
+    </li>
+  </ul>
+</div>

@@ -31,8 +31,8 @@
                   </div>
                 </div>
                 <div class="card-body" *ngIf="question.isTabExpanded">
-                  <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
-                      [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails" [questionId]="question.questionId"></tm-per-question-view-responses>
+                  <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType" [session]="session" [showResponsesTo]="question.showResponsesTo"
+                      [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails" [questionId]="question.questionId" (commentsChangeInResponse)="triggerCommentChangeInResponseEvent($event)"></tm-per-question-view-responses>
                 </div>
               </div>
             </div>
@@ -64,8 +64,8 @@
             </div>
           </div>
           <div class="card-body" *ngIf="question.isTabExpanded">
-            <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
-                [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails"></tm-per-question-view-responses>
+            <tm-per-question-view-responses [responses]="question.allResponses" [section]="section" [sectionType]="sectionType" [session]="session" [showResponsesTo]="question.showResponsesTo"
+                [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionDetails" (commentsChangeInResponse)="triggerCommentChangeInResponseEvent($event)"></tm-per-question-view-responses>
           </div>
         </div>
       </div>

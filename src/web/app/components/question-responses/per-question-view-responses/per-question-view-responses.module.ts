@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 // tslint:disable-next-line:max-line-length
 import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
+import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 
@@ -18,6 +19,7 @@ import { PerQuestionViewResponsesComponent } from './per-question-view-responses
     PerQuestionViewResponsesComponent,
   ],
   imports: [
+    CommentBoxModule,
     CommonModule,
     RouterModule,
     SingleResponseModule,

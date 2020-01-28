@@ -209,4 +209,38 @@ export class InstructorSessionResultPageComponent implements OnInit {
       });
     }, () => {});
   }
+  
+  /**
+   * Updates questionsModel when there's a change in the comments table.
+   */
+  commentsChangeHandler(responseToUpdate: any): void {
+    for (const key of Object.keys(this.questionsModel)) {
+      if (!this.questionsModel[key].hasPopulated) {
+        continue;
+      }
+      this.questionsModel[key].responses.forEach((response: any, index: number) => {
+        if (response.responseId === responseToUpdate.responseId) {
+          const updatedResponses: any[] = this.questionsModel[key].responses.slice();
+          updatedResponses[index] = responseToUpdate;
+          this.questionsModel[key].responses = updatedResponses;
+          return;
+        }
+      });
+    }
+
+    for (const key of Object.keys(this.sectionsModel)) {
+      if (!this.sectionsModel[key].hasPopulated) {
+        continue;
+      }
+      this.sectionsModel[key].questions.forEach((question: any, questionIndex: number) => {
+        question.allResponses.forEach((response: any, responseIndex: number) => {
+          if (response.responseId === responseToUpdate.responseId) {
+            const updatedResponses: any[] = question.allResponses;
+            updatedResponses[responseIndex] = responseToUpdate;
+            this.sectionsModel[key].questions[questionIndex].allResponses = updatedResponses;
+          }
+        });
+      });
+    }
+  }
 }

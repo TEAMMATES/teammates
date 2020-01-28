@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <h5 class="modal-title">Comments</h5>
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="response">
+    <div *ngIf="response.giver !== response.recipient, else selfFeedback">
+      Feedback given by {{response.giver}} for {{response.recipient}}</div>
+    <ng-template #selfFeedback>Self-feedback given by {{response.giver}}</ng-template>
+    <div class="blockquote" style="margin-top: 10px;">
+      <tm-single-response [responseDetails]="response.responseDetails"
+                          [questionDetails]="questionDetails"
+      ></tm-single-response>
+    </div>
+  </div>
+  <div style="margin-top: 10px;">
+    <tm-comment-table [commentsTableModel]="commentsTableModel" [timezone]="timeZone"
+                      [showResponsesToInCommentVisibilityType]="showResponsesToInCommentVisibilityType"
+                      (modelChange)="triggerModelChange($event)"
+                      (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                      (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                      (saveNewCommentEvent)="triggerSaveNewCommentEvent()"
+                      (closeEditingEvent)="triggerCloseEditingEvent($event)"
+    ></tm-comment-table>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Close</button>
+</div>
