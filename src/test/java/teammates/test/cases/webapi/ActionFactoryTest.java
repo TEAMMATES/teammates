@@ -12,6 +12,9 @@ import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.ActionFactory;
 import teammates.ui.webapi.action.GetAuthInfoAction;
 
+/**
+ * SUT: {@link ActionFactory}.
+ */
 public class ActionFactoryTest extends BaseTestCase {
 
     @Test
