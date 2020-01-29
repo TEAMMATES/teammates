@@ -18,24 +18,13 @@ import {
   VisibilityTypeNamePipe,
 } from './visibility-setting.pipe';
 
+import mockTinyMceUuid from '../../../test-helpers/mock-tinymce-uuid';
+
 describe('QuestionEditFormComponent', () => {
   let component: QuestionEditFormComponent;
   let fixture: ComponentFixture<QuestionEditFormComponent>;
 
-  // Mock Date and Math.random so that TinyMCE generates a fixed UUID
-  const mockDate: Date = new Date('2020');
-  const realDate: DateConstructor = Date;
-  const realMath: Math = Math;
-
-  beforeAll(() => {
-    global.Date = jest.fn(() => mockDate) as any;
-    global.Math.random = jest.fn(() => 0);
-  });
-
-  afterAll(() => {
-    global.Date = realDate;
-    global.Math = realMath;
-  });
+  mockTinyMceUuid();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
