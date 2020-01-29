@@ -14,7 +14,7 @@
                       (closeEditingEvent)="triggerCloseEditingEvent(i + 1)"
       ></tm-comment-row>
       <!-- "Add new comment" row -->
-    <li class="list-group-item">
+    <li class="list-group-item" *ngIf="isNewCommentExpanded">
       <tm-comment-row [model]="commentsTableModel[0]" [isDisabled]="false" [isVisibilityOptionEnabled]="true"
                       [mode]="CommentRowMode.ADD"
                       [showResponsesToInCommentVisibilityType]="showResponsesToInCommentVisibilityType"

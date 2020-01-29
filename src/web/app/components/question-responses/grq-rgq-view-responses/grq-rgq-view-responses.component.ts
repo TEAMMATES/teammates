@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -22,6 +22,8 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
   @Input() session: any = {};
 
   @Input() isGrq: boolean = true;
+
+  @Output() commentsChangeInResponse: EventEmitter<any> = new EventEmitter();
 
   teamsToUsers: { [key: string]: string[] } = {};
   teamExpanded: { [key: string]: boolean } = {};
@@ -149,5 +151,12 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
    */
   getRGQRelatedGiverEmailForUser(other: any): any {
     return other.value[0].allResponses[0].relatedGiverEmail;
+  }
+
+  /**
+   * Triggers the commentsChangeInResponse event.
+   */
+  triggerCommentsChangeInResponseEvent(response: any): void {
+    this.commentsChangeInResponse.emit(response);
   }
 }

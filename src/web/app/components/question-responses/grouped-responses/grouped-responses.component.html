@@ -12,13 +12,24 @@
     </div>
   </div>
   <div class="col-md-9">
-    <div *ngFor="let response of responses">
+    <div *ngFor="let response of responses; let i = index">
       <div class="card bottom-padded">
         <div class="card-header bg-info text-white">
           <tm-question-text-with-info [questionNumber]="response.questionNumber" [questionDetails]="response.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
           <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.questionDetails"></tm-single-response>
+          <button type="button" class="btn btn-primary float-right" (click)="triggerNewCommentRow()"><i class="fas fa-comment"></i></button>
+        </div>
+        <div style="margin-top: 1rem;">
+          <tm-comment-table [commentsTableModel]="commentsTablesModel[i]" [isNewCommentExpanded]="isNewCommentRowExpanded"
+                            [showResponsesToInCommentVisibilityType]="showResponsesToInCommentVisibilityType[i]"
+                            (modelChange)="triggerModelChange($event, i)"
+                            (saveNewCommentEvent)="triggerSaveNewCommentEvent(i)"
+                            (updateCommentEvent)="triggerUpdateCommentEvent($event, i)"
+                            (deleteCommentEvent)="triggerDeleteCommentEvent($event, i)"
+                            (closeEditingEvent)="triggerCloseEditingEvent($event, i)"
+          ></tm-comment-table>
         </div>
       </div>
     </div>

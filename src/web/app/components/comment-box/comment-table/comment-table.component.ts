@@ -18,6 +18,7 @@ export class CommentTableComponent implements OnInit {
   @Input() commentsTableModel: CommentRowModel[] = [];
   @Input() timezone: string = '';
   @Input() showResponsesToInCommentVisibilityType: CommentVisibilityType[] = [];
+  @Input() isNewCommentExpanded: boolean = true;
 
   @Output() modelChange: EventEmitter<any> = new EventEmitter();
   @Output() saveNewCommentEvent: EventEmitter<any> = new EventEmitter();
