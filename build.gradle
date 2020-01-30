@@ -162,12 +162,22 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
     outputFile = "src/web/types/api-request.ts"
 }
 
+task generateIntent(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
+    classes = [
+        "teammates.ui.webapi.action.Intent"
+    ]
+    mapEnum = "asEnum"
+    outputFile = "src/web/types/Intent.ts"
+}
+
 generateApiOutputFormat.dependsOn classes
 generateApiRequestFormat.dependsOn classes
+generateIntent.dependsOn classes
 
 task generateTypes {
     dependsOn generateApiOutputFormat
     dependsOn generateApiRequestFormat
+    dependsOn generateIntent
 }
 
 // SETUP TASKS
