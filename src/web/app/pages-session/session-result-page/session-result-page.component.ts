@@ -9,7 +9,7 @@ import {
   QuestionOutput,
   SessionResults,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/Intent';
+import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
