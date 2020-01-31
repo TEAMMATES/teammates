@@ -30,6 +30,7 @@ import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CsvResult;
 import teammates.ui.webapi.action.ImageResult;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.request.FeedbackResponseUpdateRequest;
 
 /**
  * Base class for all action tests.
@@ -433,12 +434,22 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         c.checkAccessControl();
     }
 
+    protected void verifyCanAccess(FeedbackResponseUpdateRequest updateRequest, String... params) {
+        Action c = getAction(updateRequest, params);
+        c.checkAccessControl();
+    }
+
     /**
      * Verifies that the {@link Action} matching the {@code params} is not accessible to the user.
      */
     protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
-        assertThrows(UnauthorizedAccessException.class, () -> c.checkAccessControl());
+        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
+    }
+
+    protected void verifyCannotAccess(FeedbackResponseUpdateRequest updateRequest, String... params) {
+        Action c = getAction(updateRequest, params);
+        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
     /**

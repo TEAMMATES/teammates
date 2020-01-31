@@ -16,7 +16,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.Intent;
@@ -134,12 +133,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                         .build();
         feedbackResponse = logic.createFeedbackResponse(feedbackResponse);
 
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(studentAttributes.getEmail());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(studentAttributes.getEmail());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
@@ -192,12 +186,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         feedbackResponse = logic.createFeedbackResponse(feedbackResponse);
 
         // send update request
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(instructorAttributes.getEmail());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(instructorAttributes.getEmail());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
@@ -212,9 +201,24 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         AssertHelper.assertContains(Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION, e.getMessage());
     }
 
+    private FeedbackResponseUpdateRequest getUpdateRequest(String recipientIdentifier) {
+        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
+        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
+        updateRequest.setRecipientIdentifier(recipientIdentifier);
+        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
+        newDetails.setAnswer("TEAM_NOT_EXIST");
+        updateRequest.setResponseDetails(newDetails);
+        return updateRequest;
+    }
+
     @Test
     @Override
     protected void testAccessControl() throws Exception {
+        // See individual test cases below
+    }
+
+    @Test
+    protected void testAccessControl_wrongGiver_inaccessible() {
 
         ______TS("wrong giver type");
 
@@ -226,6 +230,10 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         };
 
         verifyCannotAccess(wrongGiverTypeParams);
+    }
+
+    @Test
+    protected void testAccessControl_previewMode_inaccessible() {
 
         ______TS("preview mode, cannot access");
 
@@ -239,6 +247,11 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         verifyCannotAccess(previewParams);
 
+    }
+
+    @Test
+    protected void testAccessControl_responseSessionNotOpen_inaccessible() {
+
         ______TS("response in session not open, cannot access");
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -251,6 +264,10 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         };
 
         verifyCannotAccess(sessionNotOpenParams);
+    }
+
+    @Test
+    protected void testAccessControl_containsQuestionNotForInstructor_inaccessible() {
 
         ______TS("Response contains question not intended shown to instructor, "
                 + "moderated instructor should not be accessible");
@@ -267,6 +284,10 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         };
 
         verifyCannotAccess(invalidModeratedInstructorSubmissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_noFeedbackResponse_inaccessible() {
 
         ______TS("non-existent feedback response");
 
@@ -278,6 +299,10 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         };
 
         assertThrows(EntityNotFoundException.class, () -> getAction(nonExistParams).checkAccessControl());
+    }
+
+    @Test
+    protected void testAccessControl_unknownIntent_inaccessible() {
 
         ______TS("Unknown intent, should not be accessible");
 
@@ -303,13 +328,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                 logic.getFeedbackQuestion(testModerateResponse.getFeedbackQuestionId()).getGiverType());
         assertNotEquals(student1InCourse1.getEmail(), testModerateResponse.getGiver());
 
-        // send update request
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(instructor1OfCourse1.getEmail());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(instructor1OfCourse1.getEmail());
 
         String[] moderatedStudentSubmissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -317,8 +336,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
         };
 
-        UpdateFeedbackResponseAction a = getAction(updateRequest, moderatedStudentSubmissionParams);
-        assertThrows(UnauthorizedAccessException.class, a::checkAccessControl);
+        verifyCannotAccess(updateRequest, moderatedStudentSubmissionParams);
     }
 
     @Test
@@ -332,21 +350,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                 logic.getFeedbackQuestion(typicalResponse.getFeedbackQuestionId()).getGiverType());
         assertNotEquals(student2InCourse1.getEmail(), typicalResponse.getGiver());
 
-        // send update request
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(typicalResponse.getRecipient());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(typicalResponse.getRecipient());
 
         String[] studentAccessOtherPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
         };
 
-        UpdateFeedbackResponseAction a = getAction(updateRequest, studentAccessOtherPersonParams);
-        assertThrows(UnauthorizedAccessException.class, a::checkAccessControl);
+        verifyCannotAccess(updateRequest, studentAccessOtherPersonParams);
     }
 
     @Test
@@ -360,21 +371,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                 logic.getFeedbackQuestion(typicalResponse2.getFeedbackQuestionId()).getGiverType());
         assertNotEquals(student5InCourse1.getTeam(), typicalResponse2.getGiver());
 
-        // send update request
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(student5InCourse1.getEmail());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(student5InCourse1.getEmail());
 
         String[] studentAccessOtherTeamParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse2.getId(),
         };
 
-        UpdateFeedbackResponseAction a = getAction(updateRequest, studentAccessOtherTeamParams);
-        assertThrows(UnauthorizedAccessException.class, a::checkAccessControl);
+        verifyCannotAccess(updateRequest, studentAccessOtherTeamParams);
     }
 
     @Test
@@ -388,21 +392,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                 logic.getFeedbackQuestion(typicalResponse3.getFeedbackQuestionId()).getGiverType());
         assertNotEquals(instructor2OfCourse1.getEmail(), typicalResponse3.getGiver());
 
-        // send update request
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(instructor2OfCourse1.getEmail());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(instructor2OfCourse1.getEmail());
 
         String[] instructorAccessOtherPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
         };
 
-        UpdateFeedbackResponseAction a = getAction(updateRequest, instructorAccessOtherPersonParams);
-        assertThrows(UnauthorizedAccessException.class, a::checkAccessControl);
+        verifyCannotAccess(updateRequest, instructorAccessOtherPersonParams);
     }
 
     @Test
@@ -414,21 +411,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         assertEquals(instructor1OfCourse1.getEmail(), typicalResponse3.getGiver());
 
-        // send update request
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(typicalResponse3.getRecipient());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(typicalResponse3.getRecipient());
 
         String[] instructorAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
         };
 
-        UpdateFeedbackResponseAction a = getAction(updateRequest, instructorAccessOwnPersonParams);
-        a.checkSpecificAccessControl();
+        verifyCanAccess(updateRequest, instructorAccessOwnPersonParams);
     }
 
     @Test
@@ -442,21 +432,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                 logic.getFeedbackQuestion(typicalResponse2.getFeedbackQuestionId()).getGiverType());
         assertNotEquals(student1InCourse1.getTeam(), typicalResponse2.getGiver());
 
-        // send update request
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(typicalResponse2.getRecipient());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(typicalResponse2.getRecipient());
 
-        String[] studentAccessOSameTeamParams = new String[] {
+        String[] studentAccessSameTeamParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse2.getId(),
         };
 
-        UpdateFeedbackResponseAction a = getAction(updateRequest, studentAccessOSameTeamParams);
-        a.checkSpecificAccessControl();
+        verifyCanAccess(updateRequest, studentAccessSameTeamParams);
     }
 
     @Test
@@ -468,20 +451,13 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         assertEquals(student1InCourse1.getEmail(), typicalResponse.getGiver());
 
-        // send update request
-        FeedbackResponseUpdateRequest updateRequest = new FeedbackResponseUpdateRequest();
-        updateRequest.setQuestionType(FeedbackQuestionType.MCQ);
-        updateRequest.setRecipientIdentifier(typicalResponse.getRecipient());
-        FeedbackMcqResponseDetails newDetails = new FeedbackMcqResponseDetails();
-        newDetails.setAnswer("TEAM_NOT_EXIST");
-        updateRequest.setResponseDetails(newDetails);
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(typicalResponse.getRecipient());
 
         String[] studentAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
         };
 
-        UpdateFeedbackResponseAction a = getAction(updateRequest, studentAccessOwnPersonParams);
-        a.checkSpecificAccessControl();
+        verifyCanAccess(updateRequest, studentAccessOwnPersonParams);
     }
 }
