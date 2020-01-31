@@ -27,6 +27,10 @@ To use SendGrid in TEAMMATES, create a free SendGrid account, create an API key,
 
 To use Mailgun in TEAMMATES, create a free Mailgun account, get a domain name and find its API Key, and update the relevant values in `build.properties`.
 
+Note: Keep in mind that if you are planning to use custom domain for sending emails over Mailgun API, where domain is created in EU zone, then endpoint url of mailgun API should be changed into `https://api.eu.mailgun.net/v3` from `https://api.mailgun.net/v3`  as described [here](https://documentation.mailgun.com/en/latest/api-intro.html#introduction)
+
+Necessary modification should take place in this place within [MailgunService.java](https://github.com/TEAMMATES/teammates/blob/07fa66b5302f5ebb7d55e24b7c655a01da3e24eb/src/main/java/teammates/logic/core/MailgunService.java#L62) file at specified line. 
+
 ## Mailjet
 
 - Website: https://www.mailjet.com
