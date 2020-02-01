@@ -25,7 +25,6 @@ public class ActionFactoryTest extends BaseTestCase {
 
         MockHttpServletRequest existingActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.AUTH);
-        // Use this value for testing
         existingActionServletRequest.addHeader("Backdoor-Key", "samplekey");
         Action existingAction = actionFactory.getAction(existingActionServletRequest, HttpGet.METHOD_NAME);
         assertTrue(existingAction instanceof GetAuthInfoAction);
@@ -34,20 +33,21 @@ public class ActionFactoryTest extends BaseTestCase {
 
         MockHttpServletRequest nonExistentActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + "blahblahblah");
-        // Use this value for testing
         nonExistentActionServletRequest.addHeader("Backdoor-Key", "samplekey");
-        assertThrows(ActionMappingException.class, () -> {
-            actionFactory.getAction(nonExistentActionServletRequest, HttpGet.METHOD_NAME);
-        });
+        ActionMappingException nonExistentActionException = assertThrows(ActionMappingException.class,
+                () -> actionFactory.getAction(nonExistentActionServletRequest, HttpGet.METHOD_NAME));
+        assertTrue(nonExistentActionException.getMessage()
+                .equals("Resource with URI " + Const.ResourceURIs.URI_PREFIX + "blahblahblah" + " is not found."));
 
-        ______TS("Method does not on action exist and ActionMappingException is thrown");
+        ______TS("Method does not exist on action and ActionMappingException is thrown");
 
         MockHttpServletRequest nonExistentMethodOnActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.AUTH);
-        // Use this value for testing
         nonExistentMethodOnActionServletRequest.addHeader("Backdoor-Key", "samplekey");
-        assertThrows(ActionMappingException.class, () -> {
-            actionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME);
-        });
+        ActionMappingException nonExistentMethodOnActionException = assertThrows(ActionMappingException.class,
+                () -> actionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME));
+        assertTrue(nonExistentMethodOnActionException.getMessage()
+                .equals("Method [" + HttpPost.METHOD_NAME + "] is not allowed for URI "
+                + Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.AUTH + "."));
     }
 }
