@@ -120,7 +120,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                     this.teammateProfiles.push(newTeammateProfile);
                   });
           });
-
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });

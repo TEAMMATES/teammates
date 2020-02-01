@@ -133,7 +133,11 @@
             <tr>
               <td class="font-weight-bold">Name</td>
               <td>
-                <span>{{teammateProfile.studentProfile.shortName}}</span>
+                <span>
+                  {{teammateProfile.studentProfile.shortName === "" 
+                    ? teammateProfile.studentProfile.name 
+                    : teammateProfile.studentProfile.shortName}}
+                </span>
               </td>
             </tr>
             <tr>
