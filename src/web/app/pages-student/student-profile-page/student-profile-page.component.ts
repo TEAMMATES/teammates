@@ -13,7 +13,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-import { Observable } from 'rxjs';
+import { from, Observable, of, throwError } from 'rxjs';
+import { catchError, flatMap } from 'rxjs/operators';
 import {
   UploadEditProfilePictureModalComponent,
 } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
@@ -113,29 +114,46 @@ export class StudentProfilePageComponent implements OnInit {
    * Opens a modal box to upload/edit profile picture.
    */
   onUploadEdit(): void {
-    this.getProfilePicture().subscribe((resp: any) => {
-      const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
-      modalRef.componentInstance.image = resp;
+    this.getProfilePicture()
+        // Return null if no picture is found
+        .pipe(
+            catchError(() => of(null)),
+        )
+        // Open Modal and return form data
+        // Return null if there is no form data
+        .pipe(
+            flatMap((image: null | Blob) => {
+              const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
+              modalRef.componentInstance.image = image;
 
-      modalRef.componentInstance.profilePicLink = this.profilePicLink;
-      modalRef.result.then((formData: FormData) => {
-        if (!formData) {
-          this.statusMessageService.showWarningMessage('No photo uploaded');
-          return;
-        }
+              return from(modalRef.result);
+            }),
+            catchError(() => of(null)),
+        )
+        // Post the form data (if applicable)
+        .pipe(
+            flatMap((formData: FormData | null) => {
+              if (formData == null) {
+                return throwError({
+                  error: {
+                    message: 'No image uploaded',
+                  },
+                  status: 1,
+                });
+              }
+              return this.postProfilePicture(formData);
+            }),
+        )
+        // Display message status
+        .subscribe(() => {
+          this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
 
-        this.postProfilePicture(formData)
-            .subscribe(() => {
-              this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
-
-              // force reload
-              const timestamp: number = (new Date()).getTime();
-              this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=${this.id}`;
-            }, (response: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorMessage(response.error.message);
-            });
-      }, () => {});
-    });
+          // force reload
+          const timestamp: number = (new Date()).getTime();
+          this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=${this.id}`;
+        }, (response: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(response.error.message);
+        });
   }
 
   /**

@@ -16,11 +16,14 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
 
   @ViewChild(ImageCropperComponent, { static: false }) imageCropper!: ImageCropperComponent;
 
-  @Input() image!: Blob;
+  @Input() image!: Blob | null;
 
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
+    if (this.image == null) {
+      return;
+    }
     this.blobToBase64Image(this.image);
   }
 
