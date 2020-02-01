@@ -10,6 +10,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   httpRequestService={[Function HttpRequestService]}
   id=""
   ngbModal={[Function NgbModal]}
+  profilePictureEndPoint={[Function String]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
@@ -238,6 +239,7 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   httpRequestService={[Function HttpRequestService]}
   id=""
   ngbModal={[Function NgbModal]}
+  profilePictureEndPoint={[Function String]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
 >
@@ -257,6 +259,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   nationalities={[Function Array]}
   ngbModal={[Function NgbModal]}
   profilePicLink={[Function String]}
+  profilePictureEndPoint={[Function String]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
