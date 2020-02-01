@@ -18,7 +18,7 @@ import {
   VisibilityTypeNamePipe,
 } from './visibility-setting.pipe';
 
-import mockTinyMceUuid from '../../../test-helpers/mock-tinymce-uuid';
+import { mockTinyMceUuid } from '../../../test-helpers/mock-tinymce-uuid';
 
 describe('QuestionEditFormComponent', () => {
   let component: QuestionEditFormComponent;
