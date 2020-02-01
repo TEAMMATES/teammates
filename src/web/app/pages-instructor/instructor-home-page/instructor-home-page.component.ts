@@ -130,7 +130,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.courseService.changeArchiveStatus(courseId, {
       archiveStatus: true,
     }).subscribe((courseArchive: CourseArchive) => {
-      this.loadCourses();
+      this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+        return model.course.courseId !== courseId;
+      });
       this.statusMessageService.showSuccessMessage(`The course ${courseArchive.courseId} has been archived.
           You can retrieve it from the Courses page.`);
     }, (resp: ErrorMessageOutput) => {
@@ -143,7 +145,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   deleteCourse(courseId: string): void {
     this.courseService.binCourse(courseId).subscribe((course: Course) => {
-      this.loadCourses();
+      this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+        return model.course.courseId !== courseId;
+      });
       this.statusMessageService.showSuccessMessage(
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
