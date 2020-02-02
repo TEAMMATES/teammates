@@ -17,6 +17,16 @@ import teammates.ui.webapi.output.FeedbackSessionData;
  */
 public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeedbackSessionAction> {
 
+    private final InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+    private final FeedbackSessionAttributes firstFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+    private final String instructorId = instructor1OfCourse1.googleId;
+    private final String courseId = instructor1OfCourse1.courseId;
+    private final String feedbackSessionName = firstFeedbackSession.getFeedbackSessionName();
+    private final String[] submissionParams = new String[] {
+            Const.ParamsNames.COURSE_ID, courseId,
+            Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+    };
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.BIN_SESSION;
@@ -30,49 +40,45 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     @Test
     @Override
     protected void testExecute() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes firstFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        // See test cases below.
+    }
 
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
-        String feedbackSessionName = firstFeedbackSession.getFeedbackSessionName();
-
+    @Test
+    protected void testExecute_withSessionInBin_shouldRestoreSession() throws Exception {
         loginAsInstructor(instructorId);
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-        };
-
-        ______TS("Not found in recycle bin");
-
-        RestoreFeedbackSessionAction notFoundAction = getAction(submissionParams);
-        EntityNotFoundException notFoundException = assertThrows(EntityNotFoundException.class, () -> {
-            getJsonResult(notFoundAction);
-        });
-
-        assertEquals("Feedback session is not in recycle bin", notFoundException.getMessage());
-
-        ______TS("Typical case, restore a deleted feedback session from recycle bin");
-
         logic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
-
         RestoreFeedbackSessionAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         FeedbackSessionData feedbackSessionMessage = (FeedbackSessionData) result.getOutput();
 
+        // Verify response
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals(courseId, feedbackSessionMessage.getCourseId());
         assertEquals(feedbackSessionName, feedbackSessionMessage.getFeedbackSessionName());
-        assertFalse(logic.getFeedbackSession(feedbackSessionName, courseId).isSessionDeleted());
 
-        ______TS("Not enough parameters");
+        // Verify model
+        assertFalse(logic.getFeedbackSession(feedbackSessionName, courseId).isSessionDeleted());
+    }
+
+    @Test
+    protected void testExecute_withSessionNotInBin_shouldFail() {
+        loginAsInstructor(instructorId);
+        RestoreFeedbackSessionAction notFoundAction = getAction(submissionParams);
+
+        EntityNotFoundException notFoundException = assertThrows(EntityNotFoundException.class, () -> {
+            getJsonResult(notFoundAction);
+        });
+        assertEquals("Feedback session is not in recycle bin", notFoundException.getMessage());
+    }
+
+    @Test
+    protected void testExecute_withEmptyParameters_shouldFail() {
+        loginAsInstructor(instructorId);
 
         NullHttpParameterException emptyParamsException = assertThrows(NullHttpParameterException.class, () -> {
             RestoreFeedbackSessionAction emptyParamsAction = getAction();
             getJsonResult(emptyParamsAction);
         });
-
         assertEquals(
                 String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, Const.ParamsNames.COURSE_ID),
                 emptyParamsException.getMessage()
@@ -82,13 +88,6 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        String courseId = "idOfTypicalCourse1";
-        String feedbackSessionName = "First feedback session";
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
-        };
         logic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
 
         verifyOnlyInstructorsCanAccess(submissionParams);
