@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { RichTextEditorModule } from "../../rich-text-editor/rich-text-editor.module";
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
@@ -16,6 +17,7 @@ describe('McqQuestionEditDetailsFormComponent', () => {
         WeightFieldComponent],
       imports: [
         FormsModule,
+        RichTextEditorModule
       ],
     })
     .compileComponents();
