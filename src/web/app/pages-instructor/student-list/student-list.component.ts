@@ -1,9 +1,10 @@
-import { Component, DoCheck, Input, IterableDiffer, IterableDiffers, OnInit } from '@angular/core';
+import {
+  Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
@@ -97,6 +98,8 @@ export class StudentListComponent implements OnInit, DoCheck {
   // The input sections data from parent.
   @Input() sections: StudentListSectionData[] = [];
 
+  @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
+
   // The flattened students list derived from the sections list.
   // The sections data is flattened to allow sorting of the list.
   students: FlatStudentListData[] = [];
@@ -111,7 +114,6 @@ export class StudentListComponent implements OnInit, DoCheck {
   private readonly _differ: IterableDiffer<any>;
 
   constructor(private router: Router,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
@@ -208,20 +210,7 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Removes the student from course.
    */
   removeStudentFromCourse(studentEmail: string): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      studentemail: studentEmail,
-    };
-    this.httpRequestService.delete('/student', paramMap).subscribe(() => {
-      this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${this.courseId}"`);
-      this.sections.forEach(
-        (section: StudentListSectionData) => {
-          section.students = section.students.filter(
-            (student: StudentListStudentData) => student.email !== studentEmail);
-        });
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    this.removeStudentFromCourseEvent.emit(studentEmail);
   }
 
   /**
