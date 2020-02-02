@@ -35,9 +35,6 @@ test-output/*
 *.iml
 out/
 
-# VS code
-.vscode/settings.json
-
 # JMeter
 jmeter.log
 src/e2e/lnp/*
