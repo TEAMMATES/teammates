@@ -33,6 +33,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.SectionDetail;
 import teammates.common.util.StringHelper;
@@ -77,6 +78,8 @@ public final class FeedbackSessionsLogic {
                                                              + "Session has already been unpublished.";
 
     private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
+
+    private static final Logger log = Logger.getLogger();
 
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
@@ -996,28 +999,35 @@ public final class FeedbackSessionsLogic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
 
         for (FeedbackSessionAttributes session : sessions) {
             // automated emails are required only for custom publish times
-            if (!coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()
-                    && session.isPublished()
-                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())) {
+            if (session.isPublished()
+                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())
+                    && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                sessionsToSendEmailsFor.size()));
         return sessionsToSendEmailsFor;
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (!coursesLogic.getCourse(session.getCourseId()).isCourseDeleted() && session.isOpened()) {
+            if (session.isOpened() && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
                 sessionsToSendEmailsFor.add(session);
             }
         }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                sessionsToSendEmailsFor.size()));
         return sessionsToSendEmailsFor;
     }
 
@@ -1361,14 +1371,17 @@ public final class FeedbackSessionsLogic {
         ArrayList<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (!coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()
-                    && session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) {
+            if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
+                    && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
                 requiredSessions.add(session);
             }
         }
 
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
         return requiredSessions;
     }
 
@@ -1378,13 +1391,17 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosedWithinThePastHour() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSessionAttributes session : sessions) {
             // is session closed in the past 1 hour
-            if (!coursesLogic.getCourse(session.getCourseId()).isCourseDeleted() && session.isClosedWithinPastHour()) {
+            if (session.isClosedWithinPastHour()
+                    && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
                 requiredSessions.add(session);
             }
         }
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
         return requiredSessions;
     }
 
