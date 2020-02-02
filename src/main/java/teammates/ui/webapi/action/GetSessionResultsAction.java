@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.SessionResultsData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Gets feedback session results including statistics where necessary.

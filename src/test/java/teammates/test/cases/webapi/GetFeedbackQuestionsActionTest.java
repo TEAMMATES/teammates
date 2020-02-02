@@ -16,12 +16,12 @@ import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.action.GetFeedbackQuestionsAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackQuestionsData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetFeedbackQuestionsAction}.
