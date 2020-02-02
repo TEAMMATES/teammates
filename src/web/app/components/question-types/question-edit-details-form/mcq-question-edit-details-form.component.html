@@ -18,11 +18,14 @@
   <div class="col-sm-6">
     <div *ngIf="!isGeneratedOptionsEnabled">
       <div>
-        <div cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)">
+        <div cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
           <div class="row margin-bottom-7px"  *ngFor="let num of model.mcqChoices; let i = index;
           trackBy: trackMcqOption" cdkDrag>
             <br>
-            <div class="col-sm-9">
+            <div class="col-sm-1" cdkDragHandle>
+              <span class="btn btn-default input-group-addon" style="margin-top: 22px">&#8597; </span>
+            </div>
+            <div [ngClass]="(model.hasAssignedWeights)?'col-sm-8':'col-sm-10'">
               <tm-mcq-field (elementDeleted)="onMcqOptionDeleted($event)"
                             (mcqText)="onMcqOptionEntered($event, i)"
                             [index]="i"
