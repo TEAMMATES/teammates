@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
@@ -18,6 +19,7 @@ describe('McqQuestionEditDetailsFormComponent', () => {
       imports: [
         FormsModule,
         RichTextEditorModule,
+        DragDropModule,
       ],
     })
     .compileComponents();
