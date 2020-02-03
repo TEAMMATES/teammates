@@ -14,8 +14,8 @@ import { StudentProfileService } from '../../../services/student-profile.service
 import { ErrorMessageOutput } from '../../error-message-output';
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { from, Observable, of, throwError } from 'rxjs';
-import { catchError, flatMap } from 'rxjs/operators';
+import { from, of, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import {
   UploadEditProfilePictureModalComponent,
 } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
@@ -38,7 +38,6 @@ export class StudentProfilePageComponent implements OnInit {
   nationalities?: string[];
   profilePicLink!: string;
   defaultPictureLink: string = '/assets/images/profile_picture_default.png';
-  profilePictureEndPoint: string = '/student/profilePic';
 
   private backendUrl: string = environment.backendUrl;
 
@@ -116,7 +115,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Opens a modal box to upload/edit profile picture.
    */
   onUploadEdit(): void {
-    this.getProfilePicture()
+    this.studentProfileService.getProfilePicture()
         .pipe(
             // If no picture is found, return null
             catchError((err: HttpErrorResponse) => {
@@ -126,7 +125,7 @@ export class StudentProfilePageComponent implements OnInit {
               return of(null);
             }),
             // Open Modal and wait for user to upload picture
-            flatMap((image: Blob | null) => {
+            switchMap((image: Blob | null) => {
               const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
               modalRef.componentInstance.image = image;
 
@@ -135,11 +134,11 @@ export class StudentProfilePageComponent implements OnInit {
             // If no image is uploaded, return null
             catchError(() => of(null)),
             // Post the form data
-            flatMap((formData: FormData | null) => {
+            switchMap((formData: FormData | null) => {
               if (formData == null) {
                 return of(null);
               }
-              return this.postProfilePicture(formData);
+              return this.studentProfileService.postProfilePicture(formData);
             }),
         )
         // Display message status
@@ -188,27 +187,13 @@ export class StudentProfilePageComponent implements OnInit {
   }
 
   /**
-   * Gets the profile picture as blob image.
-   */
-  getProfilePicture(): Observable<Blob> {
-    return this.httpRequestService.get(this.profilePictureEndPoint, {}, 'blob');
-  }
-
-  /**
-   * Posts the profile picture.
-   */
-  postProfilePicture(formData: FormData): Observable<any> {
-    return this.httpRequestService.post(this.profilePictureEndPoint, {}, formData);
-  }
-
-  /**
    * Deletes the profile picture and the profile picture key
    */
   deleteProfilePicture(): void {
     const paramMap: { [key: string]: string } = {
       googleid: this.id,
     };
-    this.httpRequestService.delete(this.profilePictureEndPoint, paramMap)
+    this.studentProfileService.deleteProfilePictre(paramMap)
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);
