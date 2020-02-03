@@ -13,6 +13,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 
+import { HttpErrorResponse } from '@angular/common/http';
 import { from, Observable, of, throwError } from 'rxjs';
 import { catchError, flatMap } from 'rxjs/operators';
 import {
@@ -116,38 +117,44 @@ export class StudentProfilePageComponent implements OnInit {
    */
   onUploadEdit(): void {
     this.getProfilePicture()
-        // Return null if no picture is found
         .pipe(
-            catchError(() => of(null)),
-        )
-        // Open Modal and wait for user to upload picture
-        // Throw an error if there is no picture is uploaded
-        .pipe(
+            // If no picture is found, return null
+            catchError((err: HttpErrorResponse) => {
+              if (err.status !== 404) {
+                return throwError(status);
+              }
+              return of(null);
+            }),
+            // Open Modal and wait for user to upload picture
             flatMap((image: Blob | null) => {
               const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
               modalRef.componentInstance.image = image;
 
               return from(modalRef.result);
             }),
-            catchError(() => throwError({
-              error: {
-                message: 'No image uploaded',
-              },
-              status: 1,
-            })),
-        )
-        // Post the form data
-        .pipe(
-            flatMap((formData: FormData) => this.postProfilePicture(formData)),
+            // If no image is uploaded, return null
+            catchError(() => of(null)),
+            // Post the form data
+            flatMap((formData: FormData | null) => {
+              if (formData == null) {
+                return of(null);
+              }
+              return this.postProfilePicture(formData);
+            }),
         )
         // Display message status
-        .subscribe(() => {
+        .subscribe((response: any | null) => {
+          if (response == null) {
+            return;
+          }
+
           this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
 
-          // force reload
+          // Force reload
           const timestamp: number = (new Date()).getTime();
           this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=${this.id}`;
         }, (response: ErrorMessageOutput) => {
+
           this.statusMessageService.showErrorMessage(response.error.message);
         });
   }
