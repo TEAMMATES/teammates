@@ -115,11 +115,14 @@ export class StudentProfilePageComponent implements OnInit {
    * Opens a modal box to upload/edit profile picture.
    */
   onUploadEdit(): void {
+    const NO_IMAGE_UPLOADED = 600;
+    const NO_IMAGE_FOUND = 404;
+
     this.studentProfileService.getProfilePicture()
         .pipe(
             // If no picture is found, return null
             catchError((err: HttpErrorResponse) => {
-              if (err.status !== 404) {
+              if (err.status !== NO_IMAGE_FOUND) {
                 return throwError(status);
               }
               return of(null);
@@ -131,28 +134,30 @@ export class StudentProfilePageComponent implements OnInit {
 
               return from(modalRef.result);
             }),
-            // If no image is uploaded, return null
-            catchError(() => of(null)),
+            // If no image is uploaded, throw an error
+            catchError(() => throwError({
+              error: {
+                message: 'No image uploaded',
+              },
+              status: NO_IMAGE_UPLOADED,
+            })),
             // Post the form data
-            switchMap((formData: FormData | null) => {
-              if (formData == null) {
-                return of(null);
-              }
+            switchMap((formData: FormData) => {
               return this.studentProfileService.postProfilePicture(formData);
             }),
         )
         // Display message status
-        .subscribe((response: any | null) => {
-          if (response == null) {
-            return;
-          }
-
+        .subscribe(() => {
           this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
 
           // Force reload
           const timestamp: number = (new Date()).getTime();
           this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=${this.id}`;
         }, (response: ErrorMessageOutput) => {
+          // If the error was due to not image uploaded, do nothing
+          if (response.status === NO_IMAGE_UPLOADED) {
+            return;
+          }
 
           this.statusMessageService.showErrorMessage(response.error.message);
         });
