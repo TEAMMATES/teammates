@@ -115,8 +115,8 @@ export class StudentProfilePageComponent implements OnInit {
    * Opens a modal box to upload/edit profile picture.
    */
   onUploadEdit(): void {
-    const NO_IMAGE_UPLOADED = 600;
-    const NO_IMAGE_FOUND = 404;
+    const NO_IMAGE_UPLOADED: number = 600;
+    const NO_IMAGE_FOUND: number = 404;
 
     this.studentProfileService.getProfilePicture()
         .pipe(
