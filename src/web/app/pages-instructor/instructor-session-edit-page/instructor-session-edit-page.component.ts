@@ -223,10 +223,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             switchMap((feedbackSession: FeedbackSession) =>
                 this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)),
         ).subscribe((createdSession: FeedbackSession) => {
-          this.navigationService.navigateWithSuccessMessageWithParamEncoding(this.router,
+          this.navigationService.navigateWithSuccessMessage(this.router,
               '/web/instructor/sessions/edit',
-              { courseid: this.courseId, fsname: createdSession.feedbackSessionName },
-              'The feedback session has been copied. Please modify settings/questions as necessary.');
+              'The feedback session has been copied. Please modify settings/questions as necessary.',
+              { courseid: this.courseId, fsname: createdSession.feedbackSessionName });
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
       }, () => {});
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
@@ -811,7 +811,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles question 'Help' link click event.
    */
   questionsHelpHandler(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help#questions`, {});
+    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help#questions`);
   }
 
   /**

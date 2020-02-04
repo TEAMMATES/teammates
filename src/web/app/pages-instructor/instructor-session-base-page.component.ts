@@ -193,11 +193,11 @@ export abstract class InstructorSessionBasePageComponent {
   copySession(model: SessionsTableRowModel, result: CopySessionResult): void {
     this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
         .subscribe((createdSession: FeedbackSession) => {
-          this.navigationService.navigateWithSuccessMessageWithParamEncoding(
+          this.navigationService.navigateWithSuccessMessage(
               this.router,
               '/web/instructor/sessions/edit',
-              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName },
-              'The feedback session has been copied. Please modify settings/questions as necessary.');
+              'The feedback session has been copied. Please modify settings/questions as necessary.',
+              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 

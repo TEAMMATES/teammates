@@ -17,6 +17,6 @@ describe('NavigationService', () => {
 
   it('should return an encoded param string upon calling encodeParams', () => {
     const service: NavigationService = TestBed.get(NavigationService);
-    expect(service.encodeParams({ courseId: '#123?123' })).toEqual('courseId=%23123%3F123');
+    expect(service.encodeParams({ courseId: '#123?123' })).toEqual('?courseId=%23123%3F123');
   });
 });

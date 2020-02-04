@@ -17,8 +17,11 @@ export class NavigationService {
               private masqueradeModeService: MasqueradeModeService) {}
 
   encodeParams(params: {[key: string]: string}): string {
-    return Object.keys(params).map(((key: string): string => `${key}=${encodeURIComponent(params[key])}`))
-      .join('&');
+    if (Object.values(params).length === 0) {
+      return '';
+    }
+    return `?${Object.keys(params).map(((key: string): string => `${key}=${encodeURIComponent(params[key])}`))
+      .join('&')}`;
   }
 
   /**
@@ -26,7 +29,7 @@ export class NavigationService {
    */
   navigateByURLWithParamEncoding(router: Router,
     urlWithoutParams: string, params: {[key: string]: string}): Promise<Boolean> {
-    return router.navigateByUrl(`${urlWithoutParams}?${this.encodeParams(params)}`);
+    return router.navigateByUrl(`${urlWithoutParams}${this.encodeParams(params)}`);
   }
 
   /**
@@ -41,8 +44,8 @@ export class NavigationService {
   /**
    * Navigates to the selected URL and shows a success message afterwards.
    */
-  navigateWithSuccessMessage(router: Router, url: string, message: string): void {
-    router.navigateByUrl(url).then(() => {
+  navigateWithSuccessMessage(router: Router, url: string, message: string, params: {[key: string]: string} = {}): void {
+    this.navigateByURLWithParamEncoding(router, url, params).then(() => {
       this.statusMessageService.showSuccessMessage(message);
     });
   }
@@ -57,18 +60,10 @@ export class NavigationService {
   }
 
   /**
-   * Navigates to the selected URL and shows successful message with URL param encoding
-   */
-  navigateWithSuccessMessageWithParamEncoding(router: Router, urlWithoutParams: string,
-    params: {[key: string]: string}, message: string): void {
-    return this.navigateWithSuccessMessage(router, `${urlWithoutParams}?${this.encodeParams(params)}`, message);
-  }
-
-  /**
    * Opens a new browser window.
    */
-  openNewWindow(urlStr: string, params: {[key: string]: string}): void {
-    const url: URL = new URL(`${urlStr}?${this.encodeParams(params)}`);
+  openNewWindow(urlStr: string, params: {[key: string]: string} = {}): void {
+    const url: URL = new URL(`${urlStr}${this.encodeParams(params)}`);
     if (this.masqueradeModeService.isInMasqueradingMode()) {
       url.searchParams.set('user', this.masqueradeModeService.getMasqueradeUser());
     }
