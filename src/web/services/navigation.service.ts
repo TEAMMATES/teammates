@@ -67,18 +67,11 @@ export class NavigationService {
   /**
    * Opens a new browser window.
    */
-  openNewWindow(urlStr: string): void {
-    const url: URL = new URL(urlStr);
+  openNewWindow(urlStr: string, params: {[key: string]: string}): void {
+    const url: URL = new URL(`${urlStr}?${this.encodeParams(params)}`);
     if (this.masqueradeModeService.isInMasqueradingMode()) {
       url.searchParams.set('user', this.masqueradeModeService.getMasqueradeUser());
     }
     window.open(url.toString());
-  }
-
-  /**
-   * Opens a new browser window with URL Param encoding
-   */
-  openNewWindowWithParamEncoding(urlWithoutParams: string, params: {[key: string]: string}): void {
-    return this.openNewWindow(`${urlWithoutParams}?${this.encodeParams(params)}`);
   }
 }

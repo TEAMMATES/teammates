@@ -811,7 +811,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles question 'Help' link click event.
    */
   questionsHelpHandler(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help#questions`);
+    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help#questions`, {});
   }
 
   /**
@@ -872,7 +872,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Previews the submission of the feedback session as a student.
    */
   previewAsStudent(): void {
-    this.navigationService.openNewWindowWithParamEncoding(`${environment.frontendUrl}/web/sessions/submission`,
+    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/sessions/submission`,
         { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfStudentToPreview });
   }
 
@@ -880,7 +880,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Previews the submission of the feedback session as an instructor.
    */
   previewAsInstructor(): void {
-    this.navigationService.openNewWindowWithParamEncoding(
+    this.navigationService.openNewWindow(
       `${environment.frontendUrl}/web/instructor/sessions/submission`,
       { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfInstructorToPreview });
   }
