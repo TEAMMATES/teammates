@@ -32,12 +32,10 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     private StudentAttributes student5InCourse1;
     private InstructorAttributes instructor2OfCourse1;
     private InstructorAttributes instructor1OfCourse1;
-    private FeedbackResponseAttributes typicalResponse;
+    private FeedbackResponseAttributes student1ResponseToStudent1;
     private FeedbackResponseAttributes testModerateResponse;
-    private FeedbackResponseAttributes typicalResponse2;
-    private FeedbackResponseAttributes typicalResponse3;
-    private FeedbackResponseAttributes responseInClosedSession;
-    private FeedbackSessionAttributes closedSession;
+    private FeedbackResponseAttributes student4ResponseToTeam;
+    private FeedbackResponseAttributes instructor1ResponseToAll;
 
     @Override
     protected String getActionUri() {
@@ -60,14 +58,13 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
-        closedSession = typicalBundle.feedbackSessions.get("closedSession");
 
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 session.getFeedbackSessionName(), session.getCourseId(), 1);
 
         String giverEmail = student1InCourse1.getEmail();
         String receiverEmail = student1InCourse1.getEmail();
-        typicalResponse = logic.getFeedbackResponse(question.getId(),
+        student1ResponseToStudent1 = logic.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
 
         FeedbackQuestionAttributes testModerateQuestion = logic.getFeedbackQuestion(
@@ -77,24 +74,47 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         FeedbackQuestionAttributes question2 = logic.getFeedbackQuestion(
                 session2.getFeedbackSessionName(), session2.getCourseId(), 1);
-        typicalResponse2 = logic.getFeedbackResponse(question2.getId(),
+        student4ResponseToTeam = logic.getFeedbackResponse(question2.getId(),
                 student4inCourse1.getEmail(), "Team 1.2");
 
         FeedbackQuestionAttributes question3 = logic.getFeedbackQuestion(
                 session.getFeedbackSessionName(), session.getCourseId(), 3);
-        typicalResponse3 = logic.getFeedbackResponse(question3.getId(),
+        instructor1ResponseToAll = logic.getFeedbackResponse(question3.getId(),
                 instructor1OfCourse1.getEmail(), "%GENERAL%");
-
-        FeedbackQuestionAttributes question4 = logic.getFeedbackQuestion(
-                closedSession.getFeedbackSessionName(), closedSession.getCourseId(), 1);
-        responseInClosedSession = logic.getFeedbackResponse(question4.getId(),
-                instructor1OfCourse1.getEmail(), instructor1OfCourse1.getEmail());
     }
 
     @Test
     @Override
     protected void testExecute() throws Exception {
         // TODO
+    }
+
+    @Test
+    protected void testExecute_missingIntent_httpParameterFailure() {
+
+        ______TS("missing intent response parameters");
+
+        loginAsStudent(student1InCourse1.getGoogleId());
+
+        String[] missingIntentParams = new String[] {
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+        };
+
+        verifyHttpParameterFailure(missingIntentParams);
+    }
+
+    @Test
+    protected void testExecute_missingResponseId_httpParameterFailure() {
+
+        ______TS("missing response id parameters");
+
+        loginAsStudent(student1InCourse1.getGoogleId());
+
+        String[] missingResponseIdParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        verifyHttpParameterFailure(missingResponseIdParams);
     }
 
     @Test
@@ -226,7 +246,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] wrongGiverTypeParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
         };
 
         verifyCannotAccess(wrongGiverTypeParams);
@@ -241,7 +261,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] previewParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
                 Const.ParamsNames.PREVIEWAS, instructor1OfCourse1.email,
         };
 
@@ -255,6 +275,12 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         ______TS("response in session not open, cannot access");
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
+
+        FeedbackSessionAttributes closedSession = typicalBundle.feedbackSessions.get("closedSession");
+        FeedbackQuestionAttributes question4 = logic.getFeedbackQuestion(
+                closedSession.getFeedbackSessionName(), closedSession.getCourseId(), 1);
+        FeedbackResponseAttributes responseInClosedSession = logic.getFeedbackResponse(question4.getId(),
+                instructor1OfCourse1.getEmail(), instructor1OfCourse1.getEmail());
 
         assertFalse(closedSession.isOpened());
 
@@ -274,12 +300,12 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         loginAsInstructor(instructor1OfCourse1.googleId);
 
-        assertFalse(logic.getFeedbackQuestion(typicalResponse2.getFeedbackQuestionId())
+        assertFalse(logic.getFeedbackQuestion(student4ResponseToTeam.getFeedbackQuestionId())
                 .getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS));
 
         String[] invalidModeratedInstructorSubmissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse2.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student4ResponseToTeam.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, instructor1OfCourse1.getEmail(),
         };
 
@@ -292,6 +318,8 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         ______TS("non-existent feedback response");
 
         loginAsStudent(student1InCourse1.getGoogleId());
+
+        assertNull(logic.getFeedbackResponse("randomNonExistId"));
 
         String[] nonExistParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -310,7 +338,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] unknownIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, instructor1ResponseToAll.getId(),
         };
 
         assertThrows(InvalidHttpParameterException.class, () -> getAction(unknownIntentParams).checkAccessControl());
@@ -347,14 +375,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         loginAsStudent(student2InCourse1.getGoogleId());
 
         assertEquals(FeedbackParticipantType.STUDENTS,
-                logic.getFeedbackQuestion(typicalResponse.getFeedbackQuestionId()).getGiverType());
-        assertNotEquals(student2InCourse1.getEmail(), typicalResponse.getGiver());
+                logic.getFeedbackQuestion(student1ResponseToStudent1.getFeedbackQuestionId()).getGiverType());
+        assertNotEquals(student2InCourse1.getEmail(), student1ResponseToStudent1.getGiver());
 
-        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(typicalResponse.getRecipient());
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(student1ResponseToStudent1.getRecipient());
 
         String[] studentAccessOtherPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
         };
 
         verifyCannotAccess(updateRequest, studentAccessOtherPersonParams);
@@ -368,14 +396,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         loginAsStudent(student5InCourse1.getGoogleId());
 
         assertEquals(FeedbackParticipantType.TEAMS,
-                logic.getFeedbackQuestion(typicalResponse2.getFeedbackQuestionId()).getGiverType());
-        assertNotEquals(student5InCourse1.getTeam(), typicalResponse2.getGiver());
+                logic.getFeedbackQuestion(student4ResponseToTeam.getFeedbackQuestionId()).getGiverType());
+        assertNotEquals(student5InCourse1.getTeam(), student4ResponseToTeam.getGiver());
 
         FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(student5InCourse1.getEmail());
 
         String[] studentAccessOtherTeamParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse2.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student4ResponseToTeam.getId(),
         };
 
         verifyCannotAccess(updateRequest, studentAccessOtherTeamParams);
@@ -389,14 +417,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         loginAsInstructor(instructor2OfCourse1.getGoogleId());
 
         assertEquals(FeedbackParticipantType.SELF,
-                logic.getFeedbackQuestion(typicalResponse3.getFeedbackQuestionId()).getGiverType());
-        assertNotEquals(instructor2OfCourse1.getEmail(), typicalResponse3.getGiver());
+                logic.getFeedbackQuestion(instructor1ResponseToAll.getFeedbackQuestionId()).getGiverType());
+        assertNotEquals(instructor2OfCourse1.getEmail(), instructor1ResponseToAll.getGiver());
 
         FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(instructor2OfCourse1.getEmail());
 
         String[] instructorAccessOtherPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, instructor1ResponseToAll.getId(),
         };
 
         verifyCannotAccess(updateRequest, instructorAccessOtherPersonParams);
@@ -409,16 +437,35 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
-        assertEquals(instructor1OfCourse1.getEmail(), typicalResponse3.getGiver());
+        assertEquals(instructor1OfCourse1.getEmail(), instructor1ResponseToAll.getGiver());
 
-        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(typicalResponse3.getRecipient());
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(instructor1ResponseToAll.getRecipient());
 
         String[] instructorAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, instructor1ResponseToAll.getId(),
         };
 
         verifyCanAccess(updateRequest, instructorAccessOwnPersonParams);
+    }
+
+    @Test
+    protected void testAccessControl_instructorAccessIntentStudentLoggedIn_inaccessible() {
+
+        ______TS("Instructor intends to access own response, but logged in as student, should be inaccessible");
+
+        loginAsStudent(student1InCourse1.getGoogleId());
+
+        assertEquals(instructor1OfCourse1.getEmail(), instructor1ResponseToAll.getGiver());
+
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(instructor1ResponseToAll.getRecipient());
+
+        String[] instructorAccessOwnPersonParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, instructor1ResponseToAll.getId(),
+        };
+
+        verifyCannotAccess(updateRequest, instructorAccessOwnPersonParams);
     }
 
     @Test
@@ -429,14 +476,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         loginAsStudent(student1InCourse1.getGoogleId());
 
         assertEquals(FeedbackParticipantType.TEAMS,
-                logic.getFeedbackQuestion(typicalResponse2.getFeedbackQuestionId()).getGiverType());
-        assertNotEquals(student1InCourse1.getTeam(), typicalResponse2.getGiver());
+                logic.getFeedbackQuestion(student4ResponseToTeam.getFeedbackQuestionId()).getGiverType());
+        assertNotEquals(student1InCourse1.getTeam(), student4ResponseToTeam.getGiver());
 
-        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(typicalResponse2.getRecipient());
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(student4ResponseToTeam.getRecipient());
 
         String[] studentAccessSameTeamParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse2.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student4ResponseToTeam.getId(),
         };
 
         verifyCanAccess(updateRequest, studentAccessSameTeamParams);
@@ -449,15 +496,58 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         loginAsStudent(student1InCourse1.getGoogleId());
 
-        assertEquals(student1InCourse1.getEmail(), typicalResponse.getGiver());
+        assertEquals(student1InCourse1.getEmail(), student1ResponseToStudent1.getGiver());
 
-        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(typicalResponse.getRecipient());
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(student1ResponseToStudent1.getRecipient());
 
         String[] studentAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
         };
 
         verifyCanAccess(updateRequest, studentAccessOwnPersonParams);
+    }
+
+    @Test
+    protected void testAccessControl_instructorSubmitStudentResponse_accessible() {
+
+        ______TS("Instructor attempts to edit student's response with appropriate permission, should be accessible");
+
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+
+        assertEquals(student1InCourse1.getEmail(), student1ResponseToStudent1.getGiver());
+
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(student1ResponseToStudent1.getRecipient());
+
+        String[] studentAccessOwnPersonParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
+        };
+
+        verifyCanAccess(updateRequest, studentAccessOwnPersonParams);
+    }
+
+    @Test
+    protected void testAccessControl_instructorSubmitStudentResponseNoPermission_inaccessible() {
+
+        ______TS("Instructor attempts to edit student's response, but without appropriate permission, "
+                + "should be inaccessible");
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        loginAsInstructor(helperOfCourse1.getGoogleId());
+
+        assertEquals(student1InCourse1.getEmail(), student1ResponseToStudent1.getGiver());
+
+        FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(student1ResponseToStudent1.getRecipient());
+
+        String[] studentAccessOwnPersonParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
+        };
+
+        verifyCannotAccess(updateRequest, studentAccessOwnPersonParams);
     }
 }

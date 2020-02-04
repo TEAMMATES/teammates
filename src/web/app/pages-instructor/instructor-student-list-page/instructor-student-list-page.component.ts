@@ -152,4 +152,21 @@ export class InstructorStudentListPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
+
+  /**
+   * Removes the student from course.
+   */
+  removeStudentFromCourse(courseTab: CourseTab, studentEmail: string): void {
+    this.courseService.removeStudentFromCourse(courseTab.course.courseId, studentEmail).subscribe(() => {
+      this.statusMessageService
+          .showSuccessMessage(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
+      courseTab.studentListSectionDataList.forEach(
+          (section: StudentListSectionData) => {
+            section.students = section.students.filter(
+                (student: StudentListStudentData) => student.email !== studentEmail);
+          });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
 }
