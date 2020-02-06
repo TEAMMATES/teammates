@@ -28,13 +28,8 @@ import teammates.ui.webapi.request.FeedbackResponseUpdateRequest;
 public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedbackResponseAction> {
 
     private StudentAttributes student1InCourse1;
-    private StudentAttributes student2InCourse1;
-    private StudentAttributes student5InCourse1;
-    private InstructorAttributes instructor2OfCourse1;
     private InstructorAttributes instructor1OfCourse1;
     private FeedbackResponseAttributes student1ResponseToStudent1;
-    private FeedbackResponseAttributes testModerateResponse;
-    private FeedbackResponseAttributes student4ResponseToTeam;
     private FeedbackResponseAttributes instructor1ResponseToAll;
 
     @Override
@@ -51,13 +46,8 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        student2InCourse1 = typicalBundle.students.get("student2InCourse1");
-        StudentAttributes student4inCourse1 = typicalBundle.students.get("student4InCourse1");
-        student5InCourse1 = typicalBundle.students.get("student5InCourse1");
         instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
 
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 session.getFeedbackSessionName(), session.getCourseId(), 1);
@@ -66,16 +56,6 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         String receiverEmail = student1InCourse1.getEmail();
         student1ResponseToStudent1 = logic.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
-
-        FeedbackQuestionAttributes testModerateQuestion = logic.getFeedbackQuestion(
-                session.getFeedbackSessionName(), session.getCourseId(), 2);
-        testModerateResponse = logic.getFeedbackResponse(testModerateQuestion.getId(),
-                student2InCourse1.getEmail(), student5InCourse1.getEmail());
-
-        FeedbackQuestionAttributes question2 = logic.getFeedbackQuestion(
-                session2.getFeedbackSessionName(), session2.getCourseId(), 1);
-        student4ResponseToTeam = logic.getFeedbackResponse(question2.getId(),
-                student4inCourse1.getEmail(), "Team 1.2");
 
         FeedbackQuestionAttributes question3 = logic.getFeedbackQuestion(
                 session.getFeedbackSessionName(), session.getCourseId(), 3);
@@ -298,6 +278,13 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         ______TS("Response contains question not intended shown to instructor, "
                 + "moderated instructor should not be accessible");
 
+        StudentAttributes student4inCourse1 = typicalBundle.students.get("student4InCourse1");
+        FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
+        FeedbackQuestionAttributes question2 = logic.getFeedbackQuestion(
+                session2.getFeedbackSessionName(), session2.getCourseId(), 1);
+        FeedbackResponseAttributes student4ResponseToTeam = logic.getFeedbackResponse(question2.getId(),
+                student4inCourse1.getEmail(), "Team 1.2");
+
         loginAsInstructor(instructor1OfCourse1.googleId);
 
         assertFalse(logic.getFeedbackQuestion(student4ResponseToTeam.getFeedbackQuestionId())
@@ -334,7 +321,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         ______TS("Unknown intent, should not be accessible");
 
-        loginAsInstructor(instructor2OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] unknownIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
@@ -349,6 +336,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         ______TS("Instructor moderates student's response, but response not given by moderated student, "
                 + "should not be accessible");
+
+        StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
+        StudentAttributes student5InCourse1 = typicalBundle.students.get("student5InCourse1");
+        FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestionAttributes testModerateQuestion = logic.getFeedbackQuestion(
+                session.getFeedbackSessionName(), session.getCourseId(), 2);
+        FeedbackResponseAttributes testModerateResponse = logic.getFeedbackResponse(testModerateQuestion.getId(),
+                student2InCourse1.getEmail(), student5InCourse1.getEmail());
 
         loginAsInstructor(instructor1OfCourse1.googleId);
 
@@ -372,6 +367,8 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         ______TS("Student intends to access other person's response, should not be accessible");
 
+        StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
+
         loginAsStudent(student2InCourse1.getGoogleId());
 
         assertEquals(FeedbackParticipantType.STUDENTS,
@@ -393,6 +390,14 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         ______TS("Student intends to access other team's response, should not be accessible");
 
+        StudentAttributes student5InCourse1 = typicalBundle.students.get("student5InCourse1");
+        StudentAttributes student4inCourse1 = typicalBundle.students.get("student4InCourse1");
+        FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
+        FeedbackQuestionAttributes question2 = logic.getFeedbackQuestion(
+                session2.getFeedbackSessionName(), session2.getCourseId(), 1);
+        FeedbackResponseAttributes student4ResponseToTeam = logic.getFeedbackResponse(question2.getId(),
+                student4inCourse1.getEmail(), "Team 1.2");
+
         loginAsStudent(student5InCourse1.getGoogleId());
 
         assertEquals(FeedbackParticipantType.TEAMS,
@@ -413,6 +418,8 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     protected void testAccessControl_instructorAccessOtherGiver_inaccessible() {
 
         ______TS("Instructor intends to access other person's response, should not be accessible");
+
+        InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
 
         loginAsInstructor(instructor2OfCourse1.getGoogleId());
 
@@ -472,6 +479,13 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     protected void testAccessControl_studentAccessSameTeam_accessible() {
 
         ______TS("Student intends to access same team's response, should be accessible");
+
+        StudentAttributes student4inCourse1 = typicalBundle.students.get("student4InCourse1");
+        FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
+        FeedbackQuestionAttributes question2 = logic.getFeedbackQuestion(
+                session2.getFeedbackSessionName(), session2.getCourseId(), 1);
+        FeedbackResponseAttributes student4ResponseToTeam = logic.getFeedbackResponse(question2.getId(),
+                student4inCourse1.getEmail(), "Team 1.2");
 
         loginAsStudent(student1InCourse1.getGoogleId());
 
