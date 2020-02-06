@@ -78,5 +78,4 @@ export class StudentService {
     };
     return this.httpRequestService.get('/students', paramsMap);
   }
-
 }

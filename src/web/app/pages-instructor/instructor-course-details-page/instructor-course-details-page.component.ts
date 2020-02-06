@@ -17,7 +17,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/Intent';
+import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
 
@@ -328,5 +328,22 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }
     output.push(buffer.trim());
     return output;
+  }
+
+  /**
+   * Removes the student from course.
+   */
+  removeStudentFromCourse(studentEmail: string): void {
+    this.courseService.removeStudentFromCourse(this.courseDetails.course.courseId, studentEmail).subscribe(() => {
+      this.statusMessageService
+          .showSuccessMessage(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
+      this.sections.forEach(
+        (section: StudentListSectionData) => {
+          section.students = section.students.filter(
+            (student: StudentListStudentData) => student.email !== studentEmail);
+        });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 }

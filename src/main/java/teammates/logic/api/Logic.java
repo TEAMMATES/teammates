@@ -617,10 +617,12 @@ public class Logic {
      *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
+     *
+     * @return the deletion timestamp assigned to the course.
      */
-    public void moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
+    public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
-        coursesLogic.moveCourseToRecycleBin(courseId);
+        return coursesLogic.moveCourseToRecycleBin(courseId);
     }
 
     /**
