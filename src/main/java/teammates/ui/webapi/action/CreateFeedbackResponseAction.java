@@ -18,6 +18,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.request.FeedbackResponseCreateRequest;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Create a feedback response.

@@ -11,12 +11,12 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetInstructorsAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorPermissionRole;
 import teammates.ui.webapi.output.InstructorsData;
 import teammates.ui.webapi.output.JoinState;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetInstructorsAction}.
