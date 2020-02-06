@@ -18,9 +18,9 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.UpdateFeedbackResponseAction;
 import teammates.ui.webapi.request.FeedbackResponseUpdateRequest;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link UpdateFeedbackResponseAction}.
