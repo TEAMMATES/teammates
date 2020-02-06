@@ -1,4 +1,4 @@
-package teammates.ui.webapi.action;
+package teammates.ui.webapi.request;
 
 /**
  * The intent of calling the REST API.

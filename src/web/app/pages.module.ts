@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Intent } from '../types/Intent';
+import { Intent } from '../types/api-request';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';

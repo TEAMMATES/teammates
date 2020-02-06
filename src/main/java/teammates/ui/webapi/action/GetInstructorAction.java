@@ -9,6 +9,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.InstructorData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Get the information of an instructor inside a course.

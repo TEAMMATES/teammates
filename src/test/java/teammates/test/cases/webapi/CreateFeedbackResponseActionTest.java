@@ -23,10 +23,10 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.CreateFeedbackResponseAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.request.FeedbackResponseCreateRequest;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link CreateFeedbackResponseAction}.
