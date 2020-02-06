@@ -198,7 +198,7 @@ export class StudentProfilePageComponent implements OnInit {
     const paramMap: { [key: string]: string } = {
       googleid: this.id,
     };
-    this.studentProfileService.deleteProfilePictre(paramMap)
+    this.studentProfileService.deleteProfilePicture(paramMap)
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);

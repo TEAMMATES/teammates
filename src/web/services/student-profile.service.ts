@@ -11,8 +11,6 @@ import { HttpRequestService } from './http-request.service';
   providedIn: 'root',
 })
 export class StudentProfileService {
-  profilePictureEndPoint: string = '/student/profilePic';
-
   constructor(private httpRequestService: HttpRequestService) {
   }
 
@@ -47,17 +45,20 @@ export class StudentProfileService {
    * Gets the profile picture as blob image.
    */
   getProfilePicture(): Observable<Blob> {
-    return this.httpRequestService.get(this.profilePictureEndPoint, {}, 'blob');
+    return this.httpRequestService.get('/student/profilePic', {}, 'blob');
   }
 
   /**
    * Posts the profile picture.
    */
   postProfilePicture(formData: FormData): Observable<any> {
-    return this.httpRequestService.post(this.profilePictureEndPoint, {}, formData);
+    return this.httpRequestService.post('/student/profilePic', {}, formData);
   }
 
-  deleteProfilePictre(paramMap: { [key: string]: string }): Observable<any> {
-    return this.httpRequestService.delete(this.profilePictureEndPoint, paramMap);
+  /**
+   * Deletes the profile picture and the profile picture key
+   */
+  deleteProfilePicture(paramMap: { [key: string]: string }): Observable<any> {
+    return this.httpRequestService.delete('/student/profilePic', paramMap);
   }
 }
