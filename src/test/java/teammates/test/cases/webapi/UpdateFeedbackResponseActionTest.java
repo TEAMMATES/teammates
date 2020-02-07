@@ -275,8 +275,8 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     @Test
     protected void testAccessControl_containsQuestionNotForInstructor_inaccessible() {
 
-        ______TS("Response contains question not intended shown to instructor, "
-                + "moderated instructor should not be accessible");
+        ______TS("Responses not visible to instructors, should not be accessible to an instructor"
+                + " even with course edit permissions.");
 
         StudentAttributes student4inCourse1 = typicalBundle.students.get("student4InCourse1");
         FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
@@ -291,9 +291,9 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                 .getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS));
 
         String[] invalidModeratedInstructorSubmissionParams = new String[] {
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, student4ResponseToTeam.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, instructor1OfCourse1.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student4inCourse1.getEmail(),
         };
 
         verifyCannotAccess(invalidModeratedInstructorSubmissionParams);
