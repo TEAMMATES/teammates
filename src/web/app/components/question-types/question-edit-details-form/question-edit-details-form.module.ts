@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import {
   ConstsumOptionsQuestionEditDetailsFormComponent,
@@ -17,6 +16,7 @@ import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details
 import { MsqFieldComponent } from './msq-field/msq-field.component';
 import { MsqQuestionEditDetailsFormComponent } from './msq-question-edit-details-form.component';
 import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
+import { OptionRichTextEditorModule } from './option-rich-text-editor/option-rich-text-editor.module';
 import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { RankOptionsQuestionEditDetailsFormComponent } from './rank-options-question-edit-details-form.component';
 import { RankRecipientsQuestionEditDetailsFormComponent } from './rank-recipients-question-edit-details-form.component';
@@ -66,7 +66,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     DragDropModule,
     FormsModule,
     NgbModule,
-    RichTextEditorModule,
+    OptionRichTextEditorModule,
   ],
 })
 export class QuestionEditDetailsFormModule { }
