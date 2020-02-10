@@ -158,6 +158,18 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return comments;
     }
 
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
         return otherStudent != null && otherStudent.email.equals(this.email)
                && otherStudent.course.equals(this.course)
