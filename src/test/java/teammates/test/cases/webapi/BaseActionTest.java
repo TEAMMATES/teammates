@@ -30,7 +30,7 @@ import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CsvResult;
 import teammates.ui.webapi.action.ImageResult;
 import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.request.FeedbackResponseUpdateRequest;
+import teammates.ui.webapi.request.BasicRequest;
 
 /**
  * Base class for all action tests.
@@ -434,8 +434,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         c.checkAccessControl();
     }
 
-    protected void verifyCanAccess(FeedbackResponseUpdateRequest updateRequest, String... params) {
-        Action c = getAction(updateRequest, params);
+    protected void verifyCanAccess(BasicRequest request, String... params) {
+        Action c = getAction(request, params);
         c.checkAccessControl();
     }
 
@@ -447,8 +447,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
-    protected void verifyCannotAccess(FeedbackResponseUpdateRequest updateRequest, String... params) {
-        Action c = getAction(updateRequest, params);
+    protected void verifyCannotAccess(BasicRequest request, String... params) {
+        Action c = getAction(request, params);
         assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
