@@ -110,10 +110,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
             this.studentProfileService.getStudentProfile(student.email, courseId)
                   .subscribe((studentProfile: StudentProfile) => {
                     const newPhotoUrl: string =
-              `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${student.email}`;
+                      `${environment.backendUrl}/webapi/student/profilePic`
+                      + `?courseid=${courseId}&studentemail=${student.email}`;
 
                     const newTeammateProfile: StudentProfileWithPicture = {
-                      studentProfile,
+                      // Use student.email as studentProfile.email is the long term email which should not be shown
+                      studentProfile: { ...studentProfile, email: student.email },
                       photoUrl : newPhotoUrl,
                     };
 
