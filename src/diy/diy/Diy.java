@@ -3,14 +3,14 @@ import java.util.HashMap;
 
 public class Diy {
 
-    private HashMap<String, HashMap<Integer, Boolean>> coverage;
+    private static HashMap<String, HashMap<Integer, Boolean>> coverage;
 
     public Diy() {
         coverage = new HashMap <String, HashMap<Integer, Boolean>>();
     }
     
     //sets the value of the specific ID of a specific functionName to true
-    public void setReachedId(String functionName, int Id) {
+    public static void setReachedId(String functionName, int Id) {
         coverage.get(functionName).replace(Id, true);
     } 
     
