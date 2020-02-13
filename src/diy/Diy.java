@@ -1,21 +1,25 @@
+import java.util.HashMap;
+
 public class Diy {
 
-    private HashMap<String, HashMap<Integer, boolean>> coverage;
-    private String[] functions = [];
-
+    private HashMap<String, HashMap<Integer, Boolean>> coverage;
 
     public Diy() {
-
-        coverage = HashMap <>();
-        for (int i = 0; i < functions.length; i++) {
-            coverage.put(functions[i], new HashMap<Integer, boolean>());
-        }
-        // Somehow build coverage hash maps
+        coverage = new HashMap <String, HashMap<Integer, Boolean>>();
     }
-
-
+    
+    //sets the value of the specific ID of a specific functionName to true
     public setReachedId(String functionName, int Id) {
-        coverage.get(functionName).put(Id, true)
+        coverage.get(functionName).replace(Id, true);
+    } 
+    
+    //adds an empty <Integer, Boolean> HashMap to coverage based on functionName, then the empty 
+    //Hashmap is filled with an Integer ID key ranging from 0 to numberOfIds with the value false
+    public generateFalseHashMap(String functionName, int numberOfIds){
+        coverage.put(functionName, new HashMap<Integer, Boolean>());
+        for (int i = 0; i < numberOfIds; i++){
+            coverage.get(functionName).put(i, false);
+        }
     }
 
 }
