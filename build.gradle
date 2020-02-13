@@ -162,19 +162,25 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
     outputFile = "src/web/types/api-request.ts"
 }
 
-task generateApiEndPoints(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
+task generateApiEndpoints(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-            "teammates.ui.webapi.endpoints.**"
+        "teammates.ui.webapi.endpoints.**"
+    ]
+    jsonLibrary = 'jackson2'
+    jackson2Configuration = [
+        'enumsUsingToString': true
     ]
     outputFile = "src/web/types/api-endpoints.ts"
 }
 
 generateApiOutputFormat.dependsOn classes
 generateApiRequestFormat.dependsOn classes
+generateApiEndpoints.dependsOn classes
 
 task generateTypes {
     dependsOn generateApiOutputFormat
     dependsOn generateApiRequestFormat
+    dependsOn generateApiEndpoints
 }
 
 // SETUP TASKS
