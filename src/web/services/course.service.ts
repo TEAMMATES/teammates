@@ -146,14 +146,26 @@ export class CourseService {
   }
 
   /**
-   * Join a course by calling API.
+   * Get the status of whether the entity has joined the course by calling API.
    */
-  joinCourse(regKey: string, entityType: string): Observable<JoinStatus> {
+  getJoinCourseStatus(regKey: string, entityType: string): Observable<JoinStatus> {
     const paramMap: { [key: string]: string } = {
       key: regKey,
       entitytype: entityType,
     };
     return this.httpRequestService.get('/join', paramMap);
+  }
+
+  /**
+   * Join a course by calling API.
+   */
+  joinCourse(regKey: string, entityType: string, institute: string): Observable<any> {
+    const paramMap: { [key: string]: string } = {
+      key: regKey,
+      entitytype: entityType,
+      instructorinstitution: institute,
+    };
+    return this.httpRequestService.put('/join', paramMap);
   }
 
   /**
