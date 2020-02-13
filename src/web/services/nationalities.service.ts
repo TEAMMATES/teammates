@@ -13,6 +13,9 @@ export class NationalitiesService {
 
   constructor(private httpRequestService: HttpRequestService) { }
 
+  /**
+   * Get a list of nationalities by calling API.
+   */
   getNationalities(): Observable<Nationalities> {
     return this.httpRequestService.get('/nationalities');
   }
