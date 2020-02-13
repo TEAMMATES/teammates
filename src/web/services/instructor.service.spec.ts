@@ -14,4 +14,9 @@ describe('InstructorService', () => {
     const service: InstructorService = TestBed.get(InstructorService);
     expect(service).toBeTruthy();
   });
+
+  it('should be created', () => {
+    const service: InstructorService = TestBed.get(InstructorService);
+    expect(service.getInstructorsFromCourse('')).toBeTruthy();
+  });
 });
