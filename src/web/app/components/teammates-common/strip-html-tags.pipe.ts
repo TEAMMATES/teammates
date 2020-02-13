@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 /**
- * Pipe to handle the transformation of an InstructorPermissionRole to a name.
+ * Pipe to strip off HTML tags from text.
  */
 @Pipe({
   name: 'stripHtmlTags',
@@ -9,10 +9,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class StripHtmlTagsPipe implements PipeTransform {
 
   /**
-   * Transforms InstructorPermissionRole to a name.
+   * Transforms HTML to plain text.
    */
   transform(html: string): any {
-    return html.replace(/(<([^>]+)>)/ig, '');
+    return html
+        .replace(/(<img([^>]+)>)/ig, '[Image]')
+        .replace(/(<table((.|\s)*)<\/table>)/ig, '[Table]')
+        .replace(/(<([^>]+)>)/ig, '');
   }
 
 }
