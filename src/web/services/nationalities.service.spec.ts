@@ -14,4 +14,9 @@ describe('NationalitiesService', () => {
     const service: NationalitiesService = TestBed.get(NationalitiesService);
     expect(service).toBeTruthy();
   });
+
+  it('should return non-empty list of nationalities', () => {
+    const service: NationalitiesService = TestBed.get(NationalitiesService);
+    expect(service.getNationalities()).toBeTruthy();
+  });
 });
