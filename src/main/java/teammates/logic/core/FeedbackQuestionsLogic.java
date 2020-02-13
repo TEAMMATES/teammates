@@ -26,6 +26,8 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
 
+import diy.Diy;
+
 /**
  * Handles operations related to feedback questions.
  *
