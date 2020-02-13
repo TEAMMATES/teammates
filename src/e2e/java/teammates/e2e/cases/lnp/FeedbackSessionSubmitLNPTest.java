@@ -20,6 +20,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -38,6 +39,8 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
     private static final int RAMP_UP_PERIOD = 2;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
+
+    private static final int NUMBER_OF_QUESTIONS = 10;
 
     @Override
     protected LNPTestData getTestData() {
@@ -112,7 +115,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
-                Map<String, FeedbackSessionAttributes> feedbackSessions = new HashMap<>();
+                Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
 
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
                                                             .builder("Test Feedback Session", "TestData.CS101")
@@ -126,6 +129,22 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 session.setRespondingStudentList(studentRespondentList);
 
                 return feedbackSessions;
+            }
+
+            @Override
+            protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
+                Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
+
+                for (int i = 0; i < NUMBER_OF_QUESTIONS; i++) {
+                    feedbackQuestions.put("Question" + i,
+                            FeedbackQuestionAttributes.builder()
+                                .withFeedbackSessionName("Test Feedback Session")
+                                .withCourseId("TestData.CS101")
+                                .build()
+                    );
+                }
+
+                return feedbackQuestions;
             }
 
             @Override
