@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -106,6 +108,24 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 }
 
                 return students;
+            }
+
+            @Override
+            protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
+                Map<String, FeedbackSessionAttributes> feedbackSessions = new HashMap<>();
+
+                FeedbackSessionAttributes session = FeedbackSessionAttributes
+                                                            .builder("Test Feedback Session", "TestData.CS101")
+                                                            .build();
+                LinkedHashSet<String> studentRespondentList = new LinkedHashSet<String>();
+                for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
+                    studentRespondentList.add(STUDENT_EMAIL + i + "@gmail.tmt");
+                }
+
+                //TODO: Check if session requires instructors as well? Currently I don't think its needed
+                session.setRespondingStudentList(studentRespondentList);
+
+                return feedbackSessions;
             }
 
             @Override
