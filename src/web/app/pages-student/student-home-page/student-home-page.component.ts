@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -53,7 +53,8 @@ export class StudentHomePageComponent implements OnInit {
 
   courses: StudentCourse[] = [];
 
-  constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
+  constructor(private route: ActivatedRoute,
+              private courseService: CourseService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
               private timezoneService: TimezoneService,
@@ -72,10 +73,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getStudentCourses(): void {
     this.loadingBarService.showLoadingBar();
-    const paramMap: { [key: string]: string } = {
-      entitytype: 'student',
-    };
-    this.httpRequestService.get('/courses', paramMap).subscribe((resp: Courses) => {
+    this.courseService.getAllCoursesAsStudent().subscribe((resp: Courses) => {
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
             .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))

@@ -39,6 +39,16 @@ export class CourseService {
   }
 
   /**
+   * Gets all course data for a student by calling API.
+   */
+  getAllCoursesAsStudent(): Observable<Courses> {
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'student',
+    };
+    return this.httpRequestService.get('/courses', paramMap);
+  }
+
+  /**
    * Get course data by calling API as a student.
    */
   getCourseAsStudent(courseId: string): Observable<Course> {
