@@ -1,9 +1,20 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import { Course, CourseArchive, Courses,  HasResponses, JoinStatus, MessageOutput } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
+const {
+  BIN_COURSE,
+  COURSE,
+  COURSES,
+  COURSE_ARCHIVE,
+  HAS_RESPONSES,
+  JOIN,
+  JOIN_REMIND,
+  STUDENT,
+}: typeof ResourceEndpoints = ResourceEndpoints;
 
 /**
  * Handles course related logic provision.
@@ -24,7 +35,7 @@ export class CourseService {
       entitytype: 'instructor',
       coursestatus: courseStatus,
     };
-    return this.httpRequestService.get('/courses', paramMap);
+    return this.httpRequestService.get(COURSES, paramMap);
   }
 
   /**
@@ -35,7 +46,7 @@ export class CourseService {
       courseid: courseId,
       entitytype: 'instructor',
     };
-    return this.httpRequestService.get('/course', paramMap);
+    return this.httpRequestService.get(COURSE, paramMap);
   }
 
   /**
@@ -45,7 +56,7 @@ export class CourseService {
     const paramMap: { [key: string]: string } = {
       entitytype: 'student',
     };
-    return this.httpRequestService.get('/courses', paramMap);
+    return this.httpRequestService.get(COURSES, paramMap);
   }
 
   /**
@@ -56,7 +67,7 @@ export class CourseService {
       courseid: courseId,
       entitytype: 'student',
     };
-    return this.httpRequestService.get('/course', paramMap);
+    return this.httpRequestService.get(COURSE, paramMap);
   }
 
   /**
@@ -67,7 +78,7 @@ export class CourseService {
       entitytype: 'student',
       user: googleId,
     };
-    return this.httpRequestService.get('/courses', paramMap);
+    return this.httpRequestService.get(COURSES, paramMap);
   }
 
   /**
@@ -86,8 +97,8 @@ export class CourseService {
     };
 
     return forkJoin(
-        this.httpRequestService.get('/courses', activeCoursesParamMap),
-        this.httpRequestService.get('/courses', archivedCoursesParamMap),
+        this.httpRequestService.get(COURSES, activeCoursesParamMap),
+        this.httpRequestService.get(COURSES, archivedCoursesParamMap),
     ).pipe(
         map((vals: Courses[]) => {
           return {
@@ -102,7 +113,7 @@ export class CourseService {
    */
   createCourse(request: CourseCreateRequest): Observable<Course> {
     const paramMap: { [key: string]: string } = {};
-    return this.httpRequestService.post('/course', paramMap, request);
+    return this.httpRequestService.post(COURSE, paramMap, request);
   }
 
   /**
@@ -110,7 +121,7 @@ export class CourseService {
    */
   updateCourse(courseid: string, request: CourseUpdateRequest): Observable<Course> {
     const paramMap: { [key: string]: string } = { courseid };
-    return this.httpRequestService.put('/course', paramMap, request);
+    return this.httpRequestService.put(COURSE, paramMap, request);
   }
 
   /**
@@ -118,7 +129,7 @@ export class CourseService {
    */
   deleteCourse(courseid: string): Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = { courseid };
-    return this.httpRequestService.delete('/course', paramMap);
+    return this.httpRequestService.delete(COURSE, paramMap);
   }
 
   /**
@@ -126,7 +137,7 @@ export class CourseService {
    */
   changeArchiveStatus(courseid: string, request: CourseArchiveRequest): Observable<CourseArchive> {
     const paramMap: { [key: string]: string } = { courseid };
-    return this.httpRequestService.put('/course/archive', paramMap, request);
+    return this.httpRequestService.put(COURSE_ARCHIVE, paramMap, request);
   }
 
   /**
@@ -134,7 +145,7 @@ export class CourseService {
    */
   binCourse(courseid: string): Observable<Course> {
     const paramMap: { [key: string]: string } = { courseid };
-    return this.httpRequestService.put('/bin/course', paramMap);
+    return this.httpRequestService.put(BIN_COURSE, paramMap);
   }
 
   /**
@@ -142,7 +153,7 @@ export class CourseService {
    */
   restoreCourse(courseid: string): Observable<MessageOutput> {
     const paramMap: { [key: string]: string } = { courseid };
-    return this.httpRequestService.delete('/bin/course', paramMap);
+    return this.httpRequestService.delete(BIN_COURSE, paramMap);
   }
 
   /**
@@ -153,7 +164,7 @@ export class CourseService {
       key: regKey,
       entitytype: entityType,
     };
-    return this.httpRequestService.get('/join', paramMap);
+    return this.httpRequestService.get(JOIN, paramMap);
   }
 
   /**
@@ -165,7 +176,7 @@ export class CourseService {
       entitytype: entityType,
       instructorinstitution: institute,
     };
-    return this.httpRequestService.put('/join', paramMap);
+    return this.httpRequestService.put(JOIN, paramMap);
   }
 
   /**
@@ -175,7 +186,7 @@ export class CourseService {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
     };
-    return this.httpRequestService.post('/join/remind', paramMap);
+    return this.httpRequestService.post(JOIN_REMIND, paramMap);
   }
 
   /**
@@ -186,7 +197,7 @@ export class CourseService {
       courseid: courseId,
       studentemail: studentEmail,
     };
-    return this.httpRequestService.post('/join/remind', paramMap);
+    return this.httpRequestService.post(JOIN_REMIND, paramMap);
   }
 
   /**
@@ -197,7 +208,7 @@ export class CourseService {
       courseid: courseId,
       instructoremail: instructorEmail,
     };
-    return this.httpRequestService.post('/join/remind', paramMap);
+    return this.httpRequestService.post(JOIN_REMIND, paramMap);
   }
 
   /**
@@ -208,7 +219,7 @@ export class CourseService {
       entitytype: 'instructor',
       courseid: courseId,
     };
-    return this.httpRequestService.get('/hasResponses', paramMap);
+    return this.httpRequestService.get(HAS_RESPONSES, paramMap);
   }
 
   /**
@@ -219,6 +230,6 @@ export class CourseService {
       courseid: courseId,
       studentemail: studentEmail,
     };
-    return this.httpRequestService.delete('/student', paramsMap);
+    return this.httpRequestService.delete(STUDENT, paramsMap);
   }
 }
