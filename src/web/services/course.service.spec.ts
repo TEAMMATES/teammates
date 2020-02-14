@@ -30,7 +30,21 @@ describe('CourseService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should execute GET', () => {
+  it('should execute GET when getting all courses as student', () => {
+    service.getAllCoursesAsStudent();
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'student',
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/courses', paramMap);
+  });
 
+  it('should execute PUT when joining course', () => {
+    const paramMap: { [key: string]: string } = {
+      key: '123',
+      entitytype: 'student',
+      instructorinstitution: 'National University of Singapore',
+    };
+    service.joinCourse(paramMap.key, paramMap.entitytype, paramMap.instructorinstitution);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith('/join', paramMap);
   });
 });
