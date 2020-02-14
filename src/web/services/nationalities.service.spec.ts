@@ -2,10 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+import DoneCallback = jest.DoneCallback;
+import { ResourceEndpoints } from '../types/api-endpoints';
 import { Nationalities } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 import { NationalitiesService } from './nationalities.service';
-import DoneCallback = jest.DoneCallback;
 
 describe('NationalitiesService', () => {
   let spyHttpRequestService: any;
@@ -35,7 +36,7 @@ describe('NationalitiesService', () => {
 
   it('should execute GET', () => {
     service.getNationalities();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/nationalities');
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.NATIONALITIES);
   });
 
   it('should return nationalities', (done: DoneCallback) => {

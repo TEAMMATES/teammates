@@ -2,10 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+import DoneCallback = jest.DoneCallback;
+import { ResourceEndpoints } from '../types/api-endpoints';
 import { Instructor, InstructorPermissionRole, Instructors, JoinState } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
-import DoneCallback = jest.DoneCallback;
 
 describe('InstructorService', () => {
   let spyHttpRequestService: any;
@@ -38,7 +39,7 @@ describe('InstructorService', () => {
     const paramMap: { [key: string]: string } = {
       courseid: 'CS3281',
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/instructors', paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
   });
 
   it('should send the correct course id', (done: DoneCallback) => {
@@ -65,7 +66,7 @@ describe('InstructorService', () => {
     };
 
     spyHttpRequestService.get.mockImplementation((endpoint: string, paramMap: { [key: string]: string }) => {
-      expect(endpoint).toEqual('/instructors');
+      expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTORS);
       const courseid: string = paramMap.courseid;
       return of<Instructors>({
         instructors: mockInstructors.instructors.filter((instructor: Instructor) => instructor.courseId === courseid),

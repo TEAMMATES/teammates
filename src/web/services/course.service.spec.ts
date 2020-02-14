@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 
@@ -35,7 +36,7 @@ describe('CourseService', () => {
     const paramMap: { [key: string]: string } = {
       entitytype: 'student',
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/courses', paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSES, paramMap);
   });
 
   it('should execute PUT when joining course', () => {
@@ -45,6 +46,6 @@ describe('CourseService', () => {
       instructorinstitution: 'National University of Singapore',
     };
     service.joinCourse(paramMap.key, paramMap.entitytype, paramMap.instructorinstitution);
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith('/join', paramMap);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
 });

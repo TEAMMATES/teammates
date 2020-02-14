@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import { Instructors } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
@@ -21,6 +22,6 @@ export class InstructorService {
       courseid: courseId,
     };
 
-    return this.httpRequestService.get('/instructors', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS, paramMap);
   }
 }
