@@ -1,9 +1,14 @@
 package teammates.ui.webapi.endpoints;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+
 import teammates.common.util.Const.ResourceURIs;
 
+/**
+ * API endpoints for resources.
+ */
 public enum ResourceEndpoints {
+    //CHECKSTYLE.OFF:JavadocVariable
     URI_PREFIX(ResourceURIs.URI_PREFIX),
     LOGOUT(ResourceURIs.LOGOUT),
     DATABUNDLE(ResourceURIs.DATABUNDLE),
@@ -52,11 +57,13 @@ public enum ResourceEndpoints {
     STUDENTS_CSV(ResourceURIs.STUDENTS_CSV),
     STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH(ResourceURIs.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH),
     COURSE_ENROLL_STUDENTS(ResourceURIs.COURSE_ENROLL_STUDENTS);
+    //CHECKSTYLE.ON:JavadocVariable
+
+    private final String url;
 
     ResourceEndpoints(String s) {
         this.url = s;
     }
-    private final String url;
 
     @JsonValue
     public String getUrl() {
