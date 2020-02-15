@@ -1,6 +1,7 @@
 package teammates.e2e.cases.lnp;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -45,8 +46,8 @@ import teammates.ui.webapi.request.StudentsEnrollRequest;
  */
 public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 2;
-    private static final int RAMP_UP_PERIOD = 2;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
+    private static final int RAMP_UP_PERIOD = 3;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
 
@@ -133,15 +134,13 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
                                                             .builder("Test Feedback Session", courseId)
+                                                            .withCreatorEmail(INSTRUCTOR_EMAIL)
+                                                            .withStartTime(Instant.now())
+                                                            .withEndTime(Instant.now().plusSeconds(500))
+                                                            .withSessionVisibleFromTime(Instant.now())
+                                                            .withResultsVisibleFromTime(Instant.now())
                                                             .build();
-                LinkedHashSet<String> studentRespondentList = new LinkedHashSet<String>();
-                for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    studentRespondentList.add(STUDENT_EMAIL + i + "@gmail.tmt");
-                }
 
-                //TODO: Check if session requires instructors as well? Currently I don't think its needed
-                session.setRespondingStudentList(studentRespondentList);
-                session.setCreatorEmail(INSTRUCTOR_EMAIL);
                 feedbackSessions.put("Test Feedback Session", session);
 
                 return feedbackSessions;
@@ -186,7 +185,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                     csvRow.add("no");
                     csvRow.add(student.googleId);
                     csvRow.add(courseId);
-                    csvRow.add("QuestionTest");
+                    csvRow.add("Test Feedback Session");
 
                     csvData.add(csvRow);
                 });

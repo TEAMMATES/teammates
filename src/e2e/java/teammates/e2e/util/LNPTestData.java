@@ -67,8 +67,8 @@ public abstract class LNPTestData {
         dataBundle.courses = generateCourses();
         dataBundle.instructors = generateInstructors();
         dataBundle.students = generateStudents();
-        dataBundle.feedbackSessions = generateFeedbackSessions();
         dataBundle.feedbackQuestions = generateFeedbackQuestions();
+        dataBundle.feedbackSessions = generateFeedbackSessions();
         dataBundle.feedbackResponses = generateFeedbackResponses();
         dataBundle.feedbackResponseComments = generateFeedbackResponseComments();
         dataBundle.profiles = generateProfiles();
