@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -136,16 +137,29 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
+                ArrayList<FeedbackParticipantType> showResponses = new ArrayList<>();
+                showResponses.add(FeedbackParticipantType.RECEIVER);
+                showResponses.add(FeedbackParticipantType.INSTRUCTORS);
+                ArrayList<FeedbackParticipantType> showGiverName = new ArrayList<>();
+                showGiverName.add(FeedbackParticipantType.INSTRUCTORS);
+                ArrayList<FeedbackParticipantType> showRecepientName = new ArrayList<>();
+                showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
                 FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question");
                 feedbackQuestions.put("QuestionTest",
                         FeedbackQuestionAttributes.builder()
                             .withFeedbackSessionName("Test Feedback Session")
+                            .withQuestionDescription("Test Question")
                             .withCourseId(COURSE_ID)
                             .withQuestionDetails(details)
+                            .withQuestionNumber(1)
+                            .withGiverType(FeedbackParticipantType.SELF)
+                            .withRecipientType(FeedbackParticipantType.NONE)
+                            .withShowResponsesTo(showResponses)
+                            .withShowGiverNameTo(showGiverName)
+                            .withShowRecipientNameTo(showRecepientName)
                             .build()
                 );
-
                 return feedbackQuestions;
             }
 
