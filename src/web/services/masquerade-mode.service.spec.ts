@@ -18,21 +18,21 @@ describe('MasqueradeModeService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getMasqueradeUser should be defined', () => {
+  it('should be defined', () => {
     expect(service.getMasqueradeUser()).toBeDefined();
   });
 
-  it('setMasqueradeUser should set user', () => {
+  it('should set masquerade user', () => {
     const testUser: string = 'test';
     service.setMasqueradeUser(testUser);
     expect(service.getMasqueradeUser()).toEqual(testUser);
   });
 
-  it('isInMasqueradingMode should be false when no user', () => {
+  it('should be false when no user is set', () => {
     expect(service.isInMasqueradingMode()).toBe(false);
   });
 
-  it('isInMasqueradingMode should be true when user set', () => {
+  it('should be true when user is set', () => {
     const testUser: string = 'test';
     service.setMasqueradeUser(testUser);
     expect(service.isInMasqueradingMode()).toBe(true);
