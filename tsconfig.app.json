@@ -12,6 +12,7 @@
     "src/web/**/*.ts"
   ],
   "exclude": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "src/web/test-helpers/*.ts"
   ]
 }

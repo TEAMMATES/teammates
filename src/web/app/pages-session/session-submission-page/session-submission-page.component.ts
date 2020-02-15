@@ -24,7 +24,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
   Student,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/Intent';
+import { Intent } from '../../../types/api-request';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
