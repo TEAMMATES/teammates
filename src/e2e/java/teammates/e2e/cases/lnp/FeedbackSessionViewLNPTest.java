@@ -3,15 +3,11 @@ package teammates.e2e.cases.lnp;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.jmeter.protocol.http.control.HeaderManager;
 import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
@@ -19,7 +15,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -29,17 +24,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
 import teammates.storage.entity.CourseStudent;
-import teammates.test.cases.webapi.BaseActionTest;
-import teammates.ui.webapi.action.EnrollStudentsAction;
-import teammates.ui.webapi.request.StudentsEnrollRequest;
-
 
 /**
  * L&P Test Case for instructor's student enrollment API endpoint.
@@ -53,7 +41,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
     private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
 
-    private static final String courseId = "TestData.CS101";
+    private static final String COURSE_ID = "TestData.CS101";
 
     @Override
     protected LNPTestData getTestData() {
@@ -79,7 +67,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new LinkedHashMap<>();
 
-                courses.put("course", CourseAttributes.builder(courseId)
+                courses.put("course", CourseAttributes.builder(COURSE_ID)
                         .withName("Feedback Load Testing")
                         .withTimezone(ZoneId.of("UTC"))
                         .build()
@@ -93,7 +81,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
 
                 instructors.put("teammates.test.instructor",
-                        InstructorAttributes.builder(courseId, INSTRUCTOR_EMAIL)
+                        InstructorAttributes.builder(COURSE_ID, INSTRUCTOR_EMAIL)
                                 .withGoogleId("TestData.instructor")
                                 .withName("Teammates Test")
                                 .withRole("Co-owner")
@@ -112,15 +100,15 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 Map<String, StudentAttributes> students = new LinkedHashMap<>();
                 StudentAttributes studentAttribute;
                 CourseStudent courseStudent;
-                
+
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    courseStudent = new CourseStudent(STUDENT_EMAIL + i + "@gmail.tmt"
-                                            ,STUDENT_NAME + i
-                                            ,STUDENT_NAME + i + ".tmms"
-                                            ,"This student's name is " + STUDENT_NAME + i
-                                            ,courseId
-                                            ,"Team 1"
-                                            ,"None");
+                    courseStudent = new CourseStudent(STUDENT_EMAIL + i + "@gmail.tmt",
+                                            STUDENT_NAME + i,
+                                            STUDENT_NAME + i + ".tmms",
+                                            "This student's name is " + STUDENT_NAME + i,
+                                            COURSE_ID,
+                                            "Team 1",
+                                            "None");
                     studentAttribute = StudentAttributes.valueOf(courseStudent);
                     students.put(STUDENT_NAME + i, studentAttribute);
                 }
@@ -133,7 +121,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
 
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
-                                                            .builder("Test Feedback Session", courseId)
+                                                            .builder("Test Feedback Session", COURSE_ID)
                                                             .withCreatorEmail(INSTRUCTOR_EMAIL)
                                                             .withStartTime(Instant.now())
                                                             .withEndTime(Instant.now().plusSeconds(500))
@@ -153,13 +141,14 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 feedbackQuestions.put("QuestionTest",
                         FeedbackQuestionAttributes.builder()
                             .withFeedbackSessionName("Test Feedback Session")
-                            .withCourseId(courseId)
+                            .withCourseId(COURSE_ID)
                             .withQuestionDetails(details)
                             .build()
                 );
 
                 return feedbackQuestions;
             }
+
             @Override
             public List<String> generateCsvHeaders() {
                 List<String> headers = new ArrayList<>();
@@ -184,7 +173,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                     csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
                     csvRow.add("no");
                     csvRow.add(student.googleId);
-                    csvRow.add(courseId);
+                    csvRow.add(COURSE_ID);
                     csvRow.add("Test Feedback Session");
 
                     csvData.add(csvRow);
