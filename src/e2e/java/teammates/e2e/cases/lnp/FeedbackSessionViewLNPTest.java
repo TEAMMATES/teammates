@@ -45,7 +45,7 @@ import teammates.ui.webapi.request.StudentsEnrollRequest;
  */
 public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 2;
     private static final int RAMP_UP_PERIOD = 2;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
@@ -161,12 +161,15 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
                 return feedbackQuestions;
             }
-
             @Override
             public List<String> generateCsvHeaders() {
                 List<String> headers = new ArrayList<>();
 
-                headers.add("feedbackSubmitUrl");
+                headers.add("loginId");
+                headers.add("isAdmin");
+                headers.add("googleId");
+                headers.add("courseId");
+                headers.add("fsname");
 
                 return headers;
             }
@@ -176,23 +179,18 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 DataBundle dataBundle = loadDataBundle(getJsonDataPath());
                 List<List<String>> csvData = new ArrayList<>();
 
-                CourseAttributes course = dataBundle.courses.entrySet().iterator().next().getValue();
-                FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.entrySet().iterator().next().getValue();
-
                 dataBundle.students.forEach((key, student) -> {
-
                     List<String> csvRow = new ArrayList<>();
-                    
-                    String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                            .withCourseId(course.getId())
-                            .withSessionName(fsa.getFeedbackSessionName())
-                            .withRegistrationKey(StringHelper.encrypt(student.key))
-                            .withStudentEmail(student.email)
-                            .toString();
 
-                    csvRow.add(submitUrl);
+                    csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
+                    csvRow.add("no");
+                    csvRow.add(student.googleId);
+                    csvRow.add(courseId);
+                    csvRow.add("QuestionTest");
+
                     csvData.add(csvRow);
                 });
+
                 return csvData;
             }
         };
@@ -203,12 +201,15 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
         ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
         HashTree threadGroup = testPlan.add(
                 JMeterElements.threadGroup(NUMBER_OF_USER_ACCOUNTS, RAMP_UP_PERIOD, 1));
-
         threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
+        threadGroup.add(JMeterElements.cookieManager());
         threadGroup.add(JMeterElements.defaultSampler());
+        threadGroup.add(JMeterElements.onceOnlyController())
+                .add(JMeterElements.loginSampler());
 
         // Add HTTP sampler for test endpoint
-        threadGroup.add(JMeterElements.httpSampler("${feedbackSubmitUrl}", GET, null));
+        String path = "webapi/session?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
+        threadGroup.add(JMeterElements.httpSampler(path, GET, null));
 
         return testPlan;
     }
