@@ -2,6 +2,7 @@ package teammates.e2e.cases.lnp;
 
 import java.io.IOException;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -17,6 +18,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -24,23 +26,33 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
+import teammates.storage.entity.CourseStudent;
+import teammates.test.cases.webapi.BaseActionTest;
+import teammates.ui.webapi.action.EnrollStudentsAction;
 import teammates.ui.webapi.request.StudentsEnrollRequest;
+
 
 /**
  * L&P Test Case for instructor's student enrollment API endpoint.
  */
-public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
+public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
     private static final int NUMBER_OF_USER_ACCOUNTS = 100;
     private static final int RAMP_UP_PERIOD = 2;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
 
-    private static final int NUMBER_OF_QUESTIONS = 10;
+    private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
+
+    private static final String courseId = "TestData.CS101";
 
     @Override
     protected LNPTestData getTestData() {
@@ -66,7 +78,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new LinkedHashMap<>();
 
-                courses.put("course", CourseAttributes.builder("TestData.CS101")
+                courses.put("course", CourseAttributes.builder(courseId)
                         .withName("Feedback Load Testing")
                         .withTimezone(ZoneId.of("UTC"))
                         .build()
@@ -80,7 +92,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
 
                 instructors.put("teammates.test.instructor",
-                        InstructorAttributes.builder("TestData.CS101", "tmms.test@gmail.tmt")
+                        InstructorAttributes.builder(courseId, INSTRUCTOR_EMAIL)
                                 .withGoogleId("TestData.instructor")
                                 .withName("Teammates Test")
                                 .withRole("Co-owner")
@@ -97,17 +109,19 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
             @Override
             protected Map<String, StudentAttributes> generateStudents() {
                 Map<String, StudentAttributes> students = new LinkedHashMap<>();
-
+                StudentAttributes studentAttribute;
+                CourseStudent courseStudent;
+                
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    students.put(STUDENT_NAME + i,
-                            StudentAttributes.builder("TestData.CS101", STUDENT_EMAIL + i + "@gmail.tmt")
-                                .withGoogleId(STUDENT_NAME + i + ".tmms")
-                                .withName(STUDENT_NAME + i)
-                                .withComment("This student's name is " + STUDENT_NAME + i)
-                                .withTeamName("Team 1")
-                                .withSectionName("None")
-                                .build()
-                    );
+                    courseStudent = new CourseStudent(STUDENT_EMAIL + i + "@gmail.tmt"
+                                            ,STUDENT_NAME + i
+                                            ,STUDENT_NAME + i + ".tmms"
+                                            ,"This student's name is " + STUDENT_NAME + i
+                                            ,courseId
+                                            ,"Team 1"
+                                            ,"None");
+                    studentAttribute = StudentAttributes.valueOf(courseStudent);
+                    students.put(STUDENT_NAME + i, studentAttribute);
                 }
 
                 return students;
@@ -118,7 +132,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
 
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
-                                                            .builder("Test Feedback Session", "TestData.CS101")
+                                                            .builder("Test Feedback Session", courseId)
                                                             .build();
                 LinkedHashSet<String> studentRespondentList = new LinkedHashSet<String>();
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
@@ -127,6 +141,8 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
                 //TODO: Check if session requires instructors as well? Currently I don't think its needed
                 session.setRespondingStudentList(studentRespondentList);
+                session.setCreatorEmail(INSTRUCTOR_EMAIL);
+                feedbackSessions.put("Test Feedback Session", session);
 
                 return feedbackSessions;
             }
@@ -134,15 +150,14 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
             @Override
             protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
-
-                for (int i = 0; i < NUMBER_OF_QUESTIONS; i++) {
-                    feedbackQuestions.put("Question" + i,
-                            FeedbackQuestionAttributes.builder()
-                                .withFeedbackSessionName("Test Feedback Session")
-                                .withCourseId("TestData.CS101")
-                                .build()
-                    );
-                }
+                FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question");
+                feedbackQuestions.put("QuestionTest",
+                        FeedbackQuestionAttributes.builder()
+                            .withFeedbackSessionName("Test Feedback Session")
+                            .withCourseId(courseId)
+                            .withQuestionDetails(details)
+                            .build()
+                );
 
                 return feedbackQuestions;
             }
@@ -151,10 +166,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
             public List<String> generateCsvHeaders() {
                 List<String> headers = new ArrayList<>();
 
-                headers.add("loginId");
-                headers.add("isAdmin");
-                headers.add("courseId");
-                headers.add("enrollData");
+                headers.add("feedbackSubmitUrl");
 
                 return headers;
             }
@@ -164,71 +176,39 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 DataBundle dataBundle = loadDataBundle(getJsonDataPath());
                 List<List<String>> csvData = new ArrayList<>();
 
-                /*
-                dataBundle.instructors.forEach((key, instructor) -> {
+                CourseAttributes course = dataBundle.courses.entrySet().iterator().next().getValue();
+                FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.entrySet().iterator().next().getValue();
+
+                dataBundle.students.forEach((key, student) -> {
+
                     List<String> csvRow = new ArrayList<>();
+                    
+                    String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                            .withCourseId(course.getId())
+                            .withSessionName(fsa.getFeedbackSessionName())
+                            .withRegistrationKey(StringHelper.encrypt(student.key))
+                            .withStudentEmail(student.email)
+                            .toString();
 
-                    csvRow.add(instructor.googleId);
-                    csvRow.add("no");
-                    csvRow.add(instructor.courseId);
-
-                    // Create and add student enrollment data with a team number corresponding to each section number
-                    List<StudentsEnrollRequest.StudentEnrollRequest> enrollRequests = new ArrayList<>();
-
-                    for (int i = 0; i < NUM_STUDENTS_PER_INSTRUCTOR; i++) {
-
-                        String name = instructor.name + ".Student" + i;
-                        String email = instructor.name + ".Student" + i + "@gmail.tmt";
-                        String team = String.valueOf(i / NUM_STUDENTS_PER_SECTION);
-                        String section = String.valueOf(i / NUM_STUDENTS_PER_SECTION);
-                        String comment = "no comment";
-
-                        enrollRequests.add(
-                                new StudentsEnrollRequest.StudentEnrollRequest(name, email, team, section, comment));
-                    }
-                    String enrollData = sanitizeForCsv(JsonUtils.toJson(new StudentsEnrollRequest(enrollRequests)));
-                    csvRow.add(enrollData);
-
+                    csvRow.add(submitUrl);
                     csvData.add(csvRow);
                 });
-                */
-
                 return csvData;
             }
         };
-    }
-
-    private Map<String, String> getRequestHeaders() {
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put("X-CSRF-TOKEN", "${csrfToken}");
-        headers.put("Content-Type", "text/csv");
-
-        return headers;
-    }
-
-    private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENTS + "?courseid=${courseId}";
     }
 
     @Override
     protected ListedHashTree getLnpTestPlan() {
         ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
         HashTree threadGroup = testPlan.add(
-                JMeterElements.threadGroup(1, RAMP_UP_PERIOD, 1));
+                JMeterElements.threadGroup(NUMBER_OF_USER_ACCOUNTS, RAMP_UP_PERIOD, 1));
 
         threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
-        threadGroup.add(JMeterElements.cookieManager());
         threadGroup.add(JMeterElements.defaultSampler());
 
-        threadGroup.add(JMeterElements.onceOnlyController())
-                .add(JMeterElements.loginSampler())
-                .add(JMeterElements.csrfExtractor("csrfToken"));
-
         // Add HTTP sampler for test endpoint
-        HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
-        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), PUT, "${enrollData}"))
-                .add(headerManager);
+        threadGroup.add(JMeterElements.httpSampler("${feedbackSubmitUrl}", GET, null));
 
         return testPlan;
     }
