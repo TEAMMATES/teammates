@@ -34,7 +34,7 @@ import teammates.storage.entity.CourseStudent;
  */
 public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 80;
     private static final int RAMP_UP_PERIOD = 3;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
@@ -195,9 +195,15 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
         threadGroup.add(JMeterElements.onceOnlyController())
                 .add(JMeterElements.loginSampler());
 
-        // Add HTTP sampler for test endpoint
-        String path = "webapi/session?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
-        threadGroup.add(JMeterElements.httpSampler(path, GET, null));
+        // Add HTTP samplers for test endpoint
+        String firstPath = "webapi/student?courseid=${courseId}";
+        threadGroup.add(JMeterElements.httpSampler(firstPath, GET, null));
+
+        String secondPath = "webapi/session?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
+        threadGroup.add(JMeterElements.httpSampler(secondPath, GET, null));
+
+        String thirdPath = "webapi/questions?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
+        threadGroup.add(JMeterElements.httpSampler(thirdPath, GET, null));
 
         return testPlan;
     }
