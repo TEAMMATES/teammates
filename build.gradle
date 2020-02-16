@@ -437,6 +437,7 @@ task lnpTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
+        showStandardStreams = true
         events "passed", "failed", "skipped"
     }
     // Display the L&P test results in the build

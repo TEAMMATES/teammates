@@ -33,14 +33,16 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.entity.CourseStudent;
+import teammates.e2e.util.BackDoor;
 
 /**
  * L&P Test Case for instructor's student enrollment API endpoint.
  */
 public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 2;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
     private static final int RAMP_UP_PERIOD = 3;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
@@ -48,6 +50,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
     private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
 
     private static final String COURSE_ID = "TestData.CS101";
+    private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
 
     @Override
     protected LNPTestData getTestData() {
@@ -127,7 +130,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
 
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
-                                                            .builder("Test Feedback Session", COURSE_ID)
+                                                            .builder(FEEDBACK_SESSION_NAME, COURSE_ID)
                                                             .withCreatorEmail(INSTRUCTOR_EMAIL)
                                                             .withStartTime(Instant.now())
                                                             .withEndTime(Instant.now().plusSeconds(500))
@@ -135,7 +138,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                                                             .withResultsVisibleFromTime(Instant.now())
                                                             .build();
 
-                feedbackSessions.put("Test Feedback Session", session);
+                feedbackSessions.put(FEEDBACK_SESSION_NAME, session);
 
                 return feedbackSessions;
             }
@@ -143,8 +146,8 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
             @Override
             protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
                 ArrayList<FeedbackParticipantType> showResponses = new ArrayList<>();
-                showResponses.add(FeedbackParticipantType.RECEIVER);
                 showResponses.add(FeedbackParticipantType.INSTRUCTORS);
+                showResponses.add(FeedbackParticipantType.RECEIVER);
                 ArrayList<FeedbackParticipantType> showGiverName = new ArrayList<>();
                 showGiverName.add(FeedbackParticipantType.INSTRUCTORS);
                 showResponses.add(FeedbackParticipantType.RECEIVER);
@@ -155,16 +158,17 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question");
                 feedbackQuestions.put("QuestionTest",
                         FeedbackQuestionAttributes.builder()
-                            .withFeedbackSessionName("Test Feedback Session")
+                            .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
                             .withQuestionDescription("Test Question")
                             .withCourseId(COURSE_ID)
                             .withQuestionDetails(details)
                             .withQuestionNumber(1)
-                            .withGiverType(FeedbackParticipantType.SELF)
+                            .withGiverType(FeedbackParticipantType.STUDENTS)
                             .withRecipientType(FeedbackParticipantType.SELF)
                             .withShowResponsesTo(showResponses)
                             .withShowGiverNameTo(showGiverName)
                             .withShowRecipientNameTo(showRecepientName)
+                            .withNumberOfEntitiesToGiveFeedbackTo(1)
                             .build()
                 );
 
@@ -197,7 +201,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                     csvRow.add("no");
                     csvRow.add(student.googleId);
                     csvRow.add(COURSE_ID);
-                    csvRow.add("Test Feedback Session");
+                    csvRow.add(FEEDBACK_SESSION_NAME);
                     csvRow.add(student.email);
 
                     csvData.add(csvRow);
@@ -213,7 +217,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         Map<String, String> headers = new LinkedHashMap<>();
 
         headers.put("X-CSRF-TOKEN", "${csrfToken}");
-        headers.put("Content-Type", "text/csv");
+        headers.put("Content-Type", "application/json");
 
         return headers;
     }
@@ -232,32 +236,16 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
         HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
         threadGroup.add(headerManager);
-        // Add HTTP samplers for test endpoint
-        String firstPath = "webapi/student?courseid=${courseId}";
-        threadGroup.add(JMeterElements.httpSampler(firstPath, GET, null));
 
-        String secondPath = "webapi/session?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
-        threadGroup.add(JMeterElements.httpSampler(secondPath, GET, null));
+        //Backdoor to retrieve questionId which is generated only on backend server
+        String fqId = BackDoor.getFeedbackQuestionId(COURSE_ID, FEEDBACK_SESSION_NAME, 1);
 
-        String thirdPath = "webapi/questions?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
-        String regex = "\"feedbackQuestionId\": \"(.+?)\",";
-        //HashTree innerThreadGroup = new HashTree();
-        //innerThreadGroup.add(JMeterElements.httpSampler(thirdPath, GET, null));
-        //innerThreadGroup.add(JMeterElements.regexExtractorBody("responseId", regex));
-        //threadGroup.add(innerThreadGroup);
-        //threadGroup.add()
-        HTTPSamplerProxy sampler = JMeterElements.httpSampler(thirdPath, GET, null);
-        //sampler.addTestElement(JMeterElements.regexExtractorBody("responseId", regex));
-        threadGroup.add(sampler, JMeterElements.regexExtractorBody("responseId", regex));
-        //threadGroup.add(new HashTree(JMeterElements.regexExtractorBody("responseId", regex)));
-
-        
         String body = "{\"questionType\": \"TEXT\","
                 + "\"recipientIdentifier\": \"${studentEmail}\","
                 + "\"responseDetails\": {\"answer\": \"<p>test</p>\", \"questionType\": \"TEXT\"}}";
-        String fourthPath = "webapi/response?responseid=${responseId}%25${studentEmail}"
-                                    +"%25${studentEmail}&intent=STUDENT_SUBMISSION";
-        threadGroup.add(JMeterElements.httpSampler(fourthPath, PUT, body));
+        String fourthPath = "webapi/response?questionid=" + fqId
+                                    + "&intent=STUDENT_SUBMISSION";
+        threadGroup.add(JMeterElements.httpSampler(fourthPath, POST, body));
 
         return testPlan;
     }
@@ -265,7 +253,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
     @BeforeClass
     public void classSetup() {
         createTestData();
-    persistTestData();
+        persistTestData();
     }
 
     @Test
@@ -285,11 +273,3 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
     }
 
 }
-
-//http://localhost:8080/webapi/response?questionid=ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgMD1Cgw&intent=STUDENT_SUBMISSION
-/*
-feedbackResponseId: "ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgMD1Cgw%student1@test.com%student1@test.com"
-giverIdentifier: "student1@test.com"
-recipientIdentifier: "student1@test.com"
-responseDetails: {answer: "<p>aaa</p>", questionType: "TEXT"}
-*/

@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
@@ -30,10 +32,12 @@ import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
+import teammates.ui.webapi.output.FeedbackQuestionsData;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -256,6 +260,24 @@ public final class BackDoor {
 
         CourseData courseData = JsonUtils.fromJson(response.responseBody, CourseData.class);
         return CourseAttributes.builder(courseData.getCourseId()).build();
+    }
+
+    /**
+     * Gets a feedback question from the datastore.
+     */
+    public static String getFeedbackQuestionId(String courseId, String fsName, int questionNumber) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] {fsName});
+        params.put(Const.ParamsNames.INTENT, new String[] {"INSTRUCTOR_RESULT"});
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.QUESTIONS, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        //Matcher m = Pattern.compile().matcher(response.responseBody);
+        //response.responseBody.match();
+        FeedbackQuestionsData fqData = JsonUtils.fromJson(response.responseBody, FeedbackQuestionsData.class);
+        return fqData.getQuestions().get(questionNumber - 1).getFeedbackQuestionId();
     }
 
     /**

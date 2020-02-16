@@ -209,28 +209,6 @@ public final class JMeterElements {
     }
 
     /**
-     * Returns a Regular Expression Extractor element that extracts values from the response body.
-     * @param varName Name of the variable in which the result is stored
-     * @param regex The regular expression used to parse the response data
-     */
-    public static RegexExtractor regexExtractorBody(String varName, String regex) {
-        RegexExtractor regexExtractor = new RegexExtractor();
-
-        regexExtractor.setName("Regular Expression Extractor Response Body");
-        regexExtractor.setUseField("false"); // Find regex matches in response body
-        regexExtractor.setRefName(varName);
-        regexExtractor.setRegex(regex);
-        regexExtractor.setTemplate("$1$");
-        regexExtractor.setMatchNumber(1);
-        regexExtractor.setDefaultValue("error");
-        regexExtractor.setEnabled(true);
-        regexExtractor.setProperty(TestElement.TEST_CLASS, RegexExtractor.class.getName());
-        regexExtractor.setProperty(TestElement.GUI_CLASS, RegexExtractorGui.class.getName());
-
-        return regexExtractor;
-    }
-
-    /**
      * Returns a Regular Expression Extractor element that extracts the CSRF token from a server response header.
      * @param varName Name of the variable which stores the value of the extracted CSRF token
      */
