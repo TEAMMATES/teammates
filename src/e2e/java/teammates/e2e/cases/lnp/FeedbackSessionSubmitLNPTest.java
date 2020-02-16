@@ -8,7 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jmeter.protocol.http.control.HeaderManager;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
+import org.apache.jmeter.threads.SamplePackage;
 import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
@@ -145,8 +147,10 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 showResponses.add(FeedbackParticipantType.INSTRUCTORS);
                 ArrayList<FeedbackParticipantType> showGiverName = new ArrayList<>();
                 showGiverName.add(FeedbackParticipantType.INSTRUCTORS);
+                showResponses.add(FeedbackParticipantType.RECEIVER);
                 ArrayList<FeedbackParticipantType> showRecepientName = new ArrayList<>();
                 showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
+                showResponses.add(FeedbackParticipantType.RECEIVER);
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
                 FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question");
                 feedbackQuestions.put("QuestionTest",
@@ -205,6 +209,15 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         };
     }
 
+    private Map<String, String> getRequestHeaders() {
+        Map<String, String> headers = new LinkedHashMap<>();
+
+        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put("Content-Type", "text/csv");
+
+        return headers;
+    }
+
     @Override
     protected ListedHashTree getLnpTestPlan() {
         ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
@@ -214,8 +227,11 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         threadGroup.add(JMeterElements.cookieManager());
         threadGroup.add(JMeterElements.defaultSampler());
         threadGroup.add(JMeterElements.onceOnlyController())
-                .add(JMeterElements.loginSampler());
+                .add(JMeterElements.loginSampler())
+                .add(JMeterElements.csrfExtractor("csrfToken"));
 
+        HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
+        threadGroup.add(headerManager);
         // Add HTTP samplers for test endpoint
         String firstPath = "webapi/student?courseid=${courseId}";
         threadGroup.add(JMeterElements.httpSampler(firstPath, GET, null));
@@ -224,16 +240,24 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         threadGroup.add(JMeterElements.httpSampler(secondPath, GET, null));
 
         String thirdPath = "webapi/questions?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
-        String regex = "\"feedbackQuestionId\": \"(.+?)\"";
+        String regex = "\"feedbackQuestionId\": \"(.+?)\",";
+        //HashTree innerThreadGroup = new HashTree();
+        //innerThreadGroup.add(JMeterElements.httpSampler(thirdPath, GET, null));
+        //innerThreadGroup.add(JMeterElements.regexExtractorBody("responseId", regex));
+        //threadGroup.add(innerThreadGroup);
+        //threadGroup.add()
         HTTPSamplerProxy sampler = JMeterElements.httpSampler(thirdPath, GET, null);
-        sampler.addTestElement(JMeterElements.regexExtractor("questionId", regex));
-        threadGroup.add(sampler);
+        //sampler.addTestElement(JMeterElements.regexExtractorBody("responseId", regex));
+        threadGroup.add(sampler, JMeterElements.regexExtractorBody("responseId", regex));
+        //threadGroup.add(new HashTree(JMeterElements.regexExtractorBody("responseId", regex)));
 
+        
         String body = "{\"questionType\": \"TEXT\","
                 + "\"recipientIdentifier\": \"${studentEmail}\","
                 + "\"responseDetails\": {\"answer\": \"<p>test</p>\", \"questionType\": \"TEXT\"}}";
-        String fourthPath = "webapi/response?questionid=${questionId}&intent=STUDENT_SUBMISSION";
-        threadGroup.add(JMeterElements.httpSampler(fourthPath, POST, body));
+        String fourthPath = "webapi/response?responseid=${responseId}%25${studentEmail}"
+                                    +"%25${studentEmail}&intent=STUDENT_SUBMISSION";
+        threadGroup.add(JMeterElements.httpSampler(fourthPath, PUT, body));
 
         return testPlan;
     }
@@ -246,7 +270,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
     @Test
     public void runLnpTest() throws IOException {
-        runJmeter(false);
+        runJmeter(true);
     }
 
     /**
