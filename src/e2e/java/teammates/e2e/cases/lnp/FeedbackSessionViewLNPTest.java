@@ -28,15 +28,14 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
-import teammates.storage.entity.CourseStudent;
 
 /**
  * L&P Test Case for instructor's student enrollment API endpoint.
  */
 public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 80;
-    private static final int RAMP_UP_PERIOD = 3;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 500;
+    private static final int RAMP_UP_PERIOD = 2;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
 
@@ -100,17 +99,15 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
             protected Map<String, StudentAttributes> generateStudents() {
                 Map<String, StudentAttributes> students = new LinkedHashMap<>();
                 StudentAttributes studentAttribute;
-                CourseStudent courseStudent;
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
-                    courseStudent = new CourseStudent(STUDENT_EMAIL + i + "@gmail.tmt",
-                                            STUDENT_NAME + i,
-                                            STUDENT_NAME + i + ".tmms",
-                                            "This student's name is " + STUDENT_NAME + i,
-                                            COURSE_ID,
-                                            "Team 1",
-                                            "None");
-                    studentAttribute = StudentAttributes.valueOf(courseStudent);
+                    studentAttribute = StudentAttributes.builder(COURSE_ID, STUDENT_EMAIL + i + "@gmail.tmt")
+                                            .withGoogleId(STUDENT_NAME + i + ".tmms")
+                                            .withName(STUDENT_NAME + i)
+                                            .withComment("This student's name is " + STUDENT_NAME + i)
+                                            .withSectionName("None")
+                                            .withTeamName("Team 1")
+                                            .build();
                     students.put(STUDENT_NAME + i, studentAttribute);
                 }
 

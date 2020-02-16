@@ -117,7 +117,6 @@ public final class DataBundleLogic {
         fbDb.putEntities(sessions);
 
         List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
-
         injectRealIds(responses, responseComments, createdQuestions);
 
         frDb.putEntities(responses);
