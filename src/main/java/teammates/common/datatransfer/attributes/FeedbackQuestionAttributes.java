@@ -635,7 +635,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                     + ", showResponsesTo = " + showResponsesToOption
                     + ", showGiverNameTo = " + showGiverNameToOption
                     + ", showRecipientNameTo = " + showRecipientNameToOption
-                    + ", questionId = " + getFeedbackQuestionId()
                     + "]";
         }
 
