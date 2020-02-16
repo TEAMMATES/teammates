@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.jmeter.protocol.http.control.HeaderManager;
-import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
-import org.apache.jmeter.threads.SamplePackage;
 import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
@@ -28,14 +26,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.entity.CourseStudent;
-import teammates.e2e.util.BackDoor;
 
 /**
  * L&P Test Case for instructor's student enrollment API endpoint.
@@ -159,7 +154,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 feedbackQuestions.put("QuestionTest",
                         FeedbackQuestionAttributes.builder()
                             .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
-                            .withQuestionDescription("Test Question")
+                                .withQuestionDescription("Test Question")
                             .withCourseId(COURSE_ID)
                             .withQuestionDetails(details)
                             .withQuestionNumber(1)
@@ -205,7 +200,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                     csvRow.add(student.email);
 
                     csvData.add(csvRow);
-                    
+
                 });
 
                 return csvData;

@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
@@ -32,7 +30,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -263,7 +260,7 @@ public final class BackDoor {
     }
 
     /**
-     * Gets a feedback question from the datastore.
+     * Gets the ID of an feedback question from the datastore.
      */
     public static String getFeedbackQuestionId(String courseId, String fsName, int questionNumber) {
         Map<String, String[]> params = new HashMap<>();
@@ -274,8 +271,6 @@ public final class BackDoor {
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
-        //Matcher m = Pattern.compile().matcher(response.responseBody);
-        //response.responseBody.match();
         FeedbackQuestionsData fqData = JsonUtils.fromJson(response.responseBody, FeedbackQuestionsData.class);
         return fqData.getQuestions().get(questionNumber - 1).getFeedbackQuestionId();
     }
