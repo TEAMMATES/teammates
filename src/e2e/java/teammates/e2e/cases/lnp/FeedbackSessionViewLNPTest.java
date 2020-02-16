@@ -30,7 +30,7 @@ import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
 
 /**
- * L&P Test Case for instructor's student enrollment API endpoint.
+ * L&P Test Case for students accessing feedback sessions.
  */
 public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
@@ -207,14 +207,14 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 .add(JMeterElements.loginSampler());
 
         // Add HTTP samplers for test endpoint
-        String firstPath = "webapi/student?courseid=${courseId}";
-        threadGroup.add(JMeterElements.httpSampler(firstPath, GET, null));
+        String getSessionsPath = "webapi/student?courseid=${courseId}";
+        threadGroup.add(JMeterElements.httpSampler(getSessionsPath, GET, null));
 
-        String secondPath = "webapi/session?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
-        threadGroup.add(JMeterElements.httpSampler(secondPath, GET, null));
+        String getSessionDetailsPath = "webapi/session?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
+        threadGroup.add(JMeterElements.httpSampler(getSessionDetailsPath, GET, null));
 
-        String thirdPath = "webapi/questions?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
-        threadGroup.add(JMeterElements.httpSampler(thirdPath, GET, null));
+        String getQuestionsPath = "webapi/questions?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
+        threadGroup.add(JMeterElements.httpSampler(getQuestionsPath, GET, null));
 
         return testPlan;
     }

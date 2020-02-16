@@ -32,7 +32,7 @@ import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
 
 /**
- * L&P Test Case for instructor's student enrollment API endpoint.
+ * L&P Test Case for students submitting feedback questions.
  */
 public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
