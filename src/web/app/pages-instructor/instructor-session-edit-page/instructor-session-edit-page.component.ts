@@ -20,11 +20,18 @@ import {
   FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackSession,
-  FeedbackSessionPublishStatus, FeedbackSessions,
-  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails, HasResponses, Instructor, Instructors,
+  FeedbackSessionPublishStatus,
+  FeedbackSessions,
+  FeedbackSessionSubmissionStatus,
+  FeedbackTextQuestionDetails,
+  HasResponses,
+  Instructor,
+  Instructors,
   NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseVisibleSetting,
-  SessionVisibleSetting, Student, Students,
+  SessionVisibleSetting,
+  Student,
+  Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
@@ -183,18 +190,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((course: Course) => {
       this.courseName = course.courseName;
 
-      // load feedback session
-      const paramMap: { [key: string]: string } = {
-        courseid: this.courseId,
-        fsname: this.feedbackSessionName,
-        intent: Intent.FULL_DETAIL,
-      };
-      this.httpRequestService.get('/session', paramMap)
-          .subscribe((feedbackSession: FeedbackSession) => {
-            this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
-          });
+      this.feedbackSessionsService.getFeedbackSession(this.courseId, this.feedbackSessionName, Intent.FULL_DETAIL)
+      .subscribe((feedbackSession: FeedbackSession) => {
+        this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
     });
   }
 
