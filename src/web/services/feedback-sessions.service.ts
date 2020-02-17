@@ -14,7 +14,7 @@ import {
 import {
   FeedbackSessionCreateRequest,
   FeedbackSessionStudentRemindRequest,
-  FeedbackSessionUpdateRequest,
+  FeedbackSessionUpdateRequest, Intent,
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -42,6 +42,20 @@ export class FeedbackSessionsService {
    */
   getTemplateSessions(): TemplateSession[] {
     return templateSessions;
+  }
+
+  /**
+   * Retrieves a feedback session by calling API.
+   */
+  getFeedbackSession(courseId: string, feedbackSessionName: string, intent: Intent): Observable<FeedbackSession> {
+    // load feedback session
+    const paramMap: { [key: string]: string } = {
+      intent,
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.get('/session', paramMap);
   }
 
   /**

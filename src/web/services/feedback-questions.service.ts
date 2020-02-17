@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackMsqQuestionDetails,
@@ -525,7 +526,7 @@ export class FeedbackQuestionsService {
       fsname: feedbackSessionName,
     };
 
-    return this.httpRequestService.post('/question', paramMap, request);
+    return this.httpRequestService.post(ResourceEndpoints.QUESTION, paramMap, request);
   }
 
   /**
@@ -535,7 +536,7 @@ export class FeedbackQuestionsService {
       Observable<FeedbackQuestion> {
     const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
 
-    return this.httpRequestService.put('/question', paramMap, request);
+    return this.httpRequestService.put(ResourceEndpoints.QUESTION, paramMap, request);
   }
 
 }
