@@ -25,10 +25,11 @@
                      [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
                      [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
                      (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
-                    (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
-                    (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
-                    (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
-                    (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
+                     (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
+                     (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
+                     (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
+                     (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
+                     (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
                      (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(sessionsTableRowModels[$event])"
                      (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(sessionsTableRowModels[$event])"></tm-sessions-table>
 </div>

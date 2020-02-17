@@ -90,6 +90,9 @@ export class SessionsTableComponent implements OnInit {
   @Output()
   resendResultsLinkToStudentsEvent: EventEmitter<number> = new EventEmitter();
 
+  @Output()
+  downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
+
   constructor(private modalService: NgbModal) { }
 
   /**
@@ -164,6 +167,13 @@ export class SessionsTableComponent implements OnInit {
    */
   sendRemindersToStudents(rowIndex: number): void {
     this.sendRemindersToStudentsEvent.emit(rowIndex);
+  }
+
+  /**
+   * Triggers the download of session results as a CSV file.
+   */
+  downloadSessionResults(rowIndex: number): void {
+    this.downloadSessionResultsEvent.emit(rowIndex);
   }
 
   ngOnInit(): void {

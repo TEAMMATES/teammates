@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { from, Observable, of } from 'rxjs';
 import { concatMap, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
@@ -211,6 +212,29 @@ export abstract class InstructorSessionBasePageComponent {
   viewSessionResult(model: SessionsTableRowModel): void {
     this.router.navigateByUrl('/web/instructor/sessions/result'
         + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+  }
+
+  /**
+   * Downloads the result of a feedback session in csv.
+   */
+  downloadSessionResult(model: SessionsTableRowModel): void {
+    const filename: string = `${model.feedbackSession.feedbackSessionName.concat('_result')}.csv`;
+    let blob: any;
+
+    const paramsMap: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+      intent: Intent.INSTRUCTOR_RESULT,
+      frindicatemissingresponses: 'true',
+      frshowstats: 'true',
+    };
+    this.httpRequestService.get('/result/csv', paramsMap, 'text')
+        .subscribe((resp: string) => {
+          blob = new Blob([resp], { type: 'text/csv' });
+          saveAs(blob, filename);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
   /**

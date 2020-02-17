@@ -469,6 +469,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
 
   /**
+   * Downloads the result of a feedback session in csv.
+   */
+  downloadSessionResultEventHandler(rowIndex: number): void {
+    this.downloadSessionResult(this.sessionsTableRowModels[rowIndex]);
+  }
+
+  /**
    * Loads all feedback sessions in recycle bin that can be accessed by current user.
    */
   loadRecycleBinFeedbackSessions(): void {
