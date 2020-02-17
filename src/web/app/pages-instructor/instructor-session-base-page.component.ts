@@ -236,12 +236,7 @@ export abstract class InstructorSessionBasePageComponent {
    * Unpublishes a feedback session.
    */
   unpublishSession(model: SessionsTableRowModel): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.delete('/session/publish', paramMap)
+    this.feedbackSessionsService.unpublishFeedbackSession(model)
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
