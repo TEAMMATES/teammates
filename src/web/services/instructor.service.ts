@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CourseTab } from '../app/pages-instructor/instructor-student-list-page/instructor-student-list-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { Instructors } from '../types/api-output';
+import { InstructorPrivilege, Instructors } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -23,5 +24,15 @@ export class InstructorService {
     };
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS, paramMap);
+  }
+
+  /**
+   * Loads privilege of an instructor for a specified course and section.
+   */
+  loadInstructorPrivilege(courseTab: CourseTab, sectionName: string): Observable<InstructorPrivilege> {
+    return this.httpRequestService.get('/instructor/privilege', {
+      courseid: courseTab.course.courseId,
+      sectionname: sectionName,
+    });
   }
 }

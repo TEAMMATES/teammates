@@ -34,7 +34,7 @@ describe('InstructorService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should execute GET', () => {
+  it('should execute GET when getting instructors for a course', () => {
     service.getInstructorsFromCourse('CS3281');
     const paramMap: { [key: string]: string } = {
       courseid: 'CS3281',
