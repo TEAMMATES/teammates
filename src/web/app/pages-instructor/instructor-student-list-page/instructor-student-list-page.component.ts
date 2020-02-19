@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -19,7 +19,10 @@ interface StudentIndexedData {
   [key: string]: Student[];
 }
 
-interface CourseTab {
+/**
+ * Represents the type for a tab of Courses.
+ */
+export interface CourseTab {
   course: Course;
   studentListSectionDataList: StudentListSectionData[];
   hasTabExpanded: boolean;
@@ -39,7 +42,7 @@ export class InstructorStudentListPageComponent implements OnInit {
 
   courseTabList: CourseTab[] = [];
 
-  constructor(private httpRequestService: HttpRequestService,
+  constructor(private instructorService: InstructorService,
               private courseService: CourseService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
@@ -136,21 +139,19 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads privilege of an instructor for a specified course and section.
    */
   loadPrivilege(courseTab: CourseTab, sectionName: string, students: StudentListStudentData[]): void {
-    this.httpRequestService.get('/instructor/privilege', {
-      courseid: courseTab.course.courseId,
-      sectionname: sectionName,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      const sectionData: StudentListSectionData = {
-        sectionName,
-        students,
-        isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
-        isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
-      };
+    this.instructorService.loadInstructorPrivilege(courseTab, sectionName)
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
+          const sectionData: StudentListSectionData = {
+            sectionName,
+            students,
+            isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
+            isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
+          };
 
-      courseTab.studentListSectionDataList.push(sectionData);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+          courseTab.studentListSectionDataList.push(sectionData);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
   /**
