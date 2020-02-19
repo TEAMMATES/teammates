@@ -78,6 +78,7 @@ export class StudentHomePageComponent implements OnInit {
     this.httpRequestService.get('/courses', paramMap).subscribe((resp: Courses) => {
       if (resp.courses.length === 0) {
         this.loadingBarService.hideLoadingBar();
+        return;
       } else {
         for (const course of resp.courses) {
           this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
