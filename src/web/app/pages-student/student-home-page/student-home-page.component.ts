@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -53,7 +53,8 @@ export class StudentHomePageComponent implements OnInit {
 
   courses: StudentCourse[] = [];
 
-  constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
+  constructor(private route: ActivatedRoute,
+              private courseService: CourseService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
               private timezoneService: TimezoneService,
@@ -72,39 +73,36 @@ export class StudentHomePageComponent implements OnInit {
    */
   getStudentCourses(): void {
     this.loadingBarService.showLoadingBar();
-    const paramMap: { [key: string]: string } = {
-      entitytype: 'student',
-    };
-    this.httpRequestService.get('/courses', paramMap).subscribe((resp: Courses) => {
-      if (resp.courses.length === 0) {
-        this.loadingBarService.hideLoadingBar();
-        return;
-      } else {
-        for (const course of resp.courses) {
-          this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
-              .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
-              .subscribe((fss: FeedbackSessions) => {
-                const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
+    this.courseService.getAllCoursesAsStudent().subscribe((resp: Courses) => {
+        if (resp.courses.length === 0) {
+            this.loadingBarService.hideLoadingBar();
+            return;
+        } else {
+            for (const course of resp.courses) {
+                this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
+                    .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
+                    .subscribe((fss: FeedbackSessions) => {
+                        const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
-                const studentSessions: StudentSession[] = [];
-                for (const fs of sortedFss) {
-                  const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
-                  const isWaitingToOpen: boolean =
-                      fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-                  const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
-                  this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId,
-                      fs.feedbackSessionName)
-                      .subscribe((hasRes: HasResponses) => {
-                        const isSubmitted: boolean = hasRes.hasResponses;
-                        studentSessions.push(Object.assign({},
-                            { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
-                      });
-                }
+                        const studentSessions: StudentSession[] = [];
+                        for (const fs of sortedFss) {
+                            const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
+                            const isWaitingToOpen: boolean =
+                                fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+                            const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+                            this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId,
+                                fs.feedbackSessionName)
+                                .subscribe((hasRes: HasResponses) => {
+                                    const isSubmitted: boolean = hasRes.hasResponses;
+                                    studentSessions.push(Object.assign({},
+                                        { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
+                                });
+                        }
 
-                this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
-                this.courses.sort((a: StudentCourse, b: StudentCourse) =>
-                    (a.course.courseId > b.course.courseId) ? 1 : -1);
-              });
+                        this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
+                        this.courses.sort((a: StudentCourse, b: StudentCourse) =>
+                            (a.course.courseId > b.course.courseId) ? 1 : -1);
+                    });
         }
       }
     }, (e: ErrorMessageOutput) => {

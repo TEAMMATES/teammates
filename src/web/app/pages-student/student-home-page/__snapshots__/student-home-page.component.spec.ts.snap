@@ -2,9 +2,9 @@
 
 exports[`StudentHomePageComponent should snap with all feedback sessions over 2 courses 1`] = `
 <tm-student-home-page
+  courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
@@ -375,9 +375,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
 
 exports[`StudentHomePageComponent should snap with default fields 1`] = `
 <tm-student-home-page
+  courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
@@ -406,9 +406,9 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
 
 exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
+  courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
