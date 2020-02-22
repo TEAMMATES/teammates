@@ -19,10 +19,7 @@ interface StudentIndexedData {
   [key: string]: Student[];
 }
 
-/**
- * Represents the type for a tab of Courses.
- */
-export interface CourseTab {
+interface CourseTab {
   course: Course;
   studentListSectionDataList: StudentListSectionData[];
   hasTabExpanded: boolean;
@@ -139,7 +136,11 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads privilege of an instructor for a specified course and section.
    */
   loadPrivilege(courseTab: CourseTab, sectionName: string, students: StudentListStudentData[]): void {
-    this.instructorService.loadInstructorPrivilege(courseTab, sectionName)
+    const paramsMap: { [key: string]: string } = {
+      courseid: courseTab.course.courseId,
+      sectionname: sectionName,
+    };
+    this.instructorService.loadInstructorPrivilege(paramsMap)
         .subscribe((instructorPrivilege: InstructorPrivilege) => {
           const sectionData: StudentListSectionData = {
             sectionName,

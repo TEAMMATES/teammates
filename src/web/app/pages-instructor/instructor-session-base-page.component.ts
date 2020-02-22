@@ -4,6 +4,7 @@ import { concatMap, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { HttpRequestService } from '../../services/http-request.service';
+import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import {
@@ -28,6 +29,7 @@ import { ErrorMessageOutput } from '../error-message-output';
 export abstract class InstructorSessionBasePageComponent {
 
   protected constructor(protected router: Router, protected httpRequestService: HttpRequestService,
+                        protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
                         protected feedbackSessionsService: FeedbackSessionsService,
@@ -152,10 +154,11 @@ export abstract class InstructorSessionBasePageComponent {
    * Updates the instructor privilege in {@code SessionsTableRowModel}.
    */
   protected updateInstructorPrivilege(model: SessionsTableRowModel): void {
-    this.httpRequestService.get('/instructor/privilege', {
+    const paramsMap: { [key: string]: string } = {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+    };
+    this.instructorService.loadInstructorPrivilege(paramsMap).subscribe((instructorPrivilege: InstructorPrivilege) => {
       model.instructorPrivilege = instructorPrivilege;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);

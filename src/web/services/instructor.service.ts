@@ -29,10 +29,7 @@ export class InstructorService {
   /**
    * Loads privilege of an instructor for a specified course and section.
    */
-  loadInstructorPrivilege(courseTab: CourseTab, sectionName: string): Observable<InstructorPrivilege> {
-    return this.httpRequestService.get('/instructor/privilege', {
-      courseid: courseTab.course.courseId,
-      sectionname: sectionName,
-    });
+  loadInstructorPrivilege(paramsMap: { [key: string]: string }): Observable<InstructorPrivilege> {
+    return this.httpRequestService.get('/instructor/privilege', paramsMap);
   }
 }
