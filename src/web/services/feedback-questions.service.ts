@@ -7,7 +7,7 @@ import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
-  FeedbackQuestionDetails,
+  FeedbackQuestionDetails, FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails, FeedbackRubricQuestionDetails,
   FeedbackVisibilityType,
@@ -507,6 +507,13 @@ export class FeedbackQuestionsService {
       default:
         throw new Error(`Unsupported question type ${type}`);
     }
+  }
+
+  /**
+   * Gets feedback questions.
+   */
+  getFeedbackQuestions(paramMap: { [key: string]: string }): Observable<FeedbackQuestions> {
+    return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);
   }
 
   /**

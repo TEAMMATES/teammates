@@ -70,4 +70,13 @@ describe('FeedbackSessionsService', () => {
     service.unpublishFeedbackSession(model);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });
+
+  it('should call get when loading session statistics', () => {
+    const paramMap: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+    };
+    service.loadSessionStatistics(model);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_STATS, paramMap);
+  });
 });

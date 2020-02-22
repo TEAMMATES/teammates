@@ -6,7 +6,7 @@ import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   FeedbackQuestion,
   FeedbackSession,
-  FeedbackSessions, FeedbackSessionSubmittedGiverSet,
+  FeedbackSessions, FeedbackSessionStats, FeedbackSessionSubmittedGiverSet,
   HasResponses,
   MessageOutput,
   OngoingSessions,
@@ -208,6 +208,18 @@ export class FeedbackSessionsService {
   /**
    * Unpublishes a feedback session.
    */
+  publishFeedbackSession(model: SessionsTableRowModel): Observable<FeedbackSession> {
+    const paramMap: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_PUBLISH, paramMap);
+  }
+
+  /**
+   * Unpublishes a feedback session.
+   */
   unpublishFeedbackSession(model: SessionsTableRowModel): Observable<FeedbackSession> {
     const paramMap: { [key: string]: string } = {
       courseid: model.feedbackSession.courseId,
@@ -215,5 +227,18 @@ export class FeedbackSessionsService {
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.SESSION_PUBLISH, paramMap);
+  }
+
+  /**
+   * Load session statistics.
+   */
+  loadSessionStatistics(model: SessionsTableRowModel): Observable<FeedbackSessionStats> {
+    model.isLoadingResponseRate = true;
+    const paramMap: { [key: string]: string } = {
+      courseid: model.feedbackSession.courseId,
+      fsname: model.feedbackSession.feedbackSessionName,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_STATS, paramMap);
   }
 }
