@@ -3,7 +3,6 @@ import { from, Observable, of } from 'rxjs';
 import { concatMap, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../services/http-request.service';
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
@@ -28,7 +27,7 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionBasePageComponent {
 
-  protected constructor(protected router: Router, protected httpRequestService: HttpRequestService,
+  protected constructor(protected router: Router,
                         protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
@@ -67,7 +66,7 @@ export abstract class InstructorSessionBasePageComponent {
             fsname: fromFeedbackSession.feedbackSessionName,
             intent: Intent.FULL_DETAIL,
           };
-          return this.httpRequestService.get('/questions', param);
+          return this.feedbackQuestionsService.getFeedbackQuestions(param);
         }),
         switchMap((response: FeedbackQuestions) => {
           if (response.questions.length === 0) {
@@ -169,15 +168,11 @@ export abstract class InstructorSessionBasePageComponent {
    * Loads response rate of a feedback session.
    */
   loadResponseRate(model: SessionsTableRowModel): void {
-    model.isLoadingResponseRate = true;
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
-      model.isLoadingResponseRate = false;
-      model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    this.feedbackSessionsService.loadSessionStatistics(model)
+        .subscribe((resp: FeedbackSessionStats) => {
+          model.isLoadingResponseRate = false;
+          model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
@@ -220,12 +215,8 @@ export abstract class InstructorSessionBasePageComponent {
    * Publishes a feedback session.
    */
   publishSession(model: SessionsTableRowModel): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
 
-    this.httpRequestService.post('/session/publish', paramMap)
+    this.feedbackSessionsService.publishFeedbackSession(model)
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
