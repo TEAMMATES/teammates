@@ -389,7 +389,18 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   studentFeedbackSessionStatusSubmitted={[Function String]}
   timezoneService={[Function TimezoneService]}
 >
+  <div>
+     You are not enrolled in any courses. Please refer to the 
+    <a
+      href="/web/student/help"
+      ng-reflect-router-link="/web/student/help"
+      routerlink="/web/student/help"
+    >
+      help page
+    </a>
+     if you need more information.
   
+  </div>
 </tm-student-home-page>
 `;
 
