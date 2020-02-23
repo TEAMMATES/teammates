@@ -40,14 +40,6 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith('/account', paramMap);
   });
 
-  it('should execute GET on accounts/search endpoint', () => {
-    service.searchAccounts(id);
-    const paramMap: { [key: string]: string } = {
-      searchkey: id,
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/accounts/search', paramMap);
-  });
-
   it('should execute POST on account endpoint', () => {
     const testRequest: AccountCreateRequest = new class implements AccountCreateRequest {
       instructorEmail: string = 'testEmail';
@@ -64,6 +56,14 @@ describe('AccountService', () => {
       instructorid: id,
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith('/account', paramMap);
+  });
+
+  it('should execute GET on accounts/search endpoint', () => {
+    service.searchAccounts(id);
+    const paramMap: { [key: string]: string } = {
+      searchkey: id,
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/accounts/search', paramMap);
   });
 
   it('should execute PUT on account/downgrade endpoint', () => {
