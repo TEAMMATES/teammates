@@ -78,8 +78,10 @@
     <div class="card-body p-0">
       <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{courseDetails.course.courseId}}]</div>
       <div class="card-body p-0">
-        <tm-student-list [courseId]="courseDetails.course.courseId" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true">
-        </tm-student-list>
+        <tm-student-list
+            [courseId]="courseDetails.course.courseId" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true"
+            (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
+        ></tm-student-list>
       </div>
     </div>
   </ng-template>
