@@ -215,8 +215,10 @@ public final class BackDoor {
         removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
-        return putRequestOutput.responseCode == HttpStatus.SC_OK
-                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        if (putRequestOutput.responseCode == HttpStatus.SC_OK) {
+            return putRequestOutput.responseBody;
+        }
+        return Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
     }
 
     /**

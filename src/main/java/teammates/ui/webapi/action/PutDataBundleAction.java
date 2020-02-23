@@ -6,7 +6,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
-import teammates.common.util.JsonUtils;
+import teammates.common.util.JsonUtils; 
 
 /**
  * Persists a data bundle into the DB.
@@ -36,15 +36,6 @@ public class PutDataBundleAction extends Action {
                     HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        return new JsonResult(new DataBundleData(dataBundle));
-        //return new JsonResult("Data bundle successfully persisted.", HttpStatus.SC_OK);
-    }
-
-    public static class DataBundleData extends ApiOutput {
-        DataBundle dataBundle;
-
-        public DataBundleData(DataBundle dataBundle) {
-            this.dataBundle = dataBundle;
-        }
+        return new JsonResult(JsonUtils.toJson(dataBundle));
     }
 }

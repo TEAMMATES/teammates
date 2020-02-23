@@ -182,7 +182,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     @BeforeClass
     public void classSetup() {
         createTestData();
-        persistTestData();
     }
 
     @Test

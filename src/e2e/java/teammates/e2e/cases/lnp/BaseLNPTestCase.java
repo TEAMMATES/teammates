@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -22,6 +24,7 @@ import org.apache.jorphan.collections.ListedHashTree;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
@@ -162,6 +165,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         LNPTestData testData = getTestData();
         try {
             createJsonDataFile(testData);
+            persistTestData();
             createCsvConfigDataFile(testData);
         } catch (IOException ex) {
             log.severe(TeammatesException.toStringWithStackTrace(ex));
@@ -171,9 +175,19 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Creates the entities in the datastore from the JSON data file.
      */
-    protected void persistTestData() {
+    protected void persistTestData() throws IOException {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
-        BackDoor.removeAndRestoreDataBundle(dataBundle);
+        String responseBody = BackDoor.removeAndRestoreDataBundle(dataBundle);
+        if (responseBody.equals(Const.StatusCodes.BACKDOOR_STATUS_FAILURE)) {
+            log.severe("Backdoor failed to put dataBundle");
+            return;
+        }
+        String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getJsonDataPath());
+        String jsonValue = JsonUtils.parse(responseBody).getAsJsonObject().get("message").getAsString();
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile))) {
+            bw.write(jsonValue);
+            bw.flush();
+        }
     }
 
     /**

@@ -433,7 +433,6 @@ test {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        showStandardStreams = true
         events "passed"
     }
 }
