@@ -1996,8 +1996,8 @@ public class Logic {
      *
      * @see DataBundleLogic#persistDataBundle(DataBundle)
      */
-    public void persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
-        dataBundleLogic.persistDataBundle(dataBundle);
+    public DataBundle persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
+        return dataBundleLogic.persistDataBundle(dataBundle);
     }
 
     /**

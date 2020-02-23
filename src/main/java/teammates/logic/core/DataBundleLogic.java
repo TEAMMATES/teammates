@@ -194,7 +194,6 @@ public final class DataBundleLogic {
             String key = entry.getKey();
             CourseAttributes value = entry.getValue();
             
-            //ZoneId is not compared because zoneId.equals() always returns false
             for (CourseAttributes cur : newCourses) {
                 if (customEquals(cur.getId(), value.getId()) &&
                             customEquals(cur.getName(), value.getName())) {

@@ -39,7 +39,7 @@ public class DataBundleLogicTest extends BaseLogicTest {
         // Only FeedbackQuestions is tested because currently, it is the only data that has a value
         // updated only in the server. If there are more in the future, they should be added in this
         // test as well.
-        ______TS("Data values are updated to server values");
+        ______TS("data values are updated to server values");
         DataBundle typicalDataBundle = getTypicalDataBundle();
         Map.Entry<String, FeedbackQuestionAttributes> originalFeedbackQuestionEntry = typicalDataBundle
                 .feedbackQuestions.entrySet().iterator().next();
