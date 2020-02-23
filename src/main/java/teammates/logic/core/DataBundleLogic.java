@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +37,7 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
+import teammates.storage.entity.FeedbackResponse;
 
 /**
  * Handles operations related to data bundles.
@@ -79,7 +81,7 @@ public final class DataBundleLogic {
      *
      * @throws InvalidParametersException if invalid data is encountered.
      */
-    public void persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
+    public DataBundle persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
         }
@@ -109,18 +111,250 @@ public final class DataBundleLogic {
         processResponsesAndPopulateMap(responses, sessionResponsesMap);
         processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
-        accountsDb.putEntities(googleIdAccountMap.values());
-        profilesDb.putEntities(profiles);
-        coursesDb.putEntities(courses);
-        instructorsDb.putEntities(instructors);
-        studentsDb.putEntities(students);
-        fbDb.putEntities(sessions);
+        List<AccountAttributes> newAccounts = accountsDb.putEntities(googleIdAccountMap.values());
+        List<StudentProfileAttributes> newProfiles = profilesDb.putEntities(profiles);
+        List<CourseAttributes> newCourses = coursesDb.putEntities(courses);
+        List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
+        List<StudentAttributes> newStudents = studentsDb.putEntities(students);
+        List<FeedbackSessionAttributes> newFeedbackSessions = fbDb.putEntities(sessions);
 
         List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
         injectRealIds(responses, responseComments, createdQuestions);
 
-        frDb.putEntities(responses);
-        fcDb.putEntities(responseComments);
+        List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
+        List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
+        
+        updateDataBundleAccounts(dataBundle, newAccounts);
+
+        updateDataBundleProfiles(dataBundle, newProfiles);
+        updateDataBundleCourses(dataBundle, newCourses);
+        updateDataBundleInstructors(dataBundle, newInstructors);
+
+        updateDataBundleStudents(dataBundle, newStudents);
+        updateDataBundleFeedbackSessions(dataBundle, newFeedbackSessions);
+        updateDataBundleFeedbackQuestions(dataBundle, createdQuestions);
+        updateDataBundleFeedbackResponses(dataBundle, newFeedbackResponses);
+        updateDataBundleFeedbackResponseComments(dataBundle, newFeedbackResponseComments);
+
+        return dataBundle;
+        
+    }
+
+    private void updateDataBundleAccounts(DataBundle dataBundle, List<AccountAttributes> newAccounts) {
+        Map<String, AccountAttributes> oldAccounts = dataBundle.accounts;
+        Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
+
+        for (Map.Entry<String, AccountAttributes> entry : oldAccounts.entrySet()) {
+            String key = entry.getKey();
+            AccountAttributes value = entry.getValue();
+
+            for (AccountAttributes cur : newAccounts) {
+                if (customEquals(cur.email, value.email) &&
+                            customEquals(cur.name, value.name) &&
+                            customEquals(cur.institute, value.institute) &&
+                            customEquals(cur.googleId, value.googleId)) {
+                    accounts.put(key, cur);
+                    newAccounts.remove(cur);
+                }
+                break;
+            }
+        }
+        dataBundle.accounts = accounts;
+    }
+
+    private void updateDataBundleProfiles(DataBundle dataBundle, List<StudentProfileAttributes> newProfiles) {
+        Map<String, StudentProfileAttributes> oldProfiles = dataBundle.profiles;
+        Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
+
+        for (Map.Entry<String, StudentProfileAttributes> entry : oldProfiles.entrySet()) {
+            String key = entry.getKey();
+            StudentProfileAttributes value = entry.getValue();
+
+            for (StudentProfileAttributes cur : newProfiles) {
+                if (customEquals(cur.email, value.email) &&
+                            customEquals(cur.shortName, value.shortName) &&
+                            customEquals(cur.institute, value.institute) &&
+                            customEquals(cur.googleId, value.googleId) &&
+                            customEquals(cur.gender, value.gender) &&
+                            customEquals(cur.pictureKey, value.pictureKey)) {
+                    profiles.put(key, cur);
+                    newProfiles.remove(cur);
+                }
+                break;
+            }
+        }
+        dataBundle.profiles = profiles;
+    }
+
+    private void updateDataBundleCourses(DataBundle dataBundle, List<CourseAttributes> newCourses) {
+        Map<String, CourseAttributes> oldCourses = dataBundle.courses;
+        Map<String, CourseAttributes> courses = new LinkedHashMap<>();
+
+        for (Map.Entry<String, CourseAttributes> entry : oldCourses.entrySet()) {
+            String key = entry.getKey();
+            CourseAttributes value = entry.getValue();
+            
+            //ZoneId is not compared because zoneId.equals() always returns false
+            for (CourseAttributes cur : newCourses) {
+                if (customEquals(cur.getId(), value.getId()) &&
+                            customEquals(cur.getName(), value.getName())) {
+                    courses.put(key, cur);
+                    newCourses.remove(cur);
+                }
+                break;
+            }
+        }
+        dataBundle.courses = courses;
+    }
+
+    private void updateDataBundleInstructors(DataBundle dataBundle, List<InstructorAttributes> newInstructors) {
+        Map<String, InstructorAttributes> oldInstructors = dataBundle.instructors;
+        Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
+
+        for (Map.Entry<String, InstructorAttributes> entry : oldInstructors.entrySet()) {
+            String key = entry.getKey();
+            InstructorAttributes value = entry.getValue();
+
+            for (InstructorAttributes cur : newInstructors) {
+                if (customEquals(cur.email, value.email) &&
+                            customEquals(cur.name, value.name) &&
+                            customEquals(cur.courseId, value.courseId) &&
+                            customEquals(cur.googleId, value.googleId) &&
+                            customEquals(cur.displayedName, value.displayedName) &&
+                            customEquals(cur.role, value.role)) {
+                    instructors.put(key, cur);
+                    newInstructors.remove(cur);
+                    break;
+
+                }
+            }
+        }
+        dataBundle.instructors = instructors;
+    }
+
+    private void updateDataBundleStudents(DataBundle dataBundle, List<StudentAttributes> newStudents) {
+        Map<String, StudentAttributes> oldStudents = dataBundle.students;
+        Map<String, StudentAttributes> students = new LinkedHashMap<>();
+
+        for (Map.Entry<String, StudentAttributes> entry : oldStudents.entrySet()) {
+            String key = entry.getKey();
+            StudentAttributes value = entry.getValue();
+
+            for (StudentAttributes cur : newStudents) {
+                if (customEquals(cur.email, value.email) &&
+                            customEquals(cur.name, value.name) &&
+                            customEquals(cur.course, value.course) &&
+                            customEquals(cur.googleId, value.googleId) &&
+                            customEquals(cur.team, value.team) &&
+                            customEquals(cur.section, value.section) &&
+                            customEquals(cur.comments, value.comments)) {
+                    students.put(key, cur);
+                    newStudents.remove(cur);
+                }
+                break;
+            }
+        }
+        dataBundle.students = students;
+    }
+
+    private void updateDataBundleFeedbackSessions(DataBundle dataBundle,
+            List<FeedbackSessionAttributes> newFeedbackSessions) {
+        Map<String, FeedbackSessionAttributes> oldFeedbackSessions = dataBundle.feedbackSessions;
+        Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
+
+        for (Map.Entry<String, FeedbackSessionAttributes> entry : oldFeedbackSessions.entrySet()) {
+            String key = entry.getKey();
+            FeedbackSessionAttributes value = entry.getValue();
+
+            for (FeedbackSessionAttributes cur : newFeedbackSessions) {
+                if (customEquals(cur.getFeedbackSessionName(), value.getFeedbackSessionName()) &&
+                            customEquals(cur.getCourseId(), value.getCourseId()) &&
+                            customEquals(cur.getInstructions(), value.getInstructions()) &&
+                            customEquals(cur.getCreatorEmail(), value.getCreatorEmail())) {
+                    feedbackSessions.put(key, cur);
+                    newFeedbackSessions.remove(cur);
+                }
+                break;
+            }
+        }
+        dataBundle.feedbackSessions = feedbackSessions;
+    }
+
+    private void updateDataBundleFeedbackQuestions(DataBundle dataBundle,
+                List<FeedbackQuestionAttributes> createdQuestions) {
+        Map<String, FeedbackQuestionAttributes> oldFeedbackQuestions = dataBundle.feedbackQuestions;
+        Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
+
+        for (Map.Entry<String, FeedbackQuestionAttributes> entry : oldFeedbackQuestions.entrySet()) {
+            String key = entry.getKey();
+            FeedbackQuestionAttributes value = entry.getValue();
+
+            for (FeedbackQuestionAttributes cur : createdQuestions) {
+                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName) &&
+                            customEquals(cur.courseId, value.courseId) &&
+                            cur.questionNumber == value.questionNumber) {
+                    feedbackQuestions.put(key, cur);
+                    createdQuestions.remove(cur);
+                }
+                break;
+            }
+        }
+        dataBundle.feedbackQuestions = feedbackQuestions;
+    }
+
+    private void updateDataBundleFeedbackResponses(DataBundle dataBundle,
+                List<FeedbackResponseAttributes> newFeedbackResponses) {
+        Map<String, FeedbackResponseAttributes> oldFeedbackResponses = dataBundle.feedbackResponses;
+        Map<String, FeedbackResponseAttributes> feedbackResponses = new LinkedHashMap<>();
+
+        for (Map.Entry<String, FeedbackResponseAttributes> entry : oldFeedbackResponses.entrySet()) {
+            String key = entry.getKey();
+            FeedbackResponseAttributes value = entry.getValue();
+
+            for (FeedbackResponseAttributes cur : newFeedbackResponses) {
+                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName) &&
+                            customEquals(cur.courseId, value.courseId) &&
+                            customEquals(cur.feedbackQuestionId, value.feedbackQuestionId)) {
+                    feedbackResponses.put(key, cur);
+                    newFeedbackResponses.remove(cur);
+                }
+                break;
+            }
+        }
+        dataBundle.feedbackResponses = feedbackResponses;
+    }
+
+    private void updateDataBundleFeedbackResponseComments(DataBundle dataBundle,
+                List<FeedbackResponseCommentAttributes> newFeedbackResponseComments) {
+        Map<String, FeedbackResponseCommentAttributes> oldFeedbackResponseComments
+                = dataBundle.feedbackResponseComments;
+        Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new LinkedHashMap<>();
+
+        for (Map.Entry<String, FeedbackResponseCommentAttributes> entry : oldFeedbackResponseComments.entrySet()) {
+            String key = entry.getKey();
+            FeedbackResponseCommentAttributes value = entry.getValue();
+
+            for (FeedbackResponseCommentAttributes cur : newFeedbackResponseComments) {
+                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName) &&
+                            customEquals(cur.courseId, value.courseId) &&
+                            customEquals(cur.feedbackResponseId, value.feedbackResponseId)) {
+                    feedbackResponseComments.put(key, cur);
+                    newFeedbackResponseComments.remove(cur);
+                }
+                break;
+            }
+        }
+        dataBundle.feedbackResponseComments = feedbackResponseComments;
+    }
+
+    // Custom equals function that can handle null objects as well
+    private boolean customEquals (Object a, Object b) {
+        if (a == null && b == null) {
+            return true;
+        } else if (a == null || b == null) {
+            return false;
+        }
+        return a.equals(b);
     }
 
     /**
