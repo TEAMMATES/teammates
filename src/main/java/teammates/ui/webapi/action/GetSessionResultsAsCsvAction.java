@@ -6,10 +6,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.ExceedingRangeException;
-import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.RequestExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.ui.webapi.request.Intent;
 
 /**
  * Gets feedback session results in csv.
@@ -32,19 +31,8 @@ public class GetSessionResultsAsCsvAction extends Action {
             throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session is not found"));
         }
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        switch (intent) {
-        case INSTRUCTOR_RESULT:
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            gateKeeper.verifyAccessible(instructor, fs);
-            break;
-        case STUDENT_RESULT:
-        case INSTRUCTOR_SUBMISSION:
-        case STUDENT_SUBMISSION:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        gateKeeper.verifyAccessible(instructor, fs);
     }
 
     @Override
@@ -66,34 +54,24 @@ public class GetSessionResultsAsCsvAction extends Action {
             sectionDetail = SectionDetail.valueOf(sectionDetailValue);
         }
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        switch (intent) {
-        case INSTRUCTOR_RESULT:
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
-            try {
-                if (section == null) {
-                    fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
-                            courseId, feedbackSessionName, instructor.email,
-                            isMissingResponsesShown, isStatsShown, questionId);
-                } else {
-                    fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
-                            courseId, feedbackSessionName, instructor.email, section, sectionDetail,
-                            questionId, isMissingResponsesShown, isStatsShown);
-                }
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
-            } catch (ExceedingRangeException e) {
-                e.printStackTrace();
+        try {
+            if (section == null) {
+                fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
+                        courseId, feedbackSessionName, instructor.email,
+                        isMissingResponsesShown, isStatsShown, questionId);
+            } else {
+                fileContent = logic.getFeedbackSessionResultSummaryInSectionAsCsv(
+                        courseId, feedbackSessionName, instructor.email, section, sectionDetail,
+                        questionId, isMissingResponsesShown, isStatsShown);
             }
-
-            return new CsvResult(fileContent);
-        case STUDENT_RESULT:
-        case INSTRUCTOR_SUBMISSION:
-        case STUDENT_SUBMISSION:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        } catch (ExceedingRangeException e) {
+            throw new RequestExceedingRangeException(e);
         }
+
+        return new CsvResult(fileContent);
     }
 }
