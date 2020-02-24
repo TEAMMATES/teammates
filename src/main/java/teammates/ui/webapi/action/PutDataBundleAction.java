@@ -6,7 +6,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
-import teammates.common.util.JsonUtils; 
+import teammates.common.util.JsonUtils;
 
 /**
  * Persists a data bundle into the DB.

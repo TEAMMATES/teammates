@@ -37,7 +37,6 @@ import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.FeedbackResponse;
 
 /**
  * Handles operations related to data bundles.
@@ -124,7 +123,7 @@ public final class DataBundleLogic {
 
         List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
         List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
-        
+
         updateDataBundleAccounts(dataBundle, newAccounts);
 
         updateDataBundleProfiles(dataBundle, newProfiles);
@@ -138,7 +137,7 @@ public final class DataBundleLogic {
         updateDataBundleFeedbackResponseComments(dataBundle, newFeedbackResponseComments);
 
         return dataBundle;
-        
+
     }
 
     private void updateDataBundleAccounts(DataBundle dataBundle, List<AccountAttributes> newAccounts) {
@@ -150,15 +149,14 @@ public final class DataBundleLogic {
             AccountAttributes value = entry.getValue();
 
             for (AccountAttributes cur : newAccounts) {
-                if (customEquals(cur.email, value.email) &&
-                            customEquals(cur.name, value.name) &&
-                            customEquals(cur.institute, value.institute) &&
-                            customEquals(cur.googleId, value.googleId)) {
+                if (customEquals(cur.email, value.email)
+                            && customEquals(cur.name, value.name)
+                            && customEquals(cur.institute, value.institute)
+                            && customEquals(cur.googleId, value.googleId)) {
                     accounts.put(key, cur);
                     newAccounts.remove(cur);
                     break;
                 }
-                
             }
         }
         dataBundle.accounts = accounts;
@@ -173,17 +171,16 @@ public final class DataBundleLogic {
             StudentProfileAttributes value = entry.getValue();
 
             for (StudentProfileAttributes cur : newProfiles) {
-                if (customEquals(cur.email, value.email) &&
-                            customEquals(cur.shortName, value.shortName) &&
-                            customEquals(cur.institute, value.institute) &&
-                            customEquals(cur.googleId, value.googleId) &&
-                            customEquals(cur.gender, value.gender) &&
-                            customEquals(cur.pictureKey, value.pictureKey)) {
+                if (customEquals(cur.email, value.email)
+                            && customEquals(cur.shortName, value.shortName)
+                            && customEquals(cur.institute, value.institute)
+                            && customEquals(cur.googleId, value.googleId)
+                            && customEquals(cur.gender, value.gender)
+                            && customEquals(cur.pictureKey, value.pictureKey)) {
                     profiles.put(key, cur);
                     newProfiles.remove(cur);
                     break;
                 }
-                
             }
         }
         dataBundle.profiles = profiles;
@@ -196,15 +193,14 @@ public final class DataBundleLogic {
         for (Map.Entry<String, CourseAttributes> entry : oldCourses.entrySet()) {
             String key = entry.getKey();
             CourseAttributes value = entry.getValue();
-            
+
             for (CourseAttributes cur : newCourses) {
-                if (customEquals(cur.getId(), value.getId()) &&
-                            customEquals(cur.getName(), value.getName())) {
+                if (customEquals(cur.getId(), value.getId())
+                            && customEquals(cur.getName(), value.getName())) {
                     courses.put(key, cur);
                     newCourses.remove(cur);
                     break;
                 }
-                
             }
         }
         dataBundle.courses = courses;
@@ -219,16 +215,15 @@ public final class DataBundleLogic {
             InstructorAttributes value = entry.getValue();
 
             for (InstructorAttributes cur : newInstructors) {
-                if (customEquals(cur.email, value.email) &&
-                            customEquals(cur.name, value.name) &&
-                            customEquals(cur.courseId, value.courseId) &&
-                            customEquals(cur.googleId, value.googleId) &&
-                            customEquals(cur.displayedName, value.displayedName) &&
-                            customEquals(cur.role, value.role)) {
+                if (customEquals(cur.email, value.email)
+                            && customEquals(cur.name, value.name)
+                            && customEquals(cur.courseId, value.courseId)
+                            && customEquals(cur.googleId, value.googleId)
+                            && customEquals(cur.displayedName, value.displayedName)
+                            && customEquals(cur.role, value.role)) {
                     instructors.put(key, cur);
                     newInstructors.remove(cur);
                     break;
-
                 }
             }
         }
@@ -244,18 +239,17 @@ public final class DataBundleLogic {
             StudentAttributes value = entry.getValue();
 
             for (StudentAttributes cur : newStudents) {
-                if (customEquals(cur.email, value.email) &&
-                            customEquals(cur.name, value.name) &&
-                            customEquals(cur.course, value.course) &&
-                            customEquals(cur.googleId, value.googleId) &&
-                            customEquals(cur.team, value.team) &&
-                            customEquals(cur.section, value.section) &&
-                            customEquals(cur.comments, value.comments)) {
+                if (customEquals(cur.email, value.email)
+                            && customEquals(cur.name, value.name)
+                            && customEquals(cur.course, value.course)
+                            && customEquals(cur.googleId, value.googleId)
+                            && customEquals(cur.team, value.team)
+                            && customEquals(cur.section, value.section)
+                            && customEquals(cur.comments, value.comments)) {
                     students.put(key, cur);
                     newStudents.remove(cur);
                     break;
                 }
-                
             }
         }
         dataBundle.students = students;
@@ -271,15 +265,14 @@ public final class DataBundleLogic {
             FeedbackSessionAttributes value = entry.getValue();
 
             for (FeedbackSessionAttributes cur : newFeedbackSessions) {
-                if (customEquals(cur.getFeedbackSessionName(), value.getFeedbackSessionName()) &&
-                            customEquals(cur.getCourseId(), value.getCourseId()) &&
-                            customEquals(cur.getInstructions(), value.getInstructions()) &&
-                            customEquals(cur.getCreatorEmail(), value.getCreatorEmail())) {
+                if (customEquals(cur.getFeedbackSessionName(), value.getFeedbackSessionName())
+                            && customEquals(cur.getCourseId(), value.getCourseId())
+                            && customEquals(cur.getInstructions(), value.getInstructions())
+                            && customEquals(cur.getCreatorEmail(), value.getCreatorEmail())) {
                     feedbackSessions.put(key, cur);
                     newFeedbackSessions.remove(cur);
                     break;
                 }
-                
             }
         }
         dataBundle.feedbackSessions = feedbackSessions;
@@ -295,14 +288,13 @@ public final class DataBundleLogic {
             FeedbackQuestionAttributes value = entry.getValue();
 
             for (FeedbackQuestionAttributes cur : createdQuestions) {
-                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName) &&
-                            customEquals(cur.courseId, value.courseId) &&
-                            cur.questionNumber == value.questionNumber) {
+                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName)
+                            && customEquals(cur.courseId, value.courseId)
+                            && cur.questionNumber == value.questionNumber) {
                     feedbackQuestions.put(key, cur);
                     createdQuestions.remove(cur);
                     break;
                 }
-                
             }
         }
         dataBundle.feedbackQuestions = feedbackQuestions;
@@ -318,14 +310,13 @@ public final class DataBundleLogic {
             FeedbackResponseAttributes value = entry.getValue();
 
             for (FeedbackResponseAttributes cur : newFeedbackResponses) {
-                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName) &&
-                            customEquals(cur.courseId, value.courseId) &&
-                            customEquals(cur.feedbackQuestionId, value.feedbackQuestionId)) {
+                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName)
+                            && customEquals(cur.courseId, value.courseId)
+                            && customEquals(cur.feedbackQuestionId, value.feedbackQuestionId)) {
                     feedbackResponses.put(key, cur);
                     newFeedbackResponses.remove(cur);
                     break;
                 }
-                
             }
         }
         dataBundle.feedbackResponses = feedbackResponses;
@@ -333,8 +324,8 @@ public final class DataBundleLogic {
 
     private void updateDataBundleFeedbackResponseComments(DataBundle dataBundle,
                 List<FeedbackResponseCommentAttributes> newFeedbackResponseComments) {
-        Map<String, FeedbackResponseCommentAttributes> oldFeedbackResponseComments
-                = dataBundle.feedbackResponseComments;
+        Map<String, FeedbackResponseCommentAttributes> oldFeedbackResponseComments =
+                dataBundle.feedbackResponseComments;
         Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new LinkedHashMap<>();
 
         for (Map.Entry<String, FeedbackResponseCommentAttributes> entry : oldFeedbackResponseComments.entrySet()) {
@@ -342,9 +333,9 @@ public final class DataBundleLogic {
             FeedbackResponseCommentAttributes value = entry.getValue();
 
             for (FeedbackResponseCommentAttributes cur : newFeedbackResponseComments) {
-                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName) &&
-                            customEquals(cur.courseId, value.courseId) &&
-                            customEquals(cur.feedbackResponseId, value.feedbackResponseId)) {
+                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName)
+                            && customEquals(cur.courseId, value.courseId)
+                            && customEquals(cur.feedbackResponseId, value.feedbackResponseId)) {
                     feedbackResponseComments.put(key, cur);
                     newFeedbackResponseComments.remove(cur);
                     break;
@@ -355,7 +346,7 @@ public final class DataBundleLogic {
     }
 
     // Custom equals function that can handle null objects as well
-    private boolean customEquals (Object a, Object b) {
+    private boolean customEquals(Object a, Object b) {
         if (a == null && b == null) {
             return true;
         } else if (a == null || b == null) {

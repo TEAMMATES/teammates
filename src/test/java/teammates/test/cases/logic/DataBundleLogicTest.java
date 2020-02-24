@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.DataBundleLogic;
-import teammates.storage.entity.FeedbackResponse;
 
 /**
  * SUT: {@link DataBundleLogic}.
