@@ -144,7 +144,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         assertEquals(expectedProfile.nationality, actualProfile.getNationality());
         assertEquals(expectedProfile.gender, actualProfile.getGender());
     }
-    
+
     @Test
     @Override
     protected void testAccessControl() throws Exception {
