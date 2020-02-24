@@ -239,7 +239,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
             ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
             backDoorOperationStatus = doRemoveAndRestoreDataBundle(testData);
         }
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        assertFalse(Const.StatusCodes.BACKDOOR_STATUS_FAILURE.equals(backDoorOperationStatus));
     }
 
     protected abstract String doRemoveAndRestoreDataBundle(DataBundle testData);

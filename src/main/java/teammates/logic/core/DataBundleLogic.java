@@ -112,6 +112,7 @@ public final class DataBundleLogic {
         processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
         List<AccountAttributes> newAccounts = accountsDb.putEntities(googleIdAccountMap.values());
+
         List<StudentProfileAttributes> newProfiles = profilesDb.putEntities(profiles);
         List<CourseAttributes> newCourses = coursesDb.putEntities(courses);
         List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
@@ -155,8 +156,9 @@ public final class DataBundleLogic {
                             customEquals(cur.googleId, value.googleId)) {
                     accounts.put(key, cur);
                     newAccounts.remove(cur);
+                    break;
                 }
-                break;
+                
             }
         }
         dataBundle.accounts = accounts;
@@ -179,8 +181,9 @@ public final class DataBundleLogic {
                             customEquals(cur.pictureKey, value.pictureKey)) {
                     profiles.put(key, cur);
                     newProfiles.remove(cur);
+                    break;
                 }
-                break;
+                
             }
         }
         dataBundle.profiles = profiles;
@@ -199,8 +202,9 @@ public final class DataBundleLogic {
                             customEquals(cur.getName(), value.getName())) {
                     courses.put(key, cur);
                     newCourses.remove(cur);
+                    break;
                 }
-                break;
+                
             }
         }
         dataBundle.courses = courses;
@@ -249,8 +253,9 @@ public final class DataBundleLogic {
                             customEquals(cur.comments, value.comments)) {
                     students.put(key, cur);
                     newStudents.remove(cur);
+                    break;
                 }
-                break;
+                
             }
         }
         dataBundle.students = students;
@@ -272,8 +277,9 @@ public final class DataBundleLogic {
                             customEquals(cur.getCreatorEmail(), value.getCreatorEmail())) {
                     feedbackSessions.put(key, cur);
                     newFeedbackSessions.remove(cur);
+                    break;
                 }
-                break;
+                
             }
         }
         dataBundle.feedbackSessions = feedbackSessions;
@@ -294,8 +300,9 @@ public final class DataBundleLogic {
                             cur.questionNumber == value.questionNumber) {
                     feedbackQuestions.put(key, cur);
                     createdQuestions.remove(cur);
+                    break;
                 }
-                break;
+                
             }
         }
         dataBundle.feedbackQuestions = feedbackQuestions;
@@ -316,8 +323,9 @@ public final class DataBundleLogic {
                             customEquals(cur.feedbackQuestionId, value.feedbackQuestionId)) {
                     feedbackResponses.put(key, cur);
                     newFeedbackResponses.remove(cur);
+                    break;
                 }
-                break;
+                
             }
         }
         dataBundle.feedbackResponses = feedbackResponses;
@@ -339,8 +347,8 @@ public final class DataBundleLogic {
                             customEquals(cur.feedbackResponseId, value.feedbackResponseId)) {
                     feedbackResponseComments.put(key, cur);
                     newFeedbackResponseComments.remove(cur);
+                    break;
                 }
-                break;
             }
         }
         dataBundle.feedbackResponseComments = feedbackResponseComments;
