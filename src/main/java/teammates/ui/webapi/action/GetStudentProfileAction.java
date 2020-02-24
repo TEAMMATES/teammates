@@ -72,6 +72,12 @@ public class GetStudentProfileAction extends Action {
             studentProfile = StudentProfileAttributes.builder(studentId).build();
         }
 
+        // If student requesting and is not the student's own profile, hide some fields
+        if (userInfo.isStudent && studentId.equals(userInfo.id)) {
+            studentProfile.email = null;
+            studentProfile.shortName = null;
+        }
+
         StudentProfileData output = new StudentProfileData(name, studentProfile);
         return new JsonResult(output);
     }

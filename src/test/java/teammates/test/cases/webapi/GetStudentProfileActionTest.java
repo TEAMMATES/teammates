@@ -113,6 +113,23 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
     }
 
+    @Test
+    public void testExecute_getProfileOfTeammate_shouldReturnProfileButWithNullEmail() throws Exception {
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
+        AccountAttributes student2InCourse1Account = typicalBundle.accounts.get("student2InCourse1");
+        String expectedName = student2InCourse1Account.name;
+        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student2InCourse1.googleId).build();
+        expectedProfile.email = null;
+        expectedProfile.shortName = null;
+        loginAsStudent(student1InCourse1.googleId);
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.STUDENT_EMAIL, student2InCourse1.email,
+                Const.ParamsNames.COURSE_ID, student2InCourse1.getCourse(),
+        };
+        testGetCorrectProfile(expectedProfile, expectedName, submissionParams);
+    }
+
     private void testGetCorrectProfile(StudentProfileAttributes expectedProfile,
                                        String expectedName, String... submissionParams) {
         GetStudentProfileAction action = getAction(submissionParams);
@@ -127,7 +144,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         assertEquals(expectedProfile.nationality, actualProfile.getNationality());
         assertEquals(expectedProfile.gender, actualProfile.getGender());
     }
-
+    
     @Test
     @Override
     protected void testAccessControl() throws Exception {

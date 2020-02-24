@@ -114,8 +114,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                       + `?courseid=${courseId}&studentemail=${student.email}`;
 
                     const newTeammateProfile: StudentProfileWithPicture = {
-                      // Use student.email as studentProfile.email is the long term email which should not be shown
-                      studentProfile: { ...studentProfile, email: student.email },
+                      studentProfile: { 
+                        ...studentProfile,
+                        email: student.email,
+                        shortName: student.name
+                      },
                       photoUrl : newPhotoUrl,
                     };
 
