@@ -260,12 +260,24 @@ public final class BackDoor {
     }
 
     /**
-     * Gets the ID of an feedback question from the datastore.
+     * Gets the ID of an feedback question from the datastore, by passing in the courseId, feedbackSessionName
+     * and the question number. This method is used by external classes who needs the feedbackQuestionId,
+     * since it is only generated when the feedbackQuestion is added to the server.
      */
     public static String getFeedbackQuestionId(String courseId, String fsName, int questionNumber) {
         Map<String, String[]> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
         params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] {fsName});
+
+        /*
+        "INSTRUCTOR_RESULT" intent is used for the following reasons:
+         1. In getFeedbackQuestionsAction.java, it provides all feedback questions in the session without
+            checking for logged instructors.
+         2. Using backdoor api grants the request full privilige, which passes the privilige check that
+            occurs right before the retrieval takes place for INSTRUCTOR_RESULT intent.
+         3. It was unnecessary to add an entire new intent just for this specific usage, when another intent
+            could do the same job. This may change in the future when more requests require backdoor-specific intent.
+        */
         params.put(Const.ParamsNames.INTENT, new String[] {"INSTRUCTOR_RESULT"});
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.QUESTIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
