@@ -7,18 +7,18 @@ import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import {
-  FeedbackQuestion,
-  FeedbackQuestions,
-  FeedbackSession,
-  FeedbackSessionStats,
-  InstructorPrivilege,
+    FeedbackQuestion,
+    FeedbackQuestions,
+    FeedbackSession,
+    FeedbackSessionStats,
+    InstructorPrivilege,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import {
-  CopySessionResult,
-  SessionsTableRowModel,
-  SortBy,
-  SortOrder,
+    CopySessionResult,
+    SessionsTableRowModel,
+    SortBy,
+    SortOrder,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 
@@ -61,12 +61,11 @@ export abstract class InstructorSessionBasePageComponent {
           createdFeedbackSession = feedbackSession;
 
           // copy questions
-          const param: { [key: string]: string } = {
-            courseid: fromFeedbackSession.courseId,
-            fsname: fromFeedbackSession.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-          };
-          return this.feedbackQuestionsService.getFeedbackQuestions(param);
+          return this.feedbackQuestionsService.getFeedbackQuestions(
+              fromFeedbackSession.courseId,
+              fromFeedbackSession.feedbackSessionName,
+              Intent.FULL_DETAIL,
+          );
         }),
         switchMap((response: FeedbackQuestions) => {
           if (response.questions.length === 0) {
@@ -153,11 +152,11 @@ export abstract class InstructorSessionBasePageComponent {
    * Updates the instructor privilege in {@code SessionsTableRowModel}.
    */
   protected updateInstructorPrivilege(model: SessionsTableRowModel): void {
-    const paramsMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-    this.instructorService.loadInstructorPrivilege(paramsMap).subscribe((instructorPrivilege: InstructorPrivilege) => {
+    this.instructorService.loadInstructorPrivilege(
+        model.feedbackSession.courseId,
+        undefined,
+        model.feedbackSession.feedbackSessionName,
+    ).subscribe((instructorPrivilege: InstructorPrivilege) => {
       model.instructorPrivilege = instructorPrivilege;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);

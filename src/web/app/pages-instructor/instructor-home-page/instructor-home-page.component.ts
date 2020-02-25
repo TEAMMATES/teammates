@@ -5,7 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -68,18 +68,18 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   hasCoursesLoaded: boolean = false;
 
   constructor(router: Router,
-              httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
               modalService: NgbModal,
               studentService: StudentService,
+              instructorService: InstructorService,
               private courseService: CourseService,
               private ngbModal: NgbModal,
               private timezoneService: TimezoneService,
               private loadingBarService: LoadingBarService) {
-    super(router, httpRequestService, statusMessageService, navigationService,
+    super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
     // need timezone data for moment()
     this.timezoneService.getTzVersion();
@@ -160,43 +160,40 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   loadCourses(): void {
     this.courseTabModels = [];
     this.loadingBarService.showLoadingBar();
-    this.httpRequestService.get('/courses', {
-      entitytype: 'instructor',
-      coursestatus: 'active',
-    }).pipe(finalize(() => {
-      this.loadingBarService.hideLoadingBar();
-      this.hasCoursesLoaded = true;
-    })).subscribe((courses: Courses) => {
-      courses.courses.forEach((course: Course) => {
-        const model: CourseTabModel = {
-          course,
-          instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
-          sessionsTableRowModels: [],
-          isTabExpanded: false,
-          isAjaxSuccess: true,
-          hasPopulated: false,
-          sessionsTableRowModelsSortBy: SortBy.NONE,
-          sessionsTableRowModelsSortOrder: SortOrder.ASC,
-        };
+    this.courseService.getInstructorCoursesThatAreActive()
+      .pipe(finalize(() => {
+        this.loadingBarService.hideLoadingBar();
+        this.hasCoursesLoaded = true;
+      })).subscribe((courses: Courses) => {
+        courses.courses.forEach((course: Course) => {
+          const model: CourseTabModel = {
+            course,
+            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            sessionsTableRowModels: [],
+            isTabExpanded: false,
+            isAjaxSuccess: true,
+            hasPopulated: false,
+            sessionsTableRowModelsSortBy: SortBy.NONE,
+            sessionsTableRowModelsSortOrder: SortOrder.ASC,
+          };
 
-        this.courseTabModels.push(model);
-        this.updateCourseInstructorPrivilege(model);
-      });
-      this.sortCoursesBy(this.instructorCoursesSortBy);
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.courseTabModels.push(model);
+          this.updateCourseInstructorPrivilege(model);
+        });
+        this.sortCoursesBy(this.instructorCoursesSortBy);
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
    * Updates the instructor privilege in {@code CourseTabModel}.
    */
   updateCourseInstructorPrivilege(model: CourseTabModel): void {
-    this.httpRequestService.get('/instructor/privilege', {
-      courseid: model.course.courseId,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      model.instructorPrivilege = instructorPrivilege;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    this.instructorService.loadInstructorPrivilege(model.course.courseId)
+      .subscribe((instructorPrivilege: InstructorPrivilege) => {
+        model.instructorPrivilege = instructorPrivilege;
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**
@@ -320,12 +317,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   moveSessionToRecycleBinEventHandler(tabIndex: number, rowIndex: number): void {
     const model: SessionsTableRowModel = this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex];
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
 
-    this.httpRequestService.put('/bin/session', paramMap)
+    this.feedbackSessionsService.moveSessionToRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe(() => {
           this.courseTabModels[tabIndex].sessionsTableRowModels.splice(
               this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model), 1);

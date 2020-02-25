@@ -13,7 +13,7 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
-import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest } from '../types/api-request';
+import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest, Intent } from '../types/api-request';
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS, DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
@@ -512,7 +512,12 @@ export class FeedbackQuestionsService {
   /**
    * Gets feedback questions.
    */
-  getFeedbackQuestions(paramMap: { [key: string]: string }): Observable<FeedbackQuestions> {
+  getFeedbackQuestions(courseId: string, feedbackSessionName: string, intent: Intent): Observable<FeedbackQuestions> {
+    const paramMap: { [key: string]: string } = {
+      intent,
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
     return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);
   }
 
@@ -544,6 +549,15 @@ export class FeedbackQuestionsService {
     const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
 
     return this.httpRequestService.put(ResourceEndpoints.QUESTION, paramMap, request);
+  }
+
+  /**
+   * Deletes a feedback question
+   */
+  deleteFeedbackQuestion(feedbackQuestionId: string): Observable<any> {
+    const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
+
+    return this.httpRequestService.delete('/question', paramMap);
   }
 
 }
