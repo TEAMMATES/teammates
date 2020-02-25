@@ -8,9 +8,10 @@ import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
@@ -157,16 +158,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   emailOfInstructorToPreview: string = '';
 
   constructor(router: Router,
-              httpRequestService: HttpRequestService,
+              instructorService: InstructorService,
               statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
+              private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
               private modalService: NgbModal) {
-    super(router, httpRequestService, statusMessageService, navigationService,
+    super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService);
   }
 
@@ -204,23 +206,20 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
-    this.httpRequestService.get('/courses', {
-      entitytype: 'instructor',
-      coursestatus: 'active',
-    }).subscribe((courses: Courses) => {
+    this.courseService.getInstructorCoursesThatAreActive()
+    .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.modalService.open(CopySessionModalComponent);
       modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
       modalRef.componentInstance.courseCandidates = courses.courses;
       modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
       modalRef.result.then((result: CopySessionModalResult) => {
-        const paramMap: { [key: string]: string } = {
-          courseid: this.courseId,
-          fsname: this.feedbackSessionName,
-          intent: Intent.FULL_DETAIL,
-        };
-
-        this.httpRequestService.get('/session', paramMap).pipe(
+        this.feedbackSessionsService.getFeedbackSession(
+            this.courseId,
+            this.feedbackSessionName,
+            Intent.FULL_DETAIL,
+        )
+            .pipe(
             switchMap((feedbackSession: FeedbackSession) =>
                 this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)),
         ).subscribe((createdSession: FeedbackSession) => {
@@ -395,8 +394,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles deleting current feedback session.
    */
   deleteExistingSessionHandler(): void {
-    const paramMap: { [key: string]: string } = { courseid: this.courseId, fsname: this.feedbackSessionName };
-    this.httpRequestService.put('/bin/session', paramMap).subscribe(() => {
+    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName).subscribe(() => {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
           'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
     }, (resp: ErrorMessageOutput) => {
@@ -408,12 +406,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads feedback questions.
    */
   loadFeedbackQuestions(): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      fsname: this.feedbackSessionName,
-      intent: Intent.FULL_DETAIL,
-    };
-    this.httpRequestService.get('/questions', paramMap)
+    this.feedbackQuestionsService.getFeedbackQuestions(this.courseId, this.feedbackSessionName, Intent.FULL_DETAIL)
         .subscribe((response: FeedbackQuestions) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const addedQuestionEditFormModel: QuestionEditFormModel = this.getQuestionEditFormModel(feedbackQuestion);
@@ -597,9 +590,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   deleteExistingQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
-    const paramMap: { [key: string]: string } = { questionid: questionEditFormModel.feedbackQuestionId };
-
-    this.httpRequestService.delete('/question', paramMap).subscribe(
+    this.feedbackQuestionsService.deleteFeedbackQuestion(questionEditFormModel.feedbackQuestionId).subscribe(
         () => {
           // remove form model
           this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
@@ -737,12 +728,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
         switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
         flatMap((session: FeedbackSession) => {
-          const paramMap: { [key: string]: string } = {
-            courseid: session.courseId,
-            fsname: session.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-          };
-          return this.httpRequestService.get('/questions', paramMap)
+          return this.feedbackQuestionsService.getFeedbackQuestions(
+              session.courseId,
+              session.feedbackSessionName,
+              Intent.FULL_DETAIL,
+          )
               .pipe(
                   map((questions: FeedbackQuestions) => {
                     return questions.questions.map((q: FeedbackQuestion) => ({
@@ -818,10 +808,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets all students of a course.
    */
   getAllStudentsOfCourse(): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseId,
-    };
-    this.httpRequestService.get('/students', paramMap)
+    this.studentService.getStudentsFromCourse(this.courseId)
         .subscribe((students: Students) => {
           this.studentsOfCourse = students.students;
 
@@ -845,11 +832,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets all instructors of a course which can be previewed as.
    */
   getAllInstructorsCanBePreviewedAs(): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      intent: Intent.FULL_DETAIL,
-    };
-    this.httpRequestService.get('/instructors', paramMap)
+    this.instructorService.getInstructorsFromCourse(this.courseId, Intent.FULL_DETAIL)
         .subscribe((instructors: Instructors) => {
           this.instructorsCanBePreviewedAs = instructors.instructors;
 

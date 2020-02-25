@@ -76,6 +76,14 @@ export class FeedbackSessionsService {
   }
 
   /**
+   * Deletes a feedback session by calling API.
+   */
+  deleteFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+    const paramMap: { [key: string]: string } = { courseid: courseId, fsname: feedbackSessionName };
+    return this.httpRequestService.delete(ResourceEndpoints.SESSION, paramMap);
+  }
+
+  /**
    * Gets all ongoing session by calling API.
    */
   getOngoingSessions(startTime: number, endTime: number): Observable<OngoingSessions> {
@@ -240,5 +248,23 @@ export class FeedbackSessionsService {
     };
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_STATS, paramMap);
+  }
+
+  moveSessionToRecycleBin(courseId: string, feedbackSessionName: string): Observable<any> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.BIN_SESSION, paramMap);
+  }
+
+  deleteSessionFromRecycleBin(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.delete(ResourceEndpoints.BIN_SESSION, paramMap);
   }
 }
