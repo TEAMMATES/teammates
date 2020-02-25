@@ -142,21 +142,20 @@ public final class DataBundleLogic {
 
     private void updateDataBundleAccounts(DataBundle dataBundle, List<AccountAttributes> newAccounts) {
         Map<String, AccountAttributes> oldAccounts = dataBundle.accounts;
+        Map<AccountAttributes, Integer> newAccountsMap = new HashMap<>();
         Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
+
+        for (int i = 0; i < newAccounts.size(); i++) {
+            newAccountsMap.put(newAccounts.get(i), i);
+        }
 
         for (Map.Entry<String, AccountAttributes> entry : oldAccounts.entrySet()) {
             String key = entry.getKey();
             AccountAttributes value = entry.getValue();
 
-            for (AccountAttributes cur : newAccounts) {
-                if (customEquals(cur.email, value.email)
-                            && customEquals(cur.name, value.name)
-                            && customEquals(cur.institute, value.institute)
-                            && customEquals(cur.googleId, value.googleId)) {
-                    accounts.put(key, cur);
-                    newAccounts.remove(cur);
-                    break;
-                }
+            if (newAccountsMap.containsKey(value)) {
+                int index = newAccountsMap.get(value);
+                accounts.put(key, newAccounts.get(index));
             }
         }
         dataBundle.accounts = accounts;
@@ -164,23 +163,19 @@ public final class DataBundleLogic {
 
     private void updateDataBundleProfiles(DataBundle dataBundle, List<StudentProfileAttributes> newProfiles) {
         Map<String, StudentProfileAttributes> oldProfiles = dataBundle.profiles;
+        Map<StudentProfileAttributes, Integer> newProfilesMap = new HashMap<>();
         Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
+
+        for (int i = 0; i < newProfiles.size(); i++) {
+            newProfilesMap.put(newProfiles.get(i), i);
+        }
 
         for (Map.Entry<String, StudentProfileAttributes> entry : oldProfiles.entrySet()) {
             String key = entry.getKey();
             StudentProfileAttributes value = entry.getValue();
-
-            for (StudentProfileAttributes cur : newProfiles) {
-                if (customEquals(cur.email, value.email)
-                            && customEquals(cur.shortName, value.shortName)
-                            && customEquals(cur.institute, value.institute)
-                            && customEquals(cur.googleId, value.googleId)
-                            && customEquals(cur.gender, value.gender)
-                            && customEquals(cur.pictureKey, value.pictureKey)) {
-                    profiles.put(key, cur);
-                    newProfiles.remove(cur);
-                    break;
-                }
+            if (newProfilesMap.containsKey(value)) {
+                int index = newProfilesMap.get(value);
+                profiles.put(key, newProfiles.get(index));
             }
         }
         dataBundle.profiles = profiles;
@@ -188,19 +183,19 @@ public final class DataBundleLogic {
 
     private void updateDataBundleCourses(DataBundle dataBundle, List<CourseAttributes> newCourses) {
         Map<String, CourseAttributes> oldCourses = dataBundle.courses;
+        Map<CourseAttributes, Integer> newCoursesMap = new HashMap<>();
         Map<String, CourseAttributes> courses = new LinkedHashMap<>();
+
+        for (int i = 0; i < newCourses.size(); i++) {
+            newCoursesMap.put(newCourses.get(i), i);
+        }
 
         for (Map.Entry<String, CourseAttributes> entry : oldCourses.entrySet()) {
             String key = entry.getKey();
             CourseAttributes value = entry.getValue();
-
-            for (CourseAttributes cur : newCourses) {
-                if (customEquals(cur.getId(), value.getId())
-                            && customEquals(cur.getName(), value.getName())) {
-                    courses.put(key, cur);
-                    newCourses.remove(cur);
-                    break;
-                }
+            if (newCoursesMap.containsKey(value)) {
+                int index = newCoursesMap.get(value);
+                courses.put(key, newCourses.get(index));
             }
         }
         dataBundle.courses = courses;
@@ -208,23 +203,20 @@ public final class DataBundleLogic {
 
     private void updateDataBundleInstructors(DataBundle dataBundle, List<InstructorAttributes> newInstructors) {
         Map<String, InstructorAttributes> oldInstructors = dataBundle.instructors;
+        Map<InstructorAttributes, Integer> newInstructorsMap = new HashMap<>();
         Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
+
+        for (int i = 0; i < newInstructors.size(); i++) {
+            newInstructorsMap.put(newInstructors.get(i), i);
+        }
 
         for (Map.Entry<String, InstructorAttributes> entry : oldInstructors.entrySet()) {
             String key = entry.getKey();
             InstructorAttributes value = entry.getValue();
 
-            for (InstructorAttributes cur : newInstructors) {
-                if (customEquals(cur.email, value.email)
-                            && customEquals(cur.name, value.name)
-                            && customEquals(cur.courseId, value.courseId)
-                            && customEquals(cur.googleId, value.googleId)
-                            && customEquals(cur.displayedName, value.displayedName)
-                            && customEquals(cur.role, value.role)) {
-                    instructors.put(key, cur);
-                    newInstructors.remove(cur);
-                    break;
-                }
+            if (newInstructorsMap.containsKey(value)) {
+                int index = newInstructorsMap.get(value);
+                instructors.put(key, newInstructors.get(index));
             }
         }
         dataBundle.instructors = instructors;
@@ -232,24 +224,20 @@ public final class DataBundleLogic {
 
     private void updateDataBundleStudents(DataBundle dataBundle, List<StudentAttributes> newStudents) {
         Map<String, StudentAttributes> oldStudents = dataBundle.students;
+        Map<StudentAttributes, Integer> newStudentsMap = new HashMap<>();
         Map<String, StudentAttributes> students = new LinkedHashMap<>();
+
+        for (int i = 0; i < newStudents.size(); i++) {
+            newStudentsMap.put(newStudents.get(i), i);
+        }
 
         for (Map.Entry<String, StudentAttributes> entry : oldStudents.entrySet()) {
             String key = entry.getKey();
             StudentAttributes value = entry.getValue();
 
-            for (StudentAttributes cur : newStudents) {
-                if (customEquals(cur.email, value.email)
-                            && customEquals(cur.name, value.name)
-                            && customEquals(cur.course, value.course)
-                            && customEquals(cur.googleId, value.googleId)
-                            && customEquals(cur.team, value.team)
-                            && customEquals(cur.section, value.section)
-                            && customEquals(cur.comments, value.comments)) {
-                    students.put(key, cur);
-                    newStudents.remove(cur);
-                    break;
-                }
+            if (newStudentsMap.containsKey(value)) {
+                int index = newStudentsMap.get(value);
+                students.put(key, newStudents.get(index));
             }
         }
         dataBundle.students = students;
@@ -258,21 +246,20 @@ public final class DataBundleLogic {
     private void updateDataBundleFeedbackSessions(DataBundle dataBundle,
             List<FeedbackSessionAttributes> newFeedbackSessions) {
         Map<String, FeedbackSessionAttributes> oldFeedbackSessions = dataBundle.feedbackSessions;
+        Map<FeedbackSessionAttributes, Integer> newFeedbackSessionsMap = new HashMap<>();
         Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
+
+        for (int i = 0; i < newFeedbackSessions.size(); i++) {
+            newFeedbackSessionsMap.put(newFeedbackSessions.get(i), i);
+        }
 
         for (Map.Entry<String, FeedbackSessionAttributes> entry : oldFeedbackSessions.entrySet()) {
             String key = entry.getKey();
             FeedbackSessionAttributes value = entry.getValue();
 
-            for (FeedbackSessionAttributes cur : newFeedbackSessions) {
-                if (customEquals(cur.getFeedbackSessionName(), value.getFeedbackSessionName())
-                            && customEquals(cur.getCourseId(), value.getCourseId())
-                            && customEquals(cur.getInstructions(), value.getInstructions())
-                            && customEquals(cur.getCreatorEmail(), value.getCreatorEmail())) {
-                    feedbackSessions.put(key, cur);
-                    newFeedbackSessions.remove(cur);
-                    break;
-                }
+            if (newFeedbackSessionsMap.containsKey(value)) {
+                int index = newFeedbackSessionsMap.get(value);
+                feedbackSessions.put(key, newFeedbackSessions.get(index));
             }
         }
         dataBundle.feedbackSessions = feedbackSessions;
@@ -281,20 +268,20 @@ public final class DataBundleLogic {
     private void updateDataBundleFeedbackQuestions(DataBundle dataBundle,
                 List<FeedbackQuestionAttributes> createdQuestions) {
         Map<String, FeedbackQuestionAttributes> oldFeedbackQuestions = dataBundle.feedbackQuestions;
+        Map<FeedbackQuestionAttributes, Integer> newFeedbackQuestionsMap = new HashMap<>();
         Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
+
+        for (int i = 0; i < createdQuestions.size(); i++) {
+            newFeedbackQuestionsMap.put(createdQuestions.get(i), i);
+        }
 
         for (Map.Entry<String, FeedbackQuestionAttributes> entry : oldFeedbackQuestions.entrySet()) {
             String key = entry.getKey();
             FeedbackQuestionAttributes value = entry.getValue();
 
-            for (FeedbackQuestionAttributes cur : createdQuestions) {
-                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName)
-                            && customEquals(cur.courseId, value.courseId)
-                            && cur.questionNumber == value.questionNumber) {
-                    feedbackQuestions.put(key, cur);
-                    createdQuestions.remove(cur);
-                    break;
-                }
+            if (newFeedbackQuestionsMap.containsKey(value)) {
+                int index = newFeedbackQuestionsMap.get(value);
+                feedbackQuestions.put(key, createdQuestions.get(index));
             }
         }
         dataBundle.feedbackQuestions = feedbackQuestions;
@@ -303,20 +290,20 @@ public final class DataBundleLogic {
     private void updateDataBundleFeedbackResponses(DataBundle dataBundle,
                 List<FeedbackResponseAttributes> newFeedbackResponses) {
         Map<String, FeedbackResponseAttributes> oldFeedbackResponses = dataBundle.feedbackResponses;
+        Map<FeedbackResponseAttributes, Integer> newFeedbackResponsesMap = new HashMap<>();
         Map<String, FeedbackResponseAttributes> feedbackResponses = new LinkedHashMap<>();
+
+        for (int i = 0; i < newFeedbackResponses.size(); i++) {
+            newFeedbackResponsesMap.put(newFeedbackResponses.get(i), i);
+        }
 
         for (Map.Entry<String, FeedbackResponseAttributes> entry : oldFeedbackResponses.entrySet()) {
             String key = entry.getKey();
             FeedbackResponseAttributes value = entry.getValue();
 
-            for (FeedbackResponseAttributes cur : newFeedbackResponses) {
-                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName)
-                            && customEquals(cur.courseId, value.courseId)
-                            && customEquals(cur.feedbackQuestionId, value.feedbackQuestionId)) {
-                    feedbackResponses.put(key, cur);
-                    newFeedbackResponses.remove(cur);
-                    break;
-                }
+            if (newFeedbackResponsesMap.containsKey(value)) {
+                int index = newFeedbackResponsesMap.get(value);
+                feedbackResponses.put(key, newFeedbackResponses.get(index));
             }
         }
         dataBundle.feedbackResponses = feedbackResponses;
@@ -326,33 +313,23 @@ public final class DataBundleLogic {
                 List<FeedbackResponseCommentAttributes> newFeedbackResponseComments) {
         Map<String, FeedbackResponseCommentAttributes> oldFeedbackResponseComments =
                 dataBundle.feedbackResponseComments;
+        Map<FeedbackResponseCommentAttributes, Integer> newFeedbackResponseCommentsMap = new HashMap<>();
         Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new LinkedHashMap<>();
+
+        for (int i = 0; i < newFeedbackResponseComments.size(); i++) {
+            newFeedbackResponseCommentsMap.put(newFeedbackResponseComments.get(i), i);
+        }
 
         for (Map.Entry<String, FeedbackResponseCommentAttributes> entry : oldFeedbackResponseComments.entrySet()) {
             String key = entry.getKey();
             FeedbackResponseCommentAttributes value = entry.getValue();
 
-            for (FeedbackResponseCommentAttributes cur : newFeedbackResponseComments) {
-                if (customEquals(cur.feedbackSessionName, value.feedbackSessionName)
-                            && customEquals(cur.courseId, value.courseId)
-                            && customEquals(cur.feedbackResponseId, value.feedbackResponseId)) {
-                    feedbackResponseComments.put(key, cur);
-                    newFeedbackResponseComments.remove(cur);
-                    break;
-                }
+            if (newFeedbackResponseCommentsMap.containsKey(value)) {
+                int index = newFeedbackResponseCommentsMap.get(value);
+                feedbackResponseComments.put(key, newFeedbackResponseComments.get(index));
             }
         }
         dataBundle.feedbackResponseComments = feedbackResponseComments;
-    }
-
-    // Custom equals function that can handle null objects as well
-    private boolean customEquals(Object a, Object b) {
-        if (a == null && b == null) {
-            return true;
-        } else if (a == null || b == null) {
-            return false;
-        }
-        return a.equals(b);
     }
 
     /**

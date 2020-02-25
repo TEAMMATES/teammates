@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import static teammates.common.util.CustomLogic.customEquals;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -370,15 +372,25 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
     }
 
-
     @Override
     public int hashCode() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.feedbackSessionName);
-        stringBuilder.append(this.courseId);
-        stringBuilder.append(this.instructions);
-        stringBuilder.append(this.creatorEmail);
+        stringBuilder.append(this.feedbackSessionName).append(this.courseId)
+                .append(this.instructions).append(this.creatorEmail);
         return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.getClass() == other.getClass()) {
+            FeedbackSessionAttributes otherFeedbackSession = (FeedbackSessionAttributes) other;
+            return customEquals(this.feedbackSessionName, otherFeedbackSession.feedbackSessionName)
+                    && customEquals(this.courseId, otherFeedbackSession.courseId)
+                    && customEquals(this.instructions, otherFeedbackSession.instructions)
+                    && customEquals(this.creatorEmail, otherFeedbackSession.creatorEmail);
+        } else {
+            return false;
+        }
     }
 
     /**

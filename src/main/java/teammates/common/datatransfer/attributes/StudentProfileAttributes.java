@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import static teammates.common.util.CustomLogic.customEquals;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -169,13 +171,24 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     @Override
     public int hashCode() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.email);
-        stringBuilder.append(this.shortName);
-        stringBuilder.append(this.institute);
-        stringBuilder.append(this.googleId);
-        stringBuilder.append(this.pictureKey);
-        stringBuilder.append(this.gender.toString());
+        stringBuilder.append(this.email).append(this.shortName).append(this.institute)
+                .append(this.googleId).append(this.pictureKey).append(this.gender.toString());
         return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.getClass() == other.getClass()) {
+            StudentProfileAttributes otherProfile = (StudentProfileAttributes) other;
+            return customEquals(this.email, otherProfile.email)
+                    && customEquals(this.shortName, otherProfile.shortName)
+                    && customEquals(this.institute, otherProfile.institute)
+                    && customEquals(this.googleId, otherProfile.googleId)
+                    && customEquals(this.pictureKey, otherProfile.pictureKey)
+                    && customEquals(this.gender, otherProfile.gender);
+        } else {
+            return false;
+        }
     }
 
     @Override

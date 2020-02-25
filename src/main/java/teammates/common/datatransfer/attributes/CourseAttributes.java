@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import static teammates.common.util.CustomLogic.customEquals;
+
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -163,9 +165,19 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     @Override
     public int hashCode() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.id);
-        stringBuilder.append(this.name);
+        stringBuilder.append(this.id).append(this.name);
         return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.getClass() == other.getClass()) {
+            CourseAttributes otherCourse = (CourseAttributes) other;
+            return customEquals(this.id, otherCourse.id)
+                    && customEquals(this.name, otherCourse.name);
+        } else {
+            return false;
+        }
     }
 
     @Override

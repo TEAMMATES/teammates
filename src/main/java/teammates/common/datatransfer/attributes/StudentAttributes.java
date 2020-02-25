@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import static teammates.common.util.CustomLogic.customEquals;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -168,6 +170,20 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (this.getClass() == other.getClass()) {
+            StudentAttributes otherStudent = (StudentAttributes) other;
+            return customEquals(this.course, otherStudent.course)
+                    && customEquals(this.name, otherStudent.name)
+                    && customEquals(this.comments, otherStudent.comments)
+                    && customEquals(this.team, otherStudent.team)
+                    && customEquals(this.section, otherStudent.section);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
         Assumption.assertNotNull(team);
@@ -242,21 +258,16 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     @Override
-    public String toString() {
-        return toString(0);
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email).append(this.name).append(this.course)
+            .append(this.googleId).append(this.team).append(this.section).append(this.comments);
+        return stringBuilder.toString().hashCode();
     }
 
     @Override
-    public int hashCode() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.email);
-        stringBuilder.append(this.name);
-        stringBuilder.append(this.course);
-        stringBuilder.append(this.googleId);
-        stringBuilder.append(this.team);
-        stringBuilder.append(this.section);
-        stringBuilder.append(this.comments);
-        return stringBuilder.toString().hashCode();
+    public String toString() {
+        return toString(0);
     }
 
     public String toString(int indent) {

@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import static teammates.common.util.CustomLogic.customEquals;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,11 +123,22 @@ public class AccountAttributes extends EntityAttributes<Account> {
     @Override
     public int hashCode() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.email);
-        stringBuilder.append(this.name);
-        stringBuilder.append(this.institute);
-        stringBuilder.append(this.googleId);
+        stringBuilder.append(this.email).append(this.name)
+                .append(this.institute).append(this.googleId);
         return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.getClass() == other.getClass()) {
+            AccountAttributes otherAccount = (AccountAttributes) other;
+            return customEquals(this.email, otherAccount.email)
+                    && customEquals(this.name, otherAccount.name)
+                    && customEquals(this.institute, otherAccount.institute)
+                    && customEquals(this.googleId, otherAccount.googleId);
+        } else {
+            return false;
+        }
     }
 
     @Override

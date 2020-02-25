@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import static teammates.common.util.CustomLogic.customEquals;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -278,12 +280,31 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     @Override
     public int hashCode() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.feedbackSessionName);
-        stringBuilder.append(this.feedbackQuestionId);
-        stringBuilder.append(this.feedbackResponseId);
-        stringBuilder.append(this.courseId);
+        stringBuilder.append(this.feedbackSessionName).append(this.feedbackQuestionId)
+                .append(this.feedbackResponseId).append(this.courseId)
+                .append(this.commentGiver).append(this.commentText)
+                .append(this.giverSection).append(this.receiverSection);
         return stringBuilder.toString().hashCode();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.getClass() == other.getClass()) {
+            FeedbackResponseCommentAttributes otherCommentAttributes =
+                    (FeedbackResponseCommentAttributes) other;
+            return customEquals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
+                    && customEquals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
+                    && customEquals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
+                    && customEquals(this.courseId, otherCommentAttributes.courseId)
+                    && customEquals(this.commentGiver, otherCommentAttributes.commentGiver)
+                    && customEquals(this.commentText, otherCommentAttributes.commentText)
+                    && customEquals(this.giverSection, otherCommentAttributes.giverSection)
+                    && customEquals(this.receiverSection, otherCommentAttributes.receiverSection);
+        } else {
+            return false;
+        }
+    }
+
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
         frcs.sort(Comparator.comparing(frc -> frc.createdAt));
     }
