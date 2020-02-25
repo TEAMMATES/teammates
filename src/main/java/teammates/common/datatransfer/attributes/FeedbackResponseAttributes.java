@@ -169,6 +169,15 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName);
+        stringBuilder.append(this.courseId);
+        stringBuilder.append(this.feedbackQuestionId);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
     public void sanitizeForSaving() {
         // nothing to sanitize before saving
     }

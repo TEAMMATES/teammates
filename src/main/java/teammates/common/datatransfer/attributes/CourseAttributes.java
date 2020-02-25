@@ -161,6 +161,14 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.id);
+        stringBuilder.append(this.name);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
     public void sanitizeForSaving() {
         // no additional sanitization required
     }

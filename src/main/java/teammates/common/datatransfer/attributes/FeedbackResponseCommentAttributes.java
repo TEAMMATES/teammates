@@ -275,6 +275,15 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 + "]";
     }
 
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName);
+        stringBuilder.append(this.feedbackQuestionId);
+        stringBuilder.append(this.feedbackResponseId);
+        stringBuilder.append(this.courseId);
+        return stringBuilder.toString().hashCode();
+    }
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
         frcs.sort(Comparator.comparing(frc -> frc.createdAt));
     }

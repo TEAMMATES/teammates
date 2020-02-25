@@ -140,6 +140,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName);
+        stringBuilder.append(this.courseId);
+        stringBuilder.append(this.questionNumber);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 

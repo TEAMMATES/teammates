@@ -370,6 +370,17 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
     }
 
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName);
+        stringBuilder.append(this.courseId);
+        stringBuilder.append(this.instructions);
+        stringBuilder.append(this.creatorEmail);
+        return stringBuilder.toString().hashCode();
+    }
+
     /**
      * Sorts feedback session based courseID (ascending), then by create time (ascending), deadline
      * (ascending), then by start time (ascending), then by feedback session name

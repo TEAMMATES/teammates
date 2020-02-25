@@ -246,6 +246,19 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return toString(0);
     }
 
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email);
+        stringBuilder.append(this.name);
+        stringBuilder.append(this.course);
+        stringBuilder.append(this.googleId);
+        stringBuilder.append(this.team);
+        stringBuilder.append(this.section);
+        stringBuilder.append(this.comments);
+        return stringBuilder.toString().hashCode();
+    }
+
     public String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
         StringBuilder sb = new StringBuilder();

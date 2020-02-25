@@ -119,6 +119,16 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email);
+        stringBuilder.append(this.name);
+        stringBuilder.append(this.institute);
+        stringBuilder.append(this.googleId);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
     public void sanitizeForSaving() {
         this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         this.name = SanitizationHelper.sanitizeName(name);

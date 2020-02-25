@@ -167,6 +167,18 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email);
+        stringBuilder.append(this.shortName);
+        stringBuilder.append(this.institute);
+        stringBuilder.append(this.googleId);
+        stringBuilder.append(this.pictureKey);
+        stringBuilder.append(this.gender.toString());
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
     public StudentProfile toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, nationality, gender.name().toLowerCase(),
                                   moreInfo, this.pictureKey);

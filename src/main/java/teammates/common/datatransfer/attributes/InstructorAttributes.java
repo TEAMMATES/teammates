@@ -165,6 +165,18 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email);
+        stringBuilder.append(this.name);
+        stringBuilder.append(this.courseId);
+        stringBuilder.append(this.googleId);
+        stringBuilder.append(this.displayedName);
+        stringBuilder.append(this.role);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
     public void sanitizeForSaving() {
         googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         name = SanitizationHelper.sanitizeName(name);
