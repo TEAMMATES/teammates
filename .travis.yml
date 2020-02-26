@@ -52,6 +52,7 @@ jobs:
         - ./gradlew downloadDependencies downloadTestDependencies downloadLinters
         - npm install
         - npm update
+        - cat /home/travis/.npm/_logs/*-debug.log
     - stage: "Lint/Test"
       name: "Lint"
       script:
