@@ -51,10 +51,8 @@ jobs:
       script:
         - ./gradlew downloadDependencies downloadTestDependencies downloadLinters
         - rm -rf node_modules/
-        - rm package-lock.json
         - npm install
         - npm update
-        - cat /home/travis/.npm/_logs/*-debug.log
     - stage: "Lint/Test"
       name: "Lint"
       script:
