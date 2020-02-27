@@ -79,4 +79,13 @@ describe('InstructorService', () => {
       done();
     });
   });
+
+  it('should call get when loading instructor privileges', () => {
+    const paramMap: { [key: string]: string } = {
+      courseid: 'CS3281',
+    };
+
+    service.loadInstructorPrivilege(paramMap.courseid);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
+  });
 });

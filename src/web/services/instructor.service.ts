@@ -47,6 +47,6 @@ export class InstructorService {
       paramMap.fsname = feedbackSessionName;
     }
 
-    return this.httpRequestService.get('/instructor/privilege', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   }
 }

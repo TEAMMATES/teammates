@@ -214,7 +214,7 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Unpublishes a feedback session.
+   * publishes a feedback session.
    */
   publishFeedbackSession(model: SessionsTableRowModel): Observable<FeedbackSession> {
     const paramMap: { [key: string]: string } = {
