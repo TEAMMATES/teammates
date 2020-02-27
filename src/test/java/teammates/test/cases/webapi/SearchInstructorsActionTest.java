@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SearchInstructorsAction;
-import teammates.ui.webapi.output.SearchInstructorsData;
+import teammates.ui.webapi.output.InstructorsData;
 
 /**
  * SUT: {@link SearchInstructorsAction}.
@@ -51,7 +51,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getCourseId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchInstructorsData response = (SearchInstructorsData) result.getOutput();
+        InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(acc.getName()))
                 .findAny()
@@ -64,7 +64,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getDisplayedName() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchInstructorsData response = (SearchInstructorsData) result.getOutput();
+        InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(acc.getName()))
                 .findAny()
@@ -77,7 +77,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getEmail() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchInstructorsData response = (SearchInstructorsData) result.getOutput();
+        InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(acc.getName()))
                 .findAny()
@@ -90,7 +90,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getGoogleId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchInstructorsData response = (SearchInstructorsData) result.getOutput();
+        InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(acc.getName()))
                 .findAny()
@@ -103,7 +103,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getName() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchInstructorsData response = (SearchInstructorsData) result.getOutput();
+        InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(acc.getName()))
                 .findAny()
@@ -116,7 +116,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, "noMatch" };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchInstructorsData response = (SearchInstructorsData) result.getOutput();
+        InstructorsData response = (InstructorsData) result.getOutput();
         assertEquals(0, response.getInstructors().size());
     }
 
