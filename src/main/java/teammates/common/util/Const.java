@@ -752,6 +752,7 @@ public final class Const {
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
+        public static final String INSTRUCTORS_SEARCH = "/search/instructors";
         public static final String RESULT = "/result";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
