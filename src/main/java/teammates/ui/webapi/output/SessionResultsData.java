@@ -77,6 +77,30 @@ public class SessionResultsData extends ApiOutput {
         return questions;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        SessionResultsData other = (SessionResultsData) obj;
+        List<QuestionOutput> thisQuestions = this.getQuestions();
+        List<QuestionOutput> otherQuestions = other.getQuestions();
+        if (thisQuestions.size() != otherQuestions.size()) {
+            return false;
+        }
+        for (int i = 0; i < thisQuestions.size(); i++) {
+            QuestionOutput thisQuestion = thisQuestions.get(i);
+            QuestionOutput otherQuestion = otherQuestions.get(i);
+            if (!thisQuestion.equals(otherQuestion)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static String removeAnonymousHash(String identifier) {
         return identifier.replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
                 + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
@@ -224,6 +248,35 @@ public class SessionResultsData extends ApiOutput {
             return otherResponses;
         }
 
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj == null || obj.getClass() != this.getClass()) {
+                return false;
+            }
+            QuestionOutput other = (QuestionOutput) obj;
+            if (!this.getQuestionId().equals(other.getQuestionId()) ||
+                    this.getQuestionNumber() != other.getQuestionNumber() ||
+                    !this.getQuestionDetails().equals(other.getQuestionDetails()) ||
+                    !this.getQuestionStatistics().equals(other.getQuestionStatistics())) {
+                return false;
+            }
+            List<ResponseOutput> thisResponses;
+            List<ResponseOutput> otherResponses;
+            thisResponses = this.getAllResponses();
+            otherResponses = other.getAllResponses();
+            if (thisResponses.size() != otherResponses.size()) {
+                return false;
+            }
+            for (int j = 0; j < thisResponses.size(); j++) {
+                if (!thisResponses.get(j).equals(otherResponses.get(j))) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     private static class ResponseOutput {
@@ -279,6 +332,24 @@ public class SessionResultsData extends ApiOutput {
 
         public FeedbackResponseDetails getResponseDetails() {
             return responseDetails;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj == null || obj.getClass() != this.getClass()) {
+                return false;
+            }
+            ResponseOutput other = (ResponseOutput) obj;
+            return(this.giver.equals(other.giver) &&
+                    this.giverTeam.equals(other.giverTeam) &&
+                    this.giverSection.equals(other.giverSection) &&
+                    this.recipient.equals(other.recipient) &&
+                    this.recipientTeam.equals(other.recipientTeam) &&
+                    this.recipientSection.equals(other.recipientSection) &&
+                    this.responseDetails.getJsonString().equals(other.responseDetails.getJsonString()));
         }
 
     }
