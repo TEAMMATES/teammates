@@ -35,14 +35,11 @@ before_cache:
   - rm -rf $HOME/.gradle/caches/*/workerMain/
   - rm -rf $HOME/.gradle/caches/*/gc.properties
   - rm -rf $HOME/.gradle/caches/journal-1/
-  - rm -rf node_modules/.cache/uglifyjs-webpack-plugin/
-  - rm -rf node_modules/.cache/terser-webpack-plugin/
 
 cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-    - node_modules
 
 jobs:
   include:
