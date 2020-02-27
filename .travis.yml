@@ -50,21 +50,20 @@ jobs:
       name: "Prepare Dependencies"
       script:
         - ./gradlew downloadDependencies downloadTestDependencies downloadLinters
-        - npm install
-        - npm update
+        - npm ci
     - stage: "Lint/Test"
       name: "Lint"
       script:
         - ./gradlew createConfigs testClasses
         - ./gradlew lint --continue
-        - npm install
+        - npm ci
         - npm run lint
     - name: "Component Tests"
       script:
         - ./gradlew createConfigs componentTests
         - ./gradlew jacocoReport
         - ./gradlew generateTypes
-        - npm install
+        - npm ci
         - npm run coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
@@ -80,7 +79,7 @@ jobs:
         - cd $TRAVIS_BUILD_DIR
         - mv src/e2e/resources/test.travis.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
-        - npm install
+        - npm ci
         - npm run build -- --progress=false
         - ./gradlew appengineStart
       script:
@@ -98,7 +97,7 @@ jobs:
         - cd $TRAVIS_BUILD_DIR
         - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
-        - npm install
+        - npm ci
         - npm run build -- --progress=false
         - ./gradlew appengineStart
       script:
