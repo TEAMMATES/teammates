@@ -257,10 +257,10 @@ public class SessionResultsData extends ApiOutput {
                 return false;
             }
             QuestionOutput other = (QuestionOutput) obj;
-            if (!this.getQuestionId().equals(other.getQuestionId()) ||
-                    this.getQuestionNumber() != other.getQuestionNumber() ||
-                    !this.getQuestionDetails().equals(other.getQuestionDetails()) ||
-                    !this.getQuestionStatistics().equals(other.getQuestionStatistics())) {
+            if (!this.getQuestionId().equals(other.getQuestionId())
+                    || this.getQuestionNumber() != other.getQuestionNumber()
+                    || !this.getQuestionDetails().equals(other.getQuestionDetails())
+                    || !this.getQuestionStatistics().equals(other.getQuestionStatistics())) {
                 return false;
             }
             List<ResponseOutput> thisResponses;
@@ -343,13 +343,13 @@ public class SessionResultsData extends ApiOutput {
                 return false;
             }
             ResponseOutput other = (ResponseOutput) obj;
-            return(this.giver.equals(other.giver) &&
-                    this.giverTeam.equals(other.giverTeam) &&
-                    this.giverSection.equals(other.giverSection) &&
-                    this.recipient.equals(other.recipient) &&
-                    this.recipientTeam.equals(other.recipientTeam) &&
-                    this.recipientSection.equals(other.recipientSection) &&
-                    this.responseDetails.getJsonString().equals(other.responseDetails.getJsonString()));
+            return this.giver.equals(other.giver)
+                    && this.giverTeam.equals(other.giverTeam)
+                    && this.giverSection.equals(other.giverSection)
+                    && this.recipient.equals(other.recipient)
+                    && this.recipientTeam.equals(other.recipientTeam)
+                    && this.recipientSection.equals(other.recipientSection)
+                    && this.responseDetails.getJsonString().equals(other.responseDetails.getJsonString());
         }
 
     }
