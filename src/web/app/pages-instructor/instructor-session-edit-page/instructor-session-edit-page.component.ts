@@ -223,9 +223,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             switchMap((feedbackSession: FeedbackSession) =>
                 this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)),
         ).subscribe((createdSession: FeedbackSession) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit'
-              + `?courseid=${createdSession.courseId}&fsname=${createdSession.feedbackSessionName}`,
-              'The feedback session has been copied. Please modify settings/questions as necessary.');
+          this.navigationService.navigateWithSuccessMessage(this.router,
+              '/web/instructor/sessions/edit',
+              'The feedback session has been copied. Please modify settings/questions as necessary.',
+              { courseid: this.courseId, fsname: createdSession.feedbackSessionName });
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
       }, () => {});
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
@@ -871,16 +872,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Previews the submission of the feedback session as a student.
    */
   previewAsStudent(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/sessions/submission`
-        + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfStudentToPreview}`);
+    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/sessions/submission`,
+        { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfStudentToPreview });
   }
 
   /**
    * Previews the submission of the feedback session as an instructor.
    */
   previewAsInstructor(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/sessions/submission`
-        + `?courseid=${this.courseId}&fsname=${this.feedbackSessionName}&previewas=${this.emailOfInstructorToPreview}`);
+    this.navigationService.openNewWindow(
+      `${environment.frontendUrl}/web/instructor/sessions/submission`,
+      { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfInstructorToPreview });
   }
 
   private deepCopy<T>(obj: T): T {
