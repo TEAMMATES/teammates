@@ -326,9 +326,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         this.statusMessageService.showErrorMessage(
             `The session is created but the template questions cannot be created: ${resp.error.message}`);
       }, () => {
-        this.router.navigateByUrl(
-            '/web/instructor/sessions/edit'
-            + `?courseid=${feedbackSession.courseId}&fsname=${feedbackSession.feedbackSessionName}`)
+        this.navigationService.navigateByURLWithParamEncoding(
+            this.router,
+            '/web/instructor/sessions/edit',
+            { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
             .then(() => {
               resolvingResultMessages.forEach((msg: string) => {
                 this.statusMessageService.showWarningMessage(msg);
