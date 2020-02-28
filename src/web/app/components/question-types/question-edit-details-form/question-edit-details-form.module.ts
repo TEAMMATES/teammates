@@ -16,6 +16,7 @@ import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details
 import { MsqFieldComponent } from './msq-field/msq-field.component';
 import { MsqQuestionEditDetailsFormComponent } from './msq-question-edit-details-form.component';
 import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
+import { OptionRichTextEditorModule } from './option-rich-text-editor/option-rich-text-editor.module';
 import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { RankOptionsQuestionEditDetailsFormComponent } from './rank-options-question-edit-details-form.component';
 import { RankRecipientsQuestionEditDetailsFormComponent } from './rank-recipients-question-edit-details-form.component';
@@ -65,6 +66,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     DragDropModule,
     FormsModule,
     NgbModule,
+    OptionRichTextEditorModule,
   ],
 })
 export class QuestionEditDetailsFormModule { }

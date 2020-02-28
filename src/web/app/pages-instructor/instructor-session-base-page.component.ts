@@ -178,8 +178,10 @@ export abstract class InstructorSessionBasePageComponent {
    * Edits the feedback session.
    */
   editSession(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/edit'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/edit',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
 
   /**
@@ -188,9 +190,11 @@ export abstract class InstructorSessionBasePageComponent {
   copySession(model: SessionsTableRowModel, result: CopySessionResult): void {
     this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
         .subscribe((createdSession: FeedbackSession) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit'
-              + `?courseid=${createdSession.courseId}&fsname=${createdSession.feedbackSessionName}`,
-              'The feedback session has been copied. Please modify settings/questions as necessary.');
+          this.navigationService.navigateWithSuccessMessage(
+              this.router,
+              '/web/instructor/sessions/edit',
+              'The feedback session has been copied. Please modify settings/questions as necessary.',
+              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
@@ -198,16 +202,20 @@ export abstract class InstructorSessionBasePageComponent {
    * Submits the feedback session as instructor.
    */
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/submission'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/submission',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
 
   /**
    * Views the result of a feedback session.
    */
   viewSessionResult(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/result'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/result',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
 
   /**
