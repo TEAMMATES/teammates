@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -277,6 +278,17 @@ public class SessionResultsData extends ApiOutput {
             }
             return true;
         }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(
+                    this.questionId,
+                    this.questionNumber,
+                    this.questionDetails,
+                    this.questionStatistics,
+                    this.allResponses
+            );
+        }
     }
 
     private static class ResponseOutput {
@@ -350,6 +362,19 @@ public class SessionResultsData extends ApiOutput {
                     && this.recipientTeam.equals(other.recipientTeam)
                     && this.recipientSection.equals(other.recipientSection)
                     && this.responseDetails.getJsonString().equals(other.responseDetails.getJsonString());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(
+                    this.giver,
+                    this.giverSection,
+                    this.giverTeam,
+                    this.recipient,
+                    this.recipientSection,
+                    this.recipientTeam,
+                    this.responseDetails
+            );
         }
 
     }
