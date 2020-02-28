@@ -26,7 +26,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting, Student, Students,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/Intent';
+import { Intent } from '../../../types/api-request';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {

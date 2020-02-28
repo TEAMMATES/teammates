@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import { Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
@@ -26,12 +27,12 @@ export class StudentService {
         courseid: courseId,
         teamname: teamName,
       };
-      return this.httpRequestService.get('/students', paramsMapWithTeamName);
+      return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMapWithTeamName);
     }
     const paramsMapWithoutTeamName: { [key: string]: string } = {
       courseid: courseId,
     };
-    return this.httpRequestService.get('/students', paramsMapWithoutTeamName);
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMapWithoutTeamName);
 
   }
 
@@ -54,7 +55,7 @@ export class StudentService {
     if (regKey) {
       paramsMap.key = regKey;
     }
-    return this.httpRequestService.get('/student', paramsMap);
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
   }
 
   /**
@@ -65,7 +66,7 @@ export class StudentService {
     const paramsMap: { [key: string]: string } = {
       courseid: courseId,
     };
-    return this.httpRequestService.put('/students', paramsMap, requestBody);
+    return this.httpRequestService.put(ResourceEndpoints.STUDENTS, paramsMap, requestBody);
   }
 
   /**
@@ -76,6 +77,6 @@ export class StudentService {
       courseid: courseId,
       teamname: teamName,
     };
-    return this.httpRequestService.get('/students', paramsMap);
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
   }
 }
