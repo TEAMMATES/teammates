@@ -368,4 +368,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   unpublishSessionEventHandler(tabIndex: number, rowIndex: number): void {
     this.unpublishSession(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
   }
+
+  /**
+   * Downloads the result of a feedback session in csv.
+   */
+  downloadSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
+    this.downloadSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
+  }
 }
