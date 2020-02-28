@@ -47,7 +47,6 @@ jobs:
       name: "Prepare Dependencies"
       script:
         - ./gradlew downloadDependencies downloadTestDependencies downloadLinters
-        - npm ci
     - stage: "Lint/Test"
       name: "Lint"
       script:
