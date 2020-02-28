@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SearchStudentsAction;
-import teammates.ui.webapi.output.SearchStudentsData;
+import teammates.ui.webapi.output.StudentsData;
 
 /**
  * SUT:{@link SearchStudentsAction}.
@@ -51,7 +51,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         };
         SearchStudentsAction a = getAction(accNameParams);
         JsonResult result = getJsonResult(a);
-        SearchStudentsData response = (SearchStudentsData) result.getOutput();
+        StudentsData response = (StudentsData) result.getOutput();
         assertEquals(11, response.getStudents().size());
     }
 
@@ -64,7 +64,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         };
         SearchStudentsAction a = getAction(accCourseIdParams);
         JsonResult result = getJsonResult(a);
-        SearchStudentsData response = (SearchStudentsData) result.getOutput();
+        StudentsData response = (StudentsData) result.getOutput();
         assertEquals(5, response.getStudents().size());
     }
 
@@ -76,7 +76,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         };
         SearchStudentsAction a = getAction(accNameParams);
         JsonResult result = getJsonResult(a);
-        SearchStudentsData response = (SearchStudentsData) result.getOutput();
+        StudentsData response = (StudentsData) result.getOutput();
 
         assertEquals(2, response.getStudents().size());
     }
@@ -91,7 +91,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
         SearchStudentsAction a = getAction(emailParams);
         JsonResult result = getJsonResult(a);
-        SearchStudentsData response = (SearchStudentsData) result.getOutput();
+        StudentsData response = (StudentsData) result.getOutput();
 
         assertEquals(1, response.getStudents().size());
     }
@@ -104,7 +104,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         };
         SearchStudentsAction a = getAction(accNameParams);
         JsonResult result = getJsonResult(a);
-        SearchStudentsData response = (SearchStudentsData) result.getOutput();
+        StudentsData response = (StudentsData) result.getOutput();
 
         assertEquals(0, response.getStudents().size());
     }
@@ -117,7 +117,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         };
         SearchStudentsAction a = getAction(googleIdParams);
         JsonResult result = getJsonResult(a);
-        SearchStudentsData response = (SearchStudentsData) result.getOutput();
+        StudentsData response = (StudentsData) result.getOutput();
 
         assertEquals(11, response.getStudents().size());
     }
@@ -131,7 +131,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
         SearchStudentsAction a = getAction(googleIdParams);
         JsonResult result = getJsonResult(a);
-        SearchStudentsData response = (SearchStudentsData) result.getOutput();
+        StudentsData response = (StudentsData) result.getOutput();
 
         assertEquals(5, response.getStudents().size());
     }
