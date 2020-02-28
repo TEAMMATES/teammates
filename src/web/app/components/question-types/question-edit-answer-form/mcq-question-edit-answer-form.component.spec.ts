@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
+import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { McqQuestionEditAnswerFormComponent } from './mcq-question-edit-answer-form.component';
 
 describe('McqQuestionEditAnswerFormComponent', () => {
@@ -12,6 +14,8 @@ describe('McqQuestionEditAnswerFormComponent', () => {
       declarations: [McqQuestionEditAnswerFormComponent],
       imports: [
         FormsModule,
+        RichTextEditorModule,
+        TeammatesCommonModule,
       ],
     })
     .compileComponents();
