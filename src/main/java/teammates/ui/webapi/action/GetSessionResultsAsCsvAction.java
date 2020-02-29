@@ -6,8 +6,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.ExceedingRangeException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.RequestExceedingRangeException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 /**
@@ -47,17 +47,24 @@ public class GetSessionResultsAsCsvAction extends Action {
         boolean isMissingResponsesShown = getBooleanRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         boolean isStatsShown = getBooleanRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+        String simulateExcessDataForTesting = getRequestParamValue("simulateExcessDataForTesting");
 
         String fileContent = "";
         if (section != null && sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
-            Assumption.assertNotNull(SectionDetail.containsSectionDetail(sectionDetailValue));
+            if (SectionDetail.containsSectionDetail(sectionDetailValue) == null) {
+                throw new InvalidHttpParameterException("Section detail is invalid.");
+            }
             sectionDetail = SectionDetail.valueOf(sectionDetailValue);
         }
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
         try {
-            if (section == null) {
+            if ("true".equals(simulateExcessDataForTesting)) {
+                throw new ExceedingRangeException("This session has more responses than that can be downloaded at one go.");
+            }
+
+            if (section == null || "All".equals(section)) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
                         courseId, feedbackSessionName, instructor.email,
                         isMissingResponsesShown, isStatsShown, questionId);
