@@ -37,25 +37,25 @@ public class GetSessionResultsAsCsvAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         String sectionDetailValue = getRequestParamValue(Const.ParamsNames.SECTION_NAME_DETAIL);
         SectionDetail sectionDetail = SectionDetail.NOT_APPLICABLE;
-        boolean isMissingResponsesShown = getBooleanRequestParamValue(
-                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
-        boolean isStatsShown = getBooleanRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
-        String simulateExcessDataForTesting = getRequestParamValue("simulateExcessDataForTesting");
-
-        String fileContent = "";
         if (section != null && sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
             if (SectionDetail.containsSectionDetail(sectionDetailValue) == null) {
                 throw new InvalidHttpParameterException("Section detail is invalid.");
             }
             sectionDetail = SectionDetail.valueOf(sectionDetailValue);
         }
+
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        boolean isMissingResponsesShown = getBooleanRequestParamValue(
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
+        boolean isStatsShown = getBooleanRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+        String simulateExcessDataForTesting = getRequestParamValue("simulateExcessDataForTesting");
+
+        String fileContent = "";
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 

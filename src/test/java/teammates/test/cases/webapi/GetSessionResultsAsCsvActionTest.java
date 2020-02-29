@@ -191,7 +191,7 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
         action = getAction(paramsWithNullFeedbackSessionName);
         GetSessionResultsAsCsvAction finalAction3 = action;
 
-        assertThrows(NullHttpParameterException.class, () -> getJsonResult(finalAction2));
+        assertThrows(NullHttpParameterException.class, () -> getJsonResult(finalAction3));
 
         ______TS("Failure case: params with invalid feedback section detail");
         this.verifyHttpParameterFailure(paramsWithInvalidSectionDetail);
