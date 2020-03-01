@@ -240,6 +240,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+    Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
+    Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
   }
 
   /**
@@ -248,6 +250,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   cancelEditingCourse(): void {
     this.course = Object.assign({}, this.originalCourse);
     this.isEditingCourse = false;
+    Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
+    Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
   }
 
   /**
