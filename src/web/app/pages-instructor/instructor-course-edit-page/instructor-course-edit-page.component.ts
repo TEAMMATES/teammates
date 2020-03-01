@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -62,6 +62,8 @@ interface InstructorEditPanelDetail {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
+  // @ts-ignore
+  @ViewChild('courseForm') form: any;
   // enum
   EditMode: typeof EditMode = EditMode;
 
@@ -223,6 +225,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Saves the updated course details.
    */
   onSaveCourse(): void {
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((control: any) => control.markAsTouched());
+      return;
+    }
     this.courseService.updateCourse(this.courseId, {
       courseName: this.course.courseName,
       timeZone: this.course.timeZone,
