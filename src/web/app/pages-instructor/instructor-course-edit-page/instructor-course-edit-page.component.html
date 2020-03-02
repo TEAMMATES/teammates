@@ -2,11 +2,17 @@
   <div class="card-header bg-primary text-white">
     <strong>Course:</strong>
     <span class="float-sm-right">
-      <button class="btn btn-light btn-sm btn-left btn-course" ngbTooltip="Edit course name"
+      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Edit course name" placement="top-right"
               [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
               *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
         <i class="fa fa-pen" aria-hidden="true"></i>
         Edit
+      </button>
+      <button *ngIf="isEditingCourse" class="btn btn-light btn-sm"
+              ngbTooltip="Cancel editing course details" placement="top-right"
+              (click)="cancelEditingCourse()">
+              <i class="fa fa-times" aria-hidden="true"></i>
+        Cancel
       </button>&nbsp;
       <button class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
               [disabled]="!currInstructorCoursePrivilege.canModifyCourse" (click)="deleteCourse()">
@@ -48,7 +54,7 @@
         </div>
       </div>
       <div class="form-group">
-        <div class=" col-sm-12 align-center">
+        <div class=" col-sm-12 text-center">
           <button class="btn btn-primary" type="button" (click)="onSaveCourse()" *ngIf="isEditingCourse">
             Save Changes
           </button>

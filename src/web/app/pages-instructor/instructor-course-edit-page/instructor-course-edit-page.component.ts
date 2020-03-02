@@ -75,6 +75,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
     creationTimestamp: 0,
     deletionTimestamp: 0,
   };
+  originalCourse: Course = {
+    courseName: '',
+    courseId: '',
+    timeZone: 'UTC',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
+  };
   currInstructorGoogleId: string = '';
   currInstructorCoursePrivilege: InstructorPrivilege = {
     canModifyCourse: true,
@@ -173,6 +180,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   loadCourseInfo(): void {
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((resp: Course) => {
       this.course = resp;
+      this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -222,9 +230,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.statusMessageService.showSuccessMessage('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
+      this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Cancels editing the course details.
+   */
+  cancelEditingCourse(): void {
+    this.course = Object.assign({}, this.originalCourse);
+    this.isEditingCourse = false;
   }
 
   /**

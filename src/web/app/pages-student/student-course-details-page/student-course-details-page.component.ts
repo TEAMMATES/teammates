@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
@@ -52,7 +52,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   teammateProfiles: StudentProfileWithPicture[] = [];
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
+              private instructorService: InstructorService,
               private studentProfileService: StudentProfileService,
               private studentService: StudentService,
               private courseService: CourseService,
@@ -84,11 +84,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadStudent(courseId: string): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-
-    this.httpRequestService.get('/student', paramMap)
+    this.studentService.getStudent(courseId)
         .subscribe((student: Student) => {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
@@ -135,11 +131,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadInstructors(courseId: string): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-
-    this.httpRequestService.get('/instructors', paramMap)
+    this.instructorService.getInstructorsFromCourse(courseId)
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {

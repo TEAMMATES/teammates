@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpRequestService } from '../../../services/http-request.service';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
@@ -16,6 +15,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { HttpErrorResponse } from '@angular/common/http';
 import { from, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { NationalitiesService } from '../../../services/nationalities.service';
 import {
   UploadEditProfilePictureModalComponent,
 } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
@@ -42,7 +42,7 @@ export class StudentProfilePageComponent implements OnInit {
   private backendUrl: string = environment.backendUrl;
 
   constructor(private ngbModal: NgbModal,
-              private httpRequestService: HttpRequestService,
+              private nationalitiesService: NationalitiesService,
               private authService: AuthService,
               private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService) {
@@ -58,7 +58,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Fetches the list of nationalities needed for the drop down box.
    */
   initNationalities(): void {
-    this.httpRequestService.get('/nationalities').subscribe((response: Nationalities) => {
+    this.nationalitiesService.getNationalities().subscribe((response: Nationalities) => {
       this.nationalities = response.nationalities;
     });
   }

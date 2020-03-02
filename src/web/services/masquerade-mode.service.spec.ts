@@ -1,17 +1,40 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { MasqueradeModeService } from './masquerade-mode.service';
 
 describe('MasqueradeModeService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [
-      RouterTestingModule,
-    ],
-  }));
+  let service: MasqueradeModeService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        MasqueradeModeService,
+      ],
+    });
+    service = TestBed.get(MasqueradeModeService);
+  });
 
   it('should be created', () => {
-    const service: MasqueradeModeService = TestBed.get(MasqueradeModeService);
     expect(service).toBeTruthy();
+  });
+
+  it('should be defined', () => {
+    expect(service.getMasqueradeUser()).toBeDefined();
+  });
+
+  it('should set masquerade user', () => {
+    const testUser: string = 'test';
+    service.setMasqueradeUser(testUser);
+    expect(service.getMasqueradeUser()).toEqual(testUser);
+  });
+
+  it('should be false when no user is set', () => {
+    expect(service.isInMasqueradingMode()).toBe(false);
+  });
+
+  it('should be true when user is set', () => {
+    const testUser: string = 'test';
+    service.setMasqueradeUser(testUser);
+    expect(service.isInMasqueradingMode()).toBe(true);
   });
 });
