@@ -56,9 +56,7 @@
           <div class="input-group">
             <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
               device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
-              [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone"
-              [ngClass]="{'invalid' : timeZone.invalid && (timeZone.touched || timeZone.dirty),
-              'valid' : timeZone.valid && (timeZone.touched || timeZone.dirty)}">
+              [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
             </select>
             <span class="input-group-btn">
@@ -66,11 +64,6 @@
                 Auto-Detect
               </button>
              </span>
-          </div>
-          <div [hidden]="timeZone.valid || (timeZone.pristine && timeZone.untouched)"
-               class="invalid-field">
-            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-            The field Time Zone should not be empty.
           </div>
         </div>
       </div>
