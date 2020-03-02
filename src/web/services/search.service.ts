@@ -125,3 +125,38 @@ export class SearchService {
 export interface InstructorSearchResult {
   searchStudentsTables: SearchStudentsTable[];
 }
+
+// TODO: Delete once the PRs are merged
+interface SearchCourses {
+  students: SearchCoursesCommon[];
+  instructors: SearchCoursesCommon[];
+}
+
+interface SearchCoursesCommon {
+  email: string;
+  courseId: string;
+  courseName: string;
+  institute: string;
+}
+
+interface SearchLinksInstructor {
+  showLinks: boolean;
+  email: string;
+  manageAccountLink: string;
+  homePageLink: string;
+  courseJoinLink: string;
+}
+
+interface SearchLinksStudent {
+  showLinks: boolean;
+  email: string;
+  manageAccountLink: string;
+  homePageLink: string;
+  courseJoinLink: string;
+  recordsPageLink: string;
+}
+
+interface SearchLinks {
+  students: SearchLinksStudent[];
+  instructors: SearchLinksInstructor[];
+}
