@@ -4,6 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import moment from 'moment-timezone';
 
+import { FormGroup } from '@angular/forms';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatAll, tap } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
@@ -29,6 +30,7 @@ import {
   Students,
 } from '../../../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../../../types/api-request';
+import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   InstructorOverallPermission,
@@ -62,10 +64,11 @@ interface InstructorEditPanelDetail {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
-  // @ts-ignore
-  @ViewChild('courseForm') form: any;
+  @ViewChild('courseForm', { static: false }) form!: FormGroup;
+
   // enum
   EditMode: typeof EditMode = EditMode;
+  FormValidator: typeof FormValidator = FormValidator;
 
   courseId: string = '';
   timezones: string[] = [];

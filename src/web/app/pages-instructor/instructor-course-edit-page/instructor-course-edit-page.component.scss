@@ -1,7 +1,4 @@
-.valid {
-  border-left: 5px solid #42A948; /* green */
-}
-
-.invalid {
-  border-left: 5px solid #A94442; /* red */
+.invalid-field {
+  padding-top: 5px;
+  color: #B50000;
 }

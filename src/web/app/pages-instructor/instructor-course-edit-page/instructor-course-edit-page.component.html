@@ -28,12 +28,11 @@
         <div class="col-sm-3">
           <input class="col-xs-12 form-control" type="text" tabindex="1"
                  #courseId="ngModel" [(ngModel)]="course.courseId" name="courseId"
-                 [ngClass]="{'invalid' : courseId.invalid && (courseId.touched || courseId.dirty),
-                 'valid' : courseId.valid && (courseId.touched || courseId.dirty)}"
-                 [maxlength]="40" required disabled/>
-          <div [hidden]="courseId.valid || (courseId.pristine &&courseId.untouched)"
-               class="alert alert-danger">
-            Course ID is required
+                 [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH" required disabled>
+          <div [hidden]="courseId.valid || (courseId.pristine && courseId.untouched)"
+               class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field Course ID should not be empty.
           </div>
         </div>
       </div>
@@ -43,12 +42,11 @@
           <input class="form-control" ngbTooltip="Enter the name of the course, e.g. Software Engineering."
                  type="text" tabindex="2" [disabled]="!isEditingCourse" name="courseName"
                  [(ngModel)]="course.courseName" #courseName="ngModel"
-                 [ngClass]="{'invalid' : courseName.invalid && (courseName.touched || courseName.dirty),
-                  'valid' : courseName.valid && (courseName.touched || courseName.dirty)}"
-                 [maxlength]="64" required/>
-          <div [hidden]="courseName.valid || (courseName.pristine &&courseName.untouched)"
-               class="alert alert-danger">
-            Course Name is required
+                 [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
+          <div [hidden]="courseName.valid || (courseName.pristine && courseName.untouched)"
+               class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field Course Name should not be empty.
           </div>
         </div>
       </div>
@@ -64,14 +62,15 @@
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
             </select>
             <span class="input-group-btn">
-               <button class="btn btn-primary" type=button [disabled]="!isEditingCourse" (click)="detectTimezone()">
+              <button class="btn btn-primary" type=button [disabled]="!isEditingCourse" (click)="detectTimezone()">
                 Auto-Detect
               </button>
              </span>
           </div>
-          <div [hidden]="timeZone.valid || (timeZone.pristine &&timeZone.untouched)"
-               class="alert alert-danger">
-            Timezone is required
+          <div [hidden]="timeZone.valid || (timeZone.pristine && timeZone.untouched)"
+               class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field Time Zone should not be empty.
           </div>
         </div>
       </div>
