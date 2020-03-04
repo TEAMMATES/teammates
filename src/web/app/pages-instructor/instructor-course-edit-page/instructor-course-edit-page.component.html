@@ -29,11 +29,6 @@
           <input class="col-xs-12 form-control" type="text" tabindex="1"
                  #courseId="ngModel" [(ngModel)]="course.courseId" name="courseId"
                  [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH" required disabled>
-          <div [hidden]="courseId.valid || (courseId.pristine && courseId.untouched)"
-               class="invalid-field">
-            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-            The field Course ID should not be empty.
-          </div>
         </div>
       </div>
       <div class="form-row form-group">
