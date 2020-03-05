@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { ConstsumOptionsQuestionAdditionalInfoComponent } from './constsum-options-question-additional-info.component';
 import {
   ConstsumRecipientsQuestionAdditionalInfoComponent,
@@ -43,6 +44,7 @@ import { TextQuestionAdditionalInfoComponent } from './text-question-additional-
   ],
   imports: [
     CommonModule,
+    TeammatesCommonModule,
   ],
 })
 export class QuestionAdditionalInfoModule { }

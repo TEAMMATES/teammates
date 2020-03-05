@@ -67,7 +67,7 @@ If you want to develop front-end, you need to install the following:
 
 1. Run this command to download the necessary tools for front-end development (if you are going to be involved):
    ```sh
-   npm install
+   npm ci
    ```
    **Verification:** A folder named `node_modules` should be added to the project root directory.
 
