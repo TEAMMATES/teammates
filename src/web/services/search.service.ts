@@ -24,6 +24,7 @@ export class SearchService {
       map((studentsRes: Students) => this.getCoursesWithSections(studentsRes)),
       mergeMap((coursesWithSections: SearchStudentsTable[]) =>
         forkJoin([
+      mergeMap((coursesWithSections: SearchStudentsTable[]) =>
           of(coursesWithSections),
           this.getPrivileges(coursesWithSections),
         ]),
@@ -110,9 +111,6 @@ export class SearchService {
 
         section.isAllowedToViewStudentInSection = sectionPrivileges.canViewStudentInSections;
         section.isAllowedToModifyStudent = sectionPrivileges.canModifyStudent;
-      }
-    }
-
     return {
       searchStudentsTables: coursesWithSections,
     };
@@ -126,37 +124,33 @@ export interface InstructorSearchResult {
   searchStudentsTables: SearchStudentsTable[];
 }
 
-// TODO: Delete once the PRs are merged
-interface SearchCourses {
-  students: SearchCoursesCommon[];
-  instructors: SearchCoursesCommon[];
+export interface AdminSearchResult {
+  students: StudentAccountSearchResult[];
+  instructors: InstructorAccountSearchResult[];
 }
 
-interface SearchCoursesCommon {
+interface InstructorAccountSearchResult {
+  name: string;
   email: string;
+  googleId: string;
   courseId: string;
   courseName: string;
   institute: string;
+  courseJoinLink: string;
+  homePageLink: string;
+  manageAccountLink: string;
+  showLinks: boolean;
 }
 
-interface SearchLinksInstructor {
-  showLinks: boolean;
-  email: string;
-  manageAccountLink: string;
-  homePageLink: string;
-  courseJoinLink: string;
-}
-
-interface SearchLinksStudent {
-  showLinks: boolean;
-  email: string;
-  manageAccountLink: string;
-  homePageLink: string;
-  courseJoinLink: string;
+/**
+ * Search results for students from the Admin endpoint.
+ */
+export interface StudentAccountSearchResult extends InstructorAccountSearchResult {
+  section: string;
+  team: string;
+  comments: string;
   recordsPageLink: string;
-}
-
-interface SearchLinks {
-  students: SearchLinksStudent[];
-  instructors: SearchLinksInstructor[];
+  openSessions: { [index: string]: string };
+  closedSessions: { [index: string]: string };
+  publishedSessions: { [index: string]: string };
 }
