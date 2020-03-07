@@ -1,2 +1,2 @@
-<span *ngIf="!responseDetails.isOther">{{ responseDetails.answer }}</span>
+<span *ngIf="!responseDetails.isOther" [innerHTML]="responseDetails.answer | safeHtml"></span>
 <span *ngIf="responseDetails.isOther">{{ responseDetails.otherFieldContent }}</span>

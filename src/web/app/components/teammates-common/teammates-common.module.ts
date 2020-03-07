@@ -6,6 +6,7 @@ import { InstructorRoleNamePipe } from './instructor-role-name.pipe';
 import { PublishStatusNamePipe } from './publish-status-name.pipe';
 import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
+import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 
 /**
@@ -21,6 +22,7 @@ import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
     PublishStatusNamePipe,
     FormatDateDetailPipe,
     SafeHtmlPipe,
+    StripHtmlTagsPipe,
     QuestionTypeNamePipe,
     InstructorRoleNamePipe,
   ],
@@ -30,6 +32,7 @@ import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
     PublishStatusNamePipe,
     FormatDateDetailPipe,
     SafeHtmlPipe,
+    StripHtmlTagsPipe,
     QuestionTypeNamePipe,
     InstructorRoleNamePipe,
   ],
