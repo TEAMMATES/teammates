@@ -99,6 +99,16 @@ export class CourseService {
   }
 
   /**
+   * Get active instructor courses.
+   */
+  getInstructorCoursesThatAreActive(): Observable<Courses> {
+    return this.httpRequestService.get(ResourceEndpoints.COURSES, {
+      entitytype: 'instructor',
+      coursestatus: 'active',
+    });
+  }
+
+  /**
    * Creates a course by calling API.
    */
   createCourse(request: CourseCreateRequest): Observable<Course> {
