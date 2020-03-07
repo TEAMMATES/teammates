@@ -1,5 +1,7 @@
 package teammates.ui.webapi.output;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
@@ -9,6 +11,9 @@ public class StudentData extends ApiOutput {
 
     private final String email;
     private final String courseId;
+
+    @Nullable
+    private String googleId;
 
     private final String name;
     private final String lastName;
@@ -29,6 +34,7 @@ public class StudentData extends ApiOutput {
         this.comments = studentAttributes.getComments();
         this.teamName = studentAttributes.getTeam();
         this.sectionName = studentAttributes.getSection();
+        this.googleId = null;
     }
 
     public String getEmail() {
@@ -51,6 +57,10 @@ public class StudentData extends ApiOutput {
         return comments;
     }
 
+    public String getGoogleId() {
+        return googleId;
+    }
+
     public void setComments(String comments) {
         this.comments = comments;
     }
@@ -69,5 +79,9 @@ public class StudentData extends ApiOutput {
 
     public String getSectionName() {
         return sectionName;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 }
