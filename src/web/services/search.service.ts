@@ -33,7 +33,17 @@ export class SearchService {
     );
   }
 
-  getStudents(searchKey: string): Observable<Students> {
+  searchAdmin(searchKey: string): Observable<AdminSearchResult> {
+    return forkJoin(
+        this.getInstructors(searchKey),
+        this.getStudents(searchKey),
+        this.getSessions(searchKey),
+        this.getLinks(searchKey),
+        this.getCourses(searchKey),
+    ).pipe(map((res: [Instructors, Students, SearchSessions, SearchLinks, SearchCourses]) => this.joinAdmin(res)));
+  }
+
+  private getStudents(searchKey: string): Observable<Students> {
     const paramMap: { [key: string]: string } = {
       searchkey: searchKey,
     };
@@ -114,6 +124,105 @@ export class SearchService {
     return {
       searchStudentsTables: coursesWithSections,
     };
+  }
+
+  private joinAdminStudents(
+    resp: [Students, SearchSessions, SearchLinks, SearchCourses],
+  ): StudentAccountSearchResult[] {
+    const [students, sessions, links, courses]
+      : [Students, SearchSessions, SearchLinks, SearchCourses] = resp;
+    const studentsData: StudentAccountSearchResult[] = [];
+    for (const student of students.students) {
+      let studentResult: StudentAccountSearchResult = {
+        email: '',
+        name: '',
+        comments: '',
+        team: '',
+        section: '',
+        openSessions: {},
+        closedSessions: {},
+        publishedSessions: {},
+        courseId: '',
+        courseName: '',
+        institute: '',
+        manageAccountLink: '',
+        homePageLink: '',
+        recordsPageLink: '',
+        courseJoinLink: '',
+        googleId: '',
+        showLinks: false,
+      };
+      const { email, name, comments, teamName: team, sectionName: section, googleId = '' }: Student = student;
+      studentResult = { ...studentResult, email, name, comments, team, section, googleId };
+
+      // Join sessions
+      const matchingSessions: StudentSessions = sessions.sessions[email];
+      if (matchingSessions != null) {
+        const { openSessions, closedSessions, publishedSessions }: StudentSessions = matchingSessions;
+        studentResult = { ...studentResult, openSessions, closedSessions, publishedSessions };
+      }
+
+      // Join courses
+      const matchingCourses: SearchCoursesCommon[] =
+        courses.students.filter((el: SearchCoursesCommon) => el.email === email);
+      if (matchingCourses.length !== 0) {
+        const { courseId, courseName, institute }: SearchCoursesCommon = matchingCourses[0];
+        studentResult = { ...studentResult, courseId, courseName, institute };
+      }
+
+      // Join links
+      const matchingLinks: SearchLinksStudent[] = links.students.filter((el: SearchLinksStudent) => el.email === email);
+      if (matchingLinks.length !== 0) {
+        const { courseJoinLink, manageAccountLink, recordsPageLink, homePageLink }: SearchLinksStudent
+          = matchingLinks[0];
+        studentResult = { ...studentResult, courseJoinLink, manageAccountLink, recordsPageLink, homePageLink };
+      }
+
+      studentsData.push(studentResult);
+    }
+
+    return studentsData;
+  }
+
+  private joinAdminInstructors(resp: [Instructors, SearchLinks, SearchCourses ]): InstructorAccountSearchResult[] {
+    const [instructors, links, courses]: [Instructors, SearchLinks, SearchCourses] = resp;
+    const instructorsData: InstructorAccountSearchResult[] = [];
+    for (const instructor of instructors.instructors) {
+      let instructorResult: InstructorAccountSearchResult = {
+        email: '',
+        name: '',
+        courseId: '',
+        courseName: '',
+        institute: '',
+        manageAccountLink: '',
+        homePageLink: '',
+        courseJoinLink: '',
+        googleId: '',
+        showLinks: false,
+      };
+      const { email, name, googleId }: Instructor = instructor;
+      instructorResult = { ...instructorResult, email, name, googleId };
+
+      // Join courses
+      const matchingCourses: SearchCoursesCommon[]
+        = courses.instructors.filter((el: SearchCoursesCommon) => el.email === email);
+      if (matchingCourses.length !== 0) {
+        const { courseId, courseName, institute }: SearchCoursesCommon = matchingCourses[0];
+        instructorResult = { ...instructorResult, courseId, courseName, institute };
+      }
+
+      // Join links
+      const matchingLinks: SearchLinksInstructor[]
+        = links.instructors.filter((el: SearchLinksInstructor) => el.email === email);
+      if (matchingLinks.length !== 0) {
+        const { courseJoinLink, manageAccountLink, homePageLink }: SearchLinksInstructor = matchingLinks[0];
+        instructorResult = { ...instructorResult, courseJoinLink, manageAccountLink, homePageLink };
+      }
+
+      instructorsData.push(instructorResult);
+    }
+
+    return instructorsData;
   }
 }
 
