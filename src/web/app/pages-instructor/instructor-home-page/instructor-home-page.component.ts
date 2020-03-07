@@ -188,7 +188,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Updates the instructor privilege in {@code CourseTabModel}.
    */
   updateCourseInstructorPrivilege(model: CourseTabModel): void {
-    this.instructorService.loadInstructorPrivilege(model.course.courseId)
+    this.instructorService.loadInstructorPrivilege({ courseId: model.course.courseId })
       .subscribe((instructorPrivilege: InstructorPrivilege) => {
         model.instructorPrivilege = instructorPrivilege;
       }, (resp: ErrorMessageOutput) => {

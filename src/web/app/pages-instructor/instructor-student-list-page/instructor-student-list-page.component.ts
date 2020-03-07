@@ -136,7 +136,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads privilege of an instructor for a specified course and section.
    */
   loadPrivilege(courseTab: CourseTab, sectionName: string, students: StudentListStudentData[]): void {
-    this.instructorService.loadInstructorPrivilege(courseTab.course.courseId, sectionName)
+    this.instructorService.loadInstructorPrivilege({ sectionName, courseId: courseTab.course.courseId })
         .subscribe((instructorPrivilege: InstructorPrivilege) => {
           const sectionData: StudentListSectionData = {
             sectionName,

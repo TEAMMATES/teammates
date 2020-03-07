@@ -152,10 +152,10 @@ export abstract class InstructorSessionBasePageComponent {
    * Updates the instructor privilege in {@code SessionsTableRowModel}.
    */
   protected updateInstructorPrivilege(model: SessionsTableRowModel): void {
-    this.instructorService.loadInstructorPrivilege(
-        model.feedbackSession.courseId,
-        undefined,
-        model.feedbackSession.feedbackSessionName,
+    this.instructorService.loadInstructorPrivilege({
+      courseId: model.feedbackSession.courseId,
+      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+    },
     ).subscribe((instructorPrivilege: InstructorPrivilege) => {
       model.instructorPrivilege = instructorPrivilege;
     }, (resp: ErrorMessageOutput) => {

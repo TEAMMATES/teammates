@@ -85,7 +85,7 @@ describe('InstructorService', () => {
       courseid: 'CS3281',
     };
 
-    service.loadInstructorPrivilege(paramMap.courseid);
+    service.loadInstructorPrivilege({ courseId: paramMap.courseid });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
 });

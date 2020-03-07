@@ -34,17 +34,19 @@ export class InstructorService {
   /**
    * Loads privilege of an instructor for a specified course and section.
    */
-  loadInstructorPrivilege(courseId: string, sectionName?: string, feedbackSessionName?: string):
+  loadInstructorPrivilege(options: { courseId: string, sectionName?: string, feedbackSessionName?: string }):
     Observable<InstructorPrivilege> {
+
     const paramMap: { [key: string]: string } = {
-      courseid: courseId,
+      courseid: options.courseId,
     };
-    if (sectionName) {
-      paramMap.sectionname = sectionName;
+
+    if (options.feedbackSessionName) {
+      paramMap.fsname = options.feedbackSessionName;
     }
 
-    if (feedbackSessionName) {
-      paramMap.fsname = feedbackSessionName;
+    if (options.sectionName) {
+      paramMap.sectionname = options.sectionName;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
