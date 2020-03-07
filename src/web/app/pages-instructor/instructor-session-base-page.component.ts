@@ -167,7 +167,11 @@ export abstract class InstructorSessionBasePageComponent {
    * Loads response rate of a feedback session.
    */
   loadResponseRate(model: SessionsTableRowModel): void {
-    this.feedbackSessionsService.loadSessionStatistics(model)
+    model.isLoadingResponseRate = true;
+    this.feedbackSessionsService.loadSessionStatistics(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((resp: FeedbackSessionStats) => {
           model.isLoadingResponseRate = false;
           model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
@@ -223,7 +227,10 @@ export abstract class InstructorSessionBasePageComponent {
    */
   publishSession(model: SessionsTableRowModel): void {
 
-    this.feedbackSessionsService.publishFeedbackSession(model)
+    this.feedbackSessionsService.publishFeedbackSession(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
@@ -237,7 +244,10 @@ export abstract class InstructorSessionBasePageComponent {
    * Unpublishes a feedback session.
    */
   unpublishSession(model: SessionsTableRowModel): void {
-    this.feedbackSessionsService.unpublishFeedbackSession(model)
+    this.feedbackSessionsService.unpublishFeedbackSession(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';

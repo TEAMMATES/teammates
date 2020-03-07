@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SessionsTableRowModel } from '../app/components/sessions-table/sessions-table-model';
 import { default as templateSessions } from '../data/template-sessions.json';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
@@ -216,10 +215,10 @@ export class FeedbackSessionsService {
   /**
    * publishes a feedback session.
    */
-  publishFeedbackSession(model: SessionsTableRowModel): Observable<FeedbackSession> {
+  publishFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
     const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
+      courseid: courseId,
+      fsname: feedbackSessionName,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_PUBLISH, paramMap);
@@ -228,10 +227,10 @@ export class FeedbackSessionsService {
   /**
    * Unpublishes a feedback session.
    */
-  unpublishFeedbackSession(model: SessionsTableRowModel): Observable<FeedbackSession> {
+  unpublishFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
     const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
+      courseid: courseId,
+      fsname: feedbackSessionName,
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.SESSION_PUBLISH, paramMap);
@@ -240,11 +239,10 @@ export class FeedbackSessionsService {
   /**
    * Load session statistics.
    */
-  loadSessionStatistics(model: SessionsTableRowModel): Observable<FeedbackSessionStats> {
-    model.isLoadingResponseRate = true;
+  loadSessionStatistics(courseId: string, feedbackSessionName: string): Observable<FeedbackSessionStats> {
     const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
+      courseid: courseId,
+      fsname: feedbackSessionName,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_STATS, paramMap);

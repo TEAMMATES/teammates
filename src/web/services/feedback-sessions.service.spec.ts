@@ -67,7 +67,10 @@ describe('FeedbackSessionsService', () => {
       fsname: model.feedbackSession.feedbackSessionName,
     };
 
-    service.publishFeedbackSession(model);
+    service.publishFeedbackSession(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    );
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });
 
@@ -77,7 +80,10 @@ describe('FeedbackSessionsService', () => {
       fsname: model.feedbackSession.feedbackSessionName,
     };
 
-    service.unpublishFeedbackSession(model);
+    service.unpublishFeedbackSession(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    );
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });
 
@@ -86,7 +92,10 @@ describe('FeedbackSessionsService', () => {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
-    service.loadSessionStatistics(model);
+    service.loadSessionStatistics(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    );
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_STATS, paramMap);
   });
 
