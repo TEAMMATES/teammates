@@ -360,8 +360,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.coursePresent = true;
       this.courseid = courseid;
       if (resp.hasResponses) {
-        this.statusMessageService.showWarningMessage('There are existing feedback responses for this course. '
-            + 'Modifying records of enrolled students will result in some existing responses '
+        this.statusMessageService.showWarningMessageModal('Existing feedback responses',
+        'There are existing feedback responses for this course.',
+        'Modifying records of enrolled students will result in some existing responses '
             + 'from those modified students to be deleted. You may wish to download the data '
             + 'before you make the changes.');
       }
