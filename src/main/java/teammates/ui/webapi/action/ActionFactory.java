@@ -106,6 +106,7 @@ public class ActionFactory {
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
         map(ResourceURIs.JOIN_REMIND, POST, SendJoinReminderEmailAction.class);
         map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
+        map(ResourceURIs.SEARCH_COURSES, GET, SearchCoursesAction.class);
         map(ResourceURIs.STUDENT_PROFILE, GET, GetStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE, PUT, UpdateStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, GET, GetStudentProfilePictureAction.class);
