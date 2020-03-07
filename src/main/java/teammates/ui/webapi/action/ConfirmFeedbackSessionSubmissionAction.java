@@ -12,6 +12,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.logic.api.EmailGenerator;
 import teammates.ui.webapi.output.ConfirmationResponse;
 import teammates.ui.webapi.output.ConfirmationResult;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Confirm the submission of a feedback session.

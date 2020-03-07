@@ -84,6 +84,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         courseData = (CourseData) result.getOutput();
 
         verifyCourseData(courseData, "icdct.tpa.id1", "New course", "UTC");
+        assertFalse(courseData.getDeletionTimestamp() == 0);
         assertNotNull(logic.getCourse("icdct.tpa.id1").deletedAt);
     }
 

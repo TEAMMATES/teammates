@@ -11,9 +11,9 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.action.GetFeedbackQuestionRecipientsAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetFeedbackQuestionRecipientsAction}.

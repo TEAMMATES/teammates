@@ -28,8 +28,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest } from '../../../types/api-request';
-import { Intent } from '../../../types/Intent';
+import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   InstructorOverallPermission,
@@ -70,6 +69,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
   timezones: string[] = [];
   isEditingCourse: boolean = false;
   course: Course = {
+    courseName: '',
+    courseId: '',
+    timeZone: 'UTC',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
+  };
+  originalCourse: Course = {
     courseName: '',
     courseId: '',
     timeZone: 'UTC',
@@ -174,6 +180,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   loadCourseInfo(): void {
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((resp: Course) => {
       this.course = resp;
+      this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -223,9 +230,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.statusMessageService.showSuccessMessage('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
+      this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Cancels editing the course details.
+   */
+  cancelEditingCourse(): void {
+    this.course = Object.assign({}, this.originalCourse);
+    this.isEditingCourse = false;
   }
 
   /**

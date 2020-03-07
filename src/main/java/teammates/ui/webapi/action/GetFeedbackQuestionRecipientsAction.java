@@ -11,6 +11,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Get the recipients of a feedback question.

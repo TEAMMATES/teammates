@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -39,7 +39,7 @@ export class InstructorStudentListPageComponent implements OnInit {
 
   courseTabList: CourseTab[] = [];
 
-  constructor(private httpRequestService: HttpRequestService,
+  constructor(private instructorService: InstructorService,
               private courseService: CourseService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
@@ -136,18 +136,33 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads privilege of an instructor for a specified course and section.
    */
   loadPrivilege(courseTab: CourseTab, sectionName: string, students: StudentListStudentData[]): void {
-    this.httpRequestService.get('/instructor/privilege', {
-      courseid: courseTab.course.courseId,
-      sectionname: sectionName,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      const sectionData: StudentListSectionData = {
-        sectionName,
-        students,
-        isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
-        isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
-      };
+    this.instructorService.loadInstructorPrivilege({ sectionName, courseId: courseTab.course.courseId })
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
+          const sectionData: StudentListSectionData = {
+            sectionName,
+            students,
+            isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
+            isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
+          };
 
-      courseTab.studentListSectionDataList.push(sectionData);
+          courseTab.studentListSectionDataList.push(sectionData);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Removes the student from course.
+   */
+  removeStudentFromCourse(courseTab: CourseTab, studentEmail: string): void {
+    this.courseService.removeStudentFromCourse(courseTab.course.courseId, studentEmail).subscribe(() => {
+      this.statusMessageService
+          .showSuccessMessage(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
+      courseTab.studentListSectionDataList.forEach(
+          (section: StudentListSectionData) => {
+            section.students = section.students.filter(
+                (student: StudentListStudentData) => student.email !== studentEmail);
+          });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

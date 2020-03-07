@@ -12,6 +12,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.FeedbackQuestionsData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Get a list of feedback questions for a feedback session.

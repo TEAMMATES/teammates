@@ -3,22 +3,22 @@ import { from, Observable, of } from 'rxjs';
 import { concatMap, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../services/http-request.service';
+import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import {
-  FeedbackQuestion,
-  FeedbackQuestions,
-  FeedbackSession,
-  FeedbackSessionStats,
-  InstructorPrivilege,
+    FeedbackQuestion,
+    FeedbackQuestions,
+    FeedbackSession,
+    FeedbackSessionStats,
+    InstructorPrivilege,
 } from '../../types/api-output';
-import { Intent } from '../../types/Intent';
+import { Intent } from '../../types/api-request';
 import {
-  CopySessionResult,
-  SessionsTableRowModel,
-  SortBy,
-  SortOrder,
+    CopySessionResult,
+    SessionsTableRowModel,
+    SortBy,
+    SortOrder,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 
@@ -27,7 +27,8 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionBasePageComponent {
 
-  protected constructor(protected router: Router, protected httpRequestService: HttpRequestService,
+  protected constructor(protected router: Router,
+                        protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
                         protected feedbackSessionsService: FeedbackSessionsService,
@@ -60,12 +61,11 @@ export abstract class InstructorSessionBasePageComponent {
           createdFeedbackSession = feedbackSession;
 
           // copy questions
-          const param: { [key: string]: string } = {
-            courseid: fromFeedbackSession.courseId,
-            fsname: fromFeedbackSession.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-          };
-          return this.httpRequestService.get('/questions', param);
+          return this.feedbackQuestionsService.getFeedbackQuestions(
+              fromFeedbackSession.courseId,
+              fromFeedbackSession.feedbackSessionName,
+              Intent.FULL_DETAIL,
+          );
         }),
         switchMap((response: FeedbackQuestions) => {
           if (response.questions.length === 0) {
@@ -152,10 +152,11 @@ export abstract class InstructorSessionBasePageComponent {
    * Updates the instructor privilege in {@code SessionsTableRowModel}.
    */
   protected updateInstructorPrivilege(model: SessionsTableRowModel): void {
-    this.httpRequestService.get('/instructor/privilege', {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+    this.instructorService.loadInstructorPrivilege({
+      courseId: model.feedbackSession.courseId,
+      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+    },
+    ).subscribe((instructorPrivilege: InstructorPrivilege) => {
       model.instructorPrivilege = instructorPrivilege;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -167,22 +168,24 @@ export abstract class InstructorSessionBasePageComponent {
    */
   loadResponseRate(model: SessionsTableRowModel): void {
     model.isLoadingResponseRate = true;
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
-      model.isLoadingResponseRate = false;
-      model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    this.feedbackSessionsService.loadSessionStatistics(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
+        .subscribe((resp: FeedbackSessionStats) => {
+          model.isLoadingResponseRate = false;
+          model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
    * Edits the feedback session.
    */
   editSession(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/edit'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/edit',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
 
   /**
@@ -191,9 +194,11 @@ export abstract class InstructorSessionBasePageComponent {
   copySession(model: SessionsTableRowModel, result: CopySessionResult): void {
     this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
         .subscribe((createdSession: FeedbackSession) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit'
-              + `?courseid=${createdSession.courseId}&fsname=${createdSession.feedbackSessionName}`,
-              'The feedback session has been copied. Please modify settings/questions as necessary.');
+          this.navigationService.navigateWithSuccessMessage(
+              this.router,
+              '/web/instructor/sessions/edit',
+              'The feedback session has been copied. Please modify settings/questions as necessary.',
+              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
@@ -201,28 +206,31 @@ export abstract class InstructorSessionBasePageComponent {
    * Submits the feedback session as instructor.
    */
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/submission'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/submission',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
 
   /**
    * Views the result of a feedback session.
    */
   viewSessionResult(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/result'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/result',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
 
   /**
    * Publishes a feedback session.
    */
   publishSession(model: SessionsTableRowModel): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
 
-    this.httpRequestService.post('/session/publish', paramMap)
+    this.feedbackSessionsService.publishFeedbackSession(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
@@ -236,12 +244,10 @@ export abstract class InstructorSessionBasePageComponent {
    * Unpublishes a feedback session.
    */
   unpublishSession(model: SessionsTableRowModel): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.delete('/session/publish', paramMap)
+    this.feedbackSessionsService.unpublishFeedbackSession(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
