@@ -788,6 +788,7 @@ public final class Const {
         public static final String LOCAL_DATE_TIME = "/localdatetime";
         public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
+        public static final String LINKS_SEARCH = "/search/links";
 
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
