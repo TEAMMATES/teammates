@@ -749,6 +749,7 @@ public final class Const {
         public static final String BIN_COURSE = "/bin/course";
         public static final String COURSE_SECTIONS = "/course/sections";
         public static final String COURSES = "/courses";
+        public static final String SEARCH_COURSES = "/search/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
