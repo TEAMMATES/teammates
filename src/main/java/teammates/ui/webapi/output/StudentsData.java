@@ -2,7 +2,6 @@ package teammates.ui.webapi.output;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
@@ -18,7 +17,12 @@ public class StudentsData extends ApiOutput {
     }
 
     public StudentsData(List<StudentAttributes> students) {
-        this.students = students.stream().map(StudentData::new).collect(Collectors.toList());
+        this.students = new ArrayList<>();
+        for (StudentAttributes s : students) {
+            StudentData data = new StudentData(s);
+            data.setGoogleId(s.googleId);
+            this.students.add(data);
+        }
     }
 
     public List<StudentData> getStudents() {
