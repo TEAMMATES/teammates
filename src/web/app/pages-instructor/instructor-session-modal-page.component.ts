@@ -3,7 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../services/http-request.service';
+import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
@@ -34,14 +34,14 @@ import {
 export abstract class InstructorSessionModalPageComponent extends InstructorSessionBasePageComponent {
 
   protected constructor(router: Router,
-                        httpRequestService: HttpRequestService,
+                        instructorService: InstructorService,
                         statusMessageService: StatusMessageService,
                         navigationService: NavigationService,
                         feedbackSessionsService: FeedbackSessionsService,
                         feedbackQuestionsService: FeedbackQuestionsService,
                         protected modalService: NgbModal,
                         protected studentService: StudentService) {
-    super(router, httpRequestService, statusMessageService, navigationService,
+    super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService);
   }
 

@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
+import { Observable } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  FeedbackSession, FeedbackSessionSubmittedGiverSet,
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmittedGiverSet,
   SessionResults, Student, Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+// tslint:disable-next-line:max-line-length
+import { ConfirmPublishingSessionModalComponent } from '../../components/sessions-table/confirm-publishing-session-modal/confirm-publishing-session-modal.component';
+// tslint:disable-next-line:max-line-length
+import { ConfirmUnpublishingSessionModalComponent } from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 
@@ -41,9 +47,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
   isQuestionsLoaded: boolean = false;
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
+  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
 
   constructor(private httpRequestService: HttpRequestService, private route: ActivatedRoute,
-      private timezoneService: TimezoneService, private statusMessageService: StatusMessageService) {
+      private timezoneService: TimezoneService, private statusMessageService: StatusMessageService,
+      private modalService: NgbModal, private router: Router) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -159,4 +167,30 @@ export class InstructorSessionResultPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Handle publish result button event.
+   */
+  publishResultHandler(): void {
+    const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+    const publishResultEndPoint: string = '/session/publish';
+    const modalRef: NgbModalRef = this.modalService.open(isPublished ? ConfirmUnpublishingSessionModalComponent :
+        ConfirmPublishingSessionModalComponent);
+    modalRef.componentInstance.feedbackSessionName = this.session.feedbackSessionName;
+
+    modalRef.result.then(() => {
+      const paramsMap: { [key: string]: string } = {
+        courseid: this.session.courseId,
+        fsname: this.session.feedbackSessionName,
+      };
+
+      const response: Observable<any> = isPublished ? this.httpRequestService.delete(publishResultEndPoint, paramsMap) :
+          this.httpRequestService.post(publishResultEndPoint, paramsMap);
+
+      response.subscribe(() => {
+        this.router.navigateByUrl('/web/instructor/sessions');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }, () => {});
+  }
 }
