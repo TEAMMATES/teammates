@@ -158,24 +158,20 @@ export class SearchService {
       // Join sessions
       const matchingSessions: StudentSessions = sessions.sessions[email];
       if (matchingSessions != null) {
-        const { openSessions, closedSessions, publishedSessions }: StudentSessions = matchingSessions;
-        studentResult = { ...studentResult, openSessions, closedSessions, publishedSessions };
+        studentResult = { ...studentResult, ...matchingSessions };
       }
 
       // Join courses
       const matchingCourses: SearchCoursesCommon[] =
         courses.students.filter((el: SearchCoursesCommon) => el.email === email);
       if (matchingCourses.length !== 0) {
-        const { courseId, courseName, institute }: SearchCoursesCommon = matchingCourses[0];
-        studentResult = { ...studentResult, courseId, courseName, institute };
+        studentResult = { ...studentResult, ...matchingCourses[0] };
       }
 
       // Join links
       const matchingLinks: SearchLinksStudent[] = links.students.filter((el: SearchLinksStudent) => el.email === email);
       if (matchingLinks.length !== 0) {
-        const { courseJoinLink, manageAccountLink, recordsPageLink, homePageLink }: SearchLinksStudent
-          = matchingLinks[0];
-        studentResult = { ...studentResult, courseJoinLink, manageAccountLink, recordsPageLink, homePageLink };
+        studentResult = { ...studentResult, ...matchingLinks[0] };
       }
 
       studentsData.push(studentResult);
@@ -207,16 +203,14 @@ export class SearchService {
       const matchingCourses: SearchCoursesCommon[]
         = courses.instructors.filter((el: SearchCoursesCommon) => el.email === email);
       if (matchingCourses.length !== 0) {
-        const { courseId, courseName, institute }: SearchCoursesCommon = matchingCourses[0];
-        instructorResult = { ...instructorResult, courseId, courseName, institute };
+        instructorResult = { ...instructorResult, ...matchingCourses[0] };
       }
 
       // Join links
       const matchingLinks: SearchLinksInstructor[]
         = links.instructors.filter((el: SearchLinksInstructor) => el.email === email);
       if (matchingLinks.length !== 0) {
-        const { courseJoinLink, manageAccountLink, homePageLink }: SearchLinksInstructor = matchingLinks[0];
-        instructorResult = { ...instructorResult, courseJoinLink, manageAccountLink, homePageLink };
+        instructorResult = { ...instructorResult, ...matchingLinks[0] };
       }
 
       instructorsData.push(instructorResult);
