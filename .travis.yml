@@ -7,7 +7,6 @@ branches:
   only:
     - master
     - release
-    - 9946-search-migration
 
 notifications:
   email: false
