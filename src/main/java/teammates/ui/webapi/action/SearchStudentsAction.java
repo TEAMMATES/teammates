@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.StudentsData;
+import teammates.ui.webapi.output.SearchStudentsResult;
 
 /**
  * Action for searching for students.
@@ -38,9 +38,8 @@ public class SearchStudentsAction extends Action {
             students.forEach(s -> {
                 s.setComments(null);
                 s.setGoogleId(null);
-                s.setKey(null);
             });
         }
-        return new JsonResult(new StudentsData(students));
+        return new JsonResult(new SearchStudentsResult(students));
     }
 }

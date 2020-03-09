@@ -5,7 +5,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.output.InstructorsData;
+import teammates.ui.webapi.output.SearchInstructorsResult;
 
 /**
  * Searches for instructors.
@@ -29,10 +29,7 @@ public class SearchInstructorsAction extends Action {
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
-        instructors.forEach(i -> {
-            i.setRole(null);
-        });
-        InstructorsData result = new InstructorsData(instructors);
+        SearchInstructorsResult result = new SearchInstructorsResult(instructors);
         return new JsonResult(result);
     }
 }
