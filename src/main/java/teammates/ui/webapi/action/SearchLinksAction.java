@@ -14,8 +14,8 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.output.SearchLinksData;
 import teammates.ui.webapi.output.SearchLinksInstructorData;
+import teammates.ui.webapi.output.SearchLinksResult;
 import teammates.ui.webapi.output.SearchLinksStudentData;
 
 /**
@@ -51,7 +51,7 @@ public class SearchLinksAction extends Action {
 
         List<SearchLinksStudentData> studentsBundle = getStudentsBundle(students);
         List<SearchLinksInstructorData> instructorsBundle = getInstructorsBundle(instructors);
-        SearchLinksData links = new SearchLinksData(studentsBundle, instructorsBundle);
+        SearchLinksResult links = new SearchLinksResult(studentsBundle, instructorsBundle);
 
         return new JsonResult(links);
     }
@@ -172,4 +172,3 @@ public class SearchLinksAction extends Action {
         return instructorsBundle;
     }
 }
-

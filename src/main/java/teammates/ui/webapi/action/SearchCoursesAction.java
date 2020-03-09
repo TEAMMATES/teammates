@@ -14,8 +14,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.output.SearchCoursesCommonData;
-import teammates.ui.webapi.output.SearchCoursesData;
+import teammates.ui.webapi.output.SearchCourseData;
+import teammates.ui.webapi.output.SearchCoursesResult;
 
 /**
  * Searches Courses.
@@ -46,14 +46,14 @@ public class SearchCoursesAction extends Action {
 
         List<StudentAttributes> students = logic.searchStudentsInWholeSystem(searchKey).studentList;
         List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
-        List<SearchCoursesCommonData> studentsBundle = new ArrayList<>();
-        List<SearchCoursesCommonData> instructorsBundle = new ArrayList<>();
+        List<SearchCourseData> studentsBundle = new ArrayList<>();
+        List<SearchCourseData> instructorsBundle = new ArrayList<>();
         populateCourseIds(students, instructors);
         populateCourseIdToCourseNameMap();
         populateCourseIdToInstituteMap();
 
         for (StudentAttributes s : students) {
-            SearchCoursesCommonData sb = new SearchCoursesCommonData();
+            SearchCourseData sb = new SearchCourseData();
             sb.setEmail(s.email);
             sb.setCourseId(s.course);
             sb.setCourseName(courseIdToCourseNameMap.get(s.course));
@@ -62,7 +62,7 @@ public class SearchCoursesAction extends Action {
         }
 
         for (InstructorAttributes i : instructors) {
-            SearchCoursesCommonData ib = new SearchCoursesCommonData();
+            SearchCourseData ib = new SearchCourseData();
             ib.setEmail(i.email);
             ib.setCourseId(i.courseId);
             ib.setCourseName(courseIdToCourseNameMap.get(i.courseId));
@@ -70,7 +70,7 @@ public class SearchCoursesAction extends Action {
             instructorsBundle.add(ib);
         }
 
-        SearchCoursesData result = new SearchCoursesData(studentsBundle, instructorsBundle);
+        SearchCoursesResult result = new SearchCoursesResult(studentsBundle, instructorsBundle);
         return new JsonResult(result);
     }
 
