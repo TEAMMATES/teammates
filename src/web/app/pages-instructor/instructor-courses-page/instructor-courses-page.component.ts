@@ -147,7 +147,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    this.studentService.getStudentsFromCourse(courseId).subscribe((students: Students) => {
+    this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
       this.courseStats[courseId] = {
         sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
         teams: (new Set(students.students.map((value: Student) => value.teamName))).size,

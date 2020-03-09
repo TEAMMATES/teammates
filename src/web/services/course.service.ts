@@ -233,4 +233,11 @@ export class CourseService {
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
   }
+
+  getCourseSectionNames(courseId: string): Observable<any> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: courseId,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.COURSE_SECTIONS, paramsMap);
+  }
 }

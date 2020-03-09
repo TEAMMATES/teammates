@@ -21,18 +21,16 @@ export class StudentService {
    * If teamName is provided, only students in that team will be returned.
    * Otherwise, all students in the course will be returned.
    */
-  getStudentsFromCourse(courseId: string, teamName?: string): Observable<Students> {
-    if (teamName) {
-      const paramsMapWithTeamName: { [key: string]: string } = {
-        courseid: courseId,
-        teamname: teamName,
-      };
-      return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMapWithTeamName);
-    }
-    const paramsMapWithoutTeamName: { [key: string]: string } = {
-      courseid: courseId,
+  getStudentsFromCourse(queryParams: { courseId: string, teamName?: string }): Observable<Students> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
     };
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMapWithoutTeamName);
+
+    if (queryParams.teamName) {
+      paramsMap.teamname = queryParams.teamName;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
 
   }
 

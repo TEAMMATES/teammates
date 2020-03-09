@@ -8,7 +8,7 @@ import {
   FeedbackSessions, FeedbackSessionStats, FeedbackSessionSubmittedGiverSet,
   HasResponses,
   MessageOutput,
-  OngoingSessions,
+  OngoingSessions, SessionResults,
 } from '../types/api-output';
 import {
   FeedbackSessionCreateRequest,
@@ -46,12 +46,13 @@ export class FeedbackSessionsService {
   /**
    * Retrieves a feedback session by calling API.
    */
-  getFeedbackSession(courseId: string, feedbackSessionName: string, intent: Intent): Observable<FeedbackSession> {
+  getFeedbackSession(queryParams: {courseId: string, feedbackSessionName: string, intent: Intent}):
+      Observable<FeedbackSession> {
     // load feedback session
     const paramMap: { [key: string]: string } = {
-      intent,
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      intent: queryParams.intent,
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
     };
 
     return this.httpRequestService.get('/session', paramMap);
@@ -255,6 +256,39 @@ export class FeedbackSessionsService {
     };
 
     return this.httpRequestService.put(ResourceEndpoints.BIN_SESSION, paramMap);
+  }
+
+  getFeedbackSessionsResult(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    intent: Intent
+    questionId?: string,
+    groupBySection?: string,
+  }): Observable<SessionResults> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+      intent: queryParams.intent,
+    };
+
+    if (queryParams.questionId) {
+      paramMap.questionid = queryParams.questionId;
+    }
+
+    if (queryParams.groupBySection) {
+      paramMap.frgroupbysection = queryParams.groupBySection;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.RESULT, paramMap);
+  }
+
+  getFeedbackSessionGiverSet(queryParams: { courseId: string, feedbackSessionName: string }):
+      Observable<FeedbackSessionSubmittedGiverSet> {
+    const paramMap: { [key: string]: string } = {
+      courseId: queryParams.courseId,
+      feedbackSessionName: queryParams.feedbackSessionName,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMITTED_GIVER_SET, paramMap);
   }
 
   deleteSessionFromRecycleBin(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
