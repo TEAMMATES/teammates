@@ -163,10 +163,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         this.googleId = googleId;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
     public void setComments(String comments) {
         this.comments = comments;
     }
