@@ -3,8 +3,7 @@ package teammates.ui.webapi.output;
 import javax.annotation.Nullable;
 
 /**
- * Contains common attributes for the Student and Instructor search response
- * object.
+ * Contains the common attributes for instructors and students.
  */
 public class CommonSearchUserData {
     private final String name;

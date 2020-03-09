@@ -13,8 +13,8 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.output.SearchSessionsData;
-import teammates.ui.webapi.output.StudentSessionsData;
+import teammates.ui.webapi.output.SearchSessionData;
+import teammates.ui.webapi.output.SearchSessionsResult;
 
 /**
  * Searches for sessions.
@@ -49,8 +49,8 @@ public class SearchSessionsAction extends Action {
         populateCourseIds(students);
         populateCourseIdToFeedbackSessionsMap();
 
-        Map<String, StudentSessionsData> sessionsData = getSessionsData(students);
-        SearchSessionsData result = new SearchSessionsData(sessionsData);
+        Map<String, SearchSessionData> sessionsData = getSessionsData(students);
+        SearchSessionsResult result = new SearchSessionsResult(sessionsData);
         return new JsonResult(result);
     }
 
@@ -81,11 +81,11 @@ public class SearchSessionsAction extends Action {
         }
     }
 
-    private Map<String, StudentSessionsData> getSessionsData(List<StudentAttributes> students) {
-        Map<String, StudentSessionsData> sessionsData = new HashMap<>();
+    private Map<String, SearchSessionData> getSessionsData(List<StudentAttributes> students) {
+        Map<String, SearchSessionData> sessionsData = new HashMap<>();
 
         for (StudentAttributes student : students) {
-            StudentSessionsData studentSessionsData = new StudentSessionsData();
+            SearchSessionData studentSessionsData = new SearchSessionData();
 
             if (student.email != null && student.course != null) {
                 // Open sessions
