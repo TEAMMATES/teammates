@@ -50,4 +50,3 @@ public class CommonSearchLinksData {
         return courseJoinLink;
     }
 }
-
