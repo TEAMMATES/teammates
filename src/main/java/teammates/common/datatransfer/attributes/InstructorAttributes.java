@@ -133,10 +133,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return googleId != null && !googleId.trim().isEmpty();
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     @Override
     public Instructor toEntity() {
         return new Instructor(googleId, courseId, isArchived, name, email, role,
