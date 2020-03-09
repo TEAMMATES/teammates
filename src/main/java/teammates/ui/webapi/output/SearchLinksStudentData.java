@@ -1,7 +1,7 @@
 package teammates.ui.webapi.output;
 
 /**
- * Contains the links for a student.
+ * Represents a Links search result for students.
  */
 public class SearchLinksStudentData extends CommonSearchLinksData {
     private String recordsPageLink;
@@ -19,4 +19,3 @@ public class SearchLinksStudentData extends CommonSearchLinksData {
         this.recordsPageLink = recordsPageLink;
     }
 }
-

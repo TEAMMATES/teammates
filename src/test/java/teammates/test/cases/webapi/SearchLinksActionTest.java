@@ -8,7 +8,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SearchLinksAction;
-import teammates.ui.webapi.output.SearchLinksData;
+import teammates.ui.webapi.output.SearchLinksResult;
 
 /**
  * SUT:{@link SearchLinksAction}.
@@ -52,7 +52,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 student.getEmail()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getStudents().stream()
                 .filter(s -> s.getEmail().equals(student.getEmail()))
                 .findAny()
@@ -66,7 +66,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 student.getName()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getStudents().stream()
                 .filter(s -> s.getEmail().equals(student.getEmail()))
                 .findAny()
@@ -80,7 +80,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 student.getCourse()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getStudents().stream()
                 .filter(s -> s.getEmail().equals(student.getEmail()))
                 .findAny()
@@ -94,7 +94,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 student.getGoogleId()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getStudents().stream()
                 .filter(s -> s.getEmail().equals(student.getEmail()))
                 .findAny()
@@ -108,7 +108,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 student.getSection()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getStudents().stream()
                 .filter(s -> s.getEmail().equals(student.getEmail()))
                 .findAny()
@@ -122,7 +122,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 student.getTeam()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getStudents().stream()
                 .filter(s -> s.getEmail().equals(student.getEmail()))
                 .findAny()
@@ -136,7 +136,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 instructor.getEmail()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getInstructors().stream()
                 .filter(s -> s.getEmail().equals(instructor.getEmail()))
                 .findAny()
@@ -150,7 +150,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 instructor.getName()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getInstructors().stream()
                 .filter(s -> s.getEmail().equals(instructor.getEmail()))
                 .findAny()
@@ -164,7 +164,7 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
                 instructor.getGoogleId()};
         SearchLinksAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchLinksData response = (SearchLinksData) result.getOutput();
+        SearchLinksResult response = (SearchLinksResult) result.getOutput();
         assertTrue(response.getInstructors().stream()
                 .filter(s -> s.getEmail().equals(instructor.getEmail()))
                 .findAny()
@@ -177,4 +177,3 @@ public class SearchLinksActionTest extends BaseActionTest<SearchLinksAction> {
         verifyAccessibleForAdmin();
     }
 }
-

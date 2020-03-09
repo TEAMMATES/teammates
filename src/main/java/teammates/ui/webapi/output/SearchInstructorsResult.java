@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 
 /**
- * Contains Instructors search response object(s).
+ * Contains Instructor search results.
  */
 public class SearchInstructorsResult extends ApiOutput {
     private final List<SearchInstructorData> instructors;

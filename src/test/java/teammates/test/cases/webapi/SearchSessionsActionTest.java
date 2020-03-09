@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SearchSessionsAction;
-import teammates.ui.webapi.output.SearchSessionsData;
+import teammates.ui.webapi.output.SearchSessionsResult;
 
 /**
  * SUT: {@link SearchSessionsAction}.
@@ -51,7 +51,7 @@ public class SearchSessionsActionTest extends BaseActionTest<SearchSessionsActio
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getCourse() };
         SearchSessionsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchSessionsData response = (SearchSessionsData) result.getOutput();
+        SearchSessionsResult response = (SearchSessionsResult) result.getOutput();
         assertTrue(response.getSessions().keySet().contains(acc.getEmail()));
     }
 
@@ -61,7 +61,7 @@ public class SearchSessionsActionTest extends BaseActionTest<SearchSessionsActio
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getEmail() };
         SearchSessionsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchSessionsData response = (SearchSessionsData) result.getOutput();
+        SearchSessionsResult response = (SearchSessionsResult) result.getOutput();
         assertTrue(response.getSessions().keySet().contains(acc.getEmail()));
     }
 
@@ -71,7 +71,7 @@ public class SearchSessionsActionTest extends BaseActionTest<SearchSessionsActio
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getGoogleId() };
         SearchSessionsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchSessionsData response = (SearchSessionsData) result.getOutput();
+        SearchSessionsResult response = (SearchSessionsResult) result.getOutput();
         assertTrue(response.getSessions().keySet().contains(acc.getEmail()));
     }
 
@@ -81,7 +81,7 @@ public class SearchSessionsActionTest extends BaseActionTest<SearchSessionsActio
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getName() };
         SearchSessionsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchSessionsData response = (SearchSessionsData) result.getOutput();
+        SearchSessionsResult response = (SearchSessionsResult) result.getOutput();
         assertTrue(response.getSessions().keySet().contains(acc.getEmail()));
     }
 
@@ -91,7 +91,7 @@ public class SearchSessionsActionTest extends BaseActionTest<SearchSessionsActio
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getSection() };
         SearchSessionsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchSessionsData response = (SearchSessionsData) result.getOutput();
+        SearchSessionsResult response = (SearchSessionsResult) result.getOutput();
         assertTrue(response.getSessions().keySet().contains(acc.getEmail()));
     }
 
@@ -101,7 +101,7 @@ public class SearchSessionsActionTest extends BaseActionTest<SearchSessionsActio
         String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getTeam() };
         SearchSessionsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        SearchSessionsData response = (SearchSessionsData) result.getOutput();
+        SearchSessionsResult response = (SearchSessionsResult) result.getOutput();
         assertTrue(response.getSessions().keySet().contains(acc.getEmail()));
     }
 

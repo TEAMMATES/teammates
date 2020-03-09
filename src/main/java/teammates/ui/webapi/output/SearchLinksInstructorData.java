@@ -1,7 +1,7 @@
 package teammates.ui.webapi.output;
 
 /**
- * Contains the links for an instructor.
+ * Represents a Links search result for instructors.
  */
 public class SearchLinksInstructorData extends CommonSearchLinksData {
 }
