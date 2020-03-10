@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -60,10 +60,10 @@ export class InstructorCoursesPageComponent implements OnInit {
   isAddNewCourseFormExpanded: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
+              private instructorService: InstructorService,
               private modalService: NgbModal,
               private tableComparatorService: TableComparatorService) { }
 
@@ -85,9 +85,8 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.httpRequestService.get('/instructor/privilege', {
-          courseid: course.courseId,
-        }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
           const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
@@ -102,8 +101,8 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.httpRequestService.get('/instructor/privilege', {
-          courseid: course.courseId,
+        this.instructorService.loadInstructorPrivilege({
+          courseId: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
@@ -119,20 +118,19 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.httpRequestService.get('/instructor/privilege', {
-          courseid: course.courseId,
-        }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const softDeletedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
-          this.softDeletedCourses.push(softDeletedCourse);
-          if (!softDeletedCourse.canModifyCourse) {
-            this.canDeleteAll = false;
-            this.canRestoreAll = false;
-          }
-        }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(error.error.message);
-        });
+        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
+            .subscribe((instructorPrivilege: InstructorPrivilege) => {
+              const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
+              const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+              const softDeletedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+              this.softDeletedCourses.push(softDeletedCourse);
+              if (!softDeletedCourse.canModifyCourse) {
+                this.canDeleteAll = false;
+                this.canRestoreAll = false;
+              }
+            }, (error: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorMessage(error.error.message);
+            });
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -295,10 +293,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-    this.httpRequestService.delete('/bin/course', paramMap).subscribe((resp: MessageOutput) => {
+    this.courseService.restoreCourse(courseId).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
