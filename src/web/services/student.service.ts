@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { SearchResult } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import { MessageOutput, Student, Students } from '../types/api-output';
-import { StudentsEnrollRequest } from '../types/api-request';
+import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -55,6 +55,15 @@ export class StudentService {
       paramsMap.key = regKey;
     }
     return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
+  }
+
+  updateStudent(queryParams: { courseId: string, studentEmail: string, requestBody: StudentUpdateRequest }):
+      Observable<MessageOutput> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      studentemail: queryParams.studentEmail,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.STUDENT, paramsMap, queryParams.requestBody);
   }
 
   /**
