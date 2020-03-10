@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { InstructorPrivilege, Instructors } from '../types/api-output';
-import { Intent } from '../types/api-request';
+import { Instructor, InstructorPrivilege, Instructors } from '../types/api-output';
+import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -34,21 +34,68 @@ export class InstructorService {
   /**
    * Loads privilege of an instructor for a specified course and section.
    */
-  loadInstructorPrivilege(options: { courseId: string, sectionName?: string, feedbackSessionName?: string }):
+  loadInstructorPrivilege(queryParams: {
+    courseId: string,
+    sectionName?: string,
+    feedbackSessionName?: string,
+    instructorRole?: string,
+    instructorEmail?: string,
+  }):
     Observable<InstructorPrivilege> {
 
     const paramMap: { [key: string]: string } = {
-      courseid: options.courseId,
+      courseid: queryParams.courseId,
     };
 
-    if (options.feedbackSessionName) {
-      paramMap.fsname = options.feedbackSessionName;
+    if (queryParams.feedbackSessionName) {
+      paramMap.fsname = queryParams.feedbackSessionName;
     }
 
-    if (options.sectionName) {
-      paramMap.sectionname = options.sectionName;
+    if (queryParams.sectionName) {
+      paramMap.sectionname = queryParams.sectionName;
+    }
+
+    if (queryParams.instructorRole) {
+      paramMap.sectionname = queryParams.instructorRole;
+    }
+
+    if (queryParams.instructorEmail) {
+      paramMap.instructorEmail = queryParams.instructorEmail;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
+  }
+
+  updateInstructorPrivilege(queryParams: {
+    courseId: string,
+    instructorEmail: string,
+    requestBody: InstructorPrivilegeUpdateRequest }): Observable<InstructorPrivilege> {
+    const paramMap: any = {
+      courseid: queryParams.courseId,
+      instructoremail: queryParams.instructorEmail,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
+  }
+
+  createInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
+  }
+
+  updateInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
+  }
+
+  destroyInstructor(queryParams: { courseId: string, instructorEmail: string }): Observable<any> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      instructoremail: queryParams.instructorEmail,
+    };
+    return this.httpRequestService.delete('/instructor', paramMap);
   }
 }
