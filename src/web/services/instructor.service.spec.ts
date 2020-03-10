@@ -34,7 +34,7 @@ describe('InstructorService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should execute GET', () => {
+  it('should execute GET when getting instructors for a course', () => {
     service.getInstructorsFromCourse('CS3281');
     const paramMap: { [key: string]: string } = {
       courseid: 'CS3281',
@@ -78,5 +78,14 @@ describe('InstructorService', () => {
         .filter((instructor: Instructor) => instructor.courseId === 'CS3281'));
       done();
     });
+  });
+
+  it('should call get when loading instructor privileges', () => {
+    const paramMap: { [key: string]: string } = {
+      courseid: 'CS3281',
+    };
+
+    service.loadInstructorPrivilege({ courseId: paramMap.courseid });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
 });
