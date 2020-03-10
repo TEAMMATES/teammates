@@ -293,6 +293,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
+
     this.courseService.restoreCourse(courseId).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);

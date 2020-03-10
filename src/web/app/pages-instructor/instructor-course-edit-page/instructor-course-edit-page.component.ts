@@ -386,7 +386,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     modalRef.componentInstance.isDeletingSelf = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
 
     modalRef.result.then(() => {
-      this.instructorService.destroyInstructor({
+      this.instructorService.deleteInstructor({
         courseId: panelDetail.originalInstructor.courseId,
         instructorEmail: panelDetail.originalInstructor.email,
       }).subscribe(() => {

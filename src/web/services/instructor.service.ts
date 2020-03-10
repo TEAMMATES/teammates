@@ -31,6 +31,28 @@ export class InstructorService {
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS, paramMap);
   }
 
+  createInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
+  }
+
+  updateInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
+  }
+
+  deleteInstructor(queryParams: { courseId: string, instructorEmail: string }): Observable<any> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      instructoremail: queryParams.instructorEmail,
+    };
+    return this.httpRequestService.delete('/instructor', paramMap);
+  }
+
   /**
    * Loads privilege of an instructor for a specified course and section.
    */
@@ -75,27 +97,5 @@ export class InstructorService {
       instructoremail: queryParams.instructorEmail,
     };
     return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
-  }
-
-  createInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
-    const paramMap: { [key: string]: string } = {
-      courseid: queryParams.courseId,
-    };
-    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
-  }
-
-  updateInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
-    const paramMap: { [key: string]: string } = {
-      courseid: queryParams.courseId,
-    };
-    return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
-  }
-
-  destroyInstructor(queryParams: { courseId: string, instructorEmail: string }): Observable<any> {
-    const paramMap: { [key: string]: string } = {
-      courseid: queryParams.courseId,
-      instructoremail: queryParams.instructorEmail,
-    };
-    return this.httpRequestService.delete('/instructor', paramMap);
   }
 }

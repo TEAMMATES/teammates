@@ -5,7 +5,6 @@ import { HotTableRegisterer } from '@handsontable/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Handsontable from 'handsontable';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { HasResponses, JoinState, Student, Students } from '../../../types/api-output';
@@ -30,7 +29,10 @@ interface EnrollResultPanel {
   studentList: Student[];
 }
 
-interface StudentListResults {
+/**
+ * List of enrolled students and their attributes.
+ */
+export interface StudentListResults {
   enrolledStudents: StudentAttributes[];
 }
 
@@ -84,7 +86,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isAjaxSuccess: boolean = true;
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
@@ -306,10 +307,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseid,
-    };
-    this.httpRequestService.get('/course/enroll/students', paramMap).subscribe(
+    this.courseService.getStudentsEnrolledInCourse({ courseId: this.courseid }).subscribe(
         (resp: StudentListResults) => {
           if (resp.enrolledStudents.length !== 0) {
             this.loadExistingStudentsData(existingStudentsHOTInstance, resp.enrolledStudents);
