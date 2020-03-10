@@ -18,14 +18,14 @@ export class InstructorService {
   /**
    * Get a list of instructors of a course by calling API.
    */
-  getInstructorsFromCourse(courseId: string, intent?: Intent): Observable<Instructors> {
+  loadInstructors(queryParams: { courseId: string, intent?: Intent }): Observable<Instructors> {
 
     const paramMap: { [key: string]: string } = {
-      courseid: courseId,
+      courseid: queryParams.courseId,
     };
 
-    if (intent) {
-      paramMap[intent] = intent;
+    if (queryParams.intent) {
+      paramMap.intent = queryParams.intent;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS, paramMap);

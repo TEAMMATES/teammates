@@ -258,10 +258,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads all instructors in the course.
    */
   loadCourseInstructors(): void {
-    this.instructorService.getInstructorsFromCourse(
-        this.courseId,
-        Intent.FULL_DETAIL,
-    )
+    this.instructorService.loadInstructors({
+      courseId: this.courseId,
+      intent: Intent.FULL_DETAIL,
+    })
         .subscribe((resp: Instructors) => {
           this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
             originalInstructor: Object.assign({}, i),
@@ -493,7 +493,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     requests.push(this.instructorService.loadInstructorPrivilege({
       courseId: instructor.courseId,
-      instructorEmail: instructor.email
+      instructorEmail: instructor.email,
     })
         .pipe(tap((resp: InstructorPrivilege) => {
           permission.privilege.canModifyCourse = resp.canModifyCourse;

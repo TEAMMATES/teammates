@@ -35,7 +35,7 @@ describe('InstructorService', () => {
   });
 
   it('should execute GET when getting instructors for a course', () => {
-    service.getInstructorsFromCourse('CS3281');
+    service.loadInstructors({ courseId: 'CS3281' });
     const paramMap: { [key: string]: string } = {
       courseid: 'CS3281',
     };
@@ -73,7 +73,7 @@ describe('InstructorService', () => {
       });
     });
 
-    service.getInstructorsFromCourse('CS3281').subscribe((instructors: Instructors) => {
+    service.loadInstructors({ courseId: 'CS3281' }).subscribe((instructors: Instructors) => {
       expect(instructors.instructors).toEqual(mockInstructors.instructors
         .filter((instructor: Instructor) => instructor.courseId === 'CS3281'));
       done();

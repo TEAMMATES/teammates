@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { Student, Students } from '../types/api-output';
+import { MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -76,5 +76,20 @@ export class StudentService {
       teamname: teamName,
     };
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
+  }
+
+  deleteAllStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
+  }
+
+  loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    const responseType: string = 'text';
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
   }
 }

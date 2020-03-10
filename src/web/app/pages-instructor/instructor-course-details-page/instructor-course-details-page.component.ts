@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { ClipboardService } from 'ngx-clipboard';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -69,11 +69,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router,
               private clipboardService: ClipboardService,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private ngbModal: NgbModal, private navigationService: NavigationService,
-              private studentService: StudentService) { }
+              private studentService: StudentService,
+              private  instructorService: InstructorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -105,8 +105,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the instructors in the course
    */
   private loadInstructors(courseid: string): void {
-    const paramMap: any = { courseid, intent: Intent.FULL_DETAIL };
-    this.httpRequestService.get('/instructors', paramMap).subscribe((instructors: Instructors) => {
+    this.instructorService.loadInstructors({ courseId: courseid, intent: Intent.FULL_DETAIL })
+    .subscribe((instructors: Instructors) => {
       this.instructors = instructors.instructors;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -158,9 +158,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads privilege of an instructor for a specified course and section.
    */
   private loadPrivilege(courseid: string, sectionName: string, students: StudentListStudentData[]): void {
-    this.httpRequestService.get('/instructor/privilege', {
-      courseid,
-      sectionname: sectionName,
+    this.instructorService.loadInstructorPrivilege({
+      sectionName,
+      courseId: courseid,
     }).subscribe((instructorPrivilege: InstructorPrivilege) => {
       const sectionData: StudentListSectionData = {
         sectionName,
@@ -193,10 +193,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Delete all the students in a course.
    */
   deleteAllStudentsFromCourse(courseId: string): void {
-    const paramsMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-    this.httpRequestService.delete('/students', paramsMap)
+    this.studentService.deleteAllStudentsFromCourse({ courseId })
       .subscribe((resp: MessageOutput) => {
         this.loadCourseDetails(courseId);
         this.statusMessageService.showSuccessMessage(resp.message);
@@ -217,11 +214,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       blob = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
       saveAs(blob, filename);
     } else {
-
-      const paramsMap: { [key: string]: string } = {
-        courseid: courseId,
-      };
-      this.httpRequestService.get('/students/csv', paramsMap, 'text')
+      this.studentService.loadStudentListAsCsv({ courseId })
         .subscribe((resp: string) => {
           blob = new Blob([resp], { type: 'text/csv' });
           saveAs(blob, filename);
@@ -245,10 +238,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       return;
     }
 
-    const paramsMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-    this.httpRequestService.get('/students/csv', paramsMap, 'text')
+    this.studentService.loadStudentListAsCsv({ courseId })
       .subscribe((resp: string) => {
         this.courseStudentListAsCsv = resp;
       }, (resp: ErrorMessageOutput) => {

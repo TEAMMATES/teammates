@@ -843,7 +843,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets all instructors of a course which can be previewed as.
    */
   getAllInstructorsCanBePreviewedAs(): void {
-    this.instructorService.getInstructorsFromCourse(this.courseId, Intent.FULL_DETAIL)
+    this.instructorService.loadInstructors({
+      courseId: this.courseId,
+      intent: Intent.FULL_DETAIL,
+    })
         .subscribe((instructors: Instructors) => {
           this.instructorsCanBePreviewedAs = instructors.instructors;
 
