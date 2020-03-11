@@ -114,10 +114,10 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                       + `?courseid=${courseId}&studentemail=${student.email}`;
 
                     const newTeammateProfile: StudentProfileWithPicture = {
-                      studentProfile: { 
+                      studentProfile: {
                         ...studentProfile,
                         email: student.email,
-                        shortName: student.name
+                        shortName: student.name,
                       },
                       photoUrl : newPhotoUrl,
                     };
