@@ -35,6 +35,7 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
         InstructorAttributes instructorAttributes = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructorAttributes.getGoogleId());
         FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes sessionWithStatistics = typicalBundle.feedbackSessions.get("sessionWithStatistics");
         String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
@@ -100,10 +101,15 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "true",
                 Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS, "false",
         };
-
-        String[] paramsWithMissingResponsesHidden = {
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+        String[] paramsWithStatisticsShown = {
+                Const.ParamsNames.COURSE_ID, sessionWithStatistics.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionWithStatistics.getFeedbackSessionName(),
+                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false",
+                Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS, "true",
+        };
+        String[] paramsWithStatisticsHidden = {
+                Const.ParamsNames.COURSE_ID, sessionWithStatistics.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionWithStatistics.getFeedbackSessionName(),
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false",
                 Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS, "false",
         };
@@ -204,13 +210,23 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
 
         CsvChecker.verifyCsvContent(result.getContent(), "/feedbackSessionResultsMissingResponsesShown_actionTest.csv");
 
-        ______TS("Typical case: results with missing responses hidden");
-        action = getAction(paramsWithMissingResponsesHidden);
+        ______TS("Typical case: results with statistics hidden");
+        action = getAction(paramsWithStatisticsHidden);
         result = getCsvResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        CsvChecker.verifyCsvContent(result.getContent(), "/feedbackSessionResultsMissingResponsesHidden_actionTest.csv");
+        System.out.println(result.getContent());
+        CsvChecker.verifyCsvContent(result.getContent(), "/feedbackSessionResultsStatisticsHidden_actionTest.csv");
+
+        ______TS("Typical case: results with statistics shown");
+        action = getAction(paramsWithStatisticsShown);
+        result = getCsvResult(action);
+
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+
+        System.out.println(result.getContent());
+        CsvChecker.verifyCsvContent(result.getContent(), "/feedbackSessionResultsStatisticsShown_actionTest.csv");
 
         ______TS("Typical case: results downloadable by question");
 
