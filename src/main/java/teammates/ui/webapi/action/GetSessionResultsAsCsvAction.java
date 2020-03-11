@@ -70,7 +70,7 @@ public class GetSessionResultsAsCsvAction extends Action {
                 throw new ExceedingRangeException("This session has more responses than that can be downloaded at one go.");
             }
 
-            if (section == null || "All".equals(section)) {
+            if (section == null) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
                         courseId, feedbackSessionName, instructor.email,
                         isMissingResponsesShown, isStatsShown, questionId);
