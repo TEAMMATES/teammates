@@ -1,8 +1,10 @@
 package teammates.test.cases.webapi;
 
 import org.apache.http.HttpStatus;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -19,6 +21,8 @@ import teammates.ui.webapi.action.GetSessionResultsAsCsvAction;
  */
 public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionResultsAsCsvAction> {
 
+    private DataBundle dataBundle;
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.RESULT_CSV;
@@ -29,13 +33,23 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
         return GET;
     }
 
+    private void loadCustomBundle() {
+        dataBundle = loadDataBundle("/FeedbackSessionResultsCsvActionTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+    }
+
+    @BeforeMethod
+    public void setup() {
+        loadCustomBundle();
+    }
+
     @Override
     @Test
     protected void testExecute() throws Exception {
-        InstructorAttributes instructorAttributes = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructorAttributes = dataBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructorAttributes.getGoogleId());
-        FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackSessionAttributes sessionWithStatistics = typicalBundle.feedbackSessions.get("sessionWithStatistics");
+        FeedbackSessionAttributes accessibleFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes sessionWithStatistics = dataBundle.feedbackSessions.get("sessionWithMcq");
         String[] paramsNormal = {
                 Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
@@ -161,7 +175,7 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
 
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");
 
-        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         student1InCourse1.name = "new name {new last name}";
         logic.updateStudentCascade(
                 StudentAttributes.updateOptionsBuilder(student1InCourse1.course, student1InCourse1.email)
@@ -211,26 +225,28 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
         CsvChecker.verifyCsvContent(result.getContent(), "/feedbackSessionResultsMissingResponsesShown_actionTest.csv");
 
         ______TS("Typical case: results with statistics hidden");
+        loadCustomBundle();
+
         action = getAction(paramsWithStatisticsHidden);
         result = getCsvResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        System.out.println(result.getContent());
         CsvChecker.verifyCsvContent(result.getContent(), "/feedbackSessionResultsStatisticsHidden_actionTest.csv");
 
         ______TS("Typical case: results with statistics shown");
+        loadCustomBundle();
+
         action = getAction(paramsWithStatisticsShown);
         result = getCsvResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
-        System.out.println(result.getContent());
         CsvChecker.verifyCsvContent(result.getContent(), "/feedbackSessionResultsStatisticsShown_actionTest.csv");
 
         ______TS("Typical case: results downloadable by question");
 
-        int questionNum1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1").getQuestionNumber();
+        int questionNum1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getQuestionNumber();
         String question1Id = logic.getFeedbackQuestion(accessibleFeedbackSession.getFeedbackSessionName(),
                 accessibleFeedbackSession.getCourseId(), questionNum1).getId();
         String[] paramsQuestion1 = {
@@ -251,7 +267,7 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
 
         ______TS("Typical case: results downloadable by question showing section from giver or recipient");
 
-        int questionNum2 = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
+        int questionNum2 = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").getQuestionNumber();
         String question2Id = logic.getFeedbackQuestion(accessibleFeedbackSession.getFeedbackSessionName(),
                 accessibleFeedbackSession.getCourseId(), questionNum2).getId();
 
@@ -381,7 +397,7 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
         String[] submissionParams;
 
         ______TS("accessible for authenticated instructor");
-        FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes accessibleFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
