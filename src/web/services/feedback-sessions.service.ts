@@ -248,6 +248,23 @@ export class FeedbackSessionsService {
     return this.httpRequestService.get(ResourceEndpoints.SESSION_STATS, paramMap);
   }
 
+  /**
+   * Download session results.
+   */
+  downloadSessionResults(courseId: string,
+                         feedbackSessionName: string,
+                         userIntent: string): Observable<any> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+      intent: userIntent,
+      frindicatemissingresponses: 'true',
+      frshowstats: 'true',
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.RESULT_CSV, paramMap);
+  }
+
   moveSessionToRecycleBin(courseId: string, feedbackSessionName: string): Observable<any> {
     const paramMap: { [key: string]: string } = {
       courseid: courseId,

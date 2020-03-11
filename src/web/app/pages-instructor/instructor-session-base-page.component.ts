@@ -230,20 +230,16 @@ export abstract class InstructorSessionBasePageComponent {
     const filename: string = `${model.feedbackSession.feedbackSessionName.concat('_result')}.csv`;
     let blob: any;
 
-    const paramsMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
-      frindicatemissingresponses: 'true',
-      frshowstats: 'true',
-    };
-    this.httpRequestService.get('/result/csv', paramsMap, 'text')
-        .subscribe((resp: string) => {
-          blob = new Blob([resp], { type: 'text/csv' });
-          saveAs(blob, filename);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+    this.feedbackSessionsService.downloadSessionResults(
+      model.feedbackSession.courseId,
+      model.feedbackSession.feedbackSessionName,
+      Intent.INSTRUCTOR_RESULT,
+    ).subscribe((resp: string) => {
+      blob = new Blob([resp], { type: 'text/csv' });
+      saveAs(blob, filename);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
