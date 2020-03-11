@@ -57,12 +57,10 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, PUT, UpdateInstructorPrivilegeAction.class);
-        map(ResourceURIs.INSTRUCTORS_SEARCH, GET, SearchInstructorsAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, POST, CreateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
-        map(ResourceURIs.LINKS_SEARCH, GET, SearchLinksAction.class);
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
@@ -74,7 +72,6 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
 
-        map(ResourceURIs.STUDENTS_SEARCH, GET, SearchStudentsAction.class);
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);
@@ -87,7 +84,6 @@ public class ActionFactory {
         map(ResourceURIs.SESSION_REMIND_SUBMISSION, POST, RemindFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.SESSION_REMIND_RESULT, POST, RemindFeedbackSessionResultAction.class);
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
-        map(ResourceURIs.SESSIONS_SEARCH, GET, SearchSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
         map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);
         map(ResourceURIs.QUESTIONS, GET, GetFeedbackQuestionsAction.class);
