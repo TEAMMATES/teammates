@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
-  FeedbackQuestionDetails,
+  FeedbackQuestionDetails, FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails, FeedbackRubricQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
-import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest } from '../types/api-request';
+import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest, Intent } from '../types/api-request';
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS, DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
@@ -509,6 +510,18 @@ export class FeedbackQuestionsService {
   }
 
   /**
+   * Gets feedback questions.
+   */
+  getFeedbackQuestions(courseId: string, feedbackSessionName: string, intent: Intent): Observable<FeedbackQuestions> {
+    const paramMap: { [key: string]: string } = {
+      intent,
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);
+  }
+
+  /**
    * Gets template questions.
    */
   getTemplateQuestions(): TemplateQuestion[] {
@@ -525,7 +538,7 @@ export class FeedbackQuestionsService {
       fsname: feedbackSessionName,
     };
 
-    return this.httpRequestService.post('/question', paramMap, request);
+    return this.httpRequestService.post(ResourceEndpoints.QUESTION, paramMap, request);
   }
 
   /**
@@ -535,7 +548,16 @@ export class FeedbackQuestionsService {
       Observable<FeedbackQuestion> {
     const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
 
-    return this.httpRequestService.put('/question', paramMap, request);
+    return this.httpRequestService.put(ResourceEndpoints.QUESTION, paramMap, request);
+  }
+
+  /**
+   * Deletes a feedback question
+   */
+  deleteFeedbackQuestion(feedbackQuestionId: string): Observable<any> {
+    const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
+
+    return this.httpRequestService.delete('/question', paramMap);
   }
 
 }

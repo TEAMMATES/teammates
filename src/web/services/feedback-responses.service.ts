@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   FeedbackConstantSumResponseDetails,
   FeedbackContributionResponseDetails,
@@ -123,7 +124,7 @@ export class FeedbackResponsesService {
    */
   createFeedbackResponse(questionId: string, additionalParams: { [key: string]: string } = {},
                          request: FeedbackResponseCreateRequest): Observable<FeedbackResponse> {
-    return this.httpRequestService.post('/response', {
+    return this.httpRequestService.post(ResourceEndpoints.RESPONSE, {
       questionid: questionId,
       ...additionalParams,
     }, request);
@@ -134,7 +135,7 @@ export class FeedbackResponsesService {
    */
   updateFeedbackResponse(responseId: string, additionalParams: { [key: string]: string } = {},
                          request: FeedbackResponseUpdateRequest): Observable<FeedbackResponse> {
-    return this.httpRequestService.put('/response', {
+    return this.httpRequestService.put(ResourceEndpoints.RESPONSE, {
       responseid: responseId,
       ...additionalParams,
     }, request);
