@@ -57,6 +57,9 @@ export class StudentService {
     return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
   }
 
+  /**
+   * Updates the details of a student in a course by calling API.
+   */
   updateStudent(queryParams: { courseId: string, studentEmail: string, requestBody: StudentUpdateRequest }):
       Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
@@ -88,6 +91,9 @@ export class StudentService {
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
   }
 
+  /**
+   * Deletes all students in a course by calling API.
+   */
   deleteAllStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
@@ -95,6 +101,9 @@ export class StudentService {
     return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
   }
 
+  /**
+   * Loads list of students from a course in CSV format by calling API.
+   */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
@@ -103,6 +112,9 @@ export class StudentService {
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
   }
 
+  /**
+   * Search for students based on input parameters by calling API.
+   */
   searchForStudents(queryParams: { searchKey: string, searchStudents: string, searchFeedbackSessionData: string}):
       Observable<SearchResult> {
     const paramsMap: { [key: string]: string } = {

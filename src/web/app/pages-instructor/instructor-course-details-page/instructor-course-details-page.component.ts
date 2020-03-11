@@ -73,7 +73,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
               private courseService: CourseService,
               private ngbModal: NgbModal, private navigationService: NavigationService,
               private studentService: StudentService,
-              private  instructorService: InstructorService) { }
+              private instructorService: InstructorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
