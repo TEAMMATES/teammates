@@ -37,22 +37,28 @@ public class GetSessionResultsAsCsvAction extends Action {
 
     @Override
     public ActionResult execute() {
+        // read in session details
         String section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         String sectionDetailValue = getRequestParamValue(Const.ParamsNames.SECTION_NAME_DETAIL);
         SectionDetail sectionDetail = SectionDetail.NOT_APPLICABLE;
         if (section != null && sectionDetailValue != null && !sectionDetailValue.isEmpty()) {
-            if (SectionDetail.containsSectionDetail(sectionDetailValue) == null) {
+            if (!SectionDetail.containsSectionDetail(sectionDetailValue)) {
                 throw new InvalidHttpParameterException("Section detail is invalid.");
             }
             sectionDetail = SectionDetail.valueOf(sectionDetailValue);
         }
 
+        // read in other session-related info
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+
+        // read in optional params for csv generation
         boolean isMissingResponsesShown = getBooleanRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         boolean isStatsShown = getBooleanRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
+
+        // read in params for testing
         String simulateExcessDataForTesting = getRequestParamValue("simulateExcessDataForTesting");
 
         String fileContent = "";
