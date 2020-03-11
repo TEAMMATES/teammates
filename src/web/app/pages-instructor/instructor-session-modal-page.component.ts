@@ -91,7 +91,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
     forkJoin(
         this.studentService.getStudentsFromCourse({ courseId }),
-        this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet(courseId, feedbackSessionName))
+        this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }))
         .subscribe(
             (result: any[]) => {
               const students: Student[] = (result[0] as Students).students;

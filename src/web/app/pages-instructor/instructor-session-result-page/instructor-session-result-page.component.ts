@@ -113,7 +113,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         }).subscribe((allStudents: Students) => {
           const students: Student[] = allStudents.students;
 
-          this.feedbackSessionsService.getFeedbackSessionGiverSet({
+          this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
             courseId: queryParams.courseid,
             feedbackSessionName: queryParams.fsname,
           })
