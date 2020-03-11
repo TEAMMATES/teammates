@@ -237,6 +237,9 @@ export class CourseService {
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
   }
 
+  /**
+   * Gets a list of course section names.
+   */
   getCourseSectionNames(courseId: string): Observable<any> {
     const paramsMap: { [key: string]: string } = {
       courseid: courseId,
@@ -244,6 +247,9 @@ export class CourseService {
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SECTIONS, paramsMap);
   }
 
+  /**
+   * Returns a list of students enrolled in a course.
+   */
   getStudentsEnrolledInCourse(queryParams: { courseId: string }): Observable<StudentListResults> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
