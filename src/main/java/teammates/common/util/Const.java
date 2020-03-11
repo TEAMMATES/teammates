@@ -751,11 +751,13 @@ public final class Const {
         public static final String BIN_COURSE = "/bin/course";
         public static final String COURSE_SECTIONS = "/course/sections";
         public static final String COURSES = "/courses";
-        public static final String SEARCH_COURSES = "/search/courses";
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
+<<<<<<< HEAD
         public static final String SEARCH_INSTRUCTORS = "/search/instructors";
+=======
+>>>>>>> Split PR
         public static final String RESULT = "/result";
         public static final String RESULT_CSV = "/result/csv";
         public static final String STUDENTS = "/students";
@@ -769,9 +771,12 @@ public final class Const {
         public static final String SESSION_SUBMITTED_GIVER_SET = "/session/submitted/giverset";
         public static final String SESSIONS = "/sessions";
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final String SEARCH_STUDENTS = "/search/students";
 =======
         public static final String SESSIONS_SEARCH = "/search/sessions";
+=======
+>>>>>>> Split PR
         public static final String STUDENTS_SEARCH = "/search/students";
 >>>>>>> Implement sessions search endpoint (#3)
         public static final String BIN_SESSION = "/bin/session";
@@ -788,7 +793,6 @@ public final class Const {
         public static final String LOCAL_DATE_TIME = "/localdatetime";
         public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
-        public static final String LINKS_SEARCH = "/search/links";
 
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
