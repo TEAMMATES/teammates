@@ -11,6 +11,7 @@ import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   LOCAL_DATE_TIME_FORMAT,
   TimeResolvingResult,
@@ -28,6 +29,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   DateFormat,
   SessionEditFormMode,
@@ -39,8 +41,6 @@ import {
   SessionsTableColumn,
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
-  SortBy,
-  SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -140,11 +140,12 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               modalService: NgbModal,
               studentService: StudentService,
               instructorService: InstructorService,
+              tableComparatorService: TableComparatorService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
   }
 
   ngOnInit(): void {
