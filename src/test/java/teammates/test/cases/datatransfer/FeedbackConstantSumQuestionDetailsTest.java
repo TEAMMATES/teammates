@@ -13,7 +13,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues(){
         FeedbackConstantSumQuestionDetails sumDetails = new FeedbackConstantSumQuestionDetails();
-
+        //Tests all default values for FeedbackConstantSumQuestionDetails constructor
         assertEquals(FeedbackQuestionType.CONSTSUM, sumDetails.getQuestionType());
         assertEquals(0, sumDetails.getNumOfConstSumOptions());
         assertTrue(sumDetails.getConstSumOptions().isEmpty());
@@ -36,7 +36,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         String distributePointsFor = "Student";
         FeedbackConstantSumQuestionDetails sumDetails = new  FeedbackConstantSumQuestionDetails(questionText,
                 constSumOptions, pointsPerOption, points, unevenDistribution, distributePointsFor);
-
+        //Tests passed in paramaters for FeedbackConstantSumQuestionDetails constructor
         assertEquals(2, sumDetails.getNumOfConstSumOptions());
         assertEquals("TEST", sumDetails.getQuestionText());
         assertEquals(constSumOptions, sumDetails.getConstSumOptions());
@@ -60,7 +60,8 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, new String[] { "0" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY, new String[] { "on" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS, new String[] { "true" });
-        //ConstSumOptions are not set since distributeToRecipients is true
+        //No Choices are selected, tests template values being passed into extractQuestionDetails
+        //Distribute Points option is true
         assertTrue(sumDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.CONSTSUM));
         assertEquals(FeedbackQuestionType.CONSTSUM, sumDetails.getQuestionType());
         assertEquals(0, sumDetails.getNumOfConstSumOptions());
@@ -84,7 +85,9 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, new String[] { "5" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY, new String[] { "off" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS, new String[] { "true" });
-        //
+        //No Choices are selected, tests template values being passed into extractQuestionDetails
+        //"NULL" string passed in to check for unusual behavior
+        
         assertTrue(sumDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.CONSTSUM));
         assertEquals(FeedbackQuestionType.CONSTSUM, sumDetails.getQuestionType());
         assertEquals(0, sumDetails.getNumOfConstSumOptions());
@@ -108,7 +111,10 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, new String[] { "5" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY, new String[] { "on" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS, new String[] { "true" });
-
+        //No Choices are selected, tests template values being passed into extractQuestionDetails
+        //Points per option is true
+        //Points for each option false
+        //tests for unusal behavior
         assertTrue(sumDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.CONSTSUM));
         assertEquals(FeedbackQuestionType.CONSTSUM, sumDetails.getQuestionType());
         assertEquals(0, sumDetails.getNumOfConstSumOptions());
@@ -133,7 +139,8 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT, new String[] { "0" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY, new String[] { "off" });
         requestParams.put(Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS, new String[] { "Teacher" });
-
+        //Multiple options are selected, tests template values being passed into extractQuestionDetails
+        //Correct values for each field, tests functionality
         assertTrue(sumDetails.extractQuestionDetails(requestParams, FeedbackQuestionType.CONSTSUM));
         assertEquals(FeedbackQuestionType.CONSTSUM, sumDetails.getQuestionType());
         assertEquals(2, sumDetails.getNumOfConstSumOptions());
@@ -164,7 +171,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         sumDetails.setForceUnevenDistribution(forceUnevenDistribution);
         sumDetails.setDistributePointsFor(distributePointsFor);
         sumDetails.setPoints(points);
-
+        //Tests all set and get methods, any boolean values are set to true
         assertEquals(5, sumDetails.getNumOfConstSumOptions());
         assertEquals(constSumOptions, sumDetails.getConstSumOptions());
         assertTrue(sumDetails.isDistributeToRecipients());
@@ -195,6 +202,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         sumDetails.setForceUnevenDistribution(forceUnevenDistribution);
         sumDetails.setDistributePointsFor(distributePointsFor);
         sumDetails.setPoints(points);
+        //Tests all set and get methods, any boolean values are set to false
 
         assertEquals(2, sumDetails.getNumOfConstSumOptions());
         assertEquals(constSumOptions, sumDetails.getConstSumOptions());
