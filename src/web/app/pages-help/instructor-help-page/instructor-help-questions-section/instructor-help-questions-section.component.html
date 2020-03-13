@@ -100,7 +100,7 @@
           <p>
             Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
             <br> The setup and result statistics is similar to the single answer version. See
-            <a (click)="isCollapsed1 = !isCollapsed1" href="#">above</a> for details.
+            <a (click)="isCollapsed1 = !isCollapsed1" [routerLink]="">above</a> for details.
           </p>
           <p>
             <strong>Note:</strong> Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer,
@@ -468,7 +468,7 @@
           <p>
             The ratings in a contribution question can be used to identify relative contribution levels of students in a team.
             If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
-            <a (click)="undefined" href="#">tips for conducting 'team peer evaluation' sessions</a> section.
+            <a (click)="jumpTo('tips-for-conducting-peer-eval')" [routerLink]="">tips for conducting 'team peer evaluation' sessions</a> section.
           </p>
           <p>
             The actual contribution values entered by the student may appear different from the values shown in the results because the system ‘normalizes’ those values so that there is no artificial inflation of contribution.

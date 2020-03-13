@@ -37,7 +37,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            No. However, if courses with an enrollment of more than 100 students need to be <a class="collapse-link" data-target="#course-enroll-sections-body" href="#course-enroll-sections">divided into sections</a>.<br>
+            No. However, if courses with an enrollment of more than 100 students need to be <a (click)="jumpTo('course-enroll-sections')" [routerLink]="">divided into sections</a>.<br>
             TEAMMATES uses section information to organize the results of your sessions into a downloadable report.
           </p>
         </div>
@@ -89,7 +89,7 @@
     </div>
   </div>
     <!--Question-->
-  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="course-enroll-sections">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4">
       How do I enroll students into sections?
@@ -110,7 +110,7 @@
   <!-- Section -->
   <h3 *ngIf="displaySubsection(showQuestion, 5, 9)">Adding Instructors to Courses</h3>
   <!--Question -->
-  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
+  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="course-add-instructor">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5">
       How do I add instructors to my course?
@@ -143,7 +143,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
+  <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="course-edit-instructor">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed6 = !isCollapsed6" [attr.aria-expanded]="!isCollapsed6">
       How do I edit the information of an instructor in my course?
@@ -189,7 +189,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            When <a class="collapse-link" data-target="#course-add-instructor-body" href="#course-add-instructor">adding an instructor</a> or <a class="collapse-link" data-target="#course-edit-instructor-body" href="#course-edit-instructor"> editing an instructor's information</a>, you can set the instructor's access level.
+            When <a (click)="jumpTo('course-add-instructor')" [routerLink]="">adding an instructor</a> or <a (click)="jumpTo('course-edit-instructor')" [routerLink]="">editing an instructor's information</a>, you can set the instructor's access level.
             There are 4 pre-defined privilege options for you to choose from:
           </p>
           <ul>
@@ -242,7 +242,7 @@
   <!-- Section -->
   <h3 *ngIf="displaySubsection(showQuestion, 9, 13)">Managing Courses</h3>
   <!--Question-->
-  <div class="instr-help-qn9" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
+  <div class="instr-help-qn9" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question id="course-view-students">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed9 = !isCollapsed9" [attr.aria-expanded]="!isCollapsed9">
       How do I view a list of students in a course?
@@ -292,8 +292,8 @@
               Click the <button class="btn btn-secondary btn-sm">Edit</button> button in the last column of the row corresponding to Student A.
             </li>
             <li>
-              A new page will open that allows you to <a class="collapse-link" data-target="#student-edit-details-body" href="#student-edit-details">edit the student's profile</a>, including a field to edit the student's section.<br>
-            </li>
+              A new page will open that allows you to <a (click)="jumpTo('student-edit-details')" [routerLink]="">edit the student's profile</a>, including a field to edit the student's section.<br>
+            </li>§
             <li>
               After editing the section name, click <button class="btn btn-primary btn-sm">Save Changes</button> to confirm Student A's new section.
             </li>
@@ -337,7 +337,7 @@
           </p>
           <ol>
             <li>
-              <a class="collapse-link" data-target="#course-view-students-body" href="#course-view-students">View the student list</a> of Course B.
+              <a (click)="jumpTo('course-view-students')" [routerLink]="">View the student list</a> of Course B.
             </li>
             <li>
               In the row corresponding to Student A, click the <button class="btn btn-secondary btn-sm">Delete</button> button.
@@ -381,7 +381,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn14" *ngIf="showQuestion.length === 0 || showQuestion[14]" #question>
+  <div class="instr-help-qn14" *ngIf="showQuestion.length === 0 || showQuestion[14]" #question id="course-view-archived">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed14 = !isCollapsed14" [attr.aria-expanded]="!isCollapsed14">
       How do I view courses I have archived?
@@ -396,7 +396,7 @@
           </p>
           <p>
             The courses you have previously archived are listed here.
-            In order to access information in an archived course, <a class="collapse-link" data-target="#course-unarchive-body" href="#course-unarchive">unarchive the course</a>.
+            In order to access information in an archived course, <a (click)="jumpTo('course-unarchive')" [routerLink]="">unarchive the course</a>.
           </p>
         </div>
       </div>
@@ -404,7 +404,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn15" *ngIf="showQuestion.length === 0 || showQuestion[15]" #question>
+  <div class="instr-help-qn15" *ngIf="showQuestion.length === 0 || showQuestion[15]" #question id="course-unarchive">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed15 = !isCollapsed15" [attr.aria-expanded]="!isCollapsed15">
       How do I unarchive an archived course?
@@ -414,7 +414,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            To unarchive a course, first <a class="collapse-link" data-target="#course-view-archived-body" href="#course-view-archived">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
+            To unarchive a course, first <a (click)="jumpTo('course-view-archived')" [routerLink]="">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
             Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
           </p>
         </div>
@@ -425,7 +425,7 @@
   <!-- Section -->
   <h3 *ngIf="displaySubsection(showQuestion, 16, 20)">Restoring Deleted Courses</h3>
   <!--Question-->
-  <div class="instr-help-qn16" *ngIf="showQuestion.length === 0 || showQuestion[16]" #question>
+  <div class="instr-help-qn16" *ngIf="showQuestion.length === 0 || showQuestion[16]" #question id="course-view-deleted">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed16 = !isCollapsed16" [attr.aria-expanded]="!isCollapsed16">
       How do I view courses I have deleted?
@@ -440,7 +440,7 @@
           </p>
           <p>
             The courses you have previously deleted are listed here.
-            In order to access information in a deleted course, <a class="collapse-link" data-target="#course-restore-body" href="#course-restore">restore the course</a>.
+            In order to access information in a deleted course, <a (click)="jumpTo('course-restore')" [routerLink]="">restore the course</a>.
           </p>
         </div>
       </div>
@@ -448,7 +448,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn17" *ngIf="showQuestion.length === 0 || showQuestion[17]" #question>
+  <div class="instr-help-qn17" *ngIf="showQuestion.length === 0 || showQuestion[17]" #question id="course-restore">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed17 = !isCollapsed17" [attr.aria-expanded]="!isCollapsed17">
       How do I restore a deleted course?
@@ -458,7 +458,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            To restore a deleted course, first <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">view the course</a> that you would like to restore in the <b>Courses</b> page.<br>
+            To restore a deleted course, first <a (click)="jumpTo('course-view-deleted')" [routerLink]="">view the course</a> that you would like to restore in the <b>Courses</b> page.<br>
             Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the course you want to restore.
           </p>
           <p>
@@ -480,7 +480,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            To permanently delete a course, first <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">view the course</a> that you would like to permanently delete in the <b>Courses</b> page.<br>
+            To permanently delete a course, first <a (click)="jumpTo('course-view-deleted')" [routerLink]="">view the course</a> that you would like to permanently delete in the <b>Courses</b> page.<br>
             Then, click on the <button href="#" class="btn btn-secondary btn-sm color-negative" type="button">Delete Permanently</button> button corresponding to the course you want to delete.
           </p>
           <p>
@@ -502,7 +502,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            First <a class="collapse-link" data-target="#course-view-deleted-body" href="#course-view-deleted">view the course</a> and check for courses in Recycle Bin.<br>
+            First <a (click)="jumpTo('course-view-deleted')" [routerLink]="">view the course</a> and check for courses in Recycle Bin.<br>
             To restore all courses, click on the <a class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top"><span class="fa fa-check"></span><strong> Restore All</strong></a> button in <b>Deleted courses</b> heading;
             to delete all courses, click on the <a class="btn btn-secondary btn-sm color-negative" data-toggle="tooltip" data-placement="top"><span class="fa fa-times"></span><strong> Delete All</strong></a> button in <b>Deleted courses</b> heading.
           </p>

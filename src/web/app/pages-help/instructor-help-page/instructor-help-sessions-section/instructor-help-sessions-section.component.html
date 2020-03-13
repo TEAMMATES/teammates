@@ -4,7 +4,7 @@
   <!--Section-->
   <h3 *ngIf="displaySubsection(showQuestion, 0, 4)">Setting Up Sessions</h3>
   <!-- Question -->
-  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
+  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question id="tips-for-conducting-peer-eval">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
         Tips for conducting team peer evaluation sessions

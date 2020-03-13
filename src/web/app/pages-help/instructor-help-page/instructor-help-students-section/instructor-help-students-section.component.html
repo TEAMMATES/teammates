@@ -56,11 +56,11 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
+  <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="student-edit-details">
     <p><button type="button" class="btn btn-outline-primary" (click)="isCollapsed1 = !isCollapsed1" [attr.aria-expanded]="!isCollapsed1">
       How do I edit a student's details after enrolling the student?
     </button></p>
-    <div [ngbCollapse]="!isCollapsed1">
+    <div [ngbCollapse]="!isCollapsed1" class="collapse">
       <div class="card">
         <div class="card-body">
           <p>

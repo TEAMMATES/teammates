@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -16,6 +16,20 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * To scroll to a specific HTML id
+   */
+  jumpTo(target: string): boolean {
+    const destination: Element | null = document.getElementById(target);
+    console.log(destination);
+    if (destination) {
+      destination.scrollIntoView();
+      // to prevent the navbar from covering the text
+      window.scrollTo(0, window.pageYOffset - 50);
+    }
+    return false;
   }
 
 }
