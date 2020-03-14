@@ -1,5 +1,7 @@
 package teammates.ui.webapi.output;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 
 /**
@@ -9,10 +11,12 @@ public class InstructorData extends ApiOutput {
     private String googleId;
     private final String courseId;
     private final String email;
+    @Nullable
     private Boolean isDisplayedToStudents;
+    @Nullable
     private final String displayedToStudentsAs;
     private final String name;
-
+    @Nullable
     private InstructorPermissionRole role;
     private JoinState joinState;
 
@@ -20,7 +24,9 @@ public class InstructorData extends ApiOutput {
         this.googleId = instructorAttributes.getGoogleId();
         this.courseId = instructorAttributes.getCourseId();
         this.email = instructorAttributes.getEmail();
-        this.role = InstructorPermissionRole.getEnum(instructorAttributes.getRole());
+        this.role = instructorAttributes.getRole() != null
+                ? InstructorPermissionRole.getEnum(instructorAttributes.getRole())
+                : null;
         this.isDisplayedToStudents = instructorAttributes.isDisplayedToStudents();
         this.displayedToStudentsAs = instructorAttributes.getDisplayedName();
         this.name = instructorAttributes.getName();
