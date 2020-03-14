@@ -1,5 +1,7 @@
 package teammates.ui.webapi.output;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
