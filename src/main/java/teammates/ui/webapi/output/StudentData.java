@@ -11,6 +11,7 @@ public class StudentData extends ApiOutput {
     private final String courseId;
 
     private final String name;
+    private final String googleId;
     private final String lastName;
 
     private String comments;
@@ -24,6 +25,7 @@ public class StudentData extends ApiOutput {
         this.email = studentAttributes.getEmail();
         this.courseId = studentAttributes.getCourse();
         this.name = studentAttributes.getName();
+        this.googleId = studentAttributes.getGoogleId();
         this.lastName = studentAttributes.getLastName();
         this.joinState = studentAttributes.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
         this.comments = studentAttributes.getComments();
@@ -41,6 +43,10 @@ public class StudentData extends ApiOutput {
 
     public String getName() {
         return name;
+    }
+
+    public String getGoogleId() {
+        return googleId;
     }
 
     public String getLastName() {
