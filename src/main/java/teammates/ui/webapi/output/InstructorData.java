@@ -24,9 +24,8 @@ public class InstructorData extends ApiOutput {
         this.googleId = instructorAttributes.getGoogleId();
         this.courseId = instructorAttributes.getCourseId();
         this.email = instructorAttributes.getEmail();
-        this.role = instructorAttributes.getRole() != null
-                ? InstructorPermissionRole.getEnum(instructorAttributes.getRole())
-                : null;
+        this.role = instructorAttributes.getRole() == null ? null
+                : InstructorPermissionRole.getEnum(instructorAttributes.getRole());
         this.isDisplayedToStudents = instructorAttributes.isDisplayedToStudents();
         this.displayedToStudentsAs = instructorAttributes.getDisplayedName();
         this.name = instructorAttributes.getName();

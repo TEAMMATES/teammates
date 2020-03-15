@@ -293,9 +293,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
       googleId: i.googleId,
       courseId: i.courseId,
       email: i.email,
+      // tslint:disable-next-line
       isDisplayedToStudents: i.isDisplayedToStudents!,
+      // tslint:disable-next-line
       displayedToStudentsAs: i.displayedToStudentsAs!,
       name: i.name,
+      // tslint:disable-next-line
       role: i.role!,
       joinState: i.joinState,
 
