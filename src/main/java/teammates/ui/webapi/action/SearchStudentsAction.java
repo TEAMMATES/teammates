@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.StudentData;
 import teammates.ui.webapi.output.StudentsData;
 
 /**
@@ -29,18 +30,23 @@ public class SearchStudentsAction extends Action {
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         List<StudentAttributes> students;
+        StudentsData studentsData;
+
+        // Search for students
         if (userInfo.isAdmin) {
             students = logic.searchStudentsInWholeSystem(searchKey).studentList;
         } else {
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
             students = logic.searchStudents(searchKey, instructors).studentList;
-            // hide information
-            students.forEach(s -> {
-                s.setGoogleId(null);
-                s.setComments(null);
-            });
         }
-        students.forEach(s -> s.setLastName(null));
-        return new JsonResult(new StudentsData(students));
+        studentsData = new StudentsData(students);
+
+        // Hide information
+        studentsData.getStudents().forEach(StudentData::hideLastName);
+        if (!(userInfo.isAdmin)) {
+            studentsData.getStudents().forEach(StudentData::hideInformationForInstructor);
+        }
+
+        return new JsonResult(studentsData);
     }
 }

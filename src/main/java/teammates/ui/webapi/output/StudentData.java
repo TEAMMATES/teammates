@@ -14,9 +14,9 @@ public class StudentData extends ApiOutput {
 
     private final String name;
     @Nullable
-    private final String googleId;
+    private String googleId;
     @Nullable
-    private final String lastName;
+    private String lastName;
     @Nullable
     private String comments;
 
@@ -61,16 +61,8 @@ public class StudentData extends ApiOutput {
         return comments;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
     public JoinState getJoinState() {
         return joinState;
-    }
-
-    public void setJoinState(JoinState joinState) {
-        this.joinState = joinState;
     }
 
     public String getTeamName() {
@@ -79,5 +71,36 @@ public class StudentData extends ApiOutput {
 
     public String getSectionName() {
         return sectionName;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public void setJoinState(JoinState joinState) {
+        this.joinState = joinState;
+    }
+
+    /**
+     * Hides last name.
+     */
+    public void hideLastName() {
+        setLastName(null);
+    }
+
+    /**
+     * Hides some attributes to instructor.
+     */
+    public void hideInformationForInstructor() {
+        setGoogleId(null);
+        setComments(null);
     }
 }
