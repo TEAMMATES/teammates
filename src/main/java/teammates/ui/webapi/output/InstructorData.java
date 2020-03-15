@@ -14,7 +14,7 @@ public class InstructorData extends ApiOutput {
     @Nullable
     private Boolean isDisplayedToStudents;
     @Nullable
-    private final String displayedToStudentsAs;
+    private String displayedToStudentsAs;
     private final String name;
     @Nullable
     private InstructorPermissionRole role;
@@ -69,6 +69,10 @@ public class InstructorData extends ApiOutput {
         return displayedToStudentsAs;
     }
 
+    public void setDisplayedToStudentsAs(String displayedToStudentsAs) {
+        this.displayedToStudentsAs = displayedToStudentsAs;
+    }
+
     public String getName() {
         return name;
     }
@@ -79,5 +83,14 @@ public class InstructorData extends ApiOutput {
 
     public void setJoinState(JoinState joinState) {
         this.joinState = joinState;
+    }
+
+    /**
+     * Hides some attributes for search result.
+     */
+    public void hideInformationForSearch() {
+        setRole(null);
+        setDisplayedToStudentsAs(null);
+        setIsDisplayedToStudents(null);
     }
 }

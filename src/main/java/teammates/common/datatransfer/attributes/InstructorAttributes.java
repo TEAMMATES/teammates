@@ -34,7 +34,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public String role;
     public String displayedName;
     public boolean isArchived;
-    public Boolean isDisplayedToStudents;
+    public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
 
     InstructorAttributes(String courseId, String email) {
@@ -124,24 +124,12 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return email;
     }
 
-    public Boolean isDisplayedToStudents() {
+    public boolean isDisplayedToStudents() {
         return isDisplayedToStudents;
     }
 
     public boolean isRegistered() {
         return googleId != null && !googleId.trim().isEmpty();
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setDisplayedName(String displayedName) {
-        this.displayedName = displayedName;
-    }
-
-    public void setDisplayedToStudents(Boolean isDisplayedToStudents) {
-        this.isDisplayedToStudents = isDisplayedToStudents;
     }
 
     @Override
