@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import java.util.stream.IntStream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.google.common.base.CharMatcher;
@@ -26,6 +28,7 @@ import teammates.common.exception.TeammatesException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
+    private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
     private StringHelper() {
         // utility class
@@ -119,6 +122,40 @@ public final class StringHelper {
         String frontPart = inputString.substring(0, inputString.length() / 3);
         String endPart = inputString.substring(2 * inputString.length() / 3);
         return frontPart + ".." + endPart;
+    }
+
+    /**
+     * Generates the HMAC SHA-1 signature for a supplied string.
+     *
+     * @param data The string to be signed
+     * @return The signature value as a hex-string
+     */
+    public static String generateSignature(String data) {
+        Assumption.assertNotNull(data);
+        try {
+            SecretKeySpec signingKey =
+                    new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), HMAC_SHA1_ALGORITHM);
+            Mac mac = Mac.getInstance(HMAC_SHA1_ALGORITHM);
+            mac.init(signingKey);
+            byte[] value = mac.doFinal(data.getBytes());
+            return byteArrayToHexString(value);
+        } catch (Exception e) {
+            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            return null;
+        }
+    }
+
+    /**
+     * Verifies the HMAC SHA-1 signature against a given value.
+     *
+     * @param value The value to be checked
+     * @param signature The signature in hex-string format
+     * @return True if signature matches value
+     */
+    public static boolean isCorrectSignature(String value, String signature) {
+        Assumption.assertNotNull(value);
+        Assumption.assertNotNull(signature);
+        return Objects.equals(generateSignature(value), signature);
     }
 
     /**
