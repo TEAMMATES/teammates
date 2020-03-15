@@ -11,6 +11,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -115,8 +116,15 @@ public final class AccountsLogic {
      * Joins the user as an instructor and sets the institute if it is not null.
      * If the given instructor is null, the instructor is given the institute of an existing instructor of the same course.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        if (institute != null && mac == null) {
+            throw new InvalidParametersException("No institute verification code.");
+        } else if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
+            throw new InvalidParametersException("Institute authentication failed.");
+        }
+
         InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId);
 
         // Register the instructor

@@ -10,7 +10,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
 
 /**
  * Action: joins a course for a student/instructor.
@@ -62,13 +61,10 @@ public class JoinCourseAction extends Action {
     }
 
     private JsonResult joinCourseForInstructor(String regkey, String institute, String mac) {
-        if (!StringHelper.isCorrectSignature(institute, mac)) {
-            return new JsonResult("Institute value does not match signature", HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        }
-
         InstructorAttributes instructor;
+
         try {
-            instructor = logic.joinCourseForInstructor(regkey, userInfo.id, institute);
+            instructor = logic.joinCourseForInstructor(regkey, userInfo.id, institute, mac);
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException eaee) {

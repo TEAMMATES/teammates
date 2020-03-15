@@ -164,11 +164,6 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
 
     }
 
-    @Test
-    protected void testInstructorInstitutionValidation() {
-        // TODO: Add MAC verification tests (Valid & Invalid)
-    }
-
     @Override
     @Test
     protected void testAccessControl() {
