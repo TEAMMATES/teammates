@@ -262,7 +262,7 @@ export class FeedbackSessionsService {
       frshowstats: 'true',
     };
 
-    return this.httpRequestService.get(ResourceEndpoints.RESULT_CSV, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.RESULT_CSV, paramMap, 'text');
   }
 
   moveSessionToRecycleBin(courseId: string, feedbackSessionName: string): Observable<any> {
