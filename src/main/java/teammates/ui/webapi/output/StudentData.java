@@ -19,6 +19,10 @@ public class StudentData extends ApiOutput {
     private String lastName;
     @Nullable
     private String comments;
+    @Nullable
+    private String key;
+    @Nullable
+    private String institute;
 
     private JoinState joinState;
 
@@ -73,6 +77,14 @@ public class StudentData extends ApiOutput {
         return sectionName;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
     }
@@ -88,6 +100,15 @@ public class StudentData extends ApiOutput {
     public void setJoinState(JoinState joinState) {
         this.joinState = joinState;
     }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
 
     /**
      * Hides last name.
