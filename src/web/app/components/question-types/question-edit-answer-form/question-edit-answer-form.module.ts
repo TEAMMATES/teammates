@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { ConstsumOptionsQuestionEditAnswerFormComponent } from './constsum-options-question-edit-answer-form.component';
 import {
   ConstsumRecipientsQuestionEditAnswerFormComponent,
@@ -50,6 +51,7 @@ import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer
     CommonModule,
     FormsModule,
     RichTextEditorModule,
+    TeammatesCommonModule,
   ],
 })
 export class QuestionEditAnswerFormModule { }

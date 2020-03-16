@@ -4,11 +4,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
  * A rich text editor.
  */
 @Component({
-  selector: 'tm-rich-text-editor',
-  templateUrl: './rich-text-editor.component.html',
-  styleUrls: ['./rich-text-editor.component.scss'],
+  selector: 'tm-option-rich-text-editor',
+  templateUrl: './option-rich-text-editor.component.html',
+  styleUrls: ['./option-rich-text-editor.component.scss'],
 })
-export class RichTextEditorComponent implements OnInit {
+export class OptionRichTextEditorComponent implements OnInit {
 
   @Input()
   isDisabled: boolean = false;
@@ -61,10 +61,9 @@ export class RichTextEditorComponent implements OnInit {
       'emoticons paste textpattern',
     ],
 
-    toolbar1: 'insertfile undo redo | styleselect | bold italic underline '
-        + '| alignleft aligncenter alignright alignjustify '
-        + '| bullist numlist outdent indent | link image',
-    toolbar2: 'print | forecolor backcolor | fontsizeselect fontselect | charmap emoticons | fullscreen',
+    menubar: false,
+    toolbar1: 'undo redo | bold italic underline | bullist numlist outdent indent | link image table',
+    toolbar2: 'forecolor backcolor | fontsizeselect fontselect | charmap emoticons',
   };
 
   constructor() { }

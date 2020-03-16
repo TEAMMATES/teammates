@@ -4,7 +4,7 @@
       <label class="margin-right-15px">
         <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="isMcqOptionSelected[i]"
                (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">
-         <strong>{{ questionDetails.mcqChoices[i] }}</strong>
+        <span class="option-text" [innerHTML]="questionDetails.mcqChoices[i] | safeHtml"></span>
       </label>
     </div>
     <div class="radio" *ngIf="questionDetails.otherEnabled">
