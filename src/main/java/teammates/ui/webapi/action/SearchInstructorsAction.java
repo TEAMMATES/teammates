@@ -1,10 +1,13 @@
 package teammates.ui.webapi.action;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorsData;
 
@@ -31,8 +34,26 @@ public class SearchInstructorsAction extends Action {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
         InstructorsData instructorsData = new InstructorsData(instructors);
-        // Hide information
-        instructorsData.getInstructors().forEach(InstructorData::hideInformationForSearch);
+        // Set additional fields for search
+        instructorsData.getInstructors()
+            .forEach((InstructorData data) -> {
+                AccountAttributes account = logic.getAccount(data.getGoogleId());
+                if (account == null) {
+                    return;
+                }
+
+                String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                data.setInstitute(institute);
+
+                // Add registration key
+                data.setKey(instructors.stream()
+                        .filter((InstructorAttributes instructor)
+                            -> instructor.getGoogleId() == data.getGoogleId())
+                        .collect(Collectors.toList()).get(0).getKey());
+                
+                // Hide information
+                data.hideInformationForSearch();
+            });
         return new JsonResult(instructorsData);
     }
 }
