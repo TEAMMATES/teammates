@@ -21,6 +21,7 @@ public class InstructorData extends ApiOutput {
     private JoinState joinState;
     @Nullable
     private String key;
+    @Nullable
     private String institute;
 
     public InstructorData(InstructorAttributes instructorAttributes) {
