@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import moment from 'moment-timezone';
 
+import { FormGroup } from '@angular/forms';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatAll, tap } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
@@ -29,6 +30,7 @@ import {
   Students,
 } from '../../../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../../../types/api-request';
+import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   InstructorOverallPermission,
@@ -62,8 +64,11 @@ interface InstructorEditPanelDetail {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
+  @ViewChild('courseForm', { static: false }) form!: FormGroup;
+
   // enum
   EditMode: typeof EditMode = EditMode;
+  FormValidator: typeof FormValidator = FormValidator;
 
   courseId: string = '';
   timezones: string[] = [];
@@ -223,6 +228,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Saves the updated course details.
    */
   onSaveCourse(): void {
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((control: any) => control.markAsTouched());
+      return;
+    }
     this.courseService.updateCourse(this.courseId, {
       courseName: this.course.courseName,
       timeZone: this.course.timeZone,
@@ -234,6 +243,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+    Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
+    Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
   }
 
   /**
@@ -242,6 +253,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   cancelEditingCourse(): void {
     this.course = Object.assign({}, this.originalCourse);
     this.isEditingCourse = false;
+    Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
+    Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
   }
 
   /**
