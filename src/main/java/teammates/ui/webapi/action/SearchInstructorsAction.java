@@ -38,12 +38,10 @@ public class SearchInstructorsAction extends Action {
         instructorsData.getInstructors()
             .forEach((InstructorData data) -> {
                 AccountAttributes account = logic.getAccount(data.getGoogleId());
-                if (account == null) {
-                    return;
+                if (account != null) {
+                    String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                    data.setInstitute(institute);
                 }
-
-                String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
-                data.setInstitute(institute);
 
                 // Add registration key
                 data.setKey(instructors.stream()
