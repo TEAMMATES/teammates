@@ -17,6 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -124,212 +125,40 @@ public final class DataBundleLogic {
         List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
         List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
 
-        updateDataBundleAccounts(dataBundle, newAccounts);
-
-        updateDataBundleProfiles(dataBundle, newProfiles);
-        updateDataBundleCourses(dataBundle, newCourses);
-        updateDataBundleInstructors(dataBundle, newInstructors);
-
-        updateDataBundleStudents(dataBundle, newStudents);
-        updateDataBundleFeedbackSessions(dataBundle, newFeedbackSessions);
-        updateDataBundleFeedbackQuestions(dataBundle, createdQuestions);
-        updateDataBundleFeedbackResponses(dataBundle, newFeedbackResponses);
-        updateDataBundleFeedbackResponseComments(dataBundle, newFeedbackResponseComments);
+        updateDataBundleValue(newAccounts, dataBundle.accounts);
+        updateDataBundleValue(newProfiles, dataBundle.profiles);
+        updateDataBundleValue(newCourses, dataBundle.courses);
+        updateDataBundleValue(newInstructors, dataBundle.instructors);
+        updateDataBundleValue(newStudents, dataBundle.students);
+        updateDataBundleValue(newFeedbackSessions, dataBundle.feedbackSessions);
+        updateDataBundleValue(createdQuestions, dataBundle.feedbackQuestions);
+        updateDataBundleValue(newFeedbackResponses, dataBundle.feedbackResponses);
+        updateDataBundleValue(newFeedbackResponseComments, dataBundle.feedbackResponseComments);
 
         return dataBundle;
 
     }
 
-    private void updateDataBundleAccounts(DataBundle dataBundle, List<AccountAttributes> newAccounts) {
-        Map<String, AccountAttributes> oldAccounts = dataBundle.accounts;
-        Map<AccountAttributes, Integer> newAccountsMap = new HashMap<>();
-        Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
+    private <T extends EntityAttributes> void updateDataBundleValue(List<T> newValues, Map<String, T> oldValues) {
+        Map<T, Integer> newValuesMap = new HashMap<>();
+        Map<String, T> values = new LinkedHashMap<>();
 
-        for (int i = 0; i < newAccounts.size(); i++) {
-            newAccountsMap.put(newAccounts.get(i), i);
+        for (int i = 0; i < newValues.size(); i++) {
+            newValuesMap.put(newValues.get(i), i);
         }
 
-        for (Map.Entry<String, AccountAttributes> entry : oldAccounts.entrySet()) {
+        for (Map.Entry<String, T> entry : oldValues.entrySet()) {
             String key = entry.getKey();
-            AccountAttributes value = entry.getValue();
+            T value = entry.getValue();
 
-            if (newAccountsMap.containsKey(value)) {
-                int index = newAccountsMap.get(value);
-                accounts.put(key, newAccounts.get(index));
+            if (newValuesMap.containsKey(value)) {
+                int index = newValuesMap.get(value);
+                values.put(key, newValues.get(index));
             }
         }
-        dataBundle.accounts = accounts;
-    }
 
-    private void updateDataBundleProfiles(DataBundle dataBundle, List<StudentProfileAttributes> newProfiles) {
-        Map<String, StudentProfileAttributes> oldProfiles = dataBundle.profiles;
-        Map<StudentProfileAttributes, Integer> newProfilesMap = new HashMap<>();
-        Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
-
-        for (int i = 0; i < newProfiles.size(); i++) {
-            newProfilesMap.put(newProfiles.get(i), i);
-        }
-
-        for (Map.Entry<String, StudentProfileAttributes> entry : oldProfiles.entrySet()) {
-            String key = entry.getKey();
-            StudentProfileAttributes value = entry.getValue();
-            if (newProfilesMap.containsKey(value)) {
-                int index = newProfilesMap.get(value);
-                profiles.put(key, newProfiles.get(index));
-            }
-        }
-        dataBundle.profiles = profiles;
-    }
-
-    private void updateDataBundleCourses(DataBundle dataBundle, List<CourseAttributes> newCourses) {
-        Map<String, CourseAttributes> oldCourses = dataBundle.courses;
-        Map<CourseAttributes, Integer> newCoursesMap = new HashMap<>();
-        Map<String, CourseAttributes> courses = new LinkedHashMap<>();
-
-        for (int i = 0; i < newCourses.size(); i++) {
-            newCoursesMap.put(newCourses.get(i), i);
-        }
-
-        for (Map.Entry<String, CourseAttributes> entry : oldCourses.entrySet()) {
-            String key = entry.getKey();
-            CourseAttributes value = entry.getValue();
-            if (newCoursesMap.containsKey(value)) {
-                int index = newCoursesMap.get(value);
-                courses.put(key, newCourses.get(index));
-            }
-        }
-        dataBundle.courses = courses;
-    }
-
-    private void updateDataBundleInstructors(DataBundle dataBundle, List<InstructorAttributes> newInstructors) {
-        Map<String, InstructorAttributes> oldInstructors = dataBundle.instructors;
-        Map<InstructorAttributes, Integer> newInstructorsMap = new HashMap<>();
-        Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
-
-        for (int i = 0; i < newInstructors.size(); i++) {
-            newInstructorsMap.put(newInstructors.get(i), i);
-        }
-
-        for (Map.Entry<String, InstructorAttributes> entry : oldInstructors.entrySet()) {
-            String key = entry.getKey();
-            InstructorAttributes value = entry.getValue();
-
-            if (newInstructorsMap.containsKey(value)) {
-                int index = newInstructorsMap.get(value);
-                instructors.put(key, newInstructors.get(index));
-            }
-        }
-        dataBundle.instructors = instructors;
-    }
-
-    private void updateDataBundleStudents(DataBundle dataBundle, List<StudentAttributes> newStudents) {
-        Map<String, StudentAttributes> oldStudents = dataBundle.students;
-        Map<StudentAttributes, Integer> newStudentsMap = new HashMap<>();
-        Map<String, StudentAttributes> students = new LinkedHashMap<>();
-
-        for (int i = 0; i < newStudents.size(); i++) {
-            newStudentsMap.put(newStudents.get(i), i);
-        }
-
-        for (Map.Entry<String, StudentAttributes> entry : oldStudents.entrySet()) {
-            String key = entry.getKey();
-            StudentAttributes value = entry.getValue();
-
-            if (newStudentsMap.containsKey(value)) {
-                int index = newStudentsMap.get(value);
-                students.put(key, newStudents.get(index));
-            }
-        }
-        dataBundle.students = students;
-    }
-
-    private void updateDataBundleFeedbackSessions(DataBundle dataBundle,
-            List<FeedbackSessionAttributes> newFeedbackSessions) {
-        Map<String, FeedbackSessionAttributes> oldFeedbackSessions = dataBundle.feedbackSessions;
-        Map<FeedbackSessionAttributes, Integer> newFeedbackSessionsMap = new HashMap<>();
-        Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
-
-        for (int i = 0; i < newFeedbackSessions.size(); i++) {
-            newFeedbackSessionsMap.put(newFeedbackSessions.get(i), i);
-        }
-
-        for (Map.Entry<String, FeedbackSessionAttributes> entry : oldFeedbackSessions.entrySet()) {
-            String key = entry.getKey();
-            FeedbackSessionAttributes value = entry.getValue();
-
-            if (newFeedbackSessionsMap.containsKey(value)) {
-                int index = newFeedbackSessionsMap.get(value);
-                feedbackSessions.put(key, newFeedbackSessions.get(index));
-            }
-        }
-        dataBundle.feedbackSessions = feedbackSessions;
-    }
-
-    private void updateDataBundleFeedbackQuestions(DataBundle dataBundle,
-                List<FeedbackQuestionAttributes> createdQuestions) {
-        Map<String, FeedbackQuestionAttributes> oldFeedbackQuestions = dataBundle.feedbackQuestions;
-        Map<FeedbackQuestionAttributes, Integer> newFeedbackQuestionsMap = new HashMap<>();
-        Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
-
-        for (int i = 0; i < createdQuestions.size(); i++) {
-            newFeedbackQuestionsMap.put(createdQuestions.get(i), i);
-        }
-
-        for (Map.Entry<String, FeedbackQuestionAttributes> entry : oldFeedbackQuestions.entrySet()) {
-            String key = entry.getKey();
-            FeedbackQuestionAttributes value = entry.getValue();
-
-            if (newFeedbackQuestionsMap.containsKey(value)) {
-                int index = newFeedbackQuestionsMap.get(value);
-                feedbackQuestions.put(key, createdQuestions.get(index));
-            }
-        }
-        dataBundle.feedbackQuestions = feedbackQuestions;
-    }
-
-    private void updateDataBundleFeedbackResponses(DataBundle dataBundle,
-                List<FeedbackResponseAttributes> newFeedbackResponses) {
-        Map<String, FeedbackResponseAttributes> oldFeedbackResponses = dataBundle.feedbackResponses;
-        Map<FeedbackResponseAttributes, Integer> newFeedbackResponsesMap = new HashMap<>();
-        Map<String, FeedbackResponseAttributes> feedbackResponses = new LinkedHashMap<>();
-
-        for (int i = 0; i < newFeedbackResponses.size(); i++) {
-            newFeedbackResponsesMap.put(newFeedbackResponses.get(i), i);
-        }
-
-        for (Map.Entry<String, FeedbackResponseAttributes> entry : oldFeedbackResponses.entrySet()) {
-            String key = entry.getKey();
-            FeedbackResponseAttributes value = entry.getValue();
-
-            if (newFeedbackResponsesMap.containsKey(value)) {
-                int index = newFeedbackResponsesMap.get(value);
-                feedbackResponses.put(key, newFeedbackResponses.get(index));
-            }
-        }
-        dataBundle.feedbackResponses = feedbackResponses;
-    }
-
-    private void updateDataBundleFeedbackResponseComments(DataBundle dataBundle,
-                List<FeedbackResponseCommentAttributes> newFeedbackResponseComments) {
-        Map<String, FeedbackResponseCommentAttributes> oldFeedbackResponseComments =
-                dataBundle.feedbackResponseComments;
-        Map<FeedbackResponseCommentAttributes, Integer> newFeedbackResponseCommentsMap = new HashMap<>();
-        Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new LinkedHashMap<>();
-
-        for (int i = 0; i < newFeedbackResponseComments.size(); i++) {
-            newFeedbackResponseCommentsMap.put(newFeedbackResponseComments.get(i), i);
-        }
-
-        for (Map.Entry<String, FeedbackResponseCommentAttributes> entry : oldFeedbackResponseComments.entrySet()) {
-            String key = entry.getKey();
-            FeedbackResponseCommentAttributes value = entry.getValue();
-
-            if (newFeedbackResponseCommentsMap.containsKey(value)) {
-                int index = newFeedbackResponseCommentsMap.get(value);
-                feedbackResponseComments.put(key, newFeedbackResponseComments.get(index));
-            }
-        }
-        dataBundle.feedbackResponseComments = feedbackResponseComments;
+        oldValues.clear();
+        oldValues.putAll(values);
     }
 
     /**
