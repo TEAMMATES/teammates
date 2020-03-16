@@ -412,4 +412,14 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(StringHelper.extractContentFromQuotedString(null), null);
         assertEquals(StringHelper.extractContentFromQuotedString(""), "");
     }
+
+    @Test
+    public void testSignatureGenerationDeterministic() {
+        String signature = StringHelper.generateSignature("NUS");
+        assertTrue(StringHelper.isCorrectSignature("NUS", signature));
+        assertFalse(StringHelper.isCorrectSignature(null, null));
+        assertFalse(StringHelper.isCorrectSignature("NTU", signature));
+        assertFalse(StringHelper.isCorrectSignature(null, signature));
+        assertFalse(StringHelper.isCorrectSignature("NUS", null));
+    }
 }

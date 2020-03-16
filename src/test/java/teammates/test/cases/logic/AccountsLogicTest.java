@@ -262,7 +262,8 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse", null, null));
+                () -> accountsLogic.joinCourseForInstructor(
+                        encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse", null, null));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("success: instructor joined and new account be created");

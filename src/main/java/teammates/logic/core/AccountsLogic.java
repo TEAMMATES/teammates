@@ -119,9 +119,7 @@ public final class AccountsLogic {
     public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        if (institute != null && mac == null) {
-            throw new InvalidParametersException("No institute verification code.");
-        } else if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
+        if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
             throw new InvalidParametersException("Institute authentication failed.");
         }
 

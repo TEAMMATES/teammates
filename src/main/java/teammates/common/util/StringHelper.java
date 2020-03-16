@@ -131,7 +131,6 @@ public final class StringHelper {
      * @return The signature value as a hex-string
      */
     public static String generateSignature(String data) {
-        Assumption.assertNotNull(data);
         try {
             SecretKeySpec signingKey =
                     new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), HMAC_SHA1_ALGORITHM);
@@ -153,8 +152,9 @@ public final class StringHelper {
      * @return True if signature matches value
      */
     public static boolean isCorrectSignature(String value, String signature) {
-        Assumption.assertNotNull(value);
-        Assumption.assertNotNull(signature);
+        if (value == null || signature == null) {
+            return false;
+        }
         return Objects.equals(generateSignature(value), signature);
     }
 
