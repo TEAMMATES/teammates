@@ -1,0 +1,145 @@
+{
+  "accounts": {
+    "instructor1OfCourse1": {
+      "googleId": "searchUI.idOfInstructor1OfCourse1",
+      "name": "Instructor 1 of Course 1",
+      "isInstructor": true,
+      "email": "searchUI.instr1@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "instructor2OfCourse1": {
+      "googleId": "searchUI.idOfInstructor2OfCourse1",
+      "name": "Instructor 2 of Course 1",
+      "isInstructor": true,
+      "email": "searchUI.instr2@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1InCourse1": {
+      "googleId": "searchUI.student1InCourse1",
+      "name": "Student 1 in course 1",
+      "isInstructor": false,
+      "email": "searchUI.student1InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "typicalCourse1": {
+      "id": "searchUI.idOfTypicalCourse1",
+      "name": "Typical Course 1",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructor1OfCourse1": {
+      "googleId": "searchUI.idOfInstructor1OfCourse1",
+      "courseId": "searchUI.idOfTypicalCourse1",
+      "name": "Instructor1 Course1",
+      "email": "searchUI.instructor1@course1.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor2OfCourse1": {
+      "googleId": "searchUI.idOfInstructor2OfCourse1",
+      "courseId": "searchUI.idOfTypicalCourse1",
+      "name": "Instructor2 Course1",
+      "email": "searchUI.instructor2@course1.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "student1InCourse1": {
+      "googleId": "searchUI.student1InCourse1",
+      "email": "searchUI.student1InCourse1@gmail.tmt",
+      "course": "searchUI.idOfTypicalCourse1",
+      "name": "student1 In Course1",
+      "comments": "comment for student1InCourse1",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    }
+  },
+  "feedbackSessions": {
+    "session1InCourse1": {
+      "feedbackSessionName": "searchUI.First feedback session",
+      "courseId": "searchUI.idOfTypicalCourse1",
+      "creatorEmail": "searchUI.instructor1@course1.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-05-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+  "session2InCourse1": {
+    "feedbackSessionName": "searchUI.Second feedback session",
+    "courseId": "searchUI.idOfTypicalCourse1",
+    "creatorEmail": "searchUI.instructor1@course1.tmt",
+    "instructions": "Please please fill in the following questions.",
+    "createdTime": "2012-03-20T23:59:00Z",
+    "startTime": "2012-04-01T21:59:00Z",
+    "endTime": "2027-04-30T21:59:00Z",
+    "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+    "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+    "timeZone": "Africa/Johannesburg",
+    "gracePeriod": 10,
+    "sentOpenEmail": true,
+    "sentClosingEmail": false,
+    "sentClosedEmail": false,
+    "sentPublishedEmail": false,
+    "isOpeningEmailEnabled": true,
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true
+    }
+  },
+  "profiles": {
+    "student1InCourse1": {
+      "googleId": "student1InCourse1",
+      "shortName": "Stud1",
+      "email": "i.m.stud1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 3",
+      "nationality": "",
+      "gender": "MALE",
+      "moreInfo": "I am just a student :P",
+      "pictureKey": ""
+    }
+  }
+}
