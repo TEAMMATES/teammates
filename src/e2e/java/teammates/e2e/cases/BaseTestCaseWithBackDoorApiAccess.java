@@ -195,7 +195,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected String doPutDocuments(DataBundle testData) {
-        return null; // BackDoor.putDocuments(testData);
+        return BackDoor.putDocuments(testData);
     }
 
 }
