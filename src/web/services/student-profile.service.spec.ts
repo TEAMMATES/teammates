@@ -43,6 +43,12 @@ describe('StudentProfileService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_PROFILE, paramsMap);
   });
 
+  it('should execute GET on student profile endpoint without email', () => {
+    const studentEmail: string = 'test@123.com';
+    service.getStudentProfile(studentEmail, '');
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_PROFILE);
+  });
+
   it('should execute GET on student profile endpoint without params', () => {
     service.getStudentProfile();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_PROFILE);
