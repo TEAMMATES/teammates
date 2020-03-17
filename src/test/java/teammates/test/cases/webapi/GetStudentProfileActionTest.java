@@ -72,6 +72,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
+        expectedProfile.email = null;
+        expectedProfile.shortName = null;
         String expectedName = typicalBundle.accounts.get("student1InCourse1").name;
         loginAsStudent(student2InCourse1.googleId);
         String[] submissionParams = new String[] {
@@ -111,21 +113,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         GetStudentProfileAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-    }
-
-    @Test
-    public void testExecute_getProfileOfTeammate_shouldReturnProfileButWithNullEmail() throws Exception {
-        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
-        AccountAttributes student2InCourse1Account = typicalBundle.accounts.get("student2InCourse1");
-        String expectedName = student2InCourse1Account.name;
-        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student2InCourse1.googleId).build();
-        loginAsStudent(student1InCourse1.googleId);
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student2InCourse1.email,
-                Const.ParamsNames.COURSE_ID, student2InCourse1.getCourse(),
-        };
-        testGetCorrectProfile(expectedProfile, expectedName, submissionParams);
     }
 
     private void testGetCorrectProfile(StudentProfileAttributes expectedProfile,
