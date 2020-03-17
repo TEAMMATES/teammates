@@ -28,7 +28,6 @@ import teammates.common.exception.TeammatesException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
-    private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
     private StringHelper() {
         // utility class
@@ -133,8 +132,8 @@ public final class StringHelper {
     public static String generateSignature(String data) {
         try {
             SecretKeySpec signingKey =
-                    new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), HMAC_SHA1_ALGORITHM);
-            Mac mac = Mac.getInstance(HMAC_SHA1_ALGORITHM);
+                    new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
+            Mac mac = Mac.getInstance("HmacSHA1");
             mac.init(signingKey);
             byte[] value = mac.doFinal(data.getBytes());
             return byteArrayToHexString(value);

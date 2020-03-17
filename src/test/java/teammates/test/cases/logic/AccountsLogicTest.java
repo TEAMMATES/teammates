@@ -373,6 +373,63 @@ public class AccountsLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testJoinCourseForInstructor_validInstitute_shouldPass()
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String institute = "National University of Singapore";
+        String[] encryptedKey = new String[] {
+                instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+
+        ______TS("success: instructor joined and new account created");
+
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId,
+                institute, StringHelper.generateSignature(institute));
+
+        InstructorAttributes joinedInstructor =
+                instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
+        assertEquals(loggedInGoogleId, joinedInstructor.googleId);
+
+        AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
+        assertNotNull(accountCreated);
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_invalidInstituteMac_shouldFail() throws EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String institute = "National University of Singapore";
+        String[] encryptedKey = new String[] {
+                instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+
+        ______TS("failure: googleID belongs to an existing instructor in the course");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsLogic.joinCourseForInstructor(
+                        encryptedKey[0], loggedInGoogleId, institute, StringHelper.generateSignature("NUS")));
+        assertEquals("Institute authentication failed.", ipe.getMessage());
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_missingInstituteMac_shouldFail() throws EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String institute = "National University of Singapore";
+        String[] encryptedKey = new String[] {
+                instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+
+        ______TS("failure: googleID belongs to an existing instructor in the course");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsLogic.joinCourseForInstructor(
+                        encryptedKey[0], loggedInGoogleId, institute, null));
+        assertEquals("Institute authentication failed.", ipe.getMessage());
+    }
+
+    @Test
     public void testDeleteAccountCascade_lastInstructorInCourse_shouldDeleteOrphanCourse() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor5");
         AccountAttributes account = dataBundle.accounts.get("instructor5");
