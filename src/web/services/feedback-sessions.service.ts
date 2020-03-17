@@ -55,7 +55,7 @@ export class FeedbackSessionsService {
       fsname: queryParams.feedbackSessionName,
     };
 
-    return this.httpRequestService.get('/session', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
   }
 
   /**
@@ -206,8 +206,8 @@ export class FeedbackSessionsService {
   getFeedbackSessionSubmittedGiverSet(queryParams: { courseId: string, feedbackSessionName: string }):
       Observable<FeedbackSessionSubmittedGiverSet> {
     const paramMap: { [key: string]: string } = {
-      courseId: queryParams.courseId,
-      feedbackSessionName: queryParams.feedbackSessionName,
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
     };
     return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMITTED_GIVER_SET, paramMap);
   }

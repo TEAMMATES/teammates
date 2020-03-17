@@ -558,7 +558,7 @@ export class FeedbackQuestionsService {
   deleteFeedbackQuestion(feedbackQuestionId: string): Observable<any> {
     const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
 
-    return this.httpRequestService.delete('/question', paramMap);
+    return this.httpRequestService.delete(ResourceEndpoints.QUESTION, paramMap);
   }
 
 }

@@ -59,7 +59,7 @@ export class InstructorService {
       courseid: queryParams.courseId,
       instructoremail: queryParams.instructorEmail,
     };
-    return this.httpRequestService.delete('/instructor', paramMap);
+    return this.httpRequestService.delete(ResourceEndpoints.INSTRUCTOR, paramMap);
   }
 
   /**
