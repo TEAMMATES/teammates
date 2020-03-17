@@ -25,7 +25,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.INSTRUCTORS_SEARCH;
+        return Const.ResourceURIs.SEARCH_INSTRUCTORS;
     }
 
     @Override
