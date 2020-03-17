@@ -29,12 +29,7 @@ public class SearchInstructorsAction extends Action {
         }
     }
 
-    @Override
-    public ActionResult execute() {
-        String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
-        List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
-        InstructorsData instructorsData = new InstructorsData(instructors);
-        // Set additional fields for search
+    private void addAdditionalSearchFields(InstructorsData instructorsData, List<InstructorAttributes> instructors) {
         instructorsData.getInstructors()
             .forEach((InstructorData data) -> {
                 AccountAttributes account = logic.getAccount(data.getGoogleId());
@@ -52,6 +47,16 @@ public class SearchInstructorsAction extends Action {
                 // Hide information
                 data.hideInformationForSearch();
             });
+    }
+
+    @Override
+    public ActionResult execute() {
+        String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
+        List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
+        InstructorsData instructorsData = new InstructorsData(instructors);
+        instructorsData.getInstructors().forEach(InstructorData::hideInformationForSearch);
+        this.addAdditionalSearchFields(instructorsData, instructors);
+        // Set additional fields for search
         return new JsonResult(instructorsData);
     }
 }
