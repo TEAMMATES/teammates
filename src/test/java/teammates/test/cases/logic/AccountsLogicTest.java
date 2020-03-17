@@ -382,7 +382,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
         };
 
-        ______TS("success: instructor joined and new account created");
+        ______TS("success: instructor with institute joined and new account created");
 
         accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId,
                 institute, StringHelper.generateSignature(institute));
@@ -404,7 +404,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
         };
 
-        ______TS("failure: googleID belongs to an existing instructor in the course");
+        ______TS("failure: institute signature does not match institute provided");
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountsLogic.joinCourseForInstructor(
@@ -421,7 +421,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
         };
 
-        ______TS("failure: googleID belongs to an existing instructor in the course");
+        ______TS("failure: institute signature missing");
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountsLogic.joinCourseForInstructor(
