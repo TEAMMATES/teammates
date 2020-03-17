@@ -23,7 +23,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.STUDENTS_SEARCH;
+        return Const.ResourceURIs.SEARCH_STUDENTS;
     }
 
     @Override
