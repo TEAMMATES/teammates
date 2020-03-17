@@ -109,7 +109,6 @@ public class StudentData extends ApiOutput {
         this.institute = institute;
     }
 
-
     /**
      * Hides last name.
      */

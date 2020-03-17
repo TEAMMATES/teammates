@@ -89,7 +89,7 @@ public class SearchStudentsAction extends Action {
             students = logic.searchStudents(searchKey, instructors).studentList;
         }
         studentsData = new StudentsData(students);
-        for (StudentAttributes s: students) {
+        for (StudentAttributes s : students) {
             courseIds.add(s.getCourse());
         }
         populateCourseIdToInstituteMap();
