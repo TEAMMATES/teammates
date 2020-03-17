@@ -753,6 +753,7 @@ public final class Const {
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
+        public static final String SEARCH_INSTRUCTORS = "/search/instructors";
         public static final String RESULT = "/result";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
@@ -764,6 +765,7 @@ public final class Const {
         public static final String SESSION_STATS = "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = "/session/submitted/giverset";
         public static final String SESSIONS = "/sessions";
+        public static final String SEARCH_STUDENTS = "/search/students";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";

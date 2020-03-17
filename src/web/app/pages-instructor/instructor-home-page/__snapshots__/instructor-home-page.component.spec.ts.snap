@@ -20,6 +20,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -95,6 +96,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -257,6 +259,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -828,6 +831,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -1090,7 +1094,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           ng-reflect-course-candidates="[object Object]"
           ng-reflect-header-color-scheme="1"
           ng-reflect-sessions-table-row-models="[object Object],[object Object"
-          ng-reflect-sessions-table-row-models-sort-by="3"
+          ng-reflect-sessions-table-row-models-sort-by="8"
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
@@ -1546,6 +1550,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -1847,6 +1852,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -2168,6 +2174,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
