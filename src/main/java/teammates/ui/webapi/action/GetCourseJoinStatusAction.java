@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.JoinStatus;
 
 /**
@@ -49,6 +50,13 @@ public class GetCourseJoinStatusAction extends Action {
         if (instructor == null) {
             return new JsonResult("No instructor with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
         }
+
+        String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        String mac = getRequestParamValue(Const.ParamsNames.INSTITUTION_MAC);
+        if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
+            return new JsonResult("Error in URL validation. Please re-check the URL.", HttpStatus.SC_BAD_REQUEST);
+        }
+
         return getJoinStatusResult(instructor.isRegistered());
     }
 
