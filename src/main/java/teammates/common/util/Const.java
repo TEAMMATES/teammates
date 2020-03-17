@@ -772,6 +772,7 @@ public final class Const {
         public static final String SESSIONS = "/sessions";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         public static final String SEARCH_STUDENTS = "/search/students";
 =======
         public static final String SESSIONS_SEARCH = "/search/sessions";
@@ -779,6 +780,9 @@ public final class Const {
 >>>>>>> Split PR
         public static final String STUDENTS_SEARCH = "/search/students";
 >>>>>>> Implement sessions search endpoint (#3)
+=======
+        public static final String SEARCH_STUDENTS = "/search/students";
+>>>>>>> Improve resource name
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
