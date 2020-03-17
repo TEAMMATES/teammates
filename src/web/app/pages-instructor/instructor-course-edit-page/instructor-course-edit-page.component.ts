@@ -284,14 +284,22 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Gets the default edit panel model of an instructor.
    */
   getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
+    /**
+     * The non-null assertion operator (!) is used below in `isDisplayedToStudents`,
+     * `displayedToStudentsAs` and `role`. These attributes should never be undefined and are only
+     * typed as such to accomodate for a use case in SearchService.
+     */
     return {
       googleId: i.googleId,
       courseId: i.courseId,
       email: i.email,
-      isDisplayedToStudents: i.isDisplayedToStudents,
-      displayedToStudentsAs: i.displayedToStudentsAs,
+      // tslint:disable-next-line
+      isDisplayedToStudents: i.isDisplayedToStudents!,
+      // tslint:disable-next-line
+      displayedToStudentsAs: i.displayedToStudentsAs!,
       name: i.name,
-      role: i.role,
+      // tslint:disable-next-line
+      role: i.role!,
       joinState: i.joinState,
 
       permission: {
