@@ -54,7 +54,7 @@ public class GetCourseJoinStatusAction extends Action {
         String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         String mac = getRequestParamValue(Const.ParamsNames.INSTITUTION_MAC);
         if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
-            return new JsonResult("Error in URL validation. Please re-check the URL.", HttpStatus.SC_BAD_REQUEST);
+            return new JsonResult("Error in institute validation.", HttpStatus.SC_UNAUTHORIZED);
         }
 
         return getJoinStatusResult(instructor.isRegistered());
