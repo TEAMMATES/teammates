@@ -29,6 +29,7 @@ import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.FileHelper;
 
 /**
  * Base class for all L&P test cases.
@@ -180,10 +181,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
         String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getJsonDataPath());
         String jsonValue = JsonUtils.parse(responseBody).getAsJsonObject().get("message").getAsString();
-        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToResultFile))) {
-            bw.write(jsonValue);
-            bw.flush();
-        }
+        FileHelper.saveFile(pathToResultFile, jsonValue);
     }
 
     /**
