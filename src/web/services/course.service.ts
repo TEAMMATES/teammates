@@ -159,12 +159,16 @@ export class CourseService {
   /**
    * Get the status of whether the entity has joined the course by calling API.
    */
-  getJoinCourseStatus(regKey: string, entityType: string, institute: string, mac: string): Observable<JoinStatus> {
+  getJoinCourseStatus(
+      regKey: string,
+      entityType: string,
+      institute: string,
+      institutemac: string): Observable<JoinStatus> {
     const paramMap: { [key: string]: string } = {
       key: regKey,
       entitytype: entityType,
       instructorinstitution: institute,
-      mac: mac,
+      mac: institutemac,
     };
     return this.httpRequestService.get(ResourceEndpoints.JOIN, paramMap);
   }
@@ -172,12 +176,12 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKey: string, entityType: string, institute: string, mac: string): Observable<any> {
+  joinCourse(regKey: string, entityType: string, institute: string, institutemac: string): Observable<any> {
     const paramMap: { [key: string]: string } = {
       key: regKey,
       entitytype: entityType,
       instructorinstitution: institute,
-      mac: mac,
+      mac: institutemac,
     };
     return this.httpRequestService.put(ResourceEndpoints.JOIN, paramMap);
   }

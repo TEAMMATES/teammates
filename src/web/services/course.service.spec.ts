@@ -53,7 +53,7 @@ describe('CourseService', () => {
       key: '123',
       entitytype: 'student',
       instructorinstitution: 'National University of Singapore',
-      mac: 'ABC123'
+      mac: 'ABC123',
     };
     service.joinCourse(paramMap.key, paramMap.entitytype, paramMap.instructorinstitution, paramMap.mac);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
