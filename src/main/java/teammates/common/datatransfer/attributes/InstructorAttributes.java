@@ -174,7 +174,11 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public boolean equals(Object other) {
-        if (this.getClass() == other.getClass()) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
             InstructorAttributes otherInstructor = (InstructorAttributes) other;
             return nullableDataEquals(this.email, otherInstructor.email)
                     && nullableDataEquals(this.name, otherInstructor.name)

@@ -128,7 +128,11 @@ public class AccountAttributes extends EntityAttributes<Account> {
 
     @Override
     public boolean equals(Object other) {
-        if (this.getClass() == other.getClass()) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
             AccountAttributes otherAccount = (AccountAttributes) other;
             return nullableDataEquals(this.email, otherAccount.email)
                     && nullableDataEquals(this.name, otherAccount.name)

@@ -169,7 +169,11 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public boolean equals(Object other) {
-        if (this.getClass() == other.getClass()) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
             CourseAttributes otherCourse = (CourseAttributes) other;
             return nullableDataEquals(this.id, otherCourse.id)
                     && nullableDataEquals(this.name, otherCourse.name);

@@ -541,6 +541,30 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
         assertEquals(profilePicUrl, studentAttributes.getPublicProfilePictureUrl());
     }
 
+    @Test
+    public void testEquals() {
+
+        StudentAttributes student = StudentAttributes.valueOf(generateTypicalStudentObject());
+
+        // When the two student objects are the exact same copy
+        StudentAttributes studentCopy = student.getCopy();
+
+        assertTrue(student.equals(studentCopy));
+
+        // When the two students have same values but created at different time
+        StudentAttributes studentSimilar = StudentAttributes.valueOf(generateTypicalStudentObject());
+
+        assertTrue(student.equals(studentSimilar));
+
+        // When the two students are different
+        StudentAttributes studentDifferent = generateValidStudentAttributesObject();
+
+        assertFalse(student.equals(studentDifferent));
+
+        // When the other object is of different class
+        assertFalse(student.equals(3));
+    }
+
     private CourseStudent generateTypicalStudentObject() {
         return new CourseStudent("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
     }

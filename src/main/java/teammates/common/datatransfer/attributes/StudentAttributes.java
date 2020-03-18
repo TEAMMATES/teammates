@@ -169,7 +169,11 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public boolean equals(Object other) {
-        if (this.getClass() == other.getClass()) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
             StudentAttributes otherStudent = (StudentAttributes) other;
             return nullableDataEquals(this.course, otherStudent.course)
                     && nullableDataEquals(this.name, otherStudent.name)

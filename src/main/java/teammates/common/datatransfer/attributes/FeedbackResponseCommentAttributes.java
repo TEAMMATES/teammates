@@ -287,7 +287,11 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     @Override
     public boolean equals(Object other) {
-        if (this.getClass() == other.getClass()) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
             FeedbackResponseCommentAttributes otherCommentAttributes =
                     (FeedbackResponseCommentAttributes) other;
             return nullableDataEquals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)

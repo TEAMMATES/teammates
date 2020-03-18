@@ -257,4 +257,48 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 FeedbackResponseAttributes.updateOptionsBuilder("id")
                         .withResponseDetails(null));
     }
+
+    @Test
+    public void testEquals() {
+        FeedbackResponseAttributes feedbackResponse =
+                FeedbackResponseAttributes.builder("questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        // When the two feedback sessions are exact copies
+        FeedbackResponseAttributes feedbackResponseCopy = new FeedbackResponseAttributes(feedbackResponse);
+
+        assertTrue(feedbackResponse.equals(feedbackResponseCopy));
+
+        // When the two feedback sessions have same values but created at different time
+        FeedbackResponseAttributes feedbackResponseSimilar =
+                FeedbackResponseAttributes.builder("questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        assertTrue(feedbackResponse.equals(feedbackResponseSimilar));
+
+        // When the two feedback sessions are different
+        FeedbackResponseAttributes feedbackResponseDifferent =
+                FeedbackResponseAttributes.builder("differentId", "different@email.com", "different@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        assertFalse(feedbackResponse.equals(feedbackResponseDifferent));
+
+        // When the other object is of different class
+        assertFalse(feedbackResponse.equals(3));
+    }
 }
