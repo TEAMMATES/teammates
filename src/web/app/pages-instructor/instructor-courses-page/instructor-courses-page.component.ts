@@ -6,6 +6,7 @@ import { CourseService } from '../../../services/course.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
   CourseArchive,
@@ -16,6 +17,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -28,46 +30,6 @@ interface CourseModel {
   course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
-}
-
-/**
- * Sort criteria for the courses table.
- */
-export enum SortBy {
-  /**
-   * Nothing.
-   */
-  NONE,
-
-  /**
-   * Course ID.
-   */
-  COURSE_ID,
-
-  /**
-   * Course Name.
-   */
-  COURSE_NAME,
-
-  /**
-   * Creation Date.
-   */
-  CREATION_DATE,
-}
-
-/**
- * Sort order for the courses table.
- */
-export enum SortOrder {
-  /**
-   * Descending sort order.
-   */
-  DESC,
-
-  /**
-   * Ascending sort order
-   */
-  ASC,
 }
 
 /**
@@ -102,7 +64,8 @@ export class InstructorCoursesPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -409,7 +372,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = a.course.courseName;
           strB = b.course.courseName;
           break;
-        case SortBy.CREATION_DATE:
+        case SortBy.SESSION_CREATION_DATE:
           strA = a.course.creationTimestamp.toString();
           strB = b.course.creationTimestamp.toString();
           break;
@@ -417,15 +380,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = '';
           strB = '';
       }
-
-      if (this.tableSortOrder === SortOrder.ASC) {
-        return strA.localeCompare(strB);
-      }
-      if (this.tableSortOrder === SortOrder.DESC) {
-        return strB.localeCompare(strA);
-      }
-
-      return 0;
+      return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
     };
   }
 }

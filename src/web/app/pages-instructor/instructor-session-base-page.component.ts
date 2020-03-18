@@ -6,6 +6,7 @@ import { FeedbackSessionsService } from '../../services/feedback-sessions.servic
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
+import { TableComparatorService } from '../../services/table-comparator.service';
 import {
     FeedbackQuestion,
     FeedbackQuestions,
@@ -14,11 +15,10 @@ import {
     InstructorPrivilege,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
+import { SortBy, SortOrder } from '../../types/sort-properties';
 import {
     CopySessionResult,
     SessionsTableRowModel,
-    SortBy,
-    SortOrder,
 } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 
@@ -32,7 +32,8 @@ export abstract class InstructorSessionBasePageComponent {
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
                         protected feedbackSessionsService: FeedbackSessionsService,
-                        protected feedbackQuestionsService: FeedbackQuestionsService) { }
+                        protected feedbackQuestionsService: FeedbackQuestionsService,
+                        protected tableComparatorService: TableComparatorService) { }
 
   /**
    * Copies a feedback session.
@@ -110,7 +111,7 @@ export abstract class InstructorSessionBasePageComponent {
       let strA: string;
       let strB: string;
       switch (by) {
-        case SortBy.FEEDBACK_SESSION_NAME:
+        case SortBy.SESSION_NAME:
           strA = a.feedbackSession.feedbackSessionName;
           strB = b.feedbackSession.feedbackSessionName;
           break;
@@ -118,11 +119,11 @@ export abstract class InstructorSessionBasePageComponent {
           strA = a.feedbackSession.courseId;
           strB = b.feedbackSession.courseId;
           break;
-        case SortBy.START_DATE:
+        case SortBy.SESSION_START_DATE:
           strA = String(a.feedbackSession.submissionStartTimestamp);
           strB = String(b.feedbackSession.submissionStartTimestamp);
           break;
-        case SortBy.END_DATE:
+        case SortBy.SESSION_END_DATE:
           strA = String(a.feedbackSession.submissionEndTimestamp);
           strB = String(b.feedbackSession.submissionEndTimestamp);
           break;
@@ -130,7 +131,7 @@ export abstract class InstructorSessionBasePageComponent {
           strA = String(a.feedbackSession.createdAtTimestamp);
           strB = String(b.feedbackSession.createdAtTimestamp);
           break;
-        case SortBy.DELETION_DATE:
+        case SortBy.SESSION_DELETION_DATE:
           strA = String(a.feedbackSession.deletedAtTimestamp);
           strB = String(b.feedbackSession.deletedAtTimestamp);
           break;
@@ -138,13 +139,7 @@ export abstract class InstructorSessionBasePageComponent {
           strA = '';
           strB = '';
       }
-      if (order === SortOrder.ASC) {
-        return strA.localeCompare(strB);
-      }
-      if (order === SortOrder.DESC) {
-        return strB.localeCompare(strA);
-      }
-      return 0;
+      return this.tableComparatorService.compare(by, order, strA, strB);
     });
   }
 
