@@ -358,6 +358,8 @@ public class Logic {
     /**
      * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
      * Creates an account for the instructor if there is no existing account for him.
+     * Preconditions: <br>
+     * * Parameters encryptedKey and googleId are non-null.
      */
     public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {

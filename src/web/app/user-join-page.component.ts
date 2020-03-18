@@ -41,24 +41,19 @@ export class UserJoinPageComponent implements OnInit {
         this.validUrl = false;
       }
 
-      this.courseService
-          .getJoinCourseStatus(this.key, this.entityType, this.institute, this.mac)
-          .subscribe((resp: JoinStatus) => {
-            this.hasJoined = resp.hasJoined;
-            this.userId = resp.userId || '';
-            this.isLoading = false;
-          }, (resp: ErrorMessageOutput) => {
-            if (resp.status === 403) {
-              this.isLoading = false;
-            } else if (resp.status === 401) {
-              this.isLoading = false;
-              this.validUrl = false;
-            } else {
-              const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-              modalRef.componentInstance.requestId = resp.error.requestId;
-              modalRef.componentInstance.errorMessage = resp.error.message;
-            }
-          });
+      this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
+        this.hasJoined = resp.hasJoined;
+        this.userId = resp.userId || '';
+        this.isLoading = false;
+      }, (resp: ErrorMessageOutput) => {
+        if (resp.status === 403) {
+          this.isLoading = false;
+        } else {
+          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.errorMessage = resp.error.message;
+        }
+      });
     });
   }
 

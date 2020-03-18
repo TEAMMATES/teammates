@@ -14,7 +14,7 @@
     <div class="card-body" *ngIf="!validUrl">
       Please check the URL join link or have it resent to you.
     </div>
-    <div class="card-body" *ngIf="hasJoined">
+    <div class="card-body" *ngIf="hasJoined && validUrl">
       The course join link has been used and is no longer valid.
     </div>
   </div>

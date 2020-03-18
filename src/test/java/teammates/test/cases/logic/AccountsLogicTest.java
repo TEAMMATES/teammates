@@ -410,6 +410,9 @@ public class AccountsLogicTest extends BaseLogicTest {
                 () -> accountsLogic.joinCourseForInstructor(
                         encryptedKey[0], loggedInGoogleId, institute, StringHelper.generateSignature("NUS")));
         assertEquals("Institute authentication failed.", ipe.getMessage());
+
+        AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
+        assertNull(accountCreated);
     }
 
     @Test
@@ -427,6 +430,9 @@ public class AccountsLogicTest extends BaseLogicTest {
                 () -> accountsLogic.joinCourseForInstructor(
                         encryptedKey[0], loggedInGoogleId, institute, null));
         assertEquals("Institute authentication failed.", ipe.getMessage());
+
+        AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
+        assertNull(accountCreated);
     }
 
     @Test

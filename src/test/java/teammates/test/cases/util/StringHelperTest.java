@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.crypto.Cipher;
+import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.testng.annotations.Test;
@@ -127,6 +128,15 @@ public class StringHelperTest extends BaseTestCase {
         cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
         byte[] encrypted = cipher.doFinal(plaintext.getBytes());
         return StringHelper.byteArrayToHexString(encrypted);
+    }
+
+    private static String generateSignature(String data) throws Exception {
+        SecretKeySpec signingKey =
+                new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
+        Mac mac = Mac.getInstance("HmacSHA1");
+        mac.init(signingKey);
+        byte[] value = mac.doFinal(data.getBytes());
+        return StringHelper.byteArrayToHexString(value);
     }
 
     @Test
@@ -414,11 +424,26 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testSignatureGenerationDeterministic() {
-        String signature = StringHelper.generateSignature("NUS");
-        assertTrue(StringHelper.isCorrectSignature("NUS", signature));
-        assertFalse(StringHelper.isCorrectSignature("NUS", null));
-        assertFalse(StringHelper.isCorrectSignature("NTU", signature));
+    public void testSignatureGeneration() throws Exception {
+        String data1 = "National University of Singapore";
+        String data2 = "Nanyang Technological University";
+
+        assertEquals(generateSignature(data1), StringHelper.generateSignature(data1));
+
+        assertNotEquals(StringHelper.generateSignature(data1), StringHelper.generateSignature(data2));
+    }
+
+    @Test
+    public void testSignatureVerification() {
+        String valid = "National University of Singapore";
+        String invalid = "Nanyang Technological University";
+        String signature = StringHelper.generateSignature(valid);
+
+        assertTrue(StringHelper.isCorrectSignature(valid, signature));
+
+        assertFalse(StringHelper.isCorrectSignature(valid, invalid));
+        assertFalse(StringHelper.isCorrectSignature(valid, null));
         assertFalse(StringHelper.isCorrectSignature(null, signature));
+        assertFalse(StringHelper.isCorrectSignature(invalid, signature));
     }
 }

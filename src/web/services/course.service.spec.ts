@@ -51,7 +51,7 @@ describe('CourseService', () => {
   it('should execute PUT when joining course', () => {
     const paramMap: { [key: string]: string } = {
       key: '123',
-      entitytype: 'student',
+      entitytype: 'instructor',
       instructorinstitution: 'National University of Singapore',
       mac: 'ABC123',
     };
