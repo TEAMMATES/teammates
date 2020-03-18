@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import static teammates.common.util.CustomLogic.customEquals;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -384,10 +382,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     public boolean equals(Object other) {
         if (this.getClass() == other.getClass()) {
             FeedbackSessionAttributes otherFeedbackSession = (FeedbackSessionAttributes) other;
-            return customEquals(this.feedbackSessionName, otherFeedbackSession.feedbackSessionName)
-                    && customEquals(this.courseId, otherFeedbackSession.courseId)
-                    && customEquals(this.instructions, otherFeedbackSession.instructions)
-                    && customEquals(this.creatorEmail, otherFeedbackSession.creatorEmail);
+            return nullableDataEquals(this.feedbackSessionName, otherFeedbackSession.feedbackSessionName)
+                    && nullableDataEquals(this.courseId, otherFeedbackSession.courseId)
+                    && nullableDataEquals(this.instructions, otherFeedbackSession.instructions)
+                    && nullableDataEquals(this.creatorEmail, otherFeedbackSession.creatorEmail);
         } else {
             return false;
         }

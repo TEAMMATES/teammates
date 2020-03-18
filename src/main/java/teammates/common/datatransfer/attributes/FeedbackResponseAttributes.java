@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import static teammates.common.util.CustomLogic.customEquals;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -182,11 +180,11 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public boolean equals(Object other) {
         if (this.getClass() == other.getClass()) {
             FeedbackResponseAttributes otherFeedbackResponse = (FeedbackResponseAttributes) other;
-            return customEquals(this.feedbackSessionName, otherFeedbackResponse.feedbackSessionName)
-                    && customEquals(this.courseId, otherFeedbackResponse.courseId)
-                    && customEquals(this.feedbackQuestionId, otherFeedbackResponse.feedbackQuestionId)
-                    && customEquals(this.giver, otherFeedbackResponse.giver)
-                    && customEquals(this.recipient, otherFeedbackResponse.recipient);
+            return nullableDataEquals(this.feedbackSessionName, otherFeedbackResponse.feedbackSessionName)
+                    && nullableDataEquals(this.courseId, otherFeedbackResponse.courseId)
+                    && nullableDataEquals(this.feedbackQuestionId, otherFeedbackResponse.feedbackQuestionId)
+                    && nullableDataEquals(this.giver, otherFeedbackResponse.giver)
+                    && nullableDataEquals(this.recipient, otherFeedbackResponse.recipient);
         } else {
             return false;
         }

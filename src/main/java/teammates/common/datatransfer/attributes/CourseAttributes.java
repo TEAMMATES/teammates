@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import static teammates.common.util.CustomLogic.customEquals;
-
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -173,8 +171,8 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public boolean equals(Object other) {
         if (this.getClass() == other.getClass()) {
             CourseAttributes otherCourse = (CourseAttributes) other;
-            return customEquals(this.id, otherCourse.id)
-                    && customEquals(this.name, otherCourse.name);
+            return nullableDataEquals(this.id, otherCourse.id)
+                    && nullableDataEquals(this.name, otherCourse.name);
         } else {
             return false;
         }

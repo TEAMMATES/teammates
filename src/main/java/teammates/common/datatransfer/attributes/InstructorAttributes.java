@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import static teammates.common.util.CustomLogic.customEquals;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -178,12 +176,12 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public boolean equals(Object other) {
         if (this.getClass() == other.getClass()) {
             InstructorAttributes otherInstructor = (InstructorAttributes) other;
-            return customEquals(this.email, otherInstructor.email)
-                    && customEquals(this.name, otherInstructor.name)
-                    && customEquals(this.courseId, otherInstructor.courseId)
-                    && customEquals(this.googleId, otherInstructor.googleId)
-                    && customEquals(this.displayedName, otherInstructor.displayedName)
-                    && customEquals(this.role, otherInstructor.role);
+            return nullableDataEquals(this.email, otherInstructor.email)
+                    && nullableDataEquals(this.name, otherInstructor.name)
+                    && nullableDataEquals(this.courseId, otherInstructor.courseId)
+                    && nullableDataEquals(this.googleId, otherInstructor.googleId)
+                    && nullableDataEquals(this.displayedName, otherInstructor.displayedName)
+                    && nullableDataEquals(this.role, otherInstructor.role);
         } else {
             return false;
         }

@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import static teammates.common.util.CustomLogic.customEquals;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -292,14 +290,14 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         if (this.getClass() == other.getClass()) {
             FeedbackResponseCommentAttributes otherCommentAttributes =
                     (FeedbackResponseCommentAttributes) other;
-            return customEquals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
-                    && customEquals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
-                    && customEquals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
-                    && customEquals(this.courseId, otherCommentAttributes.courseId)
-                    && customEquals(this.commentGiver, otherCommentAttributes.commentGiver)
-                    && customEquals(this.commentText, otherCommentAttributes.commentText)
-                    && customEquals(this.giverSection, otherCommentAttributes.giverSection)
-                    && customEquals(this.receiverSection, otherCommentAttributes.receiverSection);
+            return nullableDataEquals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
+                    && nullableDataEquals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
+                    && nullableDataEquals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
+                    && nullableDataEquals(this.courseId, otherCommentAttributes.courseId)
+                    && nullableDataEquals(this.commentGiver, otherCommentAttributes.commentGiver)
+                    && nullableDataEquals(this.commentText, otherCommentAttributes.commentText)
+                    && nullableDataEquals(this.giverSection, otherCommentAttributes.giverSection)
+                    && nullableDataEquals(this.receiverSection, otherCommentAttributes.receiverSection);
         } else {
             return false;
         }

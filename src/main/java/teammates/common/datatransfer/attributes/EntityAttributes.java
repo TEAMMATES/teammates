@@ -118,4 +118,19 @@ public abstract class EntityAttributes<E extends BaseEntity> {
         }
 
     }
+
+    /**
+     * Custom equals method that is able to handle null objects.
+     * @param first first object to be compared
+     * @param second second object to be compared
+     * @return true of both objects are null or equal, false otherwise.
+     */
+    protected boolean nullableDataEquals(Object first, Object second) {
+        if (first == null && second == null) {
+            return true;
+        } else if (first == null || second == null) {
+            return false;
+        }
+        return first.equals(second);
+    }
 }
