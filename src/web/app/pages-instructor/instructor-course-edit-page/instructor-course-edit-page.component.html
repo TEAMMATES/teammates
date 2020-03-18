@@ -22,18 +22,27 @@
     </span>
   </div>
   <div class="card-body fill-plain">
-    <div>
+    <form #courseForm="ngForm" (ngSubmit)="onSaveCourse()">
       <div class="form-row form-group">
         <label class="col-sm-3">Course ID:</label>
         <div class="col-sm-3">
-          <input class="col-xs-12 form-control" maxlength="40" tabindex="1" [(ngModel)]="course.courseId" disabled>
+          <input class="col-xs-12 form-control" type="text" tabindex="1"
+                 #courseId="ngModel" [(ngModel)]="course.courseId" name="courseId"
+                 [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH" required disabled>
         </div>
       </div>
       <div class="form-row form-group">
         <label class="col-sm-3">Course Name:</label>
         <div class="col-sm-9">
-          <input class="form-control" ngbTooltip="The name of the course, e.g. Software Engineering."
-                 maxlength="64" tabindex="2" [(ngModel)]="course.courseName" [disabled]="!isEditingCourse">
+          <input class="form-control" ngbTooltip="Enter the name of the course, e.g. Software Engineering."
+                 type="text" tabindex="2" [disabled]="!isEditingCourse" name="courseName"
+                 [(ngModel)]="course.courseName" #courseName="ngModel"
+                 [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
+          <div [hidden]="courseName.valid || (courseName.pristine && courseName.untouched)"
+               class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field Course Name should not be empty.
+          </div>
         </div>
       </div>
       <div class="form-row form-group">
@@ -42,25 +51,25 @@
           <div class="input-group">
             <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
               device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
-              [(ngModel)]="course.timeZone" [disabled]="!isEditingCourse">
+              [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
             </select>
             <span class="input-group-btn">
               <button class="btn btn-primary" type=button [disabled]="!isEditingCourse" (click)="detectTimezone()">
                 Auto-Detect
               </button>
-            </span>
+             </span>
           </div>
         </div>
       </div>
       <div class="form-group">
         <div class=" col-sm-12 text-center">
-          <button class="btn btn-primary" type="button" (click)="onSaveCourse()" *ngIf="isEditingCourse">
+          <button class="btn btn-primary" type="submit" [disabled]="form.invalid" *ngIf="isEditingCourse">
             Save Changes
           </button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 <div class="right top-padded">
