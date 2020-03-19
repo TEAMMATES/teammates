@@ -9,7 +9,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { SortBy, SortOrder } from '../../components/sessions-table/sessions-table-model';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
 import { InstructorHomePageModule } from './instructor-home-page.module';
 
