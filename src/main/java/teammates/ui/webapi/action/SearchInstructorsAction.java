@@ -31,22 +31,22 @@ public class SearchInstructorsAction extends Action {
 
     private void addAdditionalSearchFields(InstructorsData instructorsData, List<InstructorAttributes> instructors) {
         instructorsData.getInstructors()
-            .forEach((InstructorData data) -> {
-                AccountAttributes account = logic.getAccount(data.getGoogleId());
-                if (account != null) {
-                    String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
-                    data.setInstitute(institute);
-                }
+                .forEach((InstructorData data) -> {
+                    AccountAttributes account = logic.getAccount(data.getGoogleId());
+                    if (account != null) {
+                        String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                        data.setInstitute(institute);
+                    }
 
-                // Add registration key
-                data.setKey(instructors.stream()
-                        .filter((InstructorAttributes instructor)
-                            -> instructor.getGoogleId() == data.getGoogleId())
-                        .collect(Collectors.toList()).get(0).getKey());
-                
-                // Hide information
-                data.hideInformationForSearch();
-            });
+                    // Add registration key
+                    data.setKey(StringHelper.encrypt(instructors.stream()
+                            .filter((InstructorAttributes instructor)
+                                    -> instructor.getGoogleId().equals(data.getGoogleId()))
+                            .collect(Collectors.toList()).get(0).getKey()));
+
+                    // Hide information
+                    data.hideInformationForSearch();
+                });
     }
 
     @Override
