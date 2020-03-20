@@ -3,7 +3,19 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
-import { InstructorPrivilege, Student, Students } from '../types/api-output';
+import {
+  Course,
+  FeedbackSession,
+  FeedbackSessions,
+  Instructor,
+  InstructorPrivilege
+  Instructors,
+  Student,
+  Students,
+  FeedbackSessionPublishStatus,
+} from '../types/api-output';
+import { CourseService } from './course.service';
+import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 
@@ -17,6 +29,8 @@ export class SearchService {
   constructor(
     private httpRequestService: HttpRequestService,
     private instructorService: InstructorService,
+    private feedbackSessionsService: FeedbackSessionsService,
+    private courseService: CourseService
   ) {}
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
@@ -37,17 +51,16 @@ export class SearchService {
     return forkJoin(
         this.getInstructors(searchKey),
         this.getStudents(searchKey),
-        this.getSessions(searchKey),
-        this.getLinks(searchKey),
-        this.getCourses(searchKey),
-    ).pipe(map((res: [Instructors, Students, SearchSessions, SearchLinks, SearchCourses]) => this.joinAdmin(res)));
+    ).pipe(map((res: [Instructors, Students]) => this.joinAdmin(res)));
   }
 
-  private getStudents(searchKey: string): Observable<Students> {
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchKey,
+  private joinAdmin(resp: [Instructors, Students]): AdminSearchResult {
+    const [instructors, students]:
+      [Instructors, Students] = resp;
+    return {
+      students: students.students.map((student: Student) => this.createStudentAccountSearchResult(student)),
+      instructors: [],
     };
-    return this.httpRequestService.get('/search/students', paramMap);
   }
 
   getCoursesWithSections(studentsRes: Students): SearchStudentsTable[] {
@@ -126,58 +139,46 @@ export class SearchService {
     };
   }
 
-  private joinAdminStudents(
-    resp: [Students, SearchSessions, SearchLinks, SearchCourses],
-  ): StudentAccountSearchResult[] {
-    const [students, sessions, links, courses]
-      : [Students, SearchSessions, SearchLinks, SearchCourses] = resp;
-    const studentsData: StudentAccountSearchResult[] = [];
-    for (const student of students.students) {
-      let studentResult: StudentAccountSearchResult = {
-        email: '',
-        name: '',
-        comments: '',
-        team: '',
-        section: '',
-        openSessions: {},
-        closedSessions: {},
-        publishedSessions: {},
-        courseId: '',
-        courseName: '',
-        institute: '',
-        manageAccountLink: '',
-        homePageLink: '',
-        recordsPageLink: '',
-        courseJoinLink: '',
-        googleId: '',
-        showLinks: false,
-      };
-      const { email, name, comments, teamName: team, sectionName: section, googleId = '' }: Student = student;
-      studentResult = { ...studentResult, email, name, comments, team, section, googleId };
+  private createStudentAccountSearchResult(student: Student): Observable<StudentAccountSearchResult> {
+    const {courseId} = student;
+    forkJoin(
+      this.feedbackSessionService.getFeedbackSessionsForStudent(courseId),
+      this.courseService.getCourseAsStudent(courseId),
+    ).pipe(
+      map((resp: [FeedbackSessions, Course]) => this.joinAdminStudent(resp, student))
+    )
+  }
 
-      // Join sessions
-      const matchingSessions: StudentSessions = sessions.sessions[email];
-      if (matchingSessions != null) {
-        studentResult = { ...studentResult, ...matchingSessions };
-      }
+  private joinAdminStudent(
+    resp: [FeedbackSessions, Course], student: Student
+  ): StudentAccountSearchResult {
+    const [feedbackSessions, course]: [FeedbackSessions, Course] = resp;
+    let studentResult: StudentAccountSearchResult = {
+      email: '',
+      name: '',
+      comments: '',
+      team: '',
+      section: '',
+      openSessions: {},
+      notOpenSessions: {},
+      publishedSessions: {},
+      courseId: '',
+      courseName: '',
+      institute: '',
+      manageAccountLink: '',
+      homePageLink: '',
+      recordsPageLink: '',
+      courseJoinLink: '',
+      googleId: '',
+      showLinks: false,
+    };
+    const { email, name, comments = '', teamName: team, sectionName: section, googleId = '', institute = ''}: Student = student;
+    studentResult = { ...studentResult, email, name, comments, team, section, googleId, institute };
 
-      // Join courses
-      const matchingCourses: SearchCoursesCommon[] =
-        courses.students.filter((el: SearchCoursesCommon) => el.email === email);
-      if (matchingCourses.length !== 0) {
-        studentResult = { ...studentResult, ...matchingCourses[0] };
-      }
+    const { courseId, courseName }: Course = course;
+    studentResult = { ...studentResult, courseId, courseName }
 
-      // Join links
-      const matchingLinks: SearchLinksStudent[] = links.students.filter((el: SearchLinksStudent) => el.email === email);
-      if (matchingLinks.length !== 0) {
-        studentResult = { ...studentResult, ...matchingLinks[0] };
-      }
-
-      studentsData.push(studentResult);
-    }
-
-    return studentsData;
+    return studentResult;
   }
 
   private joinAdminInstructors(resp: [Instructors, SearchLinks, SearchCourses ]): InstructorAccountSearchResult[] {
@@ -218,7 +219,17 @@ export class SearchService {
 
     return instructorsData;
   }
+
+  private isFeedbackSessionOpen(feedbackSession: FeedbackSession): boolean {
+    const date = Date.now();
+    return date >= feedbackSession.submissionStartTimestamp && date < feedbackSession.submissionEndTimestamp;
+  }
+
+  private isFeedbackSessionPublished(feedbackSession: FeedbackSession): boolean {
+    return feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+  }
 }
+
 
 /**
  * The typings for the response object returned by the instructor search service.
@@ -254,6 +265,6 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   comments: string;
   recordsPageLink: string;
   openSessions: { [index: string]: string };
-  closedSessions: { [index: string]: string };
+  notOpenSessions: { [index: string]: string };
   publishedSessions: { [index: string]: string };
 }
