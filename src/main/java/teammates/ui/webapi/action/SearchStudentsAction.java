@@ -99,15 +99,15 @@ public class SearchStudentsAction extends Action {
 
         // Hide information
         studentsData.getStudents().forEach(StudentData::hideLastName);
-        if (!(userInfo.isAdmin)) {
-            studentsData.getStudents().forEach(StudentData::hideInformationForInstructor);
-        } else {
+        if (userInfo.isAdmin) {
             // Set the key
             studentsData.getStudents().forEach((StudentData data) -> {
-                data.setKey(students.stream()
-                        .filter((StudentAttributes s) -> s.getGoogleId() == data.getGoogleId())
-                        .collect(Collectors.toList()).get(0).getKey());
+                data.setKey(StringHelper.encrypt(students.stream()
+                        .filter((StudentAttributes s) -> s.getGoogleId().equals(data.getGoogleId()))
+                        .collect(Collectors.toList()).get(0).getKey()));
             });
+        } else {
+            studentsData.getStudents().forEach(StudentData::hideInformationForInstructor);
         }
 
         return new JsonResult(studentsData);
