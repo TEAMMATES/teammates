@@ -1,5 +1,7 @@
 package teammates.ui.webapi.output;
 
+import java.util.Map;
+
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -23,6 +25,8 @@ public class StudentData extends ApiOutput {
     private String key;
     @Nullable
     private String institute;
+    @Nullable
+    private Map<String, String> courseIdToInstructorGoogleIdMap;
 
     private JoinState joinState;
 
@@ -85,6 +89,10 @@ public class StudentData extends ApiOutput {
         return institute;
     }
 
+    public Map<String, String> getCourseIdToInstructorGoogleIdMap() {
+        return courseIdToInstructorGoogleIdMap;
+    }
+
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
     }
@@ -107,6 +115,10 @@ public class StudentData extends ApiOutput {
 
     public void setInstitute(String institute) {
         this.institute = institute;
+    }
+
+    public void setCourseIdToInstructorGoogleIdMap(Map<String, String> courseIdToInstructorGoogleIdMap) {
+        this.courseIdToInstructorGoogleIdMap = courseIdToInstructorGoogleIdMap;
     }
 
     /**

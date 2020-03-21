@@ -23,6 +23,7 @@ public class SearchStudentsAction extends Action {
 
     private Set<String> courseIds = new HashSet<>();
     private Map<String, String> courseIdToInstituteMap = new HashMap<>();
+    private Map<String, String> courseIdToInstructorGoogleIdMap = new HashMap<>();
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -47,6 +48,12 @@ public class SearchStudentsAction extends Action {
 
             String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
             courseIdToInstituteMap.put(courseId, institute);
+        }
+    }
+
+    private void populateCourseIdToInstructorGoogleIdMap() {
+        for (String courseId : courseIds) {
+            courseIdToInstructorGoogleIdMap.put(courseId, findAvailableInstructorGoogleIdForCourse(courseId));
         }
     }
 
@@ -92,6 +99,7 @@ public class SearchStudentsAction extends Action {
         for (StudentAttributes s : students) {
             courseIds.add(s.getCourse());
         }
+        populateCourseIdToInstructorGoogleIdMap();
         populateCourseIdToInstituteMap();
         studentsData.getStudents().forEach((StudentData data) -> {
             data.setInstitute(courseIdToInstituteMap.get(data.getCourseId()));
@@ -105,6 +113,7 @@ public class SearchStudentsAction extends Action {
                 data.setKey(StringHelper.encrypt(students.stream()
                         .filter((StudentAttributes s) -> s.getGoogleId().equals(data.getGoogleId()))
                         .collect(Collectors.toList()).get(0).getKey()));
+                data.setCourseIdToInstructorGoogleIdMap(courseIdToInstructorGoogleIdMap);
             });
         } else {
             studentsData.getStudents().forEach(StudentData::hideInformationForInstructor);
