@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
 import { ResourceEndpoints } from '../types/api-endpoints';
@@ -6,6 +7,7 @@ import {
   ConfirmationResponse,
   FeedbackQuestion,
   FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessions, FeedbackSessionStats, FeedbackSessionSubmittedGiverSet,
   HasResponses,
   MessageOutput,
@@ -368,5 +370,30 @@ export class FeedbackSessionsService {
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_LINKS_RECOVERY, paramMap);
+  }
+  
+  /**
+   * Checks if a given feedback session is still open.
+   */
+  isFeedbackSessionOpen(feedbackSession: FeedbackSession): boolean {
+    const date: number = Date.now();
+    return date >= feedbackSession.submissionStartTimestamp && date < feedbackSession.submissionEndTimestamp;
+  }
+
+  /**
+   * Checks if a given feedback session is published.
+   */
+  isFeedbackSessionPublished(feedbackSession: FeedbackSession): boolean {
+    return feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+  }
+
+  /**
+   * Generates the name fragment of a feedbackSession for display on the frontend.
+   */
+  generateNameFragment(feedbackSession: FeedbackSession): string {
+    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM yyyy, hh:mm A Z';
+    const startTime: string = moment(feedbackSession.submissionStartTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO);
+    const endTime: string = moment(feedbackSession.submissionEndTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO);
+    return `${feedbackSession.feedbackSessionName} ${startTime}-${endTime}`;
   }
 }
