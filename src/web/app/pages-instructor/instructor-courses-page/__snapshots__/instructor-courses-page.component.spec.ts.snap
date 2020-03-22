@@ -18,6 +18,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
 >
@@ -498,6 +499,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
 >
@@ -984,6 +986,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
 >
@@ -1114,6 +1117,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
 >
