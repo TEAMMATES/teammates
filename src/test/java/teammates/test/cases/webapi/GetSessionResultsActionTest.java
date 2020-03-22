@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -73,6 +74,45 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         GetSessionResultsAction finalA = a;
 
         assertThrows(EntityNotFoundException.class, () -> getJsonResult(finalA));
+
+        StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(studentAttributes.getGoogleId());
+
+        ______TS("typical: student accesses results of his/her course");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        output = (SessionResultsData) r.getOutput();
+        expectedResults =
+                new SessionResultsData(logic.getFeedbackSessionResultsForStudent(
+                        accessibleFeedbackSession.getFeedbackSessionName(),
+                        accessibleFeedbackSession.getCourseId(),
+                        studentAttributes.getEmail()
+                ), studentAttributes);
+
+        assertTrue(expectedResults.equals(output));
+
+        ______TS("fail: student accesses results of non-existent feedback session");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, nonexistentFeedbackSession,
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        GetSessionResultsAction finalAction = a;
+
+        assertThrows(EntityNotFoundException.class, () -> getJsonResult(finalAction));
 
     }
 
