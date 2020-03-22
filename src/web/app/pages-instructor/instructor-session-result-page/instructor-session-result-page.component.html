@@ -36,9 +36,12 @@
       </div> -->
     </div>
     <div class="col-sm-2 col-lg-2">
-      <button class="btn btn-primary " ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
+      <button class="btn btn-primary action-btn" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
          placement="top" (click)="publishResultHandler()">
         {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "Unpublish": "Publish"}} Results
+      </button>
+      <button class="btn btn-primary action-btn">
+        Download Results
       </button>
     </div>
   </div>
