@@ -218,7 +218,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
    * Handle print view button event.
    */
   printViewHandler(): void {
-    window.print();
+    this.expandAllHandler();
+    setTimeout(() => {
+      window.print();
+    }, 1000);
   }
 
   /**
