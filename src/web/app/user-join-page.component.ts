@@ -18,9 +18,11 @@ export class UserJoinPageComponent implements OnInit {
 
   isLoading: boolean = true;
   hasJoined: boolean = false;
+  validUrl: boolean = true;
   entityType: string = '';
   key: string = '';
   institute: string = '';
+  mac: string = '';
   userId: string = '';
 
   constructor(private route: ActivatedRoute,
@@ -33,6 +35,11 @@ export class UserJoinPageComponent implements OnInit {
       this.entityType = queryParams.entitytype;
       this.key = queryParams.key;
       this.institute = queryParams.instructorinstitution;
+      this.mac = queryParams.mac;
+
+      if (this.institute != null && this.mac == null) {
+        this.validUrl = false;
+      }
 
       this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
         this.hasJoined = resp.hasJoined;
@@ -55,7 +62,7 @@ export class UserJoinPageComponent implements OnInit {
    */
   joinCourse(): void {
 
-    this.courseService.joinCourse(this.key, this.entityType, this.institute).subscribe(() => {
+    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
       this.router.navigate([`/web/${this.entityType}`]);
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);
