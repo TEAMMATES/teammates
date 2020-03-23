@@ -526,7 +526,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                   </td>
                   <td>
                     <span>
-                      I am 2
+                       I am 2 
                     </span>
                   </td>
                 </tr>
