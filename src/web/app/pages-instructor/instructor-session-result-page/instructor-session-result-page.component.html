@@ -43,6 +43,9 @@
       <button class="btn btn-primary action-btn">
         Download Results
       </button>
+      <button class="btn btn-primary action-btn" (click)="printViewHandler()">
+        Print View
+      </button>
     </div>
   </div>
 </div>
@@ -115,7 +118,13 @@
   </div>
 </div>
 
-<div class="top-padded" *ngIf="isSectionsLoaded && isQuestionsLoaded">
+<div class="top-padded col-md-2 offset-md-10">
+  <button class="btn expand-btn action-btn btn-light" (click)="expandAllHandler()">
+    {{this.isExpandAll ? "Collapse": "Expand"}} All
+  </button>
+</div>
+
+<div *ngIf="isSectionsLoaded && isQuestionsLoaded">
   <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'" [responses]="questionsModel"
       [section]="section" [sectionType]="sectionType" [session] = "session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
@@ -138,6 +147,6 @@
       (loadSection)="loadSection($event)"></tm-instructor-session-result-rqg-view>
 </div>
 
-<div class="top-padded" *ngIf="isNoResponsePanelLoaded">
+<div class="card top-padded" *ngIf="isNoResponsePanelLoaded">
   <tm-instructor-session-no-response-panel [noResponseStudents]="noResponseStudents" [section]="section" [session]="session" ></tm-instructor-session-no-response-panel>
 </div>

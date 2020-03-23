@@ -6,3 +6,13 @@
   margin-bottom: 15px;
   width: 100%;
 }
+
+.expand-btn {
+  width: 100%;
+}
+
+@media print {
+  .action-btn {
+    display: none;
+  }
+}

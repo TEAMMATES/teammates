@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -16,6 +16,12 @@ import { ConfirmPublishingSessionModalComponent } from '../../components/session
 // tslint:disable-next-line:max-line-length
 import { ConfirmUnpublishingSessionModalComponent } from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
+import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
+import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
+import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
+import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
+import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 
 /**
@@ -48,6 +54,20 @@ export class InstructorSessionResultPageComponent implements OnInit {
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+  isExpandAll: boolean = false;
+
+  @ViewChild(InstructorSessionResultQuestionViewComponent, { static: false }) questionView?:
+    InstructorSessionResultQuestionViewComponent;
+  @ViewChild(InstructorSessionResultGrqViewComponent, { static: false }) grqView?:
+    InstructorSessionResultGrqViewComponent;
+  @ViewChild(InstructorSessionResultRgqViewComponent, { static: false }) rgqView?:
+    InstructorSessionResultRgqViewComponent;
+  @ViewChild(InstructorSessionResultGqrViewComponent, { static: false }) gprView?:
+    InstructorSessionResultGqrViewComponent;
+  @ViewChild(InstructorSessionResultRqgViewComponent, { static: false }) rpgView?:
+    InstructorSessionResultRqgViewComponent;
+  @ViewChild(InstructorSessionNoResponsePanelComponent, { static: false }) noResponsePanel?:
+    InstructorSessionNoResponsePanelComponent;
 
   constructor(private httpRequestService: HttpRequestService, private route: ActivatedRoute,
       private timezoneService: TimezoneService, private statusMessageService: StatusMessageService,
@@ -192,5 +212,58 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
     }, () => {});
+  }
+
+  /**
+   * Handle print view button event.
+   */
+  printViewHandler(): void {
+    window.print();
+  }
+
+  /**
+   * Handle expand all questions button event.
+   */
+  expandAllHandler(): void {
+    if (!this.isExpandAll) {
+      if (this.questionView !== undefined) {
+        this.questionView.expandAllQuestionTabs();
+      }
+      if (this.noResponsePanel !== undefined) {
+        this.noResponsePanel.expandTab();
+      }
+      if (this.gprView !== undefined) {
+        this.gprView.expandAllSectionTabs();
+      }
+      if (this.rpgView !== undefined) {
+        this.rpgView.expandAllSectionTabs();
+      }
+      if (this.grqView !== undefined) {
+        this.grqView.expandAllSectionTabs();
+      }
+      if (this.rgqView !== undefined) {
+        this.rgqView.expandAllSectionTabs();
+      }
+    } else {
+      if (this.questionView !== undefined) {
+        this.questionView.collapseAllQuestionTabs();
+      }
+      if (this.noResponsePanel !== undefined) {
+        this.noResponsePanel.collapseTab();
+      }
+      if (this.gprView !== undefined) {
+        this.gprView.collapseAllSectionTabs();
+      }
+      if (this.rpgView !== undefined) {
+        this.rpgView.collapseAllSectionTabs();
+      }
+      if (this.grqView !== undefined) {
+        this.grqView.collapseAllSectionTabs();
+      }
+      if (this.rgqView !== undefined) {
+        this.rgqView.collapseAllSectionTabs();
+      }
+    }
+    this.isExpandAll = !this.isExpandAll;
   }
 }
