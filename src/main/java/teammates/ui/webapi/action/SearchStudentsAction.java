@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -93,18 +92,18 @@ public class SearchStudentsAction extends Action {
             courseIds.add(s.getCourse());
         }
         populateCourseIdToInstituteMap();
-        studentsData.getStudents().forEach((StudentData data) -> {
-            data.setInstitute(courseIdToInstituteMap.get(data.getCourseId()));
+        studentsData.getStudents().forEach((StudentData student) -> {
+            student.setInstitute(courseIdToInstituteMap.get(student.getCourseId()));
         });
 
         // Hide information
         studentsData.getStudents().forEach(StudentData::hideLastName);
         if (userInfo.isAdmin) {
-            // Set the key
-            studentsData.getStudents().forEach((StudentData data) -> {
-                data.setKey(StringHelper.encrypt(students.stream()
-                        .filter((StudentAttributes s) -> s.getGoogleId().equals(data.getGoogleId()))
-                        .collect(Collectors.toList()).get(0).getKey()));
+            // Set the key if Google Id is present
+            studentsData.getStudents().forEach((StudentData student) -> {
+                if (student.getGoogleId() != null) {
+                    student.setKey(students);
+                }
             });
         } else {
             studentsData.getStudents().forEach(StudentData::hideInformationForInstructor);
