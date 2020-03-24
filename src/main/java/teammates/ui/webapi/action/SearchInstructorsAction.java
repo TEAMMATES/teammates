@@ -1,7 +1,6 @@
 package teammates.ui.webapi.action;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -31,21 +30,17 @@ public class SearchInstructorsAction extends Action {
 
     private void addAdditionalSearchFields(InstructorsData instructorsData, List<InstructorAttributes> instructors) {
         instructorsData.getInstructors()
-                .forEach((InstructorData data) -> {
-                    AccountAttributes account = logic.getAccount(data.getGoogleId());
-                    if (account != null) {
-                        String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
-                        data.setInstitute(institute);
+                .forEach((InstructorData instructor) -> {
+                    if (instructor.getGoogleId() != null) {
+                        AccountAttributes account = logic.getAccount(instructor.getGoogleId());
+                        if (account != null) {
+                            String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                            instructor.setInstitute(institute);
+                        }
+                        instructor.setKey(instructors);
                     }
-
-                    // Add registration key
-                    data.setKey(StringHelper.encrypt(instructors.stream()
-                            .filter((InstructorAttributes instructor)
-                                    -> instructor.getGoogleId().equals(data.getGoogleId()))
-                            .collect(Collectors.toList()).get(0).getKey()));
-
                     // Hide information
-                    data.hideInformationForSearch();
+                    instructor.hideInformationForSearch();
                 });
     }
 
