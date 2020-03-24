@@ -47,12 +47,6 @@ public class SearchStudentsAction extends Action {
         return StringHelper.isEmpty(account.institute) ? "None" : account.institute;
     }
 
-    private void populateCourseIdToInstructorGoogleIdMap() {
-        for (String courseId : courseIds) {
-            courseIdToInstructorGoogleIdMap.put(courseId, findAvailableInstructorGoogleIdForCourse(courseId));
-        }
-    }
-
     /**
      * Finds the googleId of a registered instructor with co-owner privileges.
      * If there is no such instructor, finds the googleId of a registered
