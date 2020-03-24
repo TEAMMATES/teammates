@@ -82,25 +82,14 @@ public class GetSessionResultsAction extends Action {
 
             try {
                 // TODO optimize the logic layer to get rid of functions that are no longer necessary
-                if (questionId == null) {
-                    if (selectedSection == null) {
-                        bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
-                                feedbackSessionName, courseId, instructor.email,
-                                1, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
-                    } else {
-                        bundle = logic.getFeedbackSessionResultsForInstructorInSection(
-                                feedbackSessionName, courseId, instructor.email, selectedSection,
-                                SectionDetail.EITHER);
-                    }
+                if (questionId == null && selectedSection != null) {
+                    bundle = logic.getFeedbackSessionResultsForInstructorInSection(
+                            feedbackSessionName, courseId, instructor.email, selectedSection, SectionDetail.EITHER);
+                } else if (selectedSection == null && questionId != null) {
+                    bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId,
+                            instructor.email, questionId);
                 } else {
-                    if (selectedSection == null) {
-                        bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId,
-                                instructor.email, questionId);
-                    } else {
-                        bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
-                                feedbackSessionName, courseId,
-                                instructor.email, questionId, selectedSection, SectionDetail.EITHER);
-                    }
+                    throw new InvalidHttpParameterException("Should provide either questionId or selectedSection");
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
