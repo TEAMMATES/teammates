@@ -170,11 +170,12 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKey: string, entityType: string, institute: string): Observable<any> {
+  joinCourse(regKey: string, entityType: string, institute: string, institutemac: string): Observable<any> {
     const paramMap: { [key: string]: string } = {
       key: regKey,
       entitytype: entityType,
       instructorinstitution: institute,
+      mac: institutemac,
     };
     return this.httpRequestService.put(ResourceEndpoints.JOIN, paramMap);
   }

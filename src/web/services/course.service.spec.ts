@@ -51,10 +51,11 @@ describe('CourseService', () => {
   it('should execute PUT when joining course', () => {
     const paramMap: { [key: string]: string } = {
       key: '123',
-      entitytype: 'student',
+      entitytype: 'instructor',
       instructorinstitution: 'National University of Singapore',
+      mac: 'ABC123',
     };
-    service.joinCourse(paramMap.key, paramMap.entitytype, paramMap.instructorinstitution);
+    service.joinCourse(paramMap.key, paramMap.entitytype, paramMap.instructorinstitution, paramMap.mac);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
 });
