@@ -542,6 +542,31 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertFalse(feedbackSession.equals(3));
     }
 
+    @Test
+    public void testHashCode() {
+        FeedbackSessionAttributes feedbackSession = generateTypicalFeedbackSessionAttributesObject();
+
+        // When the two feedback sessions are exact copies, they should have the same hash code
+        FeedbackSessionAttributes feedbackSessionCopy = feedbackSession.getCopy();
+
+        assertTrue(feedbackSession.hashCode() == feedbackSessionCopy.hashCode());
+
+        // When the two feedback sessions have same values but created at different time,
+        // they should still have the same hash code
+        FeedbackSessionAttributes feedbackSessionSimilar = generateTypicalFeedbackSessionAttributesObject();
+
+        assertTrue(feedbackSession.hashCode() == feedbackSessionSimilar.hashCode());
+
+        // When the two feedback sessions are different, they should have different hash code
+        FeedbackSessionAttributes feedbackSessionDifferent =
+                FeedbackSessionAttributes.builder("differentSession", "courseId")
+                .withCreatorEmail("email@email.com")
+                .withInstructions("instructor")
+                .build();
+
+        assertFalse(feedbackSession.hashCode() == feedbackSessionDifferent.hashCode());
+    }
+
     private FeedbackSessionAttributes generateTypicalFeedbackSessionAttributesObject() {
         ZoneId timeZone = ZoneId.of("Asia/Singapore");
         Instant startTime = TimeHelper.convertLocalDateTimeToInstant(

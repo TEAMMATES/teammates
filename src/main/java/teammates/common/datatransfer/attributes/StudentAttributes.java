@@ -178,6 +178,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             StudentAttributes otherStudent = (StudentAttributes) other;
             return Objects.equals(this.course, otherStudent.course)
                     && Objects.equals(this.name, otherStudent.name)
+                    && Objects.equals(this.email, otherStudent.email)
+                    && Objects.equals(this.googleId, otherStudent.googleId)
                     && Objects.equals(this.comments, otherStudent.comments)
                     && Objects.equals(this.team, otherStudent.team)
                     && Objects.equals(this.section, otherStudent.section);

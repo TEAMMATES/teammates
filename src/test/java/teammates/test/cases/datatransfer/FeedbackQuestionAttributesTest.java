@@ -824,6 +824,30 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertFalse(feedbackQuestion.equals(3));
     }
 
+    @Test
+    public void testHashCode() {
+        FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
+
+        // When the two feedback questions are copies of each other, they should have the same hash code
+        FeedbackQuestionAttributes feedbackQuestionCopy = getNewFeedbackQuestionAttributes();
+
+        assertTrue(feedbackQuestion.hashCode() == feedbackQuestionCopy.hashCode());
+
+        // When the two feedback questions have same values but created at different time,
+        // they should still have the same hash code
+        FeedbackQuestionAttributes feedbackQuestionSimilar = getNewFeedbackQuestionAttributes();
+
+        assertTrue(feedbackQuestion.hashCode() == feedbackQuestionSimilar.hashCode());
+
+        // When the two feedback questions are different, they should have different hash code
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withCourseId("differentCourse")
+                .withFeedbackSessionName("testFeedbackSession")
+                .build();
+
+        assertFalse(feedbackQuestion.hashCode() == feedbackQuestionDifferent.hashCode());
+    }
+
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
 

@@ -385,6 +385,24 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertFalse(feedbackResponseComment.equals(3));
     }
 
+    @Test
+    public void testHashCode() {
+        FeedbackResponseCommentAttributes feedbackResponseComment =
+                generateTypicalFeedbackResponseCommentAttributesObject();
+
+        // When the two feedback response comments have same values, they should have the same hash code
+        FeedbackResponseCommentAttributes feedbackResponseCommentSimilar =
+                generateTypicalFeedbackResponseCommentAttributesObject();
+
+        assertTrue(feedbackResponseComment.equals(feedbackResponseCommentSimilar));
+
+        // When the two feedback response comments are different, they should have different hash code
+        FeedbackResponseCommentAttributes feedbackResponseCommentDifferent =
+                generateValidFeedbackResponseCommentAttributesObject();
+
+        assertFalse(feedbackResponseComment.hashCode() == feedbackResponseCommentDifferent.hashCode());
+    }
+
     private static FeedbackResponseCommentAttributes generateValidFeedbackResponseCommentAttributesObject() {
         return FeedbackResponseCommentAttributes.builder()
                 .withCourseId("courseId")

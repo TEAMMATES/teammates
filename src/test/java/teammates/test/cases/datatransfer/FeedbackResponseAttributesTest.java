@@ -301,4 +301,46 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         // When the other object is of different class
         assertFalse(feedbackResponse.equals(3));
     }
+
+    @Test
+    public void testHashCode() {
+        FeedbackResponseAttributes feedbackResponse =
+                FeedbackResponseAttributes.builder("questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        // When the two feedback sessions are exact copies, they should have the same hash code
+        FeedbackResponseAttributes feedbackResponseCopy = new FeedbackResponseAttributes(feedbackResponse);
+
+        assertTrue(feedbackResponse.hashCode() == feedbackResponseCopy.hashCode());
+
+        // When the two feedback sessions have same values but created at different time,
+        // they should still have the same hash code
+        FeedbackResponseAttributes feedbackResponseSimilar =
+                FeedbackResponseAttributes.builder("questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        assertTrue(feedbackResponse.hashCode() == feedbackResponseSimilar.hashCode());
+
+        // When the two feedback sessions are different, they should have different hash code
+        FeedbackResponseAttributes feedbackResponseDifferent =
+                FeedbackResponseAttributes.builder("differentId", "different@email.com", "different@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        assertFalse(feedbackResponse.hashCode() == feedbackResponseDifferent.hashCode());
+    }
 }
