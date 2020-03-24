@@ -1,8 +1,12 @@
 package teammates.ui.webapi.output;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.StringHelper;
 
 /**
  * The API output format of {@link StudentAttributes}.
@@ -102,8 +106,10 @@ public class StudentData extends ApiOutput {
         this.joinState = joinState;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKey(List<StudentAttributes> studentAttributes) {
+        this.key = StringHelper.encrypt(studentAttributes.stream()
+                .filter((StudentAttributes s) -> s.getGoogleId().equals(this.googleId))
+                .collect(Collectors.toList()).get(0).getKey());
     }
 
     public void setInstitute(String institute) {
