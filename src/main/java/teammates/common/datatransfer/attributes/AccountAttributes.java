@@ -3,6 +3,7 @@ package teammates.common.datatransfer.attributes;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -134,10 +135,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
             return true;
         } else if (this.getClass() == other.getClass()) {
             AccountAttributes otherAccount = (AccountAttributes) other;
-            return nullableDataEquals(this.email, otherAccount.email)
-                    && nullableDataEquals(this.name, otherAccount.name)
-                    && nullableDataEquals(this.institute, otherAccount.institute)
-                    && nullableDataEquals(this.googleId, otherAccount.googleId);
+            return Objects.equals(this.email, otherAccount.email)
+                    && Objects.equals(this.name, otherAccount.name)
+                    && Objects.equals(this.institute, otherAccount.institute)
+                    && Objects.equals(this.googleId, otherAccount.googleId);
         } else {
             return false;
         }

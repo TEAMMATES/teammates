@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -294,14 +295,14 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         } else if (this.getClass() == other.getClass()) {
             FeedbackResponseCommentAttributes otherCommentAttributes =
                     (FeedbackResponseCommentAttributes) other;
-            return nullableDataEquals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
-                    && nullableDataEquals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
-                    && nullableDataEquals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
-                    && nullableDataEquals(this.courseId, otherCommentAttributes.courseId)
-                    && nullableDataEquals(this.commentGiver, otherCommentAttributes.commentGiver)
-                    && nullableDataEquals(this.commentText, otherCommentAttributes.commentText)
-                    && nullableDataEquals(this.giverSection, otherCommentAttributes.giverSection)
-                    && nullableDataEquals(this.receiverSection, otherCommentAttributes.receiverSection);
+            return Objects.equals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
+                    && Objects.equals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
+                    && Objects.equals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
+                    && Objects.equals(this.courseId, otherCommentAttributes.courseId)
+                    && Objects.equals(this.commentGiver, otherCommentAttributes.commentGiver)
+                    && Objects.equals(this.commentText, otherCommentAttributes.commentText)
+                    && Objects.equals(this.giverSection, otherCommentAttributes.giverSection)
+                    && Objects.equals(this.receiverSection, otherCommentAttributes.receiverSection);
         } else {
             return false;
         }

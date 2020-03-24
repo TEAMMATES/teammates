@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -175,11 +176,11 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             return true;
         } else if (this.getClass() == other.getClass()) {
             StudentAttributes otherStudent = (StudentAttributes) other;
-            return nullableDataEquals(this.course, otherStudent.course)
-                    && nullableDataEquals(this.name, otherStudent.name)
-                    && nullableDataEquals(this.comments, otherStudent.comments)
-                    && nullableDataEquals(this.team, otherStudent.team)
-                    && nullableDataEquals(this.section, otherStudent.section);
+            return Objects.equals(this.course, otherStudent.course)
+                    && Objects.equals(this.name, otherStudent.name)
+                    && Objects.equals(this.comments, otherStudent.comments)
+                    && Objects.equals(this.team, otherStudent.team)
+                    && Objects.equals(this.section, otherStudent.section);
         } else {
             return false;
         }

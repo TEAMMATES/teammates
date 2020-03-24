@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.util.Assumption;
@@ -386,10 +387,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             return true;
         } else if (this.getClass() == other.getClass()) {
             FeedbackSessionAttributes otherFeedbackSession = (FeedbackSessionAttributes) other;
-            return nullableDataEquals(this.feedbackSessionName, otherFeedbackSession.feedbackSessionName)
-                    && nullableDataEquals(this.courseId, otherFeedbackSession.courseId)
-                    && nullableDataEquals(this.instructions, otherFeedbackSession.instructions)
-                    && nullableDataEquals(this.creatorEmail, otherFeedbackSession.creatorEmail);
+            return Objects.equals(this.feedbackSessionName, otherFeedbackSession.feedbackSessionName)
+                    && Objects.equals(this.courseId, otherFeedbackSession.courseId)
+                    && Objects.equals(this.instructions, otherFeedbackSession.instructions)
+                    && Objects.equals(this.creatorEmail, otherFeedbackSession.creatorEmail);
         } else {
             return false;
         }

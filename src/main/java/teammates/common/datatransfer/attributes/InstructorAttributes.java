@@ -3,6 +3,7 @@ package teammates.common.datatransfer.attributes;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Assumption;
@@ -180,12 +181,12 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             return true;
         } else if (this.getClass() == other.getClass()) {
             InstructorAttributes otherInstructor = (InstructorAttributes) other;
-            return nullableDataEquals(this.email, otherInstructor.email)
-                    && nullableDataEquals(this.name, otherInstructor.name)
-                    && nullableDataEquals(this.courseId, otherInstructor.courseId)
-                    && nullableDataEquals(this.googleId, otherInstructor.googleId)
-                    && nullableDataEquals(this.displayedName, otherInstructor.displayedName)
-                    && nullableDataEquals(this.role, otherInstructor.role);
+            return Objects.equals(this.email, otherInstructor.email)
+                    && Objects.equals(this.name, otherInstructor.name)
+                    && Objects.equals(this.courseId, otherInstructor.courseId)
+                    && Objects.equals(this.googleId, otherInstructor.googleId)
+                    && Objects.equals(this.displayedName, otherInstructor.displayedName)
+                    && Objects.equals(this.role, otherInstructor.role);
         } else {
             return false;
         }

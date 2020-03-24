@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -175,8 +176,8 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             return true;
         } else if (this.getClass() == other.getClass()) {
             CourseAttributes otherCourse = (CourseAttributes) other;
-            return nullableDataEquals(this.id, otherCourse.id)
-                    && nullableDataEquals(this.name, otherCourse.name);
+            return Objects.equals(this.id, otherCourse.id)
+                    && Objects.equals(this.name, otherCourse.name);
         } else {
             return false;
         }

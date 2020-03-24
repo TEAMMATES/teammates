@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -184,11 +185,11 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             return true;
         } else if (this.getClass() == other.getClass()) {
             FeedbackResponseAttributes otherFeedbackResponse = (FeedbackResponseAttributes) other;
-            return nullableDataEquals(this.feedbackSessionName, otherFeedbackResponse.feedbackSessionName)
-                    && nullableDataEquals(this.courseId, otherFeedbackResponse.courseId)
-                    && nullableDataEquals(this.feedbackQuestionId, otherFeedbackResponse.feedbackQuestionId)
-                    && nullableDataEquals(this.giver, otherFeedbackResponse.giver)
-                    && nullableDataEquals(this.recipient, otherFeedbackResponse.recipient);
+            return Objects.equals(this.feedbackSessionName, otherFeedbackResponse.feedbackSessionName)
+                    && Objects.equals(this.courseId, otherFeedbackResponse.courseId)
+                    && Objects.equals(this.feedbackQuestionId, otherFeedbackResponse.feedbackQuestionId)
+                    && Objects.equals(this.giver, otherFeedbackResponse.giver)
+                    && Objects.equals(this.recipient, otherFeedbackResponse.recipient);
         } else {
             return false;
         }

@@ -1,6 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import teammates.storage.entity.BaseEntity;
@@ -62,12 +63,16 @@ public abstract class EntityAttributes<E extends BaseEntity> {
      * @return true of both objects are null or equal, false otherwise.
      */
     protected boolean nullableDataEquals(Object first, Object second) {
+
+        return Objects.equals(first, second);
+        /*
         if (first == null && second == null) {
             return true;
         } else if (first == null || second == null) {
             return false;
         }
         return first.equals(second);
+        */
     }
 
     /**
