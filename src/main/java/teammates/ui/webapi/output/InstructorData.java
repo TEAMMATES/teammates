@@ -1,8 +1,12 @@
 package teammates.ui.webapi.output;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.StringHelper;
 
 /**
  * The API output format of an instructor.
@@ -93,8 +97,11 @@ public class InstructorData extends ApiOutput {
         return key;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKey(List<InstructorAttributes> instructorAttributes) {
+        this.key = StringHelper.encrypt(instructorAttributes.stream()
+                .filter((InstructorAttributes instructorAttribute)
+                        -> this.googleId.equals(instructorAttribute.getGoogleId()))
+                .collect(Collectors.toList()).get(0).getKey());
     }
 
     public String getInstitute() {
