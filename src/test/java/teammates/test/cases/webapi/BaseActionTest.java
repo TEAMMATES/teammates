@@ -19,6 +19,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -530,4 +531,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
     }
 
+    protected void verifyEntityNotFound(String... params) {
+        Action c = getAction(params);
+        assertThrows(EntityNotFoundException.class, () -> c.execute());
+    }
 }

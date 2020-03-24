@@ -10,6 +10,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.SessionResultsData;
 import teammates.ui.webapi.request.Intent;
 
@@ -37,8 +38,12 @@ public class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            gateKeeper.verifyAccessible(instructor, fs);
+            if (userInfo == null) {
+                throw new UnauthorizedAccessException("Instructor account is required to access this resource");
+            } else {
+                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+                gateKeeper.verifyAccessible(instructor, fs);
+            }
             break;
         case STUDENT_RESULT:
             StudentAttributes student = getStudent(courseId);
@@ -59,8 +64,12 @@ public class GetSessionResultsAction extends Action {
 
     private StudentAttributes getStudent(String courseId) {
         if (userInfo == null) {
-            String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
-            return logic.getStudentForRegistrationKey(regkey);
+            String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+            if (StringHelper.isEmpty(regkey)) {
+                throw new UnauthorizedAccessException("Student account is required to access this resource.");
+            } else {
+                return logic.getStudentForRegistrationKey(regkey);
+            }
         }
         return logic.getStudentForGoogleId(courseId, userInfo.id);
     }
