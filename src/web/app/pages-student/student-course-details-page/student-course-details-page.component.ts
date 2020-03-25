@@ -110,17 +110,21 @@ export class StudentCourseDetailsPageComponent implements OnInit {
             this.studentProfileService.getStudentProfile(student.email, courseId)
                   .subscribe((studentProfile: StudentProfile) => {
                     const newPhotoUrl: string =
-              `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${student.email}`;
+                      `${environment.backendUrl}/webapi/student/profilePic`
+                      + `?courseid=${courseId}&studentemail=${student.email}`;
 
                     const newTeammateProfile: StudentProfileWithPicture = {
-                      studentProfile,
+                      studentProfile: {
+                        ...studentProfile,
+                        email: student.email,
+                        shortName: student.name,
+                      },
                       photoUrl : newPhotoUrl,
                     };
 
                     this.teammateProfiles.push(newTeammateProfile);
                   });
           });
-
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -131,7 +135,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadInstructors(courseId: string): void {
-    this.instructorService.getInstructorsFromCourse(courseId)
+    this.instructorService.loadInstructors({ courseId })
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {

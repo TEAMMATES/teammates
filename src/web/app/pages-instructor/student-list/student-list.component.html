@@ -24,11 +24,11 @@
         <span *ngIf="tableSortBy === SortBy.STUDENT_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
         <span *ngIf="tableSortBy === SortBy.STUDENT_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
       </th>
-      <th class="sortable-header" (click)="sortStudentListEvent(SortBy.STATUS)">
+      <th class="sortable-header" (click)="sortStudentListEvent(SortBy.JOIN_STATUS)">
         Status
-        <span *ngIf="tableSortBy !== SortBy.STATUS"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.STATUS && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.STATUS && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span *ngIf="tableSortBy !== SortBy.JOIN_STATUS"><i class="fas fa-sort"></i></span>
+        <span *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+        <span *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
       </th>
       <th class="sortable-header" (click)="sortStudentListEvent(SortBy.EMAIL)">
         Email
