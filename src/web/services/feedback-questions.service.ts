@@ -512,11 +512,12 @@ export class FeedbackQuestionsService {
   /**
    * Gets feedback questions.
    */
-  getFeedbackQuestions(courseId: string, feedbackSessionName: string, intent: Intent): Observable<FeedbackQuestions> {
+  getFeedbackQuestions(queryParams: {courseId: string, feedbackSessionName: string, intent: Intent}):
+      Observable<FeedbackQuestions> {
     const paramMap: { [key: string]: string } = {
-      intent,
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      intent: queryParams.intent,
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
     };
     return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);
   }
@@ -557,7 +558,7 @@ export class FeedbackQuestionsService {
   deleteFeedbackQuestion(feedbackQuestionId: string): Observable<any> {
     const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
 
-    return this.httpRequestService.delete('/question', paramMap);
+    return this.httpRequestService.delete(ResourceEndpoints.QUESTION, paramMap);
   }
 
 }
