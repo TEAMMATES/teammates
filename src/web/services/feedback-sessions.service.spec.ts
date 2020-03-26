@@ -9,6 +9,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../types/api-output';
+import { Intent } from '../types/api-request';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../types/instructor-privilege';
 import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
@@ -99,6 +100,21 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_STATS, paramMap);
   });
 
+  it('should call get when retrieving feedback session results', () => {
+    const paramMap: { [key: string]: string } = {
+      courseid: 'CS3281',
+      fsname: 'test feedback session',
+      intent: Intent.FULL_DETAIL,
+    };
+
+    service.getFeedbackSessionsResult({
+      courseId: paramMap.courseid,
+      feedbackSessionName: paramMap.fsname,
+      intent: Intent.FULL_DETAIL,
+    });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.RESULT, paramMap);
+  });
+
   it('should call put when moving session to recycle bin', () => {
     const paramMap: { [key: string]: string } = {
       courseid: 'CS3281',
@@ -107,6 +123,16 @@ describe('FeedbackSessionsService', () => {
 
     service.moveSessionToRecycleBin(paramMap.courseid, paramMap.fsname);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
+  });
+
+  it('should call delete when removing session from recycle bin', () => {
+    const paramMap: { [key: string]: string } = {
+      courseid: 'CS3281',
+      fsname: 'test feedback session',
+    };
+
+    service.deleteSessionFromRecycleBin(paramMap.courseid, paramMap.fsname);
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 
   it('should call delete when deleting session from recycle bin', () => {

@@ -58,4 +58,23 @@ describe('CourseService', () => {
     service.joinCourse(paramMap.key, paramMap.entitytype, paramMap.instructorinstitution, paramMap.mac);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
+
+  it('should execute GET when getting course section names', () => {
+    const paramMap: { [key: string]: string } = {
+      courseid: 'CS3281',
+    };
+    service.getCourseSectionNames(paramMap.courseid);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SECTIONS, paramMap);
+  });
+
+  it('should execute GET when getting students enrolled in course', () => {
+    const paramMap: { [key: string]: string } = {
+      courseid: 'CS3281',
+    };
+
+    service.getStudentsEnrolledInCourse({
+      courseId: paramMap.courseid,
+    });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_ENROLL_STUDENTS, paramMap);
+  });
 });
