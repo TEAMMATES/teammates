@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Const;
 
 /**
  * Represents the admin home page of the website.
@@ -25,6 +26,10 @@ public class AdminSearchPage extends AppPage {
     private static final int INSTRUCTOR_COL_INSTITUTE = 4;
     private static final int INSTRUCTOR_COL_OPTIONS = 5;
 
+    private static final String EXPANDED_ROWS_HEADER_EMAIL = "Email";
+    private static final String EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK = "Course Join Link";
+    private static final String LINK_TEXT_RESET_GOOGLE_ID = "Reset Google ID";
+
     @FindBy(id = "search-box")
     private WebElement inputBox;
 
@@ -36,6 +41,12 @@ public class AdminSearchPage extends AppPage {
 
     @FindBy(id = "show-instructor-links")
     private WebElement expandInstructorLinksButton;
+
+    @FindBy(id = "hide-student-links")
+    private WebElement collapseStudentLinksButton;
+
+    @FindBy(id = "hide-instructor-links")
+    private WebElement collapseInstructorLinksButton;
 
     public AdminSearchPage(Browser browser) {
         super(browser);
@@ -59,83 +70,73 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickExpandInstructorLinks() {
-        click(expandInstructorLinksButton);
-        waitForPageToLoad();
-    }
-
     public void clickExpandStudentLinks() {
         click(expandStudentLinksButton);
         waitForPageToLoad();
     }
 
+    public void clickExpandInstructorLinks() {
+        click(expandInstructorLinksButton);
+        waitForPageToLoad();
+    }
+
+    public void clickCollapseStudentLinks() {
+        click(collapseStudentLinksButton);
+        waitForPageToLoad();
+    }
+
+    public void clickCollapseInstructorLinks() {
+        click(collapseInstructorLinksButton);
+        waitForPageToLoad();
+    }
+
     public WebElement getStudentRow(StudentAttributes student) {
-        String details = String.format("%s [%s] (%s)", student.course, student.section,
-                student.team);
+        String details = String.format("%s [%s] (%s)", student.course,
+                student.section == null ? Const.DEFAULT_SECTION : student.section, student.team);
         String xpath = String.format("//table[@id='search-table-student']/tbody/tr[td[%d]='%s' and td[%d]='%s']",
                     STUDENT_COL_DETAILS, details, STUDENT_COL_NAME, student.name);
         return browser.driver.findElement(By.xpath(xpath));
     }
 
     public String getStudentDetails(WebElement studentRow) {
-        String xpath = String.format("td[%d]", STUDENT_COL_DETAILS);
-        return studentRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(studentRow, STUDENT_COL_DETAILS);
     }
 
     public String getStudentName(WebElement studentRow) {
-        String xpath = String.format("td[%d]", STUDENT_COL_NAME);
-        return studentRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(studentRow, STUDENT_COL_NAME);
     }
 
     public String getStudentGoogleId(WebElement studentRow) {
-        String xpath = String.format("td[%d]", STUDENT_COL_GOOGLE_ID);
-        return studentRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(studentRow, STUDENT_COL_GOOGLE_ID);
     }
 
     public String getStudentHomeLink(WebElement studentRow) {
-        String xpath = String.format("td[%d]/a", STUDENT_COL_GOOGLE_ID);
-        return studentRow.findElement(By.xpath(xpath)).getAttribute("href");
+        return getColumnLink(studentRow, STUDENT_COL_GOOGLE_ID);
     }
 
     public String getStudentInstitute(WebElement studentRow) {
-        String xpath = String.format("td[%d]", STUDENT_COL_INSTITUTE);
-        return studentRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(studentRow, STUDENT_COL_INSTITUTE);
     }
 
     public String getStudentComments(WebElement studentRow) {
-        String xpath = String.format("td[%d]", STUDENT_COL_COMMENTS);
-        return studentRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(studentRow, STUDENT_COL_COMMENTS);
     }
 
     public String getStudentManageAccountLink(WebElement studentRow) {
-        try {
-            String xpath = String.format("td[%d]/a", STUDENT_COL_OPTIONS);
-            return studentRow.findElement(By.xpath(xpath)).getAttribute("href");
-        } catch (NoSuchElementException e) {
-            return "";
-        }
+        return getColumnLink(studentRow, STUDENT_COL_OPTIONS);
     }
 
     public String getStudentEmail(WebElement studentRow) {
-        String xpath = "following-sibling::tr[1]/td/ul/li[//text()[contains(., 'Email')]]/input";
-        return studentRow.findElement(By.xpath(xpath)).getAttribute("value");
-
+        return getExpandedRowInputValue(studentRow, EXPANDED_ROWS_HEADER_EMAIL);
     }
 
     public String getStudentJoinLink(WebElement studentRow) {
-        String xpath = "following-sibling::tr[1]/td/ul/li[//text()[contains(., 'Course Join Link')]]/input";
-        return studentRow.findElement(By.xpath(xpath)).getAttribute("value");
-    }
-
-    public int getNumExpandedRows(WebElement studentRow) {
-        String xpath = "following-sibling::tr[1]/td/ul/li";
-        return studentRow.findElements(By.xpath(xpath)).size();
+        return getExpandedRowInputValue(studentRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
     }
 
     public void resetStudentGoogleId(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        String xpath = String.format("td[%d]/a[2]", STUDENT_COL_OPTIONS);
-        studentRow.findElement(By.xpath(xpath)).click();
+        studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
         waitForPageToLoad();
     }
 
@@ -146,55 +147,70 @@ public class AdminSearchPage extends AppPage {
     }
 
     public String getInstructorCourseId(WebElement instructorRow) {
-        String xpath = String.format("td[%d]", INSTRUCTOR_COL_COURSE_ID);
-        return instructorRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(instructorRow, INSTRUCTOR_COL_COURSE_ID);
     }
 
     public String getInstructorName(WebElement instructorRow) {
-        String xpath = String.format("td[%d]", INSTRUCTOR_COL_NAME);
-        return instructorRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(instructorRow, INSTRUCTOR_COL_NAME);
     }
 
     public String getInstructorGoogleId(WebElement instructorRow) {
-        String xpath = String.format("td[%d]", INSTRUCTOR_COL_GOOGLE_ID);
-        return instructorRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(instructorRow, INSTRUCTOR_COL_GOOGLE_ID);
     }
 
     public String getInstructorHomePageLink(WebElement instructorRow) {
-        String xpath = String.format("td[%d]/a", INSTRUCTOR_COL_GOOGLE_ID);
-        return instructorRow.findElement(By.xpath(xpath)).getAttribute("href");
+        return getColumnLink(instructorRow, INSTRUCTOR_COL_GOOGLE_ID);
     }
 
     public String getInstructorInstitute(WebElement instructorRow) {
-        String xpath = String.format("td[%d]", INSTRUCTOR_COL_INSTITUTE);
-        return instructorRow.findElement(By.xpath(xpath)).getText();
+        return getColumnText(instructorRow, INSTRUCTOR_COL_INSTITUTE);
     }
 
     public String getInstructorManageAccountLink(WebElement instructorRow) {
+        return getColumnLink(instructorRow, INSTRUCTOR_COL_OPTIONS);
+    }
+
+    public String getInstructorEmail(WebElement instructorRow) {
+        return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_EMAIL);
+    }
+
+    public String getInstructorJoinLink(WebElement instructorRow) {
+        return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
+    }
+
+    public void resetInstructorGoogleId(InstructorAttributes instructor) {
+        WebElement instructorRow = getInstructorRow(instructor);
+        instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
+        waitForPageToLoad();
+    }
+
+    public int getNumExpandedRows(WebElement row) {
+        String xpath = "following-sibling::tr[1]/td/ul/li";
+        return row.findElements(By.xpath(xpath)).size();
+    }
+
+    private String getColumnText(WebElement row, int columnNum) {
+        String xpath = String.format("td[%d]", columnNum);
+        return row.findElement(By.xpath(xpath)).getText();
+    }
+
+    private String getColumnLink(WebElement row, int columnNum) {
         try {
-            String xpath = String.format("td[%d]/a", INSTRUCTOR_COL_OPTIONS);
-            return instructorRow.findElement(By.xpath(xpath)).getAttribute("href");
+            String xpath = String.format("td[%d]/a", columnNum);
+            return row.findElement(By.xpath(xpath)).getAttribute("href");
         } catch (NoSuchElementException e) {
             return "";
         }
     }
 
-    public String getInstructorEmail(WebElement instructorRow) {
-        String xpath = "following-sibling::tr[1]/td/ul/li[//text()[contains(., 'Email')]]/input";
-        return instructorRow.findElement(By.xpath(xpath)).getAttribute("value");
-
-    }
-
-    public String getInstructorJoinLink(WebElement instructorRow) {
-        String xpath = "following-sibling::tr[1]/td/ul/li[//text()[contains(., 'Course Join Link')]]/input";
-        return instructorRow.findElement(By.xpath(xpath)).getAttribute("value");
-    }
-
-    public void resetInstructorGoogleId(InstructorAttributes instructor) {
-        WebElement instructorRow = getInstructorRow(instructor);
-        String xpath = String.format("td[%d]/a[2]", INSTRUCTOR_COL_OPTIONS);
-        instructorRow.findElement(By.xpath(xpath)).click();
-        waitForPageToLoad();
+    private String getExpandedRowInputValue(WebElement row, String rowHeader) {
+        try {
+            String xpath = String.format("following-sibling::tr[1]/td/ul/li[//text()[contains(., '%s')]]/input",
+                    rowHeader);
+            return row.findElement(By.xpath(xpath)).getAttribute("value");
+        } catch (NoSuchElementException e) {
+            return "";
+        }
     }
 }
 

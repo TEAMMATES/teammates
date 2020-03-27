@@ -1,40 +1,40 @@
 {
   "accounts": {
     "instructor1OfCourse1": {
-      "googleId": "searchUI.idOfInstructor1OfCourse1",
-      "name": "Instructor 1 of Course 1",
+      "googleId": "adminSearch.idOfInstructor1OfCourse1",
+      "name": "Instructor1 of Course1",
       "isInstructor": true,
-      "email": "searchUI.instr1@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "adminSearch.instructor1@course1.tmt",
+      "institute": "TEAMMATES Institute 1"
     },
     "instructor2OfCourse1": {
-      "googleId": "searchUI.idOfInstructor2OfCourse1",
-      "name": "Instructor 2 of Course 1",
+      "googleId": "adminSearch.idOfInstructor2OfCourse1",
+      "name": "Instructor2 of Course1",
       "isInstructor": true,
-      "email": "searchUI.instr2@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "adminSearch.instructor2@course1.tmt",
+      "institute": "TEAMMATES Institute 1"
     },
     "student1InCourse1": {
-      "googleId": "searchUI.student1InCourse1",
-      "name": "Student 1 in course 1",
+      "googleId": "adminSearch.student1InCourse1",
+      "name": "Student1 in course1",
       "isInstructor": false,
-      "email": "searchUI.student1InCourse1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "email": "adminSearch.student1InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Institute 1"
     }
   },
   "courses": {
     "typicalCourse1": {
-      "id": "searchUI.idOfTypicalCourse1",
+      "id": "adminSearch.idOfTypicalCourse1",
       "name": "Typical Course 1",
       "timeZone": "UTC"
     }
   },
   "instructors": {
     "instructor1OfCourse1": {
-      "googleId": "searchUI.idOfInstructor1OfCourse1",
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "name": "Instructor1 Course1",
-      "email": "searchUI.instructor1@course1.tmt",
+      "googleId": "adminSearch.idOfInstructor1OfCourse1",
+      "courseId": "adminSearch.idOfTypicalCourse1",
+      "name": "Instructor1 of Course1",
+      "email": "adminSearch.instructor1@course1.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -54,10 +54,10 @@
       }
     },
     "instructor2OfCourse1": {
-      "googleId": "searchUI.idOfInstructor2OfCourse1",
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "name": "Instructor2 Course1",
-      "email": "searchUI.instructor2@course1.tmt",
+      "googleId": "adminSearch.idOfInstructor2OfCourse1",
+      "courseId": "adminSearch.idOfTypicalCourse1",
+      "name": "Instructor2 of Course1",
+      "email": "adminSearch.instructor2@course1.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -79,10 +79,10 @@
   },
   "students": {
     "student1InCourse1": {
-      "googleId": "searchUI.student1InCourse1",
-      "email": "searchUI.student1InCourse1@gmail.tmt",
-      "course": "searchUI.idOfTypicalCourse1",
-      "name": "student1 In Course1",
+      "googleId": "adminSearch.student1InCourse1",
+      "email": "adminSearch.student1InCourse1@gmail.tmt",
+      "course": "adminSearch.idOfTypicalCourse1",
+      "name": "Student1 in course1",
       "comments": "comment for student1InCourse1",
       "team": "Team 1.1",
       "section": "Section 1"
@@ -90,9 +90,9 @@
   },
   "feedbackSessions": {
     "session1InCourse1": {
-      "feedbackSessionName": "searchUI.First feedback session",
-      "courseId": "searchUI.idOfTypicalCourse1",
-      "creatorEmail": "searchUI.instructor1@course1.tmt",
+      "feedbackSessionName": "adminSearch.First feedback session",
+      "courseId": "adminSearch.idOfTypicalCourse1",
+      "creatorEmail": "adminSearch.instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -110,9 +110,9 @@
       "isPublishedEmailEnabled": true
     },
   "session2InCourse1": {
-    "feedbackSessionName": "searchUI.Second feedback session",
-    "courseId": "searchUI.idOfTypicalCourse1",
-    "creatorEmail": "searchUI.instructor1@course1.tmt",
+    "feedbackSessionName": "adminSearch.Second feedback session",
+    "courseId": "adminSearch.idOfTypicalCourse1",
+    "creatorEmail": "adminSearch.instructor1@course1.tmt",
     "instructions": "Please please fill in the following questions.",
     "createdTime": "2012-03-20T23:59:00Z",
     "startTime": "2012-04-01T21:59:00Z",
@@ -128,18 +128,6 @@
     "isOpeningEmailEnabled": true,
     "isClosingEmailEnabled": true,
     "isPublishedEmailEnabled": true
-    }
-  },
-  "profiles": {
-    "student1InCourse1": {
-      "googleId": "student1InCourse1",
-      "shortName": "Stud1",
-      "email": "i.m.stud1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 3",
-      "nationality": "",
-      "gender": "MALE",
-      "moreInfo": "I am just a student :P",
-      "pictureKey": ""
     }
   }
 }

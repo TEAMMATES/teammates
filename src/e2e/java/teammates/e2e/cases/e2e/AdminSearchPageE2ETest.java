@@ -41,16 +41,21 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
         AccountAttributes instructorAccount = testData.accounts.get("instructor1OfCourse1");
 
-        ______TS("Typical case: Search student keyword");
-        String searchContent = "Student1";
+        ______TS("Typical case: Search student google id");
+        String searchContent = student.getGoogleId();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         verifyStudentRowContent(student, studentAccount);
         verifyStudentExpandedLinks(student);
 
+        ______TS("Typical case: Reset student google id");
+        searchPage.resetStudentGoogleId(student);
+        student.googleId = null;
+        verifyStudentRowContent(student, studentAccount);
+
         ______TS("Typical case: Search for instructor email");
         searchPage.clearSearchBox();
-        searchContent = "searchUI.instructor1@course1.tmt";
+        searchContent = instructor.getEmail();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         verifyInstructorRowContent(instructor, instructorAccount);
@@ -60,6 +65,17 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.resetInstructorGoogleId(instructor);
         instructor.googleId = null;
         verifyInstructorRowContent(instructor, instructorAccount);
+
+        ______TS("Typical case: Search common course id");
+        searchPage.clearSearchBox();
+        searchContent = student.getCourse();
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        verifyStudentRowContent(student, studentAccount);
+        verifyInstructorRowContent(instructor, instructorAccount);
+
+        ______TS("Typical case: Expand and collapse links");
+        verifyLinkExpansionButtons(student, instructor);
     }
 
     private void verifyStudentRowContent(StudentAttributes student, AccountAttributes account) {
@@ -185,4 +201,30 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         assertEquals(expectedEmail, actualEmail);
         assertNotEquals("", actualJoinLink);
     }
+
+    private void verifyLinkExpansionButtons(StudentAttributes student, InstructorAttributes instructor) {
+        WebElement studentRow = searchPage.getStudentRow(student);
+        WebElement instructorRow = searchPage.getInstructorRow(instructor);
+
+        searchPage.clickExpandStudentLinks();
+        searchPage.clickExpandInstructorLinks();
+        int numExpandedStudentRows = searchPage.getNumExpandedRows(studentRow);
+        int numExpandedInstructorRows = searchPage.getNumExpandedRows(instructorRow);
+        assertNotEquals(numExpandedStudentRows, 0);
+        assertNotEquals(numExpandedInstructorRows, 0);
+
+        searchPage.clickCollapseInstructorLinks();
+        numExpandedStudentRows = searchPage.getNumExpandedRows(studentRow);
+        numExpandedInstructorRows = searchPage.getNumExpandedRows(instructorRow);
+        assertNotEquals(numExpandedStudentRows, 0);
+        assertEquals(numExpandedInstructorRows, 0);
+
+        searchPage.clickExpandInstructorLinks();
+        searchPage.clickCollapseStudentLinks();
+        numExpandedStudentRows = searchPage.getNumExpandedRows(studentRow);
+        numExpandedInstructorRows = searchPage.getNumExpandedRows(instructorRow);
+        assertEquals(numExpandedStudentRows, 0);
+        assertNotEquals(numExpandedInstructorRows, 0);
+    }
+
 }

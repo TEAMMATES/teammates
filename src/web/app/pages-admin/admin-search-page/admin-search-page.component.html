@@ -18,7 +18,7 @@
     <strong>Instructors Found</strong>
     <span class="float-sm-right">
       <button id="show-instructor-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
-      <button class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
+      <button id="hide-instructor-links" class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
     </span>
   </div>
 
@@ -75,7 +75,7 @@
     <strong>Students Found</strong>
     <span class="float-sm-right">
       <button id="show-student-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllStudentsLinks()">Expand All</button>
-      <button class="btn btn-light btn-sm" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
+      <button id="hide-student-links" class="btn btn-light btn-sm" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
     </span>
   </div>
 
@@ -92,7 +92,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let student of students;">
+        <ng-container *ngFor="let student of students">
           <tr (click)="student.showLinks = !student.showLinks">
             <td>{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</td> <!-- TODO: tooltip course name -->
             <td>{{ student.name }}</td>
