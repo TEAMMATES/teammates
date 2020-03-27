@@ -3,7 +3,6 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
@@ -37,7 +36,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private studentService: StudentService,
               private ngbModal: NgbModal) { }
@@ -160,12 +158,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Submits the form data to edit the student details.
    */
   submitEditForm(shouldResendPastSessionLinks: boolean): void {
-    // creates a new object instead of using its reference
-    const paramsMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      studentemail: this.student.email,
-    };
-
     const reqBody: StudentUpdateRequest = {
       name: this.editForm.value.studentname,
       email: this.editForm.value.newstudentemail,
@@ -175,7 +167,11 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       isSessionSummarySendEmail: shouldResendPastSessionLinks,
     };
 
-    this.httpRequestService.put('/student', paramsMap, reqBody)
+    this.studentService.updateStudent({
+      courseId: this.courseId,
+      studentEmail: this.student.email,
+      requestBody: reqBody,
+    })
       .subscribe((resp: MessageOutput) => {
         this.router.navigate(['/web/instructor/courses/details'], {
           queryParams: { courseid: this.courseId },

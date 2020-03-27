@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
   CourseArchive,
@@ -16,6 +17,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -28,46 +30,6 @@ interface CourseModel {
   course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
-}
-
-/**
- * Sort criteria for the courses table.
- */
-export enum SortBy {
-  /**
-   * Nothing.
-   */
-  NONE,
-
-  /**
-   * Course ID.
-   */
-  COURSE_ID,
-
-  /**
-   * Course Name.
-   */
-  COURSE_NAME,
-
-  /**
-   * Creation Date.
-   */
-  CREATION_DATE,
-}
-
-/**
- * Sort order for the courses table.
- */
-export enum SortOrder {
-  /**
-   * Descending sort order.
-   */
-  DESC,
-
-  /**
-   * Ascending sort order
-   */
-  ASC,
 }
 
 /**
@@ -98,11 +60,12 @@ export class InstructorCoursesPageComponent implements OnInit {
   isAddNewCourseFormExpanded: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private modalService: NgbModal) { }
+              private instructorService: InstructorService,
+              private modalService: NgbModal,
+              private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -122,9 +85,8 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.httpRequestService.get('/instructor/privilege', {
-          courseid: course.courseId,
-        }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
           const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
@@ -139,8 +101,8 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.httpRequestService.get('/instructor/privilege', {
-          courseid: course.courseId,
+        this.instructorService.loadInstructorPrivilege({
+          courseId: course.courseId,
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
@@ -156,20 +118,19 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.httpRequestService.get('/instructor/privilege', {
-          courseid: course.courseId,
-        }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const softDeletedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
-          this.softDeletedCourses.push(softDeletedCourse);
-          if (!softDeletedCourse.canModifyCourse) {
-            this.canDeleteAll = false;
-            this.canRestoreAll = false;
-          }
-        }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(error.error.message);
-        });
+        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
+            .subscribe((instructorPrivilege: InstructorPrivilege) => {
+              const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
+              const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+              const softDeletedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+              this.softDeletedCourses.push(softDeletedCourse);
+              if (!softDeletedCourse.canModifyCourse) {
+                this.canDeleteAll = false;
+                this.canRestoreAll = false;
+              }
+            }, (error: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorMessage(error.error.message);
+            });
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
@@ -184,7 +145,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    this.studentService.getStudentsFromCourse(courseId).subscribe((students: Students) => {
+    this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
       this.courseStats[courseId] = {
         sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
         teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
@@ -332,10 +293,8 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-    this.httpRequestService.delete('/bin/course', paramMap).subscribe((resp: MessageOutput) => {
+
+    this.courseService.restoreCourse(courseId).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
       this.statusMessageService.showSuccessMessage(resp.message);
     }, (resp: ErrorMessageOutput) => {
@@ -409,7 +368,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = a.course.courseName;
           strB = b.course.courseName;
           break;
-        case SortBy.CREATION_DATE:
+        case SortBy.SESSION_CREATION_DATE:
           strA = a.course.creationTimestamp.toString();
           strB = b.course.creationTimestamp.toString();
           break;
@@ -417,15 +376,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = '';
           strB = '';
       }
-
-      if (this.tableSortOrder === SortOrder.ASC) {
-        return strA.localeCompare(strB);
-      }
-      if (this.tableSortOrder === SortOrder.DESC) {
-        return strB.localeCompare(strA);
-      }
-
-      return 0;
+      return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
     };
   }
 }

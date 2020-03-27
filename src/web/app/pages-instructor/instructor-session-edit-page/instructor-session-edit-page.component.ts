@@ -12,6 +12,7 @@ import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
@@ -163,13 +164,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
+              tableComparatorService: TableComparatorService,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
               private modalService: NgbModal) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
   }
 
   ngOnInit(): void {
@@ -192,7 +194,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((course: Course) => {
       this.courseName = course.courseName;
 
-      this.feedbackSessionsService.getFeedbackSession(this.courseId, this.feedbackSessionName, Intent.FULL_DETAIL)
+      this.feedbackSessionsService.getFeedbackSession({
+        courseId: this.courseId,
+        feedbackSessionName: this.feedbackSessionName,
+        intent: Intent.FULL_DETAIL,
+      })
       .subscribe((feedbackSession: FeedbackSession) => {
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
@@ -214,12 +220,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
       modalRef.result.then((result: CopySessionModalResult) => {
-        this.feedbackSessionsService.getFeedbackSession(
-            this.courseId,
-            this.feedbackSessionName,
-            Intent.FULL_DETAIL,
-        )
-            .pipe(
+        this.feedbackSessionsService.getFeedbackSession({
+          courseId: this.courseId,
+          feedbackSessionName: this.feedbackSessionName,
+          intent: Intent.FULL_DETAIL,
+        }).pipe(
             switchMap((feedbackSession: FeedbackSession) =>
                 this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)),
         ).subscribe((createdSession: FeedbackSession) => {
@@ -407,7 +412,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads feedback questions.
    */
   loadFeedbackQuestions(): void {
-    this.feedbackQuestionsService.getFeedbackQuestions(this.courseId, this.feedbackSessionName, Intent.FULL_DETAIL)
+    this.feedbackQuestionsService.getFeedbackQuestions({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+      intent: Intent.FULL_DETAIL,
+    })
         .subscribe((response: FeedbackQuestions) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const addedQuestionEditFormModel: QuestionEditFormModel = this.getQuestionEditFormModel(feedbackQuestion);
@@ -729,10 +738,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
         switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
         flatMap((session: FeedbackSession) => {
-          return this.feedbackQuestionsService.getFeedbackQuestions(
-              session.courseId,
-              session.feedbackSessionName,
-              Intent.FULL_DETAIL,
+          return this.feedbackQuestionsService.getFeedbackQuestions({
+            courseId: session.courseId,
+            feedbackSessionName: session.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+          },
           )
               .pipe(
                   map((questions: FeedbackQuestions) => {
@@ -809,7 +819,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets all students of a course.
    */
   getAllStudentsOfCourse(): void {
-    this.studentService.getStudentsFromCourse(this.courseId)
+    this.studentService.getStudentsFromCourse({ courseId: this.courseId })
         .subscribe((students: Students) => {
           this.studentsOfCourse = students.students;
 
@@ -833,7 +843,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets all instructors of a course which can be previewed as.
    */
   getAllInstructorsCanBePreviewedAs(): void {
-    this.instructorService.getInstructorsFromCourse(this.courseId, Intent.FULL_DETAIL)
+    this.instructorService.loadInstructors({
+      courseId: this.courseId,
+      intent: Intent.FULL_DETAIL,
+    })
         .subscribe((instructors: Instructors) => {
           this.instructorsCanBePreviewedAs = instructors.instructors;
 
