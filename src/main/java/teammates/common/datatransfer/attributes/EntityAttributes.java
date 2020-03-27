@@ -1,7 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 import teammates.storage.entity.BaseEntity;
