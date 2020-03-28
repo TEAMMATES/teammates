@@ -16,9 +16,12 @@ import org.apache.http.client.methods.HttpPut;
 import org.testng.annotations.BeforeMethod;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -177,6 +180,23 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         assertFalse(user.isAdmin);
     }
 
+    protected void updateInstructorWithOnlySectionPrivilege(InstructorAttributes instructor,
+                                                            String privilege, String[] sections, String[] submissionParams) {
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+
+        for (String section : sections) {
+            instructorPrivileges.updatePrivilege(section, privilege, true);
+        }
+
+        try {
+            logic.updateInstructor(
+                    InstructorAttributes.updateOptionsWithEmailBuilder(instructor.getCourseId(), instructor.email)
+                            .withPrivileges(instructorPrivileges).build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // The next few methods are for testing access control
 
     // 'High-level' access-control tests: here it tests access control of an action for the full range of user types.
@@ -206,6 +226,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyInaccessibleForUnregisteredUsers(params);
         verifyInaccessibleForStudents(params);
         verifyAccessibleForInstructorsOfTheSameCourse(params);
+        verifyAccessibleForInstructorsOfOtherCourse(params);
         verifyAccessibleForAdminToMasqueradeAsInstructor(params);
     }
 
@@ -216,6 +237,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+    }
+
+    protected void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(String privilege,
+                                                                                           String[] submissionParams) {
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyInaccessibleWithoutCorrectCoursePrivilege(privilege, submissionParams);
     }
 
     // 'Mid-level' access control tests: here it tests access control of an action for one user type.
@@ -305,6 +335,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCannotAccess(params);
     }
 
+    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(
+            InstructorAttributes instructor, String[] submissionParams) {
+
+        ______TS("admin can access");
+
+        loginAsAdmin();
+        //not checking for non-masquerade mode because admin may not be an instructor
+        verifyCanMasquerade(instructor.googleId, submissionParams);
+    }
+
     protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
 
         ______TS("admin can access");
@@ -314,7 +354,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         loginAsAdmin();
         //not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(instructor1OfCourse1.googleId, submissionParams);
-
     }
 
     protected void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
@@ -338,70 +377,74 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     protected void verifyInaccessibleWithoutViewStudentInSectionsPrivilege(String[] submissionParams) {
-
-        ______TS("without View-Student-In-Sections privilege cannot access");
-
-        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-
-        loginAsInstructor(helperOfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
+        verifyInaccessibleWithoutCorrectCoursePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
+                submissionParams);
     }
 
     protected void verifyInaccessibleWithoutModifyStudentPrivilege(String[] submissionParams) {
-
-        ______TS("without Modify-Student privilege cannot access");
-
-        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-
-        loginAsInstructor(helperOfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
+        verifyInaccessibleWithoutCorrectCoursePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT,
+                submissionParams);
     }
 
-    protected void verifyInaccessibleWithoutModifyCoursePrivilege(String[] submissionParams) {
-
-        ______TS("without Modify-Course privilege cannot access");
-
+    protected void verifyInaccessibleWithoutCorrectCoursePrivilege(String privilege, String[] submissionParams) {
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+
+        ______TS("without correct course privilege cannot access");
 
         loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
 
-    }
+        ______TS("only instructor with correct course privilege should pass");
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
 
-    protected void verifyInaccessibleWithoutModifyInstructorPrivilege(String[] submissionParams) {
+        instructorPrivileges.updatePrivilege(privilege, true);
+        try {
+            logic.updateInstructor(
+                    InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.email)
+                            .withPrivileges(instructorPrivileges).build());
 
-        ______TS("without Modify-Instructor privilege cannot access");
+            verifyCanAccess(submissionParams);
+            verifyAccessibleForAdminToMasqueradeAsInstructor(helperOfCourse1, submissionParams);
 
-        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-
-        loginAsInstructor(helperOfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
-    }
-
-    protected void verifyInaccessibleWithoutModifySessionCommentInSectionsPrivilege(String[] submissionParams) {
-
-        ______TS("without Modify-Session-Comment-In-Sections privilege cannot access");
-
-        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-
-        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
+            logic.updateInstructor(
+                    InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.email)
+                            .withPrivileges(new InstructorPrivileges()).build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
 
         ______TS("course instructor can access");
 
-        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        //give the minimum privilege
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse2");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.googleId);
         verifyCanAccess(submissionParams);
 
         verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
         verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
 
+    }
+
+    protected void verifyAccessibleForInstructorsOfOtherCourse(String[] submissionParams) {
+
+        ______TS("other course's instructor can access");
+
+        InstructorAttributes instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        loginAsInstructor(instructor1OfCourse2.googleId);
+        verifyCanAccess(submissionParams);
+
+        verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
+        verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
     }
 
     protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
@@ -450,6 +493,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected void verifyCannotAccess(BasicRequest request, String... params) {
         Action c = getAction(request, params);
         assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
+    }
+
+    protected void verifyEntityNotFound(String... params) {
+        Action c = getAction(params);
+        assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
 
     /**

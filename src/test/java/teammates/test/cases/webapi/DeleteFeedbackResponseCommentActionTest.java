@@ -4,6 +4,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -131,6 +133,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     protected void testAccessControlsForCommentByInstructor() throws Exception {
+        removeAndRestoreDataBundle(typicalBundle);
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         int questionNumber = 2;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackResponseCommentAttributes comment = typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
@@ -145,21 +149,56 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
         };
-        verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
 
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        ______TS("Comment giver without privilege should pass");
+
+        InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor1.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        loginAsInstructor(instructor1.googleId);
+        verifyCanAccess(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(instructor1, submissionParams);
+
+        ______TS("Instructor with correct privilege should pass");
+
+        InstructorAttributes instructor2 = typicalBundle.instructors.get("instructor2OfCourse1");
+
+        updateInstructorWithOnlySectionPrivilege(instructor2,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section 1", "Section 2"}, submissionParams);
+
+        loginAsInstructor(instructor2.googleId);
+        verifyCanAccess(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(instructor2, submissionParams);
+
+        ______TS("Instructor with only section 1 privilege should fail");
+
+        updateInstructorWithOnlySectionPrivilege(instructor2,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section 1"}, submissionParams);
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Instructor with only section 2 privilege should fail");
+
+        updateInstructorWithOnlySectionPrivilege(instructor2,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section 2"}, submissionParams);
+        verifyCannotAccess(submissionParams);
     }
 
     @Test
-    public void testAccessControlsForCommentByStudent() {
-        int questionNumber = 3;
+    public void testAccessControlsForCommentByStudent() throws Exception {
+        int questionNumber = 1;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
         FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromStudent1");
-        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ3");
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ1");
 
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
@@ -170,20 +209,59 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
         };
 
-        ______TS("Different student of same course cannot delete comment");
+        ______TS("Typical cases: unauthorized users");
+
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        ______TS("Response owner can delete comment");
+
+        StudentAttributes responseGiver = dataBundle.students.get("student1InCourse1");
+        gaeSimulation.loginAsStudent(responseGiver.googleId);
+        verifyCanAccess(submissionParams);
+        loginAsAdmin();
+        verifyCanMasquerade(responseGiver.googleId, submissionParams);
 
         StudentAttributes differentStudentInSameCourse = dataBundle.students.get("student2InCourse1");
         gaeSimulation.loginAsStudent(differentStudentInSameCourse.googleId);
         verifyCannotAccess(submissionParams);
 
+        ______TS("Instructor with correct privilege can delete comment");
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
+
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A", "Section B"}, submissionParams);
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, submissionParams);
+
+        ______TS("Instructor with only section A privilege cannot delete comment");
+
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A"}, submissionParams);
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Instructor with only section B privilege cannot delete comment");
+
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section B"}, submissionParams);
+
+        verifyCannotAccess(submissionParams);
     }
 
     @Test
-    public void testAccessControlsForCommentByTeam() {
-        int questionNumber = 4;
+    public void testAccessControlsForCommentByTeam() throws Exception {
+        int questionNumber = 2;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Open Session");
         FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromTeam1");
-        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ4");
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ2");
 
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
@@ -194,18 +272,53 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
         };
 
-        ______TS("Different student of different team and same course cannot delete comment");
+        ______TS("Typical cases: unauthorized users");
 
-        StudentAttributes differentStudentInSameCourse = dataBundle.students.get("student3InCourse1");
-        gaeSimulation.loginAsStudent(differentStudentInSameCourse.googleId);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        ______TS("Only student of giver team can delete comment");
+
+        StudentAttributes studentOfGiverTeam = dataBundle.students.get("student2InCourse1");
+        gaeSimulation.loginAsStudent(studentOfGiverTeam.googleId);
+        verifyCanAccess(submissionParams);
+        verifyCanMasquerade(studentOfGiverTeam.googleId, submissionParams);
+
+        StudentAttributes studentOfOtherTeam = dataBundle.students.get("student3InCourse1");
+        gaeSimulation.loginAsStudent(studentOfOtherTeam.googleId);
         verifyCannotAccess(submissionParams);
 
-        ______TS("Different student of same team can delete comment");
+        StudentAttributes studentOfOtherCourse = dataBundle.students.get("student1InCourse2");
+        gaeSimulation.loginAsStudent(studentOfOtherCourse.googleId);
+        verifyCannotAccess(submissionParams);
 
-        StudentAttributes differentStudentInSameTeam = dataBundle.students.get("student2InCourse1");
-        gaeSimulation.loginAsStudent(differentStudentInSameTeam.googleId);
+        ______TS("Instructor with correct privilege can delete comment");
+
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A", "Section B"}, submissionParams);
+
+        loginAsInstructor(instructor.googleId);
         verifyCanAccess(submissionParams);
+        verifyCanMasquerade(instructor.googleId, submissionParams);
 
+        ______TS("Instructor with only section A privilege cannot delete comment");
+
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A"}, submissionParams);
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Instructor with only section B privilege cannot delete comment");
+
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section B"}, submissionParams);
+
+        verifyCannotAccess(submissionParams);
     }
 
 }

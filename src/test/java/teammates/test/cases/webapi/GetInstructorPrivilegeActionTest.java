@@ -407,11 +407,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
         };
 
-        verifyInaccessibleWithoutLogin(submissionParams);
-        verifyInaccessibleForUnregisteredUsers(submissionParams);
-        verifyInaccessibleForStudents(submissionParams);
         verifyInaccessibleForAdmin(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
 }

@@ -185,12 +185,55 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        int questionNumber = 1;
+       //See tests below
+    }
+
+    @Test
+    protected void testAccessControl_onlyInstructorsWithCorrectPrivilege_shouldPass() throws Exception {
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponse();
+
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        InstructorAttributes instructor = typicalBundle.instructors.get("helperOfCourse1");
+
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section 1", "Section 2"}, submissionParams);
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
+
+        verifyCanMasquerade(instructor.googleId, submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_onlyInstructorsWithOnlyEitherPrivilege_shouldFail() throws Exception {
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponse();
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("helperOfCourse1");
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section 1"}, submissionParams);
+
+        loginAsInstructor(instructor.googleId);
+        verifyCannotAccess(submissionParams);
+
+        updateInstructorWithOnlySectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section 2"}, submissionParams);
+
+        verifyCannotAccess(submissionParams);
+    }
+
+    private String[] getSubmissionParamsForCrossSectionResponse() {
+        int questionNumber = 2;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        String giverEmail = "student1InCourse1@gmail.tmt";
-        String receiverEmail = "student1InCourse1@gmail.tmt";
+        String giverEmail = "student2InCourse1@gmail.tmt";
+        String receiverEmail = "student5InCourse1@gmail.tmt";
         FeedbackResponseAttributes response = logic.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = FeedbackResponseCommentAttributes
@@ -203,16 +246,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 .withFeedbackResponseId(response.getId())
                 .build();
 
-        String[] submissionParams = new String[] {
+        return new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
         };
 
-        verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
-        verifyInaccessibleWithoutLogin(submissionParams);
-        verifyInaccessibleForUnregisteredUsers(submissionParams);
-        verifyInaccessibleForStudents(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 
     /**

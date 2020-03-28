@@ -5,7 +5,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.action.GetFeedbackSessionAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackSessionData;
@@ -89,29 +91,110 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Override
     @Test
     protected void testAccessControl() throws Exception {
+        //See independent teste cases
+    }
+
+    @Test
+    protected void testAccessControl_studentResult() {
+        FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        Intent intent = Intent.STUDENT_SUBMISSION;
+        String[] params = generateParameters(feedbackSession, intent, "", "", "");
+
+        ______TS("Typical unauthorized cases");
+
+        verifyInaccessibleWithoutLogin(params);
+        String unregUserId = "unreg.user";
+        loginAsUnregistered(unregUserId);
+        verifyEntityNotFound(params);
+
+        ______TS("student can access his own course session");
+
+        verifyAccessibleForStudentsOfTheSameCourse(params);
+
+        ______TS("Instructor cannot directly get student session");
+
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        verifyEntityNotFound(params);
+
+        ______TS("student cannot access other course session");
+        FeedbackSessionAttributes otherCourseFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
+        params = generateParameters(otherCourseFeedbackSession, intent, "", "", "");
+        verifyEntityNotFound(params);
+
+        ______TS("Instructor with correct privilege moderate student session");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        params = generateParameters(feedbackSession, intent, "", student1InCourse1.email, "");
+
+        verifyInaccessibleForInstructorsOfOtherCourses(params);
+        verifyInaccessibleForStudents(params);
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(params);
+
+        updateInstructorWithOnlySectionPrivilege(helperOfCourse1,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section 1"}, params);
+        verifyCanAccess(params);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(helperOfCourse1, params);
+
+        ______TS("Instructor preview student session");
+        params = generateParameters(feedbackSession, intent, "", "", student1InCourse1.email);
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
+
+        ______TS("Unregister student can access with correct key");
+        StudentAttributes unregisteredStudent = logic.getStudentForGoogleId(
+                student1InCourse1.getCourse(), student1InCourse1.googleId);
+        params = generateParameters(feedbackSession, intent, StringHelper.encrypt(unregisteredStudent.getKey()), "", "");
+        verifyAccessibleWithoutLogin(params);
+    }
+
+    @Test
+    protected void testAccessControl_fullDetail() {
+        FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] params = generateParameters(feedbackSession, Intent.FULL_DETAIL, "", "", "");
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
+    }
+
+    @Test
+    protected void testAccessControl_instructorResult() {
+        FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        Intent intent = Intent.INSTRUCTOR_RESULT;
+        String[] params = generateParameters(feedbackSession, intent, "", "", "");
+        ______TS("Only instructor with correct privilege can access");
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, params
+        );
+
+        ______TS("Instructor moderates instructor submission with correct privilege will pass");
+
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        params = generateParameters(feedbackSession, intent, "", instructor1OfCourse1.email, "");
 
-        ______TS("non-existent feedback session");
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123",
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
+        ______TS("Instructor preview instructor result with correct privilege will pass");
+
+        String[] previewInstructorSubmissionParams =
+                generateParameters(feedbackSession, intent,
+                        "", "", instructor1OfCourse1.email);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewInstructorSubmissionParams);
+    }
+
+    private String[] generateParameters(FeedbackSessionAttributes session, Intent intent,
+                                        String regKey, String moderatedPerson, String previewPerson) {
+        return new String[] {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, intent.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPerson,
+                Const.ParamsNames.PREVIEWAS, previewPerson,
+                Const.ParamsNames.REGKEY, regKey,
         };
-
-        loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
-
-        ______TS("only instructors of the same course can access");
-
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-        };
-
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 }

@@ -108,7 +108,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         loginAsInstructor(instructor1OfCourse1.googleId);
 
-        ______TS("only instructors of the same course can access");
+        ______TS("only instructors of the same course with correct privilege can access");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -116,12 +116,8 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-
-        ______TS("instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
 
         ______TS("feedback session does not exist");
 

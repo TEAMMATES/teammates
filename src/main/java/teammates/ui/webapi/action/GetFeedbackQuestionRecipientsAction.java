@@ -9,7 +9,9 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
 import teammates.ui.webapi.request.Intent;
 
@@ -40,11 +42,17 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
                 logic.getFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
         switch (intent) {
         case STUDENT_SUBMISSION:
+            if (userInfo == null && StringHelper.isEmpty(getRequestParamValue(Const.ParamsNames.REGKEY))) {
+                throw new UnauthorizedAccessException("Instructor or Student account is required to access this resource.");
+            }
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
+            if (userInfo == null) {
+                throw new UnauthorizedAccessException("Instructor account is required to access this resource.");
+            }
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);

@@ -1,6 +1,6 @@
 package teammates.test.cases.webapi;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;

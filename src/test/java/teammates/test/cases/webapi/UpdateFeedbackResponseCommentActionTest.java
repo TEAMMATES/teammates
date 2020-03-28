@@ -4,6 +4,8 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -225,26 +227,98 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        int questionNumber = 1;
+        //See tests below
+    }
+
+    @Test
+    protected void testAccessControl_commentGiverWithNoPrivilege_shouldPass() throws Exception {
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponseComment();
+
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
+        verifyCanMasquerade(instructor.googleId, submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_instructorsWithCorrectPrivilege_shouldPass() throws Exception {
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponseComment();
+
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege("Section 1",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        instructorPrivileges.updatePrivilege("Section 2",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
+        verifyCanMasquerade(instructor.googleId, submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_instructorWithOnlyEitherSectionPrivilege_shouldFail() throws Exception {
+        CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponseComment();
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege("Section 1",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        loginAsInstructor(instructor.googleId);
+        verifyCannotAccess(submissionParams);
+
+        instructorPrivileges.updatePrivilege("Section 1",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
+        instructorPrivileges.updatePrivilege("Section 2",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        verifyCannotAccess(submissionParams);
+    }
+
+    private String[] getSubmissionParamsForCrossSectionResponseComment() {
+        int questionNumber = 2;
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
 
-        String giverEmail = "student1InCourse1@gmail.tmt";
-        String receiverEmail = "student1InCourse1@gmail.tmt";
+        String giverEmail = "student2InCourse1@gmail.tmt";
+        String receiverEmail = "student5InCourse1@gmail.tmt";
         FeedbackResponseAttributes feedbackResponse = logic.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
 
         FeedbackResponseCommentAttributes feedbackResponseComment = typicalBundle.feedbackResponseComments
-                .get("comment1FromT1C1ToR1Q1S1C1");
+                .get("comment1FromT1C1ToR1Q2S1C1");
 
         feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
 
-        String[] submissionParams = new String[] {
+        return new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
         };
-        // this person is not the giver. so not accessible
-        verifyInaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
-        verifyOnlyInstructorsCanAccess(submissionParams);
+
     }
 }

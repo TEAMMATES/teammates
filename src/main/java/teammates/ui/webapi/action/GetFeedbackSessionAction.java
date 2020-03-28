@@ -4,7 +4,9 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.request.Intent;
 
@@ -28,16 +30,25 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
         case STUDENT_RESULT:
+            if (userInfo == null && StringHelper.isEmpty(getRequestParamValue(Const.ParamsNames.REGKEY))) {
+                throw new UnauthorizedAccessException("Instructor or Student account is required to access this resource.");
+            }
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
         case FULL_DETAIL:
+            if (userInfo == null) {
+                throw new UnauthorizedAccessException("Instructor account is required to access this resource.");
+            }
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(courseId, userInfo.getId()),
                     feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
         case INSTRUCTOR_RESULT:
+            if (userInfo == null) {
+                throw new UnauthorizedAccessException("Instructor account is required to access this resource.");
+            }
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
