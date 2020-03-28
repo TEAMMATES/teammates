@@ -81,6 +81,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                 .withInstructorInstitution(institute)
+                .withInstitutionMac(StringHelper.generateSignature(institute))
                 .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         JoinLinkData output = (JoinLinkData) r.getOutput();

@@ -10,6 +10,7 @@ import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
@@ -20,13 +21,12 @@ import {
   InstructorPrivilege,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   CopySessionResult,
   SessionsTableColumn,
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
-  SortBy,
-  SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -75,12 +75,13 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               modalService: NgbModal,
               studentService: StudentService,
               instructorService: InstructorService,
+              tableComparatorService: TableComparatorService,
               private courseService: CourseService,
               private ngbModal: NgbModal,
               private timezoneService: TimezoneService,
               private loadingBarService: LoadingBarService) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
     // need timezone data for moment()
     this.timezoneService.getTzVersion();
   }
@@ -281,7 +282,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           strA = '';
           strB = '';
       }
-      return strA.localeCompare(strB);
+      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
     });
   }
 

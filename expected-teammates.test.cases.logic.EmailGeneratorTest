@@ -1,3 +1,4 @@
+
 <p>Hello, User Name</p>
 
 <p>
@@ -6,12 +7,12 @@
 </p>
 
 <p>
-  You can use this <a href="http://localhost:8080">URL</a> to login to TEAMMATES.
+  You can use this <a href="http://localhost:4200">URL</a> to login to TEAMMATES.
 </p>
 
 <p>
   In case you have been registered to the wrong course, been incorrectly registered, or
-  if you need any help or clarifications regarding TEAMMATES, please email us at ${support.email}.
+  if you need any help or clarifications regarding TEAMMATES, please email us at app_admin@gmail.com.
 </p>
 
 <p>

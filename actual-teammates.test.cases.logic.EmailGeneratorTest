@@ -1,7 +1,8 @@
+
 <p>Hello, User Name</p>
 
 <p>
-  Thank you for registering as an instructor in the course: <strong>[idOfTypicalCourse1] Course Name</strong>
+  Thank you for registering as a student in the course: <strong>[idOfTypicalCourse1] Course Name</strong>
   with the Google ID: <strong>user.googleid</strong>.
 </p>
 
@@ -11,7 +12,7 @@
 
 <p>
   In case you have been registered to the wrong course, been incorrectly registered, or
-  if you need any help or clarifications regarding TEAMMATES, please email us at ${support.email}.
+  if you need any help or clarifications regarding TEAMMATES, please email us at app_admin@gmail.com.
 </p>
 
 <p>

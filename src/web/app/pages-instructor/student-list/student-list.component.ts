@@ -7,7 +7,9 @@ import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
 import {
@@ -28,56 +30,6 @@ interface FlatStudentListData {
   sectionName: string;
   isAllowedToViewStudentInSection: boolean;
   isAllowedToModifyStudent: boolean;
-}
-
-/**
- * Sort criteria for the students table.
- */
-enum SortBy {
-  /**
-   * Nothing.
-   */
-  NONE,
-
-  /**
-   * Section Name.
-   */
-  SECTION_NAME,
-
-  /**
-   * Team name.
-   */
-  TEAM_NAME,
-
-  /**
-   * Student Name.
-   */
-  STUDENT_NAME,
-
-  /**
-   * Status.
-   */
-  STATUS,
-
-  /**
-   * Email.
-   */
-  EMAIL,
-}
-
-/**
- * Sort order for the students table.
- */
-enum SortOrder {
-  /**
-   * Descending sort order.
-   */
-  DESC,
-
-  /**
-   * Ascending sort order
-   */
-  ASC,
 }
 
 /**
@@ -117,6 +69,7 @@ export class StudentListComponent implements OnInit, DoCheck {
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
+              private tableComparatorService: TableComparatorService,
               private ngbModal: NgbModal,
               private differs: IterableDiffers) {
     this._differ = this.differs.find(this.sections).create();
@@ -257,7 +210,7 @@ export class StudentListComponent implements OnInit, DoCheck {
           strA = a.email;
           strB = b.email;
           break;
-        case SortBy.STATUS:
+        case SortBy.JOIN_STATUS:
           strA = joinStatePipe.transform(a.status);
           strB = joinStatePipe.transform(b.status);
           break;
@@ -266,14 +219,7 @@ export class StudentListComponent implements OnInit, DoCheck {
           strB = '';
       }
 
-      if (this.tableSortOrder === SortOrder.ASC) {
-        return strA.localeCompare(strB);
-      }
-      if (this.tableSortOrder === SortOrder.DESC) {
-        return strB.localeCompare(strA);
-      }
-
-      return 0;
+      return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
     };
   }
 }
