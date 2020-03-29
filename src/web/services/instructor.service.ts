@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { InstructorPrivilege, Instructors } from '../types/api-output';
-import { Intent } from '../types/api-request';
+import { Instructor, InstructorPrivilege, Instructors } from '../types/api-output';
+import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -18,37 +18,96 @@ export class InstructorService {
   /**
    * Get a list of instructors of a course by calling API.
    */
-  getInstructorsFromCourse(courseId: string, intent?: Intent): Observable<Instructors> {
+  loadInstructors(queryParams: { courseId: string, intent?: Intent }): Observable<Instructors> {
 
     const paramMap: { [key: string]: string } = {
-      courseid: courseId,
+      courseid: queryParams.courseId,
     };
 
-    if (intent) {
-      paramMap[intent] = intent;
+    if (queryParams.intent) {
+      paramMap.intent = queryParams.intent;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS, paramMap);
   }
 
   /**
+   * Creates an instructor in a course by calling API.
+   */
+  createInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
+  }
+
+  /**
+   * Updates an instructor in a course by calling API.
+   */
+  updateInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
+  }
+
+  /**
+   * Deletes an instructor from a course by calling API.
+   */
+  deleteInstructor(queryParams: { courseId: string, instructorEmail: string }): Observable<any> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      instructoremail: queryParams.instructorEmail,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.INSTRUCTOR, paramMap);
+  }
+
+  /**
    * Loads privilege of an instructor for a specified course and section.
    */
-  loadInstructorPrivilege(options: { courseId: string, sectionName?: string, feedbackSessionName?: string }):
+  loadInstructorPrivilege(queryParams: {
+    courseId: string,
+    sectionName?: string,
+    feedbackSessionName?: string,
+    instructorRole?: string,
+    instructorEmail?: string,
+  }):
     Observable<InstructorPrivilege> {
 
     const paramMap: { [key: string]: string } = {
-      courseid: options.courseId,
+      courseid: queryParams.courseId,
     };
 
-    if (options.feedbackSessionName) {
-      paramMap.fsname = options.feedbackSessionName;
+    if (queryParams.feedbackSessionName) {
+      paramMap.fsname = queryParams.feedbackSessionName;
     }
 
-    if (options.sectionName) {
-      paramMap.sectionname = options.sectionName;
+    if (queryParams.sectionName) {
+      paramMap.sectionname = queryParams.sectionName;
+    }
+
+    if (queryParams.instructorRole) {
+      paramMap.sectionname = queryParams.instructorRole;
+    }
+
+    if (queryParams.instructorEmail) {
+      paramMap.instructorEmail = queryParams.instructorEmail;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
+  }
+
+  /**
+   * Updates the privilege of an instructor for a specified course.
+   */
+  updateInstructorPrivilege(queryParams: {
+    courseId: string,
+    instructorEmail: string,
+    requestBody: InstructorPrivilegeUpdateRequest }): Observable<InstructorPrivilege> {
+    const paramMap: any = {
+      courseid: queryParams.courseId,
+      instructoremail: queryParams.instructorEmail,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
   }
 }

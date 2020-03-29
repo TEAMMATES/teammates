@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData } from '../student-list/student-list-section-data';
 
-interface SearchResult {
+/**
+ * Search result object from student search query.
+ */
+export interface SearchResult {
   searchFeedbackSessionDataTables: SearchFeedbackSessionDataTable[];
   searchStudentsTables: SearchStudentsTable[];
 }
@@ -17,7 +20,7 @@ interface SearchFeedbackSessionDataTable {
 }
 
 /**
- * Data object for communciation with the child student result component
+ * Data object for communication with the child student result component
  */
 export interface SearchStudentsTable {
   courseId: string;
@@ -48,7 +51,7 @@ export class InstructorSearchPageComponent implements OnInit {
   fbSessionDataTables: SearchFeedbackSessionDataTable[] = [];
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
+              private studentService: StudentService,
               private statusMessageService: StatusMessageService,
               private loadingBarService: LoadingBarService) { }
 
@@ -72,12 +75,11 @@ export class InstructorSearchPageComponent implements OnInit {
    */
   search(searchQuery: SearchQuery): void {
     this.loadingBarService.showLoadingBar();
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchQuery.searchKey,
-      searchstudents: searchQuery.searchStudents.toString(),
-      searchfeedbacksessiondata: searchQuery.searchFeedbackSessionData.toString(),
-    };
-    this.httpRequestService.get('/studentsAndSessionData/search', paramMap)
+    this.studentService.searchForStudents({
+      searchKey: searchQuery.searchKey,
+      searchStudents: searchQuery.searchStudents.toString(),
+      searchFeedbackSessionData: searchQuery.searchFeedbackSessionData.toString(),
+    })
         .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
         .subscribe((resp: SearchResult) => {
           this.studentTables = resp.searchStudentsTables;
