@@ -155,6 +155,43 @@ public class CourseAttributesTest extends BaseTestCase {
         assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name timeZone: UTC", c.toString());
     }
 
+    @Test
+    public void testEquals() {
+        CourseAttributes course = generateValidCourseAttributesObject();
+
+        // When the two courses have same values
+        CourseAttributes courseSimilar = generateValidCourseAttributesObject();
+
+        assertTrue(course.equals(courseSimilar));
+
+        // When the two courses are different
+        CourseAttributes courseDifferent = CourseAttributes.builder("id")
+                .withName("Another Name")
+                .build();
+
+        assertFalse(course.equals(courseDifferent));
+
+        // When the other object is of different class
+        assertFalse(course.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        CourseAttributes course = generateValidCourseAttributesObject();
+
+        // When the two courses have same values, they should have the same hash code
+        CourseAttributes courseSimilar = generateValidCourseAttributesObject();
+
+        assertTrue(course.hashCode() == courseSimilar.hashCode());
+
+        // When the two courses are different, they should have different hash code
+        CourseAttributes courseDifferent = CourseAttributes.builder("id")
+                .withName("Another Name")
+                .build();
+
+        assertFalse(course.hashCode() == courseDifferent.hashCode());
+    }
+
     private static CourseAttributes generateValidCourseAttributesObject() {
         return CourseAttributes.builder("valid-id-$_abc")
                 .withName("valid-name")

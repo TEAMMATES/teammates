@@ -54,7 +54,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const courseId: string = model.feedbackSession.courseId;
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
-    this.studentService.getStudentsFromCourse(courseId).subscribe((students: Students) => {
+    this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
       const modalRef: NgbModalRef = this.modalService.open(ResendResultsLinkToStudentModalComponent);
 
       modalRef.componentInstance.courseId = courseId;
@@ -90,8 +90,8 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
     forkJoin(
-        this.studentService.getStudentsFromCourse(courseId),
-        this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet(courseId, feedbackSessionName))
+        this.studentService.getStudentsFromCourse({ courseId }),
+        this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }))
         .subscribe(
             (result: any[]) => {
               const students: Student[] = (result[0] as Students).students;

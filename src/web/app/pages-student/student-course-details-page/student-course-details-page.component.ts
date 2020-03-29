@@ -135,7 +135,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadInstructors(courseId: string): void {
-    this.instructorService.getInstructorsFromCourse(courseId)
+    this.instructorService.loadInstructors({ courseId })
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {

@@ -4,7 +4,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
   courseId="undefined"
-  httpRequestService={[Function HttpRequestService]}
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
   isTeamnameFieldChanged="false"
@@ -23,7 +22,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   FormValidator={[Function Object]}
   courseId="undefined"
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
   isTeamnameFieldChanged="false"
