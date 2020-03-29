@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { InstructorHelpDataSharingService } from '../../../services/instructor-help-data-sharing.service';
 import { Sections } from './sections';
 
 /**
@@ -10,6 +11,7 @@ import { Sections } from './sections';
   selector: 'tm-instructor-help-page',
   templateUrl: './instructor-help-page.component.html',
   styleUrls: ['./instructor-help-page.component.scss'],
+  providers: [InstructorHelpDataSharingService],
 })
 export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   // enum

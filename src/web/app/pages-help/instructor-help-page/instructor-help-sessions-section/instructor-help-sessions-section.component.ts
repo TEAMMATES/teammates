@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { InstructorHelpDataSharingService } from '../../../../services/instructor-help-data-sharing.service';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -11,11 +12,29 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  constructor() {
+  isCollapsed: boolean = false;
+  isCollapsed1: boolean = false;
+  isCollapsed2: boolean = false;
+  isCollapsed3: boolean = false;
+  isCollapsed4: boolean = false;
+  isCollapsed5: boolean = false;
+  isCollapsed6: boolean = false;
+  isCollapsed7: boolean = false;
+  isCollapsed8: boolean = false;
+  isCollapsed9: boolean = false;
+  isCollapsed10: boolean = false;
+  isCollapsed11: boolean = false;
+  isCollapsed12: boolean = false;
+  isCollapsed13: boolean = false;
+
+  constructor(private data: InstructorHelpDataSharingService) {
     super();
   }
 
   ngOnInit(): void {
+    this.data.currPeerEvalTips.subscribe((isCollapsedCurrPeerEvalTips: boolean) =>
+        this.isCollapsed = isCollapsedCurrPeerEvalTips,
+    );
   }
 
   /**
@@ -23,7 +42,6 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
    */
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
-    console.log(destination);
     if (destination) {
       destination.scrollIntoView();
       // to prevent the navbar from covering the text

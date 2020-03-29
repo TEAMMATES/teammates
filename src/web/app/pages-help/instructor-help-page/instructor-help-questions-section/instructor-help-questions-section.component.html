@@ -1,4 +1,3 @@
-<!--TODO: Fix links-->
 <div>
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Questions</h2>
   <!-- Question -->
@@ -33,7 +32,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
+  <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="single-answer-mcq">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed1 = !isCollapsed1" [attr.aria-expanded]="!isCollapsed1">
         Multiple Choice (Single Answer) Questions
@@ -100,7 +99,7 @@
           <p>
             Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
             <br> The setup and result statistics is similar to the single answer version. See
-            <a (click)="isCollapsed1 = !isCollapsed1" [routerLink]="">above</a> for details.
+            <a (click)="jumpTo('single-answer-mcq'); isCollapsed1 = true" [routerLink]="">above</a> for details.
           </p>
           <p>
             <strong>Note:</strong> Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer,

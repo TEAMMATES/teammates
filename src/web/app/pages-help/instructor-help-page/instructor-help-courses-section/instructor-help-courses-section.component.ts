@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { InstructorHelpDataSharingService } from '../../../../services/instructor-help-data-sharing.service';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -35,7 +36,7 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
   isCollapsed18: boolean = false;
   isCollapsed19: boolean = false;
 
-  constructor() {
+  constructor(private data: InstructorHelpDataSharingService) {
     super();
   }
 
@@ -43,15 +44,24 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
   }
 
   /**
+   * Collapses question on editing student's profile
+   */
+  collapseStudentProfileEdit(): void {
+    this.data.collapseStudentProfileEdit(true);
+  }
+
+  /**
    * To scroll to a specific HTML id
    */
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
-    console.log(destination);
     if (destination) {
       destination.scrollIntoView();
       // to prevent the navbar from covering the text
       window.scrollTo(0, window.pageYOffset - 50);
+      if (target === 'student-edit-details') {
+        this.collapseStudentProfileEdit();
+      }
     }
     return false;
   }

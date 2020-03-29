@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { InstructorHelpDataSharingService } from '../../../../services/instructor-help-data-sharing.service';
 import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
@@ -114,11 +115,13 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
   isCollapsed5: boolean = false;
   isCollapsed6: boolean = false;
 
-  constructor() {
+  constructor(private data: InstructorHelpDataSharingService) {
     super();
   }
 
   ngOnInit(): void {
-
+    this.data.currStudentProfileEdit.subscribe((studentProfileEdit: boolean) =>
+      this.isCollapsed1 = studentProfileEdit,
+    );
   }
 }

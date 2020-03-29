@@ -1,4 +1,3 @@
-<!--TODO: Fix links-->
 <div>
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Sessions</h2>
   <!--Section-->
@@ -143,7 +142,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
+  <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question id="session-questions">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2">
         How do I add questions to a session?
@@ -164,7 +163,7 @@
               Scroll to the bottom of the page.
             </li>
             <li>
-              Select between adding a question from our predefined <a href="#questions">question types</a> or
+              Select between adding a question from our predefined <a (click)="jumpTo('questions')" [routerLink]="">question types</a> or
               copying a question from an existing feedback session.
             </li>
             <li>
@@ -177,7 +176,7 @@
           <p>EXAMPLE BOX</p>
           <p>
             TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
-            <a href="#questions">question types</a>,
+            <a (click)="jumpTo('questions')" [routerLink]="">question types</a>,
             you can also customize your desired:
           </p>
           <ul>
@@ -205,7 +204,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question id="session-preview">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3">
         How do I preview a session?
@@ -232,7 +231,7 @@
   <!--Section-->
   <h3 *ngIf="displaySubsection(showQuestion, 4, 7)">Managing Session Responses</h3>
   <!-- Question -->
-  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="session-cannot-submit">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4">
         What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?
@@ -249,7 +248,7 @@
               Ask the student to view the submission page and send you his/her answers to the session questions.
             </li>
             <li>
-              <a (click)="isCollapsed5 = !isCollapsed5" href="#">View the results</a> of the session.
+              <a (click)="jumpTo('session-view-results'); isCollapsed5 = true" [routerLink]="">View the results</a> of the session.
             </li>
             <li>
               Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
@@ -267,7 +266,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
+  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="session-view-results">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5">
         How do I view the results of my session?
@@ -329,7 +328,7 @@
   <!--Section-->
   <h3 *ngIf="displaySubsection(showQuestion, 7, 10)">Adding Comments to Responses</h3>
   <!-- Question -->
-  <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
+  <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="session-add-comments">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed7 = !isCollapsed7" [attr.aria-expanded]="!isCollapsed7">
         How do I create a comment on a response?
@@ -339,7 +338,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            While <a (click)="isCollapsed5 = !isCollapsed5" href="#">viewing the results</a> of a session, you can add comments to respondents' answers.
+            While <a (click)="jumpTo('session-view-results'); isCollapsed5 = true" [routerLink]="">viewing the results</a> of a session, you can add comments to respondents' answers.
           </p>
           <p>
             To create comments on a response in a session:
@@ -379,7 +378,7 @@
           </p>
           <ol>
             <li>
-              Navigate to the page where you <a (click)="isCollapsed7 = !isCollapsed7" href="#">added the comment</a> that you want to edit or delete.
+              Navigate to the page where you <a (click)="jumpTo('session-add-comments'); isCollapsed7 = true" [routerLink]="">added the comment</a> that you want to edit or delete.
             </li>
             <li>
               Hover over the comment which you want to edit or delete.
@@ -438,7 +437,7 @@
   <!--Section-->
   <h3 *ngIf="displaySubsection(showQuestion, 10, 14)">Restoring Deleted Sessions</h3>
   <!-- Question -->
-  <div class="instr-help-qn10" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question>
+  <div class="instr-help-qn10" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question id="view-deleted-session">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed10 = !isCollapsed10" [attr.aria-expanded]="!isCollapsed10">
         How do I view sessions I have deleted?
@@ -454,7 +453,7 @@
           <p>EXAMPLE BOX</p>
           <p>
             The feedback sessions you have previously deleted are listed here.
-            In order to access information in a deleted session, <a (click)="isCollapsed11 = !isCollapsed11" href="#">restore the session</a>.
+            In order to access information in a deleted session, <a (click)="jumpTo('restore-session'); isCollapsed11 = true" [routerLink]="">restore the session</a>.
           </p>
         </div>
       </div>
@@ -462,7 +461,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn11" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question>
+  <div class="instr-help-qn11" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question id="restore-session">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed11 = !isCollapsed11" [attr.aria-expanded]="!isCollapsed11">
         How do I restore a deleted session?
@@ -472,7 +471,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            To restore a deleted feedback session, first <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
+            To restore a deleted feedback session, first <a (click)="jumpTo('view-deleted-session'); isCollapsed10 = true" [routerLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
             Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
           </p>
           <p>EXAMPLE BOX</p>
@@ -495,7 +494,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            To permanently delete a feedback session, first <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
+            To permanently delete a feedback session, first <a (click)="jumpTo('view-deleted-session'); isCollapsed10 = true" [routerLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
             Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
           </p>
           <p>EXAMPLE BOX</p>
@@ -518,7 +517,7 @@
       <div class="card">
         <div class="card-body">
           <p>
-            First <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> and check for sessions in Recycle Bin.<br>
+            First <a (click)="jumpTo('view-deleted-session'); isCollapsed10 = true" [routerLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
             To restore all sessions, click on the <button href="#" class="btn btn-sm btn-secondary"><i class="fas fa-check"></i><strong> Restore All</strong></button> button in <b>Deleted feedback sessions</b> heading;
             to delete all sessions, click on the <button href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i><strong> Delete All</strong></button> button in <b>Deleted feedback sessions</b> heading.
           </p>

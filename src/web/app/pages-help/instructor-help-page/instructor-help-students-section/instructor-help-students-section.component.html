@@ -3,7 +3,7 @@
   <!-- Section -->
   <h3 *ngIf="displaySubsection(showQuestion, 0, 3)">Student Records</h3>
   <!-- Question -->
-  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
+  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question id="student-view-profile">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
       How do I view a student's profile?
@@ -124,7 +124,7 @@
   <!-- Section -->
   <h3 *ngIf="displaySubsection(showQuestion, 3, 5)">Finding Students</h3>
   <!--Question -->
-  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question id="student-search">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3">
       How do I search for a student in my course?
@@ -177,7 +177,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="student-email">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4">
       How do I email a student or students in my course?
