@@ -111,8 +111,7 @@ public class EmailGenerator {
     /**
      * Generates the email containing the summary of the feedback sessions
      * email for the given {@code courseId} for {@code student}.
-     *
-     * @param courseId     - ID of the course
+     * @param courseId - ID of the course
      * @param studentEmail - Email of student to send feedback session summary to
      */
     public EmailWrapper generateFeedbackSessionSummaryOfCourse(String courseId, String studentEmail) {
@@ -851,7 +850,6 @@ public class EmailGenerator {
 
     /**
      * Generates additional contact information for User Email Templates.
-     *
      * @return The contact information after replacing the placeholders.
      */
     private String getAdditionalContactInformationFragment(CourseAttributes course) {
