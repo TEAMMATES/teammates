@@ -46,7 +46,7 @@ public class EmailGenerator {
     private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon";
     private static final String FEEDBACK_STATUS_SESSION_CLOSED =
             "is now closed. You can still view your submission by going to the link sent earlier, "
-                    + "but you will not be able to edit existing responses or submit new responses";
+            + "but you will not be able to edit existing responses or submit new responses";
 
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
@@ -70,14 +70,14 @@ public class EmailGenerator {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
         List<InstructorAttributes> instructors = isEmailNeeded
-                ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<>();
         List<StudentAttributes> students = isEmailNeeded
-                ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                           ? studentsLogic.getStudentsForCourse(session.getCourseId())
+                                           : new ArrayList<>();
 
         List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
-                EmailType.FEEDBACK_OPENING.getSubject());
+                                                                      EmailType.FEEDBACK_OPENING.getSubject());
         for (EmailWrapper email : emails) {
             email.setContent(email.getContent().replace("${status}", FEEDBACK_STATUS_SESSION_OPENING));
         }
@@ -102,8 +102,8 @@ public class EmailGenerator {
                 generateFeedbackSessionEmailBasesForInstructorReminders(course, session, instructorsToRemind, template,
                         EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), additionalContactInformation);
         emails.addAll(generateFeedbackSessionEmailBases(course, session, students, instructorToNotifyAsList, template,
-                EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
-                FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation));
+                                                        EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
+                                                        FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation));
 
         return emails;
     }
@@ -132,11 +132,11 @@ public class EmailGenerator {
         String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
 
         String joinFragmentValue = isYetToJoinCourse(student)
-                ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
-                "${joinUrl}", joinUrl,
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()))
-                : "";
+                                   ? Templates.populateTemplate(EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
+                                           "${joinUrl}", joinUrl,
+                                           "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                                           "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()))
+                                   : "";
 
         for (FeedbackSessionAttributes fsa : sessions) {
 
@@ -433,7 +433,7 @@ public class EmailGenerator {
                     }
                 } catch (EntityDoesNotExistException e) {
                     log.severe("Course " + session.getCourseId() + " does not exist or "
-                            + "session " + session.getFeedbackSessionName() + " does not exist");
+                               + "session " + session.getFeedbackSessionName() + " does not exist");
                     // Course or session cannot be found for one student => it will be the case for all students
                     // Do not waste time looping through all students
                     break;
@@ -444,8 +444,8 @@ public class EmailGenerator {
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING);
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         List<InstructorAttributes> instructors = isEmailNeeded
-                ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<>();
         String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_CLOSING.getSubject(), FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation);
@@ -466,11 +466,11 @@ public class EmailGenerator {
                     + "session " + session.getFeedbackSessionName() + " does not exist");
         }
         List<InstructorAttributes> instructors = isEmailNeededForStudents
-                ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<>();
         List<StudentAttributes> students = isEmailNeededForStudents
-                ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                           ? studentsLogic.getStudentsForCourse(session.getCourseId())
+                                           : new ArrayList<>();
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
@@ -485,11 +485,11 @@ public class EmailGenerator {
 
         boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToStudents(session);
         List<InstructorAttributes> instructors = isEmailNeeded
-                ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<>();
         List<StudentAttributes> students = isEmailNeeded
-                ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                           ? studentsLogic.getStudentsForCourse(session.getCourseId())
+                                           : new ArrayList<>();
         return generateFeedbackSessionPublishedEmails(session, students, instructors);
     }
 
@@ -498,7 +498,7 @@ public class EmailGenerator {
      * {@code instructors} in {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionPublishedEmails(FeedbackSessionAttributes session,
-                                                                     List<StudentAttributes> students, List<InstructorAttributes> instructors) {
+            List<StudentAttributes> students, List<InstructorAttributes> instructors) {
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
 
@@ -519,11 +519,11 @@ public class EmailGenerator {
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
         boolean isEmailNeeded = fsLogic.isFeedbackSessionViewableToStudents(session);
         List<InstructorAttributes> instructors = isEmailNeeded
-                ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                                 ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                                                 : new ArrayList<>();
         List<StudentAttributes> students = isEmailNeeded
-                ? studentsLogic.getStudentsForCourse(session.getCourseId())
-                : new ArrayList<>();
+                                           ? studentsLogic.getStudentsForCourse(session.getCourseId())
+                                           : new ArrayList<>();
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_UNPUBLISHED.getSubject());
@@ -601,9 +601,9 @@ public class EmailGenerator {
                 + SanitizationHelper.sanitizeForHtml(courseName);
 
         return "<p>The email below has been sent to students of course: "
-                + courseIdentifier + ".<br>" + System.lineSeparator()
-                + "<br>" + System.lineSeparator()
-                + "=== Email message as seen by the students ===</p>" + System.lineSeparator();
+            + courseIdentifier + ".<br>" + System.lineSeparator()
+            + "<br>" + System.lineSeparator()
+            + "=== Email message as seen by the students ===</p>" + System.lineSeparator();
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
@@ -667,7 +667,7 @@ public class EmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
-                course.getName(), course.getId()));
+                                       course.getName(), course.getId()));
         email.setContent(emailBody);
         return email;
     }
@@ -687,7 +687,7 @@ public class EmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
         email.setSubject(String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
-                course.getName(), course.getId()));
+                                       course.getName(), course.getId()));
         email.setContent(emailBody);
         return email;
     }
@@ -697,7 +697,7 @@ public class EmailGenerator {
      * Also specifies contact information of {@code inviter}.
      */
     public EmailWrapper generateInstructorCourseJoinEmail(AccountAttributes inviter,
-                                                          InstructorAttributes instructor, CourseAttributes course) {
+            InstructorAttributes instructor, CourseAttributes course) {
 
         String emailBody = Templates.populateTemplate(
                 fillUpInstructorJoinFragment(instructor, EmailTemplates.USER_COURSE_JOIN),
@@ -709,7 +709,7 @@ public class EmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setSubject(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(),
-                course.getName(), course.getId()));
+                                       course.getName(), course.getId()));
         email.setContent(emailBody);
         return email;
     }
@@ -745,8 +745,8 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${googleId}", SanitizationHelper.sanitizeForHtml(googleId),
                 "${appUrl}", isInstructor ?
-                        Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).toAbsoluteString() :
-                        Config.getFrontEndAppUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).toAbsoluteString(),
+                    Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).toAbsoluteString() :
+                    Config.getFrontEndAppUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).toAbsoluteString(),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
