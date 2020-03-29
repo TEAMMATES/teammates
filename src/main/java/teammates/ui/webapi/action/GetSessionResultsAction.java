@@ -38,12 +38,8 @@ public class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
-            if (userInfo == null) {
-                throw new UnauthorizedAccessException("Instructor account is required to access this resource");
-            } else {
-                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-                gateKeeper.verifyAccessible(instructor, fs);
-            }
+            InstructorAttributes instructor = getInstructor(courseId);
+            gateKeeper.verifyAccessible(instructor, fs);
             break;
         case STUDENT_RESULT:
             StudentAttributes student = getStudent(courseId);
@@ -72,6 +68,14 @@ public class GetSessionResultsAction extends Action {
             }
         }
         return logic.getStudentForGoogleId(courseId, userInfo.id);
+    }
+
+    private InstructorAttributes getInstructor(String courseId) {
+        if (userInfo == null) {
+            throw new UnauthorizedAccessException("Instructor account is required to access this resource");
+        } else {
+            return logic.getInstructorForGoogleId(courseId, userInfo.id);
+        }
     }
 
     @Override
