@@ -80,7 +80,6 @@ public class SearchStudentsAction extends Action {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         List<StudentAttributes> students;
         List<StudentData> studentDataList = new ArrayList<>();
-        StudentsData studentsData;
 
         // Search for students
         if (userInfo.isAdmin) {
@@ -89,14 +88,20 @@ public class SearchStudentsAction extends Action {
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
             students = logic.searchStudents(searchKey, instructors).studentList;
         }
-        studentsData = new StudentsData();
+
         for (StudentAttributes s : students) {
             courseIds.add(s.getCourse());
             StudentData studentData = new StudentData(s);
-            studentData.setKey(StringHelper.encrypt(s.getKey()));
+            if (userInfo.isAdmin) {
+                studentData.setKey(StringHelper.encrypt(s.getKey()));
+            }
+
             studentDataList.add(studentData);
         }
+        StudentsData studentsData = new StudentsData();
         studentsData.setStudents(studentDataList);
+
+        // Set Institute
         populateCourseIdToInstituteMap();
         studentsData.getStudents().forEach((StudentData student) -> {
             student.setInstitute(courseIdToInstituteMap.get(student.getCourseId()));
