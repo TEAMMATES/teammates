@@ -1,5 +1,6 @@
 package teammates.ui.webapi.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -28,7 +29,7 @@ public class SearchInstructorsAction extends Action {
         }
     }
 
-    private void addAdditionalSearchFields(InstructorsData instructorsData, List<InstructorAttributes> instructors) {
+    private void addAdditionalSearchFields(InstructorsData instructorsData) {
         instructorsData.getInstructors()
                 .forEach((InstructorData instructor) -> {
                     if (instructor.getGoogleId() != null) {
@@ -37,7 +38,6 @@ public class SearchInstructorsAction extends Action {
                             String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
                             instructor.setInstitute(institute);
                         }
-                        instructor.setKey(instructors);
                     }
                     // Hide information
                     instructor.hideInformationForSearch();
@@ -48,9 +48,16 @@ public class SearchInstructorsAction extends Action {
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
-        InstructorsData instructorsData = new InstructorsData(instructors);
+        List<InstructorData> instructorDataList = new ArrayList<>();
+        for (InstructorAttributes instructor : instructors) {
+            InstructorData instructorData = new InstructorData(instructor);
+            instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
+            instructorDataList.add(instructorData);
+        }
+        InstructorsData instructorsData = new InstructorsData();
+        instructorsData.setInstructors(instructorDataList);
         instructorsData.getInstructors().forEach(InstructorData::hideInformationForSearch);
-        this.addAdditionalSearchFields(instructorsData, instructors);
+        this.addAdditionalSearchFields(instructorsData);
         // Set additional fields for search
         return new JsonResult(instructorsData);
     }

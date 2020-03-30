@@ -10,7 +10,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
  */
 public class InstructorsData extends ApiOutput {
 
-    private final List<InstructorData> instructors;
+    private List<InstructorData> instructors;
+
+    public InstructorsData() {
+        // Use this constructor if InstructorData should be sent with the key
+    }
 
     public InstructorsData(List<InstructorAttributes> instructorAttributesList) {
         this.instructors = instructorAttributesList.stream().map(InstructorData::new).collect(Collectors.toList());
@@ -18,5 +22,9 @@ public class InstructorsData extends ApiOutput {
 
     public List<InstructorData> getInstructors() {
         return instructors;
+    }
+
+    public void setInstructors(List<InstructorData> instructors) {
+        this.instructors = instructors;
     }
 }
