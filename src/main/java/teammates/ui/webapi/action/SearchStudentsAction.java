@@ -1,5 +1,6 @@
 package teammates.ui.webapi.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -78,6 +79,7 @@ public class SearchStudentsAction extends Action {
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         List<StudentAttributes> students;
+        List<StudentData> studentDataList = new ArrayList<>();
         StudentsData studentsData;
 
         // Search for students
@@ -87,10 +89,14 @@ public class SearchStudentsAction extends Action {
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
             students = logic.searchStudents(searchKey, instructors).studentList;
         }
-        studentsData = new StudentsData(students);
+        studentsData = new StudentsData();
         for (StudentAttributes s : students) {
             courseIds.add(s.getCourse());
+            StudentData studentData = new StudentData(s);
+            studentData.setKey(StringHelper.encrypt(s.getKey()));
+            studentDataList.add(studentData);
         }
+        studentsData.setStudents(studentDataList);
         populateCourseIdToInstituteMap();
         studentsData.getStudents().forEach((StudentData student) -> {
             student.setInstitute(courseIdToInstituteMap.get(student.getCourseId()));
@@ -98,14 +104,7 @@ public class SearchStudentsAction extends Action {
 
         // Hide information
         studentsData.getStudents().forEach(StudentData::hideLastName);
-        if (userInfo.isAdmin) {
-            // Set the key if Google Id is present
-            studentsData.getStudents().forEach((StudentData student) -> {
-                if (student.getGoogleId() != null) {
-                    student.setKey(students);
-                }
-            });
-        } else {
+        if (userInfo.isInstructor) {
             studentsData.getStudents().forEach(StudentData::hideInformationForInstructor);
         }
 
