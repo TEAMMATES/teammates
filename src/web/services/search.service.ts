@@ -221,7 +221,7 @@ export class SearchService {
     const instructorsWithGoogleIds: Instructor[] = instructors.instructors
       .filter((instructor: Instructor) => instructor.googleId != null);
     const isAllowedToModifyInstructor: boolean = instructorPrivilege.canModifyInstructor;
-    
+
     // If allowed to modify instructor for course, just pick the first valid instructor.
     if (isAllowedToModifyInstructor && instructorsWithGoogleIds.length > 0) {
       instructorGoogleId = instructorsWithGoogleIds[0].googleId;

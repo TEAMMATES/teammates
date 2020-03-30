@@ -2,13 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-<<<<<<< HEAD
 import { of } from 'rxjs';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
-=======
->>>>>>> Add test for search service
 import { 
   Course,
   FeedbackSession,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Instructor, Student } from '../types/api-output';
 import { environment } from './../environments/environment';
-import { NavigationService } from 'src/web/services/navigation.service';
+import { NavigationService } from './navigation.service';
 
 /**
  * Handles the logic for generating links on the client.
@@ -70,8 +70,8 @@ export class LinkService {
     return `/${this.URI_PREFIX}/${homePage}${encodedParams}`;
   }
 
-  /** 
-   * Generates manage account link. 
+  /**
+   * Generates manage account link.
    */
   generateManageAccountLink(googleId: string, accountsPage: string): string {
     const params: {
@@ -88,10 +88,6 @@ export class LinkService {
    * If the instructor id is not valid, return empty string.
    */
   generateRecordsPageLink(student: Student, instructorGoogleId: string): string {
-    if (instructorGoogleId === '') {
-      return '';
-    }
-
     const { courseId: courseid, email: studentemail }: Student = student;
     const { frontendUrl }: { frontendUrl: string } = environment;
     const params: {
@@ -141,4 +137,3 @@ export class LinkService {
     return `${frontendUrl}/${this.URI_PREFIX}/${this.SESSIONS_RESULT_PAGE}${encodedParams}`;
   }
 }
-
