@@ -1,4 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { ResponseOutput } from '../../../../types/api-output';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -13,6 +15,9 @@ import {
 })
 export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
 
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
+
   @Input() questionId: string = '';
   @Input() questionDetails: any = {};
   @Input() responses: any[] = [];
@@ -25,6 +30,8 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   @Input() session: any = {};
 
   responsesToShow: any[] = [];
+  sortBy: SortBy = SortBy.NONE;
+  sortOrder: SortOrder = SortOrder.ASC;
 
   constructor() { }
 
@@ -65,6 +72,33 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
       responsesToShow.push(response);
     }
     this.responsesToShow = responsesToShow;
+  }
+
+  sortResponses(by: SortBy): void {
+    this.sortBy = by;
+    this.sortOrder = this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
+    switch (by) {
+      case SortBy.GIVER_TEAM:
+        this.responsesToShow
+          .sort((a: ResponseOutput, b: ResponseOutput) => a.giverTeam > b.giverTeam ? 1 : -1);
+        break;
+      case SortBy.GIVER_NAME:
+        this.responsesToShow
+          .sort((a: ResponseOutput, b: ResponseOutput) => a.giver > b.giver ? 1 : -1);
+        break;
+      case SortBy.RECIPIENT_TEAM:
+        this.responsesToShow
+          .sort((a: ResponseOutput, b: ResponseOutput) => a.recipientTeam > b.recipientTeam ? 1 : -1);
+        break;
+      case SortBy.RECIPIENT_NAME:
+        this.responsesToShow
+          .sort((a: ResponseOutput, b: ResponseOutput) => a.recipient > b.recipient ? 1 : -1);
+        break;
+      default:
+    }
+    if (this.sortOrder === SortOrder.DESC) {
+      this.responsesToShow.reverse();
+    }
   }
 
 }
