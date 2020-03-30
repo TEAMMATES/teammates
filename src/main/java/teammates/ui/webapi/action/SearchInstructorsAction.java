@@ -48,17 +48,21 @@ public class SearchInstructorsAction extends Action {
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
+
         List<InstructorData> instructorDataList = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
+            // Only admin will be able to access this page, so we can go ahead and set the key
             instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
             instructorDataList.add(instructorData);
         }
         InstructorsData instructorsData = new InstructorsData();
         instructorsData.setInstructors(instructorDataList);
+
         instructorsData.getInstructors().forEach(InstructorData::hideInformationForSearch);
-        this.addAdditionalSearchFields(instructorsData);
         // Set additional fields for search
+        this.addAdditionalSearchFields(instructorsData);
+
         return new JsonResult(instructorsData);
     }
 }
