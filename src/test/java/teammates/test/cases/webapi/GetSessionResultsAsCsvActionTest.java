@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullHttpParameterException;
-import teammates.common.exception.RequestExceedingRangeException;
 import teammates.common.util.Const;
 import teammates.test.driver.CsvChecker;
 import teammates.ui.webapi.action.CsvResult;
@@ -88,13 +87,6 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
                 Const.ParamsNames.SECTION_NAME_DETAIL, "ALL",
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false",
                 Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS, "false",
-        };
-        String[] paramsWithLargeData = {
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES, "false",
-                Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS, "false",
-                "simulateExcessDataForTesting", "true",
         };
         String[] paramsWithNullCourseId = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
@@ -187,13 +179,6 @@ public class GetSessionResultsAsCsvActionTest extends BaseActionTest<GetSessionR
         CsvChecker.verifyCsvContent(result.getContent(), "/feedbackSessionResultsC1S1NewLastName_actionTest.csv");
 
         removeAndRestoreTypicalDataBundle();
-
-        ______TS("Mock case to throw ExceedingRangeException: data is too large to be downloaded in one go");
-
-        action = getAction(paramsWithLargeData);
-        GetSessionResultsAsCsvAction finalAction = action;
-
-        assertThrows(RequestExceedingRangeException.class, () -> getJsonResult(finalAction));
 
         ______TS("Failure case: params with null course id");
 

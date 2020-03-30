@@ -58,18 +58,11 @@ public class GetSessionResultsAsCsvAction extends Action {
                 Const.ParamsNames.FEEDBACK_RESULTS_INDICATE_MISSING_RESPONSES);
         boolean isStatsShown = getBooleanRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
 
-        // read in params for testing
-        String simulateExcessDataForTesting = getRequestParamValue("simulateExcessDataForTesting");
-
         String fileContent = "";
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
         try {
-            if ("true".equals(simulateExcessDataForTesting)) {
-                throw new ExceedingRangeException("This session has more responses than that can be downloaded at one go.");
-            }
-
             if (section == null) {
                 fileContent = logic.getFeedbackSessionResultSummaryAsCsv(
                         courseId, feedbackSessionName, instructor.email,
