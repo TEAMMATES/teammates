@@ -39,7 +39,11 @@ describe('FeedbackQuestionsService', () => {
       fsname: 'feedback session',
     };
 
-    service.getFeedbackQuestions(paramMap.courseid, paramMap.fsname, Intent.FULL_DETAIL);
+    service.getFeedbackQuestions({
+      courseId: paramMap.courseid,
+      feedbackSessionName: paramMap.fsname,
+      intent: Intent.FULL_DETAIL,
+    });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.QUESTIONS, paramMap);
   });

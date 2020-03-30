@@ -3,11 +3,11 @@
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
   fbSessionDataTables={[Function Array]}
-  httpRequestService={[Function HttpRequestService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
   searchKey={[Function String]}
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   studentTables={[Function Array]}
 >
   <tm-instructor-search-bar
@@ -19,11 +19,11 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
   fbSessionDataTables={[Function Array]}
-  httpRequestService={[Function HttpRequestService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
   searchKey=""
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   studentTables={[Function Array]}
 >
   <tm-instructor-search-bar
@@ -37,11 +37,11 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
   fbSessionDataTables={[Function Array]}
-  httpRequestService={[Function HttpRequestService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
   searchKey=""
   statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
   studentTables={[Function Array]}
 >
   <tm-instructor-search-bar

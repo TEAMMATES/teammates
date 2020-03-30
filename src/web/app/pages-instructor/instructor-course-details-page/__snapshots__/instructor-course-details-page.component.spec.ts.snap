@@ -6,7 +6,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess={[Function Boolean]}
   loading={[Function Boolean]}
@@ -175,7 +175,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv=""
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess="false"
   loading="false"
@@ -395,7 +395,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv=""
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess={[Function Boolean]}
   loading="false"
