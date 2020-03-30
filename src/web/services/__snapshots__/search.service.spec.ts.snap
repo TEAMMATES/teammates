@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchService should join instructors accurately when calling as admin 1`] = `
+Object {
+  "courseId": "dog.gma-demo",
+  "courseJoinLink": "http://localhost:4200/web/join?key=&entitytype=instructor",
+  "courseName": "Sample Course 101",
+  "email": "dog@gmail.com",
+  "googleId": "test@example.com",
+  "homePageLink": "/web/instuctor/home?user=test%40example.com",
+  "institute": "",
+  "manageAccountLink": "/web/admin/accounts?instructorid=test%40example.com",
+  "name": "Hi",
+  "showLinks": false,
+}
+`;
+
+exports[`SearchService should join students accurately when calling as admin 1`] = `
+Object {
+  "comments": "This student's name is Alice Betsy",
+  "courseId": "dog.gma-demo",
+  "courseJoinLink": "http://localhost:4200/web/join?key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&courseid=dog.gma-demo&entitytype=student",
+  "courseName": "Sample Course 101",
+  "email": "alice.b.tmms@gmail.tmt",
+  "googleId": "alice.b.tmms.sampleData",
+  "homePageLink": "/web/student/home?user=alice.b.tmms.sampleData",
+  "institute": "NUS",
+  "manageAccountLink": "/web/admin/accounts?instructorid=alice.b.tmms.sampleData",
+  "name": "Alice Betsy",
+  "notOpenSessions": Object {
+    "First team feedback session Sun, 01 Apr yyyy, 11:59 PM +08:00-Mon, 02 Apr yyyy, 11:59 PM +08:00": "http://localhost:4200/web/sessions/submission?courseid=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsName=First%20team%20feedback%20session",
+  },
+  "openSessions": Object {
+    "Second team feedback session Sun, 01 Apr yyyy, 11:59 PM +08:00-Thu, 02 Apr yyyy, 11:59 PM +08:00": "http://localhost:4200/web/sessions/submission?courseid=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsName=Second%20team%20feedback%20session",
+  },
+  "publishedSessions": Object {
+    "First team feedback session Sun, 01 Apr yyyy, 11:59 PM +08:00-Mon, 02 Apr yyyy, 11:59 PM +08:00": "http://localhost:4200/web/sessions/result?courseid=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsName=First%20team%20feedback%20session",
+  },
+  "recordsPageLink": "http://localhost:4200/web/instructor/students/records?courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=test%40example.com",
+  "section": "Tutorial Group 1",
+  "showLinks": false,
+  "team": "Team 1",
+}
+`;

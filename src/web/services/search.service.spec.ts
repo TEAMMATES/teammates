@@ -1,10 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+<<<<<<< HEAD
 import { of } from 'rxjs';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
+=======
+>>>>>>> Add test for search service
 import { 
   Course,
   FeedbackSession,
@@ -20,7 +24,7 @@ import {
   ResponseVisibleSetting
 } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
-import { SearchService } from './search.service';
+import { SearchService, StudentAccountSearchResult, InstructorAccountSearchResult } from './search.service';
 
 describe('SearchService', () => {
   let spyHttpRequestService: any;
@@ -102,21 +106,31 @@ describe('SearchService', () => {
       "sectionName": "Tutorial Group 1"
     }
   ];
+  const mockStudent: Student = {
+    "email": "alice.b.tmms@gmail.tmt",
+    "courseId": "dog.gma-demo",
+    "name": "Alice Betsy",
+    "googleId": "alice.b.tmms.sampleData",
+    "comments": "This student's name is Alice Betsy",
+    "key": "keyheehee",
+    "institute": "NUS",
+    "joinState": JoinState.JOINED,
+    "teamName": "Team 1",
+    "sectionName": "Tutorial Group 1"
+  };
 
-  const mockInstructors: Instructor[] = [
-    {
-      "googleId": "test@example.com",
-      "courseId": "dog.gma-demo",
-      "email": "dog@gmail.com",
-      "isDisplayedToStudents": true,
-      "displayedToStudentsAs": "Instructor",
-      "name": "Hi",
-      "role": InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-      "joinState": JoinState.JOINED
-    } 
-  ];
+  const mockInstructor: Instructor = {
+    "googleId": "test@example.com",
+    "courseId": "dog.gma-demo",
+    "email": "dog@gmail.com",
+    "isDisplayedToStudents": true,
+    "displayedToStudentsAs": "Instructor",
+    "name": "Hi",
+    "role": InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    "joinState": JoinState.JOINED
+  };
 
-  const mockSession: FeedbackSession[] = [
+  const mockSessions: FeedbackSession[] = [
     {
       "courseId": "dog.gma-demo",
       "timeZone": "Asia/Singapore",
@@ -317,4 +331,23 @@ describe('SearchService', () => {
       paramMap,
     );
   });
+
+  it('should join students accurately when calling as admin', () => {
+    const result: StudentAccountSearchResult = service.joinAdminStudent(
+      [
+        { feedbackSessions: mockSessions },
+        mockCourse,
+        { instructors: [mockInstructor] },
+        mockPrivilege
+      ],
+      mockStudent
+    );
+    expect(result).toMatchSnapshot();
+  });
+
+  it('should join instructors accurately when calling as admin', () => {
+    const result: InstructorAccountSearchResult = service
+      .joinAdminInstructor(mockCourse, mockInstructor);
+    expect(result).toMatchSnapshot();
+  })
 });

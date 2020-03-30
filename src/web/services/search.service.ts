@@ -246,7 +246,8 @@ export class SearchService {
 
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLinkStudent(student);
-    studentResult.homePageLink = this.linkService.generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
+    studentResult.homePageLink = this.linkService
+      .generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
     studentResult.recordsPageLink = this.linkService.generateRecordsPageLink(student, instructorGoogleId);
     studentResult.manageAccountLink = this.linkService
       .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
@@ -282,7 +283,8 @@ export class SearchService {
 
     // Generate links for instructors
     instructorResult.courseJoinLink = this.linkService.generateCourseJoinLinkInstructor(instructor);
-    instructorResult.homePageLink = this.linkService.generateHomePageLink(googleId, this.linkService.INSTRUCTOR_HOME_PAGE);
+    instructorResult.homePageLink = this.linkService
+      .generateHomePageLink(googleId, this.linkService.INSTRUCTOR_HOME_PAGE);
     instructorResult.manageAccountLink = this.linkService
       .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
 
