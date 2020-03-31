@@ -32,6 +32,28 @@ export class InstructorService {
   }
 
   /**
+   * Get an instructor in a course by calling API.
+   */
+  getInstructor(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    intent: Intent,
+    key: string,
+    moderatedPerson: string,
+    previewAs: string,
+  }): Observable<Instructor> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+      previewas: queryParams.previewAs,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap);
+  }
+
+  /**
    * Creates an instructor in a course by calling API.
    */
   createInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {

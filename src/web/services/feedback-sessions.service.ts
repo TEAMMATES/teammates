@@ -46,14 +46,32 @@ export class FeedbackSessionsService {
   /**
    * Retrieves a feedback session by calling API.
    */
-  getFeedbackSession(queryParams: {courseId: string, feedbackSessionName: string, intent: Intent}):
-      Observable<FeedbackSession> {
+  getFeedbackSession(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    intent: Intent,
+    key?: string,
+    moderatedPerson?: string,
+    previewAs?: string,
+  }): Observable<FeedbackSession> {
     // load feedback session
     const paramMap: { [key: string]: string } = {
       intent: queryParams.intent,
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
     };
+
+    if (queryParams.key) {
+      paramMap.key = queryParams.key;
+    }
+
+    if (queryParams.moderatedPerson) {
+      paramMap.moderatedperson = queryParams.moderatedPerson;
+    }
+
+    if (queryParams.previewAs) {
+      paramMap.previewas = queryParams.previewAs;
+    }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
   }
