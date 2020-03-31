@@ -42,7 +42,6 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         sessionsInCourse1 = new ArrayList<>();
         sessionsInCourse1.add(typicalBundle.feedbackSessions.get("session2InCourse1"));
         sessionsInCourse1.add(typicalBundle.feedbackSessions.get("gracePeriodSession"));
-        sessionsInCourse1.add(typicalBundle.feedbackSessions.get("publishedSession"));
         sessionsInCourse1.add(typicalBundle.feedbackSessions.get("closedSession"));
         sessionsInCourse1.add(typicalBundle.feedbackSessions.get("empty.session"));
         sessionsInCourse1.add(typicalBundle.feedbackSessions.get("awaiting.session"));
@@ -80,7 +79,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         GetFeedbackSessionsAction action = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(6, fsData.getFeedbackSessions().size());
+        assertEquals(5, fsData.getFeedbackSessions().size());
         assertAllInstructorSessionsMatch(fsData, sessionsInCourse1);
     }
 
@@ -117,7 +116,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         GetFeedbackSessionsAction action = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(6, fsData.getFeedbackSessions().size());
+        assertEquals(5, fsData.getFeedbackSessions().size());
         assertAllInstructorSessionsMatch(fsData, sessionsInCourse1);
     }
 
@@ -184,8 +183,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         GetFeedbackSessionsAction action = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(5, fsData.getFeedbackSessions().size());
-        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 5));
+        assertEquals(4, fsData.getFeedbackSessions().size());
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 4));
 
     }
 
@@ -201,8 +200,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         GetFeedbackSessionsAction a = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(a).getOutput();
 
-        assertEquals(5, fsData.getFeedbackSessions().size());
-        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 5));
+        assertEquals(4, fsData.getFeedbackSessions().size());
+        assertAllStudentSessionsMatch(fsData, sessionsInCourse1.subList(0, 4));
     }
 
     @Test
