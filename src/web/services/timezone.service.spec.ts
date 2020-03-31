@@ -1,17 +1,29 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import { HttpRequestService } from './http-request.service';
 import { TimezoneService } from './timezone.service';
 
 // This test does not check the timezone database used is the latest
 // Only check that the version number is returned, and some sample values for timezone offset
 
 describe('TimezoneService', () => {
+  let spyHttpRequestService: any;
   let service: TimezoneService;
 
   beforeEach(() => {
+    spyHttpRequestService = {
+      get: jest.fn(),
+      post: jest.fn(),
+      put: jest.fn(),
+      delete: jest.fn(),
+    };
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+      ],
+      providers: [
+        { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
     service = TestBed.get(TimezoneService);
@@ -23,6 +35,11 @@ describe('TimezoneService', () => {
 
   it('should return non-empty version', () => {
     expect(service.getTzVersion()).toBeTruthy();
+  });
+
+  it('should call GET when retrieving timezones', () => {
+    service.getTimeZone();
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.TIMEZONE);
   });
 
   it('should return timezone offsets', () => {

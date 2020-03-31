@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
@@ -46,8 +45,7 @@ export class AdminSessionsPageComponent implements OnInit {
 
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
-              private feedbackSessionsService: FeedbackSessionsService,
-              private httpRequestService: HttpRequestService) {}
+              private feedbackSessionsService: FeedbackSessionsService) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -158,21 +156,18 @@ export class AdminSessionsPageComponent implements OnInit {
       event.preventDefault();
       event.stopPropagation();
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
-    };
-    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
-      const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
-          session.ongoingSession.courseId === courseId
-          && session.ongoingSession.feedbackSessionName === feedbackSessionName,
-      );
-      if (sessions.length) {
-        sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    this.feedbackSessionsService.loadSessionStatistics(courseId, feedbackSessionName)
+        .subscribe((resp: FeedbackSessionStats) => {
+          const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
+            session.ongoingSession.courseId === courseId
+            && session.ongoingSession.feedbackSessionName === feedbackSessionName,
+          );
+          if (sessions.length) {
+            sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+          }
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 
 }
