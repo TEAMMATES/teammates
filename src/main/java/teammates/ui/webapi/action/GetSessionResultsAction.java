@@ -38,10 +38,17 @@ public class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
-            InstructorAttributes instructor = getInstructor(courseId);
-            gateKeeper.verifyAccessible(instructor, fs);
+            if (userInfo == null) {
+                throw new UnauthorizedAccessException("Instructor account is required to access this resource");
+            } else {
+                InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+                gateKeeper.verifyAccessible(instructor, fs);
+            }
             break;
         case STUDENT_RESULT:
+            if (userInfo == null && StringHelper.isEmpty(getRequestParamValue(Const.ParamsNames.REGKEY))) {
+                throw new UnauthorizedAccessException("Student account is required to access this resource.");
+            }
             StudentAttributes student = getStudent(courseId);
 
             gateKeeper.verifyAccessible(student, fs);
@@ -60,22 +67,10 @@ public class GetSessionResultsAction extends Action {
 
     private StudentAttributes getStudent(String courseId) {
         if (userInfo == null) {
-            String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
-            if (StringHelper.isEmpty(regkey)) {
-                throw new UnauthorizedAccessException("Student account is required to access this resource.");
-            } else {
-                return logic.getStudentForRegistrationKey(regkey);
-            }
+            String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+            return logic.getStudentForRegistrationKey(regkey);
         }
         return logic.getStudentForGoogleId(courseId, userInfo.id);
-    }
-
-    private InstructorAttributes getInstructor(String courseId) {
-        if (userInfo == null) {
-            throw new UnauthorizedAccessException("Instructor account is required to access this resource");
-        } else {
-            return logic.getInstructorForGoogleId(courseId, userInfo.id);
-        }
     }
 
     @Override
@@ -95,14 +90,25 @@ public class GetSessionResultsAction extends Action {
 
             try {
                 // TODO optimize the logic layer to get rid of functions that are no longer necessary
-                if (questionId == null && selectedSection != null) {
-                    bundle = logic.getFeedbackSessionResultsForInstructorInSection(
-                            feedbackSessionName, courseId, instructor.email, selectedSection, SectionDetail.EITHER);
-                } else if (selectedSection == null && questionId != null) {
-                    bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId,
-                            instructor.email, questionId);
+                if (questionId == null) {
+                    if (selectedSection == null) {
+                        bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                feedbackSessionName, courseId, instructor.email,
+                                1, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
+                    } else {
+                        bundle = logic.getFeedbackSessionResultsForInstructorInSection(
+                                feedbackSessionName, courseId, instructor.email, selectedSection,
+                                SectionDetail.EITHER);
+                    }
                 } else {
-                    throw new InvalidHttpParameterException("Should provide either questionId or selectedSection");
+                    if (selectedSection == null) {
+                        bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId,
+                                instructor.email, questionId);
+                    } else {
+                        bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
+                                feedbackSessionName, courseId,
+                                instructor.email, questionId, selectedSection, SectionDetail.EITHER);
+                    }
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
