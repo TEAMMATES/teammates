@@ -3,15 +3,14 @@ package teammates.ui.webapi.action;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 
 /**
- * Persists a data bundle into the DB.
+ * Puts searchable documents from the data bundle into the DB.
  */
-public class PutDataBundleAction extends Action {
+public class PutDataBundleDocumentsAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -28,14 +27,8 @@ public class PutDataBundleAction extends Action {
     @Override
     public JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
-
-        try {
-            dataBundle = logic.persistDataBundle(dataBundle);
-        } catch (InvalidParametersException e) {
-            return new JsonResult("Error when persisting data bundle: " + e.getMessage(),
-                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        }
-
-        return new JsonResult(JsonUtils.toJson(dataBundle));
+        logic.putDocuments(dataBundle);
+        return new JsonResult("Data bundle documents successfully added.", HttpStatus.SC_OK);
     }
+
 }
