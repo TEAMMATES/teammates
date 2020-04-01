@@ -25,6 +25,10 @@ public class GetSessionResultsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        if (userInfo.isAdmin) {
+            return;
+        }
+
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -37,7 +41,7 @@ public class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, fs);
             break;
         case STUDENT_RESULT:

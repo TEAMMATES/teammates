@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -273,6 +274,38 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 + ", isVisibilityFollowingFeedbackQuestion = " + isVisibilityFollowingFeedbackQuestion
                 + ", isCommentFromFeedbackParticipant = " + isCommentFromFeedbackParticipant
                 + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.feedbackQuestionId)
+                .append(this.feedbackResponseId).append(this.courseId)
+                .append(this.commentGiver).append(this.commentText)
+                .append(this.giverSection).append(this.receiverSection);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackResponseCommentAttributes otherCommentAttributes =
+                    (FeedbackResponseCommentAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
+                    && Objects.equals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
+                    && Objects.equals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
+                    && Objects.equals(this.courseId, otherCommentAttributes.courseId)
+                    && Objects.equals(this.commentGiver, otherCommentAttributes.commentGiver)
+                    && Objects.equals(this.commentText, otherCommentAttributes.commentText)
+                    && Objects.equals(this.giverSection, otherCommentAttributes.giverSection)
+                    && Objects.equals(this.receiverSection, otherCommentAttributes.receiverSection);
+        } else {
+            return false;
+        }
     }
 
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
