@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { InstructorHelpDataSharingService } from '../../../../services/instructor-help-data-sharing.service';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -23,8 +22,9 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   isRubricQsCollapsed: boolean = false;
   isRankOptsCollapsed: boolean = false;
   isRankRcptsCollapsed: boolean = false;
+  @Output() collapsePeerEvalTips: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
-  constructor(private modalService: NgbModal, private data: InstructorHelpDataSharingService) {
+  constructor(private modalService: NgbModal) {
     super();
   }
 
@@ -39,13 +39,6 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   }
 
   /**
-   * Collapses questions on tips for peer evaluation.
-   */
-  collapsePeerEvalTips(): void {
-    this.data.collapsePeerEvalTips(true);
-  }
-
-  /**
    * To scroll to a specific HTML id
    */
   jumpTo(target: string): boolean {
@@ -55,7 +48,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       // to prevent the navbar from covering the text
       window.scrollTo(0, window.pageYOffset - 50);
       if (target === 'tips-for-conducting-peer-eval') {
-        this.collapsePeerEvalTips();
+        this.collapsePeerEvalTips.emit(true);
       }
     }
     return false;

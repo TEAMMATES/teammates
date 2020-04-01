@@ -5,10 +5,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
 import { Component, Input } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({ selector: 'tm-instructor-help-students-section', template: '' })
 class InstructorHelpStudentsSectionStubComponent {
   @Input() key: string = '';
+  @Input() collapseStudentEditDetailsInChild: Subject<boolean> = new Subject<boolean>();
 }
 @Component({ selector: 'tm-instructor-help-courses-section', template: '' })
 class InstructorHelpCoursesSectionStubComponent {
@@ -17,6 +19,7 @@ class InstructorHelpCoursesSectionStubComponent {
 @Component({ selector: 'tm-instructor-help-sessions-section', template: '' })
 class InstructorHelpSessionsSectionStubComponent {
   @Input() key: string = '';
+  @Input() collapsePeerEvalTipsInChild: Subject<boolean> = new Subject<boolean>();
 }
 @Component({ selector: 'tm-instructor-help-questions-section', template: '' })
 class InstructorHelpQuestionsSectionStubComponent {

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { InstructorHelpDataSharingService } from '../../../../services/instructor-help-data-sharing.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -12,6 +12,7 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
+  @Input() collapsePeerEvalTipsInChild: Subject<boolean> = new Subject<boolean>();
   isPeerEvalTipsCollapsed: boolean = false;
   isNewFSessionCollapsed: boolean = false;
   isAddQsCollapsed: boolean = false;
@@ -27,14 +28,13 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   isDelSnCollapsed: boolean = false;
   isRestoreDelAllCollapsed: boolean = false;
 
-  constructor(private data: InstructorHelpDataSharingService) {
+  constructor() {
     super();
   }
 
   ngOnInit(): void {
-    this.data.currPeerEvalTips.subscribe((isCurrPeerEvalTipsCollapsed: boolean) =>
-        this.isPeerEvalTipsCollapsed = isCurrPeerEvalTipsCollapsed,
-    );
+    this.collapsePeerEvalTipsInChild.subscribe(
+        (isPeerEvalTipsCollapsed: boolean) => this.isPeerEvalTipsCollapsed = isPeerEvalTipsCollapsed);
   }
 
   /**

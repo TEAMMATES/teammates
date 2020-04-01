@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { InstructorHelpDataSharingService } from '../../../services/instructor-help-data-sharing.service';
 import { Sections } from './sections';
 
 /**
@@ -11,7 +11,6 @@ import { Sections } from './sections';
   selector: 'tm-instructor-help-page',
   templateUrl: './instructor-help-page.component.html',
   styleUrls: ['./instructor-help-page.component.scss'],
-  providers: [InstructorHelpDataSharingService],
 })
 export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   // enum
@@ -19,6 +18,8 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
+  collapseStudentEditDetailsInChild: Subject<boolean> = new Subject<boolean>();
+  collapsePeerEvalTipsInChild: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild('helpPage', { static: false }) bodyRef ?: ElementRef;
 
@@ -64,5 +65,19 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   clear(): void {
     this.searchTerm = '';
     this.key = '';
+  }
+
+  /**
+   * Collapses question card on student edit details in Students section.
+   */
+  collapseStudentEditDetails(event: boolean): void {
+    this.collapseStudentEditDetailsInChild.next(event);
+  }
+
+  /**
+   * Collapses question card on peer evaluation tips in Sessions section.
+   */
+  collapsePeerEvalTips(event: boolean): void {
+    this.collapsePeerEvalTipsInChild.next(event);
   }
 }

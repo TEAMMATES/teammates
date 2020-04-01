@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { InstructorHelpDataSharingService } from '../../../../services/instructor-help-data-sharing.service';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -35,19 +34,13 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
   isRestoreCollapsed: boolean = false;
   isDelCollapsed: boolean = false;
   isRestoreAllCollapsed: boolean = false;
+  @Output() collapseStudentEditDetails: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
-  constructor(private data: InstructorHelpDataSharingService) {
+  constructor() {
     super();
   }
 
   ngOnInit(): void {
-  }
-
-  /**
-   * Collapses question on editing student's profile
-   */
-  collapseStudentProfileEdit(): void {
-    this.data.collapseStudentProfileEdit(true);
   }
 
   /**
@@ -60,7 +53,7 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
       // to prevent the navbar from covering the text
       window.scrollTo(0, window.pageYOffset - 50);
       if (target === 'student-edit-details') {
-        this.collapseStudentProfileEdit();
+        this.collapseStudentEditDetails.emit(true);
       }
     }
     return false;

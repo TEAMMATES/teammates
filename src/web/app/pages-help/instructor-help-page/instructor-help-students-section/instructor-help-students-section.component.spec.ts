@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { InstructorHelpDataSharingService } from '../../../../services/instructor-help-data-sharing.service';
 import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
 import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section.component';
@@ -69,7 +68,6 @@ describe('InstructorHelpStudentsSectionComponent', () => {
         NgbModule,
         RouterTestingModule,
       ],
-      providers: [InstructorHelpDataSharingService],
     })
     .compileComponents();
   }));

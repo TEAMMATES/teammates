@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { InstructorHelpDataSharingService } from '../../../../services/instructor-help-data-sharing.service';
 import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
@@ -107,21 +107,21 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     ],
   }];
 
-  isViewProfileCollapsed: boolean = false;
+  @Input() collapseStudentEditDetailsInChild: Subject<boolean> = new Subject<boolean>();
   isEditDetailsCollapsed: boolean = false;
+  isViewProfileCollapsed: boolean = false;
   isViewAllRespCollapsed: boolean = false;
   isStudSearchCollapsed: boolean = false;
   isStudEmailCollapsed: boolean = false;
   isGoogleAccCollapsed: boolean = false;
   isChangeGoogleIDCollapsed: boolean = false;
 
-  constructor(private data: InstructorHelpDataSharingService) {
+  constructor() {
     super();
   }
 
   ngOnInit(): void {
-    this.data.currStudentProfileEdit.subscribe((isEditDetailsCollapsed: boolean) =>
-      this.isEditDetailsCollapsed = isEditDetailsCollapsed,
-    );
+    this.collapseStudentEditDetailsInChild.subscribe(
+        (isEditDetailsCollapsed: boolean) => this.isEditDetailsCollapsed = isEditDetailsCollapsed);
   }
 }
