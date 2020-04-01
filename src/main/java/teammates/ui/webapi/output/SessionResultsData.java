@@ -169,7 +169,10 @@ public class SessionResultsData extends ApiOutput {
         return output;
     }
 
-    private static class QuestionOutput {
+    /**
+     * API output format for questions in session results.
+     */
+    public static class QuestionOutput {
 
         private final String questionId;
         private final FeedbackQuestionDetails questionDetails;
@@ -226,7 +229,10 @@ public class SessionResultsData extends ApiOutput {
 
     }
 
-    private static class ResponseOutput {
+    /**
+     * API output format for question responses.
+     */
+    public static class ResponseOutput {
 
         private final String giver;
         /**

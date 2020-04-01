@@ -20,12 +20,12 @@ public enum SectionDetail {
         return sectionDetail;
     }
 
-    public static SectionDetail containsSectionDetail(String selectedSectionDetail) {
+    public static boolean containsSectionDetail(String selectedSectionDetail) {
         for (SectionDetail sectionDetail : SectionDetail.values()) {
             if (sectionDetail.name().equals(selectedSectionDetail)) {
-                return sectionDetail;
+                return true;
             }
         }
-        return null;
+        return false;
     }
 }
