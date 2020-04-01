@@ -230,6 +230,8 @@ export abstract class InstructorSessionBasePageComponent {
       model.feedbackSession.courseId,
       model.feedbackSession.feedbackSessionName,
       Intent.INSTRUCTOR_RESULT,
+      true,
+      true,
     ).subscribe((resp: string) => {
       blob = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);

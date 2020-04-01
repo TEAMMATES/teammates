@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { saveAs } from 'file-saver';
 import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
@@ -18,8 +19,9 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
-// tslint:disable-next-line:max-line-length
-import { ConfirmPublishingSessionModalComponent } from '../../components/sessions-table/confirm-publishing-session-modal/confirm-publishing-session-modal.component';
+import {
+  ConfirmPublishingSessionModalComponent,
+} from '../../components/sessions-table/confirm-publishing-session-modal/confirm-publishing-session-modal.component';
 // tslint:disable-next-line:max-line-length
 import { ConfirmUnpublishingSessionModalComponent } from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -238,6 +240,27 @@ export class InstructorSessionResultPageComponent implements OnInit {
     setTimeout(() => {
       window.print();
     }, 1000);
+  }
+
+  /**
+   * Handle download results button event.
+   */
+  downloadResultHandler(): void {
+    const filename: string = `${this.session.feedbackSessionName.concat('_result')}.csv`;
+    let blob: any;
+
+    this.feedbackSessionsService.downloadSessionResults(
+      this.session.courseId,
+      this.session.feedbackSessionName,
+      Intent.INSTRUCTOR_RESULT,
+      this.indicateMissingResponses,
+      this.showStatistics,
+    ).subscribe((resp: string) => {
+      blob = new Blob([resp], { type: 'text/csv' });
+      saveAs(blob, filename);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**

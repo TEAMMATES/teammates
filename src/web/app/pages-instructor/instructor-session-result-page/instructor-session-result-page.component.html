@@ -40,7 +40,7 @@
          placement="top" (click)="publishResultHandler()">
         {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "Unpublish": "Publish"}} Results
       </button>
-      <button class="btn btn-primary action-btn">
+      <button class="btn btn-primary action-btn" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()">
         Download Results
       </button>
       <button class="btn btn-primary action-btn" (click)="printViewHandler()">
@@ -150,3 +150,9 @@
 <div class="card top-padded" *ngIf="isNoResponsePanelLoaded">
   <tm-instructor-session-no-response-panel [noResponseStudents]="noResponseStudents" [section]="section" [session]="session" ></tm-instructor-session-no-response-panel>
 </div>
+
+<ng-template #downloadTooltip>
+  Download session results<br/>
+  Show Statistics ({{ showStatistics ? "&#x2713;" : "&#x2717;" }})<br/>
+  Indicate Missing Responses ({{ indicateMissingResponses ? "&#x2713;" : "&#x2717;" }})
+</ng-template>
