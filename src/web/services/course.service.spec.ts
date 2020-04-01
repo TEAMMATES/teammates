@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ResourceEndpoints } from '../types/api-endpoints';
+import { CourseArchiveRequest, CourseCreateRequest } from '../types/api-request';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
-import { CourseArchiveRequest, CourseCreateRequest } from "../types/api-request";
 
 describe('CourseService', () => {
   let spyHttpRequestService: any;
@@ -165,8 +165,8 @@ describe('CourseService', () => {
   });
 
   it('should execute GET to retrieve join course status', () => {
-    const regKey = 'ABC';
-    const entityType = 'instructor';
+    const regKey: string = 'ABC';
+    const entityType: string = 'instructor';
     const paramMap: { [key: string]: string } = {
       key: regKey,
       entitytype: entityType,
@@ -184,6 +184,56 @@ describe('CourseService', () => {
     };
     service.joinCourse(paramMap.key, paramMap.entitytype, paramMap.instructorinstitution, paramMap.mac);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
+  });
+
+  it('should execute POST to remind unregistered students of a course', () => {
+    const courseid: string = 'test-id';
+    const paramMap: { [key: string]: string } = { courseid };
+    service.remindUnregisteredStudentsForJoin(courseid);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
+  });
+
+  it('should execute POST to remind particular student', () => {
+    const courseId: string = 'test-id';
+    const studentEmail: string = 'test@example.com';
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      studentemail: studentEmail,
+    };
+    service.remindStudentForJoin(courseId, studentEmail);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
+  });
+
+  it('should execute POST to remind particular instructor', () => {
+    const courseId: string = 'test-id';
+    const instructorEmail: string = 'test@example.com';
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      instructoremail: instructorEmail,
+    };
+    service.remindInstructorForJoin(courseId, instructorEmail);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
+  });
+
+  it('should execute GET to check responses for course', () => {
+    const courseId: string = 'test-id';
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'instructor',
+      courseid: courseId,
+    };
+    service.hasResponsesForCourse(courseId);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.HAS_RESPONSES, paramMap);
+  });
+
+  it('should execute DELETE to remove student from course', () => {
+    const courseId: string = 'test-id';
+    const studentEmail: string = 'test@example.com';
+    const paramsMap: { [key: string]: string } = {
+      courseid: courseId,
+      studentemail: studentEmail,
+    };
+    service.removeStudentFromCourse(courseId, studentEmail);
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramsMap);
   });
 
   it('should execute GET when getting course section names', () => {
