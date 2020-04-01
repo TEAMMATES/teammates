@@ -425,6 +425,7 @@ public final class Const {
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
+        public static final String INSTITUTION_MAC = "mac";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
@@ -736,6 +737,7 @@ public final class Const {
         public static final String LOGOUT = "/logout";
 
         public static final String DATABUNDLE = "/databundle";
+        public static final String DATABUNDLE_DOCUMENTS = "/databundle/documents";
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";

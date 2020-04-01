@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -79,7 +81,7 @@ public final class DataBundleLogic {
      *
      * @throws InvalidParametersException if invalid data is encountered.
      */
-    public void persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
+    public DataBundle persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
         }
@@ -109,18 +111,54 @@ public final class DataBundleLogic {
         processResponsesAndPopulateMap(responses, sessionResponsesMap);
         processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
 
-        accountsDb.putEntities(googleIdAccountMap.values());
-        profilesDb.putEntities(profiles);
-        coursesDb.putEntities(courses);
-        instructorsDb.putEntities(instructors);
-        studentsDb.putEntities(students);
-        fbDb.putEntities(sessions);
+        List<AccountAttributes> newAccounts = accountsDb.putEntities(googleIdAccountMap.values());
+
+        List<StudentProfileAttributes> newProfiles = profilesDb.putEntities(profiles);
+        List<CourseAttributes> newCourses = coursesDb.putEntities(courses);
+        List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
+        List<StudentAttributes> newStudents = studentsDb.putEntities(students);
+        List<FeedbackSessionAttributes> newFeedbackSessions = fbDb.putEntities(sessions);
 
         List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
         injectRealIds(responses, responseComments, createdQuestions);
 
-        frDb.putEntities(responses);
-        fcDb.putEntities(responseComments);
+        List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
+        List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
+
+        updateDataBundleValue(newAccounts, dataBundle.accounts);
+        updateDataBundleValue(newProfiles, dataBundle.profiles);
+        updateDataBundleValue(newCourses, dataBundle.courses);
+        updateDataBundleValue(newInstructors, dataBundle.instructors);
+        updateDataBundleValue(newStudents, dataBundle.students);
+        updateDataBundleValue(newFeedbackSessions, dataBundle.feedbackSessions);
+        updateDataBundleValue(createdQuestions, dataBundle.feedbackQuestions);
+        updateDataBundleValue(newFeedbackResponses, dataBundle.feedbackResponses);
+        updateDataBundleValue(newFeedbackResponseComments, dataBundle.feedbackResponseComments);
+
+        return dataBundle;
+
+    }
+
+    private <T extends EntityAttributes> void updateDataBundleValue(List<T> newValues, Map<String, T> oldValues) {
+        Map<T, Integer> newValuesMap = new HashMap<>();
+        Map<String, T> values = new LinkedHashMap<>();
+
+        for (int i = 0; i < newValues.size(); i++) {
+            newValuesMap.put(newValues.get(i), i);
+        }
+
+        for (Map.Entry<String, T> entry : oldValues.entrySet()) {
+            String key = entry.getKey();
+            T value = entry.getValue();
+
+            if (newValuesMap.containsKey(value)) {
+                int index = newValuesMap.get(value);
+                values.put(key, newValues.get(index));
+            }
+        }
+
+        oldValues.clear();
+        oldValues.putAll(values);
     }
 
     /**

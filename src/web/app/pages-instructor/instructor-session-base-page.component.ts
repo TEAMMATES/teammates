@@ -62,10 +62,11 @@ export abstract class InstructorSessionBasePageComponent {
           createdFeedbackSession = feedbackSession;
 
           // copy questions
-          return this.feedbackQuestionsService.getFeedbackQuestions(
-              fromFeedbackSession.courseId,
-              fromFeedbackSession.feedbackSessionName,
-              Intent.FULL_DETAIL,
+          return this.feedbackQuestionsService.getFeedbackQuestions({
+            courseId: fromFeedbackSession.courseId,
+            feedbackSessionName: fromFeedbackSession.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+          },
           );
         }),
         switchMap((response: FeedbackQuestions) => {
