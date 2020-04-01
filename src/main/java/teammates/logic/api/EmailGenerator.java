@@ -744,6 +744,9 @@ public class EmailGenerator {
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${googleId}", SanitizationHelper.sanitizeForHtml(googleId),
+                "${appUrl}", isInstructor
+                        ? Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).toAbsoluteString()
+                        : Config.getFrontEndAppUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).toAbsoluteString(),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
