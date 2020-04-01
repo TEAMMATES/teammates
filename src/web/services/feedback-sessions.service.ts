@@ -3,12 +3,13 @@ import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
+  ConfirmationResponse,
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessions, FeedbackSessionStats, FeedbackSessionSubmittedGiverSet,
   HasResponses,
   MessageOutput,
-  OngoingSessions, SessionResults,
+  OngoingSessions, SessionLinksRecoveryResponse, SessionResults,
 } from '../types/api-output';
 import {
   FeedbackSessionCreateRequest,
@@ -205,6 +206,29 @@ export class FeedbackSessionsService {
   }
 
   /**
+   * Saves and confirms a submission by posting it using API.
+   */
+  confirmSubmission(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    sendSubmissionEmail: string,
+    intent: string,
+    key: string,
+    moderatedPerson: string,
+  }): Observable<ConfirmationResponse> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+      sendsubmissionemail: queryParams.sendSubmissionEmail,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.SUBMISSION_CONFIRMATION, paramMap);
+  }
+
+  /**
    * Sends e-mails to remind students on the published results link.
    */
   remindResultsLinkToStudents(
@@ -332,5 +356,17 @@ export class FeedbackSessionsService {
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.BIN_SESSION, paramMap);
+  }
+
+  sendFeedbackSessionLinkToRecoveryEmail(queryParam: {
+    sessionLinksRecoveryEmail: string,
+    captchaResponse: string,
+  }): Observable<SessionLinksRecoveryResponse> {
+    const paramMap: { [key: string]: string } = {
+      sessionlinksrecoveryemail: queryParam.sessionLinksRecoveryEmail,
+      captcharesponse: queryParam.captchaResponse,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_LINKS_RECOVERY, paramMap);
   }
 }

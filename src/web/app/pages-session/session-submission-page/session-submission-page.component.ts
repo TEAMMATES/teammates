@@ -522,13 +522,13 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 ${ Array.from(notYetAnsweredQuestions.values()) }.`);
           }
 
-          return this.httpRequestService.post('/submission/confirmation', {
-            courseid: this.courseId,
-            fsname: this.feedbackSessionName,
-            sendsubmissionemail: String(this.shouldSendConfirmationEmail),
+          return this.feedbackSessionsService.confirmSubmission({
+            courseId: this.courseId,
+            feedbackSessionName: this.feedbackSessionName,
+            sendSubmissionEmail: String(this.shouldSendConfirmationEmail),
             intent: this.intent,
             key: this.regKey,
-            moderatedperson: this.moderatedPerson,
+            moderatedPerson: this.moderatedPerson,
           });
         }),
     ).pipe(
