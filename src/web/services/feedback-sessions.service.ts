@@ -249,6 +249,23 @@ export class FeedbackSessionsService {
   }
 
   /**
+   * Download session results.
+   */
+  downloadSessionResults(courseId: string,
+                         feedbackSessionName: string,
+                         userIntent: string): Observable<any> {
+    const paramMap: { [key: string]: string } = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+      intent: userIntent,
+      frindicatemissingresponses: 'true',
+      frshowstats: 'true',
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.RESULT_CSV, paramMap, 'text');
+  }
+
+  /**
    * Retrieves the results for a feedback session.
    */
   getFeedbackSessionsResult(queryParams: {
