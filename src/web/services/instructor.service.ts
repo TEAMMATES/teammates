@@ -76,11 +76,23 @@ export class InstructorService {
   /**
    * Deletes an instructor from a course by calling API.
    */
-  deleteInstructor(queryParams: { courseId: string, instructorEmail: string }): Observable<any> {
+  deleteInstructor(queryParams: {
+    courseId: string,
+    instructorEmail?: string,
+    instructorId?: string,
+  }): Observable<any> {
     const paramMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
-      instructoremail: queryParams.instructorEmail,
     };
+
+    if (queryParams.instructorEmail) {
+      paramMap.instructoremail = queryParams.instructorEmail;
+    }
+
+    if (queryParams.instructorId) {
+      paramMap.instructorid = queryParams.instructorId;
+    }
+
     return this.httpRequestService.delete(ResourceEndpoints.INSTRUCTOR, paramMap);
   }
 

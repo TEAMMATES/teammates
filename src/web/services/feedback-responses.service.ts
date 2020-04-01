@@ -162,4 +162,21 @@ export class FeedbackResponsesService {
     }, request);
   }
 
+  /**
+   * Deletes a feedback response by calling API.
+   */
+  deleteFeedbackResponse(queryParams: {
+    responseId: string,
+    intent: string,
+    key: string,
+    moderatedPerson: string,
+  }): Observable<FeedbackResponse> {
+    const paramMap: { [key: string]: string } = {
+      responseid: queryParams.responseId,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.RESPONSE, paramMap);
+  }
 }

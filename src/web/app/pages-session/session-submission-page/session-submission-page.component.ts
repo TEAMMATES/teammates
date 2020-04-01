@@ -9,7 +9,6 @@ import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -107,7 +106,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private statusMessageService: StatusMessageService,
-              private httpRequestService: HttpRequestService,
               private timezoneService: TimezoneService,
               private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponsesService: FeedbackResponsesService,
@@ -432,11 +430,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
             if (recipientSubmissionFormModel.responseId !== '' && isFeedbackResponseDetailsEmpty) {
               // existing response but empty details -> delete response
-              savingRequests.push(this.httpRequestService.delete('/response', {
-                responseid: recipientSubmissionFormModel.responseId,
+              savingRequests.push(this.feedbackResponsesService.deleteFeedbackResponse({
+                responseId: recipientSubmissionFormModel.responseId,
                 intent: this.intent,
                 key: this.regKey,
-                moderatedperson: this.moderatedPerson,
+                moderatedPerson: this.moderatedPerson,
               }).pipe(
                   tap(() => {
                     recipientSubmissionFormModel.responseId = '';
