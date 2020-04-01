@@ -1,5 +1,7 @@
 package teammates.test.cases.webapi;
 
+import java.util.List;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
@@ -59,7 +61,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.FeedbackSessionResults.QUESTION_SORT_TYPE
         ), instructorAttributes);
 
-        assertTrue(expectedResults.equals(output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
         ______TS("fail: instructor accesses results of non-existent feedback session");
 
@@ -99,7 +101,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                         studentAttributes.getEmail()
                 ), studentAttributes);
 
-        assertTrue(expectedResults.equals(output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
         ______TS("fail: student accesses results of non-existent feedback session");
 
@@ -165,6 +167,56 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
         };
         verifyHttpParameterFailure(submissionParams);
+    }
+
+    private boolean isSessionResultsDataEqual(SessionResultsData self, SessionResultsData other) {
+        List<SessionResultsData.QuestionOutput> thisQuestions = self.getQuestions();
+        List<SessionResultsData.QuestionOutput> otherQuestions = other.getQuestions();
+        if (thisQuestions.size() != otherQuestions.size()) {
+            return false;
+        }
+        for (int i = 0; i < thisQuestions.size(); i++) {
+            SessionResultsData.QuestionOutput thisQuestion = thisQuestions.get(i);
+            SessionResultsData.QuestionOutput otherQuestion = otherQuestions.get(i);
+            if (!isQuestionOutputEqual(thisQuestion, otherQuestion)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isQuestionOutputEqual(SessionResultsData.QuestionOutput self,
+                                          SessionResultsData.QuestionOutput other) {
+        if (!self.getQuestionId().equals(other.getQuestionId())
+                || self.getQuestionNumber() != other.getQuestionNumber()
+                || !self.getQuestionDetails().equals(other.getQuestionDetails())
+                || !self.getQuestionStatistics().equals(other.getQuestionStatistics())) {
+            return false;
+        }
+        List<SessionResultsData.ResponseOutput> thisResponses;
+        List<SessionResultsData.ResponseOutput> otherResponses;
+        thisResponses = self.getAllResponses();
+        otherResponses = other.getAllResponses();
+        if (thisResponses.size() != otherResponses.size()) {
+            return false;
+        }
+        for (int j = 0; j < thisResponses.size(); j++) {
+            if (!isResponseOutputEqual(thisResponses.get(j), otherResponses.get(j))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isResponseOutputEqual(SessionResultsData.ResponseOutput self,
+                                          SessionResultsData.ResponseOutput other) {
+        return self.getGiver().equals(other.getGiver())
+                && self.getGiverTeam().equals(other.getGiverTeam())
+                && self.getGiverSection().equals(other.getGiverSection())
+                && self.getRecipient().equals(other.getRecipient())
+                && self.getRecipientTeam().equals(other.getRecipientTeam())
+                && self.getRecipientSection().equals(other.getRecipientSection())
+                && self.getResponseDetails().getJsonString().equals(other.getResponseDetails().getJsonString());
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -76,30 +75,6 @@ public class SessionResultsData extends ApiOutput {
 
     public List<QuestionOutput> getQuestions() {
         return questions;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
-        SessionResultsData other = (SessionResultsData) obj;
-        List<QuestionOutput> thisQuestions = this.getQuestions();
-        List<QuestionOutput> otherQuestions = other.getQuestions();
-        if (thisQuestions.size() != otherQuestions.size()) {
-            return false;
-        }
-        for (int i = 0; i < thisQuestions.size(); i++) {
-            QuestionOutput thisQuestion = thisQuestions.get(i);
-            QuestionOutput otherQuestion = otherQuestions.get(i);
-            if (!thisQuestion.equals(otherQuestion)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     private static String removeAnonymousHash(String identifier) {
@@ -194,7 +169,10 @@ public class SessionResultsData extends ApiOutput {
         return output;
     }
 
-    private static class QuestionOutput {
+    /**
+     * API output format for questions in session results.
+     */
+    public static class QuestionOutput {
 
         private final String questionId;
         private final FeedbackQuestionDetails questionDetails;
@@ -249,49 +227,12 @@ public class SessionResultsData extends ApiOutput {
             return otherResponses;
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (obj == null || obj.getClass() != this.getClass()) {
-                return false;
-            }
-            QuestionOutput other = (QuestionOutput) obj;
-            if (!this.getQuestionId().equals(other.getQuestionId())
-                    || this.getQuestionNumber() != other.getQuestionNumber()
-                    || !this.getQuestionDetails().equals(other.getQuestionDetails())
-                    || !this.getQuestionStatistics().equals(other.getQuestionStatistics())) {
-                return false;
-            }
-            List<ResponseOutput> thisResponses;
-            List<ResponseOutput> otherResponses;
-            thisResponses = this.getAllResponses();
-            otherResponses = other.getAllResponses();
-            if (thisResponses.size() != otherResponses.size()) {
-                return false;
-            }
-            for (int j = 0; j < thisResponses.size(); j++) {
-                if (!thisResponses.get(j).equals(otherResponses.get(j))) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(
-                    this.questionId,
-                    this.questionNumber,
-                    this.questionDetails,
-                    this.questionStatistics,
-                    this.allResponses
-            );
-        }
     }
 
-    private static class ResponseOutput {
+    /**
+     * API output format for question responses.
+     */
+    public static class ResponseOutput {
 
         private final String giver;
         /**
@@ -344,37 +285,6 @@ public class SessionResultsData extends ApiOutput {
 
         public FeedbackResponseDetails getResponseDetails() {
             return responseDetails;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (obj == null || obj.getClass() != this.getClass()) {
-                return false;
-            }
-            ResponseOutput other = (ResponseOutput) obj;
-            return this.giver.equals(other.giver)
-                    && this.giverTeam.equals(other.giverTeam)
-                    && this.giverSection.equals(other.giverSection)
-                    && this.recipient.equals(other.recipient)
-                    && this.recipientTeam.equals(other.recipientTeam)
-                    && this.recipientSection.equals(other.recipientSection)
-                    && this.responseDetails.getJsonString().equals(other.responseDetails.getJsonString());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(
-                    this.giver,
-                    this.giverSection,
-                    this.giverTeam,
-                    this.recipient,
-                    this.recipientSection,
-                    this.recipientTeam,
-                    this.responseDetails
-            );
         }
 
     }
