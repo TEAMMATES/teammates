@@ -12,28 +12,28 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  isCollapsed: boolean = false;
-  isCollapsed1: boolean = false;
-  isCollapsed2: boolean = false;
-  isCollapsed3: boolean = false;
-  isCollapsed4: boolean = false;
-  isCollapsed5: boolean = false;
-  isCollapsed6: boolean = false;
-  isCollapsed7: boolean = false;
-  isCollapsed8: boolean = false;
-  isCollapsed9: boolean = false;
-  isCollapsed10: boolean = false;
-  isCollapsed11: boolean = false;
-  isCollapsed12: boolean = false;
-  isCollapsed13: boolean = false;
+  isPeerEvalTipsCollapsed: boolean = false;
+  isNewFSessionCollapsed: boolean = false;
+  isAddQsCollapsed: boolean = false;
+  isPreviewCollapsed: boolean = false;
+  isCannotSubmitCollapsed: boolean = false;
+  isViewResCollapsed: boolean = false;
+  isViewAllRespCollapsed: boolean = false;
+  isAddCmntCollapsed: boolean = false;
+  isEditDelCmntCollapsed: boolean = false;
+  isSearchCollapsed: boolean = false;
+  isViewDelCollapsed: boolean = false;
+  isRestoreSnCollapsed: boolean = false;
+  isDelSnCollapsed: boolean = false;
+  isRestoreDelAllCollapsed: boolean = false;
 
   constructor(private data: InstructorHelpDataSharingService) {
     super();
   }
 
   ngOnInit(): void {
-    this.data.currPeerEvalTips.subscribe((isCollapsedCurrPeerEvalTips: boolean) =>
-        this.isCollapsed = isCollapsedCurrPeerEvalTips,
+    this.data.currPeerEvalTips.subscribe((isCurrPeerEvalTipsCollapsed: boolean) =>
+        this.isPeerEvalTipsCollapsed = isCurrPeerEvalTipsCollapsed,
     );
   }
 

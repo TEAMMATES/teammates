@@ -19,8 +19,8 @@ describe('TestSuitName', () => {
     // Emit value
     service.collapseStudentProfileEdit(true);
     // Check caught value
-    service.currStudentProfileEdit.subscribe((isCollapsedStudentProfileEdit: boolean) =>
-      expect(isCollapsedStudentProfileEdit).toBe(true),
+    service.currStudentProfileEdit.subscribe((isStudentProfileEditCollapsed: boolean) =>
+      expect(isStudentProfileEditCollapsed).toBe(true),
     );
   });
 
@@ -28,8 +28,8 @@ describe('TestSuitName', () => {
     // Emit value
     service.collapsePeerEvalTips(true);
     // Check caught value
-    service.currPeerEvalTips.subscribe((isCollapsedCurrPeerEvalTips: boolean) =>
-      expect(isCollapsedCurrPeerEvalTips).toBe(true),
+    service.currPeerEvalTips.subscribe((isCurrPeerEvalTipsCollapsed: boolean) =>
+      expect(isCurrPeerEvalTipsCollapsed).toBe(true),
     );
   });
 });

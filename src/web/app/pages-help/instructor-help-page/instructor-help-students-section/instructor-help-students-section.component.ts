@@ -107,21 +107,21 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     ],
   }];
 
-  isCollapsed: boolean = false;
-  isCollapsed1: boolean = false;
-  isCollapsed2: boolean = false;
-  isCollapsed3: boolean = false;
-  isCollapsed4: boolean = false;
-  isCollapsed5: boolean = false;
-  isCollapsed6: boolean = false;
+  isViewProfileCollapsed: boolean = false;
+  isEditDetailsCollapsed: boolean = false;
+  isViewAllRespCollapsed: boolean = false;
+  isStudSearchCollapsed: boolean = false;
+  isStudEmailCollapsed: boolean = false;
+  isGoogleAccCollapsed: boolean = false;
+  isChangeGoogleIDCollapsed: boolean = false;
 
   constructor(private data: InstructorHelpDataSharingService) {
     super();
   }
 
   ngOnInit(): void {
-    this.data.currStudentProfileEdit.subscribe((studentProfileEdit: boolean) =>
-      this.isCollapsed1 = studentProfileEdit,
+    this.data.currStudentProfileEdit.subscribe((isEditDetailsCollapsed: boolean) =>
+      this.isEditDetailsCollapsed = isEditDetailsCollapsed,
     );
   }
 }

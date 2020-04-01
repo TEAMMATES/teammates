@@ -15,26 +15,26 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
 
   readonly supportEmail: string = environment.supportEmail;
 
-  isCollapsed: boolean = false;
-  isCollapsed1: boolean = false;
-  isCollapsed2: boolean = false;
-  isCollapsed3: boolean = false;
-  isCollapsed4: boolean = false;
-  isCollapsed5: boolean = false;
-  isCollapsed6: boolean = false;
-  isCollapsed7: boolean = false;
-  isCollapsed8: boolean = false;
-  isCollapsed9: boolean = false;
-  isCollapsed10: boolean = false;
-  isCollapsed11: boolean = false;
-  isCollapsed12: boolean = false;
-  isCollapsed13: boolean = false;
-  isCollapsed14: boolean = false;
-  isCollapsed15: boolean = false;
-  isCollapsed16: boolean = false;
-  isCollapsed17: boolean = false;
-  isCollapsed18: boolean = false;
-  isCollapsed19: boolean = false;
+  isAddStudentsCollapsed: boolean = false;
+  isSizeLimitCollapsed: boolean = false;
+  isNoTeamsCollapsed: boolean = false;
+  isSectionsCollapsed: boolean = false;
+  isEnrollSectionsCollapsed: boolean = false;
+  isAddInstrCollapsed: boolean = false;
+  isEditInstrCollapsed: boolean = false;
+  isInstrAccessCollapsed: boolean = false;
+  isPrivilegesCollapsed: boolean = false;
+  isViewStudsCollapsed: boolean = false;
+  isChangeSectionCollapsed: boolean = false;
+  isDisappCourseCollapsed: boolean = false;
+  isDelStudentsCollapsed: boolean = false;
+  isArchiveCourseCollapsed: boolean = false;
+  isViewArchivedCollapsed: boolean = false;
+  isCourseUnarchCollapsed: boolean = false;
+  isViewDelCollapsed: boolean = false;
+  isRestoreCollapsed: boolean = false;
+  isDelCollapsed: boolean = false;
+  isRestoreAllCollapsed: boolean = false;
 
   constructor(private data: InstructorHelpDataSharingService) {
     super();
