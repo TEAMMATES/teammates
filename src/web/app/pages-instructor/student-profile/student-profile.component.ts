@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Gender } from '../../../types/gender';
-import { StudentProfile } from './student-profile';
+import { Gender, StudentProfile } from '../../../types/api-output';
 
 /**
  * A table displaying a details from a student's profile and a modal to view the more info field.

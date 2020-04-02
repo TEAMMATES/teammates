@@ -31,9 +31,11 @@ import org.apache.http.message.BasicNameValuePair;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
+import teammates.ui.webapi.output.FeedbackQuestionsData;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -211,12 +213,14 @@ public final class BackDoor {
      * However, removing the data bundle on teardown manually is not a perfect solution because two tests can concurrently
      * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
-    public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
+    public static String removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
         removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
-        return putRequestOutput.responseCode == HttpStatus.SC_OK
-                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        if (putRequestOutput.responseCode == HttpStatus.SC_OK) {
+            return putRequestOutput.responseBody;
+        }
+        throw new HttpRequestFailedException("Request failed with status code: " + putRequestOutput.responseCode);
     }
 
     /**
@@ -226,6 +230,16 @@ public final class BackDoor {
      */
     public static void removeDataBundle(DataBundle dataBundle) {
         executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+    }
+
+    /**
+     * Puts searchable documents in data bundle into the datastore.
+     */
+    public static String putDocuments(DataBundle dataBundle) {
+        ResponseBodyAndCode putRequestOutput =
+                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, null, JsonUtils.toJson(dataBundle));
+        return putRequestOutput.responseCode == HttpStatus.SC_OK
+                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
     }
 
     /**
@@ -256,6 +270,34 @@ public final class BackDoor {
 
         CourseData courseData = JsonUtils.fromJson(response.responseBody, CourseData.class);
         return CourseAttributes.builder(courseData.getCourseId()).build();
+    }
+
+    /**
+     * Gets the ID of an feedback question from the datastore, by passing in the courseId, feedbackSessionName
+     * and the question number. This method is used by external classes who needs the feedbackQuestionId,
+     * since it is only generated when the feedbackQuestion is added to the server.
+     */
+    public static String getFeedbackQuestionId(String courseId, String fsName, int questionNumber) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] {fsName});
+
+        /*
+        "INSTRUCTOR_RESULT" intent is used for the following reasons:
+         1. In getFeedbackQuestionsAction.java, it provides all feedback questions in the session without
+            checking for logged instructors.
+         2. Using backdoor api grants the request full privilige, which passes the privilige check that
+            occurs right before the retrieval takes place for INSTRUCTOR_RESULT intent.
+         3. It was unnecessary to add an entire new intent just for this specific usage, when another intent
+            could do the same job. This may change in the future when more requests require backdoor-specific intent.
+        */
+        params.put(Const.ParamsNames.INTENT, new String[] {"INSTRUCTOR_RESULT"});
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.QUESTIONS, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        FeedbackQuestionsData fqData = JsonUtils.fromJson(response.responseBody, FeedbackQuestionsData.class);
+        return fqData.getQuestions().get(questionNumber - 1).getFeedbackQuestionId();
     }
 
     /**

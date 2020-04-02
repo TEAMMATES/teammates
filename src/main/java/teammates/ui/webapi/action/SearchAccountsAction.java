@@ -20,7 +20,6 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.AdminSearchResultData;
 
-
 /**
  * Searches for accounts.
  */
@@ -268,7 +267,7 @@ public class SearchAccountsAction extends Action {
             if (ib.getGoogleId() != null) {
                 ib.setHomePageLink(Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                         .withUserId(instructor.googleId)
-                        .toAbsoluteString());
+                        .toString());
             }
             ib.setCourseJoinLink(Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                     .withRegistrationKey(StringHelper.encrypt(instructor.key))

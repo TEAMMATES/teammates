@@ -34,6 +34,10 @@
     <tm-num-scale-question-constraint *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-constraint>
     <tm-rank-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="model.questionDetails"></tm-rank-options-question-instruction>
     <tm-msq-question-constraint *ngIf="model.questionType === FeedbackQuestionType.MSQ" [questionDetails]="model.questionDetails"></tm-msq-question-constraint>
+    <tm-rank-recipients-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="model.questionDetails"></tm-rank-recipients-question-instruction>
+    <tm-constsum-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="model.questionDetails"></tm-constsum-options-question-instruction>
+    <tm-constsum-recipients-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS"
+                                                 [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
 
     <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
       <span class="evaluee-span" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
@@ -82,6 +86,10 @@
                                                        [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                        (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                        [isDisabled]="isDisabled"></tm-rank-options-question-edit-answer-form>
+            <tm-rank-recipients-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="model.questionDetails"
+                                                          [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                          (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                          [isDisabled]="isDisabled" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-rank-recipients-question-edit-answer-form>
             <tm-num-scale-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="model.questionDetails"
                                                     [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -91,17 +99,38 @@
                                                     [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                     [isDisabled]="isDisabled"
-                                                    [id]="i"
+                                                    [id]="model.feedbackQuestionId + recipientSubmissionFormModel.recipientIdentifier"
             ></tm-mcq-question-edit-answer-form>
             <tm-msq-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [questionDetails]="model.questionDetails"
                                               [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                               (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                               [isDisabled]="isDisabled"
             ></tm-msq-question-edit-answer-form>
+            <tm-rubric-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RUBRIC" [questionDetails]="model.questionDetails"
+                                                 [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                 (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                 [isDisabled]="isDisabled"
+                                                 [id]="model.feedbackQuestionId + recipientSubmissionFormModel.recipientIdentifier"></tm-rubric-question-edit-answer-form>
+            <tm-constsum-options-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="model.questionDetails"
+                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                           [isDisabled]="isDisabled">
+            </tm-constsum-options-question-edit-answer-form>
+            <tm-constsum-recipients-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [questionDetails]="model.questionDetails"
+                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                           [isDisabled]="isDisabled"></tm-constsum-recipients-question-edit-answer-form>
           </div>
         </div>
       </div>
     </div>
+
+    <tm-rank-recipients-question-constraint *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS"
+                                            [recipientSubmissionForms]="model.recipientSubmissionForms"
+                                            [questionDetails]="model.questionDetails"></tm-rank-recipients-question-constraint>
+    <tm-constsum-recipients-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS"
+                                            [recipientSubmissionForms]="model.recipientSubmissionForms"
+                                            [questionDetails]="model.questionDetails"></tm-constsum-recipients-question-constraint>
 
     <div class="alert alert-warning" role="alert" *ngIf="model.recipientList.length === 0">
       <span *ngIf="model.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS">This question is for team members and you don't have any team members. Therefore, you will not be able to answer this question.</span>

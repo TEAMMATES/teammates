@@ -35,12 +35,18 @@ public class FeedbackResponseComment extends BaseEntity {
     /** The foreign key to locate the FeedbackQuestion object. */
     private String feedbackQuestionId;
 
-    /** The giver of the comment.
-     * It is email in case when comment giver is a student or instructor, and team name in case of team. */
+    /**
+     * The giver of the comment.
+     *
+     * <p>It is email in case when comment giver is a student or instructor, and team name in case of team.
+     */
     private String giverEmail;
 
-    /** Role of a comment giver.
-     * Can only be INSTRUCTORS, STUDENTS or TEAMS. */
+    /**
+     * Role of a comment giver.
+     *
+     * <p>Can only be INSTRUCTORS, STUDENTS or TEAMS.
+     */
     private FeedbackParticipantType commentGiverType;
 
     /** The foreign key to locate the FeedbackResponse object commented on. */

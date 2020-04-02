@@ -23,7 +23,8 @@ import teammates.common.util.Url;
  */
 public abstract class ActionResult {
 
-    /** The URI that represents the result.
+    /**
+     * The URI that represents the result.
      * e.g., "/page/instructorHome" "/jsp/instructorHome.jsp"
      */
     public String destination;

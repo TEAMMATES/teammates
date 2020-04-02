@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Handsontable from 'handsontable';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { HasResponses, JoinState, Student, Students } from '../../../types/api-output';
@@ -29,7 +29,10 @@ interface EnrollResultPanel {
   studentList: Student[];
 }
 
-interface StudentListResults {
+/**
+ * List of enrolled students and their attributes.
+ */
+export interface StudentListResults {
   enrolledStudents: StudentAttributes[];
 }
 
@@ -45,14 +48,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   // enum
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
-  user: string = '';
   courseid: string = '';
   coursePresent?: boolean;
   showEnrollResults?: boolean = false;
   statusMessage: StatusMessage[] = [];
 
-  @ViewChild('moreInfo') moreInfo?: ElementRef;
-  @ContentChild('pasteModalBox') pasteModalBox?: NgbModal;
+  @ViewChild('moreInfo', { static: false }) moreInfo?: ElementRef;
+  @ContentChild('pasteModalBox', { static: false }) pasteModalBox?: NgbModal;
 
   @Input() isNewStudentsPanelCollapsed: boolean = false;
   @Input() isExistingStudentsPanelCollapsed: boolean = true;
@@ -84,7 +86,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isAjaxSuccess: boolean = true;
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
@@ -92,7 +93,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       this.getCourseEnrollPageData(queryParams.courseid);
     });
   }
@@ -140,9 +140,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.statusMessage.pop(); // removes any existing error status message
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-    this.studentService.getStudentsFromCourse(this.courseid).subscribe((resp: Students) => {
+    this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
     });
+    this.isExistingStudentsPresent = true;
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
@@ -306,11 +307,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseid,
-      user: this.user,
-    };
-    this.httpRequestService.get('/course/enroll/students', paramMap).subscribe(
+    this.courseService.getStudentsEnrolledInCourse({ courseId: this.courseid }).subscribe(
         (resp: StudentListResults) => {
           if (resp.enrolledStudents.length !== 0) {
             this.loadExistingStudentsData(existingStudentsHOTInstance, resp.enrolledStudents);
@@ -361,8 +358,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.coursePresent = true;
       this.courseid = courseid;
       if (resp.hasResponses) {
-        this.statusMessageService.showWarningMessage('There are existing feedback responses for this course. '
-            + 'Modifying records of enrolled students will result in some existing responses '
+        this.statusMessageService.showWarningMessageModal('Existing feedback responses',
+        'There are existing feedback responses for this course.',
+        'Modifying records of enrolled students will result in some existing responses '
             + 'from those modified students to be deleted. You may wish to download the data '
             + 'before you make the changes.');
       }
@@ -370,7 +368,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.coursePresent = false;
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-    this.studentService.getStudentsFromCourse(courseid).subscribe((resp: Students) => {
+    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
     });
   }

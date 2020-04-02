@@ -4,7 +4,7 @@
 
 <div class="card bg-light top-padded" *ngIf="session">
   <div class="card-body row" style="padding: 40px;">
-    <div class="col-sm-5 col-lg-4">
+    <div class="col-sm-4 col-lg-4">
       <div class="form-group row">
         <label class="col-lg-4 control-label">Course ID:</label>
         <div class="col-lg-8">
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-7 col-lg-6">
+    <div class="col-sm-6 col-lg-6">
       <div class="form-group row">
       <label class="col-lg-4 control-label">Session duration:</label>
         <div class="col-lg-8">
@@ -35,7 +35,12 @@
         </div>
       </div> -->
     </div>
-    <!-- TODO side buttons (download results, print view, un/publish) -->
+    <div class="col-sm-2 col-lg-2">
+      <button class="btn btn-primary " ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
+         placement="top" (click)="publishResultHandler()">
+        {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "Unpublish": "Publish"}} Results
+      </button>
+    </div>
   </div>
 </div>
 
@@ -109,23 +114,27 @@
 
 <div class="top-padded" *ngIf="isSectionsLoaded && isQuestionsLoaded">
   <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'" [responses]="questionsModel"
-      [section]="section" [sectionType]="sectionType"
+      [section]="section" [sectionType]="sectionType" [session] = "session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadQuestion)="loadQuestion($event)"></tm-instructor-session-result-question-view>
   <tm-instructor-session-result-grq-view *ngIf="viewType === 'GRQ'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session] = "session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadSection)="loadSection($event)"></tm-instructor-session-result-grq-view>
   <tm-instructor-session-result-rgq-view *ngIf="viewType === 'RGQ'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session] = "session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadSection)="loadSection($event)"></tm-instructor-session-result-rgq-view>
   <tm-instructor-session-result-gqr-view *ngIf="viewType === 'GQR'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session] = "session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadSection)="loadSection($event)"></tm-instructor-session-result-gqr-view>
   <tm-instructor-session-result-rqg-view *ngIf="viewType === 'RQG'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session] = "session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       (loadSection)="loadSection($event)"></tm-instructor-session-result-rqg-view>
+</div>
+
+<div class="top-padded" *ngIf="isNoResponsePanelLoaded">
+  <tm-instructor-session-no-response-panel [noResponseStudents]="noResponseStudents" [section]="section" [session]="session" ></tm-instructor-session-no-response-panel>
 </div>

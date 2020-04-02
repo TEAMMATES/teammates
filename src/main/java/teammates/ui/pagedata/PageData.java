@@ -25,8 +25,10 @@ import teammates.ui.template.FeedbackResponseCommentRow;
  */
 public class PageData {
 
-    /** The user for whom the pages are displayed (i.e. the 'nominal user').
-     *  May not be the logged in user (under masquerade mode) */
+    /**
+     * The user for whom the pages are displayed (i.e. the 'nominal user').
+     * May not be the logged in user (under masquerade mode).
+     */
     public AccountAttributes account;
     public StudentAttributes student;
 
@@ -307,7 +309,7 @@ public class PageData {
      * @param commentsForResponses map where key is response id and value is list of comments on that response
      * @param responseId response id of response associated with comment
      * @param isEditDeleteEnabled true if comment can be edited or deleted
-     * @return
+     * @return a comment row
      */
     public FeedbackResponseCommentRow buildFeedbackParticipantResponseCommentRow(
             FeedbackQuestionAttributes questionAttributes,

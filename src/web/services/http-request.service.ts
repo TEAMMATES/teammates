@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { MasqueradeModeService } from './masquerade-mode.service';
 
 /**
  * Handles HTTP requests to the application back-end.
@@ -16,10 +17,12 @@ export class HttpRequestService {
   private backendUrl: string = environment.backendUrl;
   private withCredentials: boolean = environment.withCredentials;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private masqueradeModeService: MasqueradeModeService) {}
 
   /**
    * Builds an HttpParams object from a standard key-value mapping.
+   *
+   * <p>Add the current masquerading user info to the params also.
    */
   buildParams(paramsMap: { [key: string]: string }): HttpParams {
     let params: HttpParams = new HttpParams();
@@ -27,6 +30,10 @@ export class HttpRequestService {
       if (paramsMap[key]) {
         params = params.append(key, paramsMap[key]);
       }
+    }
+
+    if (this.masqueradeModeService.isInMasqueradingMode() && params.keys().indexOf('user') === -1) {
+      params = params.append('user', this.masqueradeModeService.getMasqueradeUser());
     }
     return params;
   }

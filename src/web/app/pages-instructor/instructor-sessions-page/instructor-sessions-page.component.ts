@@ -3,12 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   LOCAL_DATE_TIME_FORMAT,
   TimeResolvingResult,
@@ -18,13 +21,15 @@ import {
   Course,
   Courses,
   FeedbackQuestion,
-  FeedbackSession, FeedbackSessionPublishStatus,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   DateFormat,
   SessionEditFormMode,
@@ -33,11 +38,12 @@ import {
 } from '../../components/session-edit-form/session-edit-form-model';
 import {
   CopySessionResult,
-  SessionsTableColumn, SessionsTableHeaderColorScheme,
-  SessionsTableRowModel, SortBy, SortOrder,
+  SessionsTableColumn,
+  SessionsTableHeaderColorScheme,
+  SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
+import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
 import {
   CopyFromOtherSessionsModalComponent,
@@ -61,7 +67,7 @@ interface RecycleBinFeedbackSessionRowModel {
   templateUrl: './instructor-sessions-page.component.html',
   styleUrls: ['./instructor-sessions-page.component.scss'],
 })
-export class InstructorSessionsPageComponent extends InstructorSessionBasePageComponent implements OnInit {
+export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -71,7 +77,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
   // url params
-  user: string = '';
+  courseId: string = '';
 
   // data
   courseCandidates: Course[] = [];
@@ -113,6 +119,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
     hasEmailSettingsPanelExpanded: false,
   };
 
+  isSessionEditFormExpanded: boolean = false;
+
   sessionsTableRowModels: SessionsTableRowModel[] = [];
   sessionsTableRowModelsSortBy: SortBy = SortBy.NONE;
   sessionsTableRowModelsSortOrder: SortOrder = SortOrder.ASC;
@@ -122,20 +130,30 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
-  constructor(router: Router, httpRequestService: HttpRequestService,
-              statusMessageService: StatusMessageService, navigationService: NavigationService,
-              feedbackSessionsService: FeedbackSessionsService, feedbackQuestionsService: FeedbackQuestionsService,
-              private route: ActivatedRoute, private timezoneService: TimezoneService,
-              private modalService: NgbModal) {
-    super(router, httpRequestService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService);
+  hasCoursesLoaded: boolean = false;
+
+  constructor(router: Router,
+              statusMessageService: StatusMessageService,
+              navigationService: NavigationService,
+              feedbackSessionsService: FeedbackSessionsService,
+              feedbackQuestionsService: FeedbackQuestionsService,
+              modalService: NgbModal,
+              studentService: StudentService,
+              instructorService: InstructorService,
+              tableComparatorService: TableComparatorService,
+              private courseService: CourseService,
+              private route: ActivatedRoute,
+              private timezoneService: TimezoneService) {
+    super(router, instructorService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
+      this.courseId = queryParams.courseid;
     });
 
+    this.isSessionEditFormExpanded = !!this.courseId;
     this.templateSessions = this.feedbackSessionsService.getTemplateSessions();
     this.loadCandidatesCourse();
     this.loadFeedbackSessions();
@@ -168,22 +186,26 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    * Loads courses owned by the current user.
    */
   loadCandidatesCourse(): void {
-    this.httpRequestService.get('/courses', {
-      entitytype: 'instructor',
-      coursestatus: 'active',
-    }).subscribe((courses: Courses) => {
-      this.courseCandidates = courses.courses;
+    this.courseService.getInstructorCoursesThatAreActive()
+        .pipe(finalize(() => this.hasCoursesLoaded = true)).subscribe((courses: Courses) => {
+          this.courseCandidates = courses.courses;
 
-      this.initDefaultValuesForSessionEditForm();
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.initDefaultValuesForSessionEditForm();
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
    * Sets default values for the session edit form.
    */
   initDefaultValuesForSessionEditForm(): void {
-    // select the first course by default
-    if (this.courseCandidates.length !== 0) {
+    // if specified in the query and is valid, select that course
+    // otherwise, select the first course by default
+    const course: Course | undefined = this.courseCandidates.find((c: Course) => c.courseId === this.courseId);
+    if (course) {
+      this.sessionEditFormModel.courseId = course.courseId;
+      this.sessionEditFormModel.courseName = course.courseName;
+      this.sessionEditFormModel.timeZone = course.timeZone;
+    } else if (this.courseCandidates.length !== 0) {
       this.sessionEditFormModel.courseId = this.courseCandidates[0].courseId;
       this.sessionEditFormModel.courseName = this.courseCandidates[0].courseName;
       this.sessionEditFormModel.timeZone = this.courseCandidates[0].timeZone;
@@ -305,9 +327,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
         this.statusMessageService.showErrorMessage(
             `The session is created but the template questions cannot be created: ${resp.error.message}`);
       }, () => {
-        this.router.navigateByUrl(
-            '/web/instructor/sessions/edit'
-            + `?courseid=${feedbackSession.courseId}&fsname=${feedbackSession.feedbackSessionName}`)
+        this.navigationService.navigateByURLWithParamEncoding(
+            this.router,
+            '/web/instructor/sessions/edit',
+            { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
             .then(() => {
               resolvingResultMessages.forEach((msg: string) => {
                 this.statusMessageService.showWarningMessage(msg);
@@ -396,12 +419,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    */
   moveSessionToRecycleBinEventHandler(rowIndex: number): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
 
-    this.httpRequestService.put('/bin/session', paramMap)
+    this.feedbackSessionsService.moveSessionToRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((feedbackSession: FeedbackSession) => {
           this.sessionsTableRowModels.splice(this.sessionsTableRowModels.indexOf(model), 1);
           this.recycleBinFeedbackSessionRowModels.push({
@@ -448,17 +470,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   }
 
   /**
-   * Sends e-mails to remind students on the published results link.
+   * Downloads the result of a feedback session in csv.
    */
-  resendResultsLinkToStudentsEventHandler(remindInfo: any): void {
-    this.resendResultsLinkToStudents(this.sessionsTableRowModels[remindInfo.row], remindInfo.students);
-  }
-
-  /**
-   * Sends e-mails to remind students who have not submitted their feedback.
-   */
-  sendRemindersToStudentsEventHandler(remindInfo: any): void {
-    this.sendRemindersToStudents(this.sessionsTableRowModels[remindInfo.row], remindInfo.users);
+  downloadSessionResultEventHandler(rowIndex: number): void {
+    this.downloadSessionResult(this.sessionsTableRowModels[rowIndex]);
   }
 
   /**
@@ -493,12 +508,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
    * Restores a recycle bin feedback session.
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.delete('/bin/session', paramMap)
+    this.feedbackSessionsService.deleteSessionFromRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((feedbackSession: FeedbackSession) => {
           this.recycleBinFeedbackSessionRowModels.splice(
               this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
@@ -520,11 +533,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
   restoreAllRecycleBinFeedbackSession(): void {
     const restoreRequests: Observable<FeedbackSession>[] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
-      const paramMap: { [key: string]: string } = {
-        courseid: model.feedbackSession.courseId,
-        fsname: model.feedbackSession.feedbackSessionName,
-      };
-      restoreRequests.push(this.httpRequestService.delete('/bin/session', paramMap));
+      restoreRequests.push(
+          this.feedbackSessionsService.deleteFeedbackSession(
+              model.feedbackSession.courseId,
+              model.feedbackSession.feedbackSessionName,
+          ));
     });
 
     forkJoin(restoreRequests).subscribe((restoredSessions: FeedbackSession[]) => {
@@ -554,12 +567,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
     modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
 
     modalRef.result.then(() => {
-      const paramMap: { [key: string]: string } = {
-        courseid: model.feedbackSession.courseId,
-        fsname: model.feedbackSession.feedbackSessionName,
-      };
-
-      this.httpRequestService.delete('/session', paramMap).subscribe(() => {
+      this.feedbackSessionsService.deleteFeedbackSession(
+          model.feedbackSession.courseId,
+          model.feedbackSession.feedbackSessionName,
+      ).subscribe(() => {
         this.recycleBinFeedbackSessionRowModels.splice(
             this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
         this.statusMessageService.showSuccessMessage('The feedback session has been permanently deleted.');
@@ -582,12 +593,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionBasePageCo
       const deleteRequests: Observable<any>[] = [];
 
       this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
-        const paramMap: { [key: string]: string } = {
-          courseid: model.feedbackSession.courseId,
-          fsname: model.feedbackSession.feedbackSessionName,
-        };
-
-        deleteRequests.push(this.httpRequestService.delete('/session', paramMap));
+        deleteRequests.push(this.feedbackSessionsService.deleteFeedbackSession(
+            model.feedbackSession.courseId,
+            model.feedbackSession.feedbackSessionName,
+        ));
       });
 
       forkJoin(deleteRequests).subscribe(() => {

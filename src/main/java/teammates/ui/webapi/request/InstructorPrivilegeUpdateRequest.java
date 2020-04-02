@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 
 import teammates.common.util.Const;
 
-
 /**
  * The update request for instructor privilege.
  */

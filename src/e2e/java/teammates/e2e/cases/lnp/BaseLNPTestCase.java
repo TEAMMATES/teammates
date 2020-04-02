@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -36,6 +37,7 @@ import teammates.e2e.util.LNPResultsStatistics;
 import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
+import teammates.test.driver.FileHelper;
 
 /**
  * Base class for all L&P test cases.
@@ -217,8 +219,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         LNPTestData testData = getTestData();
         try {
             createJsonDataFile(testData);
+            persistTestData();
             createCsvConfigDataFile(testData);
-        } catch (IOException ex) {
+        } catch (IOException | HttpRequestFailedException ex) {
             log.severe(TeammatesException.toStringWithStackTrace(ex));
         }
     }
@@ -226,9 +229,14 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Creates the entities in the datastore from the JSON data file.
      */
-    protected void persistTestData() {
+    protected void persistTestData() throws IOException, HttpRequestFailedException {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
-        BackDoor.removeAndRestoreDataBundle(dataBundle);
+        String responseBody = "";
+        responseBody = BackDoor.removeAndRestoreDataBundle(dataBundle);
+
+        String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getJsonDataPath());
+        String jsonValue = JsonUtils.parse(responseBody).getAsJsonObject().get("message").getAsString();
+        FileHelper.saveFile(pathToResultFile, jsonValue);
     }
 
     /**

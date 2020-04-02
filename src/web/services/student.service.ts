@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Students } from '../types/api-output';
-import { StudentsEnrollRequest } from '../types/api-request';
+import { SearchResult } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import { MessageOutput, Student, Students } from '../types/api-output';
+import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -20,19 +22,51 @@ export class StudentService {
    * If teamName is provided, only students in that team will be returned.
    * Otherwise, all students in the course will be returned.
    */
-  getStudentsFromCourse(courseId: string, teamName?: string): Observable<Students> {
-    if (teamName) {
-      const paramsMapWithTeamName: { [key: string]: string } = {
-        courseid: courseId,
-        teamname: teamName,
-      };
-      return this.httpRequestService.get('/students', paramsMapWithTeamName);
+  getStudentsFromCourse(queryParams: { courseId: string, teamName?: string }): Observable<Students> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+
+    if (queryParams.teamName) {
+      paramsMap.teamname = queryParams.teamName;
     }
-    const paramsMapWithoutTeamName: { [key: string]: string } = {
+
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
+
+  }
+
+  /**
+   * Gets student of a course by calling API.
+   *
+   * <p> If both studentEmail and regKey are not provided, get the student of current logged-in user.
+   *
+   * @param courseId courseId of the course
+   * @param studentEmail if provided, get the student of the course of the given email
+   * @param regKey if provided, get the student of the course with regKey
+   */
+  getStudent(courseId: string, studentEmail?: string, regKey?: string): Observable<Student> {
+    const paramsMap: { [key: string]: string } = {
       courseid: courseId,
     };
-    return this.httpRequestService.get('/students', paramsMapWithoutTeamName);
+    if (studentEmail) {
+      paramsMap.studentemail = studentEmail;
+    }
+    if (regKey) {
+      paramsMap.key = regKey;
+    }
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
+  }
 
+  /**
+   * Updates the details of a student in a course by calling API.
+   */
+  updateStudent(queryParams: { courseId: string, studentEmail: string, requestBody: StudentUpdateRequest }):
+      Observable<MessageOutput> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      studentemail: queryParams.studentEmail,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.STUDENT, paramsMap, queryParams.requestBody);
   }
 
   /**
@@ -43,7 +77,7 @@ export class StudentService {
     const paramsMap: { [key: string]: string } = {
       courseid: courseId,
     };
-    return this.httpRequestService.put('/students', paramsMap, requestBody);
+    return this.httpRequestService.put(ResourceEndpoints.STUDENTS, paramsMap, requestBody);
   }
 
   /**
@@ -54,6 +88,40 @@ export class StudentService {
       courseid: courseId,
       teamname: teamName,
     };
-    return this.httpRequestService.get('/students', paramsMap);
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
+  }
+
+  /**
+   * Deletes all students in a course by calling API.
+   */
+  deleteAllStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
+  }
+
+  /**
+   * Loads list of students from a course in CSV format by calling API.
+   */
+  loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    const responseType: string = 'text';
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
+  }
+
+  /**
+   * Search for students based on input parameters by calling API.
+   */
+  searchForStudents(queryParams: { searchKey: string, searchStudents: string, searchFeedbackSessionData: string}):
+      Observable<SearchResult> {
+    const paramsMap: { [key: string]: string } = {
+      searchkey: queryParams.searchKey,
+      searchstudents: queryParams.searchStudents,
+      searchfeedbacksessiondata: queryParams.searchFeedbackSessionData,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, paramsMap);
   }
 }

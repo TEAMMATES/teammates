@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
-import { Course, Instructor, Instructors, JoinState, Student, StudentProfile,
+import { Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile,
   Students } from '../../../types/api-output';
-import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -29,7 +28,6 @@ export interface StudentProfileWithPicture {
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
   Gender: typeof Gender = Gender; // enum
-  user: string = '';
 
   student: Student = {
     email: '',
@@ -45,16 +43,16 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   course: Course = {
     courseId: '',
     courseName: '',
-    creationDate: '',
-    deletionDate: '',
-    timeZone: '',
+    timeZone: 'UTC',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
   };
 
   instructorDetails: Instructor[] = [];
   teammateProfiles: StudentProfileWithPicture[] = [];
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
+              private instructorService: InstructorService,
               private studentProfileService: StudentProfileService,
               private studentService: StudentService,
               private courseService: CourseService,
@@ -65,7 +63,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       this.loadStudent(queryParams.courseid);
       this.loadCourse(queryParams.courseid);
       this.loadInstructors(queryParams.courseid);
@@ -87,11 +84,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadStudent(courseId: string): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-
-    this.httpRequestService.get('/student', paramMap)
+    this.studentService.getStudent(courseId)
         .subscribe((student: Student) => {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
@@ -117,17 +110,21 @@ export class StudentCourseDetailsPageComponent implements OnInit {
             this.studentProfileService.getStudentProfile(student.email, courseId)
                   .subscribe((studentProfile: StudentProfile) => {
                     const newPhotoUrl: string =
-              `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${student.email}`;
+                      `${environment.backendUrl}/webapi/student/profilePic`
+                      + `?courseid=${courseId}&studentemail=${student.email}`;
 
                     const newTeammateProfile: StudentProfileWithPicture = {
-                      studentProfile,
+                      studentProfile: {
+                        ...studentProfile,
+                        email: student.email,
+                        shortName: student.name,
+                      },
                       photoUrl : newPhotoUrl,
                     };
 
                     this.teammateProfiles.push(newTeammateProfile);
                   });
           });
-
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -138,11 +135,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadInstructors(courseId: string): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-    };
-
-    this.httpRequestService.get('/instructors', paramMap)
+    this.instructorService.loadInstructors({ courseId })
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {

@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Sections } from './sections';
 
@@ -10,18 +11,24 @@ import { Sections } from './sections';
   templateUrl: './instructor-help-page.component.html',
   styleUrls: ['./instructor-help-page.component.scss'],
 })
-export class InstructorHelpPageComponent implements OnInit {
+export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
 
-  @ViewChild('helpPage') bodyRef ?: ElementRef;
+  @ViewChild('helpPage', { static: false }) bodyRef ?: ElementRef;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.route.fragment.subscribe((f: string) => {
+      this.scroll(f);
+    });
   }
 
   /**

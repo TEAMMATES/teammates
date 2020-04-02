@@ -1,5 +1,5 @@
-<nav class="navbar fixed-top navbar-light bg-light" *ngIf="moderatedPerson">
-  <div class="col-12 text-center">
+<div class="bg-light" *ngIf="moderatedPerson">
+  <div class="col-12 text-center text-break">
     <h5>You are moderating responses for
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
@@ -17,16 +17,16 @@
       </p>
     </div>
   </div>
-</nav>
-<nav class="navbar fixed-top navbar-light bg-light" *ngIf="previewAsPerson">
-  <div class="col-12 text-center">
+</div>
+<div class="bg-light" *ngIf="previewAsPerson">
+  <div class="col-12 text-center text-break">
     <h4>Previewing Session as
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
       {{ personName }} ({{ previewAsPerson }})
     </h4>
   </div>
-</nav>
+</div>
 <div class="row" *ngIf="regKey">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
@@ -75,6 +75,7 @@
 </div>
 
 <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
+                             [attr.id]="questionSubmissionForm.feedbackQuestionId"
                              [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
                              [isDisabled]="isSubmissionFormsDisabled"
 ></tm-question-submission-form>

@@ -5,15 +5,14 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   Gender={[Function Object]}
   course={[Function Object]}
   courseService={[Function CourseService]}
-  httpRequestService={[Function HttpRequestService]}
   instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
   teammateProfiles={[Function Array]}
-  user="undefined"
 >
   <h1
     class="page-title"
@@ -90,7 +89,7 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
               class="col-8"
             >
               <span>
-                
+                UTC
               </span>
             </div>
           </div>
@@ -108,7 +107,7 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
               class="col-8"
             >
               <span>
-                
+                Thu, 01 Jan 1970, 00:00 AM UTC
               </span>
             </div>
           </div>
@@ -220,15 +219,14 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   Gender={[Function Object]}
   course={[Function Object]}
   courseService={[Function CourseService]}
-  httpRequestService={[Function HttpRequestService]}
   instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
   teammateProfiles={[Function Array]}
-  user="undefined"
 >
   <h1
     class="page-title"
@@ -323,7 +321,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                13 Mar 2019
+                Wed, 13 Mar 2019, 10:15 AM UTC
               </span>
             </div>
           </div>
@@ -528,7 +526,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                   </td>
                   <td>
                     <span>
-                      I am 2
+                       I am 2 
                     </span>
                   </td>
                 </tr>

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
@@ -9,6 +11,8 @@ import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
+  ConfirmationResponse,
+  ConfirmationResult,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
@@ -20,6 +24,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
   Student,
 } from '../../../types/api-output';
+import { Intent } from '../../../types/api-request';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
@@ -27,7 +32,6 @@ import {
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
 import {
   FeedbackSessionClosedModalComponent,
 } from './feedback-session-closed-modal/feedback-session-closed-modal.component';
@@ -53,26 +57,6 @@ interface FeedbackResponsesResponse {
 }
 
 /**
- * The result of the confirmation.
- */
-enum ConfirmationResult {
-  /**
-   * The submission has been confirmed successfully.
-   */
-  SUCCESS = 'SUCCESS',
-
-  /**
-   * The submission has been confirmed but the confirmation email failed to send.
-   */
-  SUCCESS_BUT_EMAIL_FAIL_TO_SEND = 'SUCCESS_BUT_EMAIL_FAIL_TO_SEND',
-}
-
-interface ConfirmationResponse {
-  result: ConfirmationResult;
-  message: string;
-}
-
-/**
  * Feedback session submission page.
  */
 @Component({
@@ -80,7 +64,7 @@ interface ConfirmationResponse {
   templateUrl: './session-submission-page.component.html',
   styleUrls: ['./session-submission-page.component.scss'],
 })
-export class SessionSubmissionPageComponent implements OnInit {
+export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
@@ -111,10 +95,12 @@ export class SessionSubmissionPageComponent implements OnInit {
   isSubmissionFormsDisabled: boolean = false;
 
   isModerationHintExpanded: boolean = false;
+  moderatedQuestionId: string = '';
 
   constructor(private route: ActivatedRoute, private router: Router, private statusMessageService: StatusMessageService,
               private httpRequestService: HttpRequestService, private timezoneService: TimezoneService,
-              private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal) {
+              private feedbackResponsesService: FeedbackResponsesService, private modalService: NgbModal,
+              private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -130,6 +116,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       this.regKey = queryParams.key ? queryParams.key : '';
       this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
+      this.moderatedQuestionId = queryParams.moderatedquestionId ? queryParams.moderatedquestionId : '';
 
       if (this.previewAsPerson) {
         // disable submission in the preview mode
@@ -138,6 +125,16 @@ export class SessionSubmissionPageComponent implements OnInit {
       this.loadPersonName();
       this.loadFeedbackSession();
     });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.pageScrollService.scroll({
+        document: this.document,
+        scrollTarget: `#${this.moderatedQuestionId}`,
+        scrollOffset: 70,
+      });
+    }, 500);
   }
 
   /**
@@ -458,16 +455,16 @@ export class SessionSubmissionPageComponent implements OnInit {
                     questionType: questionSubmissionFormModel.questionType,
                     responseDetails: recipientSubmissionFormModel.responseDetails,
                   }).pipe(
-                    tap((resp: FeedbackResponse) => {
-                      recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                      recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                      recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                    }),
-                    catchError((error: any) => {
-                      this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
-                      failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
-                      return of(error);
-                    }),
+                      tap((resp: FeedbackResponse) => {
+                        recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
+                        recipientSubmissionFormModel.responseDetails = resp.responseDetails;
+                        recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+                      }),
+                      catchError((error: any) => {
+                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                        return of(error);
+                      }),
                   ));
             }
 
@@ -483,16 +480,16 @@ export class SessionSubmissionPageComponent implements OnInit {
                     questionType: questionSubmissionFormModel.questionType,
                     responseDetails: recipientSubmissionFormModel.responseDetails,
                   }).pipe(
-                    tap((resp: FeedbackResponse) => {
-                      recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                      recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                      recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                    }),
-                    catchError((error: any) => {
-                      this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
-                      failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
-                      return of(error);
-                    }),
+                      tap((resp: FeedbackResponse) => {
+                        recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
+                        recipientSubmissionFormModel.responseDetails = resp.responseDetails;
+                        recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
+                      }),
+                      catchError((error: any) => {
+                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                        return of(error);
+                      }),
                   ));
             }
           });

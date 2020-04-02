@@ -25,7 +25,7 @@ import teammates.common.util.Const;
 public class TimezoneSyncerTest extends BaseE2ETestCase {
 
     private static final String IANA_TIMEZONE_DATABASE_URL = "https://www.iana.org/time-zones";
-    private static final int DAYS_TO_UPDATE_TZ = 60;
+    private static final int DAYS_TO_UPDATE_TZ = 120;
 
     @Override
     protected void prepareTestData() {

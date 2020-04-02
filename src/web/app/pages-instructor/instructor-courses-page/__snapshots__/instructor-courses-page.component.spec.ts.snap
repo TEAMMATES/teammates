@@ -2,31 +2,43 @@
 
 exports[`InstructorCoursesPageComponent should snap when it is undeletable and unrestorable 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll="false"
   canRestoreAll="false"
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
 >
-  <div
+  <div>
+    <button
+      class="btn btn-primary"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
     class="course-section"
+    hidden=""
   >
     <tm-add-course-form />
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
     <div
       class="table-responsive"
     >
@@ -37,14 +49,44 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -110,7 +152,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </span>
             </td>
             <td
-              class="text-center"
+              class="text-center actions-cell"
             >
               
               <button
@@ -211,7 +253,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </span>
             </td>
             <td
-              class="text-center"
+              class="text-center actions-cell"
             >
               
               
@@ -260,9 +302,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>
@@ -374,184 +414,68 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       </table>
     </div>
   </div><div
-    class="course-section"
+    class="row course-section margin-top-30px"
   >
-    <h2
-      class="text-muted"
-    >
-      <span
-        class="fa fa-trash"
-      />
-       Deleted Courses 
-    </h2>
     <div
-      class="card bg-light top-padded"
+      class="col-12"
     >
+      <h2
+        class="text-muted"
+      >
+        <span
+          class="fa fa-trash-alt"
+        />
+         Deleted Courses 
+      </h2>
       <div
-        class="card-header bg-secondary text-white"
+        class="card bg-light top-padded"
       >
-        <strong>
-          Recycle Bin
-        </strong>
-        <span
-          class="float-sm-right margin-left-10px"
+        <div
+          class="card-header bg-secondary recycle-bin-header"
         >
-          
-          
-          <button
-            class="btn btn-light btn-sm disabled"
+          <div
+            class="row align-items-center"
           >
-            <strong
-              class="text-color-red"
+            <div
+              class="col-6 text-white"
             >
-              <span
-                class="fa fa-times-circle"
-              />
-               Delete All 
-            </strong>
-          </button>
-        </span>
-        <span
-          class="float-sm-right"
-        >
-          
-          
-          <button
-            class="btn btn-light btn-sm disabled"
-          >
-            <strong
-              class="text-color-black"
+              <b>
+                Recycle Bin
+              </b>
+            </div>
+            <div
+              class="col-6 text-right bin-header-button"
             >
-              <span
-                class="fa fa-check-circle"
+              
+              
+              <button
+                class="btn btn-light btn-sm disabled"
+              >
+                <i
+                  class="fas fa-check"
+                />
+                 Restore All 
+              </button>
+              
+              
+              <button
+                class="btn btn-light btn-sm disabled text-danger"
+              >
+                <i
+                  class="fas fa-times"
+                />
+                 Delete All 
+              </button>
+              
+              <i
+                class="fas fa-chevron-down text-white"
               />
-               Restore All 
-            </strong>
-          </button>
-        </span>
+              
+            </div>
+          </div>
+        </div>
+        
       </div>
-    </div>
-    <div
-      class="table-responsive"
-    >
-      <table
-        class="table table-striped table-bordered margin-0"
-      >
-        <thead>
-          <tr
-            class="background-color-medium-gray text-color-gray"
-          >
-            <th>
-              Course ID
-            </th>
-            <th>
-              Course Name
-            </th>
-            <th>
-              Creation Date
-            </th>
-            <th>
-              Deletion Date
-            </th>
-            <th
-              class="text-center"
-            >
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>
-              CS1020
-            </td>
-            <td>
-              Can modify deleted
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Wed, 05 Nov 2003, 8:15AM"
-            >
-               5 Nov 2003 
-            </td>
-            <td
-              class="text-center"
-            >
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Restore the deleted course and"
-                ngbtooltip="Restore the deleted course and its corresponding students and sessions"
-              >
-                 Restore 
-              </button>
-              
-              
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Permanently delete the course "
-                ngbtooltip="Permanently delete the course and its corresponding students and sessions"
-                style="color: red"
-              >
-                 Delete Permanently 
-              </button>
-              
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              CS2010
-            </td>
-            <td>
-              Cannot modify deleted
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Thu, 05 Dec 2002, 8:15AM"
-            >
-               5 Dec 2002 
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Fri, 05 Dec 2003, 8:15AM"
-            >
-               5 Dec 2003 
-            </td>
-            <td
-              class="text-center"
-            >
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Restore 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-                style="color: red"
-              >
-                 Delete Permanently 
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -559,31 +483,43 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
 
 exports[`InstructorCoursesPageComponent should snap with all courses in course stats 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
 >
-  <div
+  <div>
+    <button
+      class="btn btn-primary"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
     class="course-section"
+    hidden=""
   >
     <tm-add-course-form />
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
     <div
       class="table-responsive"
     >
@@ -594,14 +530,44 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -667,7 +633,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </span>
             </td>
             <td
-              class="text-center"
+              class="text-center actions-cell"
             >
               
               <button
@@ -768,7 +734,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </span>
             </td>
             <td
-              class="text-center"
+              class="text-center actions-cell"
             >
               
               
@@ -817,9 +783,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>
@@ -931,190 +895,74 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       </table>
     </div>
   </div><div
-    class="course-section"
+    class="row course-section margin-top-30px"
   >
-    <h2
-      class="text-muted"
-    >
-      <span
-        class="fa fa-trash"
-      />
-       Deleted Courses 
-    </h2>
     <div
-      class="card bg-light top-padded"
+      class="col-12"
     >
+      <h2
+        class="text-muted"
+      >
+        <span
+          class="fa fa-trash-alt"
+        />
+         Deleted Courses 
+      </h2>
       <div
-        class="card-header bg-secondary text-white"
+        class="card bg-light top-padded"
       >
-        <strong>
-          Recycle Bin
-        </strong>
-        <span
-          class="float-sm-right margin-left-10px"
+        <div
+          class="card-header bg-secondary recycle-bin-header"
         >
-          
-          <button
-            class="btn btn-light btn-sm"
-            ng-reflect-ngb-tooltip="Permanently delete all courses"
-            ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
+          <div
+            class="row align-items-center"
           >
-            <strong
-              class="text-color-red"
+            <div
+              class="col-6 text-white"
             >
-              <span
-                class="fa fa-times-circle"
-              />
-               Delete All 
-            </strong>
-          </button>
-          
-          
-        </span>
-        <span
-          class="float-sm-right"
-        >
-          
-          <button
-            class="btn btn-light btn-sm"
-            ng-reflect-ngb-tooltip="Restore all deleted courses an"
-            ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
-          >
-            <strong
-              class="text-color-black"
+              <b>
+                Recycle Bin
+              </b>
+            </div>
+            <div
+              class="col-6 text-right bin-header-button"
             >
-              <span
-                class="fa fa-check-circle"
+              
+              <button
+                class="btn btn-light btn-sm"
+                ng-reflect-ngb-tooltip="Restore all deleted courses an"
+                ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
+              >
+                <i
+                  class="fas fa-check"
+                />
+                 Restore All 
+              </button>
+              
+              
+              
+              <button
+                class="btn btn-light btn-sm text-danger"
+                ng-reflect-ngb-tooltip="Permanently delete all courses"
+                ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
+              >
+                <i
+                  class="fas fa-times"
+                />
+                 Delete All 
+              </button>
+              
+              
+              
+              <i
+                class="fas fa-chevron-down text-white"
               />
-               Restore All 
-            </strong>
-          </button>
-          
-          
-        </span>
+              
+            </div>
+          </div>
+        </div>
+        
       </div>
-    </div>
-    <div
-      class="table-responsive"
-    >
-      <table
-        class="table table-striped table-bordered margin-0"
-      >
-        <thead>
-          <tr
-            class="background-color-medium-gray text-color-gray"
-          >
-            <th>
-              Course ID
-            </th>
-            <th>
-              Course Name
-            </th>
-            <th>
-              Creation Date
-            </th>
-            <th>
-              Deletion Date
-            </th>
-            <th
-              class="text-center"
-            >
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>
-              CS1020
-            </td>
-            <td>
-              Can modify deleted
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Wed, 05 Nov 2003, 8:15AM"
-            >
-               5 Nov 2003 
-            </td>
-            <td
-              class="text-center"
-            >
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Restore the deleted course and"
-                ngbtooltip="Restore the deleted course and its corresponding students and sessions"
-              >
-                 Restore 
-              </button>
-              
-              
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Permanently delete the course "
-                ngbtooltip="Permanently delete the course and its corresponding students and sessions"
-                style="color: red"
-              >
-                 Delete Permanently 
-              </button>
-              
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              CS2010
-            </td>
-            <td>
-              Cannot modify deleted
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Thu, 05 Dec 2002, 8:15AM"
-            >
-               5 Dec 2002 
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Fri, 05 Dec 2003, 8:15AM"
-            >
-               5 Dec 2003 
-            </td>
-            <td
-              class="text-center"
-            >
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Restore 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-                style="color: red"
-              >
-                 Delete Permanently 
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -1122,31 +970,43 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
 
 exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
 >
-  <div
+  <div>
+    <button
+      class="btn btn-primary"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
     class="course-section"
+    hidden=""
   >
     <tm-add-course-form />
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
     <div
       class="table-responsive"
     >
@@ -1157,14 +1017,44 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -1188,19 +1078,17 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
         <tbody>
           
         </tbody>
-        <tbody>
-          
-          <tr>
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-          </tr>
-        </tbody>
+        
+        <tr>
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+        </tr>
       </table>
       
       <p>
@@ -1213,31 +1101,43 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 
 exports[`InstructorCoursesPageComponent should snap with no courses in course stats 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
 >
-  <div
+  <div>
+    <button
+      class="btn btn-primary"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
     class="course-section"
+    hidden=""
   >
     <tm-add-course-form />
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
     <div
       class="table-responsive"
     >
@@ -1248,14 +1148,44 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -1337,7 +1267,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               
             </td>
             <td
-              class="text-center"
+              class="text-center actions-cell"
             >
               
               <button
@@ -1454,7 +1384,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               
             </td>
             <td
-              class="text-center"
+              class="text-center actions-cell"
             >
               
               
@@ -1503,9 +1433,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>

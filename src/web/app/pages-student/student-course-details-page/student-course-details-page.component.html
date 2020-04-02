@@ -36,7 +36,7 @@
             <label>Created at</label>
           </div>
           <div class="col-8">
-            <span>{{course.creationDate}}</span>
+            <span>{{course.creationTimestamp | formatDateDetail: course.timeZone}}</span>
           </div>
         </div>
       </div>
@@ -133,7 +133,9 @@
             <tr>
               <td class="font-weight-bold">Name</td>
               <td>
-                <span>{{teammateProfile.studentProfile.shortName}}</span>
+                <span>
+                  {{teammateProfile.studentProfile.shortName}}
+                </span>
               </td>
             </tr>
             <tr>

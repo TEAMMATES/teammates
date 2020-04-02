@@ -30,7 +30,7 @@ export class RichTextEditorComponent implements OnInit {
 
   // the argument passed to tinymce.init() in native JavaScript
   readonly init: any = {
-    skin_url: '/tinymce/skins/lightgray',
+    skin_url: '/tinymce/skins/ui/oxide',
     resize: false,
     fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 26pt 28pt 36pt 48pt 72pt',
     font_formats: 'Andale Mono=andale mono,times;'
@@ -57,14 +57,14 @@ export class RichTextEditorComponent implements OnInit {
       'placeholder',
       'advlist autolink lists link image charmap print hr anchor',
       'searchreplace wordcount visualblocks visualchars code fullscreen',
-      'insertdatetime nonbreaking save table contextmenu directionality',
-      'emoticons paste textcolor colorpicker textpattern',
+      'insertdatetime nonbreaking save table directionality',
+      'emoticons paste textpattern',
     ],
 
     toolbar1: 'insertfile undo redo | styleselect | bold italic underline '
         + '| alignleft aligncenter alignright alignjustify '
         + '| bullist numlist outdent indent | link image',
-    toolbar2: 'print | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen',
+    toolbar2: 'print | forecolor backcolor | fontsizeselect fontselect | charmap emoticons | fullscreen',
   };
 
   constructor() { }
