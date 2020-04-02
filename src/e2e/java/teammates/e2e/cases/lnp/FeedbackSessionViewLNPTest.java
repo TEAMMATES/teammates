@@ -34,7 +34,7 @@ import teammates.e2e.util.LNPTestData;
  */
 public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 500;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 250;
     private static final int RAMP_UP_PERIOD = 2;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
@@ -42,6 +42,9 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
     private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
 
     private static final String COURSE_ID = "TestData.CS101";
+    private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
+
+    private static final int NUMBER_OF_QUESTIONS = 10;
 
     @Override
     protected LNPTestData getTestData() {
@@ -119,7 +122,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
 
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
-                                                            .builder("Test Feedback Session", COURSE_ID)
+                                                            .builder(FEEDBACK_SESSION_NAME, COURSE_ID)
                                                             .withCreatorEmail(INSTRUCTOR_EMAIL)
                                                             .withStartTime(Instant.now())
                                                             .withEndTime(Instant.now().plusSeconds(500))
@@ -127,7 +130,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                                                             .withResultsVisibleFromTime(Instant.now())
                                                             .build();
 
-                feedbackSessions.put("Test Feedback Session", session);
+                feedbackSessions.put(FEEDBACK_SESSION_NAME, session);
 
                 return feedbackSessions;
             }
@@ -142,21 +145,25 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 ArrayList<FeedbackParticipantType> showRecepientName = new ArrayList<>();
                 showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
-                FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question");
-                feedbackQuestions.put("QuestionTest",
-                        FeedbackQuestionAttributes.builder()
-                            .withFeedbackSessionName("Test Feedback Session")
-                            .withQuestionDescription("Test Question")
-                            .withCourseId(COURSE_ID)
-                            .withQuestionDetails(details)
-                            .withQuestionNumber(1)
-                            .withGiverType(FeedbackParticipantType.SELF)
-                            .withRecipientType(FeedbackParticipantType.NONE)
-                            .withShowResponsesTo(showResponses)
-                            .withShowGiverNameTo(showGiverName)
-                            .withShowRecipientNameTo(showRecepientName)
-                            .build()
-                );
+                for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
+                    FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question" + i);
+                    feedbackQuestions.put("QuestionTest" + i,
+                            FeedbackQuestionAttributes.builder()
+                                .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
+                                    .withQuestionDescription("Test Question" + i)
+                                .withCourseId(COURSE_ID)
+                                .withQuestionDetails(details)
+                                .withQuestionNumber(i)
+                                .withGiverType(FeedbackParticipantType.STUDENTS)
+                                .withRecipientType(FeedbackParticipantType.SELF)
+                                .withShowResponsesTo(showResponses)
+                                .withShowGiverNameTo(showGiverName)
+                                .withShowRecipientNameTo(showRecepientName)
+                                .withNumberOfEntitiesToGiveFeedbackTo(1)
+                                .build()
+                    );
+                }
+
                 return feedbackQuestions;
             }
 
@@ -185,7 +192,7 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                     csvRow.add("no");
                     csvRow.add(student.googleId);
                     csvRow.add(COURSE_ID);
-                    csvRow.add("Test Feedback Session");
+                    csvRow.add(FEEDBACK_SESSION_NAME);
 
                     csvData.add(csvRow);
                 });
