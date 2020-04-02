@@ -222,7 +222,6 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
     @BeforeClass
     public void classSetup() {
         createTestData();
-        persistTestData();
     }
 
     @Test
