@@ -756,6 +756,7 @@ public final class Const {
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
         public static final String SEARCH_INSTRUCTORS = "/search/instructors";
         public static final String RESULT = "/result";
+        public static final String RESULT_CSV = "/result/csv";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
         public static final String SESSIONS_ONGOING = "/sessions/ongoing";
