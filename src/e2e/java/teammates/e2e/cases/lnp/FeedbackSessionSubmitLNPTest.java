@@ -27,7 +27,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
 
@@ -36,7 +35,7 @@ import teammates.e2e.util.LNPTestData;
  */
 public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 500;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
     private static final int RAMP_UP_PERIOD = 2;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
@@ -45,6 +44,8 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
     private static final String COURSE_ID = "TestData.CS101";
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
+
+    private static final int NUMBER_OF_QUESTIONS = 20;
 
     @Override
     protected LNPTestData getTestData() {
@@ -147,22 +148,25 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
                 showResponses.add(FeedbackParticipantType.RECEIVER);
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
-                FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question");
-                feedbackQuestions.put("QuestionTest",
-                        FeedbackQuestionAttributes.builder()
-                            .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
-                                .withQuestionDescription("Test Question")
-                            .withCourseId(COURSE_ID)
-                            .withQuestionDetails(details)
-                            .withQuestionNumber(1)
-                            .withGiverType(FeedbackParticipantType.STUDENTS)
-                            .withRecipientType(FeedbackParticipantType.SELF)
-                            .withShowResponsesTo(showResponses)
-                            .withShowGiverNameTo(showGiverName)
-                            .withShowRecipientNameTo(showRecepientName)
-                            .withNumberOfEntitiesToGiveFeedbackTo(1)
-                            .build()
-                );
+                for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
+                    FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question" + i);
+                    feedbackQuestions.put("QuestionTest" + i,
+                            FeedbackQuestionAttributes.builder()
+                                .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
+                                    .withQuestionDescription("Test Question" + i)
+                                .withCourseId(COURSE_ID)
+                                .withQuestionDetails(details)
+                                .withQuestionNumber(i)
+                                .withGiverType(FeedbackParticipantType.STUDENTS)
+                                .withRecipientType(FeedbackParticipantType.SELF)
+                                .withShowResponsesTo(showResponses)
+                                .withShowGiverNameTo(showGiverName)
+                                .withShowRecipientNameTo(showRecepientName)
+                                .withNumberOfEntitiesToGiveFeedbackTo(1)
+                                .build()
+                    );
+
+                }
 
                 return feedbackQuestions;
             }
@@ -177,6 +181,9 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 headers.add("courseId");
                 headers.add("fsname");
                 headers.add("studentEmail");
+                for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
+                    headers.add("question" + i + "id");
+                }
 
                 return headers;
             }
@@ -186,7 +193,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 DataBundle dataBundle = loadDataBundle(getJsonDataPath());
                 List<List<String>> csvData = new ArrayList<>();
 
-                dataBundle.students.forEach((key, student) -> {
+                dataBundle.students.forEach((studentKey, student) -> {
                     List<String> csvRow = new ArrayList<>();
 
                     csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
@@ -195,6 +202,10 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                     csvRow.add(COURSE_ID);
                     csvRow.add(FEEDBACK_SESSION_NAME);
                     csvRow.add(student.email);
+
+                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
+                        csvRow.add(feedbackQuestion.getId());
+                    });
 
                     csvData.add(csvRow);
 
@@ -229,15 +240,14 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
         threadGroup.add(headerManager);
 
-        //Backdoor to retrieve questionId which is generated only on backend server
-        String fqId = BackDoor.getFeedbackQuestionId(COURSE_ID, FEEDBACK_SESSION_NAME, 1);
-
-        String body = "{\"questionType\": \"TEXT\","
-                + "\"recipientIdentifier\": \"${studentEmail}\","
-                + "\"responseDetails\": {\"answer\": \"<p>test</p>\", \"questionType\": \"TEXT\"}}";
-        String fourthPath = "webapi/response?questionid=" + fqId
-                                    + "&intent=STUDENT_SUBMISSION";
-        threadGroup.add(JMeterElements.httpSampler(fourthPath, POST, body));
+        for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
+            String body = "{\"questionType\": \"TEXT\","
+                    + "\"recipientIdentifier\": \"${studentEmail}\","
+                    + "\"responseDetails\": {\"answer\": \"<p>test</p>\", \"questionType\": \"TEXT\"}}";
+            String fourthPath = "webapi/response?questionid=${question" + i + "id}"
+                    + "&intent=STUDENT_SUBMISSION";
+            threadGroup.add(JMeterElements.httpSampler(fourthPath, POST, body));
+        }
 
         return testPlan;
     }
