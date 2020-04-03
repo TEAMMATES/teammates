@@ -186,7 +186,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
     @Override
     protected double getMeanRespTimeLimit() {
-        return 10;
+        return 60;
     }
 
     @BeforeClass
