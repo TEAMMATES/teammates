@@ -14,9 +14,9 @@ export class ErrorReportService {
   constructor(private httpRequestService: HttpRequestService) {
   }
 
-    /**
-     * Sends an error report.
-     */
+  /**
+   * Sends an error report.
+   */
   sendErrorReport(queryParams: {
     request: ErrorReportRequest,
   }): Observable<any> {
