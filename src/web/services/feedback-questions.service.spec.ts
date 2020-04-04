@@ -1,10 +1,10 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {ResourceEndpoints} from '../types/api-endpoints';
-import {Intent} from '../types/api-request';
-import {FeedbackQuestionsService} from './feedback-questions.service';
-import {HttpRequestService} from './http-request.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import { Intent } from '../types/api-request';
+import { FeedbackQuestionsService } from './feedback-questions.service';
+import { HttpRequestService } from './http-request.service';
 
 describe('FeedbackQuestionsService', () => {
   let spyHttpRequestService: any;
@@ -63,7 +63,7 @@ describe('FeedbackQuestionsService', () => {
       key: 'key',
       moderatedPerson: 'John Doe',
       previewAs: 'John Doe',
-    })
+    });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.QUESTION_RECIPIENTS, paramMap);
   });

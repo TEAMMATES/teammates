@@ -30,9 +30,10 @@ export class SessionResultPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
+      const { courseid: courseId, fsname: feedbackSessionName }: { [key: string]: string } = queryParams;
       this.feedbackSessionsService.getFeedbackSession({
-        courseId: queryParams.courseid,
-        feedbackSessionName: queryParams.fsname,
+        courseId,
+        feedbackSessionName,
         intent: Intent.STUDENT_RESULT,
       }).subscribe((resp: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
@@ -42,8 +43,8 @@ export class SessionResultPageComponent implements OnInit {
         this.formattedSessionClosingTime =
               moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.feedbackSessionsService.getFeedbackSessionsResult({
-          courseId: queryParams.courseid,
-          feedbackSessionName: queryParams.fsname,
+          courseId,
+          feedbackSessionName,
           intent: Intent.STUDENT_RESULT,
         }).subscribe((resp2: SessionResults) => {
           this.questions = resp2.questions.sort(

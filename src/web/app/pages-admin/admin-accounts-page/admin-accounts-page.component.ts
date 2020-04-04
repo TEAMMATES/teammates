@@ -102,10 +102,9 @@ export class AdminAccountsPageComponent implements OnInit {
    * Removes the student from course.
    */
   removeStudentFromCourse(courseId: string): void {
-    const id: string = this.accountInfo.googleId;
     this.studentService.deleteStudent({
       courseId,
-      googleId: id,
+      googleId: this.accountInfo.googleId,
     }).subscribe(() => {
       this.studentCourses = this.studentCourses.filter((course: Course) => course.courseId !== courseId);
       this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${courseId}"`);
@@ -118,10 +117,9 @@ export class AdminAccountsPageComponent implements OnInit {
    * Removes the instructor from course.
    */
   removeInstructorFromCourse(courseId: string): void {
-    const id: string = this.accountInfo.googleId;
     this.instructorService.deleteInstructor({
       courseId,
-      instructorId: id,
+      instructorId: this.accountInfo.googleId,
     }).subscribe(() => {
       this.instructorCourses = this.instructorCourses.filter((course: Course) => course.courseId !== courseId);
       this.statusMessageService.showSuccessMessage(`Instructor is successfully deleted from course "${courseId}"`);
