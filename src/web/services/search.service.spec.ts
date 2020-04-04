@@ -116,7 +116,7 @@ describe('SearchService', () => {
     );
   });
 
-  it('should execute GET and parse response correctly when fetching privileges', () => {
+  it('should execute GET when fetching privileges', () => {
     spyHttpRequestService.get.mockImplementation((endpoint: string) => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTOR_PRIVILEGE);
       return of<InstructorPrivilege>({
@@ -141,10 +141,48 @@ describe('SearchService', () => {
             sectionname: section.sectionName,
           },
         );
-
-        expect(section.isAllowedToViewStudentInSection).toEqual(true);
-        expect(section.isAllowedToModifyStudent).toEqual(true);
       }
     }
+  });
+
+  it('should combine privileges and course data correctly', () => {
+    const basePrivilege: InstructorPrivilege = {
+      canModifyCourse: true,
+      canModifySession: true,
+      canModifyStudent: true,
+      canModifyInstructor: true,
+      canViewStudentInSections: true,
+      canModifySessionCommentsInSections: true,
+      canViewSessionInSections: true,
+      canSubmitSessionInSections: true,
+    };
+    const mockPrivileges: InstructorPrivilege[] = [
+      basePrivilege,
+      {
+        ...basePrivilege,
+        canViewStudentInSections: false,
+        canModifyStudent: true,
+      },
+      {
+        ...basePrivilege,
+        canViewStudentInSections: true,
+        canModifyStudent: false,
+      },
+    ];
+    service.combinePrivileges([coursesWithSections, mockPrivileges]);
+
+    const course1Section1: StudentListSectionData = coursesWithSections[0].sections[0];
+    expect(course1Section1.isAllowedToViewStudentInSection).toEqual(true);
+    expect(course1Section1.isAllowedToModifyStudent).toEqual(true);
+
+    const course1Section2: StudentListSectionData = coursesWithSections[0].sections[1];
+    expect(course1Section2.isAllowedToViewStudentInSection).toEqual(false);
+    expect(course1Section2.isAllowedToModifyStudent).toEqual(true);
+
+    const course2Section1: StudentListSectionData = coursesWithSections[1].sections[0];
+    expect(course2Section1.isAllowedToViewStudentInSection).toEqual(true);
+    expect(course2Section1.isAllowedToModifyStudent).toEqual(false);
+
+    expect(mockPrivileges.length).toEqual(0);
   });
 });
