@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
+import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import { InstructorPrivilege, Student, Students } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
@@ -17,13 +18,14 @@ export class SearchService {
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
     return this.getStudents(searchKey).pipe(
-      map((studentsRes: Students): SearchStudentsTable[] =>
-        this.getCoursesWithSections(studentsRes),
-      ),
-      map(
-        (coursesWithSections: SearchStudentsTable[]): InstructorSearchResult =>
+      map((studentsRes: Students) => this.getCoursesWithSections(studentsRes)),
+      mergeMap((coursesWithSections: SearchStudentsTable[]) =>
+        forkJoin([
+          of(coursesWithSections),
           this.getPrivileges(coursesWithSections),
+        ]),
       ),
+      map((res: [SearchStudentsTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
     );
   }
 
@@ -73,19 +75,41 @@ export class SearchService {
 
   getPrivileges(
     coursesWithSections: SearchStudentsTable[],
+  ): Observable<InstructorPrivilege[]> {
+    return forkJoin(
+      coursesWithSections.map((course: SearchStudentsTable) => {
+        return course.sections.map((section: StudentListSectionData) => {
+          return this.httpRequestService.get(
+            ResourceEndpoints.INSTRUCTOR_PRIVILEGE,
+            {
+              courseid: course.courseId,
+              sectionname: section.sectionName,
+            },
+          );
+        });
+      }).reduce(
+        (acc: Observable<InstructorPrivilege>[], val: Observable<InstructorPrivilege>[]) =>
+        acc.concat(val),
+        [],
+      ),
+    );
+  }
+
+  combinePrivileges(
+    [coursesWithSections, privileges]: [SearchStudentsTable[], InstructorPrivilege[]],
   ): InstructorSearchResult {
+    /**
+     * Pop the privilege objects one at a time and attach them to the results. This is possible
+     * because `forkJoin` guarantees that the `InstructorPrivilege` results are returned in the
+     * same order the requests were made.
+     */
     for (const course of coursesWithSections) {
       for (const section of course.sections) {
-        this.httpRequestService
-          .get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, {
-            courseid: course.courseId,
-            sectionname: section.sectionName,
-          })
-          .subscribe((res: InstructorPrivilege): void => {
-            section.isAllowedToViewStudentInSection =
-              res.canViewStudentInSections;
-            section.isAllowedToModifyStudent = res.canModifyStudent;
-          });
+        const sectionPrivileges: InstructorPrivilege | undefined = privileges.shift();
+        if (!sectionPrivileges) { continue; }
+
+        section.isAllowedToViewStudentInSection = sectionPrivileges.canViewStudentInSections;
+        section.isAllowedToModifyStudent = sectionPrivileges.canModifyStudent;
       }
     }
 
