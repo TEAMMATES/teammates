@@ -75,8 +75,12 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   }
 
   sortResponses(by: SortBy): void {
-    this.sortBy = by;
-    this.sortOrder = this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
+    if (this.sortBy === by) {
+      this.sortOrder = this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
+    } else {
+      this.sortBy = by;
+      this.sortOrder = SortOrder.ASC;
+    }
     switch (by) {
       case SortBy.GIVER_TEAM:
         this.responsesToShow
