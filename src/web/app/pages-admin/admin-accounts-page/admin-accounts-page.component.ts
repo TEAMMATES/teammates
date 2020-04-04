@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { Account, Course, Courses } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -29,9 +30,14 @@ export class AdminAccountsPageComponent implements OnInit {
     createdAtTimeStamp: 0,
   };
 
-  constructor(private route: ActivatedRoute, private router: Router, private httpRequestService: HttpRequestService,
-      private navigationService: NavigationService, private statusMessageService: StatusMessageService,
-              private accountService: AccountService, private courseService: CourseService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private instructorService: InstructorService,
+              private studentService: StudentService,
+              private navigationService: NavigationService,
+              private statusMessageService: StatusMessageService,
+              private accountService: AccountService,
+              private courseService: CourseService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -96,12 +102,10 @@ export class AdminAccountsPageComponent implements OnInit {
    * Removes the student from course.
    */
   removeStudentFromCourse(courseId: string): void {
-    const id: string = this.accountInfo.googleId;
-    const paramMap: { [key: string]: string } = {
-      googleid: id,
-      courseid: courseId,
-    };
-    this.httpRequestService.delete('/student', paramMap).subscribe(() => {
+    this.studentService.deleteStudent({
+      courseId,
+      googleId: this.accountInfo.googleId,
+    }).subscribe(() => {
       this.studentCourses = this.studentCourses.filter((course: Course) => course.courseId !== courseId);
       this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {
@@ -113,12 +117,10 @@ export class AdminAccountsPageComponent implements OnInit {
    * Removes the instructor from course.
    */
   removeInstructorFromCourse(courseId: string): void {
-    const id: string = this.accountInfo.googleId;
-    const paramMap: { [key: string]: string } = {
-      instructorid: id,
-      courseid: courseId,
-    };
-    this.httpRequestService.delete('/instructor', paramMap).subscribe(() => {
+    this.instructorService.deleteInstructor({
+      courseId,
+      instructorId: this.accountInfo.googleId,
+    }).subscribe(() => {
       this.instructorCourses = this.instructorCourses.filter((course: Course) => course.courseId !== courseId);
       this.statusMessageService.showSuccessMessage(`Instructor is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {
