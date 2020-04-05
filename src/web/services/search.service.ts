@@ -3,9 +3,9 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
-import { ResourceEndpoints } from '../types/api-endpoints';
 import { InstructorPrivilege, Student, Students } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
+import { InstructorService } from './instructor.service';
 
 /**
  * Handles the logic for search.
@@ -14,7 +14,10 @@ import { HttpRequestService } from './http-request.service';
   providedIn: 'root',
 })
 export class SearchService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private instructorService: InstructorService,
+  ) {}
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
     return this.getStudents(searchKey).pipe(
@@ -79,13 +82,10 @@ export class SearchService {
     return forkJoin(
       coursesWithSections.map((course: SearchStudentsTable) => {
         return course.sections.map((section: StudentListSectionData) => {
-          return this.httpRequestService.get(
-            ResourceEndpoints.INSTRUCTOR_PRIVILEGE,
-            {
-              courseid: course.courseId,
-              sectionname: section.sectionName,
-            },
-          );
+          return this.instructorService.loadInstructorPrivilege({
+            courseId: course.courseId,
+            sectionName: section.sectionName,
+          });
         });
       }).reduce(
         (acc: Observable<InstructorPrivilege>[], val: Observable<InstructorPrivilege>[]) =>
