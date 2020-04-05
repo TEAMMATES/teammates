@@ -244,9 +244,9 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
             String body = "{\"questionType\": \"TEXT\","
                     + "\"recipientIdentifier\": \"${studentEmail}\","
                     + "\"responseDetails\": {\"answer\": \"<p>test</p>\", \"questionType\": \"TEXT\"}}";
-            String fourthPath = "webapi/response?questionid=${question" + i + "id}"
+            String path = "webapi/response?questionid=${question" + i + "id}"
                     + "&intent=STUDENT_SUBMISSION";
-            threadGroup.add(JMeterElements.httpSampler(fourthPath, POST, body));
+            threadGroup.add(JMeterElements.httpSampler(path, POST, body));
         }
 
         return testPlan;
