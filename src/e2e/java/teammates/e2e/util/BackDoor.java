@@ -35,7 +35,6 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
-import teammates.ui.webapi.output.FeedbackQuestionsData;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
