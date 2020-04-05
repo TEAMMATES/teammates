@@ -44,7 +44,7 @@
                 </a>
               </td>
               <td>
-                <a [ngClass]="{'disabled' : session.isPublished}"
+                <a [ngClass]="{'disabled' : !session.isPublished}"
                    routerLink="../sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                    class="btn btn-light btn-sm" ngbTooltip='View the submitted responses for this feedback session'>
                   View Responses
