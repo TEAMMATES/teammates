@@ -5,7 +5,8 @@ import { map } from 'rxjs/operators';
 import { default as timezone } from '../data/timezone.json';
 import { HttpRequestService } from './http-request.service';
 
-import { LocalDateTimeAmbiguityStatus, LocalDateTimeInfo } from '../types/api-output';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import { LocalDateTimeAmbiguityStatus, LocalDateTimeInfo, TimeZones } from '../types/api-output';
 
 /**
  * The date time format used in date time resolution.
@@ -67,6 +68,10 @@ export class TimezoneService {
    */
   isBadZone(tz: string): boolean {
     return this.badZones[tz];
+  }
+
+  getTimeZone(): Observable<TimeZones> {
+    return this.httpRequestService.get(ResourceEndpoints.TIMEZONE);
   }
 
   /**
