@@ -14,7 +14,8 @@ public class StudentsData extends ApiOutput {
     private List<StudentData> students;
 
     public StudentsData() {
-        // Use this constructor if StudentData is to be sent with the key
+        // Only use this constructor for the SearchStudentsAction action,
+        // or if you are certain that setStudents would be called after instantiating this object.
         this.students = new ArrayList<>();
     }
 
