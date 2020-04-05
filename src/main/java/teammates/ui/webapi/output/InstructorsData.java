@@ -1,5 +1,6 @@
 package teammates.ui.webapi.output;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,9 @@ public class InstructorsData extends ApiOutput {
     private List<InstructorData> instructors;
 
     public InstructorsData() {
-        // Use this constructor if InstructorData should be sent with the key
+        // Only use this constructor for SearchInstructorsAction,
+        // or if you are certain that setInstructors will be called later.
+        this.instructors = new ArrayList<>();
     }
 
     public InstructorsData(List<InstructorAttributes> instructorAttributesList) {

@@ -29,21 +29,6 @@ public class SearchInstructorsAction extends Action {
         }
     }
 
-    private void addAdditionalSearchFields(InstructorsData instructorsData) {
-        instructorsData.getInstructors()
-                .forEach((InstructorData instructor) -> {
-                    if (instructor.getGoogleId() != null) {
-                        AccountAttributes account = logic.getAccount(instructor.getGoogleId());
-                        if (account != null) {
-                            String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
-                            instructor.setInstitute(institute);
-                        }
-                    }
-                    // Hide information
-                    instructor.hideInformationForSearch();
-                });
-    }
-
     @Override
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
@@ -54,14 +39,21 @@ public class SearchInstructorsAction extends Action {
             InstructorData instructorData = new InstructorData(instructor);
             // Only admin will be able to access this page, so we can go ahead and set the key
             instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
+
+            if (instructor.getGoogleId() != null) {
+                AccountAttributes account = logic.getAccount(instructor.getGoogleId());
+                if (account != null) {
+                    String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                    instructorData.setInstitute(institute);
+                }
+            }
             instructorDataList.add(instructorData);
         }
+
         InstructorsData instructorsData = new InstructorsData();
         instructorsData.setInstructors(instructorDataList);
 
         instructorsData.getInstructors().forEach(InstructorData::hideInformationForSearch);
-        // Set additional fields for search
-        this.addAdditionalSearchFields(instructorsData);
 
         return new JsonResult(instructorsData);
     }
