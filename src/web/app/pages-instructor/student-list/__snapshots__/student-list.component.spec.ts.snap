@@ -288,10 +288,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm mr-2"
-              ng-reflect-ngb-tooltip="'Email an invitation to the st"
-              ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
-              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
-              + ' but a joined student can access extra features e.g. set up a user profile'"
+              ng-reflect-ngb-tooltip="Email an invitation to the stu"
             >
               Send Invite
             </button>
@@ -682,10 +679,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm mr-2"
-              ng-reflect-ngb-tooltip="'Email an invitation to the st"
-              ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
-              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
-              + ' but a joined student can access extra features e.g. set up a user profile'"
+              ng-reflect-ngb-tooltip="Email an invitation to the stu"
             >
               Send Invite
             </button>
@@ -908,10 +902,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             <button
               class="btn btn-light btn-sm mr-2"
-              ng-reflect-ngb-tooltip="'Email an invitation to the st"
-              ngbtooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
-              + ' Google Account. Note: Students can use TEAMMATES without \\\\'joining\\\\','
-              + ' but a joined student can access extra features e.g. set up a user profile'"
+              ng-reflect-ngb-tooltip="Email an invitation to the stu"
             >
               Send Invite
             </button>

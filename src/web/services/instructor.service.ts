@@ -32,6 +32,28 @@ export class InstructorService {
   }
 
   /**
+   * Get an instructor in a course by calling API.
+   */
+  getInstructor(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    intent: Intent,
+    key: string,
+    moderatedPerson: string,
+    previewAs: string,
+  }): Observable<Instructor> {
+    const paramMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+      previewas: queryParams.previewAs,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap);
+  }
+
+  /**
    * Creates an instructor in a course by calling API.
    */
   createInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
@@ -54,11 +76,23 @@ export class InstructorService {
   /**
    * Deletes an instructor from a course by calling API.
    */
-  deleteInstructor(queryParams: { courseId: string, instructorEmail: string }): Observable<any> {
+  deleteInstructor(queryParams: {
+    courseId: string,
+    instructorEmail?: string,
+    instructorId?: string,
+  }): Observable<any> {
     const paramMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
-      instructoremail: queryParams.instructorEmail,
     };
+
+    if (queryParams.instructorEmail) {
+      paramMap.instructoremail = queryParams.instructorEmail;
+    }
+
+    if (queryParams.instructorId) {
+      paramMap.instructorid = queryParams.instructorId;
+    }
+
     return this.httpRequestService.delete(ResourceEndpoints.INSTRUCTOR, paramMap);
   }
 
