@@ -110,11 +110,11 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
   @Input() collapseStudentEditDetailsInChild: Subject<boolean> = new Subject<boolean>();
   isEditDetailsCollapsed: boolean = false;
   isViewProfileCollapsed: boolean = false;
-  isViewAllRespCollapsed: boolean = false;
-  isStudSearchCollapsed: boolean = false;
-  isStudEmailCollapsed: boolean = false;
-  isGoogleAccCollapsed: boolean = false;
-  isChangeGoogleIDCollapsed: boolean = false;
+  isViewAllResponsesCollapsed: boolean = false;
+  isStudentSearchCollapsed: boolean = false;
+  isStudentEmailCollapsed: boolean = false;
+  isGoogleAccountCollapsed: boolean = false;
+  isChangeGoogleIdCollapsed: boolean = false;
 
   constructor() {
     super();

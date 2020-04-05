@@ -14,18 +14,18 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
 
   @Input() collapsePeerEvalTipsInChild: Subject<boolean> = new Subject<boolean>();
   isPeerEvalTipsCollapsed: boolean = false;
-  isNewFSessionCollapsed: boolean = false;
-  isAddQsCollapsed: boolean = false;
+  isNewFeedbackSessionCollapsed: boolean = false;
+  isAddQuestionsCollapsed: boolean = false;
   isPreviewCollapsed: boolean = false;
   isCannotSubmitCollapsed: boolean = false;
-  isViewResCollapsed: boolean = false;
-  isViewAllRespCollapsed: boolean = false;
-  isAddCmntCollapsed: boolean = false;
-  isEditDelCmntCollapsed: boolean = false;
+  isViewResultsCollapsed: boolean = false;
+  isViewAllResponsesCollapsed: boolean = false;
+  isAddCommentCollapsed: boolean = false;
+  isEditDelCommentCollapsed: boolean = false;
   isSearchCollapsed: boolean = false;
-  isViewDelCollapsed: boolean = false;
-  isRestoreSnCollapsed: boolean = false;
-  isDelSnCollapsed: boolean = false;
+  isViewDeletedCollapsed: boolean = false;
+  isRestoreSessionCollapsed: boolean = false;
+  isDelSessionCollapsed: boolean = false;
   isRestoreDelAllCollapsed: boolean = false;
 
   constructor() {

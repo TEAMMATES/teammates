@@ -97,11 +97,11 @@
   <!--Question-->
   <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isViewAllRespCollapsed = !isViewAllRespCollapsed" [attr.aria-expanded]="!isViewAllRespCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isViewAllResponsesCollapsed = !isViewAllResponsesCollapsed" [attr.aria-expanded]="!isViewAllResponsesCollapsed">
       How do I view all the responses a student has given and received?
       </button>
     </p>
-    <div [ngbCollapse]="!isViewAllRespCollapsed">
+    <div [ngbCollapse]="!isViewAllResponsesCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -126,11 +126,11 @@
   <!--Question -->
   <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question id="student-search">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isStudSearchCollapsed = !isStudSearchCollapsed" [attr.aria-expanded]="!isStudSearchCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isStudentSearchCollapsed = !isStudentSearchCollapsed" [attr.aria-expanded]="!isStudentSearchCollapsed">
       How do I search for a student in my course?
       </button>
     </p>
-    <div [ngbCollapse]="!isStudSearchCollapsed">
+    <div [ngbCollapse]="!isStudentSearchCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -179,11 +179,11 @@
   <!--Question-->
   <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="student-email">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isStudEmailCollapsed = !isStudEmailCollapsed" [attr.aria-expanded]="!isStudEmailCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isStudentEmailCollapsed = !isStudentEmailCollapsed" [attr.aria-expanded]="!isStudentEmailCollapsed">
       How do I email a student or students in my course?
       </button>
     </p>
-    <div [ngbCollapse]="!isStudEmailCollapsed">
+    <div [ngbCollapse]="!isStudentEmailCollapsed">
       <div class="card">
         <div class="card-body">
           <ol>
@@ -208,11 +208,11 @@
   <!--Question-->
   <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isGoogleAccCollapsed = !isGoogleAccCollapsed" [attr.aria-expanded]="!isGoogleAccCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isGoogleAccountCollapsed = !isGoogleAccountCollapsed" [attr.aria-expanded]="!isGoogleAccountCollapsed">
       Is it compulsory for students to use Google accounts?
       </button>
     </p>
-    <div id="answer5" [ngbCollapse]="!isGoogleAccCollapsed">
+    <div id="answer5" [ngbCollapse]="!isGoogleAccountCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -227,11 +227,11 @@
   <!--Question-->
   <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isChangeGoogleIDCollapsed = !isChangeGoogleIDCollapsed" [attr.aria-expanded]="!isChangeGoogleIDCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isChangeGoogleIdCollapsed = !isChangeGoogleIdCollapsed" [attr.aria-expanded]="!isChangeGoogleIdCollapsed">
       How do I change the Google ID associated with a student?
       </button>
     </p>
-    <div [ngbCollapse]="!isChangeGoogleIDCollapsed">
+    <div [ngbCollapse]="!isChangeGoogleIdCollapsed">
       <div class="card">
         <div class="card-body">
           <p>

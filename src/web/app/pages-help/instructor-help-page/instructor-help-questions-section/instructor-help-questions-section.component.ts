@@ -12,16 +12,16 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  isEssayQsCollapsed: boolean = false;
-  isMCQSingleCollapsed: boolean = false;
-  isMCQMultCollapsed: boolean = false;
-  isNumScaleCollapsed: boolean = false;
-  isPtsOptionsCollapsed: boolean = false;
-  isPtsRecipientsCollapsed: boolean = false;
-  isContribQsCollapsed: boolean = false;
+  isEssayQuestionsCollapsed: boolean = false;
+  isMCQSingleAnsCollapsed: boolean = false;
+  isMCQMultipleAnsCollapsed: boolean = false;
+  isNumericalScaleCollapsed: boolean = false;
+  isPointsOptionsCollapsed: boolean = false;
+  isPointsRecipientsCollapsed: boolean = false;
+  isContributionQsCollapsed: boolean = false;
   isRubricQsCollapsed: boolean = false;
-  isRankOptsCollapsed: boolean = false;
-  isRankRcptsCollapsed: boolean = false;
+  isRankOptionsCollapsed: boolean = false;
+  isRankRecipientsCollapsed: boolean = false;
   @Output() collapsePeerEvalTips: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
   constructor(private modalService: NgbModal) {

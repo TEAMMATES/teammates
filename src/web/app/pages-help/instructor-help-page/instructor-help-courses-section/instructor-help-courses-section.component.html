@@ -112,11 +112,11 @@
   <!--Question -->
   <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="course-add-instructor">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isAddInstrCollapsed = !isAddInstrCollapsed" [attr.aria-expanded]="!isAddInstrCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isAddInstructorCollapsed = !isAddInstructorCollapsed" [attr.aria-expanded]="!isAddInstructorCollapsed">
       How do I add instructors to my course?
       </button>
     </p>
-    <div [ngbCollapse]="!isAddInstrCollapsed">
+    <div [ngbCollapse]="!isAddInstructorCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -145,11 +145,11 @@
   <!--Question-->
   <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="course-edit-instructor">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isEditInstrCollapsed = !isEditInstrCollapsed" [attr.aria-expanded]="!isEditInstrCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isEditInstructorCollapsed = !isEditInstructorCollapsed" [attr.aria-expanded]="!isEditInstructorCollapsed">
       How do I edit the information of an instructor in my course?
       </button>
     </p>
-    <div [ngbCollapse]="!isEditInstrCollapsed">
+    <div [ngbCollapse]="!isEditInstructorCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -181,15 +181,15 @@
   <!--Question-->
   <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="course-instructor-access">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isInstrAccessCollapsed = !isInstrAccessCollapsed" [attr.aria-expanded]="!isInstrAccessCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isInstructorAccessCollapsed = !isInstructorAccessCollapsed" [attr.aria-expanded]="!isInstructorAccessCollapsed">
       How do I set an instructor's access level?
       </button>
     </p>
-    <div [ngbCollapse]="!isInstrAccessCollapsed">
+    <div [ngbCollapse]="!isInstructorAccessCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
-            When <a (click)="jumpTo('course-add-instructor'); isAddInstrCollapsed = true" [routerLink]="">adding an instructor</a> or <a (click)="jumpTo('course-edit-instructor'); isEditInstrCollapsed = true" [routerLink]="">editing an instructor's information</a>, you can set the instructor's access level.
+            When <a (click)="jumpTo('course-add-instructor'); isAddInstructorCollapsed = true" [routerLink]="">adding an instructor</a> or <a (click)="jumpTo('course-edit-instructor'); isEditInstructorCollapsed = true" [routerLink]="">editing an instructor's information</a>, you can set the instructor's access level.
             There are 4 pre-defined privilege options for you to choose from:
           </p>
           <ul>
@@ -244,11 +244,11 @@
   <!--Question-->
   <div class="instr-help-qn9" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question id="course-view-students">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isViewStudsCollapsed = !isViewStudsCollapsed" [attr.aria-expanded]="!isViewStudsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isViewStudentsCollapsed = !isViewStudentsCollapsed" [attr.aria-expanded]="!isViewStudentsCollapsed">
       How do I view a list of students in a course?
       </button>
     </p>
-    <div [ngbCollapse]="!isViewStudsCollapsed">
+    <div [ngbCollapse]="!isViewStudentsCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -306,11 +306,11 @@
   <!--Question-->
   <div class="instr-help-qn11" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isDisappCourseCollapsed = !isDisappCourseCollapsed" [attr.aria-expanded]="!isDisappCourseCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isDisappearedCourseCollapsed = !isDisappearedCourseCollapsed" [attr.aria-expanded]="!isDisappearedCourseCollapsed">
       What should I do if a student says his/her courses have disappeared from the system?
       </button>
     </p>
-    <div [ngbCollapse]="!isDisappCourseCollapsed">
+    <div [ngbCollapse]="!isDisappearedCourseCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -337,7 +337,7 @@
           </p>
           <ol>
             <li>
-              <a (click)="jumpTo('course-view-students'); isViewStudsCollapsed = true" [routerLink]="">View the student list</a> of Course B.
+              <a (click)="jumpTo('course-view-students'); isViewStudentsCollapsed = true" [routerLink]="">View the student list</a> of Course B.
             </li>
             <li>
               In the row corresponding to Student A, click the <button class="btn btn-secondary btn-sm">Delete</button> button.
@@ -396,7 +396,7 @@
           </p>
           <p>
             The courses you have previously archived are listed here.
-            In order to access information in an archived course, <a (click)="jumpTo('course-unarchive'); isCourseUnarchCollapsed = true" [routerLink]="">unarchive the course</a>.
+            In order to access information in an archived course, <a (click)="jumpTo('course-unarchive'); isCourseUnarchiveCollapsed = true" [routerLink]="">unarchive the course</a>.
           </p>
         </div>
       </div>
@@ -406,11 +406,11 @@
   <!--Question-->
   <div class="instr-help-qn15" *ngIf="showQuestion.length === 0 || showQuestion[15]" #question id="course-unarchive">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCourseUnarchCollapsed = !isCourseUnarchCollapsed" [attr.aria-expanded]="!isCourseUnarchCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isCourseUnarchiveCollapsed = !isCourseUnarchiveCollapsed" [attr.aria-expanded]="!isCourseUnarchiveCollapsed">
       How do I unarchive an archived course?
       </button>
     </p>
-    <div [ngbCollapse]="!isCourseUnarchCollapsed">
+    <div [ngbCollapse]="!isCourseUnarchiveCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
