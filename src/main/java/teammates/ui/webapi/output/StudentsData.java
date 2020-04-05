@@ -1,5 +1,6 @@
 package teammates.ui.webapi.output;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ public class StudentsData extends ApiOutput {
 
     public StudentsData() {
         // Use this constructor if StudentData is to be sent with the key
+        this.students = new ArrayList<>();
     }
 
     public StudentsData(List<StudentAttributes> students) {

@@ -81,6 +81,8 @@ public class SearchStudentsAction extends Action {
         List<StudentAttributes> students;
         List<StudentData> studentDataList = new ArrayList<>();
 
+        populateCourseIdToInstituteMap();
+
         // Search for students
         if (userInfo.isAdmin) {
             students = logic.searchStudentsInWholeSystem(searchKey).studentList;
@@ -95,17 +97,12 @@ public class SearchStudentsAction extends Action {
             if (userInfo.isAdmin) {
                 studentData.setKey(StringHelper.encrypt(s.getKey()));
             }
+            studentData.setInstitute(courseIdToInstituteMap.get(s.getCourse()));
 
             studentDataList.add(studentData);
         }
         StudentsData studentsData = new StudentsData();
         studentsData.setStudents(studentDataList);
-
-        // Set Institute
-        populateCourseIdToInstituteMap();
-        studentsData.getStudents().forEach((StudentData student) -> {
-            student.setInstitute(courseIdToInstituteMap.get(student.getCourseId()));
-        });
 
         // Hide information
         studentsData.getStudents().forEach(StudentData::hideLastName);
