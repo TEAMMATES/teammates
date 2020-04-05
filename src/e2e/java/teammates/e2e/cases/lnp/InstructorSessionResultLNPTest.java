@@ -329,7 +329,6 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
     @BeforeClass
     public void classSetup() throws IOException, HttpRequestFailedException {
         createTestData();
-        persistTestData();
     }
 
     @Test

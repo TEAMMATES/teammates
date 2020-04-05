@@ -7,7 +7,7 @@ import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
-  FeedbackQuestionDetails, FeedbackQuestions,
+  FeedbackQuestionDetails, FeedbackQuestionRecipients, FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails, FeedbackRubricQuestionDetails,
   FeedbackVisibilityType,
@@ -512,13 +512,32 @@ export class FeedbackQuestionsService {
   /**
    * Gets feedback questions.
    */
-  getFeedbackQuestions(queryParams: {courseId: string, feedbackSessionName: string, intent: Intent}):
-      Observable<FeedbackQuestions> {
+  getFeedbackQuestions(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    intent: Intent,
+    key?: string,
+    moderatedPerson?: string,
+    previewAs?: string,
+  }): Observable<FeedbackQuestions> {
     const paramMap: { [key: string]: string } = {
       intent: queryParams.intent,
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
     };
+
+    if (queryParams.key) {
+      paramMap.key = queryParams.key;
+    }
+
+    if (queryParams.moderatedPerson) {
+      paramMap.moderatedperson = queryParams.moderatedPerson;
+    }
+
+    if (queryParams.previewAs) {
+      paramMap.previewas = queryParams.previewAs;
+    }
+
     return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);
   }
 
@@ -561,6 +580,25 @@ export class FeedbackQuestionsService {
     return this.httpRequestService.delete(ResourceEndpoints.QUESTION, paramMap);
   }
 
+  /**
+   * Get a list of feedback question recipients.
+   */
+  loadFeedbackQuestionRecipients(queryParams: {
+    questionId: string,
+    intent: Intent,
+    key: string,
+    moderatedPerson: string,
+    previewAs: string,
+  }): Observable<FeedbackQuestionRecipients> {
+    const paramMap: { [key: string]: string } = {
+      questionid: queryParams.questionId,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+      previewas: queryParams.previewAs,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.QUESTION_RECIPIENTS, paramMap);
+  }
 }
 
 /**
