@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { CommentVisibilityType, FeedbackResponseComment } from '../../../../types/api-output';
-import { FeedbackVisibilityType } from '../../../../types/api-request';
+import { FeedbackVisibilityType, Intent } from '../../../../types/api-request';
 import { CommentVisibilityControl } from '../../../../types/visibility-control';
-import { Intent } from '../../../Intent';
 // tslint:disable-next-line:max-line-length
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { CommentEditFormModel } from '../../comment-box/comment-edit-form/comment-edit-form.component';

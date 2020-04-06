@@ -2,9 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { CommentVisibilityType, FeedbackResponseComment } from '../../../../types/api-output';
-import { FeedbackVisibilityType } from '../../../../types/api-request';
+import { FeedbackVisibilityType, Intent } from '../../../../types/api-request';
 import { CommentVisibilityControl } from '../../../../types/visibility-control';
-import { Intent } from '../../../Intent';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
 import { CommentRowModel } from '../comment-row/comment-row.component';
 

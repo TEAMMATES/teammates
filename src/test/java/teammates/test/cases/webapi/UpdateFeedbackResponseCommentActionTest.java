@@ -18,7 +18,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.output.CommentVisibilityType;

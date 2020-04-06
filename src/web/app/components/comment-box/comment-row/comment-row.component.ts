@@ -18,7 +18,7 @@ export interface CommentRowModel {
   // timezone and originalComment are optional under ADD mode.
 
   commentEditFormModel: CommentEditFormModel;
-  isEditing: boolean;
+  isEditing?: boolean;
 }
 
 /**

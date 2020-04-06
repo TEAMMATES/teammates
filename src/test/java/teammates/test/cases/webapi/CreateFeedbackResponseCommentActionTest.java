@@ -23,7 +23,6 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.CommentVisibilityType;
 import teammates.ui.webapi.output.FeedbackResponseCommentData;
