@@ -123,8 +123,8 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         };
 
         verifyAccessibleForAdmin(submissionParams);
-        verifyInaccessibleWithoutModifyStudentPrivilege(submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
     }
 
 }

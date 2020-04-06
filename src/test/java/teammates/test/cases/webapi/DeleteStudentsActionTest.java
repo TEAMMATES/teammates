@@ -64,8 +64,8 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
-        verifyInaccessibleWithoutModifyStudentPrivilege(submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
     }
 
 }
