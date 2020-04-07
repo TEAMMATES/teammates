@@ -117,7 +117,7 @@ public class InstructorData extends ApiOutput {
     /**
      * Adds additional attributes only for search result for admin.
      *
-     * @param key Encrypted key for registration
+     * @param key Encrypted registration key
      * @param institute Institute of the student
      */
     public void addAdditionalInformationForAdminSearch(String key, String institute) {
