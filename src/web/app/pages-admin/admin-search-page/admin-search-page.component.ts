@@ -4,7 +4,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { AdminSearchResult, InstructorAccountSearchResult,
   StudentAccountSearchResult } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SearchService } from "../../../services/search.service";
 
 /**
  * Admin search page.
@@ -20,7 +19,7 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
 
-  constructor(private statusMessageService: StatusMessageService, private accountService: AccountService, private searchService: SearchService) {}
+  constructor(private statusMessageService: StatusMessageService, private accountService: AccountService) {}
 
   /**
    * Searches for students and instructors matching the search query.
@@ -41,7 +40,6 @@ export class AdminSearchPageComponent {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-    this.searchService.searchAdmin(this.searchQuery).subscribe((resp: any) => console.log(resp))
   }
 
   /**
