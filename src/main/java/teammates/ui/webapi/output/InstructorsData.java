@@ -14,8 +14,6 @@ public class InstructorsData extends ApiOutput {
     private List<InstructorData> instructors;
 
     public InstructorsData() {
-        // Only use this constructor for SearchInstructorsAction,
-        // or if you are certain that setInstructors will be called later.
         this.instructors = new ArrayList<>();
     }
 

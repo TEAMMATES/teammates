@@ -47,13 +47,17 @@ public class SearchInstructorsAction extends Action {
                     instructorData.setInstitute(institute);
                 }
             }
+
+            // Hide certain fields
+            instructorData.setRole(null);
+            instructorData.setDisplayedToStudentsAs(null);
+            instructorData.setIsDisplayedToStudents(null);
+
             instructorDataList.add(instructorData);
         }
 
         InstructorsData instructorsData = new InstructorsData();
         instructorsData.setInstructors(instructorDataList);
-
-        instructorsData.getInstructors().forEach(InstructorData::hideInformationForSearch);
 
         return new JsonResult(instructorsData);
     }
