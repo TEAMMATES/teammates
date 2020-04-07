@@ -19,6 +19,10 @@ public class InstructorData extends ApiOutput {
     @Nullable
     private InstructorPermissionRole role;
     private JoinState joinState;
+    @Nullable
+    private String key;
+    @Nullable
+    private String institute;
 
     public InstructorData(InstructorAttributes instructorAttributes) {
         this.googleId = instructorAttributes.getGoogleId();
@@ -85,6 +89,22 @@ public class InstructorData extends ApiOutput {
         this.joinState = joinState;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
     /**
      * Hides some attributes for search result.
      */
@@ -92,5 +112,16 @@ public class InstructorData extends ApiOutput {
         setRole(null);
         setDisplayedToStudentsAs(null);
         setIsDisplayedToStudents(null);
+    }
+
+    /**
+     * Adds additional attributes only for search result for admin.
+     *
+     * @param key Encrypted registration key
+     * @param institute Institute of the student
+     */
+    public void addAdditionalInformationForAdminSearch(String key, String institute) {
+        setKey(key);
+        setInstitute(institute);
     }
 }
