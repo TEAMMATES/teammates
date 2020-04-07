@@ -97,11 +97,8 @@ public class InstructorData extends ApiOutput {
         return key;
     }
 
-    public void setKey(List<InstructorAttributes> instructorAttributes) {
-        this.key = StringHelper.encrypt(instructorAttributes.stream()
-                .filter((InstructorAttributes instructorAttribute)
-                        -> this.googleId.equals(instructorAttribute.getGoogleId()))
-                .collect(Collectors.toList()).get(0).getKey());
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getInstitute() {

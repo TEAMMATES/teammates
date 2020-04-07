@@ -174,7 +174,7 @@ export class SearchService {
     return forkJoin(
       this.feedbackSessionService.getFeedbackSessionsForStudent(courseId),
       this.courseService.getCourseAsStudent(courseId),
-      this.instructorService.getInstructorsFromCourse(courseId, Intent.FULL_DETAIL),
+      this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
       this.instructorService.loadInstructorPrivilege({ courseId }),
     ).pipe(
       map((resp: [FeedbackSessions, Course, Instructors, InstructorPrivilege]) => this.joinAdminStudent(resp, student)),
@@ -279,8 +279,8 @@ export class SearchService {
       googleId: '',
       showLinks: false,
     };
-    const { email, name, googleId }: Instructor = instructor;
-    instructorResult = { ...instructorResult, email, name, googleId };
+    const { email, name, googleId, institute = '' }: Instructor = instructor;
+    instructorResult = { ...instructorResult, email, name, googleId, institute };
 
     const { courseId, courseName }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName };
