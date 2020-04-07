@@ -109,4 +109,24 @@ public class StudentData extends ApiOutput {
     public void setInstitute(String institute) {
         this.institute = institute;
     }
+
+    /**
+     * Hides last name.
+     */
+    public void hideLastName() {
+        setLastName(null);
+    }
+
+    /**
+     * Hides some attributes to instructor.
+     */
+    public void hideInformationForInstructor() {
+        setGoogleId(null);
+        setComments(null);
+    }
+
+    public void addAdditionalInformationForAdminSearch(String key, String institute) {
+        this.setKey(key);
+        this.setInstitute(institute);
+    }
 }

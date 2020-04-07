@@ -1,11 +1,7 @@
 package teammates.ui.webapi.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -21,9 +17,6 @@ import teammates.ui.webapi.output.StudentsData;
  */
 public class SearchStudentsAction extends Action {
 
-    private Set<String> courseIds = new HashSet<>();
-    private Map<String, String> courseIdToInstituteMap = new HashMap<>();
-
     @Override
     protected AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -37,17 +30,19 @@ public class SearchStudentsAction extends Action {
         }
     }
 
-    private void populateCourseIdToInstituteMap() {
-        for (String courseId : courseIds) {
-            String instructorForCourseGoogleId = findAvailableInstructorGoogleIdForCourse(courseId);
-            AccountAttributes account = logic.getAccount(instructorForCourseGoogleId);
-            if (account == null) {
-                continue;
-            }
-
-            String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
-            courseIdToInstituteMap.put(courseId, institute);
+    private String getInstituteFromCourseId(String courseId) {
+        String instructorForCourseGoogleId = findAvailableInstructorGoogleIdForCourse(courseId);
+        if (instructorForCourseGoogleId == null) {
+            return null;
         }
+
+        AccountAttributes account = logic.getAccount(instructorForCourseGoogleId);
+        if (account == null) {
+            return null;
+        }
+
+        String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+        return institute;
     }
 
     /**
@@ -81,8 +76,6 @@ public class SearchStudentsAction extends Action {
         List<StudentAttributes> students;
         List<StudentData> studentDataList = new ArrayList<>();
 
-        populateCourseIdToInstituteMap();
-
         // Search for students
         if (userInfo.isAdmin) {
             students = logic.searchStudentsInWholeSystem(searchKey).studentList;
@@ -92,19 +85,16 @@ public class SearchStudentsAction extends Action {
         }
 
         for (StudentAttributes s : students) {
-            courseIds.add(s.getCourse());
             StudentData studentData = new StudentData(s);
 
-            studentData.setInstitute(courseIdToInstituteMap.get(s.getCourse()));
-
             if (userInfo.isAdmin) {
-                studentData.setKey(StringHelper.encrypt(s.getKey()));
+                studentData.addAdditionalInformationForAdminSearch(
+                        StringHelper.encrypt(s.getKey()),
+                        getInstituteFromCourseId(s.getCourse()));
             } else {
-                studentData.setGoogleId(null);
-                studentData.setComments(null);
+                studentData.hideInformationForInstructor();
             }
-
-            studentData.setLastName(null);
+            studentData.hideLastName();
 
             studentDataList.add(studentData);
         }
