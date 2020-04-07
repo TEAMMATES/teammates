@@ -104,7 +104,7 @@ public class InstructorData extends ApiOutput {
     public void setInstitute(String institute) {
         this.institute = institute;
     }
-    
+
     /**
      * Hides some attributes for search result.
      */
@@ -116,6 +116,9 @@ public class InstructorData extends ApiOutput {
 
     /**
      * Adds additional attributes only for search result for admin.
+     *
+     * @param key Encrypted key for registration
+     * @param institute Institute of the student
      */
     public void addAdditionalInformationForAdminSearch(String key, String institute) {
         setKey(key);

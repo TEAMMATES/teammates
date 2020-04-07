@@ -33,8 +33,7 @@ public class SearchInstructorsAction extends Action {
         if (googleId != null) {
             AccountAttributes account = logic.getAccount(googleId);
             if (account != null) {
-                String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
-                return institute;
+                return StringHelper.isEmpty(account.institute) ? "None" : account.institute;
             }
         }
         return null;
