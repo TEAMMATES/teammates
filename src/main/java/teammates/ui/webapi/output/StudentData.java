@@ -23,7 +23,6 @@ public class StudentData extends ApiOutput {
     private String key;
     @Nullable
     private String institute;
-    @Nullable
 
     private JoinState joinState;
 
@@ -125,6 +124,12 @@ public class StudentData extends ApiOutput {
         setComments(null);
     }
 
+    /**
+     * Adds additional information only for search result for admin.
+     *
+     * @param key The encyrpted key
+     * @param institute The institute of the student
+     */
     public void addAdditionalInformationForAdminSearch(String key, String institute) {
         this.setKey(key);
         this.setInstitute(institute);

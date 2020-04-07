@@ -41,8 +41,7 @@ public class SearchStudentsAction extends Action {
             return null;
         }
 
-        String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
-        return institute;
+        return StringHelper.isEmpty(account.institute) ? "None" : account.institute;
     }
 
     /**
