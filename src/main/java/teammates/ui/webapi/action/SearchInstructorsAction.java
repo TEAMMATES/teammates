@@ -29,6 +29,17 @@ public class SearchInstructorsAction extends Action {
         }
     }
 
+    private String getInstituteFromGoogleId(String googleId) {
+        if (googleId != null) {
+            AccountAttributes account = logic.getAccount(googleId);
+            if (account != null) {
+                String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                return institute;
+            }
+        }
+        return null;
+    }
+
     @Override
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
@@ -37,21 +48,10 @@ public class SearchInstructorsAction extends Action {
         List<InstructorData> instructorDataList = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
-            // Only admin will be able to access this page, so we can go ahead and set the key
-            instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
-
-            if (instructor.getGoogleId() != null) {
-                AccountAttributes account = logic.getAccount(instructor.getGoogleId());
-                if (account != null) {
-                    String institute = StringHelper.isEmpty(account.institute) ? "None" : account.institute;
-                    instructorData.setInstitute(institute);
-                }
-            }
-
-            // Hide certain fields
-            instructorData.setRole(null);
-            instructorData.setDisplayedToStudentsAs(null);
-            instructorData.setIsDisplayedToStudents(null);
+            instructorData.addAdditionalInformationForAdminSearch(
+                    StringHelper.encrypt(instructor.getKey()),
+                    getInstituteFromGoogleId(instructor.getGoogleId()));
+            instructorData.hideInformationForSearch();
 
             instructorDataList.add(instructorData);
         }

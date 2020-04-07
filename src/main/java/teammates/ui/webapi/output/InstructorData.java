@@ -104,4 +104,21 @@ public class InstructorData extends ApiOutput {
     public void setInstitute(String institute) {
         this.institute = institute;
     }
+    
+    /**
+     * Hides some attributes for search result.
+     */
+    public void hideInformationForSearch() {
+        setRole(null);
+        setDisplayedToStudentsAs(null);
+        setIsDisplayedToStudents(null);
+    }
+
+    /**
+     * Adds additional attributes only for search result for admin.
+     */
+    public void addAdditionalInformationForAdminSearch(String key, String institute) {
+        setKey(key);
+        setInstitute(institute);
+    }
 }
