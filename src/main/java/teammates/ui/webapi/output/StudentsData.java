@@ -14,8 +14,6 @@ public class StudentsData extends ApiOutput {
     private List<StudentData> students;
 
     public StudentsData() {
-        // Only use this constructor for the SearchStudentsAction action,
-        // or if you are certain that setStudents would be called after instantiating this object.
         this.students = new ArrayList<>();
     }
 

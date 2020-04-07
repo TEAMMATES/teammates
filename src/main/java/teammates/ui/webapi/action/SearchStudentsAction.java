@@ -94,21 +94,22 @@ public class SearchStudentsAction extends Action {
         for (StudentAttributes s : students) {
             courseIds.add(s.getCourse());
             StudentData studentData = new StudentData(s);
+
+            studentData.setInstitute(courseIdToInstituteMap.get(s.getCourse()));
+
             if (userInfo.isAdmin) {
                 studentData.setKey(StringHelper.encrypt(s.getKey()));
+            } else {
+                studentData.setGoogleId(null);
+                studentData.setComments(null);
             }
-            studentData.setInstitute(courseIdToInstituteMap.get(s.getCourse()));
+
+            studentData.setLastName(null);
 
             studentDataList.add(studentData);
         }
         StudentsData studentsData = new StudentsData();
         studentsData.setStudents(studentDataList);
-
-        // Hide information
-        studentsData.getStudents().forEach(StudentData::hideLastName);
-        if (userInfo.isInstructor) {
-            studentsData.getStudents().forEach(StudentData::hideInformationForInstructor);
-        }
 
         return new JsonResult(studentsData);
     }
