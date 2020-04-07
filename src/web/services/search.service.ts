@@ -57,6 +57,8 @@ export class SearchService {
         flatMap((studentsArray: Student[]) =>
                 studentsArray.length !== 0
                   ? forkJoin(studentsArray.map((student: Student) => this.createStudentAccountSearchResult(student)))
+                  // Returning an empty array observable in the event studentsArray is empty
+                  // else the outer forkJoin will not complete
                   : of([])),
       ),
       this.getInstructors(searchKey).pipe(
@@ -65,6 +67,8 @@ export class SearchService {
                 instructorsArray.length !== 0
                   ? forkJoin(instructorsArray.map((instructor: Instructor) =>
                                                   this.createInstructorAccountSearchResult(instructor)))
+                  // Returning an empty array observable in the event instructorsArray is empty.
+                  // else the outer forkjoin will not complete
                   : of([])),
       ),
     ).pipe(
@@ -217,7 +221,7 @@ export class SearchService {
     studentResult = { ...studentResult, courseId, courseName };
 
     let instructorGoogleId: string = '';
-    // Get instructors with a vlaid google id.
+    // Get instructors with a valid google id.
     const instructorsWithGoogleIds: Instructor[] = instructors.instructors
       .filter((instructor: Instructor) => instructor.googleId != null);
     const isAllowedToModifyInstructor: boolean = instructorPrivilege.canModifyInstructor;
@@ -226,7 +230,7 @@ export class SearchService {
     if (isAllowedToModifyInstructor && instructorsWithGoogleIds.length > 0) {
       instructorGoogleId = instructorsWithGoogleIds[0].googleId;
     } else {
-      // Search for instructors with coowner privileges and selects the first eligible one.
+      // Search for instructors with coowner privileges and select the first eligible one.
       const instructorsWithCoownerPrivileges: Instructor[] = instructorsWithGoogleIds
         .filter((instructor: Instructor) =>
                 instructor.role
