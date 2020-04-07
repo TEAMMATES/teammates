@@ -89,7 +89,7 @@ describe('InstructorCoursesPageComponent', () => {
     },
   ];
 
-  const courseStats: {[key: string]: { [key: string]: number }} = {
+  const courseStats: Record<string, Record<string, number>> = {
     CS3281 : {
       sections: 1,
       teams: 1,
