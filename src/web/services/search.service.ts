@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { flatMap, map, mergeMap } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import {
@@ -251,10 +251,10 @@ export class SearchService {
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLinkStudent(student);
     studentResult.homePageLink = this.linkService
-      .generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
+      .generateHomePageLink(googleId, WebPageEndpoints.STUDENT_HOME_PAGE);
     studentResult.recordsPageLink = this.linkService.generateRecordsPageLink(student, instructorGoogleId);
     studentResult.manageAccountLink = this.linkService
-      .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
+      .generateManageAccountLink(googleId, WebPageEndpoints.ADMIN_ACCOUNTS_PAGE);
 
     return studentResult;
   }
@@ -288,9 +288,9 @@ export class SearchService {
     // Generate links for instructors
     instructorResult.courseJoinLink = this.linkService.generateCourseJoinLinkInstructor(instructor);
     instructorResult.homePageLink = this.linkService
-      .generateHomePageLink(googleId, this.linkService.INSTRUCTOR_HOME_PAGE);
+      .generateHomePageLink(googleId, WebPageEndpoints.INSTRUCTOR_HOME_PAGE);
     instructorResult.manageAccountLink = this.linkService
-      .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
+      .generateManageAccountLink(googleId, WebPageEndpoints.ADMIN_ACCOUNTS_PAGE);
 
     return instructorResult;
   }

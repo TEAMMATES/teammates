@@ -1,12 +1,8 @@
 package teammates.ui.webapi.output;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.StringHelper;
 
 /**
  * The API output format of an instructor.

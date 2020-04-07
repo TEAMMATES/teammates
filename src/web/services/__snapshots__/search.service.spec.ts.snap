@@ -7,7 +7,7 @@ Object {
   "courseName": "Sample Course 101",
   "email": "dog@gmail.com",
   "googleId": "test@example.com",
-  "homePageLink": "/web/instuctor/home?user=test%40example.com",
+  "homePageLink": "/web/instructor/home?user=test%40example.com",
   "institute": "",
   "manageAccountLink": "/web/admin/accounts?instructorid=test%40example.com",
   "name": "Hi",

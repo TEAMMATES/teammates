@@ -52,12 +52,12 @@ describe('Link Service', () => {
 
   it('should generate the home page link', () => {
     expect(service.generateHomePageLink('blahblah', 'comeseetheopressioninherentinthesystem'))
-      .toBe('/web/comeseetheopressioninherentinthesystem?user=blahblah');
+      .toBe('comeseetheopressioninherentinthesystem?user=blahblah');
   });
 
   it('should generate the manage account link', () => {
     expect(service.generateManageAccountLink('hello there', 'generalkenobiyouareaboldone'))
-      .toBe('/web/generalkenobiyouareaboldone?instructorid=hello%20there');
+      .toBe('generalkenobiyouareaboldone?instructorid=hello%20there');
   });
 
   it('should generate the record page link', () => {

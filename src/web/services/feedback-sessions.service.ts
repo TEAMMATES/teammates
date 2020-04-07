@@ -371,7 +371,7 @@ export class FeedbackSessionsService {
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_LINKS_RECOVERY, paramMap);
   }
-  
+
   /**
    * Checks if a given feedback session is still open.
    */
