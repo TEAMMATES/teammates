@@ -191,5 +191,4 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         // TODO: It's troublesome to validate Rank Recipient question's responses as REST requests are sent concurrently.
         // need to find way to do so.
     }
-
 }

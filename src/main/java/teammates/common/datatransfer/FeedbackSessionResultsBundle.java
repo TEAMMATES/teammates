@@ -56,7 +56,7 @@ public class FeedbackSessionResultsBundle {
     public List<FeedbackResponseAttributes> actualResponses;
 
     // For contribution questions.
-    // Key is questionId, value is a map of student email to StudentResultSumary
+    // Key is questionId, value is a map of student email to StudentResultSummary
     public Map<String, Map<String, StudentResultSummary>> contributionQuestionStudentResultSummary = new HashMap<>();
     // Key is questionId, value is a map of team name to TeamEvalResult
     public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults = new HashMap<>();
