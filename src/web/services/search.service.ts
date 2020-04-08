@@ -52,7 +52,7 @@ export class SearchService {
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
     return forkJoin(
-      this.getStudents(searchKey).pipe(
+      this.searchStudents(searchKey).pipe(
         map((students: Students) => students.students),
         flatMap((studentsArray: Student[]) =>
                 studentsArray.length !== 0
@@ -61,7 +61,7 @@ export class SearchService {
                   // else the outer forkJoin will not complete
                   : of([])),
       ),
-      this.getInstructors(searchKey).pipe(
+      this.searchInstructors(searchKey).pipe(
         map((instructors: Instructors) => instructors.instructors),
         flatMap((instructorsArray: Instructor[]) =>
                 instructorsArray.length !== 0
@@ -79,14 +79,14 @@ export class SearchService {
     );
   }
 
-  getStudents(searchKey: string): Observable<Students> {
+  searchStudents(searchKey: string): Observable<Students> {
     const paramMap: { [key: string]: string } = {
       searchkey: searchKey,
     };
     return this.httpRequestService.get('/search/students', paramMap);
   }
 
-  getInstructors(searchKey: string): Observable<Instructors> {
+  searchInstructors(searchKey: string): Observable<Instructors> {
     const paramMap: { [key: string]: string } = {
       searchkey: searchKey,
     };
@@ -175,17 +175,25 @@ export class SearchService {
       this.feedbackSessionService.getFeedbackSessionsForStudent(courseId),
       this.courseService.getCourseAsStudent(courseId),
       this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
-      this.instructorService.loadInstructorPrivilege({ courseId }),
     ).pipe(
-      map((resp: [FeedbackSessions, Course, Instructors, InstructorPrivilege]) => this.joinAdminStudent(resp, student)),
+      flatMap((resp: [FeedbackSessions, Course, Instructors]) => {
+        return forkJoin(
+          of(resp[0]),
+          of(resp[1]),
+          of(resp[2]),
+          forkJoin(resp[2].instructors.map((instructor: Instructor) => this.instructorService
+            .loadInstructorPrivilege({ courseId, instructorId: instructor.googleId })))
+        );
+      }),
+      map((resp: [FeedbackSessions, Course, Instructors, InstructorPrivilege[]]) => this.joinAdminStudent(resp, student)),
     );
   }
 
   joinAdminStudent(
-    resp: [FeedbackSessions, Course, Instructors, InstructorPrivilege], student: Student,
+    resp: [FeedbackSessions, Course, Instructors, InstructorPrivilege[]], student: Student,
   ): StudentAccountSearchResult {
-    const [feedbackSessions, course, instructors, instructorPrivilege]: [
-      FeedbackSessions, Course, Instructors, InstructorPrivilege
+    const [feedbackSessions, course, instructors, instructorPrivileges]: [
+      FeedbackSessions, Course, Instructors, InstructorPrivilege[]
     ] = resp;
     let studentResult: StudentAccountSearchResult = {
       email: '',
@@ -220,26 +228,14 @@ export class SearchService {
     const { courseId, courseName }: Course = course;
     studentResult = { ...studentResult, courseId, courseName };
 
-    let instructorGoogleId: string = '';
-    // Get instructors with a valid google id.
-    const instructorsWithGoogleIds: Instructor[] = instructors.instructors
-      .filter((instructor: Instructor) => instructor.googleId != null);
-    const isAllowedToModifyInstructor: boolean = instructorPrivilege.canModifyInstructor;
-
-    // If allowed to modify instructor for course, just pick the first valid instructor.
-    if (isAllowedToModifyInstructor && instructorsWithGoogleIds.length > 0) {
-      instructorGoogleId = instructorsWithGoogleIds[0].googleId;
-    } else {
-      // Search for instructors with coowner privileges and select the first eligible one.
-      const instructorsWithCoownerPrivileges: Instructor[] = instructorsWithGoogleIds
-        .filter((instructor: Instructor) =>
-                instructor.role
-                ? instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER
-                : false,
-        );
-      if (instructorsWithCoownerPrivileges.length > 0) {
-        const { googleId: instructorGoogleIdResult = '' }: { googleId: string } = instructorsWithCoownerPrivileges[0];
-        instructorGoogleId = instructorGoogleIdResult;
+    let masqueradeGoogleId = '';
+    for (let instructor of instructors.instructors) {
+      const instructorPrivilege = instructorPrivileges.shift();
+      if (instructor.googleId != null && 
+          ((instructorPrivilege as InstructorPrivilege).canModifyInstructor || 
+           instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER)) {
+        masqueradeGoogleId = instructor.googleId;
+        break;
       }
     }
 
@@ -252,7 +248,7 @@ export class SearchService {
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLinkStudent(student);
     studentResult.homePageLink = this.linkService
       .generateHomePageLink(googleId, WebPageEndpoints.STUDENT_HOME_PAGE);
-    studentResult.recordsPageLink = this.linkService.generateRecordsPageLink(student, instructorGoogleId);
+    studentResult.recordsPageLink = this.linkService.generateRecordsPageLink(student, masqueradeGoogleId);
     studentResult.manageAccountLink = this.linkService
       .generateManageAccountLink(googleId, WebPageEndpoints.ADMIN_ACCOUNTS_PAGE);
 

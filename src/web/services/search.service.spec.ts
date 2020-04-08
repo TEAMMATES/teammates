@@ -162,17 +162,17 @@ describe('SearchService', () => {
     },
   ];
 
-  const mockPrivilege: InstructorPrivilege = {
-    "canModifyCourse": true,
-    "canModifySession": true,
-    "canModifyStudent": true,
-    "canModifyInstructor": true,
-    "canViewStudentInSections": true,
-    "canModifySessionCommentsInSections": true,
-    "canViewSessionInSections": true,
-    "canSubmitSessionInSections": true,
-    "requestId": "checkyourprivilege"
-  }
+  const mockPrivileges: InstructorPrivilege[] = [{
+    canModifyCourse: true,
+    canModifySession: true,
+    canModifyStudent: true,
+    canModifyInstructor: true,
+    canViewStudentInSections: true,
+    canModifySessionCommentsInSections: true,
+    canViewSessionInSections: true,
+    canSubmitSessionInSections: true,
+    requestId: 'checkyourprivilege',
+  }];
 
   const mockCourse: Course = {
     "courseId": "dog.gma-demo",
@@ -205,7 +205,7 @@ describe('SearchService', () => {
   });
 
   it('should execute GET when searching for students', () => {
-    service.getStudents('Alice');
+    service.searchStudents('Alice');
     const paramMap: { [key: string]: string } = {
       searchkey: 'Alice',
     };
@@ -319,7 +319,7 @@ describe('SearchService', () => {
   });
 
   it('should execute GET when searching for instructors', () => {
-    service.getInstructors('YoyoImCoronavirus');
+    service.searchInstructors('YoyoImCoronavirus');
     const paramMap: { [key: string]: string } = {
       searchkey: 'YoyoImCoronavirus',
     };
@@ -335,7 +335,7 @@ describe('SearchService', () => {
         { feedbackSessions: mockSessions },
         mockCourse,
         { instructors: [mockInstructor] },
-        mockPrivilege
+        mockPrivileges,
       ],
       mockStudent
     );

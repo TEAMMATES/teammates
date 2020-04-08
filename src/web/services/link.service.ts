@@ -77,7 +77,6 @@ export class LinkService {
 
   /**
    * Generates record page link.
-   * If the instructor id is not valid, return empty string.
    */
   generateRecordsPageLink(student: Student, instructorGoogleId: string): string {
     const { courseId: courseid, email: studentemail }: Student = student;
