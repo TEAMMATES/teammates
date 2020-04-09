@@ -93,7 +93,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads students of a specified course.
    */
   loadStudents(courseTab: CourseTab): void {
-    this.studentService.getStudentsFromCourse(courseTab.course.courseId)
+    this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
         .subscribe((students: Students) => {
           const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
             const term: string = x.sectionName;

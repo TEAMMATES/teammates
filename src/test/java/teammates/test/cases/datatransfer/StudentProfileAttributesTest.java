@@ -295,6 +295,62 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                         .withPictureKey(null));
     }
 
+    @Test
+    public void testEquals() {
+        // When the two student profiles are copies of each other
+        StudentProfileAttributes studentProfileCopy = profile.getCopy();
+
+        assertTrue(profile.equals(studentProfileCopy));
+
+        // When the two student profiles have same values but created at different time
+        StudentProfileAttributes studentProfileSimilar = StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                .withShortName("shor")
+                .withInstitute("institute")
+                .withEmail("valid@email.com")
+                .withNationality("Lebanese")
+                .withGender(StudentProfileAttributes.Gender.FEMALE)
+                .withMoreInfo("moreInfo can have a lot more than this...")
+                .withPictureKey("profile Pic Key")
+                .build();
+
+        assertTrue(profile.equals(studentProfileSimilar));
+
+        // When the two student profiles are different
+        StudentProfileAttributes studentProfileDifferent = getStudentProfileAttributesToSanitize();
+
+        assertFalse(profile.equals(studentProfileDifferent));
+
+        // When the other object is of different class
+        assertFalse(profile.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        // When the two student profiles are copies of each other, they should have the same hash code
+        StudentProfileAttributes studentProfileCopy = profile.getCopy();
+
+        assertTrue(profile.hashCode() == studentProfileCopy.hashCode());
+
+        // When the two student profiles have same values but created at different time,
+        // they should still have the same hash code
+        StudentProfileAttributes studentProfileSimilar = StudentProfileAttributes.builder(VALID_GOOGLE_ID)
+                .withShortName("shor")
+                .withInstitute("institute")
+                .withEmail("valid@email.com")
+                .withNationality("Lebanese")
+                .withGender(StudentProfileAttributes.Gender.FEMALE)
+                .withMoreInfo("moreInfo can have a lot more than this...")
+                .withPictureKey("profile Pic Key")
+                .build();
+
+        assertTrue(profile.hashCode() == studentProfileSimilar.hashCode());
+
+        // When the two student profiles are different, they should have different hash code
+        StudentProfileAttributes studentProfileDifferent = getStudentProfileAttributesToSanitize();
+
+        assertFalse(profile.hashCode() == studentProfileDifferent.hashCode());
+    }
+
     // -------------------------------------------------------------------------------------------------------
     // -------------------------------------- Helper Functions
     // -----------------------------------------------

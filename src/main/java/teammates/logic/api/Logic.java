@@ -357,17 +357,17 @@ public class Logic {
 
     /**
      * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
-     * Create an account for the instructor if there is no account exist for him.
+     * Creates an account for the instructor if there is no existing account for him.
      * Preconditions: <br>
-     * * All parameters are non-null.
+     * * Parameters encryptedKey and googleId are non-null.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         Assumption.assertNotNull(googleId);
         Assumption.assertNotNull(encryptedKey);
 
-        return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute);
+        return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute, mac);
     }
 
     /**
@@ -1890,6 +1890,20 @@ public class Logic {
     }
 
     /**
+     * Gets comment associated with the response.
+     *
+     * <p>The comment is given by a feedback participant to explain the response</p>
+     *
+     * @param feedbackResponseId the response id
+     */
+    public FeedbackResponseCommentAttributes getFeedbackResponseCommentForResponseFromParticipant(
+            String feedbackResponseId) {
+        Assumption.assertNotNull(feedbackResponseId);
+
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+    }
+
+    /**
      * Creates or updates document for the given comment.
      *
      * @see FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes)
@@ -1996,8 +2010,8 @@ public class Logic {
      *
      * @see DataBundleLogic#persistDataBundle(DataBundle)
      */
-    public void persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
-        dataBundleLogic.persistDataBundle(dataBundle);
+    public DataBundle persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
+        return dataBundleLogic.persistDataBundle(dataBundle);
     }
 
     /**

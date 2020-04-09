@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SearchResult } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { Student, Students } from '../types/api-output';
-import { StudentsEnrollRequest } from '../types/api-request';
+import { MessageOutput, Student, Students } from '../types/api-output';
+import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -21,18 +22,16 @@ export class StudentService {
    * If teamName is provided, only students in that team will be returned.
    * Otherwise, all students in the course will be returned.
    */
-  getStudentsFromCourse(courseId: string, teamName?: string): Observable<Students> {
-    if (teamName) {
-      const paramsMapWithTeamName: { [key: string]: string } = {
-        courseid: courseId,
-        teamname: teamName,
-      };
-      return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMapWithTeamName);
-    }
-    const paramsMapWithoutTeamName: { [key: string]: string } = {
-      courseid: courseId,
+  getStudentsFromCourse(queryParams: { courseId: string, teamName?: string }): Observable<Students> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
     };
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMapWithoutTeamName);
+
+    if (queryParams.teamName) {
+      paramsMap.teamname = queryParams.teamName;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
 
   }
 
@@ -59,6 +58,32 @@ export class StudentService {
   }
 
   /**
+   * Updates the details of a student in a course by calling API.
+   */
+  updateStudent(queryParams: { courseId: string, studentEmail: string, requestBody: StudentUpdateRequest }):
+      Observable<MessageOutput> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+      studentemail: queryParams.studentEmail,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.STUDENT, paramsMap, queryParams.requestBody);
+  }
+
+  /**
+   * Deletes a student in a course by calling API.
+   */
+  deleteStudent(queryParams: {
+    googleId: string,
+    courseId: string,
+  }): Observable<any> {
+    const paramsMap: { [key: string]: string } = {
+      googleid: queryParams.googleId,
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
+  }
+
+  /**
    * Enroll a list of students to a course by calling API.
    * Students who are enrolled successfully will be returned.
    */
@@ -78,5 +103,39 @@ export class StudentService {
       teamname: teamName,
     };
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
+  }
+
+  /**
+   * Deletes all students in a course by calling API.
+   */
+  deleteAllStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
+  }
+
+  /**
+   * Loads list of students from a course in CSV format by calling API.
+   */
+  loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
+    const paramsMap: { [key: string]: string } = {
+      courseid: queryParams.courseId,
+    };
+    const responseType: string = 'text';
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
+  }
+
+  /**
+   * Search for students based on input parameters by calling API.
+   */
+  searchForStudents(queryParams: { searchKey: string, searchStudents: string, searchFeedbackSessionData: string}):
+      Observable<SearchResult> {
+    const paramsMap: { [key: string]: string } = {
+      searchkey: queryParams.searchKey,
+      searchstudents: queryParams.searchStudents,
+      searchfeedbacksessiondata: queryParams.searchFeedbackSessionData,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, paramsMap);
   }
 }

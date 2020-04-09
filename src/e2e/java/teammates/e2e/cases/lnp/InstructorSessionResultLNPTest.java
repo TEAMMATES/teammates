@@ -28,6 +28,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterElements;
@@ -326,9 +327,8 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         createTestData();
-        persistTestData();
     }
 
     @Test
