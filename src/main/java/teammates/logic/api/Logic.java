@@ -1890,6 +1890,20 @@ public class Logic {
     }
 
     /**
+     * Gets comment associated with the response.
+     *
+     * <p>The comment is given by a feedback participant to explain the response</p>
+     *
+     * @param feedbackResponseId the response id
+     */
+    public FeedbackResponseCommentAttributes getFeedbackResponseCommentForResponseFromParticipant(
+            String feedbackResponseId) {
+        Assumption.assertNotNull(feedbackResponseId);
+
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+    }
+
+    /**
      * Creates or updates document for the given comment.
      *
      * @see FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes)

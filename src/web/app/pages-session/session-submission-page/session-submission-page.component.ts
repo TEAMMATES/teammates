@@ -4,9 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -20,7 +22,7 @@ import {
   FeedbackQuestion,
   FeedbackQuestionRecipient,
   FeedbackQuestionRecipients,
-  FeedbackResponse,
+  FeedbackResponse, FeedbackResponseComment,
   FeedbackSession,
   FeedbackSessionSubmissionStatus,
   Instructor,
@@ -28,6 +30,7 @@ import {
   Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
@@ -89,6 +92,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
   feedbackSessionInstructions: string = '';
+  feedbackSessionTimezone: string = '';
   feedbackSessionSubmissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.OPEN;
 
   intent: Intent = Intent.STUDENT_SUBMISSION;
@@ -114,6 +118,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private instructorService: InstructorService,
               private modalService: NgbModal,
               private pageScrollService: PageScrollService,
+              private authService: AuthService,
+              private commentService: FeedbackResponseCommentService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -136,12 +142,21 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         // disable submission in the preview mode
         this.isSubmissionFormsDisabled = true;
       }
+
+      if (this.regKey) {
+        // public page using regKey, fetch CSRF token
+        this.authService.getAuthUser().subscribe(() => {}, () => {});
+      }
+
       this.loadPersonName();
       this.loadFeedbackSession();
     });
   }
 
   ngAfterViewInit(): void {
+    if (!this.moderatedQuestionId) {
+      return;
+    }
     setTimeout(() => {
       this.pageScrollService.scroll({
         document: this.document,
@@ -211,6 +226,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               .tz(feedbackSession.timeZone).format(TIME_FORMAT);
 
       this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
+      this.feedbackSessionTimezone = feedbackSession.timeZone;
 
           // don't show alert modal in moderation
       if (!this.moderatedPerson) {
@@ -397,7 +413,54 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           numberOfRecipientSubmissionFormsNeeded -= 1;
         }
       }
+
+      // load comments
+      this.loadParticipantComment(model);
     }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+  }
+
+  /**
+   * Loads all comments given by feedback participants.
+   */
+  loadParticipantComment(model: QuestionSubmissionFormModel): void {
+    const loadCommentRequests: Observable<any>[] = [];
+    model.recipientSubmissionForms.forEach(
+        (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+          if (!recipientSubmissionFormModel.responseId) {
+            return;
+          }
+          loadCommentRequests.push(
+          this.commentService
+              .loadParticipantComment(recipientSubmissionFormModel.responseId, this.intent, {
+                key: this.regKey,
+                moderatedperson: this.moderatedPerson,
+              }).pipe(
+                  tap((comment: FeedbackResponseComment) => {
+                    recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
+                  }),
+                  // ignore 404 as comment does not exist
+                  catchError((err: any) => err.status === 404 ? of({}) : throwError(err)),
+              ));
+        });
+    forkJoin(loadCommentRequests).subscribe(() => {
+      // comment loading success
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Gets the comment model for a given comment.
+   */
+  getCommentModel(comment: FeedbackResponseComment): CommentRowModel {
+    return {
+      originalComment: comment,
+      commentEditFormModel: {
+        commentText: comment.commentText,
+      },
+      timezone: this.feedbackSessionTimezone,
+      isEditing: false,
+    };
   }
 
   /**
@@ -437,7 +500,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 moderatedPerson: this.moderatedPerson,
               }).pipe(
                   tap(() => {
+                    // clear inputs
                     recipientSubmissionFormModel.responseId = '';
+                    recipientSubmissionFormModel.commentByGiver = undefined;
                   }),
                   catchError((error: any) => {
                     this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
@@ -464,6 +529,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                         recipientSubmissionFormModel.responseDetails = resp.responseDetails;
                         recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
                       }),
+                      switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
                       catchError((error: any) => {
                         this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
                         failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
@@ -489,6 +555,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                         recipientSubmissionFormModel.responseDetails = resp.responseDetails;
                         recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
                       }),
+                      switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
                       catchError((error: any) => {
                         this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
                         failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
@@ -555,5 +622,122 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       hasSubmissionConfirmationError = true;
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Creates comment request.
+   */
+  createCommentRequest(recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel): Observable<any> {
+    if (!recipientSubmissionFormModel.responseId) {
+      // responseId not set, cannot set comment
+      return of({});
+    }
+    if (!recipientSubmissionFormModel.commentByGiver) {
+      // comment not given, do nothing
+      return of({});
+    }
+
+    if (!recipientSubmissionFormModel.commentByGiver.originalComment) {
+      // comment is new
+
+      if (recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText === '') {
+        // new comment is empty
+        recipientSubmissionFormModel.commentByGiver = undefined;
+        return of({});
+      }
+
+      // create new comment
+      return this.commentService.createComment({
+        commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
+        showCommentTo: [],
+        showGiverNameTo: [],
+      }, recipientSubmissionFormModel.responseId, this.intent, {
+        key: this.regKey,
+        moderatedperson: this.moderatedPerson,
+      }).pipe(
+          tap((comment: FeedbackResponseComment) => {
+            recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
+          }),
+      );
+    }
+
+    // existing comment
+
+    if (recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText === '') {
+      // comment is empty, create delete request
+      return this.commentService.deleteComment(
+          recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {
+            key: this.regKey,
+            moderatedperson: this.moderatedPerson,
+          })
+          .pipe(
+              tap(() => {
+                recipientSubmissionFormModel.commentByGiver = undefined;
+              }));
+    }
+
+    // update comment
+    return this.commentService.updateComment({
+      commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
+      showCommentTo: [],
+      showGiverNameTo: [],
+    }, recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {
+      key: this.regKey,
+      moderatedperson: this.moderatedPerson,
+    }).pipe(
+        tap((comment: FeedbackResponseComment) => {
+          recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
+        }),
+    );
+  }
+
+  /**
+   * Deletes a comment by participants.
+   */
+  deleteParticipantComment(questionIndex: number, responseIdx: number): void {
+    const recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel =
+        this.questionSubmissionForms[questionIndex].recipientSubmissionForms[responseIdx];
+
+    if (!recipientSubmissionFormModel.commentByGiver || !recipientSubmissionFormModel.commentByGiver.originalComment) {
+      return;
+    }
+
+    this.commentService.deleteComment(
+        recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {
+          key: this.regKey,
+          moderatedperson: this.moderatedPerson,
+        }).subscribe(() => {
+          recipientSubmissionFormModel.commentByGiver = undefined;
+          this.statusMessageService.showSuccessMessage('Your comment has been deleted!');
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Updates a comment by participants.
+   */
+  updateParticipantComment(questionIndex: number, responseIdx: number): void {
+    const recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel =
+        this.questionSubmissionForms[questionIndex].recipientSubmissionForms[responseIdx];
+
+    if (!recipientSubmissionFormModel.commentByGiver || !recipientSubmissionFormModel.commentByGiver.originalComment) {
+      return;
+    }
+
+    this.commentService.updateComment({
+      commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
+      showCommentTo: [],
+      showGiverNameTo: [],
+    }, recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {
+      key: this.regKey,
+      moderatedperson: this.moderatedPerson,
+    }).subscribe(
+        (comment: FeedbackResponseComment) => {
+          recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
+          this.statusMessageService.showSuccessMessage('Your comment has been saved!');
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
   }
 }

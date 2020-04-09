@@ -1,0 +1,13 @@
+<div class="modal-header bg-warning">
+  <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: This will delete the comment permanently.</h5>
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div class="modal-body">
+  Are you sure you want to continue?
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the operation</button>
+  <button type="button" class="btn btn-warning" (click)="activeModal.close()">Yes</button>
+</div>
