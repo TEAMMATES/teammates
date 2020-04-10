@@ -47,4 +47,24 @@ describe('FeedbackQuestionsService', () => {
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.QUESTIONS, paramMap);
   });
+
+  it('should execute GET when loading feedback question recipients', () => {
+    const paramMap: { [key: string]: string } = {
+      questionid: '1',
+      intent: Intent.STUDENT_SUBMISSION,
+      key: 'key',
+      moderatedperson: 'John Doe',
+      previewas: 'John Doe',
+    };
+
+    service.loadFeedbackQuestionRecipients({
+      questionId: '1',
+      intent: Intent.STUDENT_SUBMISSION,
+      key: 'key',
+      moderatedPerson: 'John Doe',
+      previewAs: 'John Doe',
+    });
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.QUESTION_RECIPIENTS, paramMap);
+  });
 });

@@ -15,7 +15,6 @@ import {
 import {
   ConfirmUnpublishingSessionModalComponent,
 } from './confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
-import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
 import {
   ResendResultsLinkToStudentModalComponent,
@@ -39,7 +38,6 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     ConfirmPublishingSessionModalComponent,
     ResendResultsLinkToStudentModalComponent,
     SendRemindersToStudentModalComponent,
-    FormatDateBriefPipe,
     ConfirmSessionMoveToRecycleBinModalComponent,
     StudentListInfoTableComponent,
   ],

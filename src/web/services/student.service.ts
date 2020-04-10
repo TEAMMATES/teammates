@@ -70,6 +70,20 @@ export class StudentService {
   }
 
   /**
+   * Deletes a student in a course by calling API.
+   */
+  deleteStudent(queryParams: {
+    googleId: string,
+    courseId: string,
+  }): Observable<any> {
+    const paramsMap: { [key: string]: string } = {
+      googleid: queryParams.googleId,
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
+  }
+
+  /**
    * Enroll a list of students to a course by calling API.
    * Students who are enrolled successfully will be returned.
    */
