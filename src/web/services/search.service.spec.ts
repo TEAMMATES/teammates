@@ -331,20 +331,18 @@ describe('SearchService', () => {
 
   it('should join students accurately when calling as admin', () => {
     const result: StudentAccountSearchResult = service.joinAdminStudent(
-      [
-        { feedbackSessions: mockSessions },
-        mockCourse,
-        { instructors: [mockInstructor] },
-        mockPrivileges,
-      ],
-      mockStudent
+      mockStudent,
+      { instructors: [mockInstructor] },
+      mockCourse,
+      { feedbackSessions: mockSessions },
+      mockPrivileges,
     );
     expect(result).toMatchSnapshot();
   });
 
   it('should join instructors accurately when calling as admin', () => {
     const result: InstructorAccountSearchResult = service
-      .joinAdminInstructor(mockCourse, mockInstructor);
+      .joinAdminInstructor(mockInstructor, mockCourse);
     expect(result).toMatchSnapshot();
   })
 });

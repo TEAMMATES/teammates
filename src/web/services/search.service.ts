@@ -52,30 +52,26 @@ export class SearchService {
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
     return forkJoin(
-      this.searchStudents(searchKey).pipe(
-        map((students: Students) => students.students),
-        flatMap((studentsArray: Student[]) =>
-                studentsArray.length !== 0
-                  ? forkJoin(studentsArray.map((student: Student) => this.createStudentAccountSearchResult(student)))
-                  // Returning an empty array observable in the event studentsArray is empty
-                  // else the outer forkJoin will not complete
-                  : of([])),
-      ),
-      this.searchInstructors(searchKey).pipe(
-        map((instructors: Instructors) => instructors.instructors),
-        flatMap((instructorsArray: Instructor[]) =>
-                instructorsArray.length !== 0
-                  ? forkJoin(instructorsArray.map((instructor: Instructor) =>
-                                                  this.createInstructorAccountSearchResult(instructor)))
-                  // Returning an empty array observable in the event instructorsArray is empty.
-                  // else the outer forkjoin will not complete
-                  : of([])),
-      ),
+      this.searchStudents(searchKey),
+      this.searchInstructors(searchKey),
     ).pipe(
-      map((resp: [StudentAccountSearchResult[], InstructorAccountSearchResult[]]) => ({
-        students: resp[0],
-        instructors: resp[1],
-      })),
+      map((value: [Students, Instructors]): [Student[], Instructor[]] =>
+        [value[0].students, value[1].instructors],
+      ),
+      flatMap((value: [Student[], Instructor[]]) => {
+        const [students, instructors]: [Student[], Instructor[]] = value;
+        return forkJoin(
+          of(students),
+          of(instructors),
+          this.getDistinctFields(students, instructors),
+        );
+      }),
+      map((value: [Student[], Instructor[], DistinctFields]) => {
+        return {
+          students: this.createStudentAccountSearchResults(value[0], ...value[2]),
+          instructors: this.createInstructorAccountSearchResults(value[1], value[2][1]),
+        };
+      }),
     );
   }
 
@@ -169,32 +165,32 @@ export class SearchService {
     };
   }
 
-  createStudentAccountSearchResult(student: Student): Observable<StudentAccountSearchResult> {
-    const { courseId }: {courseId: string} = student;
-    return forkJoin(
-      this.feedbackSessionService.getFeedbackSessionsForStudent(courseId),
-      this.courseService.getCourseAsStudent(courseId),
-      this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
-    ).pipe(
-      flatMap((resp: [FeedbackSessions, Course, Instructors]) => {
-        return forkJoin(
-          of(resp[0]),
-          of(resp[1]),
-          of(resp[2]),
-          forkJoin(resp[2].instructors.map((instructor: Instructor) => this.instructorService
-            .loadInstructorPrivilege({ courseId, instructorId: instructor.googleId })))
-        );
-      }),
-      map((resp: [FeedbackSessions, Course, Instructors, InstructorPrivilege[]]) => this.joinAdminStudent(resp, student)),
-    );
+  createStudentAccountSearchResults(
+    students: Student[],
+    distinctInstructorsMap: DistinctInstructorsMap,
+    distinctCoursesMap: DistinctCoursesMap,
+    distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap,
+    distinctInstructorPrivilegesMap: DistinctInstructorPrivilegesMap,
+  ): StudentAccountSearchResult[] {
+    return students.map((student: Student) => {
+      const { courseId }: Student = student;
+      return this.joinAdminStudent(
+        student,
+        distinctInstructorsMap[courseId],
+        distinctCoursesMap[courseId],
+        distinctFeedbackSessionsMap[courseId],
+        distinctInstructorPrivilegesMap[courseId],
+      );
+    });
   }
 
   joinAdminStudent(
-    resp: [FeedbackSessions, Course, Instructors, InstructorPrivilege[]], student: Student,
+    student: Student,
+    instructors: Instructors,
+    course: Course,
+    feedbackSessions: FeedbackSessions,
+    instructorPrivileges: InstructorPrivilege[],
   ): StudentAccountSearchResult {
-    const [feedbackSessions, course, instructors, instructorPrivileges]: [
-      FeedbackSessions, Course, Instructors, InstructorPrivilege[]
-    ] = resp;
     let studentResult: StudentAccountSearchResult = {
       email: '',
       name: '',
@@ -228,11 +224,11 @@ export class SearchService {
     const { courseId, courseName }: Course = course;
     studentResult = { ...studentResult, courseId, courseName };
 
-    let masqueradeGoogleId = '';
-    for (let instructor of instructors.instructors) {
-      const instructorPrivilege = instructorPrivileges.shift();
-      if (instructor.googleId != null && 
-          ((instructorPrivilege as InstructorPrivilege).canModifyInstructor || 
+    let masqueradeGoogleId: string = '';
+    for (const instructor of instructors.instructors) {
+      const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
+      if (instructor.googleId != null &&
+          (instructorPrivilege != null && instructorPrivilege.canModifyInstructor ||
            instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER)) {
         masqueradeGoogleId = instructor.googleId;
         break;
@@ -255,14 +251,15 @@ export class SearchService {
     return studentResult;
   }
 
-  createInstructorAccountSearchResult(instructor: Instructor): Observable<InstructorAccountSearchResult> {
-    const { courseId }: {courseId: string} = instructor;
-    return this.courseService.getCourseAsInstructor(courseId).pipe(
-      map((resp: Course) => this.joinAdminInstructor(resp, instructor)),
-    );
+  createInstructorAccountSearchResults(
+    instructors: Instructor[],
+    distinctCoursesMap: DistinctCoursesMap,
+  ): InstructorAccountSearchResult[] {
+    return instructors.map((instructor: Instructor) =>
+                           this.joinAdminInstructor(instructor, distinctCoursesMap[instructor.courseId]));
   }
 
-  joinAdminInstructor(course: Course, instructor: Instructor): InstructorAccountSearchResult {
+  joinAdminInstructor(instructor: Instructor, course: Course): InstructorAccountSearchResult {
     let instructorResult: InstructorAccountSearchResult = {
       email: '',
       name: '',
@@ -312,6 +309,110 @@ export class SearchService {
       }
     }
     return feedbackSessionLinks;
+  }
+
+  private getDistinctFields(students: Student[], instructors: Instructor[]): Observable<DistinctFields> {
+    const distinctCourseIds: string[] = Array.from(new Set([
+      ...students.map((student: Student) => student.courseId),
+      ...instructors.map((instructor: Instructor) => instructor.courseId),
+    ]));
+    return forkJoin(
+      this.getDistinctInstructors(distinctCourseIds),
+      this.getDistinctCourses(distinctCourseIds),
+      this.getDistinctFeedbackSessions(distinctCourseIds),
+    ).pipe(
+      flatMap((value: [
+        DistinctInstructorsMap,
+        DistinctCoursesMap,
+        DistinctFeedbackSessionsMap],
+      ) => {
+        return forkJoin(
+          of(value[0]),
+          of(value[1]),
+          of(value[2]),
+          this.getDistinctInstructorPrivileges(value[0]),
+        );
+      }),
+    );
+  }
+
+  private getDistinctInstructors(distinctCourseIds: string[]): Observable<DistinctInstructorsMap> {
+    return forkJoin(
+      distinctCourseIds.map((courseId: string) =>
+        this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL })),
+    ).pipe(
+      map((instructorsArray: Instructors[]) => {
+        const distinctInstructorsMap: DistinctInstructorsMap = {};
+        instructorsArray.forEach((instructors: Instructors, index: number) => {
+          distinctInstructorsMap[distinctCourseIds[index]] = instructors;
+        });
+        return distinctInstructorsMap;
+      }),
+    );
+  }
+
+  private getDistinctInstructorPrivileges(
+    distinctInstructorsMap: DistinctInstructorsMap,
+  ): Observable<DistinctInstructorPrivilegesMap> {
+    const distinctCourseIds: string[] = Object.keys(distinctInstructorsMap);
+    const instructorsArray: Instructors[] = Object.values(distinctInstructorsMap);
+    return forkJoin(
+      of(distinctCourseIds),
+      forkJoin(instructorsArray.map((instructors: Instructors) => {
+        return forkJoin(
+          instructors.instructors.map(
+            (instructor: Instructor) => this.instructorService.loadInstructorPrivilege(
+              {
+                courseId: instructor.courseId,
+                instructorId: instructor.googleId,
+              },
+            ),
+          ),
+        );
+      })),
+    ).pipe(
+      map(
+        (value: [string[], InstructorPrivilege[][]]) => {
+          const distinctInstructorPrivilegesMap: DistinctInstructorPrivilegesMap = {};
+          value[1].forEach((instructorPrivilegesArray: InstructorPrivilege[], index: number) => {
+            distinctInstructorPrivilegesMap[value[0][index]] = instructorPrivilegesArray;
+          });
+          return distinctInstructorPrivilegesMap;
+        },
+      ),
+    );
+  }
+
+  private getDistinctCourses(distinctCourseIds: string[]): Observable<DistinctCoursesMap> {
+    return forkJoin(
+      distinctCourseIds.map((id: string) => this.courseService.getCourseAsStudent(id)),
+    ).pipe(
+      map((courses: Course[]) => {
+        const distinctCoursesMap: DistinctCoursesMap = {};
+        courses.forEach((course: Course, index: number) => {
+          distinctCoursesMap[distinctCourseIds[index]] = course;
+        });
+        return distinctCoursesMap;
+      }),
+    );
+  }
+
+  private getDistinctFeedbackSessions(distinctCourseIds: string[]): Observable<DistinctFeedbackSessionsMap> {
+    return forkJoin(
+      distinctCourseIds.map((id: string) =>
+        this.feedbackSessionService.getFeedbackSessionsForStudent(id)),
+    )
+    .pipe(
+      map((feedbackSessionsArray: FeedbackSessions[]) => {
+        const distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap = {};
+        feedbackSessionsArray.forEach(
+          (feedbackSessions: FeedbackSessions, index: number) => {
+            distinctFeedbackSessionsMap[distinctCourseIds[index]] = feedbackSessions;
+          },
+        );
+        return distinctFeedbackSessionsMap;
+      }),
+    );
   }
 }
 
@@ -366,3 +467,26 @@ interface StudentFeedbackSessions {
   notOpenSessions: FeedbackSessionsGroup;
   publishedSessions: FeedbackSessionsGroup;
 }
+
+interface DistinctInstructorsMap {
+  [courseId: string]: Instructors;
+}
+
+interface DistinctFeedbackSessionsMap {
+  [courseId: string]: FeedbackSessions;
+}
+
+interface DistinctCoursesMap {
+  [courseId: string]: Course;
+}
+
+interface DistinctInstructorPrivilegesMap {
+  [courseId: string]: InstructorPrivilege[];
+}
+
+type DistinctFields = [
+  DistinctInstructorsMap,
+  DistinctCoursesMap,
+  DistinctFeedbackSessionsMap,
+  DistinctInstructorPrivilegesMap
+];

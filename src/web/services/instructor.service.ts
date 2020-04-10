@@ -105,7 +105,7 @@ export class InstructorService {
     feedbackSessionName?: string,
     instructorRole?: string,
     instructorEmail?: string,
-    instructorId?: string
+    instructorId?: string,
   }):
     Observable<InstructorPrivilege> {
 
