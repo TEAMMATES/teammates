@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { WebPageEndpoints } from '../types/api-endpoints';
 import { Instructor, Student } from '../types/api-output';
 import { environment } from './../environments/environment';
 import { NavigationService } from './navigation.service';
@@ -13,6 +12,15 @@ import { NavigationService } from './navigation.service';
   providedIn: 'root',
 })
 export class LinkService {
+
+  URI_PREFIX: string = '/web';
+  JOIN_PAGE: string = '/join';
+  STUDENT_HOME_PAGE: string = '/student/home';
+  INSTRUCTOR_HOME_PAGE: string = '/instructor/home';
+  ADMIN_ACCOUNTS_PAGE: string = '/admin/accounts';
+  INSTRUCTOR_STUDENT_RECORDS_PAGE: string = '/instructor/students/records';
+  SESSIONS_SUBMISSION_PAGE: string = '/sessions/submission';
+  SESSIONS_RESULT_PAGE: string = '/sessions/result';
 
   constructor(private navigationService: NavigationService) {}
 
@@ -31,7 +39,7 @@ export class LinkService {
       entitytype: 'student',
     };
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${WebPageEndpoints.JOIN_PAGE}${encodedParams}`;
+    return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
   }
 
   /**
@@ -47,7 +55,7 @@ export class LinkService {
       entitytype: 'instructor',
     };
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${WebPageEndpoints.JOIN_PAGE}${encodedParams}`;
+    return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
   }
 
   /**
@@ -59,7 +67,7 @@ export class LinkService {
     };
 
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${homePage}${encodedParams}`;
+    return `${this.URI_PREFIX}${homePage}${encodedParams}`;
   }
 
   /**
@@ -72,7 +80,7 @@ export class LinkService {
       instructorid: googleId,
     };
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${accountsPage}${encodedParams}`;
+    return `${this.URI_PREFIX}${accountsPage}${encodedParams}`;
   }
 
   /**
@@ -89,7 +97,7 @@ export class LinkService {
       user: instructorGoogleId,
     };
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${WebPageEndpoints.INSTRUCTOR_STUDENT_RECORDS_PAGE}${encodedParams}`;
+    return `${frontendUrl}${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_RECORDS_PAGE}${encodedParams}`;
   }
 
   /**
@@ -107,7 +115,7 @@ export class LinkService {
       fsName,
     };
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${WebPageEndpoints.SESSION_SUBMISSION_PAGE}${encodedParams}`;
+    return `${frontendUrl}${this.URI_PREFIX}${this.SESSIONS_SUBMISSION_PAGE}${encodedParams}`;
   }
 
   /**
@@ -125,6 +133,6 @@ export class LinkService {
       fsName,
     };
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${WebPageEndpoints.SESSIONS_RESULT_PAGE}${encodedParams}`;
+    return `${frontendUrl}${this.URI_PREFIX}${this.SESSIONS_RESULT_PAGE}${encodedParams}`;
   }
 }
