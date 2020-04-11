@@ -1,86 +1,80 @@
 package teammates.ui.webapi.action;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Deletes a feedback response comment.
  */
-public class DeleteFeedbackResponseCommentAction extends Action {
+public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
     @Override
     protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
+        return AuthType.PUBLIC;
     }
 
     @Override
     public void checkSpecificAccessControl() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
-        FeedbackResponseCommentAttributes frc =
-                logic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
         if (frc == null) {
             return;
         }
+        FeedbackSessionAttributes session = logic.getFeedbackSession(frc.getFeedbackSessionName(), frc.getCourseId());
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(frc.getFeedbackQuestionId());
 
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String courseId = frc.courseId;
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            StudentAttributes student = getStudentOfCourseFromRequest(courseId);
 
-        if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default
-            return;
-        }
+            gateKeeper.verifyAnswerableForStudent(question);
+            verifySessionOpenExceptForModeration(session);
+            verifyInstructorCanSeeQuestionIfInModeration(question);
+            verifyNotPreview();
 
-        // Case 1: the delete request comes from instructor
+            checkAccessControlForStudentFeedbackSubmission(student, session);
+            gateKeeper.verifyOwnership(frc,
+                    question.getGiverType() == FeedbackParticipantType.TEAMS
+                            ? student.getTeam() : student.getEmail());
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
 
-        if (instructor != null) {
-            String feedbackSessionName = frc.feedbackSessionName;
-            String feedbackResponseId = frc.feedbackResponseId;
-            FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-            FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
+            gateKeeper.verifyAnswerableForInstructor(question);
+            verifySessionOpenExceptForModeration(session);
+            verifyInstructorCanSeeQuestionIfInModeration(question);
+            verifyNotPreview();
 
+            checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
+            gateKeeper.verifyOwnership(frc, instructorAsFeedbackParticipant.getEmail());
+            break;
+        case INSTRUCTOR_RESULT:
+            gateKeeper.verifyLoggedInUserPrivileges();
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+
+            if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default
+                return;
+            }
+
+            FeedbackResponseAttributes response = logic.getFeedbackResponse(frc.getFeedbackResponseId());
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            return;
-        }
-
-        // Case 2: the delete request comes from the feedback response giver
-
-        if (!frc.isCommentFromFeedbackParticipant) {
-            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] not given by feedback participant.");
-        }
-
-        switch (frc.commentGiverType) {
-        case INSTRUCTORS:
-            if (instructor == null) {
-                throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
-            }
-            gateKeeper.verifyOwnership(frc, instructor.email);
-            break;
-        case STUDENTS:
-            StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.id);
-            if (student == null) {
-                throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
-            }
-            gateKeeper.verifyOwnership(frc, student.email);
-            break;
-        case TEAMS:
-            StudentAttributes studentOfTeam = logic.getStudentForGoogleId(courseId, userInfo.id);
-            if (studentOfTeam == null) {
-                throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
-            }
-            gateKeeper.verifyOwnership(frc, studentOfTeam.team);
             break;
         default:
-            Assumption.fail("Invalid comment giver type");
-            break;
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
     }
 

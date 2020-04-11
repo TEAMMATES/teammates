@@ -123,6 +123,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
+     * Gets comment associated with the response.
+     *
+     * <p>The comment is given by a feedback participant to explain the response</p>
+     *
+     * @param feedbackResponseId the response id
+     */
+    public FeedbackResponseCommentAttributes getFeedbackResponseCommentForResponseFromParticipant(
+            String feedbackResponseId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
+        return makeAttributesOrNull(getFeedbackResponseCommentEntitiesForResponseFromParticipant(feedbackResponseId));
+    }
+
+    /**
      * Gets all comments in a feedback session of a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSession(
@@ -359,6 +372,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     private Query<FeedbackResponseComment> getFeedbackResponseCommentsForResponseQuery(String feedbackResponseId) {
         return load().filter("feedbackResponseId =", feedbackResponseId);
+    }
+
+    private FeedbackResponseComment getFeedbackResponseCommentEntitiesForResponseFromParticipant(
+            String feedbackResponseId) {
+        return load()
+                .filter("feedbackResponseId =", feedbackResponseId)
+                .filter("isCommentFromFeedbackParticipant =", true)
+                .first()
+                .now();
     }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId) {
