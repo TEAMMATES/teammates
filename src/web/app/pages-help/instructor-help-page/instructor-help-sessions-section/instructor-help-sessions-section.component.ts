@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { Subject } from 'rxjs';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
@@ -28,7 +30,8 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   isDelSessionCollapsed: boolean = false;
   isRestoreDelAllCollapsed: boolean = false;
 
-  constructor() {
+  constructor(private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: any) {
     super();
   }
 
@@ -38,15 +41,14 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   }
 
   /**
-   * To scroll to a specific HTML id
+   * Scrolls to an HTML element with a given target id.
    */
   jumpTo(target: string): boolean {
-    const destination: Element | null = document.getElementById(target);
-    if (destination) {
-      destination.scrollIntoView();
-      // to prevent the navbar from covering the text
-      window.scrollTo(0, window.pageYOffset - 50);
-    }
+    this.pageScrollService.scroll({
+      document: this.document,
+      scrollTarget: `#${target}`,
+      scrollOffset: 70,
+    });
     return false;
   }
 

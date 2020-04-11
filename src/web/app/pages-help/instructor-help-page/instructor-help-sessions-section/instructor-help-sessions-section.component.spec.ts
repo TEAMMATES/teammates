@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
 
 describe('InstructorHelpSessionsSectionComponent', () => {
@@ -10,7 +11,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorHelpSessionsSectionComponent],
-      imports: [NgbModule, RouterTestingModule],
+      imports: [NgbModule, RouterTestingModule, NgxPageScrollCoreModule],
     })
     .compileComponents();
   }));

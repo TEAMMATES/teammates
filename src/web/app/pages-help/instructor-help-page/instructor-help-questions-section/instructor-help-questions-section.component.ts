@@ -1,5 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -24,7 +26,9 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   isRankRecipientsCollapsed: boolean = false;
   @Output() collapsePeerEvalTips: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal,
+              private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: any) {
     super();
   }
 
@@ -39,17 +43,16 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   }
 
   /**
-   * To scroll to a specific HTML id
+   * Scrolls to an HTML element with a given target id.
    */
   jumpTo(target: string): boolean {
-    const destination: Element | null = document.getElementById(target);
-    if (destination) {
-      destination.scrollIntoView();
-      // to prevent the navbar from covering the text
-      window.scrollTo(0, window.pageYOffset - 50);
-      if (target === 'tips-for-conducting-peer-eval') {
-        this.collapsePeerEvalTips.emit(true);
-      }
+    this.pageScrollService.scroll({
+      document: this.document,
+      scrollTarget: `#${target}`,
+      scrollOffset: 70,
+    });
+    if (target === 'tips-for-conducting-peer-eval') {
+      this.collapsePeerEvalTips.emit(true);
     }
     return false;
   }
