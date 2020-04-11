@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { 
+import {
   Course,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -15,13 +15,13 @@ import {
   InstructorPermissionRole,
   InstructorPrivilege,
   JoinState,
-  Student, 
-  Students,
+  ResponseVisibleSetting,
   SessionVisibleSetting,
-  ResponseVisibleSetting
+  Student,
+  Students,
 } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
-import { SearchService, StudentAccountSearchResult, InstructorAccountSearchResult } from './search.service';
+import { InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
 
 describe('SearchService', () => {
   let spyHttpRequestService: any;
@@ -64,101 +64,63 @@ describe('SearchService', () => {
     ],
   };
   let coursesWithSections: SearchStudentsTable[];
-  
-  const mockStudentArray: Student[] = [
-    {
-      "email": "alice.b.tmms@gmail.tmt",
-      "courseId": "dog.gma-demo",
-      "name": "Alice Betsy",
-      "googleId": "alice.b.tmms.sampleData",
-      "comments": "This student's name is Alice Betsy",
-      "key": "keyheehee",
-      "institute": "NUS",
-      "joinState": JoinState.JOINED,
-      "teamName": "Team 1",
-      "sectionName": "Tutorial Group 1"
-    },
-    {
-      "email": "benny.c.tmms@gmail.tmt",
-      "courseId": "dog.gma-demo",
-      "name": "Benny Charles",
-      "googleId": "benny.c.tmms.sampleData",
-      "comments": "This student's name is Benny Charles",
-      "key": "keyheehee",
-      "institute": "NUS",
-      "joinState": JoinState.JOINED,
-      "teamName": "Team 1",
-      "sectionName": "Tutorial Group 1"
-    },
-    {
-      "email": "danny.e.tmms@gmail.tmt",
-      "courseId": "dog.gma-demo",
-      "name": "Danny Engrid",
-      "googleId": "danny.e.tmms.sampleData",
-      "comments": "This student's name is Danny Engrid",
-      "key": "keyheehee",
-      "institute": "NUS",
-      "joinState": JoinState.JOINED,
-      "teamName": "Team 1",
-      "sectionName": "Tutorial Group 1"
-    }
-  ];
+
   const mockStudent: Student = {
-    "email": "alice.b.tmms@gmail.tmt",
-    "courseId": "dog.gma-demo",
-    "name": "Alice Betsy",
-    "googleId": "alice.b.tmms.sampleData",
-    "comments": "This student's name is Alice Betsy",
-    "key": "keyheehee",
-    "institute": "NUS",
-    "joinState": JoinState.JOINED,
-    "teamName": "Team 1",
-    "sectionName": "Tutorial Group 1"
+    email: 'alice.b.tmms@gmail.tmt',
+    courseId: 'dog.gma-demo',
+    name: 'Alice Betsy',
+    googleId: 'alice.b.tmms.sampleData',
+    comments: "This student's name is Alice Betsy",
+    key: 'keyheehee',
+    institute: 'NUS',
+    joinState: JoinState.JOINED,
+    teamName: 'Team 1',
+    sectionName: 'Tutorial Group 1',
   };
 
   const mockInstructor: Instructor = {
-    "googleId": "test@example.com",
-    "courseId": "dog.gma-demo",
-    "email": "dog@gmail.com",
-    "isDisplayedToStudents": true,
-    "displayedToStudentsAs": "Instructor",
-    "name": "Hi",
-    "role": InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    "joinState": JoinState.JOINED
+    googleId: 'test@example.com',
+    courseId: 'dog.gma-demo',
+    email: 'dog@gmail.com',
+    isDisplayedToStudents: true,
+    displayedToStudentsAs: 'Instructor',
+    name: 'Hi',
+    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    joinState: JoinState.JOINED,
   };
 
   const mockSessions: FeedbackSession[] = [
     {
-      "courseId": "dog.gma-demo",
-      "timeZone": "Asia/Singapore",
-      "feedbackSessionName": "First team feedback session",
-      "instructions": "Please give your feedback based on the following questions.",
-      "submissionStartTimestamp": 1333295940000,
-      "submissionEndTimestamp": 1333382340000,
-      "submissionStatus": FeedbackSessionSubmissionStatus.CLOSED,
-      "publishStatus": FeedbackSessionPublishStatus.PUBLISHED,
-      "createdAtTimestamp": 1333324740000,
-      "gracePeriod": 1,
-      "sessionVisibleSetting": SessionVisibleSetting.CUSTOM,
-      "responseVisibleSetting": ResponseVisibleSetting.CUSTOM,
-      "isClosingEmailEnabled": false,
-      "isPublishedEmailEnabled": false
+      courseId: 'dog.gma-demo',
+      timeZone: 'Asia/Singapore',
+      feedbackSessionName: 'First team feedback session',
+      instructions: 'Please give your feedback based on the following questions.',
+      submissionStartTimestamp: 1333295940000,
+      submissionEndTimestamp: 1333382340000,
+      submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+      publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+      createdAtTimestamp: 1333324740000,
+      gracePeriod: 1,
+      sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
+      responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+      isClosingEmailEnabled: false,
+      isPublishedEmailEnabled: false,
     },
     {
-      "courseId": "dog.gma-demo",
-      "timeZone": "Asia/Singapore",
-      "feedbackSessionName": "Second team feedback session",
-      "instructions": "Please give your feedback based on the following questions.",
-      "submissionStartTimestamp": 1333295940000,
-      "submissionEndTimestamp": 2122300740000,
-      "submissionStatus": FeedbackSessionSubmissionStatus.OPEN,
-      "publishStatus": FeedbackSessionPublishStatus.NOT_PUBLISHED,
-      "createdAtTimestamp": 1333324740000,
-      "gracePeriod": 1,
-      "sessionVisibleSetting": SessionVisibleSetting.CUSTOM,
-      "responseVisibleSetting": ResponseVisibleSetting.CUSTOM,
-      "isClosingEmailEnabled": false,
-      "isPublishedEmailEnabled": false
+      courseId: 'dog.gma-demo',
+      timeZone: 'Asia/Singapore',
+      feedbackSessionName: 'Second team feedback session',
+      instructions: 'Please give your feedback based on the following questions.',
+      submissionStartTimestamp: 1333295940000,
+      submissionEndTimestamp: 2122300740000,
+      submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+      publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+      createdAtTimestamp: 1333324740000,
+      gracePeriod: 1,
+      sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
+      responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+      isClosingEmailEnabled: false,
+      isPublishedEmailEnabled: false,
     },
   ];
 
@@ -175,13 +137,13 @@ describe('SearchService', () => {
   }];
 
   const mockCourse: Course = {
-    "courseId": "dog.gma-demo",
-    "courseName": "Sample Course 101",
-    "timeZone": "UTC",
-    "creationTimestamp": 1585487897502,
-    "deletionTimestamp": 0,
-    "requestId": "5e80aa3c00007918934385f5"
-  }
+    courseId: 'dog.gma-demo',
+    courseName: 'Sample Course 101',
+    timeZone: 'UTC',
+    creationTimestamp: 1585487897502,
+    deletionTimestamp: 0,
+    requestId: '5e80aa3c00007918934385f5',
+  };
 
   beforeEach(() => {
     spyHttpRequestService = {
@@ -191,7 +153,7 @@ describe('SearchService', () => {
       delete: jest.fn(),
     };
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MatSnackBarModule],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
@@ -288,7 +250,7 @@ describe('SearchService', () => {
       canViewSessionInSections: true,
       canSubmitSessionInSections: true,
     };
-    const mockPrivileges: InstructorPrivilege[] = [
+    const mockPrivilegesArray: InstructorPrivilege[] = [
       basePrivilege,
       {
         ...basePrivilege,
@@ -301,7 +263,7 @@ describe('SearchService', () => {
         canModifyStudent: false,
       },
     ];
-    service.combinePrivileges([coursesWithSections, mockPrivileges]);
+    service.combinePrivileges([coursesWithSections, mockPrivilegesArray]);
 
     const course1Section1: StudentListSectionData = coursesWithSections[0].sections[0];
     expect(course1Section1.isAllowedToViewStudentInSection).toEqual(true);
@@ -315,7 +277,7 @@ describe('SearchService', () => {
     expect(course2Section1.isAllowedToViewStudentInSection).toEqual(true);
     expect(course2Section1.isAllowedToModifyStudent).toEqual(false);
 
-    expect(mockPrivileges.length).toEqual(0);
+    expect(mockPrivilegesArray.length).toEqual(0);
   });
 
   it('should execute GET when searching for instructors', () => {
@@ -344,5 +306,5 @@ describe('SearchService', () => {
     const result: InstructorAccountSearchResult = service
       .joinAdminInstructor(mockInstructor, mockCourse);
     expect(result).toMatchSnapshot();
-  })
+  });
 });

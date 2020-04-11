@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { flatMap, map, mergeMap } from 'rxjs/operators';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import {
@@ -31,17 +31,16 @@ export class SearchService {
   constructor(
     private instructorService: InstructorService,
     private httpRequestService: HttpRequestService,
-    private feedbackSessionsService: FeedbackSessionsService,
+    private feedbackSessionService: FeedbackSessionsService,
     private courseService: CourseService,
     private linkService: LinkService
   ) {}
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
-    return this.getStudents(searchKey).pipe(
+    return this.searchStudents(searchKey).pipe(
       map((studentsRes: Students) => this.getCoursesWithSections(studentsRes)),
       mergeMap((coursesWithSections: SearchStudentsTable[]) =>
         forkJoin([
-      mergeMap((coursesWithSections: SearchStudentsTable[]) =>
           of(coursesWithSections),
           this.getPrivileges(coursesWithSections),
         ]),
@@ -160,6 +159,9 @@ export class SearchService {
 
         section.isAllowedToViewStudentInSection = sectionPrivileges.canViewStudentInSections;
         section.isAllowedToModifyStudent = sectionPrivileges.canModifyStudent;
+      }
+    }
+
     return {
       searchStudentsTables: coursesWithSections,
     };
@@ -423,6 +425,9 @@ export interface InstructorSearchResult {
   searchStudentsTables: SearchStudentsTable[];
 }
 
+/**
+ * The typings for the response object returned by admin search service.
+ */
 export interface AdminSearchResult {
   students: StudentAccountSearchResult[];
   instructors: InstructorAccountSearchResult[];
