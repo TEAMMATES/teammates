@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SessionsTableRowModel } from '../app/components/sessions-table/sessions-table-model';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
+  FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
@@ -18,6 +19,23 @@ describe('FeedbackSessionsService', () => {
   let spyHttpRequestService: any;
   let service: FeedbackSessionsService;
   let model: SessionsTableRowModel;
+
+  const mockFeedbackSession: FeedbackSession = {
+    courseId: 'dog.gma-demo',
+    timeZone: 'Asia/Singapore',
+    feedbackSessionName: 'First team feedback session',
+    instructions: 'Please give your feedback based on the following questions.',
+    submissionStartTimestamp: 1333295940000,
+    submissionEndTimestamp: 1333382340000,
+    submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+    createdAtTimestamp: 1333324740000,
+    gracePeriod: 1,
+    sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
+    responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+    isClosingEmailEnabled: false,
+    isPublishedEmailEnabled: false,
+  };
 
   beforeEach(() => {
     spyHttpRequestService = {
@@ -56,6 +74,8 @@ describe('FeedbackSessionsService', () => {
       isLoadingResponseRate: false,
       instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
     };
+    mockFeedbackSession.submissionStartTimestamp = Date.now() - 100000;
+    mockFeedbackSession.submissionEndTimestamp = Date.now() + 100000;
   });
 
   it('should be created', () => {
@@ -143,5 +163,13 @@ describe('FeedbackSessionsService', () => {
 
     service.deleteFeedbackSession(paramMap.courseid, paramMap.fsname);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION, paramMap);
+  });
+
+  it('should return true if a feedbackSession is no longer open', () => {
+    expect(service.isFeedbackSessionOpen(mockFeedbackSession)).toBeTruthy();
+  });
+
+  it('should return true if the feedback session has been published', () => {
+    expect(service.isFeedbackSessionPublished(mockFeedbackSession)).toBeTruthy();
   });
 });

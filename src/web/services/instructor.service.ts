@@ -105,6 +105,7 @@ export class InstructorService {
     feedbackSessionName?: string,
     instructorRole?: string,
     instructorEmail?: string,
+    instructorId?: string,
   }):
     Observable<InstructorPrivilege> {
 
@@ -126,6 +127,10 @@ export class InstructorService {
 
     if (queryParams.instructorEmail) {
       paramMap.instructorEmail = queryParams.instructorEmail;
+    }
+
+    if (queryParams.instructorId) {
+      paramMap.instructorid = queryParams.instructorId;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);

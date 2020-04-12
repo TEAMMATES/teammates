@@ -1,13 +1,27 @@
 import { TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { InstructorPrivilege, JoinState, Student, Students } from '../types/api-output';
+import {
+  Course,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  Instructor,
+  InstructorPermissionRole,
+  InstructorPrivilege,
+  JoinState,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+  Student,
+  Students,
+} from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
-import { SearchService } from './search.service';
+import { InstructorAccountSearchResult, SearchService, StudentAccountSearchResult } from './search.service';
 
 describe('SearchService', () => {
   let spyHttpRequestService: any;
@@ -51,6 +65,86 @@ describe('SearchService', () => {
   };
   let coursesWithSections: SearchStudentsTable[];
 
+  const mockStudent: Student = {
+    email: 'alice.b.tmms@gmail.tmt',
+    courseId: 'dog.gma-demo',
+    name: 'Alice Betsy',
+    googleId: 'alice.b.tmms.sampleData',
+    comments: "This student's name is Alice Betsy",
+    key: 'keyheehee',
+    institute: 'NUS',
+    joinState: JoinState.JOINED,
+    teamName: 'Team 1',
+    sectionName: 'Tutorial Group 1',
+  };
+
+  const mockInstructor: Instructor = {
+    googleId: 'test@example.com',
+    courseId: 'dog.gma-demo',
+    email: 'dog@gmail.com',
+    isDisplayedToStudents: true,
+    displayedToStudentsAs: 'Instructor',
+    name: 'Hi',
+    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    joinState: JoinState.JOINED,
+  };
+
+  const mockSessions: FeedbackSession[] = [
+    {
+      courseId: 'dog.gma-demo',
+      timeZone: 'Asia/Singapore',
+      feedbackSessionName: 'First team feedback session',
+      instructions: 'Please give your feedback based on the following questions.',
+      submissionStartTimestamp: 1333295940000,
+      submissionEndTimestamp: 1333382340000,
+      submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+      publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+      createdAtTimestamp: 1333324740000,
+      gracePeriod: 1,
+      sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
+      responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+      isClosingEmailEnabled: false,
+      isPublishedEmailEnabled: false,
+    },
+    {
+      courseId: 'dog.gma-demo',
+      timeZone: 'Asia/Singapore',
+      feedbackSessionName: 'Second team feedback session',
+      instructions: 'Please give your feedback based on the following questions.',
+      submissionStartTimestamp: 1333295940000,
+      submissionEndTimestamp: 2122300740000,
+      submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+      publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+      createdAtTimestamp: 1333324740000,
+      gracePeriod: 1,
+      sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
+      responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+      isClosingEmailEnabled: false,
+      isPublishedEmailEnabled: false,
+    },
+  ];
+
+  const mockPrivileges: InstructorPrivilege[] = [{
+    canModifyCourse: true,
+    canModifySession: true,
+    canModifyStudent: true,
+    canModifyInstructor: true,
+    canViewStudentInSections: true,
+    canModifySessionCommentsInSections: true,
+    canViewSessionInSections: true,
+    canSubmitSessionInSections: true,
+    requestId: 'checkyourprivilege',
+  }];
+
+  const mockCourse: Course = {
+    courseId: 'dog.gma-demo',
+    courseName: 'Sample Course 101',
+    timeZone: 'UTC',
+    creationTimestamp: 1585487897502,
+    deletionTimestamp: 0,
+    requestId: '5e80aa3c00007918934385f5',
+  };
+
   beforeEach(() => {
     spyHttpRequestService = {
       get: jest.fn(),
@@ -59,7 +153,7 @@ describe('SearchService', () => {
       delete: jest.fn(),
     };
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MatSnackBarModule],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
@@ -73,7 +167,7 @@ describe('SearchService', () => {
   });
 
   it('should execute GET when searching for students', () => {
-    service.getStudents('Alice');
+    service.searchStudents('Alice');
     const paramMap: { [key: string]: string } = {
       searchkey: 'Alice',
     };
@@ -156,7 +250,7 @@ describe('SearchService', () => {
       canViewSessionInSections: true,
       canSubmitSessionInSections: true,
     };
-    const mockPrivileges: InstructorPrivilege[] = [
+    const mockPrivilegesArray: InstructorPrivilege[] = [
       basePrivilege,
       {
         ...basePrivilege,
@@ -169,7 +263,7 @@ describe('SearchService', () => {
         canModifyStudent: false,
       },
     ];
-    service.combinePrivileges([coursesWithSections, mockPrivileges]);
+    service.combinePrivileges([coursesWithSections, mockPrivilegesArray]);
 
     const course1Section1: StudentListSectionData = coursesWithSections[0].sections[0];
     expect(course1Section1.isAllowedToViewStudentInSection).toEqual(true);
@@ -183,6 +277,41 @@ describe('SearchService', () => {
     expect(course2Section1.isAllowedToViewStudentInSection).toEqual(true);
     expect(course2Section1.isAllowedToModifyStudent).toEqual(false);
 
-    expect(mockPrivileges.length).toEqual(0);
+    expect(mockPrivilegesArray.length).toEqual(0);
+  });
+
+  it('should execute GET when searching for instructors', () => {
+    service.searchInstructors('YoyoImCoronavirus');
+    const paramMap: { [key: string]: string } = {
+      searchkey: 'YoyoImCoronavirus',
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
+      '/search/instructors',
+      paramMap,
+    );
+  });
+
+  it('should join students accurately when calling as admin', () => {
+    const result: StudentAccountSearchResult = service.joinAdminStudent(
+      mockStudent,
+      { instructors: [mockInstructor] },
+      mockCourse,
+      { feedbackSessions: mockSessions },
+      mockPrivileges,
+    );
+    // Not using snapshots because of issues with time zones
+    expect(result.comments).toBe("This student's name is Alice Betsy");
+    expect(result.courseId).toBe('dog.gma-demo');
+    expect(result.courseJoinLink).toBe('http://localhost:4200/web/join?key' +
+      '=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&courseid=dog.gma-demo&entitytype=student');
+    expect(result.courseName).toBe('Sample Course 101');
+    expect(result.email).toBe('alice.b.tmms@gmail.tmt');
+    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
+  });
+
+  it('should join instructors accurately when calling as admin', () => {
+    const result: InstructorAccountSearchResult = service
+      .joinAdminInstructor(mockInstructor, mockCourse);
+    expect(result).toMatchSnapshot();
   });
 });
