@@ -14,31 +14,3 @@ Object {
   "showLinks": false,
 }
 `;
-
-exports[`SearchService should join students accurately when calling as admin 1`] = `
-Object {
-  "comments": "This student's name is Alice Betsy",
-  "courseId": "dog.gma-demo",
-  "courseJoinLink": "http://localhost:4200/web/join?key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&courseid=dog.gma-demo&entitytype=student",
-  "courseName": "Sample Course 101",
-  "email": "alice.b.tmms@gmail.tmt",
-  "googleId": "alice.b.tmms.sampleData",
-  "homePageLink": "/web/student/home?user=alice.b.tmms.sampleData",
-  "institute": "NUS",
-  "manageAccountLink": "/web/admin/accounts?instructorid=alice.b.tmms.sampleData",
-  "name": "Alice Betsy",
-  "notOpenSessions": Object {
-    "First team feedback session Sun, 01 Apr yyyy, 11:59 PM +08:00-Mon, 02 Apr yyyy, 11:59 PM +08:00": "http://localhost:4200/web/sessions/submission?courseid=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsName=First%20team%20feedback%20session",
-  },
-  "openSessions": Object {
-    "Second team feedback session Sun, 01 Apr yyyy, 11:59 PM +08:00-Thu, 02 Apr yyyy, 11:59 PM +08:00": "http://localhost:4200/web/sessions/submission?courseid=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsName=Second%20team%20feedback%20session",
-  },
-  "publishedSessions": Object {
-    "First team feedback session Sun, 01 Apr yyyy, 11:59 PM +08:00-Mon, 02 Apr yyyy, 11:59 PM +08:00": "http://localhost:4200/web/sessions/result?courseid=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsName=First%20team%20feedback%20session",
-  },
-  "recordsPageLink": "http://localhost:4200/web/instructor/students/records?courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=test%40example.com",
-  "section": "Tutorial Group 1",
-  "showLinks": false,
-  "team": "Team 1",
-}
-`;

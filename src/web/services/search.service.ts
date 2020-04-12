@@ -33,7 +33,7 @@ export class SearchService {
     private httpRequestService: HttpRequestService,
     private feedbackSessionService: FeedbackSessionsService,
     private courseService: CourseService,
-    private linkService: LinkService
+    private linkService: LinkService,
   ) {}
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
