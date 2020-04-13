@@ -1,24 +1,31 @@
 {
   "accounts": {
-    "instructor1InCourse1": {
+    "instructor1OfCourse1": {
       "googleId": "instructor1InCourse1",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "instructor1@course1.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "instructor2InCourse1": {
+    "instructor2OfCourse1": {
       "googleId": "instructor2InCourse1",
       "name": "Teammates Test2",
       "isInstructor": true,
       "email": "instructor2@course1.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "instructor1InCourse2": {
+    "instructor1OfCourse2": {
       "googleId": "idOfInstructor1OfCourse2",
       "name": "Instructor 1 of Course 2",
       "isInstructor": true,
       "email": "instr1@course2.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "helperOfCourse1": {
+      "googleId": "idOfHelperOfCourse1",
+      "name": "helper of Course 1",
+      "isInstructor": true,
+      "email": "helper@course1.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
     "student1InCourse1": {
@@ -41,6 +48,13 @@
       "isInstructor": false,
       "email": "student3inCourse1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1InCourse2": {
+      "googleId": "student1InCourse2",
+      "name": "Student 1 in course 2",
+      "isInstructor": false,
+      "email": "student1inCourse2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
@@ -48,10 +62,15 @@
       "id": "idOfCourse1",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
+    },
+    "idOfCourse2": {
+      "id": "idOfCourse2",
+      "name": "Computer Security",
+      "timeZone": "UTC"
     }
   },
   "instructors": {
-    "instructor1InCourse1": {
+    "instructor1OfCourse1": {
       "googleId": "instructor1InCourse1",
       "courseId": "idOfCourse1",
       "name": "Teammates Test",
@@ -74,7 +93,7 @@
         "sessionLevel": {}
       }
     },
-    "instructor2InCourse1": {
+    "instructor2OfCourse1": {
       "googleId": "instructor2InCourse1",
       "courseId": "idOfCourse1",
       "name": "Teammates Test2",
@@ -97,9 +116,33 @@
         "sessionLevel": {}
       }
     },
-    "instructor1InCourse2": {
+    "helperOfCourse1": {
+      "googleId": "idOfHelperOfCourse1",
+      "courseId": "idOfCourse1",
+      "name": "Helper Course1",
+      "email": "helper@course1.tmt",
+      "isArchived": false,
+      "role": "Custom",
+      "isDisplayedToStudents": false,
+      "displayedName": "Helper",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfCourse2": {
       "googleId": "idOfInstructor1OfCourse2",
-      "courseId": "idOfTypicalCourse2",
+      "courseId": "idOfCourse2",
       "name": "Instructor1 Course2",
       "email": "instructor1@course2.tmt",
       "role": "Co-owner",
@@ -148,10 +191,19 @@
       "comments": "comment for student3InCourse1</td></div>'\"",
       "team": "Team 2.1</td></div>'\"",
       "section": "None"
+    },
+    "student1InCourse2": {
+      "googleId": "student1InCourse2",
+      "email": "student1InCourse2@gmail.tmt",
+      "course": "idOfCourse2",
+      "name": "student1 In Course2</td></div>'\"",
+      "comments": "comment for studentInCourse2</td></div>'\"",
+      "team": "Team 1.1</td></div>'\"",
+      "section": "None"
     }
   },
   "feedbackSessions": {
-    "Open Session": {
+    "session1InCourse1": {
       "feedbackSessionName": "First Session",
       "courseId": "idOfCourse1",
       "creatorEmail": "instructor1@course1.tmt",
@@ -192,7 +244,7 @@
       },
       "questionNumber": 1,
       "giverType": "INSTRUCTORS",
-      "recipientType": "NONE",
+      "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS"
@@ -243,7 +295,7 @@
       },
       "questionNumber": 3,
       "giverType": "STUDENTS",
-      "recipientType": "NONE",
+      "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "RECEIVER",
@@ -290,6 +342,37 @@
       "showRecipientNameTo": [
         "RECEIVER"
       ]
+    },
+    "qn5InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "questionDetails": {
+        "hasAssignedWeights": false,
+        "mcqWeights": [],
+        "mcqOtherWeight": 0.0,
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "It's bad",
+          "It's worst"
+        ],
+        "otherEnabled": false,
+        "generateOptionsFor": "NONE",
+        "questionType": "MCQ",
+        "questionText": "What do you like best about the class' product?"
+      },
+      "questionNumber": 5,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -298,7 +381,7 @@
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "1",
       "giver": "instructor1@course1.tmt",
-      "recipient": "%GENERAL%",
+      "recipient": "instructor1@course1.tmt",
       "responseDetails": {
         "answer": "It's good",
         "otherFieldContent": "",
@@ -310,7 +393,7 @@
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "1",
       "giver": "instructor2@course1.tmt",
-      "recipient": "%GENERAL%",
+      "recipient": "instructor2@course1.tmt",
       "responseDetails": {
         "answer": "It's perfect",
         "otherFieldContent": "",
@@ -322,7 +405,7 @@
       "courseId": "idOfCourse1",
       "feedbackQuestionId": "2",
       "giver": "instructor1@course1.tmt",
-      "recipient": "student1inCourse1@gmail.tmt",
+      "recipient": "student1InCourse1@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Instructor feedback to student 1."
@@ -334,6 +417,20 @@
       "feedbackQuestionId": "3",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
+      "giverSection": "Section A",
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "answer": "It's good",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
+    },
+    "response2ForQ3": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "feedbackQuestionId": "3",
+      "giver": "student2InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -355,6 +452,32 @@
         "otherFieldContent": "",
         "questionType": "MCQ"
       }
+    },
+    "response2ForQ4": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "feedbackQuestionId": "4",
+      "giver": "Team 1.1</td></div>'\"",
+      "recipient": "Team 1.1</td></div>'\"",
+      "giverSection": "Section A",
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "answer": "Algo",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
+    },
+    "response1ForQ5": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "feedbackQuestionId": "5",
+      "giver": "instructor1@course1.tmt",
+      "recipient": "instructor1@course1.tmt",
+      "responseDetails": {
+        "answer": "It's bad",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      }
     }
   },
   "feedbackResponseComments": {
@@ -365,7 +488,7 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "1%instructor1@course1.tmt%%GENERAL%",
+      "feedbackResponseId": "1%instructor1@course1.tmt%instructor1@course1.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
@@ -383,16 +506,34 @@
       "commentGiver": "instructor2@course1.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "1%instructor2@course1.tmt%%GENERAL%",
+      "feedbackResponseId": "1%instructor2@course1.tmt%instructor2@course1.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-03-01T23:59:00Z",
-      "lastEditorEmail": "instructor1@course1.tmt",
+      "lastEditorEmail": "instructor2@course1.tmt",
       "lastEditedAt": "2012-04-02T23:59:00Z",
-      "commentText": "Instructor 2 comment"
+      "commentText": "Instructor comment to explain response"
+    },
+    "comment1FromInstructor1Q2": {
+      "courseId": "idOfCourse1",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "1",
+      "commentGiver": "instructor1@course1.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "1%instructor1@course1.tmt%instructor1@course1.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": false,
+      "createdAt": "2026-03-01T23:59:01Z",
+      "lastEditorEmail": "instructor1@course1.tmt",
+      "lastEditedAt": "2012-04-02T23:59:01Z",
+      "commentText": "Instructor comment to comment response"
     },
     "comment1FromStudent1": {
       "courseId": "idOfCourse1",

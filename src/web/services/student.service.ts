@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SearchResult } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import { MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
@@ -124,18 +123,5 @@ export class StudentService {
     };
     const responseType: string = 'text';
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
-  }
-
-  /**
-   * Search for students based on input parameters by calling API.
-   */
-  searchForStudents(queryParams: { searchKey: string, searchStudents: string, searchFeedbackSessionData: string}):
-      Observable<SearchResult> {
-    const paramsMap: { [key: string]: string } = {
-      searchkey: queryParams.searchKey,
-      searchstudents: queryParams.searchStudents,
-      searchfeedbacksessiondata: queryParams.searchFeedbackSessionData,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, paramsMap);
   }
 }
