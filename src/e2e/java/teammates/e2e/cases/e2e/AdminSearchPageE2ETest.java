@@ -64,6 +64,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: Reset instructor google id");
         searchPage.resetInstructorGoogleId(instructor);
         instructor.googleId = null;
+        instructorAccount.institute = null;
         verifyInstructorRowContent(instructor, instructorAccount);
 
         ______TS("Typical case: Search common course id");
@@ -177,17 +178,17 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedInstructorHomePageLink(InstructorAttributes instructor) {
-        return instructor.isRegistered() ? createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withUserId(instructor.googleId)
-                .toAbsoluteString()
-                : "";
+        String googleId = instructor.isRegistered() ? instructor.googleId : "undefined";
+        return createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
+                .withUserId(googleId)
+                .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(InstructorAttributes instructor) {
-        return instructor.isRegistered() ? createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withInstructorId(instructor.googleId)
-                .toAbsoluteString()
-                : "";
+        String googleId = instructor.isRegistered() ? instructor.googleId : "undefined";
+        return createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
+                .withInstructorId(googleId)
+                .toAbsoluteString();
     }
 
     private void verifyInstructorExpandedLinks(InstructorAttributes instructor) {

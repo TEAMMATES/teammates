@@ -178,7 +178,6 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForInstructors(submissionParams);
-        verifyInaccessibleForAdmin(submissionParams);
     }
 
     @Test

@@ -318,6 +318,9 @@ export class SearchService {
       ...students.map((student: Student) => student.courseId),
       ...instructors.map((instructor: Instructor) => instructor.courseId),
     ]));
+    if (distinctCourseIds.length === 0) {
+      return forkJoin(of({}), of({}), of({}), of({}));
+    }
     return forkJoin(
       this.getDistinctInstructors(distinctCourseIds),
       this.getDistinctCourses(distinctCourseIds),
@@ -359,19 +362,21 @@ export class SearchService {
     const distinctCourseIds: string[] = Object.keys(distinctInstructorsMap);
     const instructorsArray: Instructors[] = Object.values(distinctInstructorsMap);
     return forkJoin(
-      of(distinctCourseIds),
-      forkJoin(instructorsArray.map((instructors: Instructors) => {
-        return forkJoin(
-          instructors.instructors.map(
-            (instructor: Instructor) => this.instructorService.loadInstructorPrivilege(
-              {
-                courseId: instructor.courseId,
-                instructorId: instructor.googleId,
-              },
-            ),
-          ),
-        );
-      })),
+      instructorsArray.length === 0
+        ? of([])
+        : of(distinctCourseIds),
+          forkJoin(instructorsArray.map((instructors: Instructors) => {
+            return forkJoin(
+               instructors.instructors.map(
+                  (instructor: Instructor) => this.instructorService.loadInstructorPrivilege(
+                    {
+                      courseId: instructor.courseId,
+                      instructorEmail: instructor.email,
+                    },
+                  ),
+                ),
+              );
+          })),
     ).pipe(
       map(
         (value: [string[], InstructorPrivilege[][]]) => {
@@ -387,7 +392,7 @@ export class SearchService {
 
   private getDistinctCourses(distinctCourseIds: string[]): Observable<DistinctCoursesMap> {
     return forkJoin(
-      distinctCourseIds.map((id: string) => this.courseService.getCourseAsStudent(id)),
+      distinctCourseIds.map((id: string) => this.courseService.getCourseAsInstructor(id)),
     ).pipe(
       map((courses: Course[]) => {
         const distinctCoursesMap: DistinctCoursesMap = {};
