@@ -97,7 +97,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                class="btn btn-light btn-sm disabled"
+                class="btn btn-light btn-sm"
                 href="/sessions/result?courseid=CS2103&fsname=First%20Session"
                 ng-reflect-klass="btn btn-light btn-sm"
                 ng-reflect-ng-class="[object Object]"
@@ -160,7 +160,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm disabled"
                 href="/sessions/result?courseid=CS2103&fsname=Second%20Session"
                 ng-reflect-klass="btn btn-light btn-sm"
                 ng-reflect-ng-class="[object Object]"
@@ -276,7 +276,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm disabled"
                 href="/sessions/result?courseid=CS2102&fsname=Third%20Session"
                 ng-reflect-klass="btn btn-light btn-sm"
                 ng-reflect-ng-class="[object Object]"
@@ -334,7 +334,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                class="btn btn-light btn-sm"
+                class="btn btn-light btn-sm disabled"
                 href="/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
                 ng-reflect-klass="btn btn-light btn-sm"
                 ng-reflect-ng-class="[object Object]"
