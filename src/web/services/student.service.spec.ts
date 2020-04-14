@@ -84,21 +84,4 @@ describe('StudentService', () => {
     expect(spyHttpRequestService.get)
         .toHaveBeenCalledWith(ResourceEndpoints.STUDENTS_CSV, paramMap, responseType);
   });
-
-  it('should execute GET when searching for students', () => {
-    const paramMap: { [key: string]: string } = {
-      searchkey: '',
-      searchstudents: '',
-      searchfeedbacksessiondata: '',
-    };
-
-    service.searchForStudents({
-      searchKey: paramMap.searchkey,
-      searchStudents: paramMap.searchstudents,
-      searchFeedbackSessionData: paramMap.searchfeedbacksessiondata,
-    });
-
-    expect(spyHttpRequestService.get)
-        .toHaveBeenCalledWith(ResourceEndpoints.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, paramMap);
-  });
 });
