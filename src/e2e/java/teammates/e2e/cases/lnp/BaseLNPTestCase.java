@@ -200,7 +200,6 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         }
     }
 
-
     /**
      * Setup and load the JMeter configuration and property files to run the Jmeter test.
      * @throws IOException if the save service properties file cannot be loaded.
