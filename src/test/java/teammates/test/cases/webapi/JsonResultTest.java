@@ -48,5 +48,6 @@ public class JsonResultTest extends BaseTestCase {
         result.send(respWithCookie);
         assertEquals(HttpStatus.SC_OK, respWithCookie.getStatus());
         assertEquals(1, respWithCookie.getCookies().size());
+        result.getCookies().forEach(cookie -> assertTrue(cookie.getSecure()));
     }
 }

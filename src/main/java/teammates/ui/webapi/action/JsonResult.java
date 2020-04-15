@@ -53,9 +53,8 @@ public class JsonResult extends ActionResult {
     @Override
     public void send(HttpServletResponse resp) throws IOException {
         output.setRequestId(Config.getRequestId());
-        for (Cookie cookie : cookies) {
-            resp.addCookie(cookie);
-        }
+        cookies.forEach(cookie -> cookie.setSecure(true));
+        cookies.forEach(resp::addCookie);
         resp.setStatus(getStatusCode());
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
