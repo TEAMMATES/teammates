@@ -179,6 +179,16 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         return testPlan;
     }
 
+    @Override
+    protected double getErrorRateLimit() {
+        return 20;
+    }
+
+    @Override
+    protected double getMeanRespTimeLimit() {
+        return 60;
+    }
+
     @BeforeClass
     public void classSetup() {
         createTestData();
@@ -187,10 +197,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     @Test
     public void runLnpTest() throws IOException {
         runJmeter(false);
-
-        // TODO: Generate summary report from .jtl results file + ReportGenerator, and log to console:
-        //  Replace "summariser.out" with Reporter.log("JMeter summary: ", true);
-        //  Also, consider displaying the link to the JMeter HTML report.
+        displayLnpResults();
     }
 
     @AfterClass

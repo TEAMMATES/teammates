@@ -252,6 +252,16 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         return testPlan;
     }
 
+    @Override
+    protected double getErrorRateLimit() {
+        return 20;
+    }
+
+    @Override
+    protected double getMeanRespTimeLimit() {
+        return 60;
+    }
+
     @BeforeClass
     public void classSetup() {
         createTestData();

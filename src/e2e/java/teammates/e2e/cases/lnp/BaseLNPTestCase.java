@@ -13,6 +13,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.jmeter.engine.StandardJMeterEngine;
+import org.apache.jmeter.report.config.ConfigurationException;
+import org.apache.jmeter.report.dashboard.GenerationException;
+import org.apache.jmeter.report.dashboard.ReportGenerator;
 import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.save.SaveService;
@@ -20,12 +23,17 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.LNPResultsStatistics;
 import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
@@ -50,6 +58,16 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * @return A nested tree structure that consists of the various elements that are used in the JMeter test.
      */
     protected abstract ListedHashTree getLnpTestPlan();
+
+    /**
+     * Returns the maximum allowable threshold for the percentage of failed requests (0 to 100) to the test endpoint.
+     */
+    protected abstract double getErrorRateLimit();
+
+    /**
+     * Returns the maximum allowable threshold for the mean response time (in seconds) for the test endpoint.
+     */
+    protected abstract double getMeanRespTimeLimit();
 
     /**
      * Returns the path to the generated JSON data bundle file.
@@ -82,6 +100,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected String getPathToTestDataFile(String fileName) {
         return getTestDataFolder() + fileName;
+    }
+
+    /**
+     * Returns the path to the JSON test results statistics file, relative to the project root directory.
+     */
+    private String getPathToTestStatisticsResultsFile() {
+        return TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + "Statistics.json";
     }
 
     private String createFileAndDirectory(String directory, String fileName) throws IOException {
@@ -147,6 +172,36 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
+     * Returns the L&P test results statistics.
+     * @return The initialized result statistics from the L&P test results.
+     * @throws IOException if there is an error when loading the result file.
+     */
+    private LNPResultsStatistics getResultsStatistics() throws IOException {
+        Gson gson = new Gson();
+        JsonReader reader = new JsonReader(Files.newBufferedReader(Paths.get(getPathToTestStatisticsResultsFile())));
+        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+        JsonObject endpointStats = jsonObject.getAsJsonObject("HTTP Request Sampler");
+        return gson.fromJson(endpointStats, LNPResultsStatistics.class);
+    }
+
+    /**
+     * Renames the default results statistics file to the name of the test.
+     */
+    private void renameStatisticsFile() {
+        File defaultFile = new File(TestProperties.LNP_TEST_RESULTS_FOLDER + "/statistics.json");
+        File lnpStatisticsFile = new File(getPathToTestStatisticsResultsFile());
+
+        if (lnpStatisticsFile.exists()) {
+            lnpStatisticsFile.delete();
+        }
+        if (!defaultFile.renameTo(lnpStatisticsFile)) {
+            log.warning("Failed to rename generated statistics.json file.");
+        }
+    }
+
+
+    /**
      * Setup and load the JMeter configuration and property files to run the Jmeter test.
      * @throws IOException if the save service properties file cannot be loaded.
      */
@@ -185,6 +240,16 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
+     * Display the L&P results on the console.
+     */
+    protected void displayLnpResults() throws IOException {
+        LNPResultsStatistics resultsStats = getResultsStatistics();
+
+        resultsStats.displayLnpResultsStatistics();
+        resultsStats.verifyLnpTestSuccess(getErrorRateLimit(), getMeanRespTimeLimit());
+    }
+
+    /**
      * Runs the JMeter test.
      * @param shouldCreateJmxFile true if the generated test plan should be saved to a `.jmx` file which
      *                            can be opened in the JMeter GUI, and false otherwise.
@@ -213,14 +278,18 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         resultCollector.setFilename(resultsFile);
         testPlan.add(testPlan.getArray()[0], resultCollector);
 
-        // Run JMeter Test
+        // Run Jmeter Test
         jmeter.configure(testPlan);
         jmeter.run();
 
-        // TODO: As mentioned in the docs, good to fail the test if there is an Exception, or if the `success` value of
-        //  requests is `false`. An example of when this occurs is if the JMeter test properties are not set or if `email`
-        //  is used for logging in instead of `googleid`. Tests should fail if this assertion fails:
-        //      assertTrue(resultsErrorRate < this.getAcceptableErrorRate());
+        try {
+            ReportGenerator reportGenerator = new ReportGenerator(resultsFile, null);
+            reportGenerator.generate();
+        } catch (ConfigurationException | GenerationException e) {
+            log.warning(e.getMessage());
+        }
+
+        renameStatisticsFile();
     }
 
     /**

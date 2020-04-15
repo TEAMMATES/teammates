@@ -169,6 +169,16 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         return testPlan;
     }
 
+    @Override
+    protected double getErrorRateLimit() {
+        return 20;
+    }
+
+    @Override
+    protected double getMeanRespTimeLimit() {
+        return 60;
+    }
+
     @BeforeClass
     public void classSetup() {
         createTestData();
@@ -177,6 +187,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     @Test
     public void runLnpTest() throws IOException {
         runJmeter(false);
+        displayLnpResults();
     }
 
     /**
