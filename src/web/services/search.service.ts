@@ -374,7 +374,7 @@ export class SearchService {
               ),
             ),
           );
-        })),
+      })),
     ).pipe(
       map(
         (value: [string[], InstructorPrivilege[][]]) => {
