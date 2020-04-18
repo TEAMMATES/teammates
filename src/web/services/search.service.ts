@@ -365,15 +365,15 @@ export class SearchService {
       of(distinctCourseIds),
       forkJoin(instructorsArray.map((instructors: Instructors) => {
         return forkJoin(
-           instructors.instructors.map(
-              (instructor: Instructor) => this.instructorService.loadInstructorPrivilege(
-                {
-                  courseId: instructor.courseId,
-                  instructorEmail: instructor.email,
-                },
-              ),
+          instructors.instructors.map(
+            (instructor: Instructor) => this.instructorService.loadInstructorPrivilege(
+              {
+                courseId: instructor.courseId,
+                instructorEmail: instructor.email,
+              },
             ),
-          );
+          ),
+        );
       })),
     ).pipe(
       map(
