@@ -274,7 +274,7 @@ export class SearchService {
       googleId: '',
       showLinks: false,
     };
-    const { email, name, googleId, institute = '' }: Instructor = instructor;
+    const { email, name, googleId = '', institute = '' }: Instructor = instructor;
     instructorResult = { ...instructorResult, email, name, googleId, institute };
 
     const { courseId, courseName }: Course = course;
@@ -362,21 +362,19 @@ export class SearchService {
     const distinctCourseIds: string[] = Object.keys(distinctInstructorsMap);
     const instructorsArray: Instructors[] = Object.values(distinctInstructorsMap);
     return forkJoin(
-      instructorsArray.length === 0
-        ? of([])
-        : of(distinctCourseIds),
-          forkJoin(instructorsArray.map((instructors: Instructors) => {
-            return forkJoin(
-               instructors.instructors.map(
-                  (instructor: Instructor) => this.instructorService.loadInstructorPrivilege(
-                    {
-                      courseId: instructor.courseId,
-                      instructorEmail: instructor.email,
-                    },
-                  ),
-                ),
-              );
-          })),
+      of(distinctCourseIds),
+      forkJoin(instructorsArray.map((instructors: Instructors) => {
+        return forkJoin(
+           instructors.instructors.map(
+              (instructor: Instructor) => this.instructorService.loadInstructorPrivilege(
+                {
+                  courseId: instructor.courseId,
+                  instructorEmail: instructor.email,
+                },
+              ),
+            ),
+          );
+        })),
     ).pipe(
       map(
         (value: [string[], InstructorPrivilege[][]]) => {

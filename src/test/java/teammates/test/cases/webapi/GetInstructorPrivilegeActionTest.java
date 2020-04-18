@@ -411,6 +411,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdmin(submissionParams);
     }
 
 }

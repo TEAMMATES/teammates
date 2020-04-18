@@ -178,14 +178,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedInstructorHomePageLink(InstructorAttributes instructor) {
-        String googleId = instructor.isRegistered() ? instructor.googleId : "undefined";
+        String googleId = instructor.isRegistered() ? instructor.googleId : "";
         return createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                 .withUserId(googleId)
                 .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(InstructorAttributes instructor) {
-        String googleId = instructor.isRegistered() ? instructor.googleId : "undefined";
+        String googleId = instructor.isRegistered() ? instructor.googleId : "";
         return createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withInstructorId(googleId)
                 .toAbsoluteString();

@@ -268,6 +268,12 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         ______TS("instructor as student can access for course");
         loginAsStudentInstructor(instructor1OfCourse1.googleId);
         verifyCanAccess(courseParam);
+       
+        String[] adminEntityParam = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
+        };
+
+        verifyAccessibleForAdmin(adminEntityParam);
 
         verifyInaccessibleForUnregisteredUsers(studentEntityParam);
         verifyInaccessibleWithoutLogin();
