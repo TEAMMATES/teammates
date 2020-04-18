@@ -30,7 +30,6 @@ public class GetInstructorsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("course not found"));
