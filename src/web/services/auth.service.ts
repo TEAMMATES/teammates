@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import { AuthInfo } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -18,12 +20,12 @@ export class AuthService {
   /**
    * Gets the user authentication information.
    */
-  getAuthUser(user?: string): Observable<any> {
-    const params: { [key: string]: string } = { frontendUrl: this.frontendUrl };
+  getAuthUser(user?: string): Observable<AuthInfo> {
+    const params: Record<string, string> = { frontendUrl: this.frontendUrl };
     if (user) {
       params.user = user;
     }
-    return this.httpRequestService.get('/auth', params);
+    return this.httpRequestService.get(ResourceEndpoints.AUTH, params);
   }
 
 }
