@@ -520,7 +520,7 @@ export class FeedbackQuestionsService {
     moderatedPerson?: string,
     previewAs?: string,
   }): Observable<FeedbackQuestions> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       intent: queryParams.intent,
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
@@ -562,7 +562,7 @@ export class FeedbackQuestionsService {
    */
   createFeedbackQuestion(courseId: string, feedbackSessionName: string,
                          request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
@@ -575,7 +575,7 @@ export class FeedbackQuestionsService {
    */
   saveFeedbackQuestion(feedbackQuestionId: string, request: FeedbackQuestionUpdateRequest):
       Observable<FeedbackQuestion> {
-    const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
+    const paramMap: Record<string, string> = { questionid: feedbackQuestionId };
 
     return this.httpRequestService.put(ResourceEndpoints.QUESTION, paramMap, request);
   }
@@ -584,7 +584,7 @@ export class FeedbackQuestionsService {
    * Deletes a feedback question
    */
   deleteFeedbackQuestion(feedbackQuestionId: string): Observable<any> {
-    const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
+    const paramMap: Record<string, string> = { questionid: feedbackQuestionId };
 
     return this.httpRequestService.delete(ResourceEndpoints.QUESTION, paramMap);
   }
@@ -599,7 +599,7 @@ export class FeedbackQuestionsService {
     moderatedPerson: string,
     previewAs: string,
   }): Observable<FeedbackQuestionRecipients> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       questionid: queryParams.questionId,
       intent: queryParams.intent,
       key: queryParams.key,

@@ -45,7 +45,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   activeCourses: CourseModel[] = [];
   archivedCourses: CourseModel[] = [];
   softDeletedCourses: CourseModel[] = [];
-  courseStats: { [key: string]: { [key: string]: number } } = {};
+  courseStats: Record<string, Record<string, number>> = {};
 
   tableSortOrder: SortOrder = SortOrder.ASC;
   tableSortBy: SortBy = SortBy.NONE;

@@ -23,10 +23,10 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
 
   @Input() isGqr: boolean = true;
 
-  teamsToUsers: { [key: string]: string[] } = {};
-  teamExpanded: { [key: string]: boolean } = {};
-  userToTeamName: { [key: string]: any } = {};
-  responsesToShow: { [key: string]: any[] } = {};
+  teamsToUsers: Record<string, string[]> = {};
+  teamExpanded: Record<string, boolean> = {};
+  userToTeamName: Record<string, any> = {};
+  responsesToShow: Record<string, any[]> = {};
 
   constructor() { }
 
