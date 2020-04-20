@@ -19,4 +19,11 @@ describe('NavigationService', () => {
     const service: NavigationService = TestBed.get(NavigationService);
     expect(service.encodeParams({ courseId: '#123?123' })).toEqual('?courseId=%23123%3F123');
   });
+
+  it('filterEmptyParams should filter empty params', () => {
+    const service: NavigationService = TestBed.get(NavigationService);
+    const params = { courseId: '#123?123', filterThis: '' };
+    service.filterEmptyParams(params)
+    expect(Object.keys(params).length).toEqual(1);
+  })
 });

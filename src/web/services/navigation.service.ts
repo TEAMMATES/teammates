@@ -25,6 +25,17 @@ export class NavigationService {
   }
 
   /**
+   * Removes params keys whose values are the empty string
+   */
+  filterEmptyParams(params: {[key: string]: string}): void {
+    Object.keys(params).forEach((key: string) => {
+      if (params[key] === '') {
+        delete params[key];
+      }
+    });
+  }
+
+  /**
    * Navigates to the selected URL with URL param encoding
    */
   navigateByURLWithParamEncoding(router: Router,
