@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let instructor of instructors">
+        <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
             <td>{{ instructor.courseId }}</td> <!-- TODO: tooltip course name -->
             <td>{{ instructor.name }}</td>
@@ -45,7 +45,7 @@
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
+              <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
             </td>
@@ -92,7 +92,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let student of students">
+        <ng-container *ngFor="let student of students; let i = index">
           <tr (click)="student.showLinks = !student.showLinks">
             <td>{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</td> <!-- TODO: tooltip course name -->
             <td>{{ student.name }}</td>
@@ -104,7 +104,7 @@
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
+              <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
             </td>

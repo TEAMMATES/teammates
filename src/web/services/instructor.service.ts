@@ -20,7 +20,7 @@ export class InstructorService {
    */
   loadInstructors(queryParams: { courseId: string, intent?: Intent }): Observable<Instructors> {
 
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
 
@@ -42,7 +42,7 @@ export class InstructorService {
     moderatedPerson: string,
     previewAs: string,
   }): Observable<Instructor> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
       intent: queryParams.intent,
@@ -57,7 +57,7 @@ export class InstructorService {
    * Creates an instructor in a course by calling API.
    */
   createInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
     return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
@@ -67,7 +67,7 @@ export class InstructorService {
    * Updates an instructor in a course by calling API.
    */
   updateInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
     return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
@@ -81,7 +81,7 @@ export class InstructorService {
     instructorEmail?: string,
     instructorId?: string,
   }): Observable<any> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
 
@@ -105,10 +105,11 @@ export class InstructorService {
     feedbackSessionName?: string,
     instructorRole?: string,
     instructorEmail?: string,
+    instructorId?: string,
   }):
     Observable<InstructorPrivilege> {
 
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
 
@@ -126,6 +127,10 @@ export class InstructorService {
 
     if (queryParams.instructorEmail) {
       paramMap.instructorEmail = queryParams.instructorEmail;
+    }
+
+    if (queryParams.instructorId) {
+      paramMap.instructorid = queryParams.instructorId;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
