@@ -2,10 +2,13 @@ package teammates.e2e.pageobjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
@@ -379,6 +382,28 @@ public abstract class AppPage {
         WebElement trElement = tableElement.findElements(By.tagName("tr")).get(row);
         WebElement tdElement = trElement.findElements(By.tagName("td")).get(column);
         return tdElement.getText();
+    }
+
+    /**
+     * Asserts that all values in the body of the given table are equal to the expectedTableBodyValues.
+     */
+    protected void verifyTableBodyValues(WebElement table, String[][] expectedTableBodyValues) {
+        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        assertTrue(expectedTableBodyValues.length <= rows.size());
+        for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
+            verifyTableRowValues(rows.get(rowIndex), expectedTableBodyValues[rowIndex]);
+        }
+    }
+
+    /**
+     * Asserts that all values in the given table row are equal to the expectedRowValues.
+     */
+    protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
+        List<WebElement> cells = row.findElements(By.tagName("td"));
+        assertTrue(expectedRowValues.length <= cells.size());
+        for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
+            assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
+        }
     }
 
     /**

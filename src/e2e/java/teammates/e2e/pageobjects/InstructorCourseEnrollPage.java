@@ -1,0 +1,149 @@
+package teammates.e2e.pageobjects;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import teammates.storage.entity.CourseStudent;
+
+/**
+ * Represents the instructor course enrollment page.
+ */
+public class InstructorCourseEnrollPage extends AppPage {
+    private static final int SPREADSHEET_NUM_STARTING_ROWS = 20;
+    private static final int NUM_ENROLLMENT_ATTRIBUTES = 5;
+
+    @FindBy(id = "toggle-existing-students")
+    private WebElement toggleExistingStudentsHeader;
+
+    @FindBy(id = "existingStudentsHOT")
+    private WebElement existingStudentsTable;
+
+    @FindBy(id = "newStudentsHOT")
+    private WebElement enrollSpreadsheet;
+
+    @FindBy(id = "button-enroll")
+    private WebElement enrollButton;
+
+    @FindBy(id = "results-panel")
+    private WebElement resultsPanel;
+
+    @FindBy(id = "button-add-empty-rows")
+    private WebElement addRowsButton;
+
+    @FindBy(id = "number-of-rows")
+    private WebElement addRowsInput;
+
+    public InstructorCourseEnrollPage(Browser browser) {
+        super(browser);
+    }
+
+    @Override
+    protected boolean containsExpectedPageContents() {
+        return getPageSource().contains("Enroll Students for");
+    }
+
+    public void clickToggleExistingStudentsHeader() {
+        click(toggleExistingStudentsHeader);
+    }
+
+    public void clickEnrollButton() {
+        click(enrollButton);
+    }
+
+    public void clickAddButton() {
+        click(addRowsButton);
+        waitForPageToLoad();
+    }
+
+    public void addEnrollSpreadsheetRows(int numRows) {
+        fillTextBox(addRowsInput, Integer.toString(numRows));
+        clickAddButton();
+    }
+
+    public void verifyNumAddedEnrollSpreadsheetRows(int addedNumRows) {
+        WebElement firstCell = getEnrollSpreadsheetFirstCell();
+
+        // make last row of spreadsheet visible
+        Actions actions = new Actions(browser.driver);
+        actions.click(firstCell).sendKeys(Keys.PAGE_UP).build().perform();
+
+        List<WebElement> indexCells = enrollSpreadsheet.findElements(By.cssSelector("span.rowHeader"));
+        String lastIndexCellText = indexCells.get(indexCells.size() - 1).getAttribute("innerHTML");
+
+        int expectedNumRows = addedNumRows + SPREADSHEET_NUM_STARTING_ROWS;
+        assertEquals(lastIndexCellText, Integer.toString(expectedNumRows));
+
+        // reset spreadsheet to original position
+        actions.sendKeys(Keys.PAGE_DOWN).perform();
+    }
+
+    public void enroll(CourseStudent[] studentsData) {
+        fillEnrollSpreadsheet(getEnrollmentData(studentsData));
+        waitForElementToBeClickable(enrollButton);
+        clickEnrollButton();
+    }
+
+    public void verifyExistingStudentsTableContains(CourseStudent[] expectedStudents) {
+        clickToggleExistingStudentsHeader();
+        verifyTableBodyValues(existingStudentsTable, getEnrollmentData(expectedStudents));
+    }
+
+    public void verifyResultsPanelContains(CourseStudent[] expectedNewStudents,
+                                           CourseStudent[] expectedModifiedStudents,
+                                           CourseStudent[] expectedModifiedWithoutChangeStudents,
+                                           CourseStudent[] expectedErrorStudents,
+                                           CourseStudent[] expectedUnmodifiedStudents) {
+        waitForElementVisibility(resultsPanel);
+        // number of tables depends on what results are present
+        int numTables = 0;
+        List<WebElement> tables = resultsPanel.findElements(By.tagName("table"));
+        if (expectedNewStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedNewStudents));
+        }
+        if (expectedModifiedStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedModifiedStudents));
+        }
+        if (expectedModifiedWithoutChangeStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedModifiedWithoutChangeStudents));
+        }
+        if (expectedErrorStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedErrorStudents));
+        }
+        if (expectedUnmodifiedStudents != null) {
+            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedUnmodifiedStudents));
+        }
+    }
+
+    private void fillEnrollSpreadsheet(String[][] expectedStudentData) {
+        WebElement firstCell = getEnrollSpreadsheetFirstCell();
+        Actions actions = new Actions(browser.driver);
+        actions.click(firstCell);
+        for (String[] expectedRowData : expectedStudentData) {
+            for (String expectedCellData : expectedRowData) {
+                actions.sendKeys(expectedCellData + Keys.TAB);
+            }
+        }
+        actions.build().perform();
+    }
+
+    // Does not work if first cell is not visible
+    private WebElement getEnrollSpreadsheetFirstCell() {
+        return enrollSpreadsheet.findElement(By.tagName("tbody")).findElement(By.tagName("td"));
+    }
+
+    private String[][] getEnrollmentData(CourseStudent[] studentsData) {
+        String[][] tableData = new String[studentsData.length][NUM_ENROLLMENT_ATTRIBUTES];
+        for (int i = 0; i < studentsData.length; i++) {
+            String[] student = {studentsData[i].getSectionName(), studentsData[i].getTeamName(),
+                    studentsData[i].getName(), studentsData[i].getEmail(), studentsData[i].getComments()};
+            tableData[i] = student;
+        }
+        return tableData;
+    }
+}
