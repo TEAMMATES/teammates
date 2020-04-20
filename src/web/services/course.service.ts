@@ -24,7 +24,7 @@ export class CourseService {
    * Gets all course data for an instructor by calling API.
    */
   getAllCoursesAsInstructor(courseStatus: string): Observable<Courses> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'instructor',
       coursestatus: courseStatus,
     };
@@ -35,7 +35,7 @@ export class CourseService {
    * Get course data by calling API as an instructor.
    */
   getCourseAsInstructor(courseId: string): Observable<Course> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       entitytype: 'instructor',
     };
@@ -46,7 +46,7 @@ export class CourseService {
    * Gets all course data for a student by calling API.
    */
   getAllCoursesAsStudent(): Observable<Courses> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'student',
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSES, paramMap);
@@ -56,7 +56,7 @@ export class CourseService {
    * Get course data by calling API as a student.
    */
   getCourseAsStudent(courseId: string): Observable<Course> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       entitytype: 'student',
     };
@@ -67,7 +67,7 @@ export class CourseService {
    * Get student courses data of a given google id in masquerade mode by calling API.
    */
   getStudentCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'student',
       user: googleId,
     };
@@ -78,12 +78,12 @@ export class CourseService {
    * Get instructor courses data of a given google id in masquerade mode by calling API.
    */
   getInstructorCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
-    const activeCoursesParamMap: { [key: string]: string } = {
+    const activeCoursesParamMap: Record<string, string> = {
       coursestatus: 'active',
       entitytype: 'instructor',
       user: googleId,
     };
-    const archivedCoursesParamMap: { [key: string]: string } = {
+    const archivedCoursesParamMap: Record<string, string> = {
       coursestatus: 'archived',
       entitytype: 'instructor',
       user: googleId,
@@ -115,7 +115,7 @@ export class CourseService {
    * Creates a course by calling API.
    */
   createCourse(request: CourseCreateRequest): Observable<Course> {
-    const paramMap: { [key: string]: string } = {};
+    const paramMap: Record<string, string> = {};
     return this.httpRequestService.post(ResourceEndpoints.COURSE, paramMap, request);
   }
 
@@ -123,7 +123,7 @@ export class CourseService {
    * Updates a course by calling API.
    */
   updateCourse(courseid: string, request: CourseUpdateRequest): Observable<Course> {
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: Record<string, string> = { courseid };
     return this.httpRequestService.put(ResourceEndpoints.COURSE, paramMap, request);
   }
 
@@ -131,7 +131,7 @@ export class CourseService {
    * Deletes a course by calling API.
    */
   deleteCourse(courseid: string): Observable<MessageOutput> {
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: Record<string, string> = { courseid };
     return this.httpRequestService.delete(ResourceEndpoints.COURSE, paramMap);
   }
 
@@ -139,7 +139,7 @@ export class CourseService {
    * Changes the archive status of a course by calling API.
    */
   changeArchiveStatus(courseid: string, request: CourseArchiveRequest): Observable<CourseArchive> {
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: Record<string, string> = { courseid };
     return this.httpRequestService.put(ResourceEndpoints.COURSE_ARCHIVE, paramMap, request);
   }
 
@@ -147,7 +147,7 @@ export class CourseService {
    * Bin (soft-delete) a course by calling API.
    */
   binCourse(courseid: string): Observable<Course> {
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: Record<string, string> = { courseid };
     return this.httpRequestService.put(ResourceEndpoints.BIN_COURSE, paramMap);
   }
 
@@ -155,7 +155,7 @@ export class CourseService {
    * Restore a soft-deleted course by calling API.
    */
   restoreCourse(courseid: string): Observable<MessageOutput> {
-    const paramMap: { [key: string]: string } = { courseid };
+    const paramMap: Record<string, string> = { courseid };
     return this.httpRequestService.delete(ResourceEndpoints.BIN_COURSE, paramMap);
   }
 
@@ -163,7 +163,7 @@ export class CourseService {
    * Get the status of whether the entity has joined the course by calling API.
    */
   getJoinCourseStatus(regKey: string, entityType: string): Observable<JoinStatus> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       key: regKey,
       entitytype: entityType,
     };
@@ -174,7 +174,7 @@ export class CourseService {
    * Join a course by calling API.
    */
   joinCourse(regKey: string, entityType: string, institute: string, institutemac: string): Observable<any> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       key: regKey,
       entitytype: entityType,
       instructorinstitution: institute,
@@ -187,7 +187,7 @@ export class CourseService {
    * Send join reminder emails to unregistered students.
    */
   remindUnregisteredStudentsForJoin(courseId: string): Observable<MessageOutput> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
     };
     return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
@@ -197,7 +197,7 @@ export class CourseService {
    * Send join reminder email to a student.
    */
   remindStudentForJoin(courseId: string, studentEmail: string): Observable<MessageOutput> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       studentemail: studentEmail,
     };
@@ -208,7 +208,7 @@ export class CourseService {
    * Send join reminder email to an instructor.
    */
   remindInstructorForJoin(courseId: string, instructorEmail: string): Observable<MessageOutput> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       instructoremail: instructorEmail,
     };
@@ -219,7 +219,7 @@ export class CourseService {
    * Checks if there are responses for a course (request sent by instructor).
    */
   hasResponsesForCourse(courseId: string): Observable<HasResponses> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'instructor',
       courseid: courseId,
     };
@@ -230,7 +230,7 @@ export class CourseService {
    * Removes student from course.
    */
   removeStudentFromCourse(courseId: string, studentEmail: string): Observable<any> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: courseId,
       studentemail: studentEmail,
     };
@@ -241,7 +241,7 @@ export class CourseService {
    * Gets a list of course section names.
    */
   getCourseSectionNames(courseId: string): Observable<any> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: courseId,
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SECTIONS, paramsMap);
@@ -251,7 +251,7 @@ export class CourseService {
    * Returns a list of students enrolled in a course.
    */
   getStudentsEnrolledInCourse(queryParams: { courseId: string }): Observable<StudentListResults> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSE_ENROLL_STUDENTS, paramsMap);

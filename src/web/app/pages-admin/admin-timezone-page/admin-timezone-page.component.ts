@@ -13,9 +13,9 @@ import { TimeZones } from '../../../types/api-output';
 export class AdminTimezonePageComponent implements OnInit {
 
   javaTzVersion: string = '';
-  javaTimezones: { [key: string]: number } = {};
+  javaTimezones: Record<string, number> = {};
   momentTzVersion: string = '';
-  momentTimezones: { [key: string]: number } = {};
+  momentTimezones: Record<string, number> = {};
 
   constructor(private timezoneService: TimezoneService) {}
 
