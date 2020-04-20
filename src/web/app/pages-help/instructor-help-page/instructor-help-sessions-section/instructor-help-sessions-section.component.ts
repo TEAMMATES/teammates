@@ -1,7 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import { Subject } from 'rxjs';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -14,8 +13,7 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  @Input() collapsePeerEvalTipsInChild: Subject<boolean> = new Subject<boolean>();
-  isPeerEvalTipsCollapsed: boolean = false;
+  @Input() isPeerEvalTipsCollapsed: boolean = false;
   isNewFeedbackSessionCollapsed: boolean = false;
   isAddQuestionsCollapsed: boolean = false;
   isPreviewCollapsed: boolean = false;
@@ -33,11 +31,6 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   constructor(private pageScrollService: PageScrollService,
               @Inject(DOCUMENT) private document: any) {
     super();
-  }
-
-  ngOnInit(): void {
-    this.collapsePeerEvalTipsInChild.subscribe(
-        (isPeerEvalTipsCollapsed: boolean) => this.isPeerEvalTipsCollapsed = isPeerEvalTipsCollapsed);
   }
 
   /**

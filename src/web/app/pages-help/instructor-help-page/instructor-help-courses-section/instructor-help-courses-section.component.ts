@@ -36,7 +36,7 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
   isRestoreCollapsed: boolean = false;
   isDelCollapsed: boolean = false;
   isRestoreAllCollapsed: boolean = false;
-  @Output() collapseStudentEditDetails: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  @Output() collapseStudentEditDetails: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private pageScrollService: PageScrollService,
               @Inject(DOCUMENT) private document: any) {

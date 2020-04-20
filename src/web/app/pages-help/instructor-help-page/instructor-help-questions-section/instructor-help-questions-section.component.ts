@@ -24,7 +24,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   isRubricQsCollapsed: boolean = false;
   isRankOptionsCollapsed: boolean = false;
   isRankRecipientsCollapsed: boolean = false;
-  @Output() collapsePeerEvalTips: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  @Output() collapsePeerEvalTips: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private modalService: NgbModal,
               private pageScrollService: PageScrollService,

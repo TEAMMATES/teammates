@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
@@ -107,8 +106,7 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     ],
   }];
 
-  @Input() collapseStudentEditDetailsInChild: Subject<boolean> = new Subject<boolean>();
-  isEditDetailsCollapsed: boolean = false;
+  @Input() isEditDetailsCollapsed: boolean = false;
   isViewProfileCollapsed: boolean = false;
   isViewAllResponsesCollapsed: boolean = false;
   isStudentSearchCollapsed: boolean = false;
@@ -118,10 +116,5 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
 
   constructor() {
     super();
-  }
-
-  ngOnInit(): void {
-    this.collapseStudentEditDetailsInChild.subscribe(
-        (isEditDetailsCollapsed: boolean) => this.isEditDetailsCollapsed = isEditDetailsCollapsed);
   }
 }

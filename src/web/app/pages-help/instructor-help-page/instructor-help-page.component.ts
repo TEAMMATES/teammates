@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Sections } from './sections';
 
@@ -18,8 +17,8 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
-  collapseStudentEditDetailsInChild: Subject<boolean> = new Subject<boolean>();
-  collapsePeerEvalTipsInChild: Subject<boolean> = new Subject<boolean>();
+  isEditDetailsCollapsed: boolean = false;
+  isPeerEvalTipsCollapsed: boolean = false;
 
   @ViewChild('helpPage', { static: false }) bodyRef ?: ElementRef;
 
@@ -71,13 +70,15 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
    * Collapses question card on student edit details in Students section.
    */
   collapseStudentEditDetails(event: boolean): void {
-    this.collapseStudentEditDetailsInChild.next(event);
+    this.isEditDetailsCollapsed = event;
+    this.isEditDetailsCollapsed = Object.assign({}, this.isEditDetailsCollapsed);
   }
 
   /**
    * Collapses question card on peer evaluation tips in Sessions section.
    */
   collapsePeerEvalTips(event: boolean): void {
-    this.collapsePeerEvalTipsInChild.next(event);
+    this.isPeerEvalTipsCollapsed = event;
+    this.isPeerEvalTipsCollapsed = Object.assign({}, this.isPeerEvalTipsCollapsed);
   }
 }
