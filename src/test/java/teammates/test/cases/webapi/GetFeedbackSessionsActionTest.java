@@ -274,7 +274,6 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         };
 
         verifyAccessibleForAdmin(adminEntityParam);
-
         verifyInaccessibleForUnregisteredUsers(studentEntityParam);
         verifyInaccessibleWithoutLogin();
     }
