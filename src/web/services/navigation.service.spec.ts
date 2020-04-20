@@ -22,8 +22,8 @@ describe('NavigationService', () => {
 
   it('filterEmptyParams should filter empty params', () => {
     const service: NavigationService = TestBed.get(NavigationService);
-    const params = { courseId: '#123?123', filterThis: '' };
-    service.filterEmptyParams(params)
+    const params: {[key: string]: string} = { courseId: '#123?123', filterThis: '' };
+    service.filterEmptyParams(params);
     expect(Object.keys(params).length).toEqual(1);
-  })
+  });
 });
