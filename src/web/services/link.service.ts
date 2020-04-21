@@ -39,7 +39,7 @@ export class LinkService {
       entitytype: 'student',
     };
 
-    this.navigationService.filterEmptyParams(params);
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
   }
@@ -57,7 +57,7 @@ export class LinkService {
       entitytype: 'instructor',
     };
 
-    this.navigationService.filterEmptyParams(params);
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
   }
@@ -70,7 +70,7 @@ export class LinkService {
       user: googleId,
     };
 
-    this.navigationService.filterEmptyParams(params);
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${this.URI_PREFIX}${homePage}${encodedParams}`;
   }
@@ -85,7 +85,7 @@ export class LinkService {
       instructorid: googleId,
     };
 
-    this.navigationService.filterEmptyParams(params);
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${this.URI_PREFIX}${accountsPage}${encodedParams}`;
   }
@@ -104,7 +104,7 @@ export class LinkService {
       user: instructorGoogleId,
     };
 
-    this.navigationService.filterEmptyParams(params);
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_RECORDS_PAGE}${encodedParams}`;
   }
@@ -124,7 +124,7 @@ export class LinkService {
       fsName,
     };
 
-    this.navigationService.filterEmptyParams(params);
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.SESSIONS_SUBMISSION_PAGE}${encodedParams}`;
   }
@@ -144,8 +144,19 @@ export class LinkService {
       fsName,
     };
 
-    this.navigationService.filterEmptyParams(params);
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.SESSIONS_RESULT_PAGE}${encodedParams}`;
+  }
+
+  /**
+   * Removes params keys whose values are the empty string
+   */
+  filterEmptyParams(params: {[key: string]: string}): void {
+    Object.keys(params).forEach((key: string) => {
+      if (params[key] === '') {
+        delete params[key];
+      }
+    });
   }
 }
