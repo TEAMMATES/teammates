@@ -122,11 +122,11 @@ export class InstructorService {
     }
 
     if (queryParams.instructorRole) {
-      paramMap.sectionname = queryParams.instructorRole;
+      paramMap.instructorrole = queryParams.instructorRole;
     }
 
     if (queryParams.instructorEmail) {
-      paramMap.instructorEmail = queryParams.instructorEmail;
+      paramMap.instructoremail = queryParams.instructorEmail;
     }
 
     if (queryParams.instructorId) {
