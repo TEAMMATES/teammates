@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import { AccountCreateRequest } from '../types/api-request';
 import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
@@ -34,10 +35,10 @@ describe('AccountService', () => {
 
   it('should execute GET on account endpoint', () => {
     service.getAccount(id);
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       instructorid: id,
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/account', paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
   it('should execute POST on account endpoint', () => {
@@ -47,48 +48,40 @@ describe('AccountService', () => {
       instructorName: string = 'testName';
     };
     service.createAccount(testRequest);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith('/account', {}, testRequest);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, {}, testRequest);
   });
 
   it('should execute DELETE on account endpoint', () => {
     service.deleteAccount(id);
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       instructorid: id,
     };
-    expect(spyHttpRequestService.delete).toHaveBeenCalledWith('/account', paramMap);
-  });
-
-  it('should execute GET on accounts/search endpoint', () => {
-    service.searchAccounts(id);
-    const paramMap: { [key: string]: string } = {
-      searchkey: id,
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/accounts/search', paramMap);
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
   it('should execute PUT on account/downgrade endpoint', () => {
     service.downgradeAccount(id);
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       instructorid: id,
     };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith('/account/downgrade', paramMap);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_DOWNGRADE, paramMap);
   });
 
   it('should execute PUT on account/reset endpoint for student', () => {
     service.resetStudentAccount(id, 'testStudentEmail');
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: id,
       studentemail: 'testStudentEmail',
     };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith('/account/reset', paramMap);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_RESET, paramMap);
   });
 
   it('should execute PUT on account/reset endpoint for instructor', () => {
     service.resetInstructorAccount(id, 'testInstructorEmail');
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: id,
       instructoremail: 'testInstructorEmail',
     };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith('/account/reset', paramMap);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_RESET, paramMap);
   });
 });

@@ -68,7 +68,7 @@ describe('InstructorService', () => {
 
   it('should execute GET when getting instructors for a course', () => {
     service.loadInstructors({ courseId: 'CS3281' });
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
@@ -76,7 +76,7 @@ describe('InstructorService', () => {
 
   it('should execute POST when creating an instructor for a course', () => {
     service.createInstructor({ courseId: 'CS3281', requestBody: defaultRequestBody });
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap, defaultRequestBody);
@@ -84,7 +84,7 @@ describe('InstructorService', () => {
 
   it('should execute PUT when updating an instructor for a course', () => {
     service.updateInstructor({ courseId: 'CS3281', requestBody: defaultRequestBody });
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap, defaultRequestBody);
@@ -92,7 +92,7 @@ describe('InstructorService', () => {
 
   it('should execute DELETE when deleting an instructor for a course', () => {
     service.deleteInstructor({ courseId: 'CS3281', instructorEmail: 'John Doe' });
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
       instructoremail: 'John Doe',
     };
@@ -100,7 +100,7 @@ describe('InstructorService', () => {
   });
 
   it('should send the correct course id', (done: DoneCallback) => {
-    spyHttpRequestService.get.mockImplementation((endpoint: string, paramMap: { [key: string]: string }) => {
+    spyHttpRequestService.get.mockImplementation((endpoint: string, paramMap: Record<string, string>) => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTORS);
       const courseid: string = paramMap.courseid;
       return of<Instructors>({
@@ -117,7 +117,7 @@ describe('InstructorService', () => {
   });
 
   it('should call get when loading instructor privileges', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
 
@@ -126,7 +126,7 @@ describe('InstructorService', () => {
   });
 
   it('should call put when updating instructor privileges', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
       instructoremail: 'johndoe@gmail.com',
     };

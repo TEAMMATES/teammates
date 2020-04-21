@@ -23,10 +23,10 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
 
   @Input() isGrq: boolean = true;
 
-  teamsToUsers: { [key: string]: string[] } = {};
-  teamExpanded: { [key: string]: boolean } = {};
-  userToTeamName: { [key: string]: any } = {};
-  responsesToShow: { [key: string]: { [key: string]: any[] } } = {};
+  teamsToUsers: Record<string, string[]> = {};
+  teamExpanded: Record<string, boolean> = {};
+  userToTeamName: Record<string, any> = {};
+  responsesToShow: Record<string, Record<string, any[]>> = {};
 
   constructor() { }
 

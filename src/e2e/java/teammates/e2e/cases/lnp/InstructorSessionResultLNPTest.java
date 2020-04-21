@@ -30,7 +30,6 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPTestData;
 
@@ -212,6 +211,10 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                     headers.add("sectionNumber_" + i);
                 }
 
+                for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
+                    headers.add("feedbackQuestion_" + i);
+                }
+
                 return headers;
             }
 
@@ -233,6 +236,11 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                     for (int i = 1; i <= NUMBER_OF_USER_ACCOUNTS / SIZE_OF_SECTION; i++) {
                         csvRow.add(Integer.toString(i));
                     }
+
+                    // For loading feedback question IDs
+                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
+                        csvRow.add(feedbackQuestion.getId());
+                    });
 
                     csvData.add(csvRow);
                 });
@@ -309,8 +317,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
         loadQuestionPanelController.add(JMeterElements.defaultSampler(argumentsMap));
 
         for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
-            String getSessionResultPath = "webapi/result?questionid="
-                    + BackDoor.getFeedbackQuestionId(COURSE_ID, FEEDBACK_SESSION_NAME, i);
+            String getSessionResultPath = String.format("webapi/result?questionid=${feedbackQuestion_%d}", i);
             loadQuestionPanelController.add(JMeterElements.httpGetSampler(getSessionResultPath));
         }
     }

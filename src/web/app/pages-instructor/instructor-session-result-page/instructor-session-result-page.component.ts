@@ -56,9 +56,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
   showStatistics: boolean = true;
   indicateMissingResponses: boolean = true;
 
-  sectionsModel: { [key: string]: any } = {};
+  sectionsModel: Record<string, any> = {};
   isSectionsLoaded: boolean = false;
-  questionsModel: { [key: string]: any } = {};
+  questionsModel: Record<string, any> = {};
   isQuestionsLoaded: boolean = false;
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
