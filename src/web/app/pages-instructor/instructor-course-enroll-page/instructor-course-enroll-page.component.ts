@@ -203,7 +203,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       }
     }
 
-    const statusMessage: { [key: number]: string } = {
+    const statusMessage: Record<number, string> = {
       0: `${studentLists[EnrollStatus.NEW].length} student(s) added:`,
       1: `${studentLists[EnrollStatus.MODIFIED].length} student(s) modified:`,
       2: `${studentLists[EnrollStatus.MODIFIED_UNCHANGED].length} student(s) updated with no changes:`,

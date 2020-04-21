@@ -30,7 +30,7 @@ export class SessionResultPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      const { courseid: courseId, fsname: feedbackSessionName }: { [key: string]: string } = queryParams;
+      const { courseid: courseId, fsname: feedbackSessionName }: Record<string, string> = queryParams;
       this.feedbackSessionsService.getFeedbackSession({
         courseId,
         feedbackSessionName,

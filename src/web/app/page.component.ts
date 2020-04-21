@@ -57,7 +57,7 @@ export class PageComponent {
    *
    * Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
    */
-  minimumVersions: { [key: string]: number } = {
+  minimumVersions: Record<string, number> = {
     Chrome: 45,
     IE: 10,
     Firefox: 40,

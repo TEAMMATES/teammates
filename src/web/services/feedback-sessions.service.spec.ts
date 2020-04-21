@@ -96,7 +96,7 @@ describe('FeedbackSessionsService', () => {
   });
 
   it('should call delete when unpublishing', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
@@ -109,7 +109,7 @@ describe('FeedbackSessionsService', () => {
   });
 
   it('should call get when loading session statistics', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: model.feedbackSession.courseId,
       fsname: model.feedbackSession.feedbackSessionName,
     };
@@ -121,7 +121,7 @@ describe('FeedbackSessionsService', () => {
   });
 
   it('should call get when retrieving feedback session results', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
       fsname: 'test feedback session',
       intent: Intent.FULL_DETAIL,
@@ -136,7 +136,7 @@ describe('FeedbackSessionsService', () => {
   });
 
   it('should call put when moving session to recycle bin', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
       fsname: 'test feedback session',
     };
@@ -146,7 +146,7 @@ describe('FeedbackSessionsService', () => {
   });
 
   it('should call delete when removing session from recycle bin', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
       fsname: 'test feedback session',
     };
@@ -156,7 +156,7 @@ describe('FeedbackSessionsService', () => {
   });
 
   it('should call delete when deleting session from recycle bin', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
       fsname: 'test feedback session',
     };
