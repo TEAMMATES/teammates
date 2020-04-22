@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { ResponseOutput } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
@@ -33,7 +34,7 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   sortBy: SortBy = SortBy.NONE;
   sortOrder: SortOrder = SortOrder.ASC;
 
-  constructor() { }
+  constructor(private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.filterResponses();
@@ -81,28 +82,37 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
       this.sortBy = by;
       this.sortOrder = SortOrder.ASC;
     }
-    switch (by) {
-      case SortBy.GIVER_TEAM:
-        this.responsesToShow
-          .sort((a: ResponseOutput, b: ResponseOutput) => a.giverTeam > b.giverTeam ? 1 : -1);
-        break;
-      case SortBy.GIVER_NAME:
-        this.responsesToShow
-          .sort((a: ResponseOutput, b: ResponseOutput) => a.giver > b.giver ? 1 : -1);
-        break;
-      case SortBy.RECIPIENT_TEAM:
-        this.responsesToShow
-          .sort((a: ResponseOutput, b: ResponseOutput) => a.recipientTeam > b.recipientTeam ? 1 : -1);
-        break;
-      case SortBy.RECIPIENT_NAME:
-        this.responsesToShow
-          .sort((a: ResponseOutput, b: ResponseOutput) => a.recipient > b.recipient ? 1 : -1);
-        break;
-      default:
-    }
-    if (this.sortOrder === SortOrder.DESC) {
-      this.responsesToShow.reverse();
-    }
+    this.responsesToShow.sort(this.sortResponsesBy(by, this.sortOrder));
+  }
+
+  sortResponsesBy(by: SortBy, order: SortOrder):
+    ((a: ResponseOutput, b: ResponseOutput) => number) {
+    return ((a: ResponseOutput, b: ResponseOutput): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.GIVER_TEAM:
+          strA = a.giverTeam;
+          strB = b.giverTeam;
+          break;
+        case SortBy.GIVER_NAME:
+          strA = a.giver;
+          strB = b.giver;
+          break;
+        case SortBy.RECIPIENT_TEAM:
+          strA = a.recipientTeam;
+          strB = b.recipientTeam;
+          break;
+        case SortBy.RECIPIENT_NAME:
+          strA = a.recipient;
+          strB = b.recipient;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return this.tableComparatorService.compare(by, order, strA, strB);
+    });
   }
 
 }
