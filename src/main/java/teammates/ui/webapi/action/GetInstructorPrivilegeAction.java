@@ -89,6 +89,10 @@ public class GetInstructorPrivilegeAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        if (userInfo.isAdmin) {
+            return;
+        }
+
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
         if (instructor == null) {

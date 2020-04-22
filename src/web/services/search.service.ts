@@ -274,7 +274,7 @@ export class SearchService {
       googleId: '',
       showLinks: false,
     };
-    const { email, name, googleId, institute = '' }: Instructor = instructor;
+    const { email, name, googleId = '', institute = '' }: Instructor = instructor;
     instructorResult = { ...instructorResult, email, name, googleId, institute };
 
     const { courseId, courseName }: Course = course;
@@ -318,6 +318,9 @@ export class SearchService {
       ...students.map((student: Student) => student.courseId),
       ...instructors.map((instructor: Instructor) => instructor.courseId),
     ]));
+    if (distinctCourseIds.length === 0) {
+      return forkJoin(of({}), of({}), of({}), of({}));
+    }
     return forkJoin(
       this.getDistinctInstructors(distinctCourseIds),
       this.getDistinctCourses(distinctCourseIds),
@@ -366,7 +369,7 @@ export class SearchService {
             (instructor: Instructor) => this.instructorService.loadInstructorPrivilege(
               {
                 courseId: instructor.courseId,
-                instructorId: instructor.googleId,
+                instructorEmail: instructor.email,
               },
             ),
           ),
@@ -387,7 +390,7 @@ export class SearchService {
 
   private getDistinctCourses(distinctCourseIds: string[]): Observable<DistinctCoursesMap> {
     return forkJoin(
-      distinctCourseIds.map((id: string) => this.courseService.getCourseAsStudent(id)),
+      distinctCourseIds.map((id: string) => this.courseService.getCourseAsInstructor(id)),
     ).pipe(
       map((courses: Course[]) => {
         const distinctCoursesMap: DistinctCoursesMap = {};
