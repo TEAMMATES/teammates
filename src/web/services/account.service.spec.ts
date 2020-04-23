@@ -59,14 +59,6 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
-  it('should execute GET on accounts/search endpoint', () => {
-    service.searchAccounts(id);
-    const paramMap: Record<string, string> = {
-      searchkey: id,
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNTS_SEARCH, paramMap);
-  });
-
   it('should execute PUT on account/downgrade endpoint', () => {
     service.downgradeAccount(id);
     const paramMap: Record<string, string> = {

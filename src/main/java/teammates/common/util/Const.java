@@ -742,7 +742,6 @@ public final class Const {
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
         public static final String ACCOUNT = "/account";
-        public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNT_RESET = "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
         public static final String RESPONSE_COMMENT = "/responsecomment";

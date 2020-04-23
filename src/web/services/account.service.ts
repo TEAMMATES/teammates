@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { Account, AdminSearchResult, JoinLink, MessageOutput } from '../types/api-output';
+import { Account, JoinLink, MessageOutput } from '../types/api-output';
 import { AccountCreateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -62,16 +62,6 @@ export class AccountService {
       instructoremail: instructorEmail,
     };
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramMap);
-  }
-
-  /**
-   * Search accounts by calling API.
-   */
-  searchAccounts(searchKey: string): Observable<AdminSearchResult> {
-    const paramMap: Record<string, string> = {
-      searchkey: searchKey,
-    };
-    return this.httpRequestService.get('/accounts/search', paramMap);
   }
 
   /**

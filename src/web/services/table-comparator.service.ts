@@ -59,6 +59,10 @@ export class TableComparatorService {
       case SortBy.SESSION_DELETION_DATE:
       case SortBy.QUESTION_TYPE:
       case SortBy.QUESTION_TEXT:
+      case SortBy.GIVER_TEAM:
+      case SortBy.GIVER_NAME:
+      case SortBy.RECIPIENT_TEAM:
+      case SortBy.RECIPIENT_NAME:
         return this.compareLexicographically(strA, strB, order);
       default:
         return 0;

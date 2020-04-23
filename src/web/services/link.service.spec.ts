@@ -78,4 +78,10 @@ describe('Link Service', () => {
       .toBe('http://localhost:4200/web/sessions/result?courseid'
             + '=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsName=another%20happy%20landing');
   });
+
+  it('filterEmptyParams should filter empty params', () => {
+    const params: {[key: string]: string} = { courseId: '#123?123', filterThis: '' };
+    service.filterEmptyParams(params);
+    expect(Object.keys(params).length).toEqual(1);
+  });
 });
