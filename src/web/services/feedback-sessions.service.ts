@@ -297,13 +297,15 @@ export class FeedbackSessionsService {
    */
   downloadSessionResults(courseId: string,
                          feedbackSessionName: string,
-                         userIntent: string): Observable<any> {
+                         userIntent: string,
+                         indicateMissingResponses: boolean,
+                         showStatistics: boolean): Observable<any> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
       intent: userIntent,
-      frindicatemissingresponses: 'true',
-      frshowstats: 'true',
+      frindicatemissingresponses: indicateMissingResponses ? 'true' : 'false',
+      frshowstats: showStatistics ? 'true' : 'false',
     };
 
     return this.httpRequestService.get(ResourceEndpoints.RESULT_CSV, paramMap, 'text');

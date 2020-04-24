@@ -35,11 +35,26 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
       this.noResponseStudentsInSection = this.noResponseStudents;
     }
   }
+
+  /**
+   * Toggles the tab of the no response panel.
+   */
+  toggleTab(): void {
+    this.isTabExpanded = !this.isTabExpanded;
+  }
+
   /**
    * Expands the tab of the no response panel.
    */
   expandTab(): void {
-    this.isTabExpanded = !this.isTabExpanded;
+    this.isTabExpanded = true;
+  }
+
+  /**
+   * Collapses the tab of the no response panel.
+   */
+  collapseTab(): void {
+    this.isTabExpanded = false;
   }
 
 }

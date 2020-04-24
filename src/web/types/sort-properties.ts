@@ -86,6 +86,26 @@ export enum SortBy {
      * Feedback question text (brief).
      */
     QUESTION_TEXT,
+
+    /**
+     * Team of the giver of the feedback response.
+     */
+    GIVER_TEAM,
+
+    /**
+     * Name of the giver of the feedback response.
+     */
+    GIVER_NAME,
+
+    /**
+     * Team of the recipient of the feedback response.
+     */
+    RECIPIENT_TEAM,
+
+    /**
+     * Name of the recipient of the feedback response.
+     */
+    RECIPIENT_NAME,
 }
 
 /**
