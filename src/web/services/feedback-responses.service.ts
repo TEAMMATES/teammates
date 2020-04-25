@@ -131,7 +131,7 @@ export class FeedbackResponsesService {
     key: string,
     moderatedPerson: string,
   }): Observable<FeedbackResponsesResponse> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       questionid: queryParams.questionId,
       intent: queryParams.intent,
       key: queryParams.key,
@@ -171,7 +171,7 @@ export class FeedbackResponsesService {
     key: string,
     moderatedPerson: string,
   }): Observable<FeedbackResponse> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       responseid: queryParams.responseId,
       intent: queryParams.intent,
       key: queryParams.key,

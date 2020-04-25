@@ -4,14 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
+import { InstructorAccountSearchResult,
+  SearchService, StudentAccountSearchResult } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { InstructorAccountSearchResult, StudentAccountSearchResult } from '../../../types/api-output';
 import { AdminSearchPageComponent } from './admin-search-page.component';
 
 describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
   let fixture: ComponentFixture<AdminSearchPageComponent>;
   let accountService: AccountService;
+  let searchService: SearchService;
   let statusMessageService: StatusMessageService;
 
   beforeEach(async(() => {
@@ -22,7 +24,7 @@ describe('AdminSearchPageComponent', () => {
         HttpClientTestingModule,
         MatSnackBarModule,
       ],
-      providers: [AccountService, StatusMessageService],
+      providers: [AccountService, SearchService, StatusMessageService],
     })
     .compileComponents();
   }));
@@ -31,6 +33,7 @@ describe('AdminSearchPageComponent', () => {
     fixture = TestBed.createComponent(AdminSearchPageComponent);
     component = fixture.componentInstance;
     accountService = TestBed.get(AccountService);
+    searchService = TestBed.get(SearchService);
     statusMessageService = TestBed.get(StatusMessageService);
     fixture.detectChanges();
   });
@@ -40,7 +43,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display error message for invalid input', () => {
-    spyOn(accountService, 'searchAccounts').and.returnValue(throwError({
+    spyOn(searchService, 'searchAdmin').and.returnValue(throwError({
       error: {
         message: 'This is the error message',
       },
@@ -58,7 +61,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display warning message for no results', () => {
-    spyOn(accountService, 'searchAccounts').and.returnValue(of({
+    spyOn(searchService, 'searchAdmin').and.returnValue(of({
       students: [],
       instructors: [],
     }));
@@ -101,7 +104,7 @@ describe('AdminSearchPageComponent', () => {
         showLinks: true,
       }];
 
-    spyOn(accountService, 'searchAccounts').and.returnValue(of({
+    spyOn(searchService, 'searchAdmin').and.returnValue(of({
       students: [],
       instructors: instructorResults,
     }));
@@ -157,7 +160,7 @@ describe('AdminSearchPageComponent', () => {
         publishedSessions: { ['index']: 'session' },
       }];
 
-    spyOn(accountService, 'searchAccounts').and.returnValue(of({
+    spyOn(searchService, 'searchAdmin').and.returnValue(of({
       students: studentResults,
       instructors: [],
     }));

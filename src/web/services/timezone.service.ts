@@ -30,10 +30,10 @@ export interface TimeResolvingResult {
 export class TimezoneService {
 
   tzVersion: string = '';
-  tzOffsets: { [key: string]: number } = {};
+  tzOffsets: Record<string, number> = {};
 
   // These short timezones are not supported by Java
-  private readonly badZones: { [key: string]: boolean } = {
+  private readonly badZones: Record<string, boolean> = {
     EST: true, 'GMT+0': true, 'GMT-0': true, HST: true, MST: true, ROC: true,
   };
 
@@ -59,7 +59,7 @@ export class TimezoneService {
   /**
    * Gets the mapping of time zone ID to offset values.
    */
-  getTzOffsets(): { [key: string]: number } {
+  getTzOffsets(): Record<string, number> {
     return this.tzOffsets;
   }
 
@@ -78,8 +78,8 @@ export class TimezoneService {
    * Gets the resolved UNIX timestamp from a local data time with time zone.
    */
   getResolvedTimestamp(localDateTime: string, timeZone: string, fieldName: string): Observable<TimeResolvingResult> {
-    const params: { [key: string]: string } = { localdatetime: localDateTime, timezone: timeZone };
-    return this.httpRequestService.get('/localdatetime', params).pipe(
+    const params: Record<string, string> = { localdatetime: localDateTime, timezone: timeZone };
+    return this.httpRequestService.get(ResourceEndpoints.LOCAL_DATE_TIME, params).pipe(
         map((info: LocalDateTimeInfo) => {
           const resolvingResult: TimeResolvingResult = {
             timestamp: info.resolvedTimestamp,

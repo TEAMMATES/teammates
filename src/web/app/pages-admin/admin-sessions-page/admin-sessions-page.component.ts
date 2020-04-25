@@ -26,10 +26,10 @@ export class AdminSessionsPageComponent implements OnInit {
   totalClosedSessions: number = 0;
   totalAwaitingSessions: number = 0;
   totalInstitutes: number = 0;
-  sessions: { [key: string]: OngoingSessionModel[] } = {};
+  sessions: Record<string, OngoingSessionModel[]> = {};
 
   // Tracks the whether the panel of an institute has been opened
-  institutionPanelsStatus: { [key: string]: boolean } = {};
+  institutionPanelsStatus: Record<string, boolean> = {};
 
   showFilter: boolean = false;
   timezones: string[] = [];

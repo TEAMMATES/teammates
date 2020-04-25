@@ -38,6 +38,8 @@ export class LinkService {
       courseid,
       entitytype: 'student',
     };
+
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
   }
@@ -54,6 +56,8 @@ export class LinkService {
       key,
       entitytype: 'instructor',
     };
+
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
   }
@@ -66,6 +70,7 @@ export class LinkService {
       user: googleId,
     };
 
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${this.URI_PREFIX}${homePage}${encodedParams}`;
   }
@@ -79,6 +84,8 @@ export class LinkService {
     } = {
       instructorid: googleId,
     };
+
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${this.URI_PREFIX}${accountsPage}${encodedParams}`;
   }
@@ -96,6 +103,8 @@ export class LinkService {
       studentemail,
       user: instructorGoogleId,
     };
+
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_RECORDS_PAGE}${encodedParams}`;
   }
@@ -114,6 +123,8 @@ export class LinkService {
       studentemail,
       fsName,
     };
+
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.SESSIONS_SUBMISSION_PAGE}${encodedParams}`;
   }
@@ -132,7 +143,20 @@ export class LinkService {
       studentemail,
       fsName,
     };
+
+    this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
     return `${frontendUrl}${this.URI_PREFIX}${this.SESSIONS_RESULT_PAGE}${encodedParams}`;
+  }
+
+  /**
+   * Removes params keys whose values are the empty string
+   */
+  filterEmptyParams(params: {[key: string]: string}): void {
+    Object.keys(params).forEach((key: string) => {
+      if (params[key] === '') {
+        delete params[key];
+      }
+    });
   }
 }

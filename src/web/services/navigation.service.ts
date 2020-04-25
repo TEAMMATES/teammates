@@ -16,7 +16,7 @@ export class NavigationService {
   constructor(private statusMessageService: StatusMessageService,
               private masqueradeModeService: MasqueradeModeService) {}
 
-  encodeParams(params: {[key: string]: string}): string {
+  encodeParams(params: Record<string, string>): string {
     if (Object.values(params).length === 0) {
       return '';
     }
@@ -28,7 +28,7 @@ export class NavigationService {
    * Navigates to the selected URL with URL param encoding
    */
   navigateByURLWithParamEncoding(router: Router,
-    urlWithoutParams: string, params: {[key: string]: string}): Promise<Boolean> {
+    urlWithoutParams: string, params: Record<string, string>): Promise<Boolean> {
     return router.navigateByUrl(`${urlWithoutParams}${this.encodeParams(params)}`);
   }
 
@@ -44,7 +44,7 @@ export class NavigationService {
   /**
    * Navigates to the selected URL and shows a success message afterwards.
    */
-  navigateWithSuccessMessage(router: Router, url: string, message: string, params: {[key: string]: string} = {}): void {
+  navigateWithSuccessMessage(router: Router, url: string, message: string, params: Record<string, string> = {}): void {
     this.navigateByURLWithParamEncoding(router, url, params).then(() => {
       this.statusMessageService.showSuccessMessage(message);
     });
@@ -62,7 +62,7 @@ export class NavigationService {
   /**
    * Opens a new browser window.
    */
-  openNewWindow(urlStr: string, params: {[key: string]: string} = {}): void {
+  openNewWindow(urlStr: string, params: Record<string, string> = {}): void {
     const url: URL = new URL(`${urlStr}${this.encodeParams(params)}`);
     if (this.masqueradeModeService.isInMasqueradingMode()) {
       url.searchParams.set('user', this.masqueradeModeService.getMasqueradeUser());
