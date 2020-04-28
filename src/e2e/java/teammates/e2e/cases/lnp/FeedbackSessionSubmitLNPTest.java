@@ -264,6 +264,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
     @BeforeClass
     public void classSetup() {
+        generateTimeStamp();
         createTestData();
     }
 

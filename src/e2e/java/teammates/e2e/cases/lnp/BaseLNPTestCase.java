@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -51,6 +53,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     private static final Logger log = Logger.getLogger();
 
+    protected String timeStamp;
+
     protected abstract LNPTestData getTestData();
 
     /**
@@ -73,21 +77,21 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Returns the path to the generated JSON data bundle file.
      */
     protected String getJsonDataPath() {
-        return "/" + getClass().getSimpleName() + ".json";
+        return "/" + getClass().getSimpleName() + timeStamp + ".json";
     }
 
     /**
      * Returns the path to the generated JMeter CSV config file.
      */
     protected String getCsvConfigPath() {
-        return "/" + getClass().getSimpleName() + "Config.csv";
+        return "/" + getClass().getSimpleName() + "Config" + timeStamp + ".csv";
     }
 
     /**
      * Returns the path to the generated JTL test results file.
      */
     protected String getJtlResultsPath() {
-        return "/" + getClass().getSimpleName() + ".jtl";
+        return "/" + getClass().getSimpleName() + timeStamp + ".jtl";
     }
 
     @Override
@@ -106,7 +110,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Returns the path to the JSON test results statistics file, relative to the project root directory.
      */
     private String getPathToTestStatisticsResultsFile() {
-        return TestProperties.LNP_TEST_RESULTS_FOLDER + "/" + getClass().getSimpleName() + "Statistics.json";
+        return String.format("%s/%sStatistics%s.json", TestProperties.LNP_TEST_RESULTS_FOLDER,
+                        this.getClass().getSimpleName(), this.timeStamp);
     }
 
     private String createFileAndDirectory(String directory, String fileName) throws IOException {
@@ -317,4 +322,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         return String.format("\"%s\"", originalString.replace(System.lineSeparator(), "").replace("\"", "\"\""));
     }
 
+    /**
+     * Generates timestamp for generated statistics/CSV files in order to prevent concurrency issues.
+     */
+    protected void generateTimeStamp() {
+        this.timeStamp = ZonedDateTime.now().format(DateTimeFormatter.ofPattern("_uuuuMMddHHmmss"));
+    }
 }
