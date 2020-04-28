@@ -364,5 +364,6 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
         deleteTestData();
         deleteDataFiles();
+        cleanupResults();
     }
 }

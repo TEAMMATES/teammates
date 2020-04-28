@@ -205,6 +205,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     public void classTearDown() throws IOException {
         deleteTestData();
         deleteDataFiles();
+        cleanupResults();
     }
 
 }

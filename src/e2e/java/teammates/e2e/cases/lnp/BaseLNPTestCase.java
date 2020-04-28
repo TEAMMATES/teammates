@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -50,6 +51,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected static final String POST = HttpPost.METHOD_NAME;
     protected static final String PUT = HttpPut.METHOD_NAME;
     protected static final String DELETE = HttpDelete.METHOD_NAME;
+    private static final int RESULT_COUNT = 3;
 
     private static final Logger log = Logger.getLogger();
 
@@ -313,6 +315,35 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
         Files.delete(Paths.get(pathToJsonFile));
         Files.delete(Paths.get(pathToCsvFile));
+    }
+
+    /**
+     * Deletes the oldest excess result .jtl file and the statistics file, if there are more than RESULT_COUNT.
+     */
+    protected void cleanupResults() throws IOException {
+        File[] fileList = new File(TestProperties.LNP_TEST_RESULTS_FOLDER)
+                .listFiles((d, s) -> {
+                    return s.contains(this.getClass().getSimpleName());
+                });
+        Arrays.sort(fileList, (a, b) -> {
+            return b.getName().compareTo(a.getName());
+        });
+
+        int jtlCounter = 0;
+        int statisticsCounter = 0;
+        for (File file : fileList) {
+            if (file.getName().contains("Statistics")) {
+                statisticsCounter++;
+                if (statisticsCounter > RESULT_COUNT) {
+                    Files.delete(file.toPath());
+                }
+            } else {
+                jtlCounter++;
+                if (jtlCounter > RESULT_COUNT) {
+                    Files.delete(file.toPath());
+                }
+            }
+        }
     }
 
     /**
