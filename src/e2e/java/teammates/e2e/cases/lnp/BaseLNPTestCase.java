@@ -37,6 +37,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.LNPResultsStatistics;
+import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCase;
@@ -51,11 +52,13 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected static final String POST = HttpPost.METHOD_NAME;
     protected static final String PUT = HttpPut.METHOD_NAME;
     protected static final String DELETE = HttpDelete.METHOD_NAME;
-    private static final int RESULT_COUNT = 3;
 
     private static final Logger log = Logger.getLogger();
 
+    private static final int RESULT_COUNT = 3;
+
     protected String timeStamp;
+    protected LNPSpecification specification;
 
     protected abstract LNPTestData getTestData();
 
@@ -66,14 +69,15 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected abstract ListedHashTree getLnpTestPlan();
 
     /**
-     * Returns the maximum allowable threshold for the percentage of failed requests (0 to 100) to the test endpoint.
+     * Sets up the specification for this L&P test case.
+     * @param errorRateLimit Maximum allowable threshold for the percentage of failed requests
+     *                       (0 to 100) to the test endpoint.
+     * @param meanRespTimeLimit Maximum allowable threshold for the mean response time
+     *                          (in seconds) for the test endpoint.
      */
-    protected abstract double getErrorRateLimit();
-
-    /**
-     * Returns the maximum allowable threshold for the mean response time (in seconds) for the test endpoint.
-     */
-    protected abstract double getMeanRespTimeLimit();
+    protected void setupSpecification(double errorRateLimit, double meanRespTimeLimit) {
+        this.specification = new LNPSpecification(errorRateLimit, meanRespTimeLimit);
+    }
 
     /**
      * Returns the path to the generated JSON data bundle file.
@@ -252,7 +256,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
         LNPResultsStatistics resultsStats = getResultsStatistics();
 
         resultsStats.displayLnpResultsStatistics();
-        resultsStats.verifyLnpTestSuccess(getErrorRateLimit(), getMeanRespTimeLimit());
+        specification.verifyLnpTestSuccess(resultsStats);
     }
 
     /**

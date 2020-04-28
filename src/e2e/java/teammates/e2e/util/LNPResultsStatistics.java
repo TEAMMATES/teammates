@@ -13,19 +13,6 @@ public class LNPResultsStatistics {
     private double throughput;
     private int errorCount;
     private int sampleCount;
-    private String resultsErrorMessage = "";
-
-    /**
-     * Verify the LNP results statistics with the specified threshold.
-     */
-    public void verifyLnpTestSuccess(double errorRateLimit, double meanResTimeLimit) {
-        checkErrorLimit(errorRateLimit);
-        checkMeanResTimeLimit(meanResTimeLimit);
-
-        if (!resultsErrorMessage.isEmpty()) {
-            throw new AssertionError(resultsErrorMessage);
-        }
-    }
 
     /**
      * Display the statistics from a given test result.
@@ -34,26 +21,12 @@ public class LNPResultsStatistics {
         Reporter.log(formatResultsStats(), true);
     }
 
-    /**
-     * Checks if the mean response time exceeds the specified time limit.
-     */
-    private void checkMeanResTimeLimit(double meanResTimeLimit) {
-        if (meanResTimeLimit < meanResTime / 1000) {
-            double exceededMeanResTime = meanResTime / 1000 - meanResTimeLimit;
-            resultsErrorMessage += "Avg resp time is " + String.format("%.2f", exceededMeanResTime)
-                    + "s higher than the specified threshold.";
-        }
+    public double getMeanResTime() {
+        return this.meanResTime;
     }
 
-    /**
-     * Checks if the error rate exceeds the specified error percentage limit.
-     */
-    private void checkErrorLimit(double errorRateLimit) {
-        if (errorRateLimit < errorPct) {
-            double exceededErrorRate = errorPct - errorRateLimit;
-            resultsErrorMessage += "Error rate is " + String.format("%.2f", exceededErrorRate)
-                    + "% higher than the specified threshold. ";
-        }
+    public double getErrorPct() {
+        return this.errorPct;
     }
 
     /**
