@@ -22,7 +22,7 @@ public class LNPResultsStatistics {
         checkErrorLimit(errorRateLimit);
         checkMeanResTimeLimit(meanResTimeLimit);
 
-        if (resultsErrorMessage.isEmpty()) {
+        if (!resultsErrorMessage.isEmpty()) {
             throw new AssertionError(resultsErrorMessage);
         }
     }
