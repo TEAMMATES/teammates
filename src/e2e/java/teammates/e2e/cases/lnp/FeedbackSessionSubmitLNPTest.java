@@ -254,12 +254,12 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
     @Override
     protected double getErrorRateLimit() {
-        return 20;
+        return 0.01;
     }
 
     @Override
     protected double getMeanRespTimeLimit() {
-        return 60;
+        return 1;
     }
 
     @BeforeClass
@@ -277,6 +277,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
             System.out.println(e.toString());
         }
         runJmeter(true);
+        displayLnpResults();
     }
 
     /**

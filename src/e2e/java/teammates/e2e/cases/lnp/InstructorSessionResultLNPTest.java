@@ -335,7 +335,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
     @Override
     protected double getErrorRateLimit() {
-        return 0.0;
+        return 0.01;
     }
 
     @Override
@@ -352,6 +352,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
     @Test
     public void runLnpTest() throws IOException {
         runJmeter(false);
+        displayLnpResults();
     }
 
     /**
