@@ -30,13 +30,31 @@ export class InstructorSessionResultQuestionViewComponent extends InstructorSess
   }
 
   /**
-   * Expands the tab of the specified question.
+   * Toggles the tab of the specified question.
    */
-  expandQuestionTab(question: any): void {
+  toggleQuestionTab(question: any): void {
     question.isTabExpanded = !question.isTabExpanded;
     if (question.isTabExpanded) {
       this.loadQuestion.emit(question.feedbackQuestionId);
     }
   }
 
+  /**
+   * Expands the tab for all questions.
+   */
+  expandAllQuestionTabs(): void {
+    for (const question of this.questionsOrder) {
+      question.isTabExpanded = true;
+      this.loadQuestion.emit(question.feedbackQuestionId);
+    }
+  }
+
+  /**
+   * Collapses the tab for all questions.
+   */
+  collapseAllQuestionTabs(): void {
+    for (const question of this.questionsOrder) {
+      question.isTabExpanded = false;
+    }
+  }
 }

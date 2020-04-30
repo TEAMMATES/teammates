@@ -35,7 +35,7 @@ describe('StudentProfileService', () => {
   it('should execute GET on student profile endpoint with params', () => {
     const studentEmail: string = 'test@123.com';
     const courseId: string = 'test-course';
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       studentemail: studentEmail,
       courseid: courseId,
     };
@@ -70,7 +70,7 @@ describe('StudentProfileService', () => {
       nationality: string = '';
       shortName: string = '';
     };
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       googleid: googleId,
     };
     service.updateStudentProfile(googleId, requestBody);
@@ -84,7 +84,7 @@ describe('StudentProfileService', () => {
   });
 
   it('should execute DELETE on student profile picture endpoint', () => {
-    const paramsMap: { [key: string]: string } = {};
+    const paramsMap: Record<string, string> = {};
     service.deleteProfilePicture(paramsMap);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_PROFILE_PICTURE, paramsMap);
   });

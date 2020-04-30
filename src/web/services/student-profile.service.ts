@@ -22,7 +22,7 @@ export class StudentProfileService {
    */
   getStudentProfile(studentEmail?: string, courseId?: string): Observable<StudentProfile> {
     if (studentEmail && courseId) {
-      const paramsMap: { [key: string]: string } = {
+      const paramsMap: Record<string, string> = {
         studentemail: studentEmail,
         courseid: courseId,
       };
@@ -36,7 +36,7 @@ export class StudentProfileService {
    */
   updateStudentProfile(googleId: string, requestBody: StudentProfileUpdateRequest)
       : Observable<MessageOutput> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       googleid: googleId,
     };
     return this.httpRequestService.put(ResourceEndpoints.STUDENT_PROFILE, paramsMap, requestBody);
@@ -59,7 +59,7 @@ export class StudentProfileService {
   /**
    * Deletes the profile picture and the profile picture key
    */
-  deleteProfilePicture(paramMap: { [key: string]: string }): Observable<any> {
+  deleteProfilePicture(paramMap: Record<string, string>): Observable<any> {
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT_PROFILE_PICTURE, paramMap);
   }
 }

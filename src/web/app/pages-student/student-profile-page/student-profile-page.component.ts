@@ -195,7 +195,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Deletes the profile picture and the profile picture key
    */
   deleteProfilePicture(): void {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       googleid: this.id,
     };
     this.studentProfileService.deleteProfilePicture(paramMap)

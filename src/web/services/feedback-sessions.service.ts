@@ -58,7 +58,7 @@ export class FeedbackSessionsService {
     previewAs?: string,
   }): Observable<FeedbackSession> {
     // load feedback session
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       intent: queryParams.intent,
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
@@ -83,7 +83,7 @@ export class FeedbackSessionsService {
    * Creates a feedback session by calling API.
    */
   createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = { courseid: courseId };
+    const paramMap: Record<string, string> = { courseid: courseId };
     return this.httpRequestService.post(ResourceEndpoints.SESSION, paramMap, request);
   }
 
@@ -92,7 +92,7 @@ export class FeedbackSessionsService {
    */
   updateFeedbackSession(courseId: string, feedbackSessionName: string, request: FeedbackSessionUpdateRequest):
       Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = { courseid: courseId, fsname: feedbackSessionName };
+    const paramMap: Record<string, string> = { courseid: courseId, fsname: feedbackSessionName };
     return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
   }
 
@@ -100,7 +100,7 @@ export class FeedbackSessionsService {
    * Deletes a feedback session by calling API.
    */
   deleteFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = { courseid: courseId, fsname: feedbackSessionName };
+    const paramMap: Record<string, string> = { courseid: courseId, fsname: feedbackSessionName };
     return this.httpRequestService.delete(ResourceEndpoints.SESSION, paramMap);
   }
 
@@ -108,7 +108,7 @@ export class FeedbackSessionsService {
    * Gets all ongoing session by calling API.
    */
   getOngoingSessions(startTime: number, endTime: number): Observable<OngoingSessions> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       starttime: String(startTime),
       endtime: String(endTime),
     };
@@ -120,7 +120,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionsForInstructor(courseId?: string): Observable<FeedbackSessions> {
 
-    let paramMap: { [key: string]: string };
+    let paramMap: Record<string, string>;
     if (courseId != null) {
       paramMap = {
         entitytype: 'instructor',
@@ -141,7 +141,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionsInRecycleBinForInstructor(): Observable<FeedbackSessions> {
 
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'instructor',
       isinrecyclebin: 'true',
     };
@@ -154,7 +154,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionsForStudent(courseId?: string): Observable<FeedbackSessions> {
 
-    let paramMap: { [key: string]: string };
+    let paramMap: Record<string, string>;
     if (courseId != null) {
       paramMap = {
         entitytype: 'student',
@@ -173,7 +173,7 @@ export class FeedbackSessionsService {
    * Checks if there are responses for a specific question in a feedback session (request sent by instructor).
    */
   hasResponsesForQuestion(questionId: string): Observable<HasResponses> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'instructor',
       questionid: questionId,
     };
@@ -184,7 +184,7 @@ export class FeedbackSessionsService {
    * Checks if there is response of a student for a feedback session (request sent by student).
    */
   hasStudentResponseForFeedbackSession(courseId: string, feedbackSessionName: string): Observable<HasResponses> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'student',
       courseid: courseId,
       fsname: feedbackSessionName,
@@ -199,7 +199,7 @@ export class FeedbackSessionsService {
   remindFeedbackSessionSubmissionForStudent(
       courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
       : Observable<MessageOutput> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
@@ -218,7 +218,7 @@ export class FeedbackSessionsService {
     key: string,
     moderatedPerson: string,
   }): Observable<ConfirmationResponse> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
       sendsubmissionemail: queryParams.sendSubmissionEmail,
@@ -236,7 +236,7 @@ export class FeedbackSessionsService {
   remindResultsLinkToStudents(
       courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
       : Observable<MessageOutput> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
@@ -249,7 +249,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionSubmittedGiverSet(queryParams: { courseId: string, feedbackSessionName: string }):
       Observable<FeedbackSessionSubmittedGiverSet> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
     };
@@ -260,7 +260,7 @@ export class FeedbackSessionsService {
    * publishes a feedback session.
    */
   publishFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
@@ -272,7 +272,7 @@ export class FeedbackSessionsService {
    * Unpublishes a feedback session.
    */
   unpublishFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
@@ -284,7 +284,7 @@ export class FeedbackSessionsService {
    * Load session statistics.
    */
   loadSessionStatistics(courseId: string, feedbackSessionName: string): Observable<FeedbackSessionStats> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
@@ -297,13 +297,15 @@ export class FeedbackSessionsService {
    */
   downloadSessionResults(courseId: string,
                          feedbackSessionName: string,
-                         userIntent: string): Observable<any> {
-    const paramMap: { [key: string]: string } = {
+                         userIntent: string,
+                         indicateMissingResponses: boolean,
+                         showStatistics: boolean): Observable<any> {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
       intent: userIntent,
-      frindicatemissingresponses: 'true',
-      frshowstats: 'true',
+      frindicatemissingresponses: indicateMissingResponses ? 'true' : 'false',
+      frshowstats: showStatistics ? 'true' : 'false',
     };
 
     return this.httpRequestService.get(ResourceEndpoints.RESULT_CSV, paramMap, 'text');
@@ -319,7 +321,7 @@ export class FeedbackSessionsService {
     questionId?: string,
     groupBySection?: string,
   }): Observable<SessionResults> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
       intent: queryParams.intent,
@@ -340,7 +342,7 @@ export class FeedbackSessionsService {
    * Soft delete a session by moving it to the recycle bin.
    */
   moveSessionToRecycleBin(courseId: string, feedbackSessionName: string): Observable<any> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
@@ -352,7 +354,7 @@ export class FeedbackSessionsService {
    * Removes a session from the recycle bin.
    */
   deleteSessionFromRecycleBin(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
@@ -364,7 +366,7 @@ export class FeedbackSessionsService {
     sessionLinksRecoveryEmail: string,
     captchaResponse: string,
   }): Observable<SessionLinksRecoveryResponse> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       sessionlinksrecoveryemail: queryParam.sessionLinksRecoveryEmail,
       captcharesponse: queryParam.captchaResponse,
     };

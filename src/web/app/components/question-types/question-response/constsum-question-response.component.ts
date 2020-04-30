@@ -18,7 +18,7 @@ export class ConstsumQuestionResponseComponent
     extends QuestionResponse<FeedbackConstantSumResponseDetails, FeedbackConstantSumQuestionDetails>
     implements OnInit {
 
-  optionToAnswer: { [key: string]: number } = {};
+  optionToAnswer: Record<string, number> = {};
 
   constructor() {
     super(DEFAULT_CONSTSUM_RESPONSE_DETAILS(), DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());

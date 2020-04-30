@@ -20,12 +20,31 @@ export class InstructorSessionResultGrqViewComponent extends InstructorSessionRe
   }
 
   /**
-   * Expands the tab of the specified section.
+   * Toggles the tab of the specified section.
    */
-  expandSectionTab(sectionName: string, section: any): void {
+  toggleSectionTab(sectionName: string, section: any): void {
     section.isTabExpanded = !section.isTabExpanded;
     if (section.isTabExpanded) {
       this.loadSection.emit(sectionName);
+    }
+  }
+
+  /**
+   * Expands the tab of all sections.
+   */
+  expandAllSectionTabs(): void {
+    for (const sectionName of Object.keys(this.responses)) {
+      this.responses[sectionName].isTabExpanded = true;
+      this.loadSection.emit(sectionName);
+    }
+  }
+
+  /**
+   * Collapses the tab of all sections.
+   */
+  collapseAllSectionTabs(): void {
+    for (const sectionName of Object.keys(this.responses)) {
+      this.responses[sectionName].isTabExpanded = false;
     }
   }
 
