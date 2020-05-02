@@ -3,8 +3,10 @@
 exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-student-course-details-page
   Gender={[Function Object]}
+  SortBy={[Function Object]}
   course={[Function Object]}
   courseService={[Function CourseService]}
+  hasTeammateProfilesLoaded="false"
   instructorDetails={[Function Array]}
   instructorService={[Function InstructorService]}
   route={[Function ActivatedRoute]}
@@ -12,7 +14,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
+  teammateProfilesSortBy={[Function Number]}
 >
   <h1
     class="page-title"
@@ -210,6 +214,70 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
         </div>
       </div>
     </div>
+  </div><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control"
+            placeholder="e.g. Tom Davis, tom@gmail.com"
+            type="text"
+          />
+          <button
+            class="btn btn-primary"
+          >
+            Search
+          </button>
+        </div>
+        <br />
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            disabled=""
+          >
+            Name
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Email
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Gender
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Institution
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Nationality
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </tm-student-course-details-page>
 `;
@@ -217,8 +285,10 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
 exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`] = `
 <tm-student-course-details-page
   Gender={[Function Object]}
+  SortBy={[Function Object]}
   course={[Function Object]}
   courseService={[Function CourseService]}
+  hasTeammateProfilesLoaded="false"
   instructorDetails={[Function Array]}
   instructorService={[Function InstructorService]}
   route={[Function ActivatedRoute]}
@@ -226,7 +296,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
+  teammateProfilesSortBy={[Function Number]}
 >
   <h1
     class="page-title"
@@ -478,6 +550,70 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               </span>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control"
+            placeholder="e.g. Tom Davis, tom@gmail.com"
+            type="text"
+          />
+          <button
+            class="btn btn-primary"
+          >
+            Search
+          </button>
+        </div>
+        <br />
+        <h5
+          class="d-inline"
+        >
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            disabled=""
+          >
+            Name
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Email
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Gender
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Institution
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Nationality
+          </button>
         </div>
       </div>
     </div>
