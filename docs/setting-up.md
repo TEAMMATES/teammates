@@ -38,7 +38,15 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 ## Step 2: Install necessary tools and languages
 
-These tools are necessary regardless of whether you are developing front-end or back-end:
+**Option A**: Setting up with Docker
+
+> Be warned that while setting up with Docker is much simpler, you need to be familiar with Docker in order to develop in it effectively.
+
+1. Install Docker.
+
+You may skip all the subsequent steps and proceed to the development routine as outlined in [this document](development.md).
+
+**Option B**: Setting up full dev environment
 
 1. Install JDK 1.8.
 1. Install Python 2.7.

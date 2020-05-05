@@ -75,6 +75,26 @@ If you started the server in the background, run the following command to stop i
 
 If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
 
+### With Docker
+
+You first need to build the application container:
+
+```sh
+docker build --pull -t teammates:latest .
+```
+
+where `teammates:latest` can be replaced with any name and version tag that you want to use.
+
+Run this command to start the application container:
+
+```sh
+docker run -p 8080:8080 -h teammatescontainer teammates:latest
+```
+
+The dev server will be accessible at `http://localhost:8080` and is able to serve both back-end and front-end.
+
+**Note:** Recreating the container will delete the datastore and blobstore.
+
 ## Building front-end files
 
 In order for the dev server to be able to serve both the front-end and the back-end of the application, the front-end files need to be *bundled and transpiled* (afterwards `built`).
