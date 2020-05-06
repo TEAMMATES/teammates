@@ -223,21 +223,6 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
       <div
         class="form-group"
       >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control"
-            placeholder="e.g. Tom Davis, tom@gmail.com"
-            type="text"
-          />
-          <button
-            class="btn btn-primary"
-          >
-            Search
-          </button>
-        </div>
-        <br />
         <h5
           class="d-inline"
         >
@@ -562,21 +547,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       <div
         class="form-group"
       >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control"
-            placeholder="e.g. Tom Davis, tom@gmail.com"
-            type="text"
-          />
-          <button
-            class="btn btn-primary"
-          >
-            Search
-          </button>
-        </div>
-        <br />
         <h5
           class="d-inline"
         >
