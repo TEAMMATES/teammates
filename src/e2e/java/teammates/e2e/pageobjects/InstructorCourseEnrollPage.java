@@ -69,10 +69,11 @@ public class InstructorCourseEnrollPage extends AppPage {
 
     public void verifyNumAddedEnrollSpreadsheetRows(int addedNumRows) {
         WebElement firstCell = getEnrollSpreadsheetFirstCell();
+        scrollElementToCenterAndClick(firstCell);
 
         // make last row of spreadsheet visible
         Actions actions = new Actions(browser.driver);
-        actions.click(firstCell).sendKeys(Keys.PAGE_UP).build().perform();
+        actions.sendKeys(Keys.PAGE_UP).perform();
 
         List<WebElement> indexCells = enrollSpreadsheet.findElements(By.cssSelector("span.rowHeader"));
         String lastIndexCellText = indexCells.get(indexCells.size() - 1).getAttribute("innerHTML");
@@ -124,17 +125,17 @@ public class InstructorCourseEnrollPage extends AppPage {
     private void fillEnrollSpreadsheet(String[][] expectedStudentData) {
         WebElement firstCell = getEnrollSpreadsheetFirstCell();
         Actions actions = new Actions(browser.driver);
-        actions.click(firstCell);
+        actions.click(firstCell).perform();
         for (String[] expectedRowData : expectedStudentData) {
             for (String expectedCellData : expectedRowData) {
-                actions.sendKeys(expectedCellData + Keys.TAB);
+                actions.sendKeys(expectedCellData + Keys.TAB).perform();
             }
         }
-        actions.build().perform();
     }
 
     // Does not work if first cell is not visible
     private WebElement getEnrollSpreadsheetFirstCell() {
+        setWindowSize(1000, 1000);
         return enrollSpreadsheet.findElement(By.tagName("tbody")).findElement(By.tagName("td"));
     }
 
