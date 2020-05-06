@@ -43,7 +43,7 @@ describe('TimezoneService', () => {
   });
 
   it('should return timezone offsets', () => {
-    const tzOffsets: { [key: string]: number } = service.getTzOffsets();
+    const tzOffsets: Record<string, number> = service.getTzOffsets();
     expect(tzOffsets['Etc/GMT-8']).toEqual(8 * 60);
     expect(tzOffsets['Etc/GMT+5']).toEqual(-5 * 60);
     expect(tzOffsets['Etc/GMT-11']).toEqual(11 * 60);

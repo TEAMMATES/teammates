@@ -75,7 +75,7 @@ export class StudentService {
     googleId: string,
     courseId: string,
   }): Observable<any> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       googleid: queryParams.googleId,
       courseid: queryParams.courseId,
     };
@@ -87,7 +87,7 @@ export class StudentService {
    * Students who are enrolled successfully will be returned.
    */
   enrollStudents(courseId: string, requestBody: StudentsEnrollRequest): Observable<Students> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: courseId,
     };
     return this.httpRequestService.put(ResourceEndpoints.STUDENTS, paramsMap, requestBody);
@@ -97,7 +97,7 @@ export class StudentService {
    * Gets all students in a course and team as a student by calling API.
    */
   getStudentsFromCourseAndTeam(courseId: string, teamName: string): Observable<Students> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: courseId,
       teamname: teamName,
     };
@@ -108,7 +108,7 @@ export class StudentService {
    * Deletes all students in a course by calling API.
    */
   deleteAllStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
@@ -118,7 +118,7 @@ export class StudentService {
    * Loads list of students from a course in CSV format by calling API.
    */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
     const responseType: string = 'text';

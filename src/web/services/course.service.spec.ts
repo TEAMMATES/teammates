@@ -62,7 +62,7 @@ describe('CourseService', () => {
 
   it('should execute GET when getting specific course as student', () => {
     const courseId: string = 'test-id';
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'student',
       courseid: courseId,
     };
@@ -98,7 +98,7 @@ describe('CourseService', () => {
   });
 
   it('should execute GET when getting all active instructor courses', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'instructor',
       coursestatus: 'active',
     };
@@ -176,7 +176,7 @@ describe('CourseService', () => {
   });
 
   it('should execute PUT when joining course', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       key: '123',
       entitytype: 'instructor',
       instructorinstitution: 'National University of Singapore',
@@ -237,7 +237,7 @@ describe('CourseService', () => {
   });
 
   it('should execute GET when getting course section names', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
     service.getCourseSectionNames(paramMap.courseid);
@@ -245,7 +245,7 @@ describe('CourseService', () => {
   });
 
   it('should execute GET when getting students enrolled in course', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
     service.getStudentsEnrolledInCourse({

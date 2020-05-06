@@ -38,7 +38,6 @@ public class ActionFactory {
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
-        map(ResourceURIs.ACCOUNTS_SEARCH, GET, SearchAccountsAction.class);
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);

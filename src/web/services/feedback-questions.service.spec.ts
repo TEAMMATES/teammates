@@ -33,7 +33,7 @@ describe('FeedbackQuestionsService', () => {
   });
 
   it('should execute GET when getting all feedback questions', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       intent: Intent.FULL_DETAIL,
       courseid: 'CS3281',
       fsname: 'feedback session',
@@ -49,7 +49,7 @@ describe('FeedbackQuestionsService', () => {
   });
 
   it('should execute GET when loading feedback question recipients', () => {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       questionid: '1',
       intent: Intent.STUDENT_SUBMISSION,
       key: 'key',
