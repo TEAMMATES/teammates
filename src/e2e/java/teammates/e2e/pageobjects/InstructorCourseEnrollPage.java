@@ -9,7 +9,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import teammates.storage.entity.CourseStudent;
+
+import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
  * Represents the instructor course enrollment page.
@@ -27,13 +28,13 @@ public class InstructorCourseEnrollPage extends AppPage {
     @FindBy(id = "newStudentsHOT")
     private WebElement enrollSpreadsheet;
 
-    @FindBy(id = "button-enroll")
+    @FindBy(id = "btn-enroll")
     private WebElement enrollButton;
 
     @FindBy(id = "results-panel")
     private WebElement resultsPanel;
 
-    @FindBy(id = "button-add-empty-rows")
+    @FindBy(id = "btn-add-empty-rows")
     private WebElement addRowsButton;
 
     @FindBy(id = "number-of-rows")
@@ -83,22 +84,22 @@ public class InstructorCourseEnrollPage extends AppPage {
         actions.sendKeys(Keys.PAGE_DOWN).perform();
     }
 
-    public void enroll(CourseStudent[] studentsData) {
+    public void enroll(StudentAttributes[] studentsData) {
         fillEnrollSpreadsheet(getEnrollmentData(studentsData));
         waitForElementToBeClickable(enrollButton);
         clickEnrollButton();
     }
 
-    public void verifyExistingStudentsTableContains(CourseStudent[] expectedStudents) {
+    public void verifyExistingStudentsTableContains(StudentAttributes[] expectedStudents) {
         clickToggleExistingStudentsHeader();
         verifyTableBodyValues(existingStudentsTable, getEnrollmentData(expectedStudents));
     }
 
-    public void verifyResultsPanelContains(CourseStudent[] expectedNewStudents,
-                                           CourseStudent[] expectedModifiedStudents,
-                                           CourseStudent[] expectedModifiedWithoutChangeStudents,
-                                           CourseStudent[] expectedErrorStudents,
-                                           CourseStudent[] expectedUnmodifiedStudents) {
+    public void verifyResultsPanelContains(StudentAttributes[] expectedNewStudents,
+                                           StudentAttributes[] expectedModifiedStudents,
+                                           StudentAttributes[] expectedModifiedWithoutChangeStudents,
+                                           StudentAttributes[] expectedErrorStudents,
+                                           StudentAttributes[] expectedUnmodifiedStudents) {
         waitForElementVisibility(resultsPanel);
         // number of tables depends on what results are present
         int numTables = 0;
@@ -137,10 +138,10 @@ public class InstructorCourseEnrollPage extends AppPage {
         return enrollSpreadsheet.findElement(By.tagName("tbody")).findElement(By.tagName("td"));
     }
 
-    private String[][] getEnrollmentData(CourseStudent[] studentsData) {
+    private String[][] getEnrollmentData(StudentAttributes[] studentsData) {
         String[][] tableData = new String[studentsData.length][NUM_ENROLLMENT_ATTRIBUTES];
         for (int i = 0; i < studentsData.length; i++) {
-            String[] student = {studentsData[i].getSectionName(), studentsData[i].getTeamName(),
+            String[] student = {studentsData[i].getSection(), studentsData[i].getTeam(),
                     studentsData[i].getName(), studentsData[i].getEmail(), studentsData[i].getComments()};
             tableData[i] = student;
         }

@@ -78,7 +78,7 @@
         <div class="row enroll-students-spreadsheet-buttons" [hidden]="isNewStudentsPanelCollapsed">
           <div class="col-md-6">
             <div class="input-group">
-              <button type="button" title="Add" id="button-add-empty-rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
+              <button type="button" title="Add" id="btn-add-empty-rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
                 Add row(s)
               </button>
               <div class="col-xs-4">
@@ -90,7 +90,7 @@
             <button
                 type="submit"
                 title="Enroll"
-                id="button-enroll"
+                id="btn-enroll"
                 name="button-enroll"
                 class="btn btn-primary float-right"
                 (click)="submitEnrollData()">

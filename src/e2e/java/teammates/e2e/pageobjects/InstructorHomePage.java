@@ -10,6 +10,6 @@ public class InstructorHomePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("home</h1>");
+        return getPageSource().contains("Home</h1>");
     }
 }
