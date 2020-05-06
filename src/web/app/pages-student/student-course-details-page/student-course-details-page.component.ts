@@ -5,12 +5,12 @@ import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
-import { TableComparatorService } from '../../../services/table-comparator.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile,
   Students } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * A student profile which also has the profile picture URL
@@ -34,7 +34,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
   teammateProfilesSortBy: SortBy = SortBy.STUDENT_NAME;
 
-  //data
+  // data
   student: Student = {
     email: '',
     courseId: '',
@@ -66,7 +66,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
               private studentService: StudentService,
               private courseService: CourseService,
               private statusMessageService: StatusMessageService) { }
-
 
   /**
    * Fetches relevant data to be displayed on page.
@@ -112,34 +111,34 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     this.teammateProfiles = [];
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
       .subscribe((students: Students) => {
-          students.students.forEach((student: Student) => {
-            // filter away current user
-            if (student.email === this.student.email) {
-              return;
-            }
+        students.students.forEach((student: Student) => {
+          // filter away current user
+          if (student.email === this.student.email) {
+            return;
+          }
 
-            this.studentProfileService.getStudentProfile(student.email, courseId)
-                  .subscribe((studentProfile: StudentProfile) => {
-                    const newPhotoUrl: string =
-                      `${environment.backendUrl}/webapi/student/profilePic`
-                      + `?courseid=${courseId}&studentemail=${student.email}`;
+          this.studentProfileService.getStudentProfile(student.email, courseId)
+                .subscribe((studentProfile: StudentProfile) => {
+                  const newPhotoUrl: string =
+                    `${environment.backendUrl}/webapi/student/profilePic`
+                    + `?courseid=${courseId}&studentemail=${student.email}`;
 
-                    const newTeammateProfile: StudentProfileWithPicture = {
-                      studentProfile: {
-                        ...studentProfile,
-                        email: student.email,
-                        shortName: student.name,
-                      },
-                      photoUrl : newPhotoUrl,
-                    };
+                  const newTeammateProfile: StudentProfileWithPicture = {
+                    studentProfile: {
+                      ...studentProfile,
+                      email: student.email,
+                      shortName: student.name,
+                    },
+                    photoUrl : newPhotoUrl,
+                  };
 
-                    this.teammateProfiles.push(newTeammateProfile);
-                  });
-          });
-          this.sortTeammatesBy(this.teammateProfilesSortBy);
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+                  this.teammateProfiles.push(newTeammateProfile);
+                });
         });
+        this.sortTeammatesBy(this.teammateProfilesSortBy);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**
