@@ -48,6 +48,7 @@ import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/v
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
+  originalPanel: InstructorEditPanel;
   editPanel: InstructorEditPanel;
 }
 
@@ -265,10 +266,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .subscribe((resp: Instructors) => {
           this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
             originalInstructor: Object.assign({}, i),
+            originalPanel: this.getInstructorEditPanelModel(i),
             editPanel: this.getInstructorEditPanelModel(i),
           }));
           this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
             this.loadPermissionForInstructor(panel.originalInstructor, panel.editPanel.permission);
+            panel.originalPanel = panel.editPanel;
           });
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
@@ -336,7 +339,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   cancelEditingInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    panelDetail.editPanel = this.getInstructorEditPanelModel(panelDetail.originalInstructor);
+    panelDetail.editPanel = panelDetail.originalPanel;
   }
 
   /**
@@ -374,6 +377,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     });
 
     panelDetail.editPanel.isEditing = false;
+    panelDetail.originalPanel = panelDetail.editPanel;
   }
 
   /**
@@ -438,9 +442,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
             originalInstructor: Object.assign({}, resp),
+            originalPanel:this.getInstructorEditPanelModel(resp),
             editPanel: this.getInstructorEditPanelModel(resp),
           };
           newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+          newDetailPanels.originalPanel = newDetailPanels.editPanel;
 
           this.instructorDetailPanels.push(newDetailPanels);
           this.statusMessageService.showSuccessMessage(`"The instructor ${resp.name} has been added successfully.
