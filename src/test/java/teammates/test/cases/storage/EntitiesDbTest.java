@@ -24,7 +24,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
 
     @Test
     public void testCreateEntity() throws Exception {
-        //We are using CoursesDb to test EntititesDb here.
+        //We are using CoursesDb to test EntitiesDb here.
         CoursesDb coursesDb = new CoursesDb();
 
         /*Explanation:
@@ -48,7 +48,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                 () -> coursesDb.createEntity(c));
         assertEquals(
                 String.format(EntitiesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.toString()), eaee.getMessage());
-        coursesDb.deleteEntity(c);
+        coursesDb.deleteCourse(c.getId());
 
         ______TS("fails: invalid parameters");
         CourseAttributes invalidCourse = CourseAttributes

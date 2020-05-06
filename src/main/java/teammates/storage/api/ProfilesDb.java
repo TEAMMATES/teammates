@@ -6,7 +6,6 @@ import java.time.Instant;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.cmd.QueryKeys;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -44,6 +43,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
 
         StudentProfile studentProfile = getStudentProfileEntityFromDb(updateOptions.getGoogleId());
+        boolean shouldCreateEntity = studentProfile == null; // NOPMD
         if (studentProfile == null) {
             studentProfile = new StudentProfile(updateOptions.getGoogleId());
         }
@@ -56,7 +56,17 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        if (hasNoNewChangesToProfile(newAttributes, studentProfile)) {
+        // update only if change
+        boolean hasSameAttributes =
+                this.<String>hasSameValue(studentProfile.getEmail(), newAttributes.getEmail())
+                && this.<String>hasSameValue(studentProfile.getShortName(), newAttributes.getShortName())
+                && this.<String>hasSameValue(studentProfile.getInstitute(), newAttributes.getInstitute())
+                && this.<String>hasSameValue(studentProfile.getNationality(), newAttributes.getNationality())
+                && this.<String>hasSameValue(studentProfile.getGender(), newAttributes.getGender().name().toLowerCase())
+                && this.<String>hasSameValue(studentProfile.getMoreInfo(), newAttributes.getMoreInfo())
+                && this.<String>hasSameValue(studentProfile.getPictureKey(), newAttributes.getPictureKey());
+        if (!shouldCreateEntity && hasSameAttributes) {
+            log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, StudentProfile.class.getSimpleName(), updateOptions));
             return newAttributes;
         }
 
@@ -74,14 +84,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         return makeAttributes(studentProfile);
     }
 
-    private boolean hasNoNewChangesToProfile(StudentProfileAttributes newSpa, StudentProfile profileToUpdate) {
-        StudentProfileAttributes newSpaCopy = newSpa.getCopy();
-        StudentProfileAttributes existingProfile = StudentProfileAttributes.valueOf(profileToUpdate);
-
-        newSpaCopy.modifiedDate = existingProfile.modifiedDate;
-        return existingProfile.toString().equals(newSpaCopy.toString());
-    }
-
     /**
      * Deletes the student profile associated with the {@code googleId}.
      *
@@ -95,7 +97,9 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         if (!sp.getPictureKey().equals("")) {
             deletePicture(sp.getPictureKey());
         }
-        deleteEntityDirect(sp);
+        Key<Account> parentKey = Key.create(Account.class, googleId);
+        Key<StudentProfile> profileKey = Key.create(parentKey, StudentProfile.class, googleId);
+        deleteEntity(profileKey);
     }
 
     /**
@@ -123,10 +127,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         }
     }
 
-    //-------------------------------------------------------------------------------------------------------
-    //-------------------------------------- Helper Functions -----------------------------------------------
-    //-------------------------------------------------------------------------------------------------------
-
     /**
      * Gets the profile entity associated with the {@code googleId}.
      *
@@ -141,19 +141,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     @Override
     protected LoadType<StudentProfile> load() {
         return ofy().load().type(StudentProfile.class);
-    }
-
-    @Override
-    protected StudentProfile getEntity(StudentProfileAttributes attributes) {
-        // this method is never used and is here only for future expansion and completeness
-        return getStudentProfileEntityFromDb(attributes.googleId);
-    }
-
-    @Override
-    protected QueryKeys<StudentProfile> getEntityQueryKeys(StudentProfileAttributes attributes) {
-        Key<Account> parentKey = Key.create(Account.class, attributes.googleId);
-        Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, attributes.googleId);
-        return load().filterKey(childKey).keys();
     }
 
     @Override

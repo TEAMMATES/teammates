@@ -15,7 +15,6 @@ import {
 import {
   ConfirmUnpublishingSessionModalComponent,
 } from './confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
-import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
 import {
   ResendResultsLinkToStudentModalComponent,
@@ -24,6 +23,7 @@ import {
   SendRemindersToStudentModalComponent,
 } from './send-reminders-to-student-modal/send-reminders-to-student-modal.component';
 import { SessionsTableComponent } from './sessions-table.component';
+import { StudentListInfoTableComponent } from './student-list-info-table/student-list-info-table.component';
 import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 
 /**
@@ -38,8 +38,8 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     ConfirmPublishingSessionModalComponent,
     ResendResultsLinkToStudentModalComponent,
     SendRemindersToStudentModalComponent,
-    FormatDateBriefPipe,
     ConfirmSessionMoveToRecycleBinModalComponent,
+    StudentListInfoTableComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +59,7 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
   ],
   exports: [
     SessionsTableComponent,
+    StudentListInfoTableComponent,
   ],
 })
 export class SessionsTableModule { }

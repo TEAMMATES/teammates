@@ -75,28 +75,32 @@ public abstract class BaseActionTest extends BaseComponentTestCase {
         assertTrue(true);
     }
 
-    /** Executes the action and returns the result.
+    /**
+     * Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
      */
     protected ShowPageResult getShowPageResult(Action a) {
         return (ShowPageResult) a.executeAndPostProcess();
     }
 
-    /** Executes the action and returns the result.
+    /**
+     * Executes the action and returns the result.
      * Assumption: The action returns a RedirectResult.
      */
     protected RedirectResult getRedirectResult(Action a) {
         return (RedirectResult) a.executeAndPostProcess();
     }
 
-    /** Executes the action and returns the result.
+    /**
+     * Executes the action and returns the result.
      * Assumption: The action returns an AjaxResult.
      */
     protected AjaxResult getAjaxResult(Action a) {
         return (AjaxResult) a.executeAndPostProcess();
     }
 
-    /** Executes the action and returns the result.
+    /**
+     * Executes the action and returns the result.
      * Assumption: The action returns a FileDownloadResult.
      */
     protected FileDownloadResult getFileDownloadResult(Action a) {

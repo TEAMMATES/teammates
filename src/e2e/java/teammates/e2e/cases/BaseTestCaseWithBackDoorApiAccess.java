@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
@@ -77,7 +78,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getCourse(String courseId) {
-        return null; // BackDoor.getCourse(courseId);
+        return BackDoor.getCourse(courseId);
     }
 
     @Override
@@ -189,13 +190,13 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     @Override
-    protected String doRemoveAndRestoreDataBundle(DataBundle testData) {
+    protected String doRemoveAndRestoreDataBundle(DataBundle testData) throws HttpRequestFailedException {
         return BackDoor.removeAndRestoreDataBundle(testData);
     }
 
     @Override
     protected String doPutDocuments(DataBundle testData) {
-        return null; // BackDoor.putDocuments(testData);
+        return BackDoor.putDocuments(testData);
     }
 
 }

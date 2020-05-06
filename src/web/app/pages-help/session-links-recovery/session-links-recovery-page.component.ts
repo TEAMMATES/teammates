@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { environment } from '../../../environments/environment';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { SessionLinksRecoveryResponse } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -26,9 +26,9 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   formSessionLinksRecovery!: FormGroup;
   readonly captchaSiteKey: string = environment.captchaSiteKey;
 
-  @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
+  @ViewChild('captchaElem', { static: false }) captchaElem!: ReCaptcha2Component;
 
-  constructor(private httpRequestService: HttpRequestService,
+  constructor(private feedbackSessionsService: FeedbackSessionsService,
               private statusMessageService: StatusMessageService,
               private formBuilder: FormBuilder) {}
 
@@ -53,17 +53,16 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       return;
     }
 
-    const paramsMap: { [key: string]: string } = {
-      sessionlinksrecoveryemail: sessionLinksRecoveryForm.controls.email.value,
-      captcharesponse: this.captchaResponse,
-    };
-
-    this.httpRequestService.get('/sessionlinksrecovery', paramsMap)
-      .subscribe((resp: MessageOutput) => {
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (response: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(response.error.message);
-      });
+    this.feedbackSessionsService.sendFeedbackSessionLinkToRecoveryEmail({
+      sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls.email.value,
+      captchaResponse: this.captchaResponse,
+    }).subscribe((resp: SessionLinksRecoveryResponse) => {
+      resp.isEmailSent
+            ? this.statusMessageService.showSuccessMessage(resp.message)
+            : this.statusMessageService.showErrorMessage(resp.message);
+    }, (response: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(response.error.message);
+    });
     this.resetFormGroups();
   }
 

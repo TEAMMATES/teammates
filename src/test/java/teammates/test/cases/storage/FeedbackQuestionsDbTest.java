@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.Test;
+import org.testng.collections.Lists;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -16,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -34,7 +37,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
 
         // remove possibly conflicting entity from the database
-        fqDb.deleteEntity(fq);
+        deleteFeedbackQuestion(fq);
 
         fqDb.createEntity(fq);
         verifyPresentInDatastore(fq);
@@ -67,6 +70,145 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testDeleteFeedbackQuestion() throws Exception {
+
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes oldFqa =
+                fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        if (oldFqa != null) {
+            fqDb.deleteFeedbackQuestion(oldFqa.getId());
+        }
+        fqDb.createEntity(fqa);
+        fqa = fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+
+        ______TS("delete non-existent question");
+
+        // should pass silently
+        fqDb.deleteFeedbackQuestion("123");
+
+        ______TS("standard success case");
+
+        assertNotNull(fqDb.getFeedbackQuestion(fqa.getId()));
+
+        fqDb.deleteFeedbackQuestion(fqa.getId());
+
+        assertNull(fqDb.getFeedbackQuestion(fqa.getId()));
+
+        ______TS("delete question again");
+
+        // should pass silently
+        fqDb.deleteFeedbackQuestion(fqa.getId());
+
+        assertNull(fqDb.getFeedbackQuestion(fqa.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestions_deleteByCourseIdAndSessionName() throws Exception {
+        ______TS("standard success case");
+
+        // create a new question in current session
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes oldFqa =
+                fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        if (oldFqa != null) {
+            fqDb.deleteFeedbackQuestion(oldFqa.getId());
+        }
+        fqDb.createEntity(fqa);
+        fqa = fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        assertNotNull(fqa);
+
+        // create another question under another session
+        FeedbackQuestionAttributes anotherFqa = getNewFeedbackQuestionAttributes();
+        anotherFqa.feedbackSessionName = "Another Session";
+        fqDb.createEntity(anotherFqa);
+        anotherFqa = fqDb.getFeedbackQuestion(
+                anotherFqa.getFeedbackSessionName(), anotherFqa.getCourseId(), anotherFqa.getQuestionNumber());
+        assertNotNull(anotherFqa);
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(fqa.getCourseId())
+                .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                .build());
+
+        // the question under current session is deleted
+        assertNull(fqDb.getFeedbackQuestion(fqa.getId()));
+        // the question under different session remain
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+
+        ______TS("non-existent course ID");
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId("not_exist")
+                .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                .build());
+
+        // no accident deletion
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+
+        ______TS("non-existent feedback session name");
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(fqa.getCourseId())
+                .withFeedbackSessionName("not_exist")
+                .build());
+
+        // no accident deletion
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+
+        ______TS("non-existent course ID and feedback session name");
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId("not_exist")
+                .withFeedbackSessionName("not_exist")
+                .build());
+
+        // no accident deletion
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestions_deleteByCourseId() throws Exception {
+        ______TS("standard success case");
+
+        // create a new question in current course
+        FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes oldFqa =
+                fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        if (oldFqa != null) {
+            fqDb.deleteFeedbackQuestion(oldFqa.getId());
+        }
+        fqDb.createEntity(fqa);
+        fqa = fqDb.getFeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(), fqa.getQuestionNumber());
+        assertNotNull(fqa);
+
+        // create another question under another course
+        FeedbackQuestionAttributes anotherFqa = getNewFeedbackQuestionAttributes();
+        anotherFqa.courseId = "AnotherCourse";
+        fqDb.createEntity(anotherFqa);
+        anotherFqa = fqDb.getFeedbackQuestion(
+                anotherFqa.getFeedbackSessionName(), anotherFqa.getCourseId(), anotherFqa.getQuestionNumber());
+        assertNotNull(anotherFqa);
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(fqa.getCourseId())
+                .build());
+
+        // the question under current course is deleted
+        assertNull(fqDb.getFeedbackQuestion(fqa.getId()));
+        // the question under different course remain
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+
+        ______TS("non-existent course ID");
+
+        fqDb.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId("not_exist")
+                .build());
+
+        // no accident deletion
+        assertNotNull(fqDb.getFeedbackQuestion(anotherFqa.getId()));
+    }
+
+    @Test
     public void testCreateDeleteFeedbackQuestion() throws Exception {
 
         ______TS("standard success case");
@@ -74,7 +216,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
 
         // remove possibly conflicting entity from the database
-        fqDb.deleteEntity(fqa);
+        deleteFeedbackQuestion(fqa);
 
         fqDb.createEntity(fqa);
         verifyPresentInDatastore(fqa);
@@ -84,11 +226,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class, () -> fqDb.createEntity(fqa));
         assertEquals(
                 String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fqa.toString()), eaee.getMessage());
-
-        ______TS("delete - with id specified");
-
-        fqDb.deleteEntity(fqa);
-        verifyAbsentInDatastore(fqa);
 
         ______TS("null params");
 
@@ -112,7 +249,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes expected = getNewFeedbackQuestionAttributes();
 
         // remove possibly conflicting entity from the database
-        fqDb.deleteEntity(expected);
+        deleteFeedbackQuestion(expected);
 
         fqDb.createEntity(expected);
 
@@ -195,7 +332,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
 
         // remove possibly conflicting entity from the database
-        fqDb.deleteEntity(fqa);
+        deleteFeedbackQuestion(fqa);
 
         int[] numOfQuestions = createNewQuestionsForDifferentRecipientTypes();
 
@@ -247,6 +384,36 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testUpdateFeedbackQuestion_noChangeToQuestion_shouldNotIssueSaveRequest() throws Exception {
+        FeedbackQuestionAttributes typicalQuestion = getNewFeedbackQuestionAttributes();
+        deleteFeedbackQuestion(typicalQuestion);
+        typicalQuestion = fqDb.createEntity(typicalQuestion);
+
+        FeedbackQuestionAttributes updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .build());
+
+        assertEquals(typicalQuestion.getUpdatedAt(), updatedQuestion.getUpdatedAt());
+        assertEquals(JsonUtils.toJson(typicalQuestion), JsonUtils.toJson(updatedQuestion));
+
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withQuestionDetails(typicalQuestion.getQuestionDetails())
+                        .withQuestionDescription(typicalQuestion.getQuestionDescription())
+                        .withQuestionNumber(typicalQuestion.getQuestionNumber())
+                        .withGiverType(typicalQuestion.getGiverType())
+                        .withRecipientType(typicalQuestion.getRecipientType())
+                        .withNumberOfEntitiesToGiveFeedbackTo(typicalQuestion.getNumberOfEntitiesToGiveFeedbackTo())
+                        .withShowResponsesTo(typicalQuestion.getShowResponsesTo())
+                        .withShowGiverNameTo(typicalQuestion.getShowGiverNameTo())
+                        .withShowRecipientNameTo(typicalQuestion.getShowRecipientNameTo())
+                        .build());
+
+        assertEquals(typicalQuestion.getUpdatedAt(), updatedQuestion.getUpdatedAt());
+        assertEquals(JsonUtils.toJson(typicalQuestion), JsonUtils.toJson(updatedQuestion));
+    }
+
+    @Test
     public void testUpdateFeedbackQuestion() throws Exception {
 
         ______TS("null params");
@@ -257,7 +424,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("invalid feedback question attributes");
 
         FeedbackQuestionAttributes invalidFqa = getNewFeedbackQuestionAttributes();
-        fqDb.deleteEntity(invalidFqa);
+        deleteFeedbackQuestion(invalidFqa);
         fqDb.createEntity(invalidFqa);
         invalidFqa.setId(fqDb.getFeedbackQuestion(invalidFqa.feedbackSessionName, invalidFqa.courseId,
                                                   invalidFqa.questionNumber).getId());
@@ -286,7 +453,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
 
         FeedbackQuestionAttributes modifiedQuestion = getNewFeedbackQuestionAttributes();
-        fqDb.deleteEntity(modifiedQuestion);
+        deleteFeedbackQuestion(modifiedQuestion);
         fqDb.createEntity(modifiedQuestion);
         verifyPresentInDatastore(modifiedQuestion);
 
@@ -309,7 +476,99 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         assertEquals("New question text!", modifiedQuestion.getQuestionDetails().getQuestionText());
         assertEquals("New question text!", updatedQuestion.getQuestionDetails().getQuestionText());
 
-        fqDb.deleteEntity(modifiedQuestion);
+        deleteFeedbackQuestion(modifiedQuestion);
+    }
+
+    // the test is to ensure that optimized saving policy is implemented without false negative
+    @Test
+    public void testUpdateFeedbackQuestion_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {
+        FeedbackQuestionAttributes typicalQuestion = getNewFeedbackQuestionAttributes();
+        deleteFeedbackQuestion(typicalQuestion);
+        typicalQuestion = fqDb.createEntity(typicalQuestion);
+        verifyPresentInDatastore(typicalQuestion);
+
+        assertNotEquals("New question text!", typicalQuestion.getQuestionDetails().getQuestionText());
+        FeedbackQuestionAttributes updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withQuestionDetails(new FeedbackTextQuestionDetails("New question text!"))
+                        .build());
+        FeedbackQuestionAttributes actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals("New question text!", actualQuestion.getQuestionDetails().getQuestionText());
+        assertEquals("New question text!", updatedQuestion.getQuestionDetails().getQuestionText());
+
+        assertNotEquals("testDescription", actualQuestion.getQuestionDescription());
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withQuestionDescription("testDescription")
+                        .build());
+        actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals("testDescription", actualQuestion.getQuestionDescription());
+        assertEquals("testDescription", updatedQuestion.getQuestionDescription());
+
+        assertNotEquals(5, actualQuestion.getQuestionNumber());
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withQuestionNumber(5)
+                        .build());
+        actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals(5, actualQuestion.getQuestionNumber());
+        assertEquals(5, updatedQuestion.getQuestionNumber());
+
+        assertNotEquals(FeedbackParticipantType.STUDENTS, actualQuestion.getGiverType());
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withGiverType(FeedbackParticipantType.STUDENTS)
+                        .build());
+        actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals(FeedbackParticipantType.STUDENTS, actualQuestion.getGiverType());
+        assertEquals(FeedbackParticipantType.STUDENTS, updatedQuestion.getGiverType());
+
+        assertNotEquals(FeedbackParticipantType.STUDENTS, actualQuestion.getRecipientType());
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withRecipientType(FeedbackParticipantType.STUDENTS)
+                        .build());
+        actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals(FeedbackParticipantType.STUDENTS, actualQuestion.getRecipientType());
+        assertEquals(FeedbackParticipantType.STUDENTS, updatedQuestion.getRecipientType());
+
+        assertNotEquals(8, actualQuestion.getNumberOfEntitiesToGiveFeedbackTo());
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withNumberOfEntitiesToGiveFeedbackTo(8)
+                        .build());
+        actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals(8, actualQuestion.getNumberOfEntitiesToGiveFeedbackTo());
+        assertEquals(8, updatedQuestion.getNumberOfEntitiesToGiveFeedbackTo());
+
+        assertTrue(actualQuestion.getShowResponsesTo().isEmpty());
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withShowResponsesTo(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS))
+                        .build());
+        actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), actualQuestion.getShowResponsesTo());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), updatedQuestion.getShowResponsesTo());
+
+        assertTrue(actualQuestion.getShowGiverNameTo().isEmpty());
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withShowGiverNameTo(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS))
+                        .build());
+        actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), actualQuestion.getShowGiverNameTo());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), updatedQuestion.getShowGiverNameTo());
+
+        assertTrue(actualQuestion.getShowRecipientNameTo().isEmpty());
+        updatedQuestion = fqDb.updateFeedbackQuestion(
+                FeedbackQuestionAttributes.updateOptionsBuilder(typicalQuestion.getId())
+                        .withShowRecipientNameTo(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS))
+                        .build());
+        actualQuestion = fqDb.getFeedbackQuestion(typicalQuestion.getId());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), actualQuestion.getShowRecipientNameTo());
+        assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS), updatedQuestion.getShowRecipientNameTo());
+
+        deleteFeedbackQuestion(typicalQuestion);
     }
 
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
@@ -338,7 +597,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
             fqa.questionNumber = i;
 
             // remove possibly conflicting entity from the database
-            fqDb.deleteEntity(fqa);
+            deleteFeedbackQuestion(fqa);
 
             fqDb.createEntity(fqa);
             returnVal.add(fqa);
@@ -394,7 +653,15 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         for (int i = 1; i <= numToDelete; i++) {
             fqa.questionNumber = i;
-            fqDb.deleteEntity(fqa);
+            deleteFeedbackQuestion(fqa);
+        }
+    }
+
+    private void deleteFeedbackQuestion(FeedbackQuestionAttributes attributes) {
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion(
+                attributes.getFeedbackSessionName(), attributes.getCourseId(), attributes.getQuestionNumber());
+        if (fq != null) {
+            fqDb.deleteFeedbackQuestion(fq.getId());
         }
     }
 

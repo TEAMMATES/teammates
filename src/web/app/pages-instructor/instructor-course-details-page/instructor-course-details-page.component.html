@@ -1,4 +1,4 @@
-<div *ngIf="courseDetails">
+<div>
   <h1>Course Details</h1>
   <div class="card">
     <div class="card-body fill-plain">
@@ -6,13 +6,13 @@
         <div class="form-group row">
           <label class="col-sm-3 text-right">Course ID:</label>
           <div class="col-sm-6">
-            <p class="form-control-static">{{courseDetails.course.id}}</p>
+            <p class="form-control-static">{{courseDetails.course.courseId}}</p>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 text-right">Course name:</label>
           <div class="col-sm-6" id="coursename">
-            <p class="form-control-static">{{courseDetails.course.name}}</p>
+            <p class="form-control-static">{{courseDetails.course.courseName}}</p>
           </div>
         </div>
         <div class="form-group row">
@@ -37,28 +37,19 @@
       <div class="form-group row">
         <label class="col-sm-3 control-label text-right">Instructors:</label>
         <div class="col-sm-6">
-          <div *ngIf="instructors">
-            <div *ngFor="let instructor of instructors">
-              <ng-container *ngIf="instructor.role; else showRole">
-                Co-owner: {{instructor.name}} ({{instructor.email}})
-              </ng-container>
-              <ng-template #showRole >
-                <p>
-                  {{instructor.role}} {{instructor.name}} ({{instructor.email}})
-                </p>
-              </ng-template>
-            </div>
+          <div *ngFor="let instructor of instructors">
+            {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
           </div>
         </div>
       </div>
-      <div *ngIf="courseDetails.stats.studentsTotal;">
+      <div *ngIf="sections.length > 0">
         <div class="form-group">
           <div class="text-center">
             <button type="button" class="btn btn-primary" (click)="openModal(remindStudentsModal)" value="Remind Students to Join">
               <i class="fa fa-envelope"></i>
               Remind Students to Join
             </button>
-            <button type="button" class="btn btn-primary" (click)="downloadAllStudentsFromCourse(courseDetails.course.id)">
+            <button type="button" class="btn btn-primary" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
               <i class="fa fa-download"></i>
               Download Student List
             </button>
@@ -68,7 +59,7 @@
             </button>
             <div>
               <span>Non-English characters not displayed properly in the downloaded file?
-                <span class="btn-link" (click)="openModal(studentTableModal); loadStudentsListCsv(courseDetails.course.id)">
+                <span class="btn-link" (click)="openModal(studentTableModal); loadStudentsListCsv(courseDetails.course.courseId)">
                   Click here.
                 </span>
               </span>
@@ -78,18 +69,19 @@
       </div>
     </div>
   </div>
-  <div *ngIf="courseDetails.stats.studentsTotal == 0; else studentListTable" class="alert alert-warning">
+  <div *ngIf="sections.length === 0, else studentListTable" class="alert alert-warning">
     <i class="fa fa-exclamation-circle text-muted"></i>
     There are no students in this course. Click
-    <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.id}">here</a> to enroll students.
+    <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.courseId}">here</a> to enroll students.
   </div>
   <ng-template #studentListTable class="card border border-primary mb-4">
-    <div class="card-header text-white bg-primary font-weight-bold">Students</div>
-    <div class="card-body p-3">
-      <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{courseDetails.course.id}}]</div>
+    <div class="card-body p-0">
+      <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{courseDetails.course.courseId}}]</div>
       <div class="card-body p-0">
-        <tm-student-list [courseId]="courseDetails.course.id" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true">
-        </tm-student-list>
+        <tm-student-list
+            [courseId]="courseDetails.course.courseId" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true"
+            (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
+        ></tm-student-list>
       </div>
     </div>
   </ng-template>
@@ -101,12 +93,12 @@
     </div>
     <div class="modal-body">
       Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students at the opening
-      time of each session. Send a join request to all yet-to-join students in {{courseDetails.course.id}} anyway?
+      time of each session. Send a join request to all yet-to-join students in {{courseDetails.course.courseId}} anyway?
       <br>
     </div>
     <div class="modal-footer">
       <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
+      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
   <ng-template #deleteAllStudentsModal let-modal>
@@ -116,12 +108,12 @@
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
     </div>
     <div class="modal-body">
-      Are you sure you want to remove all students from the course {{courseDetails.course.id}}?
+      Are you sure you want to remove all students from the course {{courseDetails.course.courseId}}?
       <br>
     </div>
     <div class="modal-footer">
       <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.id); modal.dismiss()">Yes</button>
+      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
   <ng-template #studentTableModal let-modal>
@@ -137,7 +129,7 @@
     <div class="modal-body">
       <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
       <div [innerHTML]="convertToHtmlTable(courseStudentListAsCsv)"></div>
-      <b>{{ isAjaxSuccess ? '' : 'Failed to load. Please reopen modal.' }}</b>
+      <b>{{ isAjaxSuccess ? '' : 'There was an error loading data. Please try again.' }}</b>
     </div>
   </ng-template>
 </div>

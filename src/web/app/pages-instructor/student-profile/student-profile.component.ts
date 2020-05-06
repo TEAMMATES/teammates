@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { Gender } from '../../../types/gender';
-import { StudentProfile } from './student-profile';
+import { Gender, StudentProfile } from '../../../types/api-output';
 
 /**
  * A table displaying a details from a student's profile and a modal to view the more info field.
@@ -12,12 +10,10 @@ import { StudentProfile } from './student-profile';
   styleUrls: ['./student-profile.component.scss'],
 })
 export class StudentProfileComponent implements OnInit {
-
   Gender: typeof Gender = Gender; // enum
 
+  @Input() photoUrl: string = '/assets/images/profile_picture_default.png';
   @Input() studentProfile: StudentProfile | undefined;
-
-  private backendUrl: string = environment.backendUrl;
 
   constructor() { }
 
@@ -25,13 +21,9 @@ export class StudentProfileComponent implements OnInit {
   }
 
   /**
-   * Construct the url for the profile picture from the given key.
+   * Sets the profile picture of a student as the default image.
    */
-  getPictureUrl(pictureKey: string): string {
-    if (!pictureKey) {
-      return '/assets/images/profile_picture_default.png';
-    }
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}`;
+  setDefaultPic(): void {
+    this.photoUrl = '/assets/images/profile_picture_default.png';
   }
-
 }

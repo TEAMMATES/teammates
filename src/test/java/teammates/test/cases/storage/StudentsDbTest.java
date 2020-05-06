@@ -5,12 +5,14 @@ import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -98,6 +100,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         AssertionError ae = assertThrows(AssertionError.class, () -> studentsDb.createEntity(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
+        studentsDb.deleteStudent(s.getCourse(), s.getEmail());
     }
 
     @Test
@@ -131,7 +134,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                 StudentAttributes.updateOptionsBuilder(s2.course, s2.email)
                         .withGoogleId(s2.googleId)
                         .build());
-        studentsDb.deleteStudentsForGoogleId(s2.googleId);
+        studentsDb.deleteStudent(s2.getCourse(), s2.getEmail());
 
         assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
 
@@ -152,6 +155,31 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         studentsDb.deleteStudent(s.course, s.email);
         studentsDb.deleteStudent(s2.course, s2.email);
+    }
+
+    @Test
+    public void testUpdateStudent_noChangeToStudent_shouldNotIssueSaveRequest() throws Exception {
+        StudentAttributes s = createNewStudent();
+
+        StudentAttributes updatedStudent = studentsDb.updateStudent(
+                StudentAttributes.updateOptionsBuilder(s.getCourse(), s.getEmail())
+                        .build());
+
+        assertEquals(JsonUtils.toJson(s), JsonUtils.toJson(updatedStudent));
+        assertEquals(s.getUpdatedAt(), studentsDb.getStudentForEmail(s.getCourse(), s.getEmail()).getUpdatedAt());
+
+        updatedStudent = studentsDb.updateStudent(
+                StudentAttributes.updateOptionsBuilder(s.getCourse(), s.getEmail())
+                        .withName(s.getName())
+                        .withLastName(s.getLastName())
+                        .withComment(s.getComments())
+                        .withGoogleId(s.getGoogleId())
+                        .withTeamName(s.getTeam())
+                        .withSectionName(s.getSection())
+                        .build());
+
+        assertEquals(JsonUtils.toJson(s), JsonUtils.toJson(updatedStudent));
+        assertEquals(s.getUpdatedAt(), studentsDb.getStudentForEmail(s.getCourse(), s.getEmail()).getUpdatedAt());
     }
 
     @Test
@@ -177,7 +205,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         .build();
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> studentsDb.updateStudent(updateOptions));
-        assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT + updateOptions, ednee.getMessage());
+        assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT + updateOptions, ednee.getMessage());
 
         ______TS("null course case");
         AssertionError ae = assertThrows(AssertionError.class,
@@ -204,6 +232,9 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         .withNewEmail(s2.email)
                         .build();
         assertThrows(EntityAlreadyExistsException.class, () -> studentsDb.updateStudent(updateOptionsForS2));
+
+        // clean up
+        studentsDb.deleteStudent(s2.getCourse(), s2.getEmail());
 
         ______TS("typical success case");
         String originalEmail = s.email;
@@ -234,34 +265,131 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertEquals("this are new comments", updatedStudent.getComments());
     }
 
-    @SuppressWarnings("deprecation")
+    // the test is to ensure that optimized saving policy is implemented without false negative
+    @Test
+    public void testUpdateStudent_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {
+        StudentAttributes typicalStudent = createNewStudent();
+
+        assertNotEquals("John Doe", typicalStudent.getName());
+        StudentAttributes updatedStudent = studentsDb.updateStudent(
+                StudentAttributes.updateOptionsBuilder(typicalStudent.getCourse(), typicalStudent.getEmail())
+                        .withName("John Doe")
+                        .build());
+        StudentAttributes actualStudent =
+                studentsDb.getStudentForEmail(typicalStudent.getCourse(), typicalStudent.getEmail());
+        assertEquals("John Doe", updatedStudent.getName());
+        assertEquals("John Doe", actualStudent.getName());
+
+        assertNotEquals("Wu", actualStudent.getLastName());
+        updatedStudent = studentsDb.updateStudent(
+                StudentAttributes.updateOptionsBuilder(typicalStudent.getCourse(), typicalStudent.getEmail())
+                        .withLastName("Wu")
+                        .build());
+        actualStudent = studentsDb.getStudentForEmail(typicalStudent.getCourse(), typicalStudent.getEmail());
+        assertEquals("Wu", updatedStudent.getLastName());
+        assertEquals("Wu", actualStudent.getLastName());
+
+        assertNotEquals("Comment", actualStudent.getComments());
+        updatedStudent = studentsDb.updateStudent(
+                StudentAttributes.updateOptionsBuilder(typicalStudent.getCourse(), typicalStudent.getEmail())
+                        .withComment("Comment")
+                        .build());
+        actualStudent = studentsDb.getStudentForEmail(typicalStudent.getCourse(), typicalStudent.getEmail());
+        assertEquals("Comment", updatedStudent.getComments());
+        assertEquals("Comment", actualStudent.getComments());
+
+        assertNotEquals("googleId", actualStudent.getGoogleId());
+        updatedStudent = studentsDb.updateStudent(
+                StudentAttributes.updateOptionsBuilder(typicalStudent.getCourse(), typicalStudent.getEmail())
+                        .withGoogleId("googleId")
+                        .build());
+        actualStudent = studentsDb.getStudentForEmail(typicalStudent.getCourse(), typicalStudent.getEmail());
+        assertEquals("googleId", updatedStudent.getGoogleId());
+        assertEquals("googleId", actualStudent.getGoogleId());
+
+        assertNotEquals("teamName", actualStudent.getTeam());
+        updatedStudent = studentsDb.updateStudent(
+                StudentAttributes.updateOptionsBuilder(typicalStudent.getCourse(), typicalStudent.getEmail())
+                        .withTeamName("teamName")
+                        .build());
+        actualStudent = studentsDb.getStudentForEmail(typicalStudent.getCourse(), typicalStudent.getEmail());
+        assertEquals("teamName", updatedStudent.getTeam());
+        assertEquals("teamName", actualStudent.getTeam());
+
+        assertNotEquals("sectionName", actualStudent.getSection());
+        updatedStudent = studentsDb.updateStudent(
+                StudentAttributes.updateOptionsBuilder(typicalStudent.getCourse(), typicalStudent.getEmail())
+                        .withSectionName("sectionName")
+                        .build());
+        actualStudent = studentsDb.getStudentForEmail(typicalStudent.getCourse(), typicalStudent.getEmail());
+        assertEquals("sectionName", updatedStudent.getSection());
+        assertEquals("sectionName", actualStudent.getSection());
+    }
+
     @Test
     public void testDeleteStudent() throws Exception {
         StudentAttributes s = createNewStudent();
-        s.googleId = "validGoogleId";
 
-        studentsDb.updateStudent(
-                StudentAttributes.updateOptionsBuilder(s.course, s.email)
-                        .withGoogleId(s.googleId)
-                        .build());
+        // delete student not exist
+        studentsDb.deleteStudent("not-exist", s.getEmail());
+        assertNotNull(studentsDb.getStudentForEmail(s.getCourse(), s.getEmail()));
 
-        // Delete
+        studentsDb.deleteStudent(s.getCourse(), "not_exist@email.com");
+        assertNotNull(studentsDb.getStudentForEmail(s.getCourse(), s.getEmail()));
+
+        studentsDb.deleteStudent("not-exist", "not_exist@email.com");
+        assertNotNull(studentsDb.getStudentForEmail(s.getCourse(), s.getEmail()));
+
+        // delete by course and email
         studentsDb.deleteStudent(s.course, s.email);
-
         StudentAttributes deleted = studentsDb.getStudentForEmail(s.course, s.email);
-
         assertNull(deleted);
-        studentsDb.deleteStudentsForGoogleId(s.googleId);
-        assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId));
-        s = createNewStudent();
-        createNewStudent("secondStudent@mail.com");
-        assertEquals(2, studentsDb.getStudentsForCourse(s.course).size());
-        studentsDb.deleteStudentsForCourse(s.course);
-        assertEquals(0, studentsDb.getStudentsForCourse(s.course).size());
+
         // delete again - should fail silently
         studentsDb.deleteStudent(s.course, s.email);
+        assertNull(studentsDb.getStudentForEmail(s.getCourse(), s.getEmail()));
 
-        // Null params check:
+        s = createNewStudent();
+
+        // delete all students in non-existent course
+        studentsDb.deleteStudents(
+                AttributesDeletionQuery.builder()
+                        .withCourseId("not_exist")
+                        .build());
+
+        // should pass, others students remain
+        assertEquals(1, studentsDb.getStudentsForCourse(s.course).size());
+
+        // delete all students in a course
+
+        // create another student in different course
+        StudentAttributes anotherStudent = StudentAttributes
+                .builder("valid-course2", "email@email.com")
+                .withName("valid student 2")
+                .withComment("")
+                .withTeamName("valid team name")
+                .withSectionName("valid section name")
+                .withGoogleId("")
+                .build();
+        studentsDb.createEntity(anotherStudent);
+        assertNotNull(studentsDb.getStudentForEmail(anotherStudent.getCourse(), anotherStudent.getEmail()));
+
+        // there are students in the course
+        assertFalse(studentsDb.getStudentsForCourse(s.course).isEmpty());
+
+        studentsDb.deleteStudents(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(s.course)
+                        .build());
+
+        assertEquals(0, studentsDb.getStudentsForCourse(s.course).size());
+        // other course should remain
+        assertEquals(1, studentsDb.getStudentsForCourse(anotherStudent.getCourse()).size());
+
+        // clean up
+        studentsDb.deleteStudent(anotherStudent.getCourse(), anotherStudent.getEmail());
+
+        // null params check:
         StudentAttributes[] finalStudent = new StudentAttributes[] { s };
         AssertionError ae = assertThrows(AssertionError.class,
                 () -> studentsDb.deleteStudent(null, finalStudent[0].email));
@@ -270,12 +398,9 @@ public class StudentsDbTest extends BaseComponentTestCase {
         ae = assertThrows(AssertionError.class,
                 () -> studentsDb.deleteStudent(finalStudent[0].course, null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-
-        studentsDb.deleteStudent(s.course, s.email);
-
     }
 
-    private StudentAttributes createNewStudent() throws InvalidParametersException {
+    private StudentAttributes createNewStudent() throws Exception {
         StudentAttributes s = StudentAttributes
                 .builder("valid-course", "valid@email.com")
                 .withName("valid student")
@@ -285,17 +410,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
                 .withGoogleId("")
                 .build();
 
-        try {
-            studentsDb.createEntity(s);
-        } catch (EntityAlreadyExistsException e) {
-            // Okay if it's already inside
-            ignorePossibleException();
-        }
-
-        return s;
+        studentsDb.deleteStudent(s.getCourse(), s.getEmail());
+        return studentsDb.createEntity(s);
     }
 
-    private StudentAttributes createNewStudent(String email) throws InvalidParametersException {
+    private StudentAttributes createNewStudent(String email) throws Exception {
         StudentAttributes s = StudentAttributes
                 .builder("valid-course", email)
                 .withName("valid student 2")
@@ -305,13 +424,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                 .withGoogleId("")
                 .build();
 
-        try {
-            studentsDb.createEntity(s);
-        } catch (EntityAlreadyExistsException e) {
-            // Okay if it's already inside
-            ignorePossibleException();
-        }
-
-        return s;
+        studentsDb.deleteStudent(s.getCourse(), s.getEmail());
+        return studentsDb.createEntity(s);
     }
 }

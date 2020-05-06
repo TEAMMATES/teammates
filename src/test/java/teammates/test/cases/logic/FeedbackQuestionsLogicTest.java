@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +9,15 @@ import java.util.Map;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -28,10 +35,10 @@ import teammates.logic.core.FeedbackSessionsLogic;
  */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -45,49 +52,27 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackQuestionsCascadeForSession_correspondingSessionNotInRecycleBin_shouldDoCascadeDeletion() {
-        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
-        assertNotNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
-        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
-        assertFalse(
-                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertFalse(
-                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertFalse(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
-
-        fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-
-        assertTrue(
-                fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertTrue(
-                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
-    }
-
-    @Test
-    public void testDeleteFeedbackQuestionsCascadeForSession_correspondingSessionInRecycleBin_shouldDoCascadeDeletion()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testDeleteFeedbackQuestions_byCourseIdAndSessionName_shouldDeleteQuestions() {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         assertFalse(
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
+        FeedbackSessionAttributes anotherFsa = dataBundle.feedbackSessions.get("session2InCourse1");
         assertFalse(
-                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertFalse(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
-        fsLogic.moveFeedbackSessionToRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId());
-        assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
-        assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
+                fqLogic.getFeedbackQuestionsForSession(anotherFsa.getFeedbackSessionName(), anotherFsa.getCourseId())
+                        .isEmpty());
 
-        fqLogic.deleteFeedbackQuestionsCascadeForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
+        fqLogic.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(fsa.getCourseId())
+                .withFeedbackSessionName(fsa.getFeedbackSessionName())
+                .build());
 
         assertTrue(
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertTrue(
-                frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
-        assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+        // other sessions are not affected
+        assertFalse(
+                fqLogic.getFeedbackQuestionsForSession(anotherFsa.getFeedbackSessionName(), anotherFsa.getCourseId())
+                        .isEmpty());
+
     }
 
     @Test
@@ -95,11 +80,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testGetRecipientsForQuestion();
         testGetFeedbackQuestionsForInstructor();
         testGetFeedbackQuestionsForStudents();
-        testIsQuestionHasResponses();
         testIsQuestionAnswered();
         testAddQuestion();
-        testDeleteQuestion();
-        testDeleteQuestionsForCourse();
     }
 
     private void testGetRecipientsForQuestion() throws Exception {
@@ -449,19 +431,77 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 ipe.getMessage());
     }
 
-    private void testDeleteQuestion() {
-        //Success case already tested in update
-        ______TS("question already does not exist, silently fail");
+    @Test
+    public void testDeleteFeedbackQuestionCascade_existentQuestion_shouldDoCascadeDeletion() {
+        FeedbackQuestionAttributes typicalQuestion = getQuestionFromDatastore("qn3InSession1InCourse1");
+        assertEquals(3, typicalQuestion.getQuestionNumber());
+        assertEquals(4, getQuestionFromDatastore("qn4InSession1InCourse1").getQuestionNumber());
 
-        fqLogic.deleteFeedbackQuestionCascade("non-existent-question-id");
-        //No error should be thrown.
+        // the question has some responses and comments
+        assertFalse(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
+        assertFalse(
+                frcLogic.getFeedbackResponseCommentForSession(
+                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName()).stream()
+                        .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
 
+        fqLogic.deleteFeedbackQuestionCascade(typicalQuestion.getId());
+
+        assertNull(logic.getFeedbackQuestion(typicalQuestion.getId()));
+        // the responses and comments should gone
+        assertTrue(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
+        assertTrue(
+                frcLogic.getFeedbackResponseCommentForSession(
+                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName()).stream()
+                        .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
+
+        // verify that questions are shifted
+        List<FeedbackQuestionAttributes> questionsOfSessions =
+                logic.getFeedbackQuestionsForSession(
+                        typicalQuestion.getFeedbackSessionName(), typicalQuestion.getCourseId());
+        for (int i = 1; i <= questionsOfSessions.size(); i++) {
+            assertEquals(i, questionsOfSessions.get(i - 1).getQuestionNumber());
+        }
     }
 
-    private void testDeleteQuestionsForCourse() throws EntityDoesNotExistException {
-        ______TS("standard case");
+    @Test
+    public void testDeleteFeedbackQuestionCascade_nonExistentQuestion_shouldFailSilently() {
+        fqLogic.deleteFeedbackQuestionCascade("non-existent-question-id");
 
-        // test that questions are deleted
+        // other questions not get affected
+        assertNotNull(getQuestionFromDatastore("qn3InSession1InCourse1"));
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestionCascade_cascadeDeleteResponseOfStudent_shouldUpdateRespondents() throws Exception {
+        FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackQuestionAttributes fqa =
+                fqLogic.getFeedbackQuestion(fra.feedbackSessionName, fra.courseId, Integer.parseInt(fra.feedbackQuestionId));
+        FeedbackResponseAttributes responseInDb = frLogic.getFeedbackResponse(fqa.getId(), fra.giver, fra.recipient);
+        assertNotNull(responseInDb);
+
+        // the student only gives this response for the session
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(responseInDb.courseId, responseInDb.giver).stream()
+                .filter(response -> response.feedbackSessionName.equals(responseInDb.feedbackSessionName))
+                .count());
+        // suppose he is in the respondents list
+        fsLogic.addStudentRespondent(responseInDb.giver, responseInDb.feedbackSessionName, responseInDb.courseId);
+        FeedbackSessionAttributes correspondingSession =
+                fsLogic.getFeedbackSession(responseInDb.feedbackSessionName, responseInDb.courseId);
+        assertTrue(correspondingSession.getRespondingStudentList().contains(responseInDb.giver));
+
+        // after deletion the question
+        fqLogic.deleteFeedbackQuestionCascade(responseInDb.feedbackQuestionId);
+
+        FeedbackSessionAttributes sessionAfter =
+                fsLogic.getFeedbackSession(responseInDb.feedbackSessionName, responseInDb.courseId);
+        // instructor respondents will not change
+        assertEquals(correspondingSession.getRespondingInstructorList(), sessionAfter.getRespondingInstructorList());
+        // the student should not in the respondents
+        assertFalse(sessionAfter.getRespondingStudentList().contains(responseInDb.giver));
+    }
+
+    @Test
+    public void testDeleteFeedbackQuestions_byCourseId_shouldDeleteQuestions() {
         String courseId = "idOfTypicalCourse2";
         FeedbackQuestionAttributes deletedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
         assertNotNull(deletedQuestion);
@@ -470,7 +510,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
         assertFalse(questions.isEmpty());
 
-        fqLogic.deleteFeedbackQuestionsForCourse(courseId);
+        fqLogic.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
+                .withCourseId(courseId)
+                .build());
         deletedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
         assertNull(deletedQuestion);
 
@@ -480,6 +522,187 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         // test that questions in other courses are unaffected
         assertNotNull(getQuestionFromDatastore("qn1InSessionInArchivedCourse"));
         assertNotNull(getQuestionFromDatastore("qn1InSession4InCourse1"));
+    }
+
+    @Test
+    public void testPopulateFieldsToGenerateInQuestion_mcqQuestionDifferentGenerateOptions_shouldPopulateCorrectly() {
+        StudentAttributes typicalStudent = dataBundle.students.get("student1InCourse1");
+        InstructorAttributes typicalInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+
+        FeedbackQuestionAttributes fqa = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        // construct a typical question
+        fqa = FeedbackQuestionAttributes.builder()
+                        .withCourseId(fqa.getCourseId())
+                        .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                        .withNumberOfEntitiesToGiveFeedbackTo(2)
+                        .withQuestionDescription("test")
+                        .withQuestionNumber(fqa.getQuestionNumber())
+                        .withGiverType(FeedbackParticipantType.STUDENTS)
+                        .withRecipientType(FeedbackParticipantType.STUDENTS)
+                        .withQuestionDetails(new FeedbackMcqQuestionDetails())
+                        .withShowResponsesTo(new ArrayList<>())
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withShowRecipientNameTo(new ArrayList<>())
+                        .build();
+
+        FeedbackMcqQuestionDetails feedbackMcqQuestionDetails = new FeedbackMcqQuestionDetails();
+
+        // NONE
+        List<String> expected = Arrays.asList("test");
+
+        feedbackMcqQuestionDetails.setMcqChoices(Arrays.asList("test"));
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(Arrays.asList("test"));
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // STUDENTS
+        expected = Arrays.asList("student1 In Course1</td></div>'\" (Team 1.1</td></div>'\")",
+                        "student2 In Course1 (Team 1.1</td></div>'\")",
+                        "student3 In Course1 (Team 1.1</td></div>'\")",
+                        "student4 In Course1 (Team 1.1</td></div>'\")",
+                        "student5 In Course1 (Team 1.2)");
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // STUDENTS_EXCLUDING_SELF
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(Arrays.asList("student2 In Course1 (Team 1.1</td></div>'\")",
+                "student3 In Course1 (Team 1.1</td></div>'\")",
+                "student4 In Course1 (Team 1.1</td></div>'\")",
+                "student5 In Course1 (Team 1.2)"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(Arrays.asList("student1 In Course1</td></div>'\" (Team 1.1</td></div>'\")",
+                "student2 In Course1 (Team 1.1</td></div>'\")",
+                "student3 In Course1 (Team 1.1</td></div>'\")",
+                "student4 In Course1 (Team 1.1</td></div>'\")",
+                "student5 In Course1 (Team 1.2)"), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // TEAMS
+        expected = Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2");
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // TEAMS_EXCLUDING_SELF
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(Arrays.asList("Team 1.2"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // INSTRUCTORS
+        expected = Arrays.asList("Helper Course1",
+                "Instructor Not Yet Joined Course 1",
+                "Instructor1 Course1",
+                "Instructor2 Course1",
+                "Instructor3 Course1");
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(expected, ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+    }
+
+    @Test
+    public void testPopulateFieldsToGenerateInQuestion_msqQuestionDifferentGenerateOptions_shouldPopulateCorrectly() {
+        StudentAttributes typicalStudent = dataBundle.students.get("student1InCourse1");
+        InstructorAttributes typicalInstructor = dataBundle.instructors.get("instructor1OfCourse1");
+
+        FeedbackQuestionAttributes fqa = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        // construct a typical question
+        fqa = FeedbackQuestionAttributes.builder()
+                .withCourseId(fqa.getCourseId())
+                .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                .withNumberOfEntitiesToGiveFeedbackTo(2)
+                .withQuestionDescription("test")
+                .withQuestionNumber(fqa.getQuestionNumber())
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.STUDENTS)
+                .withQuestionDetails(new FeedbackMsqQuestionDetails())
+                .withShowResponsesTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .build();
+
+        FeedbackMsqQuestionDetails feedbackMsqQuestionDetails = new FeedbackMsqQuestionDetails();
+
+        // TEAMS_EXCLUDING_SELF
+        feedbackMsqQuestionDetails.setMsqChoices(new ArrayList<>());
+        feedbackMsqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMsqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(Arrays.asList("Team 1.2"),
+                ((FeedbackMsqQuestionDetails) fqa.getQuestionDetails()).getMsqChoices());
+
+        feedbackMsqQuestionDetails.setMsqChoices(new ArrayList<>());
+        feedbackMsqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMsqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
+                ((FeedbackMsqQuestionDetails) fqa.getQuestionDetails()).getMsqChoices());
     }
 
     private void testGetFeedbackQuestionsForInstructor() throws Exception {
@@ -620,21 +843,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
 
         assertEquals(actualQuestions, expectedQuestions);
-    }
-
-    private void testIsQuestionHasResponses() {
-        FeedbackQuestionAttributes questionWithResponse;
-        FeedbackQuestionAttributes questionWithoutResponse;
-
-        ______TS("Check that a question has some responses");
-
-        questionWithResponse = getQuestionFromDatastore("qn1InSession1InCourse2");
-        assertTrue(fqLogic.areThereResponsesForQuestion(questionWithResponse.getId()));
-
-        ______TS("Check that a question has no responses");
-
-        questionWithoutResponse = getQuestionFromDatastore("qn2InSession1InCourse2");
-        assertFalse(fqLogic.areThereResponsesForQuestion(questionWithoutResponse.getId()));
     }
 
     private void testIsQuestionAnswered() throws Exception {

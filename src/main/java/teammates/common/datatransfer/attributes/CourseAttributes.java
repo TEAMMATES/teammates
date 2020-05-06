@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -21,8 +22,6 @@ import teammates.storage.entity.Course;
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     private static final Logger log = Logger.getLogger();
-
-    private static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
 
     public Instant createdAt;
     public Instant deletedAt;
@@ -163,8 +162,25 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     @Override
-    public String getBackupIdentifier() {
-        return COURSE_BACKUP_LOG_MSG + getId();
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.id).append(this.name);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            CourseAttributes otherCourse = (CourseAttributes) other;
+            return Objects.equals(this.id, otherCourse.id)
+                    && Objects.equals(this.name, otherCourse.name);
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -193,7 +209,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        updateOptions.deletedAtOption.ifPresent(s -> deletedAt = s);
         updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
     }
@@ -233,7 +248,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public static class UpdateOptions {
         private String courseId;
 
-        private UpdateOption<Instant> deletedAtOption = UpdateOption.empty();
         private UpdateOption<String> nameOption = UpdateOption.empty();
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
 
@@ -252,7 +266,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             return "CourseAttributes.UpdateOptions ["
                     + "courseId = " + courseId
                     + ", name = " + nameOption
-                    + ", deletedAt = " + deletedAtOption
                     + ", timezone = " + timeZoneOption
                     + "]";
         }

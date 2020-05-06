@@ -17,10 +17,10 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for multiple choice (single answer) questions.
  */
-public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
+public class FeedbackMcqQuestionUiTest extends BaseFeedbackQuestionUiTest {
 
     private static final int NEW_QUESTION_INDEX = -1;
     private static final String QN_TYPE = "mcq";

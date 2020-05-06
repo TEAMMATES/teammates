@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -15,8 +16,6 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
-
-    private static final String FEEDBACK_RESPONSE_BACKUP_LOG_MSG = "Recently modified feedback response::";
 
     public String feedbackQuestionId;
     /**
@@ -68,7 +67,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
         FeedbackResponseAttributes fra =
-                new FeedbackResponseAttributes(fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
+                new FeedbackResponseAttributes(
+                        fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
 
         fra.feedbackResponseId = fr.getId();
         fra.feedbackSessionName = fr.getFeedbackSessionName();
@@ -160,11 +160,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     @Override
-    public String getBackupIdentifier() {
-        return FEEDBACK_RESPONSE_BACKUP_LOG_MSG + getId();
-    }
-
-    @Override
     public String toString() {
         return "FeedbackResponseAttributes [feedbackSessionName="
                 + feedbackSessionName + ", courseId=" + courseId
@@ -172,6 +167,32 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
                 + ", feedbackQuestionType=" + getFeedbackQuestionType()
                 + ", giver=" + giver + ", recipient=" + recipient
                 + ", answer=" + getSerializedFeedbackResponseDetail() + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.courseId)
+                .append(this.feedbackQuestionId).append(this.giver).append(this.recipient);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackResponseAttributes otherFeedbackResponse = (FeedbackResponseAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherFeedbackResponse.feedbackSessionName)
+                    && Objects.equals(this.courseId, otherFeedbackResponse.courseId)
+                    && Objects.equals(this.feedbackQuestionId, otherFeedbackResponse.feedbackQuestionId)
+                    && Objects.equals(this.giver, otherFeedbackResponse.giver)
+                    && Objects.equals(this.recipient, otherFeedbackResponse.recipient);
+        } else {
+            return false;
+        }
     }
 
     @Override

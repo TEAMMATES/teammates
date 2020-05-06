@@ -27,12 +27,14 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -210,12 +212,14 @@ public final class BackDoor {
      * However, removing the data bundle on teardown manually is not a perfect solution because two tests can concurrently
      * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
-    public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
+    public static String removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
         removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
-        return putRequestOutput.responseCode == HttpStatus.SC_OK
-                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        if (putRequestOutput.responseCode == HttpStatus.SC_OK) {
+            return putRequestOutput.responseBody;
+        }
+        throw new HttpRequestFailedException("Request failed with status code: " + putRequestOutput.responseCode);
     }
 
     /**
@@ -228,14 +232,43 @@ public final class BackDoor {
     }
 
     /**
+     * Puts searchable documents in data bundle into the datastore.
+     */
+    public static String putDocuments(DataBundle dataBundle) {
+        ResponseBodyAndCode putRequestOutput =
+                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, null, JsonUtils.toJson(dataBundle));
+        return putRequestOutput.responseCode == HttpStatus.SC_OK
+                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+    }
+
+    /**
      * Gets a student's profile from the datastore.
      */
-    public static StudentProfileAttributes getStudentProfile(String userId) {
+    public static StudentProfileAttributes getStudentProfile(String courseId, String studentEmail) {
         Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.STUDENT_ID, new String[] { userId });
-        JSONObject jsonObj = new JSONObject(executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params).responseBody);
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.STUDENT_EMAIL, new String[] { studentEmail });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
 
-        return JsonUtils.fromJson(jsonObj.getJSONObject("studentProfile").toString(), StudentProfileAttributes.class);
+        return JsonUtils.fromJson(response.responseBody, StudentProfileAttributes.class);
+    }
+
+    /**
+     * Gets a course from the datastore.
+     */
+    public static CourseAttributes getCourse(String courseId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSE, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        CourseData courseData = JsonUtils.fromJson(response.responseBody, CourseData.class);
+        return CourseAttributes.builder(courseData.getCourseId()).build();
     }
 
     /**
@@ -255,6 +288,15 @@ public final class BackDoor {
         params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSession });
         params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
         executeDeleteRequest(Const.ResourceURIs.SESSION, params);
+    }
+
+    /**
+     * Deletes a course from the datastore.
+     */
+    public static void deleteCourse(String courseId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        executeDeleteRequest(Const.ResourceURIs.COURSE, params);
     }
 
     private static final class ResponseBodyAndCode {

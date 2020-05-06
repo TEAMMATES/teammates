@@ -1,52 +1,48 @@
 <?xml version="1.0"?>
 <!DOCTYPE suppressions PUBLIC
-    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
-    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.1//EN"
+    "https://checkstyle.org/dtds/suppressions_1_1.dtd">
 <suppressions>
     <!-- Most variables in scripts are constants -->
     <suppress checks="ConstantName" files="client[/\\]scripts[/\\].*\.java"/>
 
     <!-- Scripts inherently need main method to run -->
     <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
-    <suppress checks="UncommentedMain" files="e2e[/\\]cases[/\\]scalability[/\\].*\.java"/>
 
     <!-- To be implemented slowly -->
-    <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="JavadocType" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
+    <suppress checks="MissingJavadocType" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]util[/\\]ActivityLogEntry\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]util[/\\]AppUrl\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]common[/\\]util[/\\]Url\.java"/>
-    <suppress checks="JavadocType" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
-    <suppress checks="JavadocType" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]ActivityLogEntry\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]AppUrl\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]Url\.java"/>
+    <suppress checks="MissingJavadocType" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
+    <suppress checks="MissingJavadocType" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]LogMessageGenerator\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]Logic\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]logic[/\\]core[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]storage[/\\]api[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]storage[/\\]api[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]storage[/\\]entity[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
-    <suppress checks="JavadocType" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]Logic\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]core[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
+    <suppress checks="MissingJavadocType" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
 
     <!-- Remove all these when V7 migration is done -->
-    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
-    <suppress checks="JavadocType" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
+    <suppress checks="MissingJavadocType" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="JavadocType" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
+    <suppress checks="MissingJavadocType" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
-    <suppress checks="JavadocType" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
+    <suppress checks="MissingJavadocType" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
-    <suppress checks="JavadocMethod" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
-    <suppress checks="JavadocType" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
+    <suppress checks="MissingJavadocType" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
 
 </suppressions>

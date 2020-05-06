@@ -248,6 +248,27 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testValueOf_modificationInAttributes_shouldNotLeakStateToEntity() {
+        FeedbackSession feedbackSession = new FeedbackSession(
+                "testName", "testCourse", "email@email.com", "text",
+                Instant.now(), null,
+                Instant.now().minusSeconds(10), Instant.now().plusSeconds(10),
+                Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
+                "UTC", 10,
+                false, false, false, false,
+                true, true, true,
+                new HashSet<>(), new HashSet<>());
+
+        FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
+
+        feedbackSessionAttributes.getRespondingStudentList().add("test@email.com");
+        feedbackSessionAttributes.getRespondingInstructorList().add("test@email.com");
+
+        assertTrue(feedbackSession.getRespondingStudentList().isEmpty());
+        assertTrue(feedbackSession.getRespondingInstructorList().isEmpty());
+    }
+
+    @Test
     public void testBuilder_withTypicalData_shouldBuildCorrectly() {
 
         ZoneId timeZone = ZoneId.of("Asia/Singapore");
@@ -358,27 +379,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         assertEquals(Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError),
                 feedbackSessionAttributes.getInvalidityInfo());
-    }
-
-    @Test
-    public void testGetBackUpIdentifier() {
-        FeedbackSessionAttributes sessionAttributes = FeedbackSessionAttributes
-                .builder("newFeedbackSessionName", "course")
-                .withCreatorEmail("email@email.com")
-                .withInstructions("default instructions")
-                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(2))
-                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(5))
-                .withSessionVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(1))
-                .withResultsVisibleFromTime(TimeHelperExtension.getInstantHoursOffsetFromNow(6))
-                .withTimeZone(ZoneId.of("Asia/Singapore"))
-                .withGracePeriod(Duration.ZERO)
-                .withIsClosingEmailEnabled(false)
-                .withIsPublishedEmailEnabled(false)
-                .build();
-
-        String expectedBackUpIdentifierMessage = "Recently modified feedback session::"
-                + sessionAttributes.getCourseId() + "::" + sessionAttributes.getFeedbackSessionName();
-        assertEquals(expectedBackUpIdentifierMessage, sessionAttributes.getBackupIdentifier());
     }
 
     @Test
@@ -513,6 +513,80 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertThrows(AssertionError.class, () ->
                 FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
                         .withRemovingInstructorRespondent(null));
+    }
+
+    @Test
+    public void testEquals() {
+        FeedbackSessionAttributes feedbackSession = generateTypicalFeedbackSessionAttributesObject();
+
+        // When the two feedback sessions are exact copies
+        FeedbackSessionAttributes feedbackSessionCopy = feedbackSession.getCopy();
+
+        assertTrue(feedbackSession.equals(feedbackSessionCopy));
+
+        // When the two feedback sessions have same values but created at different time
+        FeedbackSessionAttributes feedbackSessionSimilar = generateTypicalFeedbackSessionAttributesObject();
+
+        assertTrue(feedbackSession.equals(feedbackSessionSimilar));
+
+        // When the two feedback sessions are different
+        FeedbackSessionAttributes feedbackSessionDifferent =
+                FeedbackSessionAttributes.builder("differentSession", "courseId")
+                .withCreatorEmail("email@email.com")
+                .withInstructions("instructor")
+                .build();
+
+        assertFalse(feedbackSession.equals(feedbackSessionDifferent));
+
+        // When the other object is of different class
+        assertFalse(feedbackSession.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        FeedbackSessionAttributes feedbackSession = generateTypicalFeedbackSessionAttributesObject();
+
+        // When the two feedback sessions are exact copies, they should have the same hash code
+        FeedbackSessionAttributes feedbackSessionCopy = feedbackSession.getCopy();
+
+        assertTrue(feedbackSession.hashCode() == feedbackSessionCopy.hashCode());
+
+        // When the two feedback sessions have same values but created at different time,
+        // they should still have the same hash code
+        FeedbackSessionAttributes feedbackSessionSimilar = generateTypicalFeedbackSessionAttributesObject();
+
+        assertTrue(feedbackSession.hashCode() == feedbackSessionSimilar.hashCode());
+
+        // When the two feedback sessions are different, they should have different hash code
+        FeedbackSessionAttributes feedbackSessionDifferent =
+                FeedbackSessionAttributes.builder("differentSession", "courseId")
+                .withCreatorEmail("email@email.com")
+                .withInstructions("instructor")
+                .build();
+
+        assertFalse(feedbackSession.hashCode() == feedbackSessionDifferent.hashCode());
+    }
+
+    private FeedbackSessionAttributes generateTypicalFeedbackSessionAttributesObject() {
+        ZoneId timeZone = ZoneId.of("Asia/Singapore");
+        Instant startTime = TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 09 May, 2016", "10", "0"), timeZone);
+        Instant endTime = TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelper.parseDateTimeFromSessionsForm("Tue, 09 May, 2017", "10", "0"), timeZone);
+
+        return FeedbackSessionAttributes
+                .builder("sessionName", "courseId")
+                .withCreatorEmail("email@email.com")
+                .withInstructions("instructor")
+                .withStartTime(startTime)
+                .withEndTime(endTime)
+                .withSessionVisibleFromTime(startTime.minusSeconds(60))
+                .withResultsVisibleFromTime(endTime.plusSeconds(60))
+                .withTimeZone(timeZone)
+                .withGracePeriod(Duration.ofMinutes(15))
+                .withIsClosingEmailEnabled(false)
+                .withIsPublishedEmailEnabled(false)
+                .build();
     }
 
 }

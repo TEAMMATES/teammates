@@ -66,7 +66,7 @@ public final class SearchManager {
      *         if operation fails after maximum retries.
      */
     private static void putDocumentWithRetry(String indexName, Document document)
-            throws PutException, MaximumRetriesExceededException {
+            throws MaximumRetriesExceededException {
         Index index = getIndex(indexName);
 
         /*
@@ -93,7 +93,7 @@ public final class SearchManager {
             }
 
             @Override
-            public boolean isSuccessful() throws PutException {
+            public boolean isSuccessful() {
                 // Update the final message to be shown if the task fails after maximum retries
                 finalMessage = lastResult.getMessage();
 
@@ -134,7 +134,7 @@ public final class SearchManager {
      *         final {@link OperationResult}'s message as final message, if operation fails after maximum retries.
      */
     private static void putDocumentsWithRetry(String indexName, List<Document> documents)
-            throws PutException, MaximumRetriesExceededException {
+            throws MaximumRetriesExceededException {
         Index index = getIndex(indexName);
 
         /*
@@ -152,7 +152,7 @@ public final class SearchManager {
             private List<String> lastIds;
 
             @Override
-            public void run() throws PutException {
+            public void run() {
                 try {
                     PutResponse response = index.put(documentsToPut);
                     lastResults = response.getResults();
@@ -209,8 +209,8 @@ public final class SearchManager {
     /**
      * Deletes document by documentId.
      */
-    public static void deleteDocument(String indexName, String documentId) {
-        getIndex(indexName).deleteAsync(documentId);
+    public static void deleteDocument(String indexName, String... documentIds) {
+        getIndex(indexName).deleteAsync(documentIds);
     }
 
     private static Index getIndex(String indexName) {

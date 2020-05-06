@@ -100,7 +100,14 @@
           <div class="padding-15px">
             <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
             <tm-contribution-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
+            <tm-mcq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MCQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-mcq-question-edit-details-form>
+            <tm-msq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-msq-question-edit-details-form>
             <tm-num-scale-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-num-scale-question-edit-details-form>
+            <tm-rank-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-options-question-edit-details-form>
+            <tm-rank-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-recipients-question-edit-details-form>
+            <tm-rubric-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RUBRIC" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rubric-question-edit-details-form>
+            <tm-constsum-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-constsum-options-question-edit-details-form>
+            <tm-constsum-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-constsum-recipients-question-edit-details-form>
           </div>
         </div>
       </div>
@@ -114,24 +121,22 @@
           <span *ngIf="!model.isUsingOtherFeedbackPath">
             {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
           </span>
-          <span *ngIf="model.isUsingOtherFeedbackPath">Custom Visibility Options</span>
+          <span *ngIf="model.isUsingOtherFeedbackPath">Custom feedback path</span>
         </button>
         <ul ngbDropdownMenu>
           <li class="dropdown-header">Common feedback path combinations</li>
           <li class="dropdown-item" *ngFor="let path of this.commonFeedbackPaths | keyvalue">
-            <div ngbDropdown #subMenu="ngbDropdown" placement="right">
-              <div (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
-                <span ngbDropdownAnchor class="float-right invisible"></span>
-                {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
-                <ul ngbDropdownMenu>
-                  <li class="dropdown-item" *ngFor="let recipient of path.value"
-                      (click)="changeGiverRecipientType(path.key, recipient)">{{ recipient | recipientTypeDescription }}</li>
-                </ul>
-              </div>
+            <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
+              <span ngbDropdownAnchor class="float-right invisible"></span>
+              {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
+              <ul ngbDropdownMenu>
+                <li class="dropdown-item" *ngFor="let recipient of path.value"
+                    (click)="changeGiverRecipientType(path.key, recipient)">{{ recipient | recipientTypeDescription }}</li>
+              </ul>
             </div>
           </li>
           <li class="dropdown-divider"></li>
-          <li class="dropdown-item" (click)="triggerModelChange('isUsingOtherFeedbackPath', true)">Other predefined combinations...</li>
+          <li class="dropdown-item" (click)="triggerModelChange('isUsingOtherFeedbackPath', true)">Custom feedback path...</li>
         </ul>
       </div>
       <div class="row margin-top-15px" *ngIf="model.isUsingOtherFeedbackPath">
@@ -208,14 +213,14 @@
           <span *ngIf="!model.isUsingOtherVisibilitySetting">
             {{ model.commonVisibilitySettingName }}
           </span>
-          <span *ngIf="model.isUsingOtherVisibilitySetting">Custom Visibility Options</span>
+          <span *ngIf="model.isUsingOtherVisibilitySetting">Custom visibility options</span>
         </button>
         <ul ngbDropdownMenu>
-          <li class="dropdown-header">Common feedback path combinations</li>
+          <li class="dropdown-header">Common visibility options</li>
           <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
               (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
           <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
-          <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerModelChange('isUsingOtherVisibilitySetting', true)">Other predefined combinations...</li>
+          <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerModelChange('isUsingOtherVisibilitySetting', true)">Custom visibility options...</li>
         </ul>
       </div>
       <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">

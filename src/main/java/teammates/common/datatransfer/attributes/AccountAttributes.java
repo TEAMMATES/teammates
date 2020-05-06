@@ -3,6 +3,7 @@ package teammates.common.datatransfer.attributes;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -16,8 +17,6 @@ import teammates.storage.entity.Account;
  * A data transfer object for Account entities.
  */
 public class AccountAttributes extends EntityAttributes<Account> {
-
-    private static final String ACCOUNT_BACKUP_LOG_MSG = "Recently modified account::";
 
     public String googleId;
 
@@ -121,8 +120,28 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     @Override
-    public String getBackupIdentifier() {
-        return ACCOUNT_BACKUP_LOG_MSG + getGoogleId();
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email).append(this.name)
+                .append(this.institute).append(this.googleId);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            AccountAttributes otherAccount = (AccountAttributes) other;
+            return Objects.equals(this.email, otherAccount.email)
+                    && Objects.equals(this.name, otherAccount.name)
+                    && Objects.equals(this.institute, otherAccount.institute)
+                    && Objects.equals(this.googleId, otherAccount.googleId);
+        } else {
+            return false;
+        }
     }
 
     @Override

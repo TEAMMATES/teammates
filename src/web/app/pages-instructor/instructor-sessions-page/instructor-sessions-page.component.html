@@ -1,10 +1,20 @@
-<div class="alert alert-warning" role="alert" *ngIf="courseCandidates.length === 0">
+<div class="alert alert-warning" role="alert" *ngIf="hasCoursesLoaded && courseCandidates.length === 0">
   You have not created any courses yet, or you have no active courses. Go <a href="#" (click)="createOrUnarchiveCourse(); $event.preventDefault()">here</a> to create or unarchive a course.
 </div>
 
-<tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
-                      [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
-                      (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"></tm-session-edit-form>
+<div>
+  <button class="btn btn-primary" (click)="isSessionEditFormExpanded = true"
+          [disabled]="isSessionEditFormExpanded"><i class="fas fa-plus"></i> Add New Feedback Session
+  </button>
+</div>
+
+<div class="margin-top-30px" *ngIf="isSessionEditFormExpanded">
+  <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
+                        [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
+                        (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
+                        (closeEditFormEvent)="isSessionEditFormExpanded = false"
+  ></tm-session-edit-form>
+</div>
 
 <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0">
   You have not created any sessions yet. Use the form above to create a session.
@@ -15,12 +25,13 @@
                      [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
                      [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
                      (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
-                    (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
-                    (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
-                    (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
-                    (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
-                    (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler($event)"
-                    (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler($event)"></tm-sessions-table>
+                     (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
+                     (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
+                     (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
+                     (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
+                     (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
+                     (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(sessionsTableRowModels[$event])"
+                     (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(sessionsTableRowModels[$event])"></tm-sessions-table>
 </div>
 
 <br/>
@@ -36,19 +47,19 @@
 <div class="row margin-top-30px" *ngIf="recycleBinFeedbackSessionRowModels.length !== 0">
   <div class="col-12">
     <h2 class="text-muted">
-      <i class="fas fa-trash-alt"></i> Feedback Sessions Recycle Bin
+      <i class="fas fa-trash-alt"></i> Deleted Feedback Sessions
     </h2>
-    <div class="card">
-      <div class="card-header recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
+    <div class="card bg-light top-padded">
+      <div class="card-header bg-secondary recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
         <div class="row align-items-center">
           <div class="col-6 text-white">
             <b>Recycle Bin</b>
           </div>
-          <div class="col-6 text-right">
+          <div class="col-6 text-right bin-header-button">
             <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
-                    (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSession()"><i class="fas fa-check"></i> Restore All</button>&nbsp;
+                    (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSession()"><i class="fas fa-check"></i> Restore All</button>
             <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
-                    (click)="$event.stopPropagation(); permanentDeleteAllSessions()"><i class="fas fa-times"></i> Delete All</button>&nbsp;
+                    (click)="$event.stopPropagation(); permanentDeleteAllSessions()"><i class="fas fa-times"></i> Delete All</button>
             <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
             <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
           </div>
@@ -64,11 +75,11 @@
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
               </th>
-              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.FEEDBACK_SESSION_NAME)" class="sortable-header">
+              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_NAME)" class="sortable-header">
                 Session Name
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.FEEDBACK_SESSION_NAME"><i class="fas fa-sort"></i></span>
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.FEEDBACK_SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.FEEDBACK_SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.SESSION_NAME"><i class="fas fa-sort"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
               </th>
               <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_CREATION_DATE)" class="sortable-header">
                 Creation Date
@@ -76,13 +87,13 @@
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
                 <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
               </th>
-              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.DELETION_DATE)" class="sortable-header">
+              <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_DELETION_DATE)" class="sortable-header">
                 Deletion Date
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.DELETION_DATE"><i class="fas fa-sort"></i></span>
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy !== SortBy.SESSION_DELETION_DATE"><i class="fas fa-sort"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+                <span *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
               </th>
-              <th>Actions</th>
+              <th class="text-center">Action(s)</th>
             </tr>
           </thead>
           <tbody>
@@ -95,7 +106,7 @@
               <td [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
               </td>
-              <td class="actions-cell">
+              <td class="text-center actions-cell">
                 <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore the feedback session" (click)="restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel)">Restore</button>
                 <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete the feedback session" (click)="permanentDeleteSession(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
               </td>

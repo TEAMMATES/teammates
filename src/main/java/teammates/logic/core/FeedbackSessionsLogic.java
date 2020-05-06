@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
@@ -177,6 +178,13 @@ public final class FeedbackSessionsLogic {
         }
 
         return viewableSessions;
+    }
+
+    /**
+     * Returns a list of feedback sessions within the time range or an empty list if nothing was found.
+     */
+    public List<FeedbackSessionAttributes> getAllFeedbackSessionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
+        return fsDb.getFeedbackSessionsWithinTimeRange(rangeStart, rangeEnd);
     }
 
     /**
@@ -1205,16 +1213,13 @@ public final class FeedbackSessionsLogic {
      * Deletes the instructor's email from the instructor respondents set of all feedback sessions
      * in the corresponding course.
      */
-    public void deleteInstructorFromRespondentsList(InstructorAttributes instructor) {
-        if (instructor == null || instructor.email == null) {
-            return;
-        }
+    public void deleteInstructorFromRespondentsList(String courseId, String email) {
         List<FeedbackSessionAttributes> sessionsToUpdate =
-                fsDb.getFeedbackSessionsForCourse(instructor.courseId);
+                fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
-                deleteInstructorRespondent(instructor.email, session.getFeedbackSessionName(), session.getCourseId());
+                deleteInstructorRespondent(email, session.getFeedbackSessionName(), session.getCourseId());
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail(ASSUMPTION_FAIL_DELETE_INSTRUCTOR + session.getFeedbackSessionName());
             }
@@ -1225,16 +1230,13 @@ public final class FeedbackSessionsLogic {
      * Deletes the student's email from the student respondents set of all feedback sessions
      * in the corresponding course.
      */
-    public void deleteStudentFromRespondentsList(StudentAttributes student) {
-        if (student == null || student.email == null) {
-            return;
-        }
+    public void deleteStudentFromRespondentsList(String courseId, String email) {
         List<FeedbackSessionAttributes> sessionsToUpdate =
-                fsDb.getFeedbackSessionsForCourse(student.course);
+                fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes session : sessionsToUpdate) {
             try {
-                deleteStudentFromRespondentList(student.email, session.getFeedbackSessionName(), session.getCourseId());
+                deleteStudentFromRespondentList(email, session.getFeedbackSessionName(), session.getCourseId());
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 Assumption.fail(ASSUMPTION_FAIL_DELETE_INSTRUCTOR + session.getFeedbackSessionName());
             }
@@ -1308,15 +1310,23 @@ public final class FeedbackSessionsLogic {
     /**
      * Publishes a feedback session.
      *
+     * @return the published feedback session
      * @throws InvalidParametersException if session is already published
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public void publishFeedbackSession(FeedbackSessionAttributes sessionToPublish)
+    public FeedbackSessionAttributes publishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
+
+        FeedbackSessionAttributes sessionToPublish = getFeedbackSession(feedbackSessionName, courseId);
+
+        if (sessionToPublish == null) {
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
+        }
         if (sessionToPublish.isPublished()) {
             throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
         }
 
-        updateFeedbackSession(
+        return updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(sessionToPublish.getFeedbackSessionName(), sessionToPublish.getCourseId())
                         .withResultsVisibleFromTime(Instant.now())
@@ -1326,15 +1336,23 @@ public final class FeedbackSessionsLogic {
     /**
      * Unpublishes a feedback session.
      *
+     * @return the unpublished feedback session
      * @throws InvalidParametersException if session is already unpublished
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public void unpublishFeedbackSession(FeedbackSessionAttributes sessionToUnpublish)
+    public FeedbackSessionAttributes unpublishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
+
+        FeedbackSessionAttributes sessionToUnpublish = getFeedbackSession(feedbackSessionName, courseId);
+
+        if (sessionToUnpublish == null) {
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
+        }
         if (!sessionToUnpublish.isPublished()) {
             throw new InvalidParametersException(ERROR_FS_ALREADY_UNPUBLISH);
         }
 
-        updateFeedbackSession(
+        return updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(sessionToUnpublish.getFeedbackSessionName(), sessionToUnpublish.getCourseId())
                         .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
@@ -1373,53 +1391,25 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Deletes the feedback sessions in the course specified. The delete
-     * is cascaded, and feedback questions, feedback responses, and
-     * feedback response comments in the course are deleted.
-     */
-    public void deleteFeedbackSessionsForCourseCascade(String courseId) {
-        frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
-        frLogic.deleteFeedbackResponsesForCourse(courseId);
-        fqLogic.deleteFeedbackQuestionsForCourse(courseId);
-        deleteFeedbackSessionsForCourse(courseId);
-    }
-
-    /**
-     * Deletes all feedback sessions the course specified. This is
-     * a non-cascade delete.
-     *
-     * <p>The responses, questions and the comments of the responses
-     * should be handled.
-     */
-    public void deleteFeedbackSessionsForCourse(String courseId) {
-        fsDb.deleteFeedbackSessionsForCourse(courseId);
-    }
-
-    /**
-     * Permanently deletes a specific feedback session in Recycle Bin, and all its questions and responses.
+     * Deletes a feedback session cascade to its associated questions, responses and comments.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
+        AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+                .withCourseId(courseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .build();
+        frcLogic.deleteFeedbackResponseComments(query);
+        frLogic.deleteFeedbackResponses(query);
+        fqLogic.deleteFeedbackQuestions(query);
 
-        fqLogic.deleteFeedbackQuestionsCascadeForSession(feedbackSessionName, courseId);
-
-        FeedbackSessionAttributes sessionToDelete =
-                FeedbackSessionAttributes.builder(feedbackSessionName, courseId).build();
-
-        fsDb.deleteEntity(sessionToDelete);
+        fsDb.deleteFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
-     * Permanently deletes all feedback sessions in Recycle Bin, and all their questions and responses.
+     * Deletes sessions using {@link AttributesDeletionQuery}.
      */
-    public void deleteAllFeedbackSessionsCascade(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull("Supplied parameter was null", instructorList);
-
-        List<FeedbackSessionAttributes> feedbackSessionsList =
-                getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
-
-        for (FeedbackSessionAttributes session : feedbackSessionsList) {
-            deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
-        }
+    public void deleteFeedbackSessions(AttributesDeletionQuery query) {
+        fsDb.deleteFeedbackSessions(query);
     }
 
     /**

@@ -110,10 +110,6 @@
       "image": "assets/images/teammembers/amar.png"
     },
     {
-      "name": "Amrut Prabhu",
-      "username": "amrut-prabhu"
-    },
-    {
       "multiple": true,
       "name": "Anagh Hegde",
       "username": "AnaghHegde"
@@ -274,10 +270,6 @@
     {
       "name": "Chao Song",
       "username": "songchoa"
-    },
-    {
-      "name": "Chattoraj Ayush",
-      "username": "AyushChatto"
     },
     {
       "multiple": true,
@@ -601,10 +593,6 @@
       "username": "Jefferysan"
     },
     {
-      "name": "Jiang Chunhui",
-      "username": "Adoby7"
-    },
-    {
       "multiple": true,
       "name": "Jiang Sheng",
       "username": "Gisonrg"
@@ -909,11 +897,6 @@
       "name": "Mohit Singh Kanwal"
     },
     {
-      "multiple": true,
-      "name": "Monika Manuela Hengki",
-      "username": "monmanuela"
-    },
-    {
       "name": "Muhammad Shehroz Sajjad",
       "username": "mshehrozsajjad"
     },
@@ -1121,11 +1104,6 @@
       "username": "petgoldfish"
     },
     {
-      "multiple": true,
-      "name": "Rahul Rajesh",
-      "username": "rrtheonlyone"
-    },
-    {
       "name": "Rajat Saxena",
       "username": "srajat"
     },
@@ -1162,11 +1140,6 @@
     {
       "name": "Rohith Mukku",
       "username": "Naruto8"
-    },
-    {
-      "multiple": true,
-      "name": "Ronak Lakhotia",
-      "username": "RonakLakhotia"
     },
     {
       "multiple": true,
@@ -1641,16 +1614,64 @@
   ],
   "committers": [
     {
+      "name": "Amrut Prabhu",
+      "username": "amrut-prabhu",
+      "image": "assets/images/teammembers/amrut.png",
+      "startPeriod": "Jan 2019"
+    },
+    {
+      "name": "Chattoraj Ayush",
+      "username": "AyushChatto",
+      "image": "assets/images/teammembers/ayush.png",
+      "startPeriod": "Jan 2019"
+    },
+    {
+      "name": "Jeremy Choo Wun Ka",
+      "username": "ChooJeremy",
+      "image": "assets/images/teammembers/jeremy.png",
+      "startPeriod": "Jan 2019"
+    },
+    {
+      "name": "Jiang Chunhui",
+      "username": "Adoby7",
+      "image": "assets/images/teammembers/chunhui.png",
+      "startPeriod": "Jan 2019"
+    },
+    {
       "name": "Joanne Ong",
       "username": "joanneong",
       "image": "assets/images/teammembers/joanne.png",
       "startPeriod": "Jan 2018"
     },
     {
+      "name": "Monika Manuela Hengki",
+      "username": "monmanuela",
+      "image": "assets/images/teammembers/monika.png",
+      "startPeriod": "Jan 2019"
+    },
+    {
+      "name": "Rahul Rajesh",
+      "username": "rrtheonlyone",
+      "image": "assets/images/teammembers/rahul.png",
+      "startPeriod": "Jan 2019"
+    },
+    {
+      "name": "Ronak Lakhotia",
+      "username": "RonakLakhotia",
+      "image": "assets/images/teammembers/ronak.png",
+      "startPeriod": "Jan 2019"
+    },
+    {
       "name": "Sun Shengran",
       "username": "dalessr",
       "image": "assets/images/teammembers/shengran.png",
       "startPeriod": "May 2018"
+    },
+    {
+      "name": "Wang Junming",
+      "username": "junming403",
+      "image": "assets/images/teammembers/junming.png",
+      "startPeriod": "Jan 2019"
     },
     {
       "name": "Cara Leong",

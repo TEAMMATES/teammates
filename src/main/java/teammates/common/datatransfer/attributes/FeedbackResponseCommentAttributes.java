@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -20,8 +21,6 @@ import teammates.storage.entity.FeedbackResponseComment;
  * Represents a data transfer object for {@link FeedbackResponseComment} entities.
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
-
-    private static final String FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MSG = "Recently modified feedback response comment::";
 
     public Long feedbackResponseCommentId;
 
@@ -68,10 +67,10 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         frca.feedbackResponseId = comment.getFeedbackResponseId();
         frca.feedbackQuestionId = comment.getFeedbackQuestionId();
         if (comment.getShowCommentTo() != null) {
-            frca.showCommentTo = comment.getShowCommentTo();
+            frca.showCommentTo = new ArrayList<>(comment.getShowCommentTo());
         }
         if (comment.getShowGiverNameTo() != null) {
-            frca.showGiverNameTo = comment.getShowGiverNameTo();
+            frca.showGiverNameTo = new ArrayList<>(comment.getShowGiverNameTo());
         }
         frca.isVisibilityFollowingFeedbackQuestion = comment.getIsVisibilityFollowingFeedbackQuestion();
         if (comment.getCreatedAt() != null) {
@@ -250,11 +249,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     @Override
-    public String getBackupIdentifier() {
-        return FEEDBACK_RESPONSE_COMMENT_BACKUP_LOG_MSG + getId();
-    }
-
-    @Override
     public void sanitizeForSaving() {
         this.commentText = SanitizationHelper.sanitizeForRichText(this.commentText);
     }
@@ -280,6 +274,38 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 + ", isVisibilityFollowingFeedbackQuestion = " + isVisibilityFollowingFeedbackQuestion
                 + ", isCommentFromFeedbackParticipant = " + isCommentFromFeedbackParticipant
                 + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.feedbackQuestionId)
+                .append(this.feedbackResponseId).append(this.courseId)
+                .append(this.commentGiver).append(this.commentText)
+                .append(this.giverSection).append(this.receiverSection);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackResponseCommentAttributes otherCommentAttributes =
+                    (FeedbackResponseCommentAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
+                    && Objects.equals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
+                    && Objects.equals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
+                    && Objects.equals(this.courseId, otherCommentAttributes.courseId)
+                    && Objects.equals(this.commentGiver, otherCommentAttributes.commentGiver)
+                    && Objects.equals(this.commentText, otherCommentAttributes.commentText)
+                    && Objects.equals(this.giverSection, otherCommentAttributes.giverSection)
+                    && Objects.equals(this.receiverSection, otherCommentAttributes.receiverSection);
+        } else {
+            return false;
+        }
     }
 
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {

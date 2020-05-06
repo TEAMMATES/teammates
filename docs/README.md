@@ -8,7 +8,6 @@ Here are some documents important for TEAMMATES developers.
 * The [**glossary**](glossary.md) of terms used in the project.
 * Software [**Design**](design.md) - Architecture, APIs, etc.
 * How to [**set up the developer environment**](setting-up.md).
-  * How to [**set up some IDEs for development**](ide-setup.md).
 * [**Development guideline**](development.md) - how to work with your own copy of TEAMMATES.
 * The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
 * [**Developer Troubleshooting Guide**](troubleshooting-guide.md)
@@ -26,6 +25,8 @@ Here are some documents important for TEAMMATES developers.
   * [Coding](best-practices/coding.md)
   * [Testing](best-practices/testing.md)
   * [Data migration](best-practices/data-migration.md)
+
+* How to [**set up IDEs for development**](ide-setup.md). _(not actively supported/maintained; use at your own risk)_
 
 ## How-to documents
 

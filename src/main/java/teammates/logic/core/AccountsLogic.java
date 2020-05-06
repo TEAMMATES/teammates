@@ -11,6 +11,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -113,11 +114,11 @@ public final class AccountsLogic {
 
     /**
      * Joins the user as an instructor and sets the institute if it is not null.
-     * If the given instructor is null, the instructor is given the institute of an existing instructor of the same course.
+     * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId);
+        InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId, institute, mac);
 
         // Register the instructor
         instructor.googleId = googleId;
@@ -162,8 +163,15 @@ public final class AccountsLogic {
         return instructor;
     }
 
-    private InstructorAttributes validateInstructorJoinRequest(String encryptedKey, String googleId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+    private InstructorAttributes validateInstructorJoinRequest(String encryptedKey,
+                                                               String googleId,
+                                                               String institute,
+                                                               String mac)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
+
+        if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
+            throw new InvalidParametersException("Institute authentication failed.");
+        }
 
         InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
 
@@ -223,7 +231,7 @@ public final class AccountsLogic {
      * <p>Cascade deletes all instructors associated with the account.
      */
     public void downgradeInstructorToStudentCascade(String googleId) throws EntityDoesNotExistException {
-        instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
+        instructorsLogic.deleteInstructorsForGoogleIdCascade(googleId);
 
         try {
             accountsDb.updateAccount(
@@ -252,16 +260,29 @@ public final class AccountsLogic {
      * Deletes both instructor and student privileges, as long as the account and associated student profile.
      *
      * <ul>
-     * <li>Does not delete courses, which can result in orphan courses.</li>
      * <li>Fails silently if no such account.</li>
      * </ul>
      */
     public void deleteAccountCascade(String googleId) {
+        if (accountsDb.getAccount(googleId) == null) {
+            return;
+        }
+
         profilesLogic.deleteStudentProfile(googleId);
-        instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
-        studentsLogic.deleteStudentsForGoogleIdAndCascade(googleId);
+
+        // to prevent orphan course
+        List<InstructorAttributes> instructorsToDelete =
+                instructorsLogic.getInstructorsForGoogleId(googleId, false);
+        for (InstructorAttributes instructorToDelete : instructorsToDelete) {
+            if (instructorsLogic.getInstructorsForCourse(instructorToDelete.getCourseId()).size() <= 1) {
+                // the instructor is the last instructor in the course
+                coursesLogic.deleteCourseCascade(instructorToDelete.getCourseId());
+            }
+        }
+
+        instructorsLogic.deleteInstructorsForGoogleIdCascade(googleId);
+        studentsLogic.deleteStudentsForGoogleIdCascade(googleId);
         accountsDb.deleteAccount(googleId);
-        //TODO: deal with orphan courses, submissions etc.
     }
 
     /**

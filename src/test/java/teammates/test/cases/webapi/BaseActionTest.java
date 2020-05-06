@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
 import org.apache.http.client.methods.HttpDelete;
@@ -29,6 +30,7 @@ import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CsvResult;
 import teammates.ui.webapi.action.ImageResult;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.request.BasicRequest;
 
 /**
  * Base class for all action tests.
@@ -52,7 +54,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Gets an action with empty request body and empty multipart config.
      */
     protected T getAction(String... params) {
-        return getAction(null, null, params);
+        return getAction(null, null, null, params);
     }
 
     /**
@@ -66,15 +68,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Gets an action with request body.
      */
     protected T getAction(String body, String... params) {
-        return getAction(body, null, params);
+        return getAction(body, null, null, params);
     }
 
     /**
      * Gets an action with request body and multipart config.
      */
     @SuppressWarnings("unchecked")
-    protected T getAction(String body, Map<String, Part> parts, String... params) {
-        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, params);
+    protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
+        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies, params);
     }
 
     /**
@@ -84,7 +86,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         Map<String, Part> parts = new HashMap<>();
         parts.put(key, new MockPart(filePath));
 
-        return getAction(null, parts, params);
+        return getAction(null, parts, null, params);
+    }
+
+    /**
+     * Gets an action with list of cookies.
+     */
+    protected T getActionWithCookie(List<Cookie> cookies, String... params) {
+        return getAction(null, null, cookies, params);
     }
 
     @BeforeMethod
@@ -425,12 +434,22 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         c.checkAccessControl();
     }
 
+    protected void verifyCanAccess(BasicRequest request, String... params) {
+        Action c = getAction(request, params);
+        c.checkAccessControl();
+    }
+
     /**
      * Verifies that the {@link Action} matching the {@code params} is not accessible to the user.
      */
     protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
-        assertThrows(UnauthorizedAccessException.class, () -> c.checkAccessControl());
+        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
+    }
+
+    protected void verifyCannotAccess(BasicRequest request, String... params) {
+        Action c = getAction(request, params);
+        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
     /**

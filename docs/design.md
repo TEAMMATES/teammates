@@ -77,7 +77,7 @@ Subsequent AJAX requests sent to the server will be processed as follows:
 Requests for static asset files (e.g. CSS, JS files, images) are served directly without going through `web.xml` configuration at all.
 
 The Web API is protected by two layers of access control check:
-- Origin check: This mitigates [CSRF attack](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)).
+- Origin check: This mitigates [CSRF attack](https://owasp.org/www-community/attacks/csrf).
 - Authentication and authorization check: This checks if the logged in user (or lack thereof) has sufficient privileges to trigger the API's actions.
 
 Special keys (`csrf key` and `backdoor key`) can be used to bypass each of the checks, typically for testing purpose. Those keys are strings known only to the person who deployed the application (typically, the administrator).
@@ -129,9 +129,6 @@ Represented by these classes:
 
 ### Policies
 
-General:
-+ Null values should **not** be used as parameters to this API, except when following the KeepExisting policy (explained later).
-
 Access control:
 + Although this component provides methods to perform access control, the API itself is not access controlled. The UI is expected to check access control (using `GateKeeper` class) before calling a method in the `Logic`.
 
@@ -146,15 +143,12 @@ API for retrieving entities:
   - Returns `null` if the target entity not found. This way, read operations can be used easily for checking the existence of an entity.
 
 API for updating entities:
-+ Primary keys cannot be edited except: `Student.email`.
-+ KeepExistingPolicy: the new value of an optional attribute is specified as `null` or set to “Uninitialized”, the existing value will prevail. {This is not a good policy. To be reconsidered}.
-+ `Null` parameters: Throws an assertion error if that parameter cannot be null. Optional attributes follow KeepExistingPolicy.
++ Update is done using `*UpdateOptions` inside every `*Attributes`. The `UpdateOptions` will specify what is used to identify the entity to update and what will be updated.
 + Entity not found: Throws `EntityDoesNotExistException`.
 + Invalid parameters: Throws `InvalidParametersException`.
 
 API for deleting entities:
-+ `Null` parameters: Not expected. Results in assertion failure.
-+ FailDeleteSilentlyPolicy: In general, delete operation do not throw exceptions if the target entity does not exist. Instead, it logs a warning. This is because if it does not exist, it is as good as deleted.
++ FailDeleteSilentlyPolicy: In general, delete operation do not throw exceptions if the target entity does not exist. This is because if it does not exist, it is as good as deleted.
 + Cascade policy:   When a parent entity is deleted, entities that have referential integrity with the deleted entity should also be deleted.
   Refer to the API for the cascade logic.
 
@@ -191,10 +185,7 @@ Represented by the `*Db` classes. These classes act as the bridge to the GAE Dat
 Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers in the GAE production enviornment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server.
 Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all serves of the Google's distributed datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while.
 
-Implementation of Transaction Control has been decided against due to limitations of GAE environment and the nature of our data schema. Note that this decision was taken before 2014 and if the circumstances leading to that decision have changed, it may be reconsidered.
-
-General:
-+ If `Null` is passed as a parameter, the corresponding value is **NOT** modified, as per the KeepExistingPolicy that was previously mentioned.
+Implementation of Transaction Control has been minimized due to limitations of GAE environment and the nature of our data schema.
 
 API for creating:
 + Attempt to create an entity that already exists: Throws `EntityAlreadyExistsException`.
@@ -265,7 +256,7 @@ TEAMMATES
 
 ## E2E Component
 
-The E2E component has no knowledge of the internal workings of the application and can only interact either with Web browser (as a whole application) or REST API calls (for the back-end logic). Its primary function is for E2E tests.
+The E2E component has no knowledge of the internal workings of the application and can only interact either with Web browser (as a whole application) or REST API calls (for the back-end logic). Its primary function is for E2E tests and L&P (Load & Performance) tests.
 
 ![E2E Component](images/E2EComponent.png)
 
@@ -276,7 +267,7 @@ Package overview:
 - **`e2e.cases`**: Contains test cases.
   - **`.util`**: Component test cases for testing the test helpers.
   - **`.e2e`**: System test cases for testing the application as a whole.
-  - **`.scalability`**: Scalability tests (experimental).
+  - **`.lnp`**: Load and performance tests (experimental).
 
 ## Client Component
 

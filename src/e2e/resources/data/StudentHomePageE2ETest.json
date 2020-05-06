@@ -7,11 +7,11 @@
       "email": "SHomeUiT.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "alice.tmms": {
-      "googleId": "${value.injected.in.testfile}",
+    "SHomeUiT.student": {
+      "googleId": "SHomeUiT.student",
       "name": "Alice B",
       "isInstructor": false,
-      "email": "${value.injected.in.testfile}",
+      "email": "SHomeUiT.student@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
@@ -132,36 +132,36 @@
     }
   },
   "students": {
-    "alice.tmms@SHomeUiT.CS2104": {
+    "SHomeUiT.student@SHomeUiT.CS2104": {
       "googleId": "",
-      "email": "${value.injected.in.testfile}",
+      "email": "SHomeUiT.student@gmail.tmt",
       "course": "SHomeUiT.CS2104",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
       "team": "Team 1</td></div>'\"",
       "section": "None"
     },
-    "alice.tmms@SHomeUiT.CS1101": {
-      "googleId": "${value.injected.in.testfile}",
-      "email": "${value.injected.in.testfile}",
+    "SHomeUiT.student@SHomeUiT.CS1101": {
+      "googleId": "SHomeUiT.student",
+      "email": "SHomeUiT.student@gmail.tmt",
       "course": "SHomeUiT.CS1101",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
       "team": "Team 1</td></div>'\"",
       "section": "None"
     },
-    "alice.tmms@SHomeUiT.CS4215": {
-      "googleId": "${value.injected.in.testfile}",
-      "email": "${value.injected.in.testfile}",
+    "SHomeUiT.student@SHomeUiT.CS4215": {
+      "googleId": "SHomeUiT.student",
+      "email": "SHomeUiT.student@gmail.tmt",
       "course": "SHomeUiT.CS4215",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
       "team": "Team 1</td></div>'\"",
       "section": "None"
     },
-    "alice.tmms@SHomeUiT.CS4221": {
-      "googleId": "${value.injected.in.testfile}",
-      "email": "${value.injected.in.testfile}",
+    "SHomeUiT.student@SHomeUiT.CS4221": {
+      "googleId": "SHomeUiT.student",
+      "email": "SHomeUiT.student@gmail.tmt",
       "course": "SHomeUiT.CS4221",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",

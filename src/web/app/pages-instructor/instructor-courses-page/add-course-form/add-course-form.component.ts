@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import moment from 'moment-timezone';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -17,18 +16,18 @@ import { ErrorMessageOutput } from '../../../error-message-output';
 })
 export class AddCourseFormComponent implements OnInit {
 
-  user: string = '';
-
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
+  @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
+  @ViewChild('newCourseMessageTemplate', { static: false }) newCourseMessageTemplate!: TemplateRef<any>;
 
   timezones: string[] = [];
   timezone: string = '';
   newCourseId: string = '';
   newCourseName: string = '';
+  course!: Course;
 
-  constructor(private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
+  constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private timezoneService: TimezoneService) { }
 
@@ -38,9 +37,6 @@ export class AddCourseFormComponent implements OnInit {
       this.timezone = 'UTC';
       return;
     }
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-    });
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
     this.timezone = moment.tz.guess();
   }
@@ -73,16 +69,20 @@ export class AddCourseFormComponent implements OnInit {
       courseId: this.newCourseId,
     }).subscribe((course: Course) => {
       this.courseAdded.emit();
-      this.statusMessageService.showSuccessMessage('The course has been added. '
-          + `Click <a href=\"/web/instructor/courses/enroll?courseid=${course.courseId}\">here</a> `
-          + `to add students to the course or click <a href=\"/web/instructor/courses/edit?courseid=${course.courseId}`
-          + '\">here</a> to add other instructors.'
-          + '<br>If you don\'t see the course in the list below, please refresh the page after a few moments.');
+      this.course = course;
+      this.statusMessageService.showSuccessMessageTemplate(this.newCourseMessageTemplate);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
     this.newCourseId = '';
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
+  }
+
+  /**
+   * Handles closing of the edit form.
+   */
+  closeEditFormHandler(): void {
+    this.closeCourseFormEvent.emit();
   }
 }

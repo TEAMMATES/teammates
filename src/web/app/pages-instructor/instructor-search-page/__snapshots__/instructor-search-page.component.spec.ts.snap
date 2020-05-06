@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
+<tm-instructor-search-page
+  loadingBarService={[Function LoadingBarService]}
+  route={[Function ActivatedRoute]}
+  searchKey={[Function String]}
+  searchService={[Function SearchService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentTables={[Function Array]}
+>
+  <tm-instructor-search-bar
+    ng-reflect-search-key="TEST"
+  />
+</tm-instructor-search-page>
+`;
+
+exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
+<tm-instructor-search-page
+  loadingBarService={[Function LoadingBarService]}
+  route={[Function ActivatedRoute]}
+  searchKey=""
+  searchService={[Function SearchService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentTables={[Function Array]}
+>
+  <tm-instructor-search-bar
+    ng-reflect-search-key=""
+  /><tm-student-result-table
+    ng-reflect-student-tables="[object Object]"
+  />
+</tm-instructor-search-page>
+`;
+
+exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
+<tm-instructor-search-page
+  loadingBarService={[Function LoadingBarService]}
+  route={[Function ActivatedRoute]}
+  searchKey=""
+  searchService={[Function SearchService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentTables={[Function Array]}
+>
+  <tm-instructor-search-bar
+    ng-reflect-search-key=""
+  />
+</tm-instructor-search-page>
+`;

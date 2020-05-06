@@ -84,6 +84,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         courseData = (CourseData) result.getOutput();
 
         verifyCourseData(courseData, "icdct.tpa.id1", "New course", "UTC");
+        assertFalse(courseData.getDeletionTimestamp() == 0);
         assertNotNull(logic.getCourse("icdct.tpa.id1").deletedAt);
     }
 
@@ -102,7 +103,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () ->
                 getAction(submissionParams).execute());
-        assertEquals("Trying to update a Course that doesn't exist: ", e.getMessage());
+        assertEquals("Trying to update non-existent Entity: ", e.getMessage());
     }
 
     @Test

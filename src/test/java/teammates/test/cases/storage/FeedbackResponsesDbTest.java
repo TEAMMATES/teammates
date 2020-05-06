@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.common.collect.Sets;
+
+import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -19,6 +23,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -31,25 +36,29 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-    private DataBundle dataBundle = getTypicalDataBundle();
+    private DataBundle dataBundle;
     private Map<String, FeedbackResponseAttributes> fras;
 
     @BeforeClass
-    public void classSetup() throws Exception {
-        addQuestionsAndResponsesToDb();
-        fras = dataBundle.feedbackResponses;
-    }
-
-    private void addQuestionsAndResponsesToDb() throws InvalidParametersException, EntityAlreadyExistsException {
-
+    public void beforeClass() throws Exception {
+        dataBundle = getTypicalDataBundle();
         // Add questions to DB
         Set<String> keys = dataBundle.feedbackQuestions.keySet();
         for (String i : keys) {
             fqDb.createEntity(dataBundle.feedbackQuestions.get(i));
         }
+    }
 
+    @BeforeMethod
+    public void beforeMethod() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        addQuestionsAndResponsesToDb();
+        fras = dataBundle.feedbackResponses;
+    }
+
+    private void addQuestionsAndResponsesToDb() throws InvalidParametersException, EntityAlreadyExistsException {
         // Add responses for corresponding question to DB
-        keys = dataBundle.feedbackResponses.keySet();
+        Set<String> keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
             FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get(i);
 
@@ -62,6 +71,22 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testGetGiverSetThatAnswerFeedbackSession_emptyResponses_shouldReturnEmptySet() {
+        Set<String> giverSet = frDb.getGiverSetThatAnswerFeedbackSession("courseA", "session");
+
+        assertTrue(giverSet.isEmpty());
+    }
+
+    @Test
+    public void testGetGiverSetThatAnswerFeedbackSession_giverIsUser_shouldReturnCorrectIdentifier() {
+        Set<String> giverSet = frDb.getGiverSetThatAnswerFeedbackSession("idOfTypicalCourse1", "First feedback session");
+
+        assertEquals(Sets.newHashSet("student1InCourse1@gmail.tmt", "student2InCourse1@gmail.tmt",
+                "student5InCourse1@gmail.tmt", "student3InCourse1@gmail.tmt", "instructor1@course1.tmt"),
+                giverSet);
+    }
+
+    @Test
     public void testTimestamp()
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 
@@ -70,7 +95,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
 
         // remove possibly conflicting entity from the database
-        frDb.deleteEntity(fra);
+        deleteResponse(fra);
 
         frDb.createEntity(fra);
         verifyPresentInDatastore(fra);
@@ -104,14 +129,162 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testCreateDeleteFeedbackResponse() throws Exception {
+    public void testDeleteFeedbackResponse() {
+        ______TS("non-existent id");
+
+        frDb.deleteFeedbackResponse("not-existent");
+
+        ______TS("standard success case");
+
+        FeedbackResponseAttributes fra = fras.get("response1ForQ1S1C1");
+        fra = frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giver, fra.recipient);
+        assertNotNull(fra);
+
+        frDb.deleteFeedbackResponse(fra.getId());
+
+        assertNull(frDb.getFeedbackResponse(fra.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackResponses_byQuestionId() {
+        ______TS("standard success case");
+
+        FeedbackResponseAttributes fra = fras.get("response1ForQ1S1C1");
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fra.feedbackQuestionId).isEmpty());
+        FeedbackResponseAttributes fraFromAnotherQuestion = fras.get("response1ForQ2S1C1");
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fraFromAnotherQuestion.feedbackQuestionId).isEmpty());
+        assertNotEquals(fra.feedbackQuestionId, fraFromAnotherQuestion.feedbackQuestionId);
+
+        frDb.deleteFeedbackResponses(
+                AttributesDeletionQuery.builder()
+                        .withQuestionId(fra.feedbackQuestionId)
+                        .build());
+
+        // all response of questions are deleted
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fra.feedbackQuestionId).isEmpty());
+        // responses of other questions remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fraFromAnotherQuestion.feedbackQuestionId).isEmpty());
+
+        ______TS("non-existent question id");
+
+        // should pass silently
+        frDb.deleteFeedbackResponses(
+                AttributesDeletionQuery.builder()
+                        .withQuestionId("not-exist")
+                        .build());
+
+        // responses are not deleted accidentally
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fraFromAnotherQuestion.feedbackQuestionId).isEmpty());
+    }
+
+    @Test
+    public void testDeleteFeedbackResponses_byCourseIdAndSessionName() {
+        ______TS("standard success case");
+
+        FeedbackResponseAttributes fra = fras.get("response1ForQ1S1C1");
+        fra = frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giver, fra.recipient);
+        assertNotNull(fra);
+        FeedbackResponseAttributes fraFromAnotherSession = fras.get("response1ForQ1S2C1");
+        fraFromAnotherSession = frDb.getFeedbackResponse(
+                fraFromAnotherSession.feedbackQuestionId, fraFromAnotherSession.giver, fraFromAnotherSession.recipient);
+        assertNotNull(fraFromAnotherSession);
+        // response are belong to the same course
+        assertEquals(fra.courseId, fraFromAnotherSession.courseId);
+        // but in different session
+        assertNotEquals(fra.feedbackSessionName, fraFromAnotherSession.feedbackSessionName);
+
+        frDb.deleteFeedbackResponses(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(fra.courseId)
+                        .withFeedbackSessionName(fra.feedbackSessionName)
+                        .build());
+
+        assertNull(frDb.getFeedbackResponse(fra.getId()));
+        // other responses remains
+        assertNotNull(frDb.getFeedbackResponse(fraFromAnotherSession.getId()));
+
+        ______TS("non-existent course id");
+
+        // should pass silently
+        frDb.deleteFeedbackResponses(
+                AttributesDeletionQuery.builder()
+                        .withCourseId("not_exist")
+                        .withFeedbackSessionName(fra.feedbackSessionName)
+                        .build());
+
+        // other responses remain
+        assertNotNull(frDb.getFeedbackResponse(fraFromAnotherSession.getId()));
+
+        ______TS("non-existent session name");
+
+        // should pass silently
+        frDb.deleteFeedbackResponses(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(fra.courseId)
+                        .withFeedbackSessionName("not-exist")
+                        .build());
+
+        // other responses remain
+        assertNotNull(frDb.getFeedbackResponse(fraFromAnotherSession.getId()));
+
+        ______TS("non-existent course and session name");
+
+        // should pass silently
+        frDb.deleteFeedbackResponses(
+                AttributesDeletionQuery.builder()
+                        .withCourseId("not-exist")
+                        .withFeedbackSessionName("not-exist")
+                        .build());
+
+        // other responses remain
+        assertNotNull(frDb.getFeedbackResponse(fraFromAnotherSession.getId()));
+    }
+
+    @Test
+    public void testDeleteFeedbackResponses_byCourseId() {
+        ______TS("standard success case");
+
+        FeedbackResponseAttributes fra = fras.get("response1ForQ1S1C1");
+        fra = frDb.getFeedbackResponse(fra.feedbackQuestionId, fra.giver, fra.recipient);
+        assertNotNull(fra);
+        FeedbackResponseAttributes fraFromAnotherCourse = fras.get("response1ForQ1S1C2");
+        fraFromAnotherCourse = frDb.getFeedbackResponse(
+                fraFromAnotherCourse.feedbackQuestionId, fraFromAnotherCourse.giver, fraFromAnotherCourse.recipient);
+        assertNotNull(fraFromAnotherCourse);
+        // response are belong to different courses
+        assertNotEquals(fra.courseId, fraFromAnotherCourse.courseId);
+
+        frDb.deleteFeedbackResponses(
+                AttributesDeletionQuery.builder()
+                        .withCourseId(fra.courseId)
+                        .build());
+
+        // all response of courses are deleted
+        assertNull(frDb.getFeedbackResponse(fra.getId()));
+        // responses of other course remain
+        assertNotNull(frDb.getFeedbackResponse(fraFromAnotherCourse.getId()));
+
+        ______TS("non-existent course id");
+
+        // should pass silently
+        frDb.deleteFeedbackResponses(
+                AttributesDeletionQuery.builder()
+                        .withCourseId("not-exist")
+                        .build());
+
+        // responses are not deleted accidentally
+        assertNotNull(frDb.getFeedbackResponse(fraFromAnotherCourse.getId()));
+    }
+
+    @Test
+    public void testCreateFeedbackResponse() throws Exception {
 
         ______TS("standard success case");
 
         FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
 
         // remove possibly conflicting entity from the database
-        frDb.deleteEntity(fra);
+        deleteResponse(fra);
 
         frDb.createEntity(fra);
 
@@ -126,7 +299,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("delete - with id specified");
 
-        frDb.deleteEntity(fra);
+        deleteResponse(fra);
         verifyAbsentInDatastore(fra);
 
         ______TS("null params");
@@ -670,6 +843,33 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testUpdateFeedbackResponse_noChangeToResponse_shouldNotIssueSaveRequest() throws Exception {
+        FeedbackResponseAttributes typicalResponse = getResponseAttributes("response3ForQ2S1C1");
+
+        typicalResponse = frDb.getFeedbackResponse(typicalResponse.feedbackQuestionId,
+                typicalResponse.giver, typicalResponse.recipient);
+
+        FeedbackResponseAttributes updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .build());
+
+        assertEquals(JsonUtils.toJson(typicalResponse), JsonUtils.toJson(updatedResponse));
+        assertEquals(typicalResponse.getUpdatedAt(), updatedResponse.getUpdatedAt());
+
+        updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .withGiver(typicalResponse.getGiver())
+                        .withGiverSection(typicalResponse.getGiverSection())
+                        .withRecipient(typicalResponse.getRecipient())
+                        .withRecipientSection(typicalResponse.getRecipientSection())
+                        .withResponseDetails(typicalResponse.getResponseDetails())
+                        .build());
+
+        assertEquals(JsonUtils.toJson(typicalResponse), JsonUtils.toJson(updatedResponse));
+        assertEquals(typicalResponse.getUpdatedAt(), updatedResponse.getUpdatedAt());
+    }
+
+    @Test
     public void testUpdateFeedbackResponse() throws Exception {
 
         ______TS("null params");
@@ -727,6 +927,43 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         assertEquals(modifiedResponse.getFeedbackQuestionType(), updatedResponse.getFeedbackQuestionType());
     }
 
+    // the test is to ensure that optimized saving policy is implemented without false negative
+    @Test
+    public void testUpdateFeedbackResponse_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {
+        FeedbackResponseAttributes typicalResponse = getResponseAttributes("response3ForQ2S1C1");
+        typicalResponse = frDb.getFeedbackResponse(
+                typicalResponse.getFeedbackQuestionId(), typicalResponse.getGiver(), typicalResponse.getRecipient());
+
+        assertNotEquals("testSection", typicalResponse.getGiverSection());
+        FeedbackResponseAttributes updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .withGiverSection("testSection")
+                        .build());
+        FeedbackResponseAttributes actualResponse = frDb.getFeedbackResponse(typicalResponse.getId());
+        assertEquals("testSection", updatedResponse.getGiverSection());
+        assertEquals("testSection", actualResponse.getGiverSection());
+
+        assertNotEquals("testSection", typicalResponse.getRecipientSection());
+        updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .withRecipientSection("testSection")
+                        .build());
+        actualResponse = frDb.getFeedbackResponse(typicalResponse.getId());
+        assertEquals("testSection", updatedResponse.getRecipientSection());
+        assertEquals("testSection", actualResponse.getRecipientSection());
+
+        assertNotEquals("testResponse", typicalResponse.getResponseDetails().getAnswerString());
+        updatedResponse = frDb.updateFeedbackResponse(
+                FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
+                        .withResponseDetails(new FeedbackTextResponseDetails("testResponse"))
+                        .build());
+        actualResponse = frDb.getFeedbackResponse(typicalResponse.getId());
+        assertEquals("testResponse", updatedResponse.getResponseDetails().getAnswerString());
+        assertEquals("testResponse", actualResponse.getResponseDetails().getAnswerString());
+
+        frDb.deleteFeedbackResponse(typicalResponse.getId());
+    }
+
     private FeedbackResponseAttributes getNewFeedbackResponseAttributes() {
         return FeedbackResponseAttributes.builder(
                 "testFeedbackQuestionId", "giver@email.tmt", "recipient@email.tmt")
@@ -750,15 +987,23 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 .build();
     }
 
-    @AfterClass
-    public void classTearDown() {
+    @AfterMethod
+    public void afterMethod() {
         deleteResponsesFromDb();
     }
 
     private void deleteResponsesFromDb() {
         Set<String> keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
-            frDb.deleteEntity(dataBundle.feedbackResponses.get(i));
+            deleteResponse(dataBundle.feedbackResponses.get(i));
+        }
+    }
+
+    private void deleteResponse(FeedbackResponseAttributes attributes) {
+        FeedbackResponseAttributes feedbackResponse =
+                frDb.getFeedbackResponse(attributes.feedbackQuestionId, attributes.giver, attributes.recipient);
+        if (feedbackResponse != null) {
+            frDb.deleteFeedbackResponse(feedbackResponse.getId());
         }
     }
 

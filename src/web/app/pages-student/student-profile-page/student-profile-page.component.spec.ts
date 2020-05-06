@@ -4,9 +4,10 @@ import { GenderFormatPipe } from './student-profile-gender.pipe';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from '../../../environments/environment.prod';
-import { Gender } from '../../../types/gender';
+import { Gender } from '../../../types/api-output';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentProfilePageComponent } from './student-profile-page.component';
 
@@ -25,6 +26,7 @@ describe('StudentProfilePageComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         TeammatesCommonModule,
+        MatSnackBarModule,
       ],
     })
     .compileComponents();
@@ -87,7 +89,6 @@ describe('StudentProfilePageComponent', () => {
       requestId: '16',
     };
     component.student = studentDetails;
-    component.pictureKey = 'photo.jpg';
     component.profilePicLink = `${environment.backendUrl}/webapi/students/` +
         'profilePic?blob-key=$photo.jpg&time=1552509888215';
     component.nationalities = ['Derpistan', 'Blablaland'];

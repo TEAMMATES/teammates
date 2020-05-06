@@ -1,9 +1,17 @@
-button {
-  margin: 2px;
+.sortable-header {
+  cursor: pointer;
 }
 
 .course-section {
   margin-top: 2em;
+}
+
+.bold-label {
+  font-weight: 700 !important;
+}
+
+.recycle-bin-body {
+  padding: 0;
 }
 
 .margin-left-10px {
@@ -30,4 +38,20 @@ button {
   cursor: default;
   color: #000;
   pointer-events: none;
+}
+
+.recycle-bin-table {
+  margin-bottom: 0;
+}
+
+.margin-top-30px {
+  margin-top: 30px;
+}
+
+.bin-header-button button {
+  margin-right: .6em;
+}
+
+.actions-cell button {
+  margin: 2px;
 }

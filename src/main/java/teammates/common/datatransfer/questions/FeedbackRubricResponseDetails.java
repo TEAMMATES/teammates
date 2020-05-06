@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
@@ -26,11 +27,9 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     public void extractResponseDetails(FeedbackQuestionType questionType,
                                        FeedbackQuestionDetails questionDetails, String[] answer) {
 
-        /**
-         * Example: a response in the form: "0-1,1-0"
-         * means that for sub-question 0, choice 1 is chosen,
-         * and for sub-question 1, choice 0 is chosen.
-         */
+        // Example: a response in the form: "0-1,1-0"
+        // means that for sub-question 0, choice 1 is chosen,
+        // and for sub-question 1, choice 0 is chosen.
 
         String rawResponses = answer[0];
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
@@ -85,7 +84,30 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
-        return new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+
+        FeedbackRubricQuestionDetails questionDetails =
+                (FeedbackRubricQuestionDetails) correspondingQuestion.getQuestionDetails();
+
+        if (answer.isEmpty()) {
+            errors.add(Const.FeedbackQuestion.RUBRIC_EMPTY_ANSWER);
+        }
+
+        if (answer.size() != questionDetails.getNumOfRubricSubQuestions()) {
+            errors.add(Const.FeedbackQuestion.RUBRIC_INVALID_ANSWER);
+        }
+
+        if (answer.stream().anyMatch(choice ->
+                choice != Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN
+                        && (choice < 0 || choice >= questionDetails.getNumOfRubricChoices()))) {
+            errors.add(Const.FeedbackQuestion.RUBRIC_INVALID_ANSWER);
+        }
+
+        if (answer.stream().allMatch(choice -> choice == Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN)) {
+            errors.add(Const.FeedbackQuestion.RUBRIC_INVALID_ANSWER);
+        }
+
+        return errors;
     }
 
     public int getAnswer(int subQuestionIndex) {
@@ -94,5 +116,9 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     public void setAnswer(int subQuestionIndex, int choice) {
         this.answer.set(subQuestionIndex, choice);
+    }
+
+    public void setAnswer(List<Integer> answer) {
+        this.answer = answer;
     }
 }

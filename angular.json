@@ -10,7 +10,7 @@
       "prefix": "tm",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
@@ -21,7 +21,8 @@
             "index": "src/web/index.html",
             "main": "src/web/main.ts",
             "polyfills": "src/web/polyfills.ts",
-            "tsConfig": "src/web/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
+            "aot": false,
             "assets": [
               "src/web/assets/",
               {
@@ -31,8 +32,8 @@
               },
               {
                 "glob": "**/*",
-                "input": "node_modules/tinymce/plugins/emoticons/img",
-                "output": "plugins/emoticons/img"
+                "input": "node_modules/tinymce/plugins/emoticons/js",
+                "output": "plugins/emoticons/js"
               }
             ],
             "styles": [
@@ -40,7 +41,7 @@
             ],
             "scripts": [
               "node_modules/tinymce/tinymce.min.js",
-              "node_modules/tinymce/themes/modern/theme.js",
+              "node_modules/tinymce/themes/silver/theme.js",
               "src/web/tinymce/placeholder-plugin.js",
               "node_modules/tinymce/plugins/advlist/plugin.js",
               "node_modules/tinymce/plugins/autolink/plugin.js",
@@ -61,12 +62,9 @@
               "node_modules/tinymce/plugins/nonbreaking/plugin.js",
               "node_modules/tinymce/plugins/save/plugin.js",
               "node_modules/tinymce/plugins/table/plugin.js",
-              "node_modules/tinymce/plugins/contextmenu/plugin.js",
               "node_modules/tinymce/plugins/directionality/plugin.js",
               "node_modules/tinymce/plugins/emoticons/plugin.js",
               "node_modules/tinymce/plugins/paste/plugin.js",
-              "node_modules/tinymce/plugins/textcolor/plugin.js",
-              "node_modules/tinymce/plugins/colorpicker/plugin.js",
               "node_modules/tinymce/plugins/textpattern/plugin.js"
             ]
           },
@@ -91,8 +89,8 @@
                 },
                 {
                   "glob": "**/*",
-                  "input": "node_modules/tinymce/plugins/emoticons/img",
-                  "output": "plugins/emoticons/img"
+                  "input": "node_modules/tinymce/plugins/emoticons/js",
+                  "output": "plugins/emoticons/js"
                 },
                 "src/web/BingSiteAuth.xml",
                 "src/web/google8c7ef1e995031e09.html",
@@ -109,7 +107,6 @@
               "aot": true,
               "extractLicenses": false,
               "vendorChunk": true,
-              "subresourceIntegrity": true,
               "buildOptimizer": true,
               "serviceWorker": true,
               "budgets": [
@@ -117,6 +114,11 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             }
@@ -149,8 +151,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/web/tsconfig.app.json",
-              "src/web/tsconfig.tslint-spec.json"
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

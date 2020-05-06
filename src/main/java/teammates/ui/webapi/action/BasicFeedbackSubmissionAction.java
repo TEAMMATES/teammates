@@ -188,7 +188,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         }
 
         // validate responses of the question
-        // TODO: implement this when other type of questions are integrated
+        // TODO: It's troublesome to validate Rank Recipient question's responses as REST requests are sent concurrently.
+        // need to find way to do so.
     }
-
 }

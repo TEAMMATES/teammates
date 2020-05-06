@@ -9,10 +9,10 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetInstructorAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetInstructorAction}.

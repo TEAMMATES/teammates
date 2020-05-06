@@ -13,7 +13,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollResultPage;
 import teammates.test.pageobjects.InstructorCoursesDetailsPage;
 
 /**
- * SUT: {@link Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
  */
 public class InstructorCourseEnrollPageUiTest extends BaseE2ETestCase {
     private InstructorCourseEnrollPage enrollPage;

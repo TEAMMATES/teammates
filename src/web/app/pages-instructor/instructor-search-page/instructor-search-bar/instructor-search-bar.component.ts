@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SearchQuery } from '../instructor-search-page.component';
 
 /**
  * Search bar on instructor search page
@@ -10,26 +9,17 @@ import { SearchQuery } from '../instructor-search-page.component';
   styleUrls: ['./instructor-search-bar.component.scss'],
 })
 export class InstructorSearchBarComponent implements OnInit {
-
   @Input() searchKey: string = '';
-  searchStudents: boolean = true;
-  searchFeedbackSessionData: boolean = false;
-  @Output() searched: EventEmitter<SearchQuery> = new EventEmitter<SearchQuery>();
+  @Output() searched: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * send the search data to parent for processing
    */
   search(): void {
-    this.searched.emit({
-      searchKey: this.searchKey,
-      searchStudents: this.searchStudents,
-      searchFeedbackSessionData: this.searchFeedbackSessionData,
-    });
+    this.searched.emit(this.searchKey);
   }
-
 }

@@ -18,8 +18,9 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     private static final Logger log = Logger.getLogger();
 
-    /**This is the claimed points from giver to recipient.
-    */
+    /**
+     * This is the claimed points from giver to recipient.
+     */
     private int answer;
 
     public FeedbackContributionResponseDetails() {
@@ -161,10 +162,13 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         // Valid answers: 0, 10, 20, .... 190, 200
         boolean isValidRange = answer >= 0 && answer <= 200;
         boolean isMultipleOf10 = answer % 10 == 0;
+        boolean isNotSureAllowed = ((FeedbackContributionQuestionDetails) correspondingQuestion
+                .getQuestionDetails()).isNotSureAllowed();
+
         if (isValidRange && isMultipleOf10) {
             validAnswer = true;
         }
-        if (answer == Const.POINTS_NOT_SURE || answer == Const.POINTS_NOT_SUBMITTED) {
+        if (answer == Const.POINTS_NOT_SURE && isNotSureAllowed || answer == Const.POINTS_NOT_SUBMITTED) {
             validAnswer = true;
         }
         if (!validAnswer) {

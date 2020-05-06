@@ -31,7 +31,7 @@ public class DeleteStudentsAction extends Action {
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        logic.deleteAllStudentsInCourse(courseId);
+        logic.deleteStudentsInCourseCascade(courseId);
 
         return new JsonResult("All the students have been removed from the course", HttpStatus.SC_OK);
     }

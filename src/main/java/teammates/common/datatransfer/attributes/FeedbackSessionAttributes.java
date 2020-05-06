@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.util.Assumption;
@@ -48,8 +49,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
         return result;
     };
-
-    private static final String FEEDBACK_SESSION_BACKUP_LOG_MSG = "Recently modified feedback session::";
 
     private String feedbackSessionName;
     private String courseId;
@@ -117,10 +116,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
         if (fs.getRespondingStudentList() != null) {
-            feedbackSessionAttributes.respondingStudentList = fs.getRespondingStudentList();
+            feedbackSessionAttributes.respondingStudentList = new HashSet<>(fs.getRespondingStudentList());
         }
         if (fs.getRespondingInstructorList() != null) {
-            feedbackSessionAttributes.respondingInstructorList = fs.getRespondingInstructorList();
+            feedbackSessionAttributes.respondingInstructorList = new HashSet<>(fs.getRespondingInstructorList());
         }
 
         return feedbackSessionAttributes;
@@ -177,11 +176,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
                 respondingInstructorList, respondingStudentList);
-    }
-
-    @Override
-    public String getBackupIdentifier() {
-        return FEEDBACK_SESSION_BACKUP_LOG_MSG + getCourseId() + "::" + getFeedbackSessionName();
     }
 
     @Override
@@ -375,6 +369,31 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.courseId)
+                .append(this.instructions).append(this.creatorEmail);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackSessionAttributes otherFeedbackSession = (FeedbackSessionAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherFeedbackSession.feedbackSessionName)
+                    && Objects.equals(this.courseId, otherFeedbackSession.courseId)
+                    && Objects.equals(this.instructions, otherFeedbackSession.instructions)
+                    && Objects.equals(this.creatorEmail, otherFeedbackSession.creatorEmail);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -630,7 +649,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     public void update(UpdateOptions updateOptions) {
         updateOptions.instructionsOption.ifPresent(s -> instructions = s);
-        updateOptions.deletedTimeOption.ifPresent(s -> deletedTime = s);
         updateOptions.startTimeOption.ifPresent(s -> startTime = s);
         updateOptions.endTimeOption.ifPresent(s -> endTime = s);
         updateOptions.sessionVisibleFromTimeOption.ifPresent(s -> sessionVisibleFromTime = s);
@@ -715,7 +733,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private String feedbackSessionName;
 
         private UpdateOption<String> instructionsOption = UpdateOption.empty();
-        private UpdateOption<Instant> deletedTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> startTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> endTimeOption = UpdateOption.empty();
         private UpdateOption<Instant> sessionVisibleFromTimeOption = UpdateOption.empty();

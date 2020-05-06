@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Intent } from '../types/api-request';
 import { ErrorReportModule } from './components/error-report/error-report.module';
+import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { StatusMessageModule } from './components/status-message/status-message.module';
-import { Intent } from './Intent';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
-import { PageComponent } from './page.component';
+import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
 import { SessionResultPageComponent } from './pages-session/session-result-page/session-result-page.component';
@@ -83,6 +84,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    LoaderBarModule,
     NgbModule,
     ErrorReportModule,
     PageNotFoundModule,
@@ -93,6 +95,7 @@ const routes: Routes = [
   ],
   declarations: [
     PageComponent,
+    ClickOutsideDirective,
     PublicPageComponent,
     UserJoinPageComponent,
     StaticPageComponent,

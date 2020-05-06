@@ -1,0 +1,589 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
+<tm-student-course-details-page
+  Gender={[Function Object]}
+  course={[Function Object]}
+  courseService={[Function CourseService]}
+  instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  teammateProfiles={[Function Array]}
+>
+  <h1
+    class="page-title"
+  >
+     
+  </h1><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Course
+      </h4>
+    </div>
+    <div
+      class="card border-primary"
+    >
+      <div
+        class="card-body fill-plain"
+      >
+        <div
+          class="form form-horizontal"
+        >
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Name
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                ID
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Timezone
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                UTC
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Created at
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                Thu, 01 Jan 1970, 00:00 AM UTC
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Self
+      </h4>
+    </div>
+    <div
+      class="card border-primary"
+    >
+      <div
+        class="card-body fill-plain"
+      >
+        <div
+          class="form form-horizontal"
+        >
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Name
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Section
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Team
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Email
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-student-course-details-page>
+`;
+
+exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`] = `
+<tm-student-course-details-page
+  Gender={[Function Object]}
+  course={[Function Object]}
+  courseService={[Function CourseService]}
+  instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  teammateProfiles={[Function Array]}
+>
+  <h1
+    class="page-title"
+  >
+     Sample Course 101
+  </h1><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Course
+      </h4>
+    </div>
+    <div
+      class="card border-primary"
+    >
+      <div
+        class="card-body fill-plain"
+      >
+        <div
+          class="form form-horizontal"
+        >
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Name
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                Sample Course 101
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                ID
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                1.1.c-demo2
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Timezone
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                UTC
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Created at
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                Wed, 13 Mar 2019, 10:15 AM UTC
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Instructors
+      </h4>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-12"
+          >
+            <table
+              class="table table-striped"
+            >
+              <thead>
+                <tr>
+                  <th
+                    class="font-weight-bold"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="font-weight-bold"
+                  >
+                    Email
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>
+                    1
+                  </td>
+                  <td>
+                    1@1.com
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Self
+      </h4>
+    </div>
+    <div
+      class="card border-primary"
+    >
+      <div
+        class="card-body fill-plain"
+      >
+        <div
+          class="form form-horizontal"
+        >
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Name
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                1
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Section
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                Tutorial Group 2
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Team
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                Team 2
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Email
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                1@1.com
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Team Profiles
+      </h4>
+    </div>
+    
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-md-2 col-3"
+          >
+            <img
+              class="profile-pic float-left"
+              src="/assets/images/profile_picture_default.png"
+            />
+          </div>
+          <div
+            class="col-md-10 col-sm-9 col-8"
+          >
+            <table
+              class="table table-striped"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    class="font-weight-bold"
+                  >
+                    Name
+                  </td>
+                  <td>
+                    <span>
+                       I am 2 
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bold"
+                  >
+                    Email
+                  </td>
+                  <td>
+                    <span>
+                      iam2@hello.com
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bold"
+                  >
+                    Gender
+                  </td>
+                  <td>
+                    <span>
+                      MALE
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bold"
+                  >
+                    Institution
+                  </td>
+                  <td>
+                    <span>
+                      nus
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="font-weight-bold"
+                  >
+                    Nationality
+                  </td>
+                  <td>
+                    <span>
+                      Andorran
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-student-course-details-page>
+`;

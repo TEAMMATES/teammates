@@ -31,14 +31,14 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertTrue(doesFileExistInGcs(typicalPictureKey));
 
         // typical profiles
-        profilesDb.saveEntity(StudentProfileAttributes.builder("valid.googleId")
+        profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withPictureKey(typicalPictureKey)
-                .build().toEntity());
-        profilesDb.saveEntity(StudentProfileAttributes.builder("valid.googleId2")
+                .build());
+        profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId2")
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withPictureKey(typicalPictureKey)
-                .build().toEntity());
+                .build());
 
         // save entity and picture
         typicalProfileWithPicture = profilesDb.getStudentProfile("valid.googleId");
@@ -48,8 +48,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     @AfterMethod
     public void deleteTypicalData() {
         // delete entity
-        profilesDb.deleteEntity(typicalProfileWithPicture);
-        profilesDb.deleteEntity(typicalProfileWithoutPicture);
+        profilesDb.deleteStudentProfile(typicalProfileWithPicture.googleId);
+        profilesDb.deleteStudentProfile(typicalProfileWithoutPicture.googleId);
         verifyAbsentInDatastore(typicalProfileWithPicture);
         verifyAbsentInDatastore(typicalProfileWithoutPicture);
 
@@ -86,7 +86,20 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertEquals("Test", createdSpa.shortName);
 
         // tear down
-        profilesDb.deleteEntity(spa);
+        profilesDb.deleteStudentProfile(spa.googleId);
+
+        // create empty profile
+        StudentProfileAttributes emptySpa =
+                StudentProfileAttributes.builder("emptySpaGoogleId")
+                        .build();
+        profilesDb.updateOrCreateStudentProfile(
+                StudentProfileAttributes.updateOptionsBuilder(emptySpa.getGoogleId())
+                        .build());
+
+        verifyPresentInDatastore(emptySpa);
+
+        // tear down
+        profilesDb.deleteStudentProfile(emptySpa.getGoogleId());
     }
 
     @Test
@@ -95,6 +108,87 @@ public class ProfilesDbTest extends BaseComponentTestCase {
                 () -> profilesDb.updateOrCreateStudentProfile(null));
 
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+    }
+
+    // the test is to ensure that optimized saving policy is implemented without false negative
+    @Test
+    public void testUpdateOrCreateStudentProfile_updateSingleField_shouldUpdateCorrectly() throws Exception {
+        assertNotEquals("testName", typicalProfileWithoutPicture.getShortName());
+        StudentProfileAttributes updatedProfile =
+                profilesDb.updateOrCreateStudentProfile(
+                        StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.getGoogleId())
+                                .withShortName("testName")
+                                .build());
+        StudentProfileAttributes actualProfile = profilesDb.getStudentProfile(typicalProfileWithoutPicture.getGoogleId());
+        assertEquals("testName", updatedProfile.getShortName());
+        assertEquals("testName", actualProfile.getShortName());
+        assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
+
+        assertNotEquals("test@email.com", actualProfile.getEmail());
+        updatedProfile =
+                profilesDb.updateOrCreateStudentProfile(
+                        StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.getGoogleId())
+                                .withEmail("test@email.com")
+                                .build());
+        actualProfile = profilesDb.getStudentProfile(typicalProfileWithoutPicture.getGoogleId());
+        assertEquals("test@email.com", updatedProfile.getEmail());
+        assertEquals("test@email.com", actualProfile.getEmail());
+        assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
+
+        assertNotEquals("NUS", actualProfile.getInstitute());
+        updatedProfile =
+                profilesDb.updateOrCreateStudentProfile(
+                        StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.getGoogleId())
+                                .withInstitute("NUS")
+                                .build());
+        actualProfile = profilesDb.getStudentProfile(typicalProfileWithoutPicture.getGoogleId());
+        assertEquals("NUS", updatedProfile.getInstitute());
+        assertEquals("NUS", actualProfile.getInstitute());
+        assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
+
+        assertNotEquals("Singaporean", actualProfile.getNationality());
+        updatedProfile =
+                profilesDb.updateOrCreateStudentProfile(
+                        StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.getGoogleId())
+                                .withNationality("Singaporean")
+                                .build());
+        actualProfile = profilesDb.getStudentProfile(typicalProfileWithoutPicture.getGoogleId());
+        assertEquals("Singaporean", updatedProfile.getNationality());
+        assertEquals("Singaporean", actualProfile.getNationality());
+        assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
+
+        assertNotEquals(StudentProfileAttributes.Gender.MALE, actualProfile.getGender());
+        updatedProfile =
+                profilesDb.updateOrCreateStudentProfile(
+                        StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.getGoogleId())
+                                .withGender(StudentProfileAttributes.Gender.MALE)
+                                .build());
+        actualProfile = profilesDb.getStudentProfile(typicalProfileWithoutPicture.getGoogleId());
+        assertEquals(StudentProfileAttributes.Gender.MALE, updatedProfile.getGender());
+        assertEquals(StudentProfileAttributes.Gender.MALE, actualProfile.getGender());
+        assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
+
+        assertNotEquals("more info", actualProfile.getMoreInfo());
+        updatedProfile =
+                profilesDb.updateOrCreateStudentProfile(
+                        StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.getGoogleId())
+                                .withMoreInfo("more info")
+                                .build());
+        actualProfile = profilesDb.getStudentProfile(typicalProfileWithoutPicture.getGoogleId());
+        assertEquals("more info", updatedProfile.getMoreInfo());
+        assertEquals("more info", actualProfile.getMoreInfo());
+        assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
+
+        assertNotEquals("newPic", actualProfile.getPictureKey());
+        updatedProfile =
+                profilesDb.updateOrCreateStudentProfile(
+                        StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.getGoogleId())
+                                .withPictureKey("newPic")
+                                .build());
+        actualProfile = profilesDb.getStudentProfile(typicalProfileWithoutPicture.getGoogleId());
+        assertEquals("newPic", updatedProfile.getPictureKey());
+        assertEquals("newPic", actualProfile.getPictureKey());
+        assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
     }
 
     @Test
@@ -118,7 +212,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testUpdateOrCreateStudentProfile_noChangesToProfile_shouldNotChangeProfileContent()
+    public void testUpdateOrCreateStudentProfile_noChangesToProfile_shouldNotIssueSaveRequest()
             throws Exception {
         // update same profile
         profilesDb.updateOrCreateStudentProfile(
@@ -139,6 +233,19 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertTrue(doesFileExistInGcs(storedProfile.pictureKey));
         // modifiedDate remains
         assertEquals(typicalProfileWithPicture.modifiedDate, storedProfile.modifiedDate);
+
+        // update nothing
+        profilesDb.updateOrCreateStudentProfile(
+                StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithPicture.getGoogleId())
+                        .build());
+
+        storedProfile = profilesDb.getStudentProfile(typicalProfileWithPicture.getGoogleId());
+        // other fields remain
+        verifyPresentInDatastore(typicalProfileWithPicture);
+        // picture remains
+        assertTrue(doesFileExistInGcs(storedProfile.getPictureKey()));
+        // modifiedDate remains
+        assertEquals(typicalProfileWithPicture.getModifiedDate(), storedProfile.getModifiedDate());
     }
 
     @Test

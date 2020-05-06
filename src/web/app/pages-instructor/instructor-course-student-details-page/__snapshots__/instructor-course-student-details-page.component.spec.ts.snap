@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorCourseStudentDetailsPageComponent should snap with default fields 1`] = `
+<tm-instructor-course-student-details-page
+  photoUrl={[Function String]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+>
+  
+</tm-instructor-course-student-details-page>
+`;
+
+exports[`InstructorCourseStudentDetailsPageComponent should snap with populated student 1`] = `
+<tm-instructor-course-student-details-page
+  photoUrl={[Function String]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  student={[Function Object]}
+  studentProfile={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+>
+  <h1>
+    firstName
+  </h1><tm-student-profile
+    ng-reflect-photo-url="http://localhost:8080/webapi/s"
+    ng-reflect-student-profile="[object Object]"
+  /><tm-course-related-info
+    ng-reflect-student="[object Object]"
+  /><tm-more-info
+    ng-reflect-more-info-text="I have more info here"
+    ng-reflect-student-name="firstName"
+  />
+</tm-instructor-course-student-details-page>
+`;

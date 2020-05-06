@@ -8,6 +8,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.InstructorPermissionRole;
 import teammates.ui.webapi.output.InstructorPrivilegeData;
 
 /**
@@ -88,6 +89,10 @@ public class GetInstructorPrivilegeAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        if (userInfo.isAdmin) {
+            return;
+        }
+
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
         if (instructor == null) {
@@ -101,11 +106,14 @@ public class GetInstructorPrivilegeAction extends Action {
 
         if (instructorRole != null) {
             // fetching privilege for a particular instructor role.
-            InstructorPrivilegeData rolePrivilege = INSTRUCTOR_PRIVILEGES.getOrDefault(instructorRole, null);
-            if (rolePrivilege == null) {
+            try {
+                InstructorPrivilegeData rolePrivilege =
+                        INSTRUCTOR_PRIVILEGES.getOrDefault(
+                                InstructorPermissionRole.valueOf(instructorRole).getRoleName(), null);
+                return new JsonResult(rolePrivilege);
+            } catch (IllegalArgumentException e) {
                 return new JsonResult("Invalid instructor role.", HttpStatus.SC_BAD_REQUEST);
             }
-            return new JsonResult(rolePrivilege);
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -115,7 +123,13 @@ public class GetInstructorPrivilegeAction extends Action {
 
         InstructorAttributes instructor;
         if (instructorOfInterest == null) {
-            instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+
+            if (instructorEmail == null) {
+                instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            } else {
+                instructor = logic.getInstructorForEmail(courseId, instructorEmail);
+            }
         } else {
             instructor = logic.getInstructorForGoogleId(courseId, instructorOfInterest);
             if (instructor == null) {
@@ -128,65 +142,29 @@ public class GetInstructorPrivilegeAction extends Action {
         InstructorPrivilegeData response = new InstructorPrivilegeData();
 
         // course level privileges.
-        response.setCanModifyCourse(
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
-        response.setCanModifySession(
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
-        response.setCanModifyStudent(
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-        response.setCanModifyInstructor(
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        response.constructCourseLevelPrivilege(instructor.privileges);
 
-        if (sectionName == null) {
-            response.setCanViewStudentInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-            if (feedbackSessionName == null) {
-                response.setCanSubmitSessionInSections(
-                        instructor.isAllowedForPrivilege(
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-                response.setCanViewSessionInSections(
-                        instructor.isAllowedForPrivilege(
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                response.setCanModifySessionCommentsInSections(
-                        instructor.isAllowedForPrivilege(
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-            } else {
-                response.setCanSubmitSessionInSections(
-                        instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                                || instructor.isAllowedForPrivilegeAnySection(
-                                feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-                response.setCanViewSessionInSections(
-                        instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
-                                || instructor.isAllowedForPrivilegeAnySection(
-                                feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                response.setCanModifySessionCommentsInSections(
-                        instructor.isAllowedForPrivilege(
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                                || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-            }
-        } else {
-            response.setCanViewStudentInSections(
-                    instructor.isAllowedForPrivilege(sectionName,
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
-
-            if (feedbackSessionName == null) {
-                response.setCanSubmitSessionInSections(instructor.isAllowedForPrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-                response.setCanViewSessionInSections(instructor.isAllowedForPrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                response.setCanModifySessionCommentsInSections(instructor.isAllowedForPrivilege(
-                        sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-            } else {
-                response.setCanSubmitSessionInSections(instructor.isAllowedForPrivilege(sectionName,
-                        feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-                response.setCanViewSessionInSections(instructor.isAllowedForPrivilege(sectionName,
-                        feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                response.setCanModifySessionCommentsInSections(instructor.isAllowedForPrivilege(sectionName,
-                        feedbackSessionName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        if (sectionName == null && feedbackSessionName != null) {
+            response.setCanSubmitSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+            response.setCanViewSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            response.setCanModifySessionCommentsInSections(
+                    instructor.isAllowedForPrivilege(
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        } else if (sectionName != null) {
+            response.constructSectionLevelPrivilege(instructor.privileges, sectionName);
+            if (feedbackSessionName != null) {
+                response.constructSessionLevelPrivilege(instructor.privileges, sectionName, feedbackSessionName);
             }
         }
+
         return new JsonResult(response);
     }
 

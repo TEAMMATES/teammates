@@ -8,6 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -88,7 +89,29 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testEditAccount() throws Exception {
+    public void testUpdateAccount_noChangeToAccount_shouldNotIssueSaveRequest() throws Exception {
+        AccountAttributes a = createNewAccount();
+
+        AccountAttributes updatedAccount =
+                accountsDb.updateAccount(
+                        AccountAttributes.updateOptionsBuilder(a.getGoogleId())
+                                .build());
+
+        // please verify the log message manually to ensure that saving request is not issued
+        assertEquals(JsonUtils.toJson(a), JsonUtils.toJson(updatedAccount));
+
+        updatedAccount =
+                accountsDb.updateAccount(
+                        AccountAttributes.updateOptionsBuilder(a.getGoogleId())
+                                .withIsInstructor(a.isInstructor())
+                                .build());
+
+        // please verify the log message manually to ensure that saving request is not issued
+        assertEquals(JsonUtils.toJson(a), JsonUtils.toJson(updatedAccount));
+    }
+
+    @Test
+    public void testUpdateAccount() throws Exception {
         AccountAttributes a = createNewAccount();
 
         ______TS("typical edit success case");
@@ -112,7 +135,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
                                 .withIsInstructor(true)
                                 .build()
                 ));
-        AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT_ACCOUNT, ednee.getMessage());
+        AssertHelper.assertContains(AccountsDb.ERROR_UPDATE_NON_EXISTENT, ednee.getMessage());
 
         ______TS("failure: null parameter");
 
@@ -123,9 +146,29 @@ public class AccountsDbTest extends BaseComponentTestCase {
         accountsDb.deleteAccount(a.googleId);
     }
 
+    // the test is to ensure that optimized saving policy is implemented without false negative
+    @Test
+    public void testUpdateAccount_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {
+        AccountAttributes typicalAccount = createNewAccount();
+
+        assertFalse(typicalAccount.isInstructor());
+        AccountAttributes updatedAccount = accountsDb.updateAccount(
+                AccountAttributes.updateOptionsBuilder(typicalAccount.googleId)
+                        .withIsInstructor(true)
+                        .build());
+        AccountAttributes actualAccount = accountsDb.getAccount(typicalAccount.googleId);
+        assertTrue(actualAccount.isInstructor());
+        assertTrue(updatedAccount.isInstructor());
+    }
+
     @Test
     public void testDeleteAccount() throws Exception {
         AccountAttributes a = createNewAccount();
+
+        ______TS("silent deletion of non-existent account");
+
+        accountsDb.deleteAccount("not_exist");
+        assertNotNull(accountsDb.getAccount(a.googleId));
 
         ______TS("typical success case");
         AccountAttributes newAccount = accountsDb.getAccount(a.googleId);
@@ -139,7 +182,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         ______TS("silent deletion of same account");
         accountsDb.deleteAccount(a.googleId);
 
-        ______TS("failure null paramter");
+        ______TS("failure null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class,
                 () -> accountsDb.deleteAccount(null));
@@ -148,8 +191,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
     private AccountAttributes createNewAccount() throws Exception {
         AccountAttributes a = getNewAccountAttributes();
-        accountsDb.createEntity(a);
-        return a;
+        return accountsDb.putEntity(a);
     }
 
     private AccountAttributes getNewAccountAttributes() {

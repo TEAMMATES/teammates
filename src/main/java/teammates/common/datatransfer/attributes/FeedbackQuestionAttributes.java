@@ -20,8 +20,6 @@ import teammates.storage.entity.FeedbackQuestion;
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
 
-    private static final String FEEDBACK_QUESTION_BACKUP_LOG_MSG = "Recently modified feedback question::";
-
     public String feedbackSessionName;
     public String courseId;
     public FeedbackQuestionDetails questionDetails;
@@ -63,13 +61,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         faq.recipientType = fq.getRecipientType();
         faq.numberOfEntitiesToGiveFeedbackTo = fq.getNumberOfEntitiesToGiveFeedbackTo();
         if (fq.getShowResponsesTo() != null) {
-            faq.showResponsesTo = fq.getShowResponsesTo();
+            faq.showResponsesTo = new ArrayList<>(fq.getShowResponsesTo());
         }
         if (fq.getShowGiverNameTo() != null) {
-            faq.showGiverNameTo = fq.getShowGiverNameTo();
+            faq.showGiverNameTo = new ArrayList<>(fq.getShowGiverNameTo());
         }
         if (fq.getShowRecipientNameTo() != null) {
-            faq.showRecipientNameTo = fq.getShowRecipientNameTo();
+            faq.showRecipientNameTo = new ArrayList<>(fq.getShowRecipientNameTo());
         }
         faq.createdAt = fq.getCreatedAt();
         faq.updatedAt = fq.getUpdatedAt();
@@ -142,11 +140,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     }
 
     @Override
-    public String getBackupIdentifier() {
-        return FEEDBACK_QUESTION_BACKUP_LOG_MSG + getId();
-    }
-
-    @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
@@ -216,13 +209,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         if (this.questionNumber != o.questionNumber) {
             return Integer.compare(this.questionNumber, o.questionNumber);
         }
-        /**
-         * Although question numbers ought to be unique in a feedback session,
-         * eventual consistency can result in duplicate questions numbers.
-         * Therefore, to ensure that the question order is always consistent to the user,
-         * compare feedbackQuestionId, which is guaranteed to be unique,
-         * when the questionNumbers are the same.
-         */
+        // Although question numbers ought to be unique in a feedback session,
+        // eventual consistency can result in duplicate questions numbers.
+        // Therefore, to ensure that the question order is always consistent to the user,
+        // compare feedbackQuestionId, which is guaranteed to be unique,
+        // when the questionNumbers are the same.
         return this.feedbackQuestionId.compareTo(o.feedbackQuestionId);
     }
 

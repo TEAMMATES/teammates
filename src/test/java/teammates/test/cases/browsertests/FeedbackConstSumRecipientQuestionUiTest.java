@@ -12,10 +12,10 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 /**
- * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for constant sum (recipients) questions.
  */
-public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiTest {
+public class FeedbackConstSumRecipientQuestionUiTest extends BaseFeedbackQuestionUiTest {
 
     private InstructorFeedbackEditPage feedbackEditPage;
 

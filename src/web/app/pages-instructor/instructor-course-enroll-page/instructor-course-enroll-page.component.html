@@ -14,9 +14,7 @@
         <strong>100</strong> students.<br>
       </p>
       <div class="col-md-12">
-        <tm-status-message
-            [messages]="statusMessage">
-        </tm-status-message>
+        <tm-status-message [messages]="statusMessage"></tm-status-message>
         <div class="card card-default">
           <div class="card-header"
                (click)="toggleExistingStudentsPanel()">
@@ -29,6 +27,7 @@
             <strong>Existing Students</strong>
           </div>
           <hot-table
+              [licenseKey]="'non-commercial-and-evaluation'"
               [hotId]="existingStudentsHOT"
               [readOnly]="true"
               [height]="400"
@@ -56,6 +55,7 @@
             <strong>New students</strong>
           </div>
           <hot-table
+              [licenseKey]="'non-commercial-and-evaluation'"
               [hotId]="newStudentsHOT"
               [height]="500"
               [autoWrapRow]="true"
@@ -263,7 +263,12 @@
   </div>
   <div *ngFor="let enrollResultPanel of enrollResultPanelList">
     <div class="card enroll-results-panel" *ngIf="enrollResultPanel.studentList.length > 0">
-      <div class="card-header {{ enrollResultPanel.panelClass }}">
+      <div class="card-header" [ngClass]="{'bg-primary': enrollResultPanel.status === EnrollStatus.NEW,
+       'bg-warning': enrollResultPanel.status === EnrollStatus.MODIFIED,
+       'bg-info': enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED,
+       'bg-danger': enrollResultPanel.status === EnrollStatus.ERROR,
+       'bg-default': enrollResultPanel.status === EnrollStatus.UNMODIFIED}" [style.color]="enrollResultPanel.status ===
+       EnrollStatus.NEW || enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED ? 'white' : 'black' ">
         {{ enrollResultPanel.messageForEnrollmentStatus }}
       </div>
       <table class="table table-striped table-bordered">
@@ -276,11 +281,11 @@
             <th>Comments</th>
           </tr>
           <tr *ngFor="let student of enrollResultPanel.studentList">
-            <th>{{ student.section }}</th>
-            <th>{{ student.team }}</th>
-            <th>{{ student.name }}</th>
-            <th>{{ student.email }}</th>
-            <th>{{ student.comments }}</th>
+            <td>{{ student.sectionName }}</td>
+            <td>{{ student.teamName }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.comments }}</td>
           </tr>
         </tbody>
       </table>

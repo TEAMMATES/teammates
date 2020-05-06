@@ -13,6 +13,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Delete a feedback response.
@@ -78,7 +79,7 @@ public class DeleteFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
         FeedbackResponseAttributes feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
-        logic.deleteFeedbackResponse(feedbackResponse);
+        logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
 
         return new JsonResult("Feedback response deleted");
     }
