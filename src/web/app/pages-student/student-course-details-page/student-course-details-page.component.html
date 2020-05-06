@@ -119,11 +119,6 @@
 <div class="card bg-light mb-4">
   <div class="card-body">
     <div class="form-group">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="e.g. Tom Davis, tom@gmail.com">
-        <button class="btn btn-primary" (click)="search()">Search</button>
-      </div>
-      <br>
       <h5 class="d-inline"><strong> Sort By: </strong></h5>
       <div class="btn-group" data-toggle="buttons">
         <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_NAME)" (click)="sortTeammatesBy(SortBy.STUDENT_NAME)">Name</button>
