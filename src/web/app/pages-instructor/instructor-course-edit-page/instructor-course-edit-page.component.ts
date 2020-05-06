@@ -442,7 +442,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
             originalInstructor: Object.assign({}, resp),
-            originalPanel:this.getInstructorEditPanelModel(resp),
+            originalPanel: this.getInstructorEditPanelModel(resp),
             editPanel: this.getInstructorEditPanelModel(resp),
           };
           newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
