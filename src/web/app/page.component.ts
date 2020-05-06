@@ -123,6 +123,7 @@ export class PageComponent {
    * Method that checks if current page has active modals and close them.
    */
   closeModal(): void{
+    
     if (this.modalService.hasOpenModals()) {
       this.modalService.dismissAll();
     }
