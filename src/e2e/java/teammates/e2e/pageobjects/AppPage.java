@@ -364,6 +364,17 @@ public abstract class AppPage {
     }
 
     /**
+     * 'uncheck' the check box, if it is not already 'unchecked'.
+     * No action taken if it is already 'unchecked'.
+     */
+    protected void markCheckBoxAsUnchecked(WebElement checkBox) {
+        waitForElementVisibility(checkBox);
+        if (checkBox.isSelected()) {
+            click(checkBox);
+        }
+    }
+
+    /**
      * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */
@@ -512,7 +523,7 @@ public abstract class AppPage {
      */
     public void verifyStatusMessage(String expectedMessage) {
         // wait for short period to ensure previous status message is replaced
-        ThreadHelper.waitFor(100);
+        ThreadHelper.waitFor(200);
         WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
         assertEquals(expectedMessage, statusMessage.getText());
     }
