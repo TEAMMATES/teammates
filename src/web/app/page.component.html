@@ -11,8 +11,7 @@
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
           <div class="dropdown-menu" ngbDropdownMenu>
-            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" 
-            (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
+            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
           </div>
         </li>
         <li *ngIf="!navItem.children" class="nav-item">
