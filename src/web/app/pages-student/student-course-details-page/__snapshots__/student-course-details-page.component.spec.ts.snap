@@ -220,47 +220,43 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
     <div
       class="card-body"
     >
-      <div
-        class="form-group"
+      <h5
+        class="d-inline"
       >
-        <h5
-          class="d-inline"
+        <strong>
+           Sort By: 
+        </strong>
+      </h5>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          disabled=""
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
-        <div
-          class="btn-group"
-          data-toggle="buttons"
+          Name
+        </button>
+        <button
+          class="btn btn-light"
         >
-          <button
-            class="btn btn-light"
-            disabled=""
-          >
-            Name
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Email
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Gender
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Institution
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Nationality
-          </button>
-        </div>
+          Email
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Gender
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Institution
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Nationality
+        </button>
       </div>
     </div>
   </div>
@@ -544,47 +540,43 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
     <div
       class="card-body"
     >
-      <div
-        class="form-group"
+      <h5
+        class="d-inline"
       >
-        <h5
-          class="d-inline"
+        <strong>
+           Sort By: 
+        </strong>
+      </h5>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          disabled=""
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
-        <div
-          class="btn-group"
-          data-toggle="buttons"
+          Name
+        </button>
+        <button
+          class="btn btn-light"
         >
-          <button
-            class="btn btn-light"
-            disabled=""
-          >
-            Name
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Email
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Gender
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Institution
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Nationality
-          </button>
-        </div>
+          Email
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Gender
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Institution
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Nationality
+        </button>
       </div>
     </div>
   </div><div
