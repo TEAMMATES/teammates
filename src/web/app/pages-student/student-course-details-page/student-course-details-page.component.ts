@@ -163,34 +163,34 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   /**
    * Checks the option selected to sort teammates.
-   * @param by: option for sorting
+   * @param sortOption: option for sorting
    */
-  isSelectedForSorting(by: SortBy): boolean {
-    return this.teammateProfilesSortBy === by;
+  isSelectedForSorting(sortOption: SortBy): boolean {
+    return this.teammateProfilesSortBy === sortOption;
   }
 
   /**
    * Sorts the teammates according to selected option.
-   * @param by: option for sorting
+   * @param sortOption: option for sorting
    */
-  sortTeammatesBy(by: SortBy): void {
-    this.teammateProfilesSortBy = by;
+  sortTeammatesBy(sortOption: SortBy): void {
+    this.teammateProfilesSortBy = sortOption;
 
     if (this.teammateProfiles.length > 1) {
-      this.teammateProfiles.sort(this.sortPanelsBy(by));
+      this.teammateProfiles.sort(this.sortPanelsBy(sortOption));
     }
   }
 
   /**
    * Sorts the panels of teammates in order.
-   * @param by: option for sorting
+   * @param sortOption: option for sorting
    */
-  sortPanelsBy(by: SortBy):
+  sortPanelsBy(sortOption: SortBy):
       ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }) => number) {
     return ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }): number => {
       let strA: string;
       let strB: string;
-      switch (by) {
+      switch (sortOption) {
         case SortBy.STUDENT_NAME:
           strA = a.studentProfile.shortName;
           strB = b.studentProfile.shortName;
@@ -215,7 +215,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           strA = '';
           strB = '';
       }
-      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
+      return this.tableComparatorService.compare(sortOption, SortOrder.ASC, strA, strB);
     });
   }
 }
