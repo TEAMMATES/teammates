@@ -2,6 +2,7 @@ package teammates.e2e.pageobjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -504,6 +505,16 @@ public abstract class AppPage {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
         executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
         element.click();
+    }
+
+    /**
+     * Asserts message in snackbar is equal to the expected message.
+     */
+    public void verifyStatusMessage(String expectedMessage) {
+        // wait for short period to ensure previous status message is replaced
+        ThreadHelper.waitFor(100);
+        WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
+        assertEquals(expectedMessage, statusMessage.getText());
     }
 
     /**
