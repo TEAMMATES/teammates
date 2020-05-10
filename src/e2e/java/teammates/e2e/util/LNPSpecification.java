@@ -5,6 +5,10 @@ package teammates.e2e.util;
  */
 public class LNPSpecification {
 
+    /*
+        Note: Consider applying the builder pattern if this class gets more complicated.
+    */
+
     private double errorRateLimit;
     private double meanResTimeLimit;
     private String resultsErrorMessage = "";
