@@ -33,7 +33,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Override
     protected void testExecute() {
-        // TODO: Remove
+        // See individual test cases below
     }
 
     @Test
@@ -137,7 +137,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Override
-    @Test
     protected void testAccessControl() {
         verifyAccessibleForAdmin();
         verifyOnlyInstructorsCanAccess();

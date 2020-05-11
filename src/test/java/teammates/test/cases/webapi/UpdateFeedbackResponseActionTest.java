@@ -66,7 +66,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     @Test
     @Override
     protected void testExecute() throws Exception {
-        // TODO
+        // See individual test cases below
     }
 
     @Test
@@ -363,7 +363,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     }
 
     @Test
-    protected void testAccessControl_studentAccessOtherStudent_inaccessible() throws Exception {
+    protected void testAccessControl_studentAccessOtherStudent_inaccessible() {
 
         ______TS("Student intends to access other person's response, should not be accessible");
 
