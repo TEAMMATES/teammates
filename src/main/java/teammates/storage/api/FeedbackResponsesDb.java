@@ -370,7 +370,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         } else {
             // need to recreate the entity
             newAttributes = FeedbackResponseAttributes
-                    .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(), newAttributes.getRecipient())
+                    .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(),
+                             newAttributes.getRecipient())
                     .withCourseId(newAttributes.getCourseId())
                     .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
                     .withResponseDetails(newAttributes.getResponseDetails())

@@ -287,4 +287,8 @@ public abstract class FeedbackQuestionDetails {
     public int hashCode() {
         return this.getJsonString().hashCode();
     }
+
+    public void setQuestionType(FeedbackQuestionType questionType) {
+        this.questionType = questionType;
+    }
 }

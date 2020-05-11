@@ -691,9 +691,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
                 }
             }
-        }
 
-        //TODO: check that msq options do not repeat. needed?
+            //If there are duplicate mcq options trigger this error
+            boolean isDuplicateOptionsEntered = msqChoices.stream().map(String::trim).distinct().count()
+                                                != msqChoices.size();
+            if (isDuplicateOptionsEntered) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION);
+            }
+        }
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;

@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
+<tm-instructor-student-records-page
+  courseId={[Function String]}
+  photoUrl={[Function String]}
+  route={[Function Object]}
+  sessions={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  studentEmail={[Function String]}
+  studentProfile={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+>
+  <h1>
+    's Records
+    <small
+      class="text-muted"
+    >
+       - su1337
+    </small>
+  </h1><tm-student-profile
+    ng-reflect-photo-url="http://localhost:8080/webapi/s"
+    ng-reflect-student-profile="[object Object]"
+  /><tm-more-info
+    ng-reflect-more-info-text=""
+    ng-reflect-student-name=""
+  />
+</tm-instructor-student-records-page>
+`;
+
+exports[`InstructorStudentRecordsPageComponent should snap with populated fields 1`] = `
+<tm-instructor-student-records-page
+  courseId={[Function String]}
+  photoUrl={[Function String]}
+  route={[Function Object]}
+  sessions={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  studentEmail={[Function String]}
+  studentProfile={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+>
+  <h1>
+    John Doe's Records
+    <small
+      class="text-muted"
+    >
+       - su1337
+    </small>
+  </h1><tm-student-profile
+    ng-reflect-photo-url="http://localhost:8080/webapi/s"
+    ng-reflect-student-profile="[object Object]"
+  /><tm-more-info
+    ng-reflect-more-info-text=""
+    ng-reflect-student-name="John Doe"
+  />
+</tm-instructor-student-records-page>
+`;

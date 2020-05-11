@@ -28,7 +28,8 @@ import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
 import teammates.ui.pagedata.PageData;
 
-/** An 'action' to be performed by the system. If the logged in user is allowed
+/**
+ * An 'action' to be performed by the system. If the logged in user is allowed
  * to perform the requested action, this object can talk to the back end to
  * perform that action.
  */
@@ -84,10 +85,10 @@ public abstract class Action {
     /** This is for authentication at Action Level. */
     private String authenticationRedirectUrl = "";
 
-    /** Initializes variables.
+    /**
+     * Initializes variables.
      * Aborts with an {@link UnauthorizedAccessException} if the user is not
      * logged in or if a non-admin tried to masquerade as another user.
-     *
      */
     public void init(HttpServletRequest req) {
         initialiseAttributes(req);
@@ -359,8 +360,6 @@ public abstract class Action {
     public String getAuthenticationRedirectUrl() {
         return authenticationRedirectUrl;
     }
-
-    /** ------------------------------------------------ */
 
     /**
      * Executes the action (as implemented by a child class). Before passing

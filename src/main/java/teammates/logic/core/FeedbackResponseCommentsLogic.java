@@ -76,6 +76,18 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
 
+    /**
+     * Gets comment associated with the response.
+     *
+     * <p>The comment is given by a feedback participant to explain the response</p>
+     *
+     * @param feedbackResponseId the response id
+     */
+    public FeedbackResponseCommentAttributes getFeedbackResponseCommentForResponseFromParticipant(
+            String feedbackResponseId) {
+        return frcDb.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+    }
+
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
                                                                                         String feedbackSessionName) {
         return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
@@ -279,7 +291,8 @@ public final class FeedbackResponseCommentsLogic {
                 (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                && studentsEmailInTeam.contains(response.giver);
+                && (studentsEmailInTeam.contains(response.giver)
+                        || (student.getTeam().equals(response.giver)));
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
                 isResponseCommentVisibleTo(relatedQuestion, relatedComment,

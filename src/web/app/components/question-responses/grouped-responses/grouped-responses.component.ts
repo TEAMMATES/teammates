@@ -19,7 +19,8 @@ export class GroupedResponsesComponent implements OnInit {
 
   @Input() isGrq: boolean = true;
   @Input() header: string = '';
-
+  @Input() session: any = {};
+  @Input() relatedGiverEmail: string = '';
   constructor() { }
 
   ngOnInit(): void {

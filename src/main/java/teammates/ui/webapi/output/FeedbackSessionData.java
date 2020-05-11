@@ -207,7 +207,6 @@ public class FeedbackSessionData extends ApiOutput {
         setCustomSessionVisibleTimestamp(null);
         setResponseVisibleSetting(null);
         setCustomResponseVisibleTimestamp(null);
-        setPublishStatus(null);
         setClosingEmailEnabled(null);
         setPublishedEmailEnabled(null);
     }

@@ -3,13 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   LOCAL_DATE_TIME_FORMAT,
   TimeResolvingResult,
@@ -27,6 +29,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   DateFormat,
   SessionEditFormMode,
@@ -38,8 +41,6 @@ import {
   SessionsTableColumn,
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
-  SortBy,
-  SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -76,7 +77,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
   // url params
-  user: string = '';
   courseId: string = '';
 
   // data
@@ -130,23 +130,26 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
+  hasCoursesLoaded: boolean = false;
+
   constructor(router: Router,
-              httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
               modalService: NgbModal,
               studentService: StudentService,
+              instructorService: InstructorService,
+              tableComparatorService: TableComparatorService,
+              private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
-    super(router, httpRequestService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, modalService, studentService);
+    super(router, instructorService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
       this.courseId = queryParams.courseid;
     });
 
@@ -183,14 +186,12 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads courses owned by the current user.
    */
   loadCandidatesCourse(): void {
-    this.httpRequestService.get('/courses', {
-      entitytype: 'instructor',
-      coursestatus: 'active',
-    }).subscribe((courses: Courses) => {
-      this.courseCandidates = courses.courses;
+    this.courseService.getInstructorCoursesThatAreActive()
+        .pipe(finalize(() => this.hasCoursesLoaded = true)).subscribe((courses: Courses) => {
+          this.courseCandidates = courses.courses;
 
-      this.initDefaultValuesForSessionEditForm();
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.initDefaultValuesForSessionEditForm();
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
@@ -326,9 +327,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         this.statusMessageService.showErrorMessage(
             `The session is created but the template questions cannot be created: ${resp.error.message}`);
       }, () => {
-        this.router.navigateByUrl(
-            '/web/instructor/sessions/edit'
-            + `?courseid=${feedbackSession.courseId}&fsname=${feedbackSession.feedbackSessionName}`)
+        this.navigationService.navigateByURLWithParamEncoding(
+            this.router,
+            '/web/instructor/sessions/edit',
+            { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
             .then(() => {
               resolvingResultMessages.forEach((msg: string) => {
                 this.statusMessageService.showWarningMessage(msg);
@@ -417,12 +419,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   moveSessionToRecycleBinEventHandler(rowIndex: number): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
 
-    this.httpRequestService.put('/bin/session', paramMap)
+    this.feedbackSessionsService.moveSessionToRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((feedbackSession: FeedbackSession) => {
           this.sessionsTableRowModels.splice(this.sessionsTableRowModels.indexOf(model), 1);
           this.recycleBinFeedbackSessionRowModels.push({
@@ -469,6 +470,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
 
   /**
+   * Downloads the result of a feedback session in csv.
+   */
+  downloadSessionResultEventHandler(rowIndex: number): void {
+    this.downloadSessionResult(this.sessionsTableRowModels[rowIndex]);
+  }
+
+  /**
    * Loads all feedback sessions in recycle bin that can be accessed by current user.
    */
   loadRecycleBinFeedbackSessions(): void {
@@ -500,12 +508,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Restores a recycle bin feedback session.
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.delete('/bin/session', paramMap)
+    this.feedbackSessionsService.deleteSessionFromRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe((feedbackSession: FeedbackSession) => {
           this.recycleBinFeedbackSessionRowModels.splice(
               this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
@@ -527,11 +533,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   restoreAllRecycleBinFeedbackSession(): void {
     const restoreRequests: Observable<FeedbackSession>[] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
-      const paramMap: { [key: string]: string } = {
-        courseid: model.feedbackSession.courseId,
-        fsname: model.feedbackSession.feedbackSessionName,
-      };
-      restoreRequests.push(this.httpRequestService.delete('/bin/session', paramMap));
+      restoreRequests.push(
+          this.feedbackSessionsService.deleteFeedbackSession(
+              model.feedbackSession.courseId,
+              model.feedbackSession.feedbackSessionName,
+          ));
     });
 
     forkJoin(restoreRequests).subscribe((restoredSessions: FeedbackSession[]) => {
@@ -561,12 +567,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
 
     modalRef.result.then(() => {
-      const paramMap: { [key: string]: string } = {
-        courseid: model.feedbackSession.courseId,
-        fsname: model.feedbackSession.feedbackSessionName,
-      };
-
-      this.httpRequestService.delete('/session', paramMap).subscribe(() => {
+      this.feedbackSessionsService.deleteFeedbackSession(
+          model.feedbackSession.courseId,
+          model.feedbackSession.feedbackSessionName,
+      ).subscribe(() => {
         this.recycleBinFeedbackSessionRowModels.splice(
             this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
         this.statusMessageService.showSuccessMessage('The feedback session has been permanently deleted.');
@@ -589,12 +593,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       const deleteRequests: Observable<any>[] = [];
 
       this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
-        const paramMap: { [key: string]: string } = {
-          courseid: model.feedbackSession.courseId,
-          fsname: model.feedbackSession.feedbackSessionName,
-        };
-
-        deleteRequests.push(this.httpRequestService.delete('/session', paramMap));
+        deleteRequests.push(this.feedbackSessionsService.deleteFeedbackSession(
+            model.feedbackSession.courseId,
+            model.feedbackSession.feedbackSessionName,
+        ));
       });
 
       forkJoin(deleteRequests).subscribe(() => {

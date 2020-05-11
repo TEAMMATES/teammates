@@ -74,6 +74,7 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     
     
     
+    
   </div>
 </tm-question-text-with-info>
 `;

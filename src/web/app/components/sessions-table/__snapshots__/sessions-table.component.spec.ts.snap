@@ -11,6 +11,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter]}
   courseCandidates={[Function Array]}
+  downloadSessionResultsEvent={[Function EventEmitter]}
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
   loadResponseRateEvent={[Function EventEmitter]}
@@ -228,7 +229,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <button
                     class="dropdown-item clickable"
@@ -390,7 +391,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <button
                     class="dropdown-item clickable"
@@ -458,6 +459,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter]}
   courseCandidates={[Function Array]}
+  downloadSessionResultsEvent={[Function EventEmitter]}
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
   loadResponseRateEvent={[Function EventEmitter]}
@@ -639,7 +641,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <button
                     class="dropdown-item clickable"
@@ -780,7 +782,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <button
                     class="dropdown-item clickable"
@@ -848,6 +850,7 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter]}
   courseCandidates={[Function Array]}
+  downloadSessionResultsEvent={[Function EventEmitter]}
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
   loadResponseRateEvent={[Function EventEmitter]}

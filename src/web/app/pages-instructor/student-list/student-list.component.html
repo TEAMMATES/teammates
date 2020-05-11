@@ -24,11 +24,11 @@
         <span *ngIf="tableSortBy === SortBy.STUDENT_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
         <span *ngIf="tableSortBy === SortBy.STUDENT_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
       </th>
-      <th class="sortable-header" (click)="sortStudentListEvent(SortBy.STATUS)">
+      <th class="sortable-header" (click)="sortStudentListEvent(SortBy.JOIN_STATUS)">
         Status
-        <span *ngIf="tableSortBy !== SortBy.STATUS"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.STATUS && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.STATUS && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span *ngIf="tableSortBy !== SortBy.JOIN_STATUS"><i class="fas fa-sort"></i></span>
+        <span *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+        <span *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
       </th>
       <th class="sortable-header" (click)="sortStudentListEvent(SortBy.EMAIL)">
         Email
@@ -86,7 +86,7 @@
       <ng-container *ngIf="enableRemindButton">
         <ng-container *ngIf="student.status === JoinState.NOT_JOINED">
           <button class="btn btn-light btn-sm mr-2" *ngIf="student.isAllowedToModifyStudent"
-            ngbTooltip="'Email an invitation to the student requesting him/her to join the course using his/her'
+            [ngbTooltip]="'Email an invitation to the student requesting him/her to join the course using his/her'
             + ' Google Account. Note: Students can use TEAMMATES without \'joining\','
             + ' but a joined student can access extra features e.g. set up a user profile'"
              (click)="openModal(remindModal)">Send Invite</button>

@@ -64,7 +64,7 @@ export class RichTextEditorComponent implements OnInit {
     toolbar1: 'insertfile undo redo | styleselect | bold italic underline '
         + '| alignleft aligncenter alignright alignjustify '
         + '| bullist numlist outdent indent | link image',
-    toolbar2: 'print | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen',
+    toolbar2: 'print | forecolor backcolor | fontsizeselect fontselect | charmap emoticons | fullscreen',
   };
 
   constructor() { }

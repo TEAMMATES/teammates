@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.StatusMessage;
 
-/** A 'redirect' type result. That is, the Browser will be required to make
+/**
+ * A 'redirect' type result. That is, the Browser will be required to make
  * another request to the specified {@code destination}.
  */
 public class RedirectResult extends ActionResult {

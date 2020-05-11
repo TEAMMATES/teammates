@@ -24,7 +24,7 @@ import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
- * SUT: {@link Const.ActionURIs#STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE}.
+ * SUT: {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}.
  *
  * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
  */

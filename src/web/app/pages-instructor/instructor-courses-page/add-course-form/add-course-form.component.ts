@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -17,11 +16,10 @@ import { ErrorMessageOutput } from '../../../error-message-output';
 })
 export class AddCourseFormComponent implements OnInit {
 
-  user: string = '';
-
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
-  @ViewChild('newCourseMessageTemplate') newCourseMessageTemplate!: TemplateRef<any>;
+  @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
+  @ViewChild('newCourseMessageTemplate', { static: false }) newCourseMessageTemplate!: TemplateRef<any>;
 
   timezones: string[] = [];
   timezone: string = '';
@@ -29,8 +27,7 @@ export class AddCourseFormComponent implements OnInit {
   newCourseName: string = '';
   course!: Course;
 
-  constructor(private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
+  constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private timezoneService: TimezoneService) { }
 
@@ -40,9 +37,6 @@ export class AddCourseFormComponent implements OnInit {
       this.timezone = 'UTC';
       return;
     }
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-    });
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
     this.timezone = moment.tz.guess();
   }
@@ -83,5 +77,12 @@ export class AddCourseFormComponent implements OnInit {
     this.newCourseId = '';
     this.newCourseName = '';
     this.timezone = moment.tz.guess();
+  }
+
+  /**
+   * Handles closing of the edit form.
+   */
+  closeEditFormHandler(): void {
+    this.closeCourseFormEvent.emit();
   }
 }

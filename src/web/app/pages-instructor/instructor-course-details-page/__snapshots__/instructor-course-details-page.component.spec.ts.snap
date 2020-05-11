@@ -6,7 +6,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess={[Function Boolean]}
   loading={[Function Boolean]}
@@ -16,7 +16,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  studentService={[Function StudentService]}
 >
   <div>
     <h1>
@@ -136,10 +136,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
           >
             
             <div>
-              
-              
                Co-owner: Hodor (hodor@gmail.com) 
-              
             </div>
           </div>
         </div>
@@ -178,7 +175,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv=""
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess="false"
   loading="false"
@@ -188,7 +185,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  studentService={[Function StudentService]}
 >
   <div>
     <h1>
@@ -308,10 +305,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
           >
             
             <div>
-              
-              
                Co-owner: Bran (bran@gmail.com) 
-              
             </div>
           </div>
         </div>
@@ -398,9 +392,10 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-details-page
   clipboardService={[Function ClipboardService]}
+  courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv=""
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess={[Function Boolean]}
   loading="false"
@@ -410,8 +405,152 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   router={[Function Router]}
   sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  studentService={[Function StudentService]}
 >
-  
+  <div>
+    <h1>
+      Course Details
+    </h1>
+    <div
+      class="card"
+    >
+      <div
+        class="card-body fill-plain"
+      >
+        <div
+          class="form"
+        >
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-right"
+            >
+              Course ID:
+            </label>
+            <div
+              class="col-sm-6"
+            >
+              <p
+                class="form-control-static"
+              >
+                
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-right"
+            >
+              Course name:
+            </label>
+            <div
+              class="col-sm-6"
+              id="coursename"
+            >
+              <p
+                class="form-control-static"
+              >
+                
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-right"
+            >
+              Sections:
+            </label>
+            <div
+              class="col-sm-6"
+            >
+              <p
+                class="form-control-static"
+              >
+                0
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-right"
+            >
+              Teams:
+            </label>
+            <div
+              class="col-sm-6"
+            >
+              <p
+                class="form-control-static"
+              >
+                0
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-right"
+            >
+              Total students:
+            </label>
+            <div
+              class="col-sm-6"
+            >
+              <p
+                class="form-control-static"
+              >
+                0
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row"
+        >
+          <label
+            class="col-sm-3 control-label text-right"
+          >
+            Instructors:
+          </label>
+          <div
+            class="col-sm-6"
+          >
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div
+      class="alert alert-warning"
+    >
+      <i
+        class="fa fa-exclamation-circle text-muted"
+      />
+       There are no students in this course. Click 
+      <a
+        href="/web/instructor/courses/enroll?courseid="
+        ng-reflect-query-params="[object Object]"
+        ng-reflect-router-link="/web/instructor/courses/enroll"
+        routerlink="/web/instructor/courses/enroll"
+      >
+        here
+      </a>
+       to enroll students. 
+    </div>
+    
+    
+    
+    
+  </div>
 </tm-instructor-course-details-page>
 `;

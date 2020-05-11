@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -37,10 +38,18 @@ public class DeleteInstructorAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+        InstructorAttributes instructor;
+        if (instructorId != null) {
+            instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+        } else if (instructorEmail != null) {
+            instructor = logic.getInstructorForEmail(courseId, instructorEmail);
+        } else {
+            throw new InvalidHttpParameterException("Instructor to delete not specified");
+        }
         if (instructor == null) {
             return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
         }
