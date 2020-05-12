@@ -27,6 +27,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTask;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
 
@@ -58,6 +61,9 @@ public abstract class AppPage {
 
     /** Browser instance the page is loaded into. */
     protected Browser browser;
+
+    /** Use for retrying due to transient UI issues. */
+    protected RetryManager uiRetryManager = new RetryManager((TestProperties.TEST_TIMEOUT + 1) / 2);
 
     /** Firefox change handler for handling when `change` events are not fired in Firefox. */
     private final FirefoxChangeHandler firefoxChangeHandler;
@@ -522,10 +528,20 @@ public abstract class AppPage {
      * Asserts message in snackbar is equal to the expected message.
      */
     public void verifyStatusMessage(String expectedMessage) {
-        // wait for short period to ensure previous status message is replaced
-        ThreadHelper.waitFor(200);
-        WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
-        assertEquals(expectedMessage, statusMessage.getText());
+        try {
+            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
+                @Override
+                public void run() {
+                    // wait for short period to ensure previous status message is replaced
+                    WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
+                    assertEquals(expectedMessage, statusMessage.getText());
+                }
+            }, WebDriverException.class, AssertionError.class);
+        } catch (MaximumRetriesExceededException e) {
+            WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
+            assertEquals(expectedMessage, statusMessage.getText());
+        }
+
     }
 
     /**

@@ -1,6 +1,9 @@
 package teammates.e2e.cases.e2e;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
@@ -9,8 +12,9 @@ import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
 import teammates.e2e.pageobjects.InstructorHomePage;
 
-import java.time.ZoneId;
-
+/**
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
+ */
 public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
     CourseAttributes course;
     InstructorAttributes[] instructors = new InstructorAttributes[5];
@@ -67,9 +71,9 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .build();
 
         editPage.addInstructor(newInstructor);
-        editPage.verifyStatusMessage("\"The instructor Teammates Test has been added successfully. " +
-                "An email containing how to 'join' this course will be sent to InsCrsEdit.test@gmail.tmt" +
-                " in a few minutes.\"");
+        editPage.verifyStatusMessage("\"The instructor Teammates Test has been added successfully. "
+                + "An email containing how to 'join' this course will be sent to InsCrsEdit.test@gmail.tmt"
+                + " in a few minutes.\"");
         editPage.verifyInstructorDetails(6, newInstructor);
 
         ______TS("resend invite");
@@ -112,7 +116,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("delete course");
         editPage.deleteCourse();
-        editPage.verifyStatusMessage("The course InsCrsEdit.CS2104 has been deleted. " +
-                "You can restore it from the Recycle Bin manually.");
+        editPage.verifyStatusMessage("The course InsCrsEdit.CS2104 has been deleted. "
+                + "You can restore it from the Recycle Bin manually.");
     }
 }

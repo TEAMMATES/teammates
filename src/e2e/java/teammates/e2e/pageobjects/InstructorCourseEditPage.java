@@ -1,19 +1,21 @@
 package teammates.e2e.pageobjects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.Const;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
+
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.util.Const;
 
 /**
  * Represents the instructor course edit page of the website.
@@ -74,9 +76,9 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void verifyCourseDetails(CourseAttributes course) {
-        Assert.assertEquals(course.getId(), getCourseId());
-        Assert.assertEquals(course.getName(), getCourseName());
-        Assert.assertEquals(course.getTimeZone().toString(), getTimeZone());
+        assertEquals(course.getId(), getCourseId());
+        assertEquals(course.getName(), getCourseName());
+        assertEquals(course.getTimeZone().toString(), getTimeZone());
     }
 
     public void verifyInstructorDetails(int instrNum, InstructorAttributes instructor) {
@@ -92,10 +94,10 @@ public class InstructorCourseEditPage extends AppPage {
             assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
         }
         assertEquals(getRoleIndex(instructor.role), getInstructorAccessLevel(instrNum));
-//        if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
-//            && getEditInstructorButton(instrNum).isEnabled()) {
-//            verifyCustomPrivileges(instrNum, instructor.privileges);
-//        }
+        if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
+                && getEditInstructorButton(instrNum).isEnabled()) {
+            verifyCustomPrivileges(instrNum, instructor.privileges);
+        }
     }
 
     public void verifyCustomPrivileges(int instrNum, InstructorPrivileges privileges) {
@@ -112,27 +114,27 @@ public class InstructorCourseEditPage extends AppPage {
         clickCancelInstructorButton(instrNum);
     }
 
-    private void verifyCourseLevelPrivileges(int instrNum,  Map<String, Boolean> courseLevelPrivileges) {
+    private void verifyCourseLevelPrivileges(int instrNum, Map<String, Boolean> courseLevelPrivileges) {
         List<WebElement> checkboxes = getCourseLevelPanelCheckBoxes(instrNum);
-        for(String privilege: courseLevelPrivileges.keySet()) {
-            if (courseLevelPrivileges.get(privilege)) {
-                assertTrue(checkboxes.get(getCourseLevelPrivilegeIndex(privilege)).isSelected());
+        for (Map.Entry<String, Boolean> privilege : courseLevelPrivileges.entrySet()) {
+            if (privilege.getValue()) {
+                assertTrue(checkboxes.get(getCourseLevelPrivilegeIndex(privilege.getKey())).isSelected());
             } else {
-                assertFalse(checkboxes.get(getCourseLevelPrivilegeIndex(privilege)).isSelected());
+                assertFalse(checkboxes.get(getCourseLevelPrivilegeIndex(privilege.getKey())).isSelected());
             }
         }
     }
 
-    private void verifySectionLevelPrivileges(int instrNum,  Map<String, Map<String, Boolean>> sectionLevelPrivileges) {
-        for(String section: sectionLevelPrivileges.keySet()) {
-            int panelNum = getSectionLevelPanelNumWithSectionSelected(instrNum, section);
-            for(String privilege: sectionLevelPrivileges.get(section).keySet()) {
-                if (sectionLevelPrivileges.get(section).get(privilege)) {
+    private void verifySectionLevelPrivileges(int instrNum, Map<String, Map<String, Boolean>> sectionLevelPrivileges) {
+        for (Map.Entry<String, Map<String, Boolean>> section : sectionLevelPrivileges.entrySet()) {
+            int panelNum = getSectionLevelPanelNumWithSectionSelected(instrNum, section.getKey());
+            for (Map.Entry<String, Boolean> privilege : section.getValue().entrySet()) {
+                if (privilege.getValue()) {
                     assertTrue(getSectionLevelCheckBox(instrNum, panelNum,
-                            getSectionLevelPrivilegeIndex(privilege)).isSelected());
+                            getSectionLevelPrivilegeIndex(privilege.getKey())).isSelected());
                 } else {
                     assertFalse(getSectionLevelCheckBox(instrNum, panelNum,
-                            getSectionLevelPrivilegeIndex(privilege)).isSelected());
+                            getSectionLevelPrivilegeIndex(privilege.getKey())).isSelected());
                 }
             }
         }
@@ -140,17 +142,17 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void verifySessionLevelPrivileges(int instrNum,
                                               Map<String, Map<String, Map<String, Boolean>>> sessionLevelPrivileges) {
-        for(String section: sessionLevelPrivileges.keySet()) {
-            int panelNum = getSectionLevelPanelNumWithSectionSelected(instrNum, section);
-            for (String session : sessionLevelPrivileges.get(section).keySet()) {
-                int sessionIndex = getSessionIndex(instrNum, session);
-                for (String privilege : sessionLevelPrivileges.get(section).get(session).keySet()) {
-                    if (sessionLevelPrivileges.get(section).get(session).get(privilege)) {
+        for (Map.Entry<String, Map<String, Map<String, Boolean>>> section : sessionLevelPrivileges.entrySet()) {
+            int panelNum = getSectionLevelPanelNumWithSectionSelected(instrNum, section.getKey());
+            for (Map.Entry<String, Map<String, Boolean>> session : section.getValue().entrySet()) {
+                int sessionIndex = getSessionIndex(instrNum, session.getKey());
+                for (Map.Entry<String, Boolean> privilege : session.getValue().entrySet()) {
+                    if (privilege.getValue()) {
                         assertTrue(getSessionLevelCheckbox(instrNum, panelNum, sessionIndex,
-                                getSessionLevelPrivilegeIndex(privilege)).isSelected());
+                                getSessionLevelPrivilegeIndex(privilege.getKey())).isSelected());
                     } else {
                         assertFalse(getSessionLevelCheckbox(instrNum, panelNum, sessionIndex,
-                                getSessionLevelPrivilegeIndex(privilege)).isSelected());
+                                getSessionLevelPrivilegeIndex(privilege.getKey())).isSelected());
                     }
                 }
             }
@@ -233,7 +235,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void toggleCustomCourseLevelPrivilege(int instrNum, String privilege) {
-        if(getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
             return;
         }
 
@@ -244,21 +246,21 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSectionLevelPrivilege(int instrNum, int panelNum, String section,
                                                 String privilege) {
-        if(getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
             return;
         }
 
         clickEditInstructorButton(instrNum);
         clickAddSectionPrivilegeLink(instrNum);
 
-        click(getSectionSelectionCheckBox(instrNum, panelNum, getSectionIndex(instrNum ,section)));
+        click(getSectionSelectionCheckBox(instrNum, panelNum, getSectionIndex(instrNum, section)));
         click(getSectionLevelCheckBox(instrNum, panelNum, getSectionLevelPrivilegeIndex(privilege)));
         clickSaveInstructorButton(instrNum);
     }
 
     public void toggleCustomSessionLevelPrivilege(int instrNum, int panelNum, String section, String session,
                                                String privilege) {
-        if(getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
             return;
         }
 
@@ -266,7 +268,7 @@ public class InstructorCourseEditPage extends AppPage {
         clickAddSectionPrivilegeLink(instrNum);
         clickAddSessionPrivilegeLink(instrNum, panelNum);
 
-        click(getSectionSelectionCheckBox(instrNum, panelNum, getSectionIndex(instrNum ,section)));
+        click(getSectionSelectionCheckBox(instrNum, panelNum, getSectionIndex(instrNum, section)));
         click(getSessionLevelCheckbox(instrNum, panelNum, getSessionIndex(instrNum, session),
                 getSessionLevelPrivilegeIndex(privilege)));
         clickSaveInstructorButton(instrNum);
@@ -341,7 +343,7 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("btn-edit-instructor-" + instrNum));
     }
 
-   private WebElement getInviteInstructorButton(int instrNum) {
+    private WebElement getInviteInstructorButton(int instrNum) {
         return browser.driver.findElement(By.id("btn-resend-invite-" + instrNum));
     }
 
@@ -434,13 +436,13 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     private WebElement getAddSectionLevelPrivilegesLink(int instrNum) {
-        return browser.driver.findElement(By.cssSelector("#custom-access-instructor-" + instrNum +
-                " #btn-add-section-level"));
+        return browser.driver.findElement(By.cssSelector("#custom-access-instructor-" + instrNum
+                + " #btn-add-section-level"));
     }
 
     private WebElement getAddSessionLevelPrivilegesLink(int instrNum, int panelNum) {
-        return browser.driver.findElements(By.cssSelector("#custom-access-instructor-" + instrNum +
-                " #btn-add-session-level")).get(panelNum - 1);
+        return browser.driver.findElements(By.cssSelector("#custom-access-instructor-" + instrNum
+                + " #btn-add-session-level")).get(panelNum - 1);
     }
 
     private WebElement getSectionSelections(int instrNum, int panelNum) {
@@ -480,8 +482,8 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     private WebElement getSessionLevelTable(int instrNum, int panelNum) {
-        return browser.driver.findElement(By.cssSelector("#custom-access-instructor-" + instrNum
-                + " #custom-sessions"));
+        WebElement sectionPanelBody = getSectionLevelPanelBody(instrNum, panelNum);
+        return sectionPanelBody.findElement(By.id("custom-sessions"));
     }
 
     private WebElement getSessionLevelTableRow(int instrNum, int panelNum, int sessionIndex) {
@@ -489,8 +491,8 @@ public class InstructorCourseEditPage extends AppPage {
         return sessionLevelTableBody.findElements(By.cssSelector("tbody tr")).get(sessionIndex);
     }
 
-    private WebElement getSessionLevelCheckbox(int instrNum, int panelNum,
-                                                    int sessionIndex, int checkBoxIndex) {
+    private WebElement getSessionLevelCheckbox(int instrNum, int panelNum, int sessionIndex,
+                                               int checkBoxIndex) {
         WebElement sessionLevelTableRow = getSessionLevelTableRow(instrNum, panelNum, sessionIndex);
         return sessionLevelTableRow.findElements(By.cssSelector("input[type='checkbox']")).get(checkBoxIndex);
     }
@@ -499,66 +501,70 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getRoleIndex(String role) {
         switch(role) {
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-                return INSTRUCTOR_TYPE_COOWNER;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-                return INSTRUCTOR_TYPE_MANAGER;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-                return INSTRUCTOR_TYPE_OBSERVER;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-                return INSTRUCTOR_TYPE_TUTOR;
-            case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-                return INSTRUCTOR_TYPE_CUSTOM;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+            return INSTRUCTOR_TYPE_COOWNER;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+            return INSTRUCTOR_TYPE_MANAGER;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+            return INSTRUCTOR_TYPE_OBSERVER;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+            return INSTRUCTOR_TYPE_TUTOR;
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+            return INSTRUCTOR_TYPE_CUSTOM;
+        default:
+            return -1;
         }
-        return -1;
     }
 
     private int getCourseLevelPrivilegeIndex(String privilege) {
         switch(privilege) {
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE:
-                return COURSE_MODIFY_COURSE;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR:
-                return COURSE_MODIFY_INSTRUCTORS;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION:
-                return COURSE_MODIFY_SESSIONS;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT:
-                return COURSE_MODIFY_STUDENTS;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS:
-                return COURSE_VIEW_STUDENTS;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
-                return COURSE_GIVE_RESPONSES_IN_SESSION;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
-                return COURSE_VIEW_RESPONSES_IN_SESSION;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
-                return COURSE_MODIFY_RESPONSES_IN_SESSION;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE:
+            return COURSE_MODIFY_COURSE;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR:
+            return COURSE_MODIFY_INSTRUCTORS;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION:
+            return COURSE_MODIFY_SESSIONS;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT:
+            return COURSE_MODIFY_STUDENTS;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS:
+            return COURSE_VIEW_STUDENTS;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
+            return COURSE_GIVE_RESPONSES_IN_SESSION;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
+            return COURSE_VIEW_RESPONSES_IN_SESSION;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+            return COURSE_MODIFY_RESPONSES_IN_SESSION;
+        default:
+            return -1;
         }
-        return -1;
     }
 
     private int getSectionLevelPrivilegeIndex(String privilege) {
         switch(privilege) {
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS:
-                return SECTION_VIEW_STUDENTS;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
-                return SECTION_GIVE_RESPONSES_IN_SESSION;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
-                return SECTION_VIEW_RESPONSES_IN_SESSION;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
-                return SECTION_MODIFY_RESPONSES_IN_SESSION;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS:
+            return SECTION_VIEW_STUDENTS;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
+            return SECTION_GIVE_RESPONSES_IN_SESSION;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
+            return SECTION_VIEW_RESPONSES_IN_SESSION;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+            return SECTION_MODIFY_RESPONSES_IN_SESSION;
+        default:
+            return -1;
         }
-        return -1;
     }
 
     private int getSessionLevelPrivilegeIndex(String privilege) {
         switch(privilege) {
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
-                return SESSION_GIVE_RESPONSES;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
-                return SESSION_VIEW_RESPONSES;
-            case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
-                return SESSION_MODIFY_RESPONSES;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
+            return SESSION_GIVE_RESPONSES;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
+            return SESSION_VIEW_RESPONSES;
+        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+            return SESSION_MODIFY_RESPONSES;
+        default:
+            return -1;
         }
-        return -1;
     }
 
     private int getSectionIndex(int instrNum, String section) {
@@ -582,7 +588,7 @@ public class InstructorCourseEditPage extends AppPage {
         }
         return -1;
     }
-
 }
+
 
 
