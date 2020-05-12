@@ -16,7 +16,8 @@ public class LNPSpecification {
     private String resultsErrorMessage = "";
 
     // This class should always be constructed using builder() instead of constructor
-    private LNPSpecification() {}
+    private LNPSpecification() {
+    }
 
     /**
      * Verify the LNP results statistics with the specified threshold.
