@@ -37,12 +37,15 @@ public class JsonResultTest extends BaseTestCase {
         ______TS("json result with output message and cookies");
 
         List<Cookie> cookies = new ArrayList<>();
-        cookies.add(new Cookie("cookieName", "cookieValue"));
+        Cookie cookie = new Cookie("cookieName", "cookieValue");
+        cookie.setSecure(true);
+        cookies.add(cookie);
         result = new JsonResult(new MessageOutput("output message"), cookies);
 
         output = (MessageOutput) result.getOutput();
         assertEquals("output message", output.getMessage());
         assertEquals(1, result.getCookies().size());
+        assertTrue(result.getCookies().get(0).getSecure());
 
         MockHttpServletResponse respWithCookie = new MockHttpServletResponse();
         result.send(respWithCookie);
