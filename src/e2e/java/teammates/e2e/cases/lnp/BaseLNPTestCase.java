@@ -76,7 +76,10 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      *                          (in seconds) for the test endpoint.
      */
     protected void setupSpecification(double errorRateLimit, double meanRespTimeLimit) {
-        this.specification = new LNPSpecification(errorRateLimit, meanRespTimeLimit);
+        this.specification = LNPSpecification.builder()
+                                             .withErrorRateLimit(errorRateLimit)
+                                             .withMeanRespTimeLimit(meanRespTimeLimit)
+                                             .build();
     }
 
     /**
