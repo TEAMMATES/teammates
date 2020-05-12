@@ -48,6 +48,7 @@ import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/v
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
+  originalPanel: InstructorEditPanel;
   editPanel: InstructorEditPanel;
 }
 
@@ -265,10 +266,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .subscribe((resp: Instructors) => {
           this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
             originalInstructor: Object.assign({}, i),
+            originalPanel: this.getInstructorEditPanelModel(i),
             editPanel: this.getInstructorEditPanelModel(i),
           }));
           this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
-            this.loadPermissionForInstructor(panel.originalInstructor, panel.editPanel.permission);
+            this.loadPermissionForInstructor(panel);
           });
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
@@ -336,7 +338,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   cancelEditingInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    panelDetail.editPanel = this.getInstructorEditPanelModel(panelDetail.originalInstructor);
+    panelDetail.editPanel = JSON.parse(JSON.stringify(panelDetail.originalPanel));
   }
 
   /**
@@ -374,6 +376,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     });
 
     panelDetail.editPanel.isEditing = false;
+    panelDetail.originalPanel = JSON.parse(JSON.stringify(panelDetail.editPanel));
   }
 
   /**
@@ -438,9 +441,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
             originalInstructor: Object.assign({}, resp),
+            originalPanel: this.getInstructorEditPanelModel(resp),
             editPanel: this.getInstructorEditPanelModel(resp),
           };
           newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+          newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
           this.instructorDetailPanels.push(newDetailPanels);
           this.statusMessageService.showSuccessMessage(`"The instructor ${resp.name} has been added successfully.
@@ -483,7 +488,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Loads permission for instructor.
    */
-  loadPermissionForInstructor(instructor: Instructor, permission: InstructorOverallPermission): void {
+  loadPermissionForInstructor(panel: InstructorEditPanelDetail): void {
+    const instructor: Instructor = panel.originalInstructor;
+    const permission: InstructorOverallPermission = panel.editPanel.permission;
+
     if (instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
       return;
     }
@@ -603,6 +611,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           sectionLevel.sessionLevel = [];
         }
       });
+      panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

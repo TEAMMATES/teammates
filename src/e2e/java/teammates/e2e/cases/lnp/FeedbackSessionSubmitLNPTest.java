@@ -254,7 +254,9 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
     @BeforeClass
     public void classSetup() {
+        generateTimeStamp();
         createTestData();
+        setupSpecification(0.01, 1);
     }
 
     @Test
@@ -266,6 +268,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
             System.out.println(e.toString());
         }
         runJmeter(true);
+        displayLnpResults();
     }
 
     /**
@@ -277,6 +280,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
         deleteTestData();
         deleteDataFiles();
+        cleanupResults();
     }
 
 }
