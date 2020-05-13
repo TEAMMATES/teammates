@@ -27,13 +27,14 @@ describe('AddCourseFormComponent', () => {
     creationTimestamp: date1.getTime(),
     deletionTimestamp: 0,
   };
+  const timeZoneOffsets1: Record<string, number> = { GMT: 0 };
 
   const spyStatusMessageService: any = {
     showErrorMessage: jest.fn(),
     showSuccessMessageTemplate: jest.fn(),
   };
   const timezoneServiceStub: any = {
-    getTzOffset: jest.fn(),
+    getTzOffsets: jest.fn(() => timeZoneOffsets1),
   };
   const spyCourseService: any = {
     createCourse: jest.fn(() => of(course1)),

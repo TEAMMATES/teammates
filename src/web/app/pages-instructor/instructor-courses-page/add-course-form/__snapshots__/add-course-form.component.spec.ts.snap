@@ -10,7 +10,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
   newCourseMessageTemplate={[Function TemplateRef_]}
   newCourseName=""
   statusMessageService={[Function Object]}
-  timezone=""
+  timezone={[Function String]}
   timezoneService={[Function Object]}
   timezones={[Function Array]}
 >
@@ -97,13 +97,19 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           >
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model=""
+              ng-reflect-model="Asia/Singapore"
               ng-reflect-ngb-tooltip="The time zone for the course. "
               ngbtooltip="The time zone for the course. You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
             >
               
+              <option
+                ng-reflect-value="GMT"
+                value="GMT"
+              >
+                GMT
+              </option>
             </select>
             <span
               class="input-group-btn"
@@ -142,9 +148,10 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
   courseService={[Function Object]}
   isEnabled={[Function Boolean]}
   newCourseId=""
+  newCourseMessageTemplate={[Function TemplateRef_]}
   newCourseName=""
   statusMessageService={[Function Object]}
-  timezone=""
+  timezone={[Function String]}
   timezoneService={[Function Object]}
   timezones={[Function Array]}
 >
@@ -181,7 +188,11 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           class="col-sm-3"
         >
           <input
-            class="form-control"
+            class="form-control ng-untouched ng-pristine ng-valid"
+            maxlength="40"
+            ng-reflect-maxlength="40"
+            ng-reflect-model=""
+            ng-reflect-ngb-tooltip="Enter the identifier of the co"
             ngbtooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
@@ -200,7 +211,11 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           class="col-sm-9"
         >
           <input
-            class="form-control"
+            class="form-control ng-untouched ng-pristine ng-valid"
+            maxlength="64"
+            ng-reflect-maxlength="64"
+            ng-reflect-model=""
+            ng-reflect-ngb-tooltip="Enter the name of the course, "
             ngbtooltip="Enter the name of the course, e.g. Software Engineering."
             placeholder="e.g. Software Engineering"
             type="text"
@@ -222,12 +237,20 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             class="input-group"
           >
             <select
-              class="form-control"
+              class="form-control ng-untouched ng-pristine ng-valid"
+              ng-reflect-model="Asia/Singapore"
+              ng-reflect-ngb-tooltip="The time zone for the course. "
               ngbtooltip="The time zone for the course. You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
             >
               
+              <option
+                ng-reflect-value="GMT"
+                value="GMT"
+              >
+                GMT
+              </option>
             </select>
             <span
               class="input-group-btn"
