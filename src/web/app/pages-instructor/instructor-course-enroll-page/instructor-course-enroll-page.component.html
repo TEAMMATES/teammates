@@ -4,8 +4,8 @@
     <div class="card-body fill-plain">
       <p class="text-muted">
         <i class="fas fa-info-circle"></i>
-        <a tabindex="0" role="button" (click)="navigateToMoreInfo()"> <!--We are just treating it as a button here-->
-          Scroll down
+        <a class="scroll-button" tabindex="0" role="button" (click)="navigateToMoreInfo()"> <!--We are just treating it as a button here-->
+          <strong> Scroll down</strong>
         </a>
         to see more information about the spreadsheet interfaces.
         <br>
@@ -18,13 +18,13 @@
         <div class="card card-default">
           <div class="card-header"
                (click)="toggleExistingStudentsPanel()">
-            <div class="float-right margin-left-7px">
+            <b class="existing-students-status-message">Existing Students</b>
+            <div class="float-right">
               <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
               <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
               <b class="existing-students-status-message">{{ isAjaxSuccess ? '' : 'Failed to load. Click here to retry.' }}</b>
               <i class="fas fa-chevron-{{ isExistingStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
             </div>
-            <strong>Existing Students</strong>
           </div>
           <hot-table
               [licenseKey]="'non-commercial-and-evaluation'"
@@ -76,17 +76,17 @@
           </hot-table>
         </div>
         <div class="row enroll-students-spreadsheet-buttons" [hidden]="isNewStudentsPanelCollapsed">
-          <div class="col-md-6">
+          <div class="col-md-8">
             <div class="input-group">
               <button type="button" title="Add" id="button_add_empty_rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
                 Add row(s)
               </button>
-              <div class="col-xs-4">
+              <div>
                 <input type="number" id="number-of-rows" class="form-control" value="1" min="0" #numOfRows>
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <button
                 type="submit"
                 title="Enroll"
