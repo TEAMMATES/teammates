@@ -59,11 +59,11 @@
     <div class="card border-primary margin-top-20px">
       <div class="card-body">
         <div class="row">
-          <div class="col-2 text-right font-bold">
+          <div class="col-xs-2 col-md-2 text-right font-bold">
             Course ID
           </div>
-          <div class="col-4">
-            <div *ngIf="formMode === SessionEditFormMode.ADD" ngbTooltip="Please select the course for which the feedback session is to be created.">
+          <div class="col-xs-2 col-md-2">
+            <div class="col-xs-2 col-md-2" *ngIf="formMode === SessionEditFormMode.ADD" ngbTooltip="Please select the course for which the feedback session is to be created.">
               <select class="form-control" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
                 <option *ngFor="let course of courseCandidates" [ngValue]="course.courseId">{{ course.courseId }}</option>
               </select>
@@ -73,28 +73,28 @@
             </div>
             <div *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.courseId }} </div>
           </div>
-          <div class="col-2 text-right font-bold">
+          <div class="col-xs-2 col-md-2 text-right font-bold">
             Time Zone
           </div>
-          <div class="col-4" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
+          <div class="col-xs-4 col-md-4" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
             {{ model.timeZone }}
           </div>
         </div>
         <br/>
         <div class="row">
-          <div class="col-2 text-right font-bold">
+          <div class="col-xs-0 col-md-2 text-right font-bold">
             Course Name
           </div>
-          <div class="col-4">
+          <div class="col-xs-4 col-md-4">
             {{ model.courseName }}
           </div>
         </div>
         <br/>
         <div class="row">
-          <div class="col-2 text-right font-bold">
+          <div class="col-xs-2 col-md-2 text-right font-bold">
             Session Name
           </div>
-          <div class="col-4">
+          <div class="col-xs-4 col-md-4">
             <div *ngIf="formMode === SessionEditFormMode.ADD" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">
               <input type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="38" />
               <div>
@@ -106,25 +106,25 @@
         </div>
         <br/>
         <div class="row">
-          <div class="col-2 text-right font-bold">
+          <div class="col-xs-2 col-md-2 text-right font-bold">
             Instructions
           </div>
-          <div class="col-8" ngbTooltip="Enter instructions for this feedback session. e.g. Avoid comments which are too critical. It will be displayed at the top of the page when users respond to the session.">
+          <div class="col-xs-8 col-md-8" ngbTooltip="Enter instructions for this feedback session. e.g. Avoid comments which are too critical. It will be displayed at the top of the page when users respond to the session.">
             <tm-rich-text-editor [richText]="model.instructions" (richTextChange)="triggerModelChange('instructions', $event)" [isDisabled]="!model.isEditable"></tm-rich-text-editor>
           </div>
         </div>
         <br/>
         <div class="row" *ngIf="formMode === SessionEditFormMode.EDIT">
-          <div class="col-2 text-right font-bold">
+          <div class="col-xs-2 col-md-2 text-right font-bold">
             Submission Status
           </div>
-          <div class="col-4">
+          <div class="col-xs-4 col-md-4">
             {{ model.submissionStatus | submissionStatusName }}
           </div>
-          <div class="col-2 text-right font-bold">
+          <div class="col-xs-2 col-md-2 text-right font-bold">
             Published Status
           </div>
-          <div class="col-4">
+          <div class="col-xs-4 col-md-4">
             {{ model.publishStatus | publishStatusName }}
           </div>
         </div>
@@ -134,9 +134,9 @@
     <div class="card border-primary margin-top-20px">
       <div class="card-body">
         <div class="row">
-          <div class="col-5">
+          <div class="col-xs-5 col-md-5">
             <div class="row">
-              <div class="col-8" ngbTooltip="Please select the date and time for which users can start submitting responses for the feedback session.">
+              <div class="col-xs-8 col-md-8" ngbTooltip="Please select the date and time for which users can start submitting responses for the feedback session.">
                 <label class="label-control font-bold">
                   Submission opening time
                 </label>
@@ -153,14 +153,14 @@
                   </div>
                 </div>
               </div>
-              <div class="col-5">
+              <div class="col-xs-5 col-md-5">
                 <tm-time-picker [time]="model.submissionStartTime" (timeChange)="triggerModelChange('submissionStartTime', $event)" [isDisabled]="!model.isEditable"></tm-time-picker>
               </div>
             </div>
           </div>
-          <div class="col-5 border-left-gray">
+          <div class="col-xs-5 col-md-5 border-left-gray">
             <div class="row">
-              <div class="col-8" ngbTooltip="Please select the date and time after which the feedback session will no longer accept submissions from users.">
+              <div class="col-xs-8 col-md-8" ngbTooltip="Please select the date and time after which the feedback session will no longer accept submissions from users.">
                 <label class="label-control font-bold">
                   Submission closing time
                 </label>
@@ -178,12 +178,12 @@
                   </div>
                 </div>
               </div>
-              <div class="col-5">
+              <div class="col-xs-5 col-md-5">
                 <tm-time-picker [time]="model.submissionEndTime" (timeChange)="triggerModelChange('submissionEndTime', $event)" [isDisabled]="!model.isEditable"></tm-time-picker>
               </div>
             </div>
           </div>
-          <div class="col-2 border-left-gray">
+          <div class="col-xs-2 col-md-2 border-left-gray">
             <div class="row">
               <div class="col-12" ngbTooltip="Please select the amount of time that the system will continue accepting submissions after the specified deadline.">
                 <label class="control-label font-bold">
@@ -210,7 +210,7 @@
     <div class="card border-primary margin-top-20px" *ngIf="model.hasVisibleSettingsPanelExpanded">
       <div class="card-body">
         <div class="row">
-          <div class="col-6">
+          <div class="col-xs-6 col-md-6">
             <div class="row">
               <div class="col-12">
                 <label class="label-control font-bold" ngbTooltip="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below.">Make session visible </label>
@@ -219,7 +219,7 @@
             <div class="row">
               <div class="col-12">
                 <div class="row align-items-center">
-                  <div class="col-2" ngbTooltip="Select this option to enter in a custom date and time for which the feedback session will become visible. Note that you can make a session visible before it is open for submissions so that users can preview the questions.">
+                  <div class="col-xs-2 col-md-2" ngbTooltip="Select this option to enter in a custom date and time for which the feedback session will become visible. Note that you can make a session visible before it is open for submissions so that users can preview the questions.">
                     <div class="form-check">
                       <label class="form-check-label">
                         <input class="form-check-input" type="radio" name="sessionVisibleRadio" [value]="SessionVisibleSetting.CUSTOM" [ngModel]="model.sessionVisibleSetting" (ngModelChange)="triggerModelChange('sessionVisibleSetting', $event)" [disabled]="!model.isEditable">
@@ -227,7 +227,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-xs-6 col-md-6">
                     <div class="input-group">
                       <input type="text" class="form-control" ngbDatepicker #sessionVisibleTimeDp="ngbDatepicker" [maxDate]="maxDateForSessionVisible"
                              [ngModel]="model.customSessionVisibleDate" (ngModelChange)="triggerModelChange('customSessionVisibleDate', $event)" [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"/>
@@ -256,7 +256,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6 sessionVisibleRadio">
+          <div class="col-xs-6 col-md-6 sessionVisibleRadio">
             <div class="row">
               <div class="col-12">
                 <label class="label-control font-bold" ngbTooltip="Please select when the responses for the feedback session will be visible to the designated recipients. You can select the response visibility for each type of user and question later.">Make response visible </label>
@@ -265,7 +265,7 @@
             <div class="row">
               <div class="col-12">
                 <div class="row align-items-center">
-                  <div class="col-2" ngbTooltip="Select this option to use a custom time for when the responses of the feedback session will be visible to the designated recipients.">
+                  <div class="col-xs-2 col-md-2" ngbTooltip="Select this option to use a custom time for when the responses of the feedback session will be visible to the designated recipients.">
                     <div class="form-check">
                       <label class="form-check-label">
                         <input class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.CUSTOM" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable"/>
