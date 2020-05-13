@@ -76,17 +76,15 @@
           </hot-table>
         </div>
         <div class="row enroll-students-spreadsheet-buttons" [hidden]="isNewStudentsPanelCollapsed">
-          <div class="col-md-6">
+          <div class="enroll-button-group">
             <div class="input-group">
               <button type="button" title="Add" id="button_add_empty_rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
                 Add row(s)
               </button>
-              <div class="col-xs-4">
-                <input type="number" id="number-of-rows" class="form-control" value="1" min="0" #numOfRows>
-              </div>
+              <input type="number" id="number-of-rows" class="form-control" value="1" min="0" #numOfRows>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="enroll-button-group">
             <button
                 type="submit"
                 title="Enroll"
