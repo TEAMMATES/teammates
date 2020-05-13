@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import moment from 'moment-timezone';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { Course } from '../../../../types/api-output';
+import { FormValidator } from '../../../../types/form-validator';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
@@ -20,12 +22,14 @@ export class AddCourseFormComponent implements OnInit {
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('newCourseMessageTemplate', { static: false }) newCourseMessageTemplate!: TemplateRef<any>;
+  @ViewChild('courseForm', { static: false }) form!: FormGroup;
 
   timezones: string[] = [];
   timezone: string = '';
   newCourseId: string = '';
   newCourseName: string = '';
   course!: Course;
+  FormValidator: typeof FormValidator = FormValidator;
 
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
@@ -58,9 +62,8 @@ export class AddCourseFormComponent implements OnInit {
     if (!this.isEnabled) {
       return;
     }
-    if (!this.newCourseId || !this.newCourseName) {
-      this.statusMessageService.showErrorMessage(
-          'Please make sure you have filled in both Course ID and Name before adding the course!');
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((control: any) => control.markAsTouched());
       return;
     }
     this.courseService.createCourse({
@@ -71,12 +74,10 @@ export class AddCourseFormComponent implements OnInit {
       this.courseAdded.emit();
       this.course = course;
       this.statusMessageService.showSuccessMessageTemplate(this.newCourseMessageTemplate);
+      this.form.reset({ timezone: moment.tz.guess() });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
-    this.newCourseId = '';
-    this.newCourseName = '';
-    this.timezone = moment.tz.guess();
   }
 
   /**
