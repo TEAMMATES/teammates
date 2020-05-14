@@ -73,6 +73,9 @@ describe('AddCourseFormComponent', () => {
   });
 
   it('should snap with default fields', () => {
+    // Unable to leave timezone as default field, otherwise the field defaults to the
+    // timezone the system is on. This will differ from
+    // place to place causing the snapshot to constantly be mismatched.
     component.timezone = timeZone1;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
