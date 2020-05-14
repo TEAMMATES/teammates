@@ -63,6 +63,7 @@ describe('AddCourseFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddCourseFormComponent);
     component = fixture.componentInstance;
+    component.timezone = timeZone1;
     fixture.detectChanges();
   });
 
