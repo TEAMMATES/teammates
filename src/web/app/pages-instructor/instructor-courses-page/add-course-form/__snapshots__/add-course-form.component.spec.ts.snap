@@ -97,7 +97,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           >
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model="Asia/Singapore"
+              ng-reflect-model="UTC"
               ng-reflect-ngb-tooltip="The time zone for the course. "
               ngbtooltip="The time zone for the course. You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
@@ -238,7 +238,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           >
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model="Asia/Singapore"
+              ng-reflect-model="UTC"
               ng-reflect-ngb-tooltip="The time zone for the course. "
               ngbtooltip="The time zone for the course. You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts

@@ -1,16 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CourseService } from '../../../../services/course.service';
+import { StatusMessageService } from '../../../../services/status-message.service';
+import { TimezoneService } from '../../../../services/timezone.service';
+import { Course } from '../../../../types/api-output';
+
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AddCourseFormComponent } from './add-course-form.component';
-import { StatusMessageService } from '../../../../services/status-message.service';
-import { Course } from '../../../../types/api-output';
+
 import { of } from 'rxjs';
-import { CourseService } from '../../../../services/course.service';
-import { TimezoneService } from '../../../../services/timezone.service';
+import { AddCourseFormComponent } from './add-course-form.component';
 
 describe('AddCourseFormComponent', () => {
   let component: AddCourseFormComponent;
@@ -63,7 +65,6 @@ describe('AddCourseFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddCourseFormComponent);
     component = fixture.componentInstance;
-    component.timezone = timeZone1;
     fixture.detectChanges();
   });
 
@@ -72,11 +73,14 @@ describe('AddCourseFormComponent', () => {
   });
 
   it('should snap with default fields', () => {
+    component.timezone = timeZone1;
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when not enabled', () => {
     component.isEnabled = false;
+    component.timezone = timeZone1;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
