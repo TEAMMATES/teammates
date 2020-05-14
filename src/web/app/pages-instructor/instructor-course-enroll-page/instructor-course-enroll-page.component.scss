@@ -5,7 +5,6 @@
 .card-default {
   border-color: #DDD;
   width: 100%;
-  display: block;
   margin-bottom: 20px;
 }
 
@@ -70,4 +69,9 @@
   font-weight: bold;
   margin-left: 1em;
   margin-right: 1em;
+}
+
+.enroll-button-group {
+  width: 50%;
+  display: inline-block;
 }
