@@ -8,8 +8,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
