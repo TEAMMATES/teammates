@@ -6,27 +6,27 @@
   </div>
   <div class="card-body">
     <div class="row" *ngIf="formMode === SessionEditFormMode.ADD">
-      <div class="col-6">
+      <div class="col-md-6">
         <div class="row align-items-center">
-          <div class="col-4">
+          <div class="col-md-4">
             <h4 class="text-center">Create new </h4>
           </div>
-          <div class="col-7">
+          <div class="col-10 col-md-7">
             <select class="form-control" ngbTooltip="Select a session type here." [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
               <option *ngFor="let templateSession of templateSessions" [ngValue]="templateSession.name">{{ templateSession.name }}</option>
             </select>
           </div>
-          <div class="col-1">
+          <div class="col-1 col-md-1">
             <button type="button" class="btn btn-link" (click)="sessionHelpHandler()"><i class="fas fa-info-circle"></i></button>
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="row align-items-center">
-          <div class="col-2">
-            <h4 class="text-right">Or: </h4>
+      <div class="col-md-6">
+        <div class="row text-center align-items-center mt-2 mt-md-0">
+          <div class="col-md-2">
+            <h4 class="text-md-right">Or: </h4>
           </div>
-          <div class="col-10">
+          <div class="col-md-10 text-md-left">
             <button type="button" class="btn btn-info" (click)="copyOthersHandler()">Copy from previous feedback sessions</button>
           </div>
         </div>
