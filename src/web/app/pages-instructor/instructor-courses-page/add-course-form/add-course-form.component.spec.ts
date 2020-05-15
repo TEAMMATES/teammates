@@ -18,15 +18,15 @@ describe('AddCourseFormComponent', () => {
   let component: AddCourseFormComponent;
   let fixture: ComponentFixture<AddCourseFormComponent>;
 
-  const date1: Date = new Date('2020-13-05T08:15:30');
-  const courseId1: string = 'CS3281';
-  const courseName1: string = 'Valid course';
-  const timeZone1: string = 'UTC';
-  const course1: Course =  {
-    courseId: courseId1,
-    courseName: courseName1,
-    timeZone: timeZone1,
-    creationTimestamp: date1.getTime(),
+  const testDate: Date = new Date('2020-13-05T08:15:30');
+  const testCourseId: string = 'CS3281';
+  const testCourseName: string = 'Valid course';
+  const testTimeZone: string = 'UTC';
+  const testCourse: Course =  {
+    courseId: testCourseId,
+    courseName: testCourseName,
+    timeZone: testTimeZone,
+    creationTimestamp: testDate.getTime(),
     deletionTimestamp: 0,
   };
   const timeZoneOffsets1: Record<string, number> = { GMT: 0 };
@@ -39,7 +39,7 @@ describe('AddCourseFormComponent', () => {
     getTzOffsets: jest.fn(() => timeZoneOffsets1),
   };
   const spyCourseService: any = {
-    createCourse: jest.fn(() => of(course1)),
+    createCourse: jest.fn(() => of(testCourse)),
   };
 
   beforeEach(async(() => {
@@ -76,14 +76,14 @@ describe('AddCourseFormComponent', () => {
     // Unable to leave timezone as default field, otherwise the field defaults to the
     // timezone the system is on. This will differ from
     // place to place causing the snapshot to constantly be mismatched.
-    component.timezone = timeZone1;
+    component.timezone = testTimeZone;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when not enabled', () => {
     component.isEnabled = false;
-    component.timezone = timeZone1;
+    component.timezone = testTimeZone;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -96,11 +96,11 @@ describe('AddCourseFormComponent', () => {
   });
 
   it('should hold added course with valid details', () => {
-    component.newCourseId = courseId1;
-    component.newCourseName = courseName1;
+    component.newCourseId = testCourseId;
+    component.newCourseName = testCourseName;
     component.onSubmit();
     fixture.detectChanges();
     expect(spyStatusMessageService.showSuccessMessageTemplate).toHaveBeenCalled();
-    expect(component.course).toEqual(course1);
+    expect(component.course).toEqual(testCourse);
   });
 });
