@@ -310,8 +310,7 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
                 Const.ParamsNames.SEND_SUBMISSION_EMAIL, "true",
         };
 
-        assertThrows(EntityNotFoundException.class,
-                () -> getAction(studentSubmitSessionInOtherCourseParams).checkAccessControl());
+        verifyCannotAccess(studentSubmitSessionInOtherCourseParams);
 
         ______TS("Student intends to submit feedback session in his course, should be accessible");
 

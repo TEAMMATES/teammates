@@ -67,10 +67,6 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
      */
     protected void checkAccessControlForStudentFeedbackSubmission(
             StudentAttributes student, FeedbackSessionAttributes feedbackSession) {
-        if (student == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist"));
-        }
-
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
