@@ -7,12 +7,13 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
  */
 export abstract class InstructorSessionResultView implements OnInit {
 
-  @Input() responses: { [key: string]: any } = {};
+  @Input() responses: Record<string, any> = {};
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() session: any = {};
 
   constructor(protected viewType: InstructorSessionResultViewType) {}
 

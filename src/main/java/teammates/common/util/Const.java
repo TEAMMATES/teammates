@@ -108,8 +108,11 @@ public final class Const {
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
-        /** This is the limit after which TEAMMATES will send error message.
-         * Must be within the range of int */
+        /**
+         * This is the limit after which TEAMMATES will send error message.
+         *
+         * <p>Must be within the range of int.
+         */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
 
         /** e.g. "2014-04-01 11:59 PM UTC" */
@@ -268,6 +271,7 @@ public final class Const {
                 + " must be valid non-negative numbers with precision up to 2 decimal places.";
         public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
         public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
+        public static final String MCQ_ERROR_DUPLICATE_MCQ_OPTION = "The Mcq options cannot be duplicate";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
@@ -298,6 +302,7 @@ public final class Const {
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
                 + " must be valid numbers with precision up to 2 decimal places.";
         public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "None of the above";
+        public static final String MSQ_ERROR_DUPLICATE_MSQ_OPTION = "The Msq options cannot be duplicate";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -339,8 +344,12 @@ public final class Const {
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
         public static final String CONST_SUM_ERROR_SOME_UNIQUE =
                 "At least some options must be given a different number of points.";
+        public static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
+        public static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
 
         // Rubric
+        public static final int RUBRIC_ANSWER_NOT_CHOSEN = -1;
+
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
         public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
@@ -356,6 +365,9 @@ public final class Const {
                 "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
+
+        public static final String RUBRIC_EMPTY_ANSWER = "Empty answer.";
+        public static final String RUBRIC_INVALID_ANSWER = "The answer for the rubric question is not valid.";
 
         // Text Question
         public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
@@ -413,6 +425,7 @@ public final class Const {
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
+        public static final String INSTITUTION_MAC = "mac";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
@@ -724,11 +737,11 @@ public final class Const {
         public static final String LOGOUT = "/logout";
 
         public static final String DATABUNDLE = "/databundle";
+        public static final String DATABUNDLE_DOCUMENTS = "/databundle/documents";
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
         public static final String ACCOUNT = "/account";
-        public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNT_RESET = "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
         public static final String RESPONSE_COMMENT = "/responsecomment";
@@ -740,7 +753,9 @@ public final class Const {
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
+        public static final String SEARCH_INSTRUCTORS = "/search/instructors";
         public static final String RESULT = "/result";
+        public static final String RESULT_CSV = "/result/csv";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
         public static final String SESSIONS_ONGOING = "/sessions/ongoing";
@@ -751,6 +766,7 @@ public final class Const {
         public static final String SESSION_STATS = "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = "/session/submitted/giverset";
         public static final String SESSIONS = "/sessions";
+        public static final String SEARCH_STUDENTS = "/search/students";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
@@ -766,19 +782,11 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
 
-        public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
-
-        public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
-        public static final String STUDENT_COURSE = "/student/course";
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
-        public static final String STUDENT_COURSES = "/student/courses";
         public static final String STUDENTS_CSV = "/students/csv";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
 
-        public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
-        public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
-        public static final String STUDENT_RECORDS = "/students/records";
         public static final String COURSE_ENROLL_STUDENTS = "/course/enroll/students";
     }
 

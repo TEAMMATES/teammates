@@ -13,19 +13,20 @@ import {
 })
 export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
 
-  @Input() responses: any = {};
+  @Input() responses: any[] = [];
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() session: any = {};
 
   @Input() isGrq: boolean = true;
 
-  teamsToUsers: { [key: string]: string[] } = {};
-  teamExpanded: { [key: string]: boolean } = {};
-  userToTeamName: { [key: string]: any } = {};
-  responsesToShow: { [key: string]: { [key: string]: any[] } } = {};
+  teamsToUsers: Record<string, string[]> = {};
+  teamExpanded: Record<string, boolean> = {};
+  userToTeamName: Record<string, any> = {};
+  responsesToShow: Record<string, Record<string, any[]>> = {};
 
   constructor() { }
 
@@ -57,6 +58,7 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
+            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = false;
@@ -135,4 +137,17 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Get first response for specific user in grq view.
+   */
+  getGRQRelatedGiverEmailForUser(userInfo: string): any {
+    return Object.values(this.responsesToShow[userInfo])[0][0].allResponses[0].relatedGiverEmail;
+  }
+
+  /**
+   * Get first response for specific user in rgq view.
+   */
+  getRGQRelatedGiverEmailForUser(other: any): any {
+    return other.value[0].allResponses[0].relatedGiverEmail;
+  }
 }

@@ -4,6 +4,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardModule } from 'ngx-clipboard';
+import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 
 @Component({ selector: 'tm-student-list', template: '' })
@@ -16,9 +18,12 @@ class StudentListStubComponent {
 @Component({ selector: 'tm-ajax-preload', template: '' })
 class AjaxPreloadComponent {}
 
-const course: any = {
-  id: 'CS101',
-  name: 'Introduction to CS',
+const course: Course = {
+  courseId: 'CS101',
+  courseName: 'Introduction to CS',
+  timeZone: '',
+  creationTimestamp: 0,
+  deletionTimestamp: 0,
 };
 
 const student: any = {
@@ -41,6 +46,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       ],
       imports: [
         HttpClientTestingModule,
+        TeammatesCommonModule,
         RouterTestingModule,
         ClipboardModule,
         MatSnackBarModule,
@@ -69,14 +75,14 @@ describe('InstructorCourseDetailsPageComponent', () => {
       teamsTotal: 0,
       studentsTotal: 0,
     };
-    const coOwner: any = {
+    const coOwner: Instructor = {
+      courseId: course.courseId,
+      joinState: JoinState.JOINED,
       googleId: 'Hodor',
       name: 'Hodor',
       email: 'hodor@gmail.com',
-      key: 'hodor@gmail.com%CS1012345',
-      role: 'Co-owner',
-      displayedName: 'Hodor',
-      isArchived: false,
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      displayedToStudentsAs: 'Hodor',
       isDisplayedToStudents: true,
     };
     const courseDetails: any = {
@@ -97,14 +103,14 @@ describe('InstructorCourseDetailsPageComponent', () => {
       teamsTotal: 1,
       studentsTotal: 1,
     };
-    const coOwner: any = {
+    const coOwner: Instructor = {
+      courseId: course.courseId,
+      joinState: JoinState.JOINED,
       googleId: 'Bran',
       name: 'Bran',
       email: 'bran@gmail.com',
-      key: 'bran@gmail.com%CS1012345',
-      role: 'Co-owner',
-      displayedName: 'Bran',
-      isArchived: false,
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      displayedToStudentsAs: 'Bran',
       isDisplayedToStudents: false,
     };
     const courseDetails: any = {

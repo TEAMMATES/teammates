@@ -1,4 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
+import { ResponseOutput } from '../../../../types/api-output';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -13,6 +16,10 @@ import {
 })
 export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
 
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
+
+  @Input() questionId: string = '';
   @Input() questionDetails: any = {};
   @Input() responses: any[] = [];
   @Input() section: string = '';
@@ -21,10 +28,13 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   @Input() indicateMissingResponses: boolean = true;
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
+  @Input() session: any = {};
 
   responsesToShow: any[] = [];
+  sortBy: SortBy = SortBy.NONE;
+  sortOrder: SortOrder = SortOrder.ASC;
 
-  constructor() { }
+  constructor(private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.filterResponses();
@@ -63,6 +73,46 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
       responsesToShow.push(response);
     }
     this.responsesToShow = responsesToShow;
+  }
+
+  sortResponses(by: SortBy): void {
+    if (this.sortBy === by) {
+      this.sortOrder = this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
+    } else {
+      this.sortBy = by;
+      this.sortOrder = SortOrder.ASC;
+    }
+    this.responsesToShow.sort(this.sortResponsesBy(by, this.sortOrder));
+  }
+
+  sortResponsesBy(by: SortBy, order: SortOrder):
+    ((a: ResponseOutput, b: ResponseOutput) => number) {
+    return ((a: ResponseOutput, b: ResponseOutput): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.GIVER_TEAM:
+          strA = a.giverTeam;
+          strB = b.giverTeam;
+          break;
+        case SortBy.GIVER_NAME:
+          strA = a.giver;
+          strB = b.giver;
+          break;
+        case SortBy.RECIPIENT_TEAM:
+          strA = a.recipientTeam;
+          strB = b.recipientTeam;
+          break;
+        case SortBy.RECIPIENT_NAME:
+          strA = a.recipient;
+          strB = b.recipient;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return this.tableComparatorService.compare(by, order, strA, strB);
+    });
   }
 
 }

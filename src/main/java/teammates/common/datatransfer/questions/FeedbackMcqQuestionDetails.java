@@ -54,6 +54,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return numOfMcqChoices;
     }
 
+    public void setNumOfMcqChoices(int numOfMcqChoices) {
+        this.numOfMcqChoices = numOfMcqChoices;
+    }
+
     public List<String> getMcqChoices() {
         return mcqChoices;
     }
@@ -548,8 +552,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                     errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
                 }
             }
+
+            //If there are duplicate mcq options trigger this error
+            boolean isDuplicateOptionsEntered = mcqChoices.stream().map(String::trim).distinct().count()
+                                                != mcqChoices.size();
+            if (isDuplicateOptionsEntered) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION);
+            }
         }
-        //TODO: check that mcq options do not repeat. needed?
 
         return errors;
     }

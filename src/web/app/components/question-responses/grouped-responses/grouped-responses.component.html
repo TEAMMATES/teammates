@@ -7,6 +7,9 @@
     <div class="top-padded">
       {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][isGrq ? 'giver' : 'recipient']}}
     </div>
+    <div class="top-padded">
+      <tm-response-moderation-button *ngIf="!isGrq" [session]="session" [relatedGiverEmail]="relatedGiverEmail"></tm-response-moderation-button>
+    </div>
   </div>
   <div class="col-md-9">
     <div *ngFor="let response of responses">

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MasqueradeModeService } from '../services/masquerade-mode.service';
 
 /**
  * Component for publicly available pages.
@@ -9,6 +11,13 @@ import { Component } from '@angular/core';
 })
 export class PublicPageComponent {
 
-  constructor() {}
+  constructor(private route: ActivatedRoute,
+              private masqueradeModeService: MasqueradeModeService) {
+    this.route.queryParams.subscribe((queryParams: any) => {
+      if (queryParams.user) {
+        this.masqueradeModeService.setMasqueradeUser(queryParams.user);
+      }
+    });
+  }
 
 }

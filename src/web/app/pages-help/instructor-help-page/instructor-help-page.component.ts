@@ -18,7 +18,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   searchTerm: String = '';
   key: String = '';
 
-  @ViewChild('helpPage') bodyRef ?: ElementRef;
+  @ViewChild('helpPage', { static: false }) bodyRef ?: ElementRef;
 
   constructor(private route: ActivatedRoute) { }
 

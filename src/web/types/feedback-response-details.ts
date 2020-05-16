@@ -24,6 +24,21 @@ export const NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = -999;
 export const RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = -999;
 
 /**
+ * Special answer of a rank recipients question response to indicate the response is not submitted.
+ */
+export const RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED: number = -999;
+
+/**
+ * Special answer of a rubric question response to indicate no choice is chosen.
+ */
+export const RUBRIC_ANSWER_NOT_CHOSEN: number = -1;
+
+/**
  * Special value to indicate whether a value is present or not.
  */
 export const NO_VALUE: number = -2147483648;
+
+/**
+ * Special value to indicate an anonymous identifier
+ */
+export const ANONYMOUS_PREFIX: string = 'Anonymous';

@@ -273,7 +273,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
 
-        verifyInaccessibleForAdmin(adminEntityParam);
+        verifyAccessibleForAdmin(adminEntityParam);
         verifyInaccessibleForUnregisteredUsers(studentEntityParam);
         verifyInaccessibleWithoutLogin();
     }
@@ -284,7 +284,6 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         assertNull(data.getCustomSessionVisibleTimestamp());
         assertNull(data.getResponseVisibleSetting());
         assertNull(data.getCustomResponseVisibleTimestamp());
-        assertNull(data.getPublishStatus());
         assertNull(data.getIsClosingEmailEnabled());
         assertNull(data.getIsPublishedEmailEnabled());
     }

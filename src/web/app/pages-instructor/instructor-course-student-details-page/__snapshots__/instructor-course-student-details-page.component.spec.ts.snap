@@ -2,11 +2,11 @@
 
 exports[`InstructorCourseStudentDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-details-page
-  httpRequestService={[Function HttpRequestService]}
   photoUrl={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
 >
   
 </tm-instructor-course-student-details-page>
@@ -14,13 +14,13 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
 
 exports[`InstructorCourseStudentDetailsPageComponent should snap with populated student 1`] = `
 <tm-instructor-course-student-details-page
-  httpRequestService={[Function HttpRequestService]}
   photoUrl={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfile={[Function Object]}
-  user="undefined"
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
 >
   <h1>
     firstName

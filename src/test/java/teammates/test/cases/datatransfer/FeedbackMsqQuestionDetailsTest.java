@@ -390,6 +390,24 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testValidateQuestionDetails_duplicateMsqOptions_errorReturned() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+
+        msqDetails.setMsqChoices(Arrays.asList("choice 1", "choice 1"));
+
+        List<String> errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        assertEquals(1, errors.size());
+        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
+
+        //duplicate cases that has trailing and leading spaces
+        msqDetails.setMsqChoices(Arrays.asList("choice 1", " choice 1 "));
+        errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        assertEquals(1, errors.size());
+        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
+
+    }
+
+    @Test
     public void testExtractQuestionDetails_weightsEnabledForGenerateOptions_weightShouldRemainDisabled() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         Map<String, String[]> requestParams = new HashMap<>();

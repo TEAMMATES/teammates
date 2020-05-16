@@ -27,7 +27,7 @@ export class McqQuestionEditAnswerFormComponent
   @Input()
   id: string = '';
 
-  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
+  @ViewChild('inputTextBoxOther', { static: false }) inputTextBoxOther?: ElementRef;
 
   isMcqOptionSelected: boolean[] = [];
 

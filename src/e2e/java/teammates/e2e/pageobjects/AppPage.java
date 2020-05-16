@@ -2,6 +2,7 @@ package teammates.e2e.pageobjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -177,7 +178,7 @@ public abstract class AppPage {
      * @param element the WebElement
      * @throws TimeoutException if the timeout defined in
      * {@link TestProperties#TEST_TIMEOUT} expires
-     * @see org.openqa.selenium.support.ui.FluentWait#until(com.google.common.base.Function)
+     * @see org.openqa.selenium.support.ui.FluentWait#until(java.util.function.Function)
      */
     public void waitForElementStaleness(WebElement element) {
         waitFor(ExpectedConditions.stalenessOf(element));
@@ -479,10 +480,11 @@ public abstract class AppPage {
     /**
      * Scrolls element to center and clicks on it.
      *
-     * <p>As compared to {@link Actions#moveToElement(WebElement)}, this method is more reliable as the element will not get
-     * blocked by elements such as the header.
+     * <p>As compared to {@link org.openqa.selenium.interactions.Actions#moveToElement(WebElement)}, this method is
+     * more reliable as the element will not get blocked by elements such as the header.
      *
-     * <p>Furthermore, {@link Actions#moveToElement(WebElement)} is currently not working in Geckodriver.
+     * <p>Furthermore, {@link org.openqa.selenium.interactions.Actions#moveToElement(WebElement)} is currently not
+     * working in Geckodriver.
      *
      * <p><b>Note:</b> A "scroll into view" Actions primitive is in progress and may allow scrolling element to center.
      * Tracking issue:
@@ -503,6 +505,16 @@ public abstract class AppPage {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
         executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
         element.click();
+    }
+
+    /**
+     * Asserts message in snackbar is equal to the expected message.
+     */
+    public void verifyStatusMessage(String expectedMessage) {
+        // wait for short period to ensure previous status message is replaced
+        ThreadHelper.waitFor(100);
+        WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
+        assertEquals(expectedMessage, statusMessage.getText());
     }
 
     /**

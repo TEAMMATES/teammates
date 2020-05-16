@@ -14,6 +14,7 @@ import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
+import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
 import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
 import { InstructorSessionResultPageComponent } from './instructor-session-result-page.component';
@@ -34,6 +35,7 @@ describe('InstructorSessionResultPageComponent', () => {
         InstructorSessionResultGrqViewComponent,
         InstructorSessionResultRqgViewComponent,
         InstructorSessionResultGqrViewComponent,
+        InstructorSessionNoResponsePanelComponent,
       ],
       imports: [
         HttpClientTestingModule,

@@ -11,17 +11,17 @@
           <label>Course</label>
         </div>
         <div class="col-8">
-          <a routerLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.course}">
-            <span>{{student?.course}}</span>
+          <a routerLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.courseId}">
+            <span>{{student?.courseId}}</span>
           </a>
         </div>
       </div>
-      <div class="form-group student-info-row row" *ngIf="student?.section">
+      <div class="form-group student-info-row row" *ngIf="student?.sectionName">
         <div class="col-4 text-right">
           <label>Section Name</label>
         </div>
         <div class="col-8">
-          <span>{{student?.section}}</span>
+          <span>{{student?.sectionName}}</span>
         </div>
       </div>
       <div class="form-group student-info-row row">
@@ -29,7 +29,7 @@
           <label>Team Name</label>
         </div>
         <div class="col-8">
-          <span>{{student?.team}}</span>
+          <span>{{student?.teamName}}</span>
         </div>
       </div>
       <div class="form-group student-info-row row">

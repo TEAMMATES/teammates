@@ -3,10 +3,11 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../services/http-request.service';
+import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
+import { TableComparatorService } from '../../services/table-comparator.service';
 import {
   FeedbackSessionSubmittedGiverSet,
   Student, Students,
@@ -34,15 +35,16 @@ import {
 export abstract class InstructorSessionModalPageComponent extends InstructorSessionBasePageComponent {
 
   protected constructor(router: Router,
-                        httpRequestService: HttpRequestService,
+                        instructorService: InstructorService,
                         statusMessageService: StatusMessageService,
                         navigationService: NavigationService,
                         feedbackSessionsService: FeedbackSessionsService,
                         feedbackQuestionsService: FeedbackQuestionsService,
+                        tableComparatorService: TableComparatorService,
                         protected modalService: NgbModal,
                         protected studentService: StudentService) {
-    super(router, httpRequestService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService);
+    super(router, instructorService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
   }
 
   /**
@@ -52,7 +54,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const courseId: string = model.feedbackSession.courseId;
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
-    this.studentService.getStudentsFromCourse(courseId).subscribe((students: Students) => {
+    this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
       const modalRef: NgbModalRef = this.modalService.open(ResendResultsLinkToStudentModalComponent);
 
       modalRef.componentInstance.courseId = courseId;
@@ -88,8 +90,8 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
     forkJoin(
-        this.studentService.getStudentsFromCourse(courseId),
-        this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet(courseId, feedbackSessionName))
+        this.studentService.getStudentsFromCourse({ courseId }),
+        this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }))
         .subscribe(
             (result: any[]) => {
               const students: Student[] = (result[0] as Students).students;

@@ -1,0 +1,464 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionEditFormComponent should snap with default view 1`] = `
+<tm-question-edit-form
+  FeedbackParticipantType={[Function Object]}
+  FeedbackQuestionType={[Function Object]}
+  FeedbackVisibilityType={[Function Object]}
+  NumberOfEntitiesToGiveFeedbackToSetting={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  VisibilityControl={[Function Object]}
+  allowedFeedbackPaths={[Function Map]}
+  commonFeedbackPaths={[Function Map]}
+  commonFeedbackVisibilitySettings={[Function Array]}
+  createNewQuestionEvent={[Function EventEmitter]}
+  deleteCurrentQuestionEvent={[Function EventEmitter]}
+  discardExistingQuestionChangesEvent={[Function EventEmitter]}
+  discardNewQuestionEvent={[Function EventEmitter]}
+  duplicateCurrentQuestionEvent={[Function EventEmitter]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  formMode={[Function Number]}
+  formModelChange={[Function EventEmitter]}
+  isDisplayOnly="false"
+  modalService={[Function NgbModal]}
+  model={[Function Object]}
+  numOfQuestions="0"
+  saveExistingQuestionEvent={[Function EventEmitter]}
+  visibilityStateMachine={[Function VisibilityStateMachine]}
+>
+  <div
+    class="card"
+    xmlns="http://www.w3.org/1999/html"
+  >
+    <div
+      class="card-header text-white question-header"
+    >
+      <div
+        class="row align-items-center"
+      >
+        <div
+          class="col-5"
+        >
+          <strong>
+            Question 
+            
+            <span>
+              0
+            </span>
+          </strong>
+          
+           Essay question 
+        </div>
+        
+        <div
+          class="col-7 text-right"
+        >
+          
+          <div>
+            
+            <button
+              class="btn btn-primary btn-sm"
+              ng-reflect-ngb-tooltip="Edit the existing question. Do"
+              ngbtooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."
+              type="button"
+            >
+              <i
+                class="fas fa-pencil-alt"
+              />
+               Edit
+            </button>
+            
+            
+            
+            
+            <button
+              class="btn btn-primary btn-sm"
+              type="button"
+            >
+              <i
+                class="fas fa-trash"
+              />
+               Delete
+            </button>
+            
+            <button
+              class="btn btn-primary btn-sm"
+              container="body"
+              ng-reflect-container="body"
+              ng-reflect-ngb-tooltip="Make a copy of the existing qu"
+              ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+              type="button"
+            >
+              <i
+                class="far fa-copy"
+              />
+               Duplicate
+            </button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div
+      class="card-body"
+    >
+      <div
+        class="background-color-light-blue"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="col-12"
+          >
+            <div
+              class="row padding-15px align-items-center"
+            >
+              <div
+                class="col-2"
+              >
+                <div
+                  class="question-basic-info"
+                >
+                  Question
+                </div>
+              </div>
+              <div
+                class="col-10"
+              >
+                <textarea
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  disabled=""
+                  ng-reflect-is-disabled="true"
+                  ng-reflect-model=""
+                  ng-reflect-ngb-tooltip="Please enter the question for "
+                  ngbtooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
+                  placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
+                />
+              </div>
+            </div>
+            <div
+              class="row padding-15px"
+            >
+              <div
+                class="col-2"
+              >
+                <div
+                  class="question-basic-info"
+                >
+                  [Optional]
+                  <br />
+                  Description
+                </div>
+              </div>
+              <div
+                class="col-10"
+              >
+                <tm-rich-text-editor
+                  ng-reflect-is-disabled="true"
+                  ng-reflect-ngb-tooltip="Please enter the description o"
+                  ng-reflect-placeholder-text="More details about the questio"
+                  ng-reflect-rich-text=""
+                  ngbtooltip="Please enter the description of the question."
+                  placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                >
+                  <editor
+                    _nghost-a-c1=""
+                    class="editor editor-disabled ng-untouched ng-pristine ng-valid"
+                    ng-reflect-disabled="true"
+                    ng-reflect-init="[object Object]"
+                    ng-reflect-inline="true"
+                    ng-reflect-is-disabled="true"
+                    ng-reflect-klass="editor"
+                    ng-reflect-model=""
+                    ng-reflect-ng-class="[object Object]"
+                    ng-reflect-ng-style="[object Object]"
+                    placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                    style="min-height: 120px;"
+                  >
+                    
+                    <div
+                      id="tiny-angular_031577836800000"
+                    />
+                  </editor>
+                </tm-rich-text-editor>
+              </div>
+            </div>
+            <div
+              class="padding-15px"
+            >
+              
+              <tm-text-question-edit-details-form
+                ng-reflect-details="[object Object]"
+                ng-reflect-is-editable="false"
+              >
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12 question-recommended-length"
+                  >
+                     [Optional] 
+                    <span
+                      ng-reflect-ngb-tooltip="The recommended length is show"
+                      ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                    >
+                       Recommended length 
+                    </span>
+                     for the response: 
+                    <input
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      disabled=""
+                      min="0"
+                      ng-reflect-is-disabled="true"
+                      ng-reflect-model="0"
+                      type="number"
+                    />
+                     words 
+                  </div>
+                </div>
+              </tm-text-question-edit-details-form>
+              
+              
+              
+              
+              
+              
+              
+              
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="background-color-light-green margin-top-15px padding-15px"
+      >
+        <div>
+          <b
+            class="feedback-path-title"
+          >
+            Feedback Path
+          </b>
+           (Who is giving feedback about whom?) 
+        </div>
+        <div
+          class="margin-top-15px dropdown"
+          ngbdropdown=""
+        >
+          <button
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn btn-light dropdown-toggle"
+            disabled=""
+            ngbdropdowntoggle=""
+          >
+            
+            <span>
+               Students in this course will give feedback on 
+              <i
+                class="fas fa-arrow-right"
+              />
+               Other students in the course 
+            </span>
+            
+          </button>
+          <ul
+            class="dropdown-menu"
+            ngbdropdownmenu=""
+            x-placement="bottom"
+          >
+            <li
+              class="dropdown-header"
+            >
+              Common feedback path combinations
+            </li>
+            
+            <li
+              class="dropdown-divider"
+            />
+            <li
+              class="dropdown-item"
+            >
+              Custom feedback path...
+            </li>
+          </ul>
+        </div>
+        
+        
+        <div
+          class="row margin-top-15px align-items-center"
+        >
+          <div
+            class="offset-1 col-4 text-right"
+          >
+             The maximum number of students each respondent should give feedback to: 
+          </div>
+          <div
+            class="col-2"
+          >
+            <div
+              class="input-group"
+            >
+              <div
+                class="input-group-prepend"
+              >
+                <div
+                  class="input-group-text"
+                >
+                  <input
+                    class="ng-untouched ng-pristine ng-valid"
+                    disabled=""
+                    ng-reflect-is-disabled="true"
+                    ng-reflect-model="UNLIMITED"
+                    ng-reflect-name="numOfRecipients"
+                    ng-reflect-value="CUSTOM"
+                    type="radio"
+                  />
+                </div>
+              </div>
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                disabled=""
+                min="1"
+                ng-reflect-is-disabled="true"
+                ng-reflect-model="1"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="col-2"
+          >
+            <div
+              class="form-check"
+            >
+              <label
+                class="form-check-label"
+              >
+                <input
+                  class="form-check-input ng-untouched ng-pristine ng-valid"
+                  disabled=""
+                  ng-reflect-is-disabled="true"
+                  ng-reflect-model="UNLIMITED"
+                  ng-reflect-name="numOfRecipients"
+                  ng-reflect-value="UNLIMITED"
+                  type="radio"
+                />
+                 Unlimited 
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="margin-top-15px padding-15px background-color-light-green"
+        ng-reflect-klass="margin-top-15px padding-15px"
+        ng-reflect-ng-class="[object Object]"
+      >
+        <div>
+          
+          <b
+            class="visibility-title"
+            ng-reflect-ng-class="[object Object]"
+          >
+            Visibility
+          </b>
+           (Who can see the responses?) 
+        </div>
+        <div
+          class="margin-top-15px dropdown"
+          ngbdropdown=""
+        >
+          <button
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="btn btn-light dropdown-toggle"
+            disabled=""
+            ngbdropdowntoggle=""
+          >
+            
+            <span>
+                
+            </span>
+            
+          </button>
+          <ul
+            class="dropdown-menu"
+            ngbdropdownmenu=""
+            x-placement="bottom"
+          >
+            <li
+              class="dropdown-header"
+            >
+              Common visibility options
+            </li>
+            
+            
+            <li
+              class="dropdown-divider"
+            />
+            
+            <li
+              class="dropdown-item"
+            >
+              Custom visibility options...
+            </li>
+          </ul>
+        </div>
+        
+        <div
+          class="margin-top-15px visibility-message"
+        >
+           This is the visibility hint as seen by the feedback giver: 
+          <ul
+            class="text-muted background-color-warning"
+          >
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <li>
+              No-one can see your responses
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div
+        class="row margin-top-15px"
+      >
+        <div
+          class="col-12 text-right"
+        >
+          <button
+            class="btn btn-primary"
+            disabled=""
+          >
+            
+            
+            <span>
+              Save Changes
+            </span>
+            
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-question-edit-form>
+`;

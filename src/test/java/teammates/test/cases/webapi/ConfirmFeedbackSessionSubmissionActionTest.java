@@ -17,9 +17,9 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.ui.webapi.action.ConfirmFeedbackSessionSubmissionAction;
-import teammates.ui.webapi.action.ConfirmFeedbackSessionSubmissionAction.ConfirmationResponse;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.ConfirmationResponse;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link ConfirmFeedbackSessionSubmissionAction}.

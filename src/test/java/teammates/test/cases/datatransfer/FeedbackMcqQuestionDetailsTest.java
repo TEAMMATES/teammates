@@ -1,5 +1,6 @@
 package teammates.test.cases.datatransfer;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -383,6 +384,24 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_duplicateMcqOptions_errorReturned() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+
+        mcqDetails.setNumOfMcqChoices(2);
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 1"));
+
+        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        assertEquals(1, errors.size());
+        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
+
+        //duplicate cases that has trailing and leading spaces
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", " choice 1 "));
+        errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        assertEquals(1, errors.size());
+        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
     }
 
     @Test
