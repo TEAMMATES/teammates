@@ -56,7 +56,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
     }
 
     @Test
-    protected void testExecute_nonexistCourse_shouldFail() throws Exception {
+    protected void testExecute_nonExistCourse_shouldFail() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.googleId);
 
