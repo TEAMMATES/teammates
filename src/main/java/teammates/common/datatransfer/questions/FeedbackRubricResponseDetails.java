@@ -3,6 +3,8 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.TeammatesException;
@@ -66,10 +68,10 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
         answer = new ArrayList<>();
-        for (int i = 0; i < numSubQuestions; i++) {
-            // -1 indicates no choice chosen
-            answer.add(-1);
-        }
+        answer = IntStream.range(0,numSubQuestions)
+                // -1 indicates no choice chosen
+                .mapToObj(i->-1)
+                .collect(Collectors.toList());
     }
 
     @Override
