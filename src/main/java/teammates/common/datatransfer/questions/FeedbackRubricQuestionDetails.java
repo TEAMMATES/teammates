@@ -1,7 +1,14 @@
 package teammates.common.datatransfer.questions;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -198,7 +205,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             return false;
         }
         return rubricDescriptions.stream()
-                .noneMatch(rubricDescription-> rubricDescription.size()==numOfRubricChoices);
+                .noneMatch(rubricDescription -> rubricDescription.size() == numOfRubricChoices);
     }
 
     /**
@@ -517,10 +524,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     private void initializeRubricDescriptions() {
-        IntFunction<List<String>> descList = subQns -> IntStream.range(0,numOfRubricChoices)
+        IntFunction<List<String>> descList = subQns -> IntStream.range(0, numOfRubricChoices)
                 .mapToObj(ch -> "")
                 .collect(Collectors.toList());
-        rubricDescriptions =  IntStream.range(0,numOfRubricSubQuestions)
+        rubricDescriptions = IntStream.range(0, numOfRubricSubQuestions)
                 .mapToObj(descList)
                 .collect(Collectors.toList());
     }
@@ -729,11 +736,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         boolean isFilteringByTeams = recipientType.equals(FeedbackParticipantType.OWN_TEAM)
                 || recipientType.equals(FeedbackParticipantType.TEAMS);
 
-        List<FeedbackResponseAttributes> receivedResponses = new ArrayList<>();
+        List<FeedbackResponseAttributes> receivedResponses;
         String recipientString = isFilteringByTeams ? bundle.getTeamNameForEmail(studentEmail) : studentEmail;
 
         receivedResponses = responses.stream()
-                .filter(response->response.recipient.equals(recipientString))
+                .filter(response -> response.recipient.equals(recipientString))
                 .collect(Collectors.toList());
 
         return receivedResponses;
@@ -1278,11 +1285,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
          */
         public String getHtmlForAllSubQuestions() {
             StringBuilder html = new StringBuilder(100);
-            Optional<StringBuilder> optionalHtml =  IntStream.range(0,getNumOfRubricSubQuestions())
-                    .mapToObj(i->html.append(Templates.populateTemplate(
+            Optional<StringBuilder> optionalHtml = IntStream.range(0, getNumOfRubricSubQuestions())
+                    .mapToObj(i -> html.append(Templates.populateTemplate(
                             FormTemplates.RUBRIC_RESULT_RECIPIENT_STATS_BODY_FRAGMENT,
                             Slots.RUBRIC_RECIPIENT_STAT_ROW, getHtmlForSubQuestion(i))))
-                    .reduce((a,b)->b);
+                    .reduce((a, b) -> b);
             return optionalHtml.map(StringBuilder::toString).orElse("");
         }
 
@@ -1317,9 +1324,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         public String getCsvForAllSubQuestions() {
             StringBuilder csv = new StringBuilder(100);
-            Optional<StringBuilder> optionalCsv =  (IntStream.range(0, getNumOfRubricSubQuestions())
+            Optional<StringBuilder> optionalCsv = IntStream.range(0, getNumOfRubricSubQuestions())
                     .mapToObj(i -> csv.append(getCsvForSubQuestion(i)))
-                    .reduce((a, b) -> b));
+                    .reduce((a, b) -> b);
             return optionalCsv.map(StringBuilder::toString).orElse("");
         }
     }

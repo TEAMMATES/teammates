@@ -68,9 +68,9 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      */
     private void initializeEmptyAnswerList(int numSubQuestions) {
         answer = new ArrayList<>();
-        answer = IntStream.range(0,numSubQuestions)
+        answer = IntStream.range(0, numSubQuestions)
                 // -1 indicates no choice chosen
-                .mapToObj(i->-1)
+                .mapToObj(i -> -1)
                 .collect(Collectors.toList());
     }
 
