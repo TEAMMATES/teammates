@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -11,11 +13,36 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  constructor() {
+  @Input() isPeerEvalTipsCollapsed: boolean = false;
+  isNewFeedbackSessionCollapsed: boolean = false;
+  isAddQuestionsCollapsed: boolean = false;
+  isPreviewCollapsed: boolean = false;
+  isCannotSubmitCollapsed: boolean = false;
+  isViewResultsCollapsed: boolean = false;
+  isViewAllResponsesCollapsed: boolean = false;
+  isAddCommentCollapsed: boolean = false;
+  isEditDelCommentCollapsed: boolean = false;
+  isSearchCollapsed: boolean = false;
+  isViewDeletedCollapsed: boolean = false;
+  isRestoreSessionCollapsed: boolean = false;
+  isDelSessionCollapsed: boolean = false;
+  isRestoreDelAllCollapsed: boolean = false;
+
+  constructor(private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: any) {
     super();
   }
 
-  ngOnInit(): void {
+  /**
+   * Scrolls to an HTML element with a given target id.
+   */
+  jumpTo(target: string): boolean {
+    this.pageScrollService.scroll({
+      document: this.document,
+      scrollTarget: `#${target}`,
+      scrollOffset: 70,
+    });
+    return false;
   }
 
 }

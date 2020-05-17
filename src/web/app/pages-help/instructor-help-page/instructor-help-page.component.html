@@ -21,19 +21,19 @@
       </div>
     </div>
     <div id="{{Sections.students}}">
-      <tm-instructor-help-students-section [key]="key">
+      <tm-instructor-help-students-section [key]="key" [isEditDetailsCollapsed]="isEditDetailsCollapsed">
       </tm-instructor-help-students-section>
     </div>
     <div id="{{Sections.courses}}">
-      <tm-instructor-help-courses-section [key]="key">
+      <tm-instructor-help-courses-section [key]="key" (collapseStudentEditDetails)="collapseStudentEditDetails($event)">
       </tm-instructor-help-courses-section>
     </div>
     <div id="{{Sections.sessions}}">
-      <tm-instructor-help-sessions-section [key]="key">
+      <tm-instructor-help-sessions-section [key]="key" [isPeerEvalTipsCollapsed]="isPeerEvalTipsCollapsed">
       </tm-instructor-help-sessions-section>
     </div>
     <div id="{{Sections.questions}}">
-      <tm-instructor-help-questions-section [key]="key">
+      <tm-instructor-help-questions-section [key]="key" (collapsePeerEvalTips)="collapsePeerEvalTips($event)">
       </tm-instructor-help-questions-section>
     </div>
   </div>
