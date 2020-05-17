@@ -145,9 +145,9 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Get first response for specific user in rgq view.
+   * Get first response for specific user in the view.
    */
-  getRGQRelatedGiverEmailForUser(other: any): any {
+  getRelatedGiverEmailForUser(other: any): any {
     return other.value[0].allResponses[0].relatedGiverEmail;
   }
 }

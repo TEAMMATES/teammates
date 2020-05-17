@@ -128,9 +128,9 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Get related giver email of specific user in GQR view.
+   * Get related giver email of specific user in the view.
    */
-  getGQRRelatedGiverEmailForUser(userInfo: string): string {
+  getRelatedGiverEmailForUser(userInfo: string): string {
     return Object.values(this.responsesToShow[userInfo])[0].allResponses[0].relatedGiverEmail;
   }
 }
