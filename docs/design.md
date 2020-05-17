@@ -77,7 +77,7 @@ Subsequent AJAX requests sent to the server will be processed as follows:
 Requests for static asset files (e.g. CSS, JS files, images) are served directly without going through `web.xml` configuration at all.
 
 The Web API is protected by two layers of access control check:
-- Origin check: This mitigates [CSRF attack](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)).
+- Origin check: This mitigates [CSRF attack](https://owasp.org/www-community/attacks/csrf).
 - Authentication and authorization check: This checks if the logged in user (or lack thereof) has sufficient privileges to trigger the API's actions.
 
 Special keys (`csrf key` and `backdoor key`) can be used to bypass each of the checks, typically for testing purpose. Those keys are strings known only to the person who deployed the application (typically, the administrator).
