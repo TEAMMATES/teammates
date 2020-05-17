@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
 import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
@@ -106,11 +106,15 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     ],
   }];
 
+  @Input() isEditDetailsCollapsed: boolean = false;
+  isViewProfileCollapsed: boolean = false;
+  isViewAllResponsesCollapsed: boolean = false;
+  isStudentSearchCollapsed: boolean = false;
+  isStudentEmailCollapsed: boolean = false;
+  isGoogleAccountCollapsed: boolean = false;
+  isChangeGoogleIdCollapsed: boolean = false;
+
   constructor() {
     super();
-  }
-
-  ngOnInit(): void {
-
   }
 }
