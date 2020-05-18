@@ -65,6 +65,10 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
      */
     protected void checkAccessControlForStudentFeedbackSubmission(
             StudentAttributes student, FeedbackSessionAttributes feedbackSession) {
+        if (student == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
+        }
+
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
