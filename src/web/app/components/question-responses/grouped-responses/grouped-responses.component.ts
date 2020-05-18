@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
-  InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  QuestionOutput,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../../types/api-output';
 
 /**
  * A list of responses grouped in GRQ/RGQ mode.
@@ -13,13 +16,25 @@ import {
 })
 export class GroupedResponsesComponent implements OnInit {
 
-  @Input() responses: any = [];
-  @Input() section: string = '';
-  @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
+  @Input() responses: QuestionOutput[] = [];
 
   @Input() isGrq: boolean = true;
-  @Input() header: string = '';
-  @Input() session: any = {};
+  @Input() session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
 
   constructor() { }
 

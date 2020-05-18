@@ -43,7 +43,7 @@
     </div>
     <div class="card-body" *ngIf="userExpanded[userInfo]">
       <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">
-        <tm-grouped-responses [header]="other.key" [responses]="other.value" [section]="section" [sectionType]="sectionType"
+        <tm-grouped-responses [responses]="other.value"
                               [isGrq]="isGrq" [session]="session"></tm-grouped-responses>
       </div>
     </div>
