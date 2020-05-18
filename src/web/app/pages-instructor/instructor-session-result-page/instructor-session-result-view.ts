@@ -1,4 +1,4 @@
-import { Input, OnInit } from '@angular/core';
+import { EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 
@@ -7,13 +7,14 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
  */
 export abstract class InstructorSessionResultView implements OnInit {
 
-  @Input() responses: Record<string, any> = {};
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
   @Input() session: any = {};
+
+  @Output() toggleAndLoadTab: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(protected viewType: InstructorSessionResultViewType) {}
 
