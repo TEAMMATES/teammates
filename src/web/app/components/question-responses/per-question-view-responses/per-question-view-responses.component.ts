@@ -1,6 +1,11 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
-import { ResponseOutput } from '../../../../types/api-output';
+import {
+  FeedbackQuestionDetails,
+  FeedbackQuestionType,
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  ResponseOutput, ResponseVisibleSetting, SessionVisibleSetting,
+} from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
   InstructorSessionResultSectionType,
@@ -20,17 +25,35 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   SortOrder: typeof SortOrder = SortOrder;
 
   @Input() questionId: string = '';
-  @Input() questionDetails: any = {};
-  @Input() responses: any[] = [];
+  @Input() questionDetails: FeedbackQuestionDetails = {
+    questionType: FeedbackQuestionType.TEXT,
+    questionText: '',
+  };
+  @Input() responses: ResponseOutput[] = [];
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
-  @Input() session: any = {};
+  @Input() session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
 
-  responsesToShow: any[] = [];
+  responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;
   sortOrder: SortOrder = SortOrder.ASC;
 
@@ -45,7 +68,7 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   }
 
   private filterResponses(): void {
-    const responsesToShow: any[] = [];
+    const responsesToShow: ResponseOutput[] = [];
     for (const response of this.responses) {
       if (this.section) {
         let shouldDisplayBasedOnSection: boolean = true;
