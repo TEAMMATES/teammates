@@ -73,6 +73,7 @@ public class LNPSpecification {
             specification = new LNPSpecification();
         }
 
+        //CHECKSTYLE.OFF:MissingJavadocMethod
         public Builder withErrorRateLimit(double errorRateLimit) {
             specification.errorRateLimit = errorRateLimit;
             return this;
@@ -86,5 +87,6 @@ public class LNPSpecification {
         public LNPSpecification build() {
             return specification;
         }
+        //CHECKSTYLE.ON:MissingJavadocMethod
     }
 }
