@@ -292,7 +292,7 @@ public final class FeedbackResponseCommentsLogic {
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.OWN_TEAM_MEMBERS))
                 && (studentsEmailInTeam.contains(response.giver)
-                        || (student.getTeam().equals(response.giver)));
+                        || (isUserStudent && student.getTeam().equals(response.giver)));
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
                 isResponseCommentVisibleTo(relatedQuestion, relatedComment,
