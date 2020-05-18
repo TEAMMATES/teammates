@@ -78,6 +78,31 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
     }
 
     @Test
+    protected void testAccessControl_testInvalidAccess_shouldPass() throws Exception {
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        String[] instructorLoginParams = new String[] {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        ______TS("Without login, cannot access");
+
+        verifyInaccessibleWithoutLogin(instructorLoginParams);
+
+        String[] instructorParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+        };
+
+        ______TS("Without registration, cannot access");
+
+        verifyInaccessibleForUnregisteredUsers(instructorParams);
+
+        ______TS("Login as instructor, then can access");
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(instructorParams);
+    }
+
+    @Test
     protected void testAccessControl_testInstructorAccess_shouldPass() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
@@ -87,17 +112,5 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-    }
-
-    @Test
-    protected void testAccessControl_testInvalidAccess_shouldPass() throws Exception {
-        String[] instructorParams = new String[] {
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-
-        ______TS("Without login or registration, cannot access");
-
-        verifyInaccessibleWithoutLogin(instructorParams);
-        verifyInaccessibleForUnregisteredUsers(instructorParams);
     }
 }
