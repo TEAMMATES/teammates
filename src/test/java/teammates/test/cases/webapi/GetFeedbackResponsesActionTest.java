@@ -233,8 +233,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        assertThrows(EntityNotFoundException.class,
-                () -> getAction(studentAccessOtherStudentsParams).checkAccessControl());
+        verifyCannotAccess(studentAccessOtherStudentsParams);
 
         ______TS("instructor access other instructor's response from different course");
         loginAsInstructor(instructor1OfCourse2.getGoogleId());
