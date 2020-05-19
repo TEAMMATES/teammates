@@ -13,7 +13,6 @@ import teammates.ui.webapi.output.CourseSectionNamesData;
  * Gets the section names of a course.
  */
 public class GetCourseSectionNamesAction extends Action {
-    // TODO: Write tests
 
     @Override
     protected AuthType getMinAuthLevel() {
