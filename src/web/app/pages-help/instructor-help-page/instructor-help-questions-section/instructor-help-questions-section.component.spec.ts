@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
@@ -21,7 +22,7 @@ describe('InstructorHelpQuestionsSectionComponent', () => {
     };
     TestBed.configureTestingModule({
       declarations: [InstructorHelpQuestionsSectionComponent, ExampleBoxComponent],
-      imports: [NgbModule, RouterTestingModule, NgxPageScrollCoreModule, QuestionEditFormModule],
+      imports: [NgbModule, RouterTestingModule, NgxPageScrollCoreModule, QuestionEditFormModule, MatSnackBarModule],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
