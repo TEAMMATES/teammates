@@ -8,14 +8,12 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
 import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
-import { QuestionEditFormModel } from '../../../components/question-edit-form/question-edit-form-model';
-import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { FeedbackQuestionType, FeedbackParticipantType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../../types/api-output';
 
 /**
  * Questions Section of the Instructor Help Page.
@@ -52,18 +50,6 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
-  isEssayQuestionsCollapsed: boolean = false;
-  isMCQSingleAnsCollapsed: boolean = false;
-  isMCQMultipleAnsCollapsed: boolean = false;
-  isNumericalScaleCollapsed: boolean = false;
-  isPointsOptionsCollapsed: boolean = false;
-  isPointsRecipientsCollapsed: boolean = false;
-  isContributionQsCollapsed: boolean = false;
-  isRubricQsCollapsed: boolean = false;
-  isRankOptionsCollapsed: boolean = false;
-  isRankRecipientsCollapsed: boolean = false;
-  @Output() collapsePeerEvalTips: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   readonly exampleNumericalScaleEditFormModel: QuestionEditFormModel = {
       feedbackQuestionId: "CS3281",
 
@@ -93,6 +79,18 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       isEditable: false,
       isSaving: false,
  }
+
+  isEssayQuestionsCollapsed: boolean = false;
+  isMCQSingleAnsCollapsed: boolean = false;
+  isMCQMultipleAnsCollapsed: boolean = false;
+  isNumericalScaleCollapsed: boolean = false;
+  isPointsOptionsCollapsed: boolean = false;
+  isPointsRecipientsCollapsed: boolean = false;
+  isContributionQsCollapsed: boolean = false;
+  isRubricQsCollapsed: boolean = false;
+  isRankOptionsCollapsed: boolean = false;
+  isRankRecipientsCollapsed: boolean = false;
+  @Output() collapsePeerEvalTips: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private modalService: NgbModal,
               private pageScrollService: PageScrollService,
