@@ -9,6 +9,9 @@ import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 import {
+  SessionEditFormModule,
+} from '../../components/session-edit-form/session-edit-form.module';
+import {
   InstructorCourseStudentEditPageModule,
 } from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.module';
 import {
@@ -17,6 +20,9 @@ import {
 import {
   InstructorSearchPageModule,
 } from '../../pages-instructor/instructor-search-page/instructor-search-page.module';
+import {
+  InstructorSessionEditPageModule,
+} from '../../pages-instructor/instructor-session-edit-page/instructor-session-edit-page.module';
 import { ExampleBoxComponent } from './example-box/example-box.component';
 import {
   InstructorHelpCoursesSectionComponent,
@@ -48,6 +54,8 @@ import {
     InstructorSearchPageModule,
     InstructorCourseStudentEditPageModule,
     InstructorCoursesPageModule,
+    InstructorSessionEditPageModule,
+    SessionEditFormModule,
     QuestionEditFormModule,
   ],
   declarations: [

@@ -135,7 +135,13 @@
           <p>
             This is the form used to set up sessions.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-session-edit-form [formMode]="SessionEditFormMode.ADD"
+                                  [model]="exampleSessionEditFormModel"
+                                  [courseCandidates]="exampleCourseCandidates"
+                                  [templateSessions]="exampleTemplateSessions">
+            </tm-session-edit-form>
+          </tm-example-box>
         </div>
       </div>
       <br/>
