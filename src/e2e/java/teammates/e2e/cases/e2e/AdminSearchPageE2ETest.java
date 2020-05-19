@@ -53,6 +53,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         student.googleId = null;
         verifyStudentRowContent(student, studentAccount);
 
+        ______TS("Typical case: Regenerate all links for a course student");
+        searchPage.clickExpandStudentLinks();
+        WebElement studentRow = searchPage.getStudentRow(student);
+        String originalJoinLink = searchPage.getStudentJoinLink(studentRow);
+
+        searchPage.regenerateLinksForStudent(student);
+        verifyRegenerateStudentCourseLinks(studentRow, originalJoinLink);
+
         ______TS("Typical case: Search for instructor email");
         searchPage.clearSearchBox();
         searchContent = instructor.getEmail();
@@ -226,6 +234,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         numExpandedInstructorRows = searchPage.getNumExpandedRows(instructorRow);
         assertEquals(numExpandedStudentRows, 0);
         assertNotEquals(numExpandedInstructorRows, 0);
+    }
+
+    private void verifyRegenerateStudentCourseLinks(WebElement studentRow, String originalJoinLink) {
+        searchPage.verifyStatusMessage("Student's links for this course have been successfully regenerated,"
+                + " and the email has been sent.");
+
+        String regeneratedJoinLink = searchPage.getStudentJoinLink(studentRow);
+        assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 
 }

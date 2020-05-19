@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
-import { AdminSearchResult, InstructorAccountSearchResult, SearchService,
-  StudentAccountSearchResult } from '../../../services/search.service';
 import { HttpRequestService } from '../../../services/http-request.service';
+import {
+  AdminSearchResult,
+  InstructorAccountSearchResult,
+  SearchService,
+  StudentAccountSearchResult,
+} from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { RegenerateStudentCourseLinks } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   RegenerateLinksConfirmModalComponent,
@@ -24,10 +29,11 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
 
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private accountService: AccountService,
-    private searchService: SearchService,
+  constructor(private statusMessageService: StatusMessageService,
+              private accountService: AccountService,
+              private httpRequestService: HttpRequestService,
+              private modalService: NgbModal,
+              private searchService: SearchService,
   ) {}
 
   /**
@@ -148,30 +154,27 @@ export class AdminSearchPageComponent {
    * Updates the student's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
+    const updateSessions: Function = (sessions: { [index: string]: string }): void => {
+      Object.keys(sessions).forEach((key: string): void => {
+        student.openSessions[key] = this.getUpdatedUrl(student.openSessions[key], newKey);
+      });
+    };
+
     student.courseJoinLink = this.getUpdatedUrl(student.courseJoinLink, newKey);
 
-    Object.keys(student.openSessions).forEach((key: string): void => {
-      student.openSessions[key] = this.getUpdatedUrl(student.openSessions[key], newKey);
-    });
-
-    Object.keys(student.notOpenSessions).forEach((key: string): void => {
-      student.notOpenSessions[key] = this.getUpdatedUrl(student.notOpenSessions[key], newKey);
-    });
-
-    Object.keys(student.publishedSessions).forEach((key: string): void => {
-      student.publishedSessions[key] = this.getUpdatedUrl(student.publishedSessions[key], newKey);
-    });
+    updateSessions(student.openSessions);
+    updateSessions(student.notOpenSessions);
+    updateSessions(student.publishedSessions);
   }
 
   /**
    * Returns the URL after replacing the value of the `key` parameter with that of the new key.
    */
-  private getUpdatedUrl(link: string, newKey: string): string {
-    const url: URL = new URL(link);
-    const searchParams: URLSearchParams = new URLSearchParams(url.search);
-    searchParams.set('key', newKey);
-    url.search = searchParams.toString();
-    return url.toString();
+  private getUpdatedUrl(link: string, newVal: string): string {
+    const param: string = 'key';
+    const regex: RegExp = new RegExp(`(${param}=)[^\&]+`);
+
+    return link.replace(regex, `$1${newVal}`);
   }
 
 }

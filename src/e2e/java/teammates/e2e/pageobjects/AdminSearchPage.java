@@ -1,5 +1,7 @@
 package teammates.e2e.pageobjects;
 
+import static org.junit.Assert.assertTrue;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -48,6 +50,12 @@ public class AdminSearchPage extends AppPage {
     @FindBy(id = "hide-instructor-links")
     private WebElement collapseInstructorLinksButton;
 
+    @FindBy(tagName = "tm-regenerate-links-confirm-modal")
+    private WebElement regenerateLinksModal;
+
+    @FindBy(className = "snackbar")
+    private WebElement successStatusMessage;
+
     public AdminSearchPage(Browser browser) {
         super(browser);
     }
@@ -55,6 +63,11 @@ public class AdminSearchPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("Admin Search</h1>");
+    }
+
+    @Override
+    public void verifyStatusMessage(String message) {
+        assertTrue(successStatusMessage.getText().contains(message));
     }
 
     public void inputSearchContent(String content) {
@@ -67,6 +80,15 @@ public class AdminSearchPage extends AppPage {
 
     public void clickSearchButton() {
         click(searchButton);
+        waitForPageToLoad();
+    }
+
+    public void regenerateLinksForStudent(StudentAttributes student) {
+        WebElement studentRow = getStudentRow(student);
+        studentRow.findElement(By.xpath("//button[text()='Regenerate links']")).click();
+        waitForPageToLoad();
+
+        regenerateLinksModal.findElement(By.className("btn-warning")).click();
         waitForPageToLoad();
     }
 
@@ -94,7 +116,7 @@ public class AdminSearchPage extends AppPage {
         String details = String.format("%s [%s] (%s)", student.course,
                 student.section == null ? Const.DEFAULT_SECTION : student.section, student.team);
         String xpath = String.format("//table[@id='search-table-student']/tbody/tr[td[%d]='%s' and td[%d]='%s']",
-                    STUDENT_COL_DETAILS, details, STUDENT_COL_NAME, student.name);
+                STUDENT_COL_DETAILS, details, STUDENT_COL_NAME, student.name);
         return browser.driver.findElement(By.xpath(xpath));
     }
 
@@ -213,5 +235,3 @@ public class AdminSearchPage extends AppPage {
         }
     }
 }
-
-
