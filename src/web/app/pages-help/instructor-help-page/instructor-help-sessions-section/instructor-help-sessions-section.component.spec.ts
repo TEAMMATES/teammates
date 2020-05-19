@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -12,9 +12,8 @@ import {
   SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
 import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
+import { ExampleBoxComponent } from "../example-box/example-box.component";
 
-@Component({ selector: 'tm-example-box', template: '' })
-class ExampleBoxStubComponent {}
 @Component({ selector: 'tm-session-edit-form', template: '' })
 class SessionEditFormStubComponent {
   @Input() formMode: SessionEditFormMode = SessionEditFormMode.ADD;
@@ -29,7 +28,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpSessionsSectionComponent, ExampleBoxStubComponent, SessionEditFormStubComponent],
+      declarations: [InstructorHelpSessionsSectionComponent, ExampleBoxComponent, SessionEditFormStubComponent],
       imports: [NgbModule, RouterTestingModule, NgxPageScrollCoreModule],
     })
     .compileComponents();
