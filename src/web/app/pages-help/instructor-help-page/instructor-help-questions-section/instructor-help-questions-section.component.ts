@@ -2,14 +2,14 @@ import { DOCUMENT } from '@angular/common';
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestionType, FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
-import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { DEFAULT_MCQ_QUESTION_DETAILS, DEFAULT_TEXT_QUESTION_DETAILS,
+} from '../../../../types/default-question-structs';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
@@ -52,37 +52,55 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleMCQQuestionWithoutWeightsModel: QuestionEditFormModel = {
-    ...this.feedbackQuestionsService.getNewQuestionModel(FeedbackQuestionType.MCQ) as QuestionEditFormModel,
     questionDetails: {
-      ...this.feedbackQuestionsService
-          .getNewQuestionModel(FeedbackQuestionType.MCQ).questionDetails as FeedbackMcqQuestionDetails,
+      ...DEFAULT_MCQ_QUESTION_DETAILS(),
+      numOfMcqChoices: 3,
+      mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
       hasAssignedWeights: false,
       mcqWeights: [],
-      mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
     } as FeedbackMcqQuestionDetails,
+    questionDescription: '',
+    questionType: FeedbackQuestionType.MCQ,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
+      FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
     feedbackQuestionId: '',
     questionBrief: 'How much did you think you contributed?',
     isEditable: false,
     isQuestionHasResponses: false,
     isSaving: false,
     questionNumber: 1,
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
   readonly exampleMCQQuestionWithWeightsModel: QuestionEditFormModel = {
-    ...this.feedbackQuestionsService.getNewQuestionModel(FeedbackQuestionType.MCQ) as QuestionEditFormModel,
     questionDetails: {
-      ...this.feedbackQuestionsService
-          .getNewQuestionModel(FeedbackQuestionType.MCQ).questionDetails as FeedbackMcqQuestionDetails,
+      ...DEFAULT_MCQ_QUESTION_DETAILS(),
+      numOfMcqChoices: 3,
+      mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
       hasAssignedWeights: true,
       mcqWeights: [1, 3, 5],
-      mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
     } as FeedbackMcqQuestionDetails,
+    questionDescription: '',
+    questionType: FeedbackQuestionType.MCQ,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
+      FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
     feedbackQuestionId: '',
     questionBrief: 'How much did you think you contributed?',
     isEditable: false,
     isQuestionHasResponses: false,
     isSaving: false,
     questionNumber: 1,
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
   isEssayQuestionsCollapsed: boolean = false;
@@ -99,7 +117,6 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
   constructor(private modalService: NgbModal,
               private pageScrollService: PageScrollService,
-              private feedbackQuestionsService: FeedbackQuestionsService,
               @Inject(DOCUMENT) private document: any) {
     super();
   }
