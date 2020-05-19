@@ -2,7 +2,9 @@ import { DOCUMENT } from '@angular/common';
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
+import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import {
+  FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestionType, FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -49,6 +51,40 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
+  readonly exampleMCQQuestionWithoutWeightsModel: QuestionEditFormModel = {
+    ...this.feedbackQuestionsService.getNewQuestionModel(FeedbackQuestionType.MCQ) as QuestionEditFormModel,
+    questionDetails: {
+      ...this.feedbackQuestionsService
+          .getNewQuestionModel(FeedbackQuestionType.MCQ).questionDetails as FeedbackMcqQuestionDetails,
+      hasAssignedWeights: false,
+      mcqWeights: [],
+      mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
+    } as FeedbackMcqQuestionDetails,
+    feedbackQuestionId: '',
+    questionBrief: 'How much did you think you contributed?',
+    isEditable: false,
+    isQuestionHasResponses: false,
+    isSaving: false,
+    questionNumber: 1,
+  };
+
+  readonly exampleMCQQuestionWithWeightsModel: QuestionEditFormModel = {
+    ...this.feedbackQuestionsService.getNewQuestionModel(FeedbackQuestionType.MCQ) as QuestionEditFormModel,
+    questionDetails: {
+      ...this.feedbackQuestionsService
+          .getNewQuestionModel(FeedbackQuestionType.MCQ).questionDetails as FeedbackMcqQuestionDetails,
+      hasAssignedWeights: true,
+      mcqWeights: [1, 3, 5],
+      mcqChoices: ['I did great!', 'I performed satisfactorily.', 'I did not contribute as much as I wanted to.'],
+    } as FeedbackMcqQuestionDetails,
+    feedbackQuestionId: '',
+    questionBrief: 'How much did you think you contributed?',
+    isEditable: false,
+    isQuestionHasResponses: false,
+    isSaving: false,
+    questionNumber: 1,
+  };
+
   isEssayQuestionsCollapsed: boolean = false;
   isMCQSingleAnsCollapsed: boolean = false;
   isMCQMultipleAnsCollapsed: boolean = false;
@@ -63,6 +99,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
   constructor(private modalService: NgbModal,
               private pageScrollService: PageScrollService,
+              private feedbackQuestionsService: FeedbackQuestionsService,
               @Inject(DOCUMENT) private document: any) {
     super();
   }
