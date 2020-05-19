@@ -136,8 +136,8 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         assertEquals(5, response.getStudents().size());
     }
 
-    @Test
     @Override
+    @Test
     protected void testAccessControl() {
         verifyAccessibleForAdmin();
         verifyOnlyInstructorsCanAccess();
