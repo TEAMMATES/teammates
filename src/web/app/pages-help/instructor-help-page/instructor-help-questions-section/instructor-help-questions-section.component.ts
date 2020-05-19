@@ -7,8 +7,10 @@ import {
   FeedbackQuestionType, FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
-import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import {
+    DEFAULT_TEXT_QUESTION_DETAILS,
+    DEFAULT_NUMSCALE_QUESTION_DETAILS
+} from '../../../../types/default-question-structs';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
@@ -51,33 +53,33 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleNumericalScaleEditFormModel: QuestionEditFormModel = {
-      feedbackQuestionId: "CS3281",
+    feedbackQuestionId: "CS3281",
 
-      questionNumber: 1,
-      questionBrief: "This is a brief of the question",
-      questionDescription: "This is the description of the question",
+    questionNumber: 1,
+    questionBrief: "This is a brief of the question",
+    questionDescription: "This is the description of the question",
 
-      isQuestionHasResponses: false,
+    isQuestionHasResponses: false,
 
-      questionType: FeedbackQuestionType.NUMSCALE,
-      questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
+    questionType: FeedbackQuestionType.NUMSCALE,
+    questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
 
-      giverType: FeedbackParticipantType.STUDENTS,
-      recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
-      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
-      customNumberOfEntitiesToGiveFeedbackTo: 1,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
+    customNumberOfEntitiesToGiveFeedbackTo: 1,
 
-      showResponsesTo: [],
-      showGiverNameTo: [],
-      showRecipientNameTo: [],
+    showResponsesTo: [],
+    showGiverNameTo: [],
+    showRecipientNameTo: [],
 
-      isUsingOtherFeedbackPath: true,
-      commonVisibilitySettingName: "",
-      isUsingOtherVisibilitySetting: false,
+    isUsingOtherFeedbackPath: true,
+    commonVisibilitySettingName: "",
+    isUsingOtherVisibilitySetting: false,
 
-      isEditable: false,
-      isSaving: false,
+    isEditable: false,
+    isSaving: false,
  }
 
   isEssayQuestionsCollapsed: boolean = false;
