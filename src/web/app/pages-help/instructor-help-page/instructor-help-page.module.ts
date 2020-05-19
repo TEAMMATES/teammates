@@ -8,6 +8,7 @@ import { QuestionEditFormModule } from '../../components/question-edit-form/ques
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
+import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 import {
   InstructorCourseStudentEditPageModule,
 } from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.module';
@@ -49,6 +50,7 @@ import {
     InstructorSearchPageModule,
     InstructorCourseStudentEditPageModule,
     InstructorCoursesPageModule,
+    QuestionEditFormModule,
   ],
   declarations: [
     InstructorHelpPageComponent,

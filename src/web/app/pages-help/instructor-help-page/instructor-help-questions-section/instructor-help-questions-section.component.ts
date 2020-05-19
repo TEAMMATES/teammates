@@ -2,6 +2,16 @@ import { DOCUMENT } from '@angular/common';
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
+import {
+  FeedbackParticipantType,
+  FeedbackQuestionType, FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../../../types/api-output';
+import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import {
+  QuestionEditFormMode,
+  QuestionEditFormModel,
+} from '../../../components/question-edit-form/question-edit-form-model';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { QuestionEditFormModel } from '../../../components/question-edit-form/question-edit-form-model';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
@@ -16,6 +26,31 @@ import { FeedbackQuestionType, FeedbackParticipantType, NumberOfEntitiesToGiveFe
   styleUrls: ['./instructor-help-questions-section.component.scss'],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
+
+  QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
+
+  readonly exampleEssayQuestionModel: QuestionEditFormModel = {
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    feedbackQuestionId: '',
+    isEditable: false,
+    isQuestionHasResponses: false,
+    isSaving: false,
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+
+    questionType: FeedbackQuestionType.TEXT,
+    questionDetails: DEFAULT_TEXT_QUESTION_DETAILS(),
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
 
   isEssayQuestionsCollapsed: boolean = false;
   isMCQSingleAnsCollapsed: boolean = false;
