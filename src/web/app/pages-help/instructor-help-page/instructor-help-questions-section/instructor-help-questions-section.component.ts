@@ -8,8 +8,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
 import {
+    DEFAULT_NUMSCALE_QUESTION_DETAILS,
     DEFAULT_TEXT_QUESTION_DETAILS,
-    DEFAULT_NUMSCALE_QUESTION_DETAILS
 } from '../../../../types/default-question-structs';
 import {
   QuestionEditFormMode,
@@ -53,11 +53,11 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleNumericalScaleEditFormModel: QuestionEditFormModel = {
-    feedbackQuestionId: "CS3281",
+    feedbackQuestionId: 'CS3281',
 
     questionNumber: 1,
-    questionBrief: "This is a brief of the question",
-    questionDescription: "This is the description of the question",
+    questionBrief: 'This is a brief of the question',
+    questionDescription: 'This is the description of the question',
 
     isQuestionHasResponses: false,
 
@@ -75,12 +75,12 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [],
 
     isUsingOtherFeedbackPath: true,
-    commonVisibilitySettingName: "",
+    commonVisibilitySettingName: '',
     isUsingOtherVisibilitySetting: false,
 
     isEditable: false,
     isSaving: false,
- }
+  };
 
   isEssayQuestionsCollapsed: boolean = false;
   isMCQSingleAnsCollapsed: boolean = false;
