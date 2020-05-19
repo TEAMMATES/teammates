@@ -53,13 +53,15 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleNumericalScaleEditFormModel: QuestionEditFormModel = {
-    feedbackQuestionId: 'CS3281',
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    feedbackQuestionId: '',
+    isEditable: false,
+    isQuestionHasResponses: false,
+    isSaving: false,
 
     questionNumber: 1,
     questionBrief: '',
     questionDescription: '',
-
-    isQuestionHasResponses: false,
 
     questionType: FeedbackQuestionType.NUMSCALE,
     questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
@@ -67,18 +69,10 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
-    customNumberOfEntitiesToGiveFeedbackTo: 1,
 
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-    isUsingOtherFeedbackPath: true,
-    commonVisibilitySettingName: '',
-    isUsingOtherVisibilitySetting: false,
-
-    isEditable: false,
-    isSaving: false,
   };
 
   isEssayQuestionsCollapsed: boolean = false;
