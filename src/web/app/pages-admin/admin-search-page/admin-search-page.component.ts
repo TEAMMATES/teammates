@@ -29,11 +29,12 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
 
-  constructor(private statusMessageService: StatusMessageService,
-              private accountService: AccountService,
-              private httpRequestService: HttpRequestService,
-              private modalService: NgbModal,
-              private searchService: SearchService,
+  constructor(
+    private statusMessageService: StatusMessageService,
+    private accountService: AccountService,
+    private httpRequestService: HttpRequestService,
+    private modalService: NgbModal,
+    private searchService: SearchService,
   ) {}
 
   /**
