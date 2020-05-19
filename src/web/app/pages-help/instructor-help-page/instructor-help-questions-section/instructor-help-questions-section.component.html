@@ -638,7 +638,13 @@
               (Optional) Allow respondents to give the same rank to multiple options
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-question-edit-form
+                    [formModel]="exampleRankRecipientQuestionModel"
+                    [formMode]="QuestionEditFormMode.EDIT"
+                    [isDisplayOnly]="true"
+            ></tm-question-edit-form>
+          </tm-example-box>
           <p>
             When viewing the results of a rank recipients question, you will be able to see the following results for each feedback recipient:
           </p>

@@ -2,12 +2,16 @@ import { DOCUMENT } from '@angular/common';
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
+import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType, FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
-import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import {
+    DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
+    DEFAULT_TEXT_QUESTION_DETAILS,
+} from '../../../../types/default-question-structs';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
