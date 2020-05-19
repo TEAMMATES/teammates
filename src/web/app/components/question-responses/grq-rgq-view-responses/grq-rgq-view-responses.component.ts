@@ -1,5 +1,12 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus, QuestionOutput, ResponseOutput,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../../types/api-output';
+import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 
@@ -13,19 +20,37 @@ import {
 })
 export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
 
-  @Input() responses: any = {};
+  @Input() responses: QuestionOutput[] = [];
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
+  @Input() session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
 
   @Input() isGrq: boolean = true;
 
-  teamsToUsers: { [key: string]: string[] } = {};
-  teamExpanded: { [key: string]: boolean } = {};
-  userToTeamName: { [key: string]: any } = {};
-  responsesToShow: { [key: string]: { [key: string]: any[] } } = {};
+  teamsToUsers: Record<string, string[]> = {};
+
+  teamExpanded: Record<string, boolean> = {};
+  userExpanded: Record<string, boolean> = {};
+
+  responsesToShow: Record<string, Record<string, QuestionOutput[]>> = {};
 
   constructor() { }
 
@@ -41,7 +66,7 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
     this.responsesToShow = {};
     this.teamsToUsers = {};
     this.teamExpanded = {};
-    this.userToTeamName = {};
+    this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
         if (this.isGrq) {
@@ -50,21 +75,16 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = false;
           }
-          this.userToTeamName[response.giver] = {
-            teamName: response.giverTeam,
-            isExpanded: false,
-          };
+          this.userExpanded[response.giver] = false;
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
+            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = false;
             }
-            this.userToTeamName[response.recipient] = {
-              teamName: response.recipient,
-              isExpanded: false,
-            };
+            this.userExpanded[response.recipient] = false;
             continue;
           }
           this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
@@ -72,18 +92,15 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
             this.teamExpanded[response.recipientTeam] = false;
           }
-          this.userToTeamName[response.recipient] = {
-            teamName: response.recipientTeam,
-            isExpanded: false,
-          };
+          this.userExpanded[response.recipient] = false;
         }
       }
     }
 
-    for (const user of Object.keys(this.userToTeamName)) {
+    for (const user of Object.keys(this.userExpanded)) {
       for (const question of this.responses) {
-        const questionCopy: any = JSON.parse(JSON.stringify(question));
-        questionCopy.allResponses = questionCopy.allResponses.filter((response: any) => {
+        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
           if (this.isGrq && user !== response.giver) {
             return false;
           }
@@ -118,12 +135,12 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
           return true;
         });
         if (questionCopy.allResponses.length) {
-          const others: any[] = questionCopy.allResponses.map((response: any) => {
+          const others: string[] = questionCopy.allResponses.map((response: ResponseOutput) => {
             return this.isGrq ? response.recipient : response.giver;
           });
           for (const other of others) {
-            const questionCopy2: any = JSON.parse(JSON.stringify(questionCopy));
-            questionCopy2.allResponses = questionCopy2.allResponses.filter((response: any) => {
+            const questionCopy2: QuestionOutput = JSON.parse(JSON.stringify(questionCopy));
+            questionCopy2.allResponses = questionCopy2.allResponses.filter((response: ResponseOutput) => {
               return this.isGrq ? response.recipient === other : response.giver === other;
             });
             this.responsesToShow[user] = this.responsesToShow[user] || {};
@@ -134,5 +151,4 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
       }
     }
   }
-
 }

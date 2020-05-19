@@ -3,18 +3,15 @@
 exports[`InstructorCourseStudentEditPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
-  courseid="undefined"
-  httpRequestService={[Function HttpRequestService]}
+  courseId="undefined"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
-  isSessionSummarySendEmail="false"
   isTeamnameFieldChanged="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
-  studentemail=""
-  user="undefined"
+  studentService={[Function StudentService]}
 >
   
 </tm-instructor-course-student-edit-page>
@@ -23,20 +20,17 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
 exports[`InstructorCourseStudentEditPageComponent should snap with student details 1`] = `
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
-  courseid="undefined"
+  courseId="undefined"
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
-  isSessionSummarySendEmail="false"
   isTeamnameFieldChanged="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
-  studentemail=""
-  user="undefined"
+  studentService={[Function StudentService]}
 >
   <div>
     <div

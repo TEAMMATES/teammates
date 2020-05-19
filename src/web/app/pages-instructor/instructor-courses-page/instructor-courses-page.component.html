@@ -27,11 +27,11 @@
             <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
             <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
           </th>
-          <th class="sortable-header" (click)="sortCoursesEvent(SortBy.CREATION_DATE)">
+          <th class="sortable-header" (click)="sortCoursesEvent(SortBy.SESSION_CREATION_DATE)">
             Creation Date
-            <span *ngIf="tableSortBy !== SortBy.CREATION_DATE"><i class="fas fa-sort"></i></span>
-            <span *ngIf="tableSortBy === SortBy.CREATION_DATE && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-            <span *ngIf="tableSortBy === SortBy.CREATION_DATE && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+            <span *ngIf="tableSortBy !== SortBy.SESSION_CREATION_DATE"><i class="fas fa-sort"></i></span>
+            <span *ngIf="tableSortBy === SortBy.SESSION_CREATION_DATE && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+            <span *ngIf="tableSortBy === SortBy.SESSION_CREATION_DATE && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
           </th>
           <th>Sections</th>
           <th>Teams</th>
@@ -209,7 +209,7 @@
           </div>
         </div>
       </div>
-      <div class="card-body recycle-bin-body" *ngIf="isRecycleBinExpanded">
+      <div class="card-body recycle-bin-body table-responsive" *ngIf="isRecycleBinExpanded">
         <table class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
           <thead>
             <tr class="background-color-medium-gray text-color-gray">

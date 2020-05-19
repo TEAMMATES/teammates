@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { ConstsumQuestionResponseComponent } from './constsum-question-response.component';
 import { ContributionQuestionResponseComponent } from './contribution-question-response.component';
 import { McqQuestionResponseComponent } from './mcq-question-response.component';
@@ -38,6 +39,7 @@ import { TextQuestionResponseComponent } from './text-question-response.componen
   ],
   imports: [
     CommonModule,
+    TeammatesCommonModule,
   ],
 })
 export class QuestionResponseModule { }

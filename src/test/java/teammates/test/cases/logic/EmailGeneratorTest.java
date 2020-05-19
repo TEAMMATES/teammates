@@ -465,9 +465,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("instructor course join email: sanitization required");
 
         AccountAttributes inviter = dataBundle.accounts.get("instructor1OfTestingSanitizationCourse");
-
         CourseAttributes course = coursesLogic.getCourse("idOfTestingSanitizationCourse");
-
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor1, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 

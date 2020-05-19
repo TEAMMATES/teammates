@@ -1,66 +1,59 @@
-<div>
+<div class="text-center">
   <h1>Course Details</h1>
   <div class="card">
     <div class="card-body fill-plain">
       <div class="form">
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Course ID:</label>
+          <label class="col-sm-3">Course ID:</label>
           <div class="col-sm-6">
             <p class="form-control-static">{{courseDetails.course.courseId}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Course name:</label>
+          <label class="col-sm-3">Course name:</label>
           <div class="col-sm-6" id="coursename">
             <p class="form-control-static">{{courseDetails.course.courseName}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Sections:</label>
+          <label class="col-sm-3">Sections:</label>
           <div class="col-sm-6">
             <p class="form-control-static">{{courseDetails.stats.sectionsTotal}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Teams:</label>
+          <label class="col-sm-3">Teams:</label>
           <div class="col-sm-6">
             <p class="form-control-static">{{courseDetails.stats.teamsTotal}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Total students:</label>
+          <label class="col-sm-3">Total students:</label>
           <div class="col-sm-6">
             <p class="form-control-static">{{courseDetails.stats.studentsTotal}}</p>
           </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-sm-3 control-label text-right">Instructors:</label>
+        <label class="col-sm-3 control-label">Instructors:</label>
         <div class="col-sm-6">
           <div *ngFor="let instructor of instructors">
-            <ng-container *ngIf="instructor.role; else noRole">
-              {{instructor.role}}: {{instructor.name}} ({{instructor.email}})
-            </ng-container>
-            <ng-template #noRole >
-              <p>
-                {{instructor.name}} ({{instructor.email}})
-              </p>
-            </ng-template>
+            {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
           </div>
         </div>
       </div>
       <div *ngIf="sections.length > 0">
         <div class="form-group">
           <div class="text-center">
-            <button type="button" class="btn btn-primary" (click)="openModal(remindStudentsModal)" value="Remind Students to Join">
+            <button type="button" class="btn btn-primary mb-2" (click)="openModal(remindStudentsModal)" value="Remind Students to Join">
               <i class="fa fa-envelope"></i>
               Remind Students to Join
             </button>
-            <button type="button" class="btn btn-primary" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
+            <button type="button" class="btn btn-primary mb-2" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
               <i class="fa fa-download"></i>
               Download Student List
             </button>
-            <button type="button" class="btn btn-danger" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">
+            <button type="button" class="btn btn-danger mb-2" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">
               <i class="fa fa-trash"></i>
               Delete All Students
             </button>
@@ -85,8 +78,10 @@
     <div class="card-body p-0">
       <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{courseDetails.course.courseId}}]</div>
       <div class="card-body p-0">
-        <tm-student-list [courseId]="courseDetails.course.courseId" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true">
-        </tm-student-list>
+        <tm-student-list
+            [courseId]="courseDetails.course.courseId" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true"
+            (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
+        ></tm-student-list>
       </div>
     </div>
   </ng-template>

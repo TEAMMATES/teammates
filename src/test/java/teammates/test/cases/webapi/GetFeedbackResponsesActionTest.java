@@ -16,10 +16,10 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.action.GetFeedbackResponsesAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.output.FeedbackResponsesData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetFeedbackResponsesAction}.
@@ -233,8 +233,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        assertThrows(EntityNotFoundException.class,
-                () -> getAction(studentAccessOtherStudentsParams).checkAccessControl());
+        verifyCannotAccess(studentAccessOtherStudentsParams);
 
         ______TS("instructor access other instructor's response from different course");
         loginAsInstructor(instructor1OfCourse2.getGoogleId());

@@ -31,6 +31,7 @@ import org.apache.http.message.BasicNameValuePair;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
@@ -211,12 +212,14 @@ public final class BackDoor {
      * However, removing the data bundle on teardown manually is not a perfect solution because two tests can concurrently
      * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
      */
-    public static String removeAndRestoreDataBundle(DataBundle dataBundle) {
+    public static String removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
         removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
-        return putRequestOutput.responseCode == HttpStatus.SC_OK
-                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        if (putRequestOutput.responseCode == HttpStatus.SC_OK) {
+            return putRequestOutput.responseBody;
+        }
+        throw new HttpRequestFailedException("Request failed with status code: " + putRequestOutput.responseCode);
     }
 
     /**
@@ -229,11 +232,11 @@ public final class BackDoor {
     }
 
     /**
-     * Puts searchable documents from the data bundle to the datastore.
+     * Puts searchable documents in data bundle into the datastore.
      */
-    public static String doPutDocuments(DataBundle dataBundle) {
+    public static String putDocuments(DataBundle dataBundle) {
         ResponseBodyAndCode putRequestOutput =
-                executePostRequest(Const.ResourceURIs.DATABUNDLE_SEARCH, null, JsonUtils.toJson(dataBundle));
+                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, null, JsonUtils.toJson(dataBundle));
         return putRequestOutput.responseCode == HttpStatus.SC_OK
                 ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
     }

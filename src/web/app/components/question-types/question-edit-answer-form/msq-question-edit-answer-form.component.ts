@@ -24,7 +24,7 @@ export class MsqQuestionEditAnswerFormComponent
   readonly NO_VALUE: number = NO_VALUE;
   isMsqOptionSelected: boolean[] = [];
 
-  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
+  @ViewChild('inputTextBoxOther', { static: false }) inputTextBoxOther?: ElementRef;
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());

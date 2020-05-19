@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { FeedbackQuestion } from '../../../../types/api-output';
-import { QuestionToCopyCandidate, SortBy, SortOrder } from './copy-questions-from-other-sessions-modal-model';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
+import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
 
 /**
  * Modal to select questions to copy from other sessions.
@@ -22,7 +24,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent implements OnInit {
   candidatesSortBy: SortBy = SortBy.NONE;
   candidatesSortOrder: SortOrder = SortOrder.ASC;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
   }
@@ -56,7 +58,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent implements OnInit {
       let strA: string;
       let strB: string;
       switch (by) {
-        case SortBy.FEEDBACK_SESSION_NAME:
+        case SortBy.SESSION_NAME:
           strA = a.feedbackSessionName;
           strB = b.feedbackSessionName;
           break;
@@ -76,13 +78,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent implements OnInit {
           strA = '';
           strB = '';
       }
-      if (order === SortOrder.ASC) {
-        return strA.localeCompare(strB);
-      }
-      if (order === SortOrder.DESC) {
-        return strB.localeCompare(strA);
-      }
-      return 0;
+      return this.tableComparatorService.compare(by, order, strA, strB);
     });
   }
 

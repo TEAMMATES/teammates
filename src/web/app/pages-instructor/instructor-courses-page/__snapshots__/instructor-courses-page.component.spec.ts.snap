@@ -10,7 +10,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   canRestoreAll="false"
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
@@ -18,9 +18,9 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
-  user="undefined"
 >
   <div>
     <button
@@ -302,9 +302,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>
@@ -493,7 +491,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
@@ -501,9 +499,9 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
-  user="undefined"
 >
   <div>
     <button
@@ -785,9 +783,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>
@@ -982,7 +978,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
@@ -990,9 +986,9 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
-  user="undefined"
 >
   <div>
     <button
@@ -1082,19 +1078,17 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
         <tbody>
           
         </tbody>
-        <tbody>
-          
-          <tr>
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-          </tr>
-        </tbody>
+        
+        <tr>
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+          <td />
+        </tr>
       </table>
       
       <p>
@@ -1115,7 +1109,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
+  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
@@ -1123,9 +1117,9 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
-  user="undefined"
 >
   <div>
     <button
@@ -1439,9 +1433,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>

@@ -7,15 +7,12 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
   id=""
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   <div>
     <h1>
@@ -38,7 +35,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           >
             <img
               class="profile-pic"
-              src="http://localhost:8080/webapi/student/profilePic"
+              src=""
             />
           </div>
         </div>
@@ -238,14 +235,11 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
   id=""
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   
 </tm-student-profile-page>
@@ -258,16 +252,14 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
   id=""
   nationalities={[Function Array]}
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
   profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   <div>
     <h1>

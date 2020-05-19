@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Intent } from '../Intent';
+import { Intent } from '../../types/api-request';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';

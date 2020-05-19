@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { default as templateQuestions } from '../data/template-questions.json';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
-  FeedbackQuestionDetails,
+  FeedbackQuestionDetails, FeedbackQuestionRecipients, FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails, FeedbackRubricQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../types/api-output';
-import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest } from '../types/api-request';
+import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest, Intent } from '../types/api-request';
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS, DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
@@ -509,6 +510,47 @@ export class FeedbackQuestionsService {
   }
 
   /**
+   * Gets feedback questions.
+   */
+  getFeedbackQuestions(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    intent: Intent,
+    key?: string,
+    moderatedPerson?: string,
+    previewAs?: string,
+  }): Observable<FeedbackQuestions> {
+    const paramMap: Record<string, string> = {
+      intent: queryParams.intent,
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+    };
+
+    if (queryParams.key) {
+      paramMap.key = queryParams.key;
+    }
+
+    if (queryParams.moderatedPerson) {
+      paramMap.moderatedperson = queryParams.moderatedPerson;
+    }
+
+    if (queryParams.previewAs) {
+      paramMap.previewas = queryParams.previewAs;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);
+
+  }
+
+  /**
+   * Checks whether the current question is allowed to have participant comment.
+   */
+  isAllowedToHaveParticipantComment(questionType: FeedbackQuestionType): boolean {
+    return questionType === FeedbackQuestionType.MCQ
+        || questionType === FeedbackQuestionType.MSQ;
+  }
+
+  /**
    * Gets template questions.
    */
   getTemplateQuestions(): TemplateQuestion[] {
@@ -520,12 +562,12 @@ export class FeedbackQuestionsService {
    */
   createFeedbackQuestion(courseId: string, feedbackSessionName: string,
                          request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
     };
 
-    return this.httpRequestService.post('/question', paramMap, request);
+    return this.httpRequestService.post(ResourceEndpoints.QUESTION, paramMap, request);
   }
 
   /**
@@ -533,11 +575,39 @@ export class FeedbackQuestionsService {
    */
   saveFeedbackQuestion(feedbackQuestionId: string, request: FeedbackQuestionUpdateRequest):
       Observable<FeedbackQuestion> {
-    const paramMap: { [key: string]: string } = { questionid: feedbackQuestionId };
+    const paramMap: Record<string, string> = { questionid: feedbackQuestionId };
 
-    return this.httpRequestService.put('/question', paramMap, request);
+    return this.httpRequestService.put(ResourceEndpoints.QUESTION, paramMap, request);
   }
 
+  /**
+   * Deletes a feedback question
+   */
+  deleteFeedbackQuestion(feedbackQuestionId: string): Observable<any> {
+    const paramMap: Record<string, string> = { questionid: feedbackQuestionId };
+
+    return this.httpRequestService.delete(ResourceEndpoints.QUESTION, paramMap);
+  }
+
+  /**
+   * Get a list of feedback question recipients.
+   */
+  loadFeedbackQuestionRecipients(queryParams: {
+    questionId: string,
+    intent: Intent,
+    key: string,
+    moderatedPerson: string,
+    previewAs: string,
+  }): Observable<FeedbackQuestionRecipients> {
+    const paramMap: Record<string, string> = {
+      questionid: queryParams.questionId,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+      previewas: queryParams.previewAs,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.QUESTION_RECIPIENTS, paramMap);
+  }
 }
 
 /**

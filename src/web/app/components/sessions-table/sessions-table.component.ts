@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
 import {
@@ -17,8 +18,6 @@ import {
   SessionsTableColumn,
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
-  SortBy,
-  SortOrder,
 } from './sessions-table-model';
 
 /**
@@ -89,6 +88,9 @@ export class SessionsTableComponent implements OnInit {
 
   @Output()
   resendResultsLinkToStudentsEvent: EventEmitter<number> = new EventEmitter();
+
+  @Output()
+  downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
 
   constructor(private modalService: NgbModal) { }
 
@@ -164,6 +166,13 @@ export class SessionsTableComponent implements OnInit {
    */
   sendRemindersToStudents(rowIndex: number): void {
     this.sendRemindersToStudentsEvent.emit(rowIndex);
+  }
+
+  /**
+   * Triggers the download of session results as a CSV file.
+   */
+  downloadSessionResults(rowIndex: number): void {
+    this.downloadSessionResultsEvent.emit(rowIndex);
   }
 
   ngOnInit(): void {

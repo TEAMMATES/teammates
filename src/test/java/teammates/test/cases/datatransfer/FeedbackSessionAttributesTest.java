@@ -515,4 +515,78 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                         .withRemovingInstructorRespondent(null));
     }
 
+    @Test
+    public void testEquals() {
+        FeedbackSessionAttributes feedbackSession = generateTypicalFeedbackSessionAttributesObject();
+
+        // When the two feedback sessions are exact copies
+        FeedbackSessionAttributes feedbackSessionCopy = feedbackSession.getCopy();
+
+        assertTrue(feedbackSession.equals(feedbackSessionCopy));
+
+        // When the two feedback sessions have same values but created at different time
+        FeedbackSessionAttributes feedbackSessionSimilar = generateTypicalFeedbackSessionAttributesObject();
+
+        assertTrue(feedbackSession.equals(feedbackSessionSimilar));
+
+        // When the two feedback sessions are different
+        FeedbackSessionAttributes feedbackSessionDifferent =
+                FeedbackSessionAttributes.builder("differentSession", "courseId")
+                .withCreatorEmail("email@email.com")
+                .withInstructions("instructor")
+                .build();
+
+        assertFalse(feedbackSession.equals(feedbackSessionDifferent));
+
+        // When the other object is of different class
+        assertFalse(feedbackSession.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        FeedbackSessionAttributes feedbackSession = generateTypicalFeedbackSessionAttributesObject();
+
+        // When the two feedback sessions are exact copies, they should have the same hash code
+        FeedbackSessionAttributes feedbackSessionCopy = feedbackSession.getCopy();
+
+        assertTrue(feedbackSession.hashCode() == feedbackSessionCopy.hashCode());
+
+        // When the two feedback sessions have same values but created at different time,
+        // they should still have the same hash code
+        FeedbackSessionAttributes feedbackSessionSimilar = generateTypicalFeedbackSessionAttributesObject();
+
+        assertTrue(feedbackSession.hashCode() == feedbackSessionSimilar.hashCode());
+
+        // When the two feedback sessions are different, they should have different hash code
+        FeedbackSessionAttributes feedbackSessionDifferent =
+                FeedbackSessionAttributes.builder("differentSession", "courseId")
+                .withCreatorEmail("email@email.com")
+                .withInstructions("instructor")
+                .build();
+
+        assertFalse(feedbackSession.hashCode() == feedbackSessionDifferent.hashCode());
+    }
+
+    private FeedbackSessionAttributes generateTypicalFeedbackSessionAttributesObject() {
+        ZoneId timeZone = ZoneId.of("Asia/Singapore");
+        Instant startTime = TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelper.parseDateTimeFromSessionsForm("Mon, 09 May, 2016", "10", "0"), timeZone);
+        Instant endTime = TimeHelper.convertLocalDateTimeToInstant(
+                TimeHelper.parseDateTimeFromSessionsForm("Tue, 09 May, 2017", "10", "0"), timeZone);
+
+        return FeedbackSessionAttributes
+                .builder("sessionName", "courseId")
+                .withCreatorEmail("email@email.com")
+                .withInstructions("instructor")
+                .withStartTime(startTime)
+                .withEndTime(endTime)
+                .withSessionVisibleFromTime(startTime.minusSeconds(60))
+                .withResultsVisibleFromTime(endTime.plusSeconds(60))
+                .withTimeZone(timeZone)
+                .withGracePeriod(Duration.ofMinutes(15))
+                .withIsClosingEmailEnabled(false)
+                .withIsPublishedEmailEnabled(false)
+                .build();
+    }
+
 }

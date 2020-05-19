@@ -30,6 +30,7 @@ import teammates.ui.webapi.action.Action;
 import teammates.ui.webapi.action.CsvResult;
 import teammates.ui.webapi.action.ImageResult;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.request.BasicRequest;
 
 /**
  * Base class for all action tests.
@@ -412,6 +413,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyCanAccess(submissionParams);
     }
 
+    protected void verifyInaccessibleForStudentsOfOtherCourse(String[] submissionParams) {
+
+        ______TS("other course student cannot access");
+
+        StudentAttributes otherStudent = typicalBundle.students.get("student1InCourse2");
+
+        loginAsStudent(otherStudent.googleId);
+        verifyCannotAccess(submissionParams);
+    }
+
     protected void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
 
         ______TS("other course instructor cannot access");
@@ -433,12 +444,22 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         c.checkAccessControl();
     }
 
+    protected void verifyCanAccess(BasicRequest request, String... params) {
+        Action c = getAction(request, params);
+        c.checkAccessControl();
+    }
+
     /**
      * Verifies that the {@link Action} matching the {@code params} is not accessible to the user.
      */
     protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
-        assertThrows(UnauthorizedAccessException.class, () -> c.checkAccessControl());
+        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
+    }
+
+    protected void verifyCannotAccess(BasicRequest request, String... params) {
+        Action c = getAction(request, params);
+        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
     /**

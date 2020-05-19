@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
@@ -168,6 +169,26 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            StudentAttributes otherStudent = (StudentAttributes) other;
+            return Objects.equals(this.course, otherStudent.course)
+                    && Objects.equals(this.name, otherStudent.name)
+                    && Objects.equals(this.email, otherStudent.email)
+                    && Objects.equals(this.googleId, otherStudent.googleId)
+                    && Objects.equals(this.comments, otherStudent.comments)
+                    && Objects.equals(this.team, otherStudent.team)
+                    && Objects.equals(this.section, otherStudent.section);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
         Assumption.assertNotNull(team);
@@ -239,6 +260,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     @Override
     public CourseStudent toEntity() {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email).append(this.name).append(this.course)
+            .append(this.googleId).append(this.team).append(this.section).append(this.comments);
+        return stringBuilder.toString().hashCode();
     }
 
     @Override

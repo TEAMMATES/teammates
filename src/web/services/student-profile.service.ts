@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResourceEndpoints } from '../types/api-endpoints';
 import { MessageOutput, StudentProfile } from '../types/api-output';
 import { StudentProfileUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
@@ -11,7 +12,6 @@ import { HttpRequestService } from './http-request.service';
   providedIn: 'root',
 })
 export class StudentProfileService {
-
   constructor(private httpRequestService: HttpRequestService) {
   }
 
@@ -22,24 +22,44 @@ export class StudentProfileService {
    */
   getStudentProfile(studentEmail?: string, courseId?: string): Observable<StudentProfile> {
     if (studentEmail && courseId) {
-      const paramsMap: { [key: string]: string } = {
+      const paramsMap: Record<string, string> = {
         studentemail: studentEmail,
         courseid: courseId,
       };
-      return this.httpRequestService.get('/student/profile', paramsMap);
+      return this.httpRequestService.get(ResourceEndpoints.STUDENT_PROFILE, paramsMap);
     }
-    return this.httpRequestService.get('/student/profile');
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT_PROFILE);
   }
 
   /**
    * Updates a student profile by calling API.
    */
-  updateStudentProfile(user: string, googleId: string, requestBody: StudentProfileUpdateRequest)
+  updateStudentProfile(googleId: string, requestBody: StudentProfileUpdateRequest)
       : Observable<MessageOutput> {
-    const paramsMap: { [key: string]: string } = {
-      user,
+    const paramsMap: Record<string, string> = {
       googleid: googleId,
     };
-    return this.httpRequestService.put('/student/profile', paramsMap, requestBody);
+    return this.httpRequestService.put(ResourceEndpoints.STUDENT_PROFILE, paramsMap, requestBody);
+  }
+
+  /**
+   * Gets the profile picture as blob image.
+   */
+  getProfilePicture(): Observable<Blob> {
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT_PROFILE_PICTURE, {}, 'blob');
+  }
+
+  /**
+   * Posts the profile picture.
+   */
+  postProfilePicture(formData: FormData): Observable<any> {
+    return this.httpRequestService.post(ResourceEndpoints.STUDENT_PROFILE_PICTURE, {}, formData);
+  }
+
+  /**
+   * Deletes the profile picture and the profile picture key
+   */
+  deleteProfilePicture(paramMap: Record<string, string>): Observable<any> {
+    return this.httpRequestService.delete(ResourceEndpoints.STUDENT_PROFILE_PICTURE, paramMap);
   }
 }

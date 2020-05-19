@@ -9,6 +9,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponsesData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Get all responses given by the user for a question.

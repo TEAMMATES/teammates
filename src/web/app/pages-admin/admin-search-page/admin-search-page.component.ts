@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
+import { AdminSearchResult, InstructorAccountSearchResult, SearchService,
+  StudentAccountSearchResult } from '../../../services/search.service';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import {
-  AdminSearchResult,
-  InstructorAccountSearchResult,
-  RegenerateStudentCourseLinks,
-  StudentAccountSearchResult,
-} from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   RegenerateLinksConfirmModalComponent,
@@ -28,16 +24,17 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
 
-  constructor(private statusMessageService: StatusMessageService,
-              private accountService: AccountService,
-              private httpRequestService: HttpRequestService,
-              private modalService: NgbModal) {}
+  constructor(
+    private statusMessageService: StatusMessageService,
+    private accountService: AccountService,
+    private searchService: SearchService,
+  ) {}
 
   /**
    * Searches for students and instructors matching the search query.
    */
   search(): void {
-    this.accountService.searchAccounts(this.searchQuery).subscribe((resp: AdminSearchResult) => {
+    this.searchService.searchAdmin(this.searchQuery).subscribe((resp: AdminSearchResult) => {
       const hasStudents: boolean = !!(resp.students && resp.students.length);
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
 

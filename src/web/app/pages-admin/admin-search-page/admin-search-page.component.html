@@ -5,9 +5,9 @@
     </p>
 
     <div class="input-group">
-      <input type="text" class="form-control" id="filter-query" [(ngModel)]="searchQuery" (keyup.enter)="search()">
+      <input id="search-box" type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
         <div class="input-group-append">
-          <button class="btn btn-secondary" id="search-submit" (click)="search()">Search</button>
+          <button id="search-button" class="btn btn-secondary" (click)="search()">Search</button>
         </div>
     </div>
   </div>
@@ -17,13 +17,13 @@
   <div class="card-header bg-primary text-white">
     <strong>Instructors Found</strong>
     <span class="float-sm-right">
-      <button class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
-      <button class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
+      <button id="show-instructor-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
+      <button id="hide-instructor-links" class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
     </span>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped data-table">
+    <table id="search-table-instructor" class="table table-striped data-table">
       <thead>
         <tr>
           <th>Course</th>
@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let instructor of instructors">
+        <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
             <td>{{ instructor.courseId }}</td> <!-- TODO: tooltip course name -->
             <td>{{ instructor.name }}</td>
@@ -45,7 +45,7 @@
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
+              <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
             </td>
@@ -74,13 +74,13 @@
   <div class="card-header bg-primary text-white">
     <strong>Students Found</strong>
     <span class="float-sm-right">
-      <button class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllStudentsLinks()">Expand All</button>
-      <button class="btn btn-light btn-sm" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
+      <button id="show-student-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllStudentsLinks()">Expand All</button>
+      <button id="hide-student-links" class="btn btn-light btn-sm" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
     </span>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped data-table">
+    <table class="table table-striped data-table" id="search-table-student">
       <thead>
         <tr>
           <th>Course [Section] (Team)</th>
@@ -93,7 +93,7 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let student of students; let i = index">
-          <tr id="student-card-{{ i }}" (click)="student.showLinks = !student.showLinks">
+          <tr (click)="student.showLinks = !student.showLinks">
             <td>{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</td> <!-- TODO: tooltip course name -->
             <td>{{ student.name }}</td>
             <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId">{{ student.googleId }}</a></td>
@@ -107,7 +107,7 @@
                 <br>
               </div>
               <div *ngIf="student.googleId">
-                <a href="javascript:;" (click)="resetStudentGoogleId(student, $event)">
+                <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)">
                   <i class="fas fa-sync"></i> Reset Google ID
                 </a>
                 <br>
@@ -124,7 +124,7 @@
                 </li>
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
-                  <input [value]="student.courseJoinLink" readonly class="form-control" id="course-join-{{ i }}">
+                  <input [value]="student.courseJoinLink" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let openFs of student.openSessions | keyvalue">
                   <strong>{{ openFs.key }}</strong>

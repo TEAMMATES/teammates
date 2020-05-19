@@ -20,7 +20,7 @@
   </ng-container>
 </ng-template>
 
-<div class="row height-60px">
+<div class="row">
   <div class="col-4">
     <a routerLink="/web/instructor/courses" class="btn btn-primary text-white" [queryParams]="{isAddNewCourse: true}">Add New Course</a>
   </div>
@@ -151,6 +151,7 @@
           (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
           (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
           (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+          (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
           (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
           (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
     </div>

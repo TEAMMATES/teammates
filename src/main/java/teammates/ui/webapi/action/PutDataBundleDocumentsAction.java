@@ -8,7 +8,7 @@ import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 
 /**
- * Adds searchable documents from the data bundle to the datastore.
+ * Puts searchable documents from the data bundle into the DB.
  */
 public class PutDataBundleDocumentsAction extends Action {
 
@@ -27,10 +27,8 @@ public class PutDataBundleDocumentsAction extends Action {
     @Override
     public JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
-
         logic.putDocuments(dataBundle);
-
-        return new JsonResult("Data bundle documents successfully indexed.", HttpStatus.SC_OK);
+        return new JsonResult("Data bundle documents successfully added.", HttpStatus.SC_OK);
     }
 
 }

@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  FeedbackSession,
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput,
+  ResponseVisibleSetting,
   SessionResults,
+  SessionVisibleSetting,
 } from '../../../types/api-output';
+import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { Intent } from '../../Intent';
 
 /**
  * Feedback session result page.
@@ -22,36 +24,54 @@ import { Intent } from '../../Intent';
 })
 export class SessionResultPageComponent implements OnInit {
 
-  session: any = {};
+  session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
   questions: QuestionOutput[] = [];
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
 
-  constructor(private httpRequestService: HttpRequestService, private route: ActivatedRoute,
+  constructor(private feedbackSessionsService: FeedbackSessionsService, private route: ActivatedRoute,
       private timezoneService: TimezoneService, private statusMessageService: StatusMessageService) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      const paramMap: { [key: string]: string } = {
-        courseid: queryParams.courseid,
-        fsname: queryParams.fsname,
-        key: queryParams.key,
+      const { courseid: courseId, fsname: feedbackSessionName }: Record<string, string> = queryParams;
+      this.feedbackSessionsService.getFeedbackSession({
+        courseId,
+        feedbackSessionName,
         intent: Intent.STUDENT_RESULT,
-      };
-      this.httpRequestService.get('/session', paramMap).subscribe((resp: FeedbackSession) => {
+      }).subscribe((feedbackSession: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
-        this.session = resp;
+        this.session = feedbackSession;
         this.formattedSessionOpeningTime =
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
               moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
-        this.httpRequestService.get('/result', paramMap).subscribe((resp2: SessionResults) => {
-          this.questions = resp2.questions.sort(
+        this.feedbackSessionsService.getFeedbackSessionsResult({
+          courseId,
+          feedbackSessionName,
+          intent: Intent.STUDENT_RESULT,
+        }).subscribe((sessionResults: SessionResults) => {
+          this.questions = sessionResults.questions.sort(
               (a: QuestionOutput, b: QuestionOutput) => a.questionNumber - b.questionNumber);
-        }, (resp2: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp2.error.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
         });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
