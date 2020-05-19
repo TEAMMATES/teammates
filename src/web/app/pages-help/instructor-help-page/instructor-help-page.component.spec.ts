@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
 @Component({ selector: 'tm-instructor-help-students-section', template: '' })
 class InstructorHelpStudentsSectionStubComponent {
   @Input() key: string = '';
+  @Input() isEditDetailsCollapsed: boolean = false;
 }
 @Component({ selector: 'tm-instructor-help-courses-section', template: '' })
 class InstructorHelpCoursesSectionStubComponent {
@@ -17,6 +18,7 @@ class InstructorHelpCoursesSectionStubComponent {
 @Component({ selector: 'tm-instructor-help-sessions-section', template: '' })
 class InstructorHelpSessionsSectionStubComponent {
   @Input() key: string = '';
+  @Input() isPeerEvalTipsCollapsed: boolean = false;
 }
 @Component({ selector: 'tm-instructor-help-questions-section', template: '' })
 class InstructorHelpQuestionsSectionStubComponent {
