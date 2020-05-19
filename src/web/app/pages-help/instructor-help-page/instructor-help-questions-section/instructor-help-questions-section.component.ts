@@ -58,8 +58,8 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       isEditable: false,
       isQuestionHasResponses: false,
       isSaving: false,
+      
       questionNumber: 1,
-
       questionBrief: '',
       questionDescription: '',
 
