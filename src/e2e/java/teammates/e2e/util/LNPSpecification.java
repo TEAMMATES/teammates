@@ -13,7 +13,7 @@ public class LNPSpecification {
 
     /**
      * Maximum allowable threshold for the mean response time
-     * (in seconds) for the test endpoint
+     * (in seconds) for the test endpoint.
      */
     private double meanResTimeLimit;
 
