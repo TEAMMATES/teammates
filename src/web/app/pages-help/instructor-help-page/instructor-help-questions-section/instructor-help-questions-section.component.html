@@ -613,7 +613,11 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-question-edit-form
+                  [formModel]="exampleRankOptionQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true"
+          ></tm-question-edit-form>
         </div>
       </div>
       <br/>
