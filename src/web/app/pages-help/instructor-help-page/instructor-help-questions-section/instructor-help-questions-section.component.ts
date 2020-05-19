@@ -11,6 +11,7 @@ import {
 import {
     DEFAULT_MCQ_QUESTION_DETAILS,
     DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
+    DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
     DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
 import {
@@ -54,6 +55,31 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
+
+  readonly exampleRankRecipientQuestionModel: QuestionEditFormModel = {
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    feedbackQuestionId: '',
+    isEditable: false,
+    isQuestionHasResponses: false,
+    isSaving: false,
+
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+
+    questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+    questionDetails: DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(),
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
   readonly exampleRankOptionQuestionModel: QuestionEditFormModel = {
     customNumberOfEntitiesToGiveFeedbackTo: 0,
     feedbackQuestionId: '',
@@ -67,6 +93,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     questionType: FeedbackQuestionType.RANK_OPTIONS,
     questionDetails: DEFAULT_RANK_OPTIONS_QUESTION_DETAILS(),
+
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
