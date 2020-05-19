@@ -63,7 +63,6 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
                 instructor1OfCourse1.getEmail(), "%GENERAL%");
     }
 
-    @Test
     @Override
     protected void testExecute() throws Exception {
         // See individual test cases below
