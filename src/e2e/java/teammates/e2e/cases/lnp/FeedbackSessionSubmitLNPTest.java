@@ -28,6 +28,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.e2e.util.JMeterElements;
+import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
 
 /**
@@ -46,6 +47,9 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
 
     private static final int NUMBER_OF_QUESTIONS = 20;
+
+    private static final double ERROR_RATE_LIMIT = 0.01;
+    private static final double MEAN_RESP_TIME_LIMIT = 1;
 
     @Override
     protected LNPTestData getTestData() {
@@ -252,11 +256,19 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         return testPlan;
     }
 
+    @Override
+    protected void setupSpecification() {
+        this.specification = LNPSpecification.builder()
+                .withErrorRateLimit(ERROR_RATE_LIMIT)
+                .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
+                .build();
+    }
+
     @BeforeClass
     public void classSetup() {
         generateTimeStamp();
         createTestData();
-        setupSpecification(0.01, 1);
+        setupSpecification();
     }
 
     @Test
