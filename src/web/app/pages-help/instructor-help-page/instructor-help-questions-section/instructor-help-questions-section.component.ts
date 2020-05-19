@@ -53,27 +53,27 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleRankRecipientQuestionModel: QuestionEditFormModel = {
-      customNumberOfEntitiesToGiveFeedbackTo: 0,
-      feedbackQuestionId: '',
-      isEditable: false,
-      isQuestionHasResponses: false,
-      isSaving: false,
-      
-      questionNumber: 1,
-      questionBrief: '',
-      questionDescription: '',
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    feedbackQuestionId: '',
+    isEditable: false,
+    isQuestionHasResponses: false,
+    isSaving: false,
 
-      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
-      questionDetails: DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(),
-      giverType: FeedbackParticipantType.STUDENTS,
-      recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
 
-      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+    questionDetails: DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(),
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
-      showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-      showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
-      showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-  }
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
 
   isEssayQuestionsCollapsed: boolean = false;
   isMCQSingleAnsCollapsed: boolean = false;
