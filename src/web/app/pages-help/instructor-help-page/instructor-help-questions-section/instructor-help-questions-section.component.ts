@@ -9,7 +9,7 @@ import {
 } from '../../../../types/api-output';
 import {
     DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
-    DEFAULT_TEXT_QUESTION_DETAILS
+    DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
 import {
   QuestionEditFormMode,
