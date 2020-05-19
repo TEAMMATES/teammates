@@ -3,6 +3,9 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { QuestionEditFormModel } from '../../../components/question-edit-form/question-edit-form-model';
+import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { FeedbackQuestionType, FeedbackParticipantType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../../types/api-output';
 
 /**
  * Questions Section of the Instructor Help Page.
@@ -25,6 +28,36 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   isRankOptionsCollapsed: boolean = false;
   isRankRecipientsCollapsed: boolean = false;
   @Output() collapsePeerEvalTips: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  readonly exampleNumericalScaleEditFormModel: QuestionEditFormModel = {
+      feedbackQuestionId: "CS3281",
+
+      questionNumber: 1,
+      questionBrief: "This is a brief of the question",
+      questionDescription: "This is the description of the question",
+
+      isQuestionHasResponses: false,
+
+      questionType: FeedbackQuestionType.NUMSCALE,
+      questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
+
+      giverType: FeedbackParticipantType.STUDENTS,
+      recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
+      customNumberOfEntitiesToGiveFeedbackTo: 1,
+
+      showResponsesTo: [],
+      showGiverNameTo: [],
+      showRecipientNameTo: [],
+
+      isUsingOtherFeedbackPath: true,
+      commonVisibilitySettingName: "",
+      isUsingOtherVisibilitySetting: false,
+
+      isEditable: false,
+      isSaving: false,
+ }
 
   constructor(private modalService: NgbModal,
               private pageScrollService: PageScrollService,

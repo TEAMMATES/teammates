@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentProfileModule } from '../../pages-instructor/student-profile/student-profile.module';
+import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
@@ -43,6 +44,7 @@ import {
     NgbModule,
     RouterModule,
     StudentProfileModule,
+    QuestionEditFormModule,
     ReactiveFormsModule,
     InstructorSearchPageModule,
     InstructorCourseStudentEditPageModule,
