@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType, FeedbackVisibilityType,
@@ -52,6 +51,29 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
+
+  readonly exampleRankRecipientQuestionModel: QuestionEditFormModel = {
+      customNumberOfEntitiesToGiveFeedbackTo: 0,
+      feedbackQuestionId: '',
+      isEditable: false,
+      isQuestionHasResponses: false,
+      isSaving: false,
+      questionNumber: 1,
+
+      questionBrief: '',
+      questionDescription: '',
+
+      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      questionDetails: DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(),
+      giverType: FeedbackParticipantType.STUDENTS,
+      recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+      showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+      showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+      showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  }
 
   isEssayQuestionsCollapsed: boolean = false;
   isMCQSingleAnsCollapsed: boolean = false;
