@@ -74,7 +74,13 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-question-edit-form
+                [formModel]="exampleMCQQuestionWithoutWeightsModel"
+                [formMode]="QuestionEditFormMode.EDIT"
+                [isDisplayOnly]="true"
+            ></tm-question-edit-form>
+          </tm-example-box>
           <p>
             When you view the results of a multiple-choice (single answer) question, TEAMMATES calculates some statistics about the results collected,
             such as the number of responses for each option, and the percentage of response in which each option was chosen.
@@ -86,7 +92,13 @@
             <strong>Note: </strong> Weights can be assigned for questions with existing questions too. To do that, edit the question that needs weights,
             if there are existing responses for that question, the additional statistics will automatically get calculated for the question.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-question-edit-form
+                [formModel]="exampleMCQQuestionWithWeightsModel"
+                [formMode]="QuestionEditFormMode.EDIT"
+                [isDisplayOnly]="true"
+            ></tm-question-edit-form>
+          </tm-example-box>
         </div>
       </div>
       <br/>
