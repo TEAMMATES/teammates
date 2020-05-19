@@ -100,18 +100,14 @@
             <td>{{ student.institute }}</td>
             <td>{{ student.comments }}</td>
             <td>
-              <div *ngIf="student.googleId && student.manageAccountLink">
-                <a href="{{ student.manageAccountLink }}">
-                  <i class="fas fa-info-circle"></i> Manage this account
-                </a>
-                <br>
-              </div>
-              <div *ngIf="student.googleId">
-                <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)">
-                  <i class="fas fa-sync"></i> Reset Google ID
-                </a>
-                <br>
-              </div>
+              <a *ngIf="student.googleId && student.manageAccountLink" href="{{ student.manageAccountLink }}">
+                <i class="fas fa-info-circle"></i> Manage this account
+              </a>
+              <br>
+              <a *ngIf="student.googleId" id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)">
+                <i class="fas fa-sync"></i> Reset Google ID
+              </a>
+              <br>
               <button class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
             </td>
           </tr>

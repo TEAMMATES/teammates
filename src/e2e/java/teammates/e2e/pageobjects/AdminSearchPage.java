@@ -227,8 +227,7 @@ public class AdminSearchPage extends AppPage {
 
     private String getExpandedRowInputValue(WebElement row, String rowHeader) {
         try {
-            String xpath = String.format("following-sibling::tr[1]/td/ul/li[//text()[contains(., '%s')]]/input",
-                    rowHeader);
+            String xpath = String.format("following-sibling::tr[1]/td/ul/li[contains(., '%s')]/input", rowHeader);
             return row.findElement(By.xpath(xpath)).getAttribute("value");
         } catch (NoSuchElementException e) {
             return "";
