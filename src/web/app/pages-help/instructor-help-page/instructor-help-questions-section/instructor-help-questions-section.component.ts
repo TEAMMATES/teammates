@@ -55,7 +55,6 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
-
   readonly exampleRankRecipientQuestionModel: QuestionEditFormModel = {
     customNumberOfEntitiesToGiveFeedbackTo: 0,
     feedbackQuestionId: '',
