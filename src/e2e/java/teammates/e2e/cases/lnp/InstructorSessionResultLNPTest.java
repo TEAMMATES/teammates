@@ -286,9 +286,9 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
     @Override
     protected void setupSpecification() {
         this.specification = LNPSpecification.builder()
-                                             .withErrorRateLimit(ERROR_RATE_LIMIT)
-                                             .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
-                                             .build();
+                .withErrorRateLimit(ERROR_RATE_LIMIT)
+                .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
+                .build();
     }
 
     private void addLoadPageController(HashTree threadGroup, Map<String, String> argumentsMap) {

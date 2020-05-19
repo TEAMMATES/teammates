@@ -5,12 +5,16 @@ package teammates.e2e.util;
  */
 public class LNPSpecification {
 
-    // Maximum allowable threshold for the percentage of failed requests
-    // (0 to 100) to the test endpoint
+    /**
+     * Maximum allowable threshold for the ratio of failed request
+     * (between 0 and 1) to the test endpoint.
+     */
     private double errorRateLimit;
 
-    // Maximum allowable threshold for the mean response time
-    // (in seconds) for the test endpoint
+    /**
+     * Maximum allowable threshold for the mean response time
+     * (in seconds) for the test endpoint
+     */
     private double meanResTimeLimit;
 
     private String resultsErrorMessage = "";

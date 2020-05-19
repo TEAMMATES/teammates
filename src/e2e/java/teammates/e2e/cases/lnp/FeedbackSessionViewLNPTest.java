@@ -233,9 +233,9 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
     @Override
     protected void setupSpecification() {
         this.specification = LNPSpecification.builder()
-                                             .withErrorRateLimit(ERROR_RATE_LIMIT)
-                                             .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
-                                             .build();
+                .withErrorRateLimit(ERROR_RATE_LIMIT)
+                .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
+                .build();
     }
 
     @BeforeClass
