@@ -56,23 +56,22 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     feedbackQuestionId: 'CS3281',
 
     questionNumber: 1,
-    questionBrief: 'This is a brief of the question',
-    questionDescription: 'This is the description of the question',
+    questionBrief: '',
+    questionDescription: '',
 
     isQuestionHasResponses: false,
 
     questionType: FeedbackQuestionType.NUMSCALE,
     questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
-
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
-    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 1,
 
-    showResponsesTo: [],
-    showGiverNameTo: [],
-    showRecipientNameTo: [],
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 
     isUsingOtherFeedbackPath: true,
     commonVisibilitySettingName: '',
