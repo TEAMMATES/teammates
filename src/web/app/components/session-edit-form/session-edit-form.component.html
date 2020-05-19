@@ -211,15 +211,15 @@
     </div>
     <div class="card border-primary margin-top-20px" *ngIf="model.hasVisibleSettingsPanelExpanded">
       <div class="card-body">
-        <div class="row text-center">
-          <div class="col-md-6">
-            <div class="col-12 text-md-left">
-              <div>
+        <div class="row align-items-start">
+          <div class="col-md-6 text-center text-md-left">
+            <div class="row ml-md-1">
+              <div class="col-12">
                 <label class="label-control font-bold" ngbTooltip="Please select when you want the questions for the feedback session to be visible to users who need to participate. Note that users cannot submit their responses until the submissions opening time set below.">Make session visible </label>
               </div>
             </div>
-            <div class="row mt-md-2">
-              <div class="col-md-2 mt-md-1 text-md-right" ngbTooltip="Select this option to enter in a custom date and time for which the feedback session will become visible. Note that you can make a session visible before it is open for submissions so that users can preview the questions.">
+            <div class="row mt-md-2 ml-md-1">
+              <div class="col-md-2 mt-md-1" ngbTooltip="Select this option to enter in a custom date and time for which the feedback session will become visible. Note that you can make a session visible before it is open for submissions so that users can preview the questions.">
                 <div class="form-check">
                   <label class="form-check-label">
                     <input class="form-check-input" type="radio" name="sessionVisibleRadio" [value]="SessionVisibleSetting.CUSTOM" [ngModel]="model.sessionVisibleSetting" (ngModelChange)="triggerModelChange('sessionVisibleSetting', $event)" [disabled]="!model.isEditable">
@@ -242,8 +242,8 @@
                 <tm-time-picker [time]="model.customSessionVisibleTime" (timeChange)="triggerModelChange('customSessionVisibleTime', $event)" [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
               </div>
             </div>
-            <div class="col-12 text-md-left mt-md-3">
-              <div class="form-check">
+            <div class="row mt-md-3 ml-md-3">
+              <div class="col-12 form-check">
                 <label class="form-check-label" ngbTooltip="Select this option to have the feedback session become visible when it is open for submissions (as selected above).">
                   <input class="form-check-input" type="radio" name="sessionVisibleRadio" [value]="SessionVisibleSetting.AT_OPEN" [ngModel]="model.sessionVisibleSetting" (ngModelChange)="triggerModelChange('sessionVisibleSetting', $event)" [disabled]="!model.isEditable">
                   Submission opening time
@@ -251,12 +251,14 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 sessionVisibleRadio border-left-gray">
-            <div class="col-12 text-md-left">
-              <label class="label-control font-bold" ngbTooltip="Please select when the responses for the feedback session will be visible to the designated recipients. You can select the response visibility for each type of user and question later.">Make response visible </label>
+          <div class="col-md-6 sessionVisibleRadio border-left-gray text-center text-md-left">
+            <div class="row ml-md-1">
+              <div class="col-12">
+                <label class="label-control font-bold" ngbTooltip="Please select when the responses for the feedback session will be visible to the designated recipients. You can select the response visibility for each type of user and question later.">Make response visible </label>
+              </div>
             </div>
-            <div class="row mt-md-2">
-                <div class="col-md-2 text-md-right mt-md-1" ngbTooltip="Select this option to use a custom time for when the responses of the feedback session will be visible to the designated recipients.">
+            <div class="row mt-md-2 ml-md-1">
+                <div class="col-md-2 mt-md-1" ngbTooltip="Select this option to use a custom time for when the responses of the feedback session will be visible to the designated recipients.">
                   <div class="form-check">
                     <label class="form-check-label">
                       <input class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.CUSTOM" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable"/>
@@ -280,21 +282,25 @@
                 </div>
             </div>
             <br>
-            <div class="col-12 text-md-left">
-              <div class="form-check">
-                <label class="form-check-label" ngbTooltip="Select this option to have the feedback responses be immediately visible when the session becomes visible to users.">
-                  <input class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.AT_VISIBLE" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable">
-                  Immediately
-                </label>
+            <div class="row mt-md-3 ml-md-1">
+              <div class="col-12">
+                <div class="form-check">
+                  <label class="form-check-label" ngbTooltip="Select this option to have the feedback responses be immediately visible when the session becomes visible to users.">
+                    <input class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.AT_VISIBLE" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable">
+                    Immediately
+                  </label>
+                </div>
               </div>
             </div>
             <br>
-            <div class="col-12 text-md-left">
-              <div class="form-check">
-                <label class="form-check-label" ngbTooltip="Select this option if you intend to manually publish the responses for this session later on.">
-                  <input class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.LATER" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable">
-                  Not now (publish manually)
-                </label>
+            <div class="row mt-md-3 ml-md-1">
+              <div class="col-12">
+                <div class="form-check">
+                  <label class="form-check-label" ngbTooltip="Select this option if you intend to manually publish the responses for this session later on.">
+                    <input class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.LATER" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable">
+                    Not now (publish manually)
+                  </label>
+                </div>
               </div>
             </div>
           </div>
