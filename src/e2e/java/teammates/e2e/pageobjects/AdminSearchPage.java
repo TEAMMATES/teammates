@@ -116,7 +116,7 @@ public class AdminSearchPage extends AppPage {
         String details = String.format("%s [%s] (%s)", student.course,
                 student.section == null ? Const.DEFAULT_SECTION : student.section, student.team);
         String xpath = String.format("//table[@id='search-table-student']/tbody/tr[td[%d]='%s' and td[%d]='%s']",
-                STUDENT_COL_DETAILS, details, STUDENT_COL_NAME, student.name);
+                    STUDENT_COL_DETAILS, details, STUDENT_COL_NAME, student.name);
         return browser.driver.findElement(By.xpath(xpath));
     }
 

@@ -138,11 +138,11 @@ export class AdminSearchPageComponent {
     modalRef.result.then(() => {
       this.courseService.regenerateStudentCourseLinks(student.courseId, student.email)
         .subscribe((resp: RegenerateStudentCourseLinks) => {
-            this.statusMessageService.showSuccessMessage(resp.message);
-            this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
-          }, (response: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(response.error.message);
-          });
+          this.statusMessageService.showSuccessMessage(resp.message);
+          this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
+        }, (response: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(response.error.message);
+        });
     }, () => {});
   }
 

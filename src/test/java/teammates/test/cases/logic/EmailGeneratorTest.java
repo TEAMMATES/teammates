@@ -238,8 +238,9 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has not joined the course");
 
-        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email,
-                                                        Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), unregisteredStudent.email,
+                Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, unregisteredStudent.email, subject,
