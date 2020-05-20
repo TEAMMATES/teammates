@@ -44,33 +44,16 @@
   </div>
 </div>
 
-<div class="row margin-top-30px" *ngIf="recycleBinFeedbackSessionRowModels.length !== 0">
-  <div class="col-12">
-    <h2 class="text-muted">
-      <i class="fas fa-trash-alt"></i> Deleted Feedback Sessions
-    </h2>
-    <div class="card bg-light top-padded">
-      <div class="card-header bg-secondary recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
-        <div class="row align-items-center">
-          <div class="col-6 text-white">
-            <b>Recycle Bin</b>
-          </div>
-          <div class="col-6 text-right bin-header-button">
-            <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
-                    (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSession()"><i class="fas fa-check"></i> Restore All</button>
-            <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
-                    (click)="$event.stopPropagation(); permanentDeleteAllSessions()"><i class="fas fa-times"></i> Delete All</button>
-            <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
-            <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
-          </div>
-        </div>
-      </div>
-      <tm-sessions-recycle-bin-table [isTableExpanded]="isRecycleBinExpanded"
-                                 [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
-                                 (restoreSessionEvent)="restoreRecycleBinFeedbackSession($event)"
-                                 (permanentlyDeleteSessionEvent)="permanentDeleteSession($event)"
-                                 (sortRecycleBinFeedbackSessionRowsEvent)="sortRecycleBinFeedbackSessionRowsEvent($event)">
+<div class="margin-top-30px">
+      <tm-sessions-recycle-bin-table
+                     [isRecycleBinExpanded]="false"
+                     [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
+                     [recycleBinFeedbackSessionRowModelsSortBy]="recycleBinFeedbackSessionRowModelsSortBy"
+                     [recycleBinFeedbackSessionRowModelsSortOrder]="recycleBinFeedbackSessionRowModelsSortOrder"
+                     (restoreSessionEvent)="restoreRecycleBinFeedbackSession($event)"
+                     (restoreAllRecycleBinFeedbackSessionEvent)="restoreAllRecycleBinFeedbackSession()"
+                     (permanentlyDeleteSessionEvent)="permanentDeleteSession($event)"
+                     (permanentDeleteAllSessionsEvent)="permanentDeleteAllSessions()"
+                     (sortRecycleBinFeedbackSessionRowsEvent)="sortRecycleBinFeedbackSessionRowsEvent($event)">
       </tm-sessions-recycle-bin-table>
-    </div>
-  </div>
 </div>

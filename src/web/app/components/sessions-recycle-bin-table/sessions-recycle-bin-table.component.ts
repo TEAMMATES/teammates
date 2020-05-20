@@ -18,7 +18,7 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
 
   @Input()
-  isTableExpanded: boolean = false;
+  isRecycleBinExpanded: boolean = false;
 
   @Input()
   recycleBinFeedbackSessionRowModels: RecycleBinFeedbackSessionRowModel[] = [];
@@ -29,11 +29,20 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   @Input()
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
-  @Output() restoreSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();
+  @Output()
+  restoreSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();
 
-  @Output() permanentlyDeleteSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();
+  @Output()
+  restoreAllRecycleBinFeedbackSessionEvent: EventEmitter<any> = new EventEmitter();
 
-  @Output() sortRecycleBinFeedbackSessionRowsEvent: EventEmitter<SortBy> = new EventEmitter();
+  @Output()
+  permanentlyDeleteSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();
+
+  @Output()
+  permanentDeleteAllSessionsEvent: EventEmitter<any> = new EventEmitter();
+
+  @Output()
+  sortRecycleBinFeedbackSessionRowsEvent: EventEmitter<SortBy> = new EventEmitter();
 
   constructor() { }
 
