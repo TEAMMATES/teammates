@@ -6,21 +6,34 @@ import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  CourseSectionNames, FeedbackQuestion,
+  CommentOutput,
+  CourseSectionNames,
+  FeedbackQuestion,
   FeedbackQuestions,
-  FeedbackSession, FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus, FeedbackSessionSubmittedGiverSet, QuestionOutput, ResponseOutput,
-  ResponseVisibleSetting, SessionResults,
+  FeedbackResponseComment,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  FeedbackSessionSubmittedGiverSet,
+  Instructor,
+  QuestionOutput,
+  ResponseOutput,
+  ResponseVisibleSetting,
+  SessionResults,
   SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import {
   ConfirmPublishingSessionModalComponent,
 } from '../../components/sessions-table/confirm-publishing-session-modal/confirm-publishing-session-modal.component';
@@ -85,6 +98,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
   };
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
+  currInstructorName?: string;
+
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -99,6 +114,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
   questionsModel: Record<string, QuestionTabModel> = {};
   isQuestionsLoaded: boolean = false;
 
+  // this is a separate model for instructor comments
+  // from responseID to comment table model
+  instructorCommentTableModel: Record<string, CommentTableModel> = {};
+
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
 
@@ -112,6 +131,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
               private feedbackQuestionsService: FeedbackQuestionsService,
               private courseService: CourseService,
               private studentService: StudentService,
+              private instructorService: InstructorService,
+              private commentService: FeedbackResponseCommentService,
               private route: ActivatedRoute,
       private timezoneService: TimezoneService, private statusMessageService: StatusMessageService,
       private modalService: NgbModal, private router: Router) {
@@ -191,12 +212,22 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
 
+        // load current instructor name
+        this.instructorService.getInstructor({
+          courseId: queryParams.courseid,
+          intent: Intent.FULL_DETAIL,
+        }).subscribe((instructor: Instructor) => {
+          this.currInstructorName = instructor.name;
+        });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
     });
   }
 
+  /**
+   * Toggles the question tab in per question view.
+   */
   toggleQuestionTab(questionId: string): void {
     this.questionsModel[questionId].isTabExpanded = !this.questionsModel[questionId].isTabExpanded;
     if (this.questionsModel[questionId].isTabExpanded) {
@@ -224,12 +255,17 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.questionsModel[questionId].responses = responses.allResponses;
         this.questionsModel[questionId].statistics = responses.questionStatistics;
         this.questionsModel[questionId].hasPopulated = true;
+
+        this.preprocessComments(responses.allResponses);
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
+  /**
+   * Toggles the section tab in per section view.
+   */
   toggleSectionTab(sectionName: string): void {
     this.sectionsModel[sectionName].isTabExpanded = !this.sectionsModel[sectionName].isTabExpanded;
     if (this.sectionsModel[sectionName].isTabExpanded) {
@@ -254,9 +290,71 @@ export class InstructorSessionResultPageComponent implements OnInit {
     .subscribe((resp: SessionResults) => {
       this.sectionsModel[sectionName].questions = resp.questions;
       this.sectionsModel[sectionName].hasPopulated = true;
+
+      resp.questions.forEach((question: QuestionOutput) => {
+        this.preprocessComments(question.allResponses);
+      });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
+  }
+
+  /**
+   * Preprocesses the comments from instructor.
+   *
+   * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
+   * instructor comments associated with the response will be deleted.
+   */
+  preprocessComments(responses: ResponseOutput[]): void {
+    responses.forEach((response: ResponseOutput) => {
+      this.instructorCommentTableModel[response.responseId] =
+          this.getCommentTableModel(response.instructorComments);
+
+      // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
+      response.instructorComments = [];
+    });
+  }
+
+  /**
+   * Transforms instructor comments to a comment table model.
+   */
+  getCommentTableModel(comments: CommentOutput[]): CommentTableModel {
+    return {
+      commentRows: comments.map((comment: FeedbackResponseComment) => this.getCommentRowModel(comment)),
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+
+        isEditing: false,
+      },
+      isAddingNewComment: false,
+    };
+  }
+
+  /**
+   * Transforms a comment to a comment row model.
+   */
+  getCommentRowModel(comment: CommentOutput): CommentRowModel {
+    return {
+      originalComment: comment,
+      timezone: this.session.timeZone,
+
+      commentGiverName: comment.commentGiverName,
+      lastEditorName: comment.lastEditorName,
+
+      commentEditFormModel: {
+        commentText: comment.commentText,
+        isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
+        showCommentTo: comment.showCommentTo,
+        showGiverNameTo: comment.showGiverNameTo,
+      },
+
+      isEditing: false,
+    };
   }
 
   /**
@@ -387,5 +485,90 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.viewType = newViewType;
     // the expand all will be reset if the view type changed
     this.collapseAllTabs();
+  }
+
+  /**
+   * Deletes an instructor comment.
+   */
+  deleteComment(data: { responseId: string, index: number}): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
+    const commentToDelete: FeedbackResponseComment =
+        // tslint:disable-next-line:no-non-null-assertion
+        this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
+
+    this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
+        .subscribe(() => {
+          commentTableModel.commentRows.splice(data.index, 1);
+          this.instructorCommentTableModel[data.responseId] = {
+            ...commentTableModel,
+          };
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Updates an instructor comment.
+   */
+  updateComment(data: { responseId: string, index: number}): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
+    const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
+    // tslint:disable-next-line:no-non-null-assertion
+    const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
+
+    this.commentService.updateComment({
+      commentText: commentRowToUpdate.commentEditFormModel.commentText,
+      showCommentTo: commentRowToUpdate.commentEditFormModel.showCommentTo,
+      showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
+    }, commentToUpdate.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
+        .subscribe((commentResponse: FeedbackResponseComment) => {
+          commentTableModel.commentRows[data.index] = this.getCommentRowModel({
+            ...commentResponse,
+            commentGiverName: commentRowToUpdate.commentGiverName,
+            // the current instructor will become the last editor
+            lastEditorName: this.currInstructorName,
+          });
+          this.instructorCommentTableModel[data.responseId] = {
+            ...commentTableModel,
+          };
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Saves an instructor comment.
+   */
+  saveNewComment(responseId: string): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
+    const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
+
+    this.commentService.createComment({
+      commentText: commentRowToAdd.commentEditFormModel.commentText,
+      showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
+      showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
+    }, responseId, Intent.INSTRUCTOR_RESULT).subscribe((commentResponse: FeedbackResponseComment) => {
+      commentTableModel.commentRows.push(this.getCommentRowModel({
+        ...commentResponse,
+        // the giver and editor name will be the current login instructor
+        commentGiverName: this.currInstructorName,
+        lastEditorName: this.currInstructorName,
+      }));
+      this.instructorCommentTableModel[responseId] = {
+        ...commentTableModel,
+        newCommentRow: {
+          commentEditFormModel: {
+            commentText: '',
+            isUsingCustomVisibilities: false,
+            showCommentTo: [],
+            showGiverNameTo: [],
+          },
+          isEditing: false,
+        },
+        isAddingNewComment: false,
+      };
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 }

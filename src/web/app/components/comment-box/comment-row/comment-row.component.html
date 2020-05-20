@@ -1,9 +1,13 @@
 <tm-comment-edit-form *ngIf="model.isEditing || mode == CommentRowMode.ADD"
+                      [mode]="mode"
                       [model]="model.commentEditFormModel"
                       (modelChange)="triggerModelChange('commentEditFormModel', $event)"
                       [isVisibilityOptionEnabled]="isVisibilityOptionEnabled"
                       [isDisabled]="isDisabled"
                       [shouldHideSavingButton]="shouldHideSavingButton"
+                      [questionShowResponsesTo]="questionShowResponsesTo"
+                      [response]="response"
+                      [shouldHideClosingButton]="shouldHideClosingButton"
                       (closeCommentBoxEvent)="triggerCloseEditing()"
                       (saveCommentEvent)="triggerSaveCommentEvent()"></tm-comment-edit-form>
 
@@ -18,17 +22,17 @@
           <ng-container *ngIf="model.originalComment.lastEditedAt && model.originalComment.lastEditedAt !== model.originalComment.createdAt">
             <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
             <span class="underline-hover" style="margin-right: .25rem;"
-                  [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone">edited by {{ model.originalComment.lastEditorEmail }}</span>
+                  [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone">edited by {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span>
           </ng-container>
         </span>
 
-        <i class="fa fa-eye-slash" aria-hidden="true" ngbTooltip="This comment is visible to PLACEHOLDER"></i>
+        <i class="fa fa-eye-slash" aria-hidden="true" ngbTooltip="This response comment is visible to {{ visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT) | commentVisibilityTypesJointName }}"></i>
 
         <div class="float-right comment-row">
           <button type="button" class="btn btn-secondary btn-sm"  ngbTooltip='Edit this comment'
-                  (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled"><i class="fas fa-pencil-alt"></i> Edit</button>
+                  (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled"><i class="fas fa-pencil-alt"></i></button>
           <button type="button" class="btn btn-secondary btn-sm" ngbTooltip='Delete this comment'
-                  (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled"><i class="fas fa-trash"></i> Delete</button>
+                  (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled"><i class="fas fa-trash"></i></button>
         </div>
       </div>
       <div class="col-12" [innerHTML]="model.originalComment.commentText | safeHtml"></div>

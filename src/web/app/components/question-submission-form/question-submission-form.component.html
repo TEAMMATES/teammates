@@ -127,6 +127,7 @@
               <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
                               [model]="recipientSubmissionFormModel.commentByGiver"
                               (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
+                              [questionShowResponsesTo]="model.showResponsesTo"
                               [shouldHideSavingButton]="false"
                               (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
                               (saveCommentEvent)="triggerSaveCommentEvent(i)"
@@ -146,6 +147,7 @@
               </div>
               <div *ngIf="recipientSubmissionFormModel.commentByGiver">
                 <tm-comment-row [mode]="CommentRowMode.ADD" [isVisibilityOptionEnabled]="false"
+                                [questionShowResponsesTo]="model.showResponsesTo"
                                 [shouldHideSavingButton]="true"
                                 [model]="recipientSubmissionFormModel.commentByGiver"
                                 (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
