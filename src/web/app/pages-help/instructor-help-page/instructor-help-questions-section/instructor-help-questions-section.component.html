@@ -538,7 +538,11 @@
           <p>
             To respondents, a rubric question will appear as a table that looks similar to the example below. Respondents can choose one answer per row.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-question-submission-form
+                [formModel]="exampleResponderRubricSubmissionFormModel"
+            ></tm-question-submission-form>
+          </tm-example-box>
           <p>
             To set up a rubric question:
           </p>

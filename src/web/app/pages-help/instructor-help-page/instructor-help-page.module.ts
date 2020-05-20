@@ -8,6 +8,8 @@ import { StudentProfileModule } from '../../pages-instructor/student-profile/stu
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
+import { QuestionSubmissionFormModule,
+} from '../../components/question-submission-form/question-submission-form.module';
 import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
@@ -58,6 +60,7 @@ import {
     InstructorSessionEditPageModule,
     SessionEditFormModule,
     QuestionEditFormModule,
+    QuestionSubmissionFormModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
