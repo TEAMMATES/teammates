@@ -9,6 +9,9 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
 import {
+    DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
+    DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
+    DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
     DEFAULT_MCQ_QUESTION_DETAILS,
     DEFAULT_NUMSCALE_QUESTION_DETAILS,
     DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
@@ -57,7 +60,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
-  readonly exampleNumericalScaleEditFormModel: QuestionEditFormModel = {
+  readonly exampleNumericalScaleQuestionModel: QuestionEditFormModel = {
     feedbackQuestionId: '',
     isQuestionHasResponses: false,
 
@@ -77,6 +80,31 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleTeamContributionQuestionModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.CONTRIB,
+    questionDetails: DEFAULT_CONTRIBUTION_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
+      FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };

@@ -164,7 +164,7 @@
           </ol>
           <tm-example-box>
               <tm-question-edit-form
-                  [formModel]="exampleNumericalScaleEditFormModel"
+                  [formModel]="exampleNumericalScaleQuestionModel"
                   [formMode]="QuestionEditFormMode.EDIT"
                   [isDisplayOnly]="true">
               </tm-question-edit-form>
@@ -290,7 +290,13 @@
           <p>
             The feedback path for this question type is fixed: the feedback giver must be a student, and the student must give feedback about his/her team members and himself.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleTeamContributionQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             Contribution questions in TEAMMATES are unique because they are targeted at measuring team contributions. <br>
             Thus, TEAMMATES purposefully prevents students from influencing their own ‘perceived contribution’ value.
