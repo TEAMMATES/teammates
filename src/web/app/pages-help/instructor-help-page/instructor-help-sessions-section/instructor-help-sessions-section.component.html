@@ -135,7 +135,13 @@
           <p>
             This is the form used to set up sessions.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-session-edit-form [formMode]="SessionEditFormMode.ADD"
+                                  [model]="exampleSessionEditFormModel"
+                                  [courseCandidates]="exampleCourseCandidates"
+                                  [templateSessions]="exampleTemplateSessions">
+            </tm-session-edit-form>
+          </tm-example-box>
         </div>
       </div>
       <br/>
@@ -173,7 +179,21 @@
               When you are finished adding questions, click <button class="btn btn-primary">Done Editing</button>.
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <div class="card">
+              <div class="card-body background-color-light-blue text-center">
+                <div ngbDropdown class="d-inline-block">
+                  <button class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
+                  <div ngbDropdownMenu>
+                    <button class="dropdown-item">Choose from template questions</button>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-link"><i class="fas fa-info-circle"></i></button>
+                <button class="btn btn-primary">Copy Question</button>&nbsp;
+                <button class="btn btn-primary">Done Editing</button>
+              </div>
+            </div>
+          </tm-example-box>
           <p>
             TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
             <a (click)="jumpTo('questions')" [routerLink]="">question types</a>,
@@ -197,7 +217,32 @@
             The team member receiving feedback can see the feedback, but not who gave the feedback.
             Instructors can see who received what feedback, and who gave the feedback.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <div class="background-color-light-green margin-top-15px padding-15px">
+              <div>
+                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
+              </div>
+              <div ngbDropdown class="margin-top-15px">
+                <button class="btn btn-light" ngbDropdownToggle [disabled]="true">
+                  <span>
+                    Students in this course will give feedback on <i class="fas fa-arrow-right"></i> Giver's team members
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="margin-top-15px padding-15px background-color-light-green">
+              <div>
+                <b>Visibility</b> (Who can see the responses?)
+              </div>
+              <div ngbDropdown class="margin-top-15px">
+                <button class="btn btn-light" ngbDropdownToggle [disabled]="true">
+                  <span>
+                    Shown anonymously to recipient and giver's team members, visible to instructor
+                  </span>
+                </button>
+              </div>
+            </div>
+          </tm-example-box>
         </div>
       </div>
       <br/>
