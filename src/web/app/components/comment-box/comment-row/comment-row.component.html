@@ -7,6 +7,7 @@
                       [shouldHideSavingButton]="shouldHideSavingButton"
                       [questionShowResponsesTo]="questionShowResponsesTo"
                       [response]="response"
+                      [isFeedbackParticipantComment]="isFeedbackParticipantComment"
                       [shouldHideClosingButton]="shouldHideClosingButton"
                       (closeCommentBoxEvent)="triggerCloseEditing()"
                       (saveCommentEvent)="triggerSaveCommentEvent()"></tm-comment-edit-form>
@@ -15,8 +16,11 @@
   <div class="card-body">
     <div class="row">
       <div class="col-12">
-        <span class="text-secondary">
-          <span>{{ model.originalComment.commentGiver }} commented at </span>
+        <span class="text-secondary" *ngIf="isFeedbackParticipantComment">
+          Comment by response giver.
+        </span>
+        <span class="text-secondary" *ngIf="!isFeedbackParticipantComment">
+          <span>{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
           <span class="underline-hover" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone">
             {{ model.originalComment.createdAt | formatDateBrief: model.timezone }}</span>
           <ng-container *ngIf="model.originalComment.lastEditedAt && model.originalComment.lastEditedAt !== model.originalComment.createdAt">
@@ -29,9 +33,9 @@
         <i class="fa fa-eye-slash" aria-hidden="true" ngbTooltip="This response comment is visible to {{ visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT) | commentVisibilityTypesJointName }}"></i>
 
         <div class="float-right comment-row">
-          <button type="button" class="btn btn-secondary btn-sm"  ngbTooltip='Edit this comment'
+          <button type="button" class="btn btn-secondary btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
                   (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled"><i class="fas fa-pencil-alt"></i></button>
-          <button type="button" class="btn btn-secondary btn-sm" ngbTooltip='Delete this comment'
+          <button type="button" class="btn btn-secondary btn-sm" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
                   (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled"><i class="fas fa-trash"></i></button>
         </div>
       </div>

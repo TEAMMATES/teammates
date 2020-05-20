@@ -50,6 +50,9 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   };
 
   @Input()
+  isFeedbackParticipantComment: boolean = false;
+
+  @Input()
   response?: ResponseOutput;
 
   @Input()

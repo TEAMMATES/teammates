@@ -76,6 +76,15 @@ export class CommentRowComponent implements OnInit, OnChanges {
   shouldHideClosingButton: boolean = false;
 
   @Input()
+  shouldHideEditButton: boolean = false;
+
+  @Input()
+  shouldHideDeleteButton: boolean = false;
+
+  @Input()
+  isFeedbackParticipantComment: boolean = false;
+
+  @Input()
   response?: ResponseOutput;
 
   @Input()
