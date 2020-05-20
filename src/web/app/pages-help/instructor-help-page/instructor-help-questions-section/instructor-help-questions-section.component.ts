@@ -10,6 +10,7 @@ import {
 } from '../../../../types/api-output';
 import {
     DEFAULT_MCQ_QUESTION_DETAILS,
+    DEFAULT_NUMSCALE_QUESTION_DETAILS,
     DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
     DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
     DEFAULT_TEXT_QUESTION_DETAILS,
@@ -33,21 +34,46 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
 
   readonly exampleEssayQuestionModel: QuestionEditFormModel = {
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
     feedbackQuestionId: '',
-    isEditable: false,
     isQuestionHasResponses: false,
-    isSaving: false,
+
     questionNumber: 1,
     questionBrief: '',
     questionDescription: '',
-
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: DEFAULT_TEXT_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleNumericalScaleEditFormModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.NUMSCALE,
+    questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
@@ -56,22 +82,22 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleRankRecipientQuestionModel: QuestionEditFormModel = {
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
     feedbackQuestionId: '',
-    isEditable: false,
     isQuestionHasResponses: false,
-    isSaving: false,
 
     questionNumber: 1,
     questionBrief: '',
     questionDescription: '',
-
     questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     questionDetails: DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
@@ -80,22 +106,22 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleRankOptionQuestionModel: QuestionEditFormModel = {
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
     feedbackQuestionId: '',
-    isEditable: false,
     isQuestionHasResponses: false,
-    isSaving: false,
 
     questionNumber: 1,
     questionBrief: '',
     questionDescription: '',
-
     questionType: FeedbackQuestionType.RANK_OPTIONS,
     questionDetails: DEFAULT_RANK_OPTIONS_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
@@ -105,6 +131,13 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleMCQQuestionWithoutWeightsModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: 'How much did you think you contributed?',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.MCQ,
     questionDetails: {
       ...DEFAULT_MCQ_QUESTION_DETAILS(),
       numOfMcqChoices: 3,
@@ -112,25 +145,30 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       hasAssignedWeights: false,
       mcqWeights: [],
     } as FeedbackMcqQuestionDetails,
-    questionDescription: '',
-    questionType: FeedbackQuestionType.MCQ,
+
+    isEditable: false,
+    isSaving: false,
+
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
       FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-    feedbackQuestionId: '',
-    questionBrief: 'How much did you think you contributed?',
-    isEditable: false,
-    isQuestionHasResponses: false,
-    isSaving: false,
-    questionNumber: 1,
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
   readonly exampleMCQQuestionWithWeightsModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: 'How much did you think you contributed?',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.MCQ,
     questionDetails: {
       ...DEFAULT_MCQ_QUESTION_DETAILS(),
       numOfMcqChoices: 3,
@@ -138,22 +176,20 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       hasAssignedWeights: true,
       mcqWeights: [1, 3, 5],
     } as FeedbackMcqQuestionDetails,
-    questionDescription: '',
-    questionType: FeedbackQuestionType.MCQ,
+
+    isEditable: false,
+    isSaving: false,
+
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
       FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-    feedbackQuestionId: '',
-    questionBrief: 'How much did you think you contributed?',
-    isEditable: false,
-    isQuestionHasResponses: false,
-    isSaving: false,
-    questionNumber: 1,
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
   isEssayQuestionsCollapsed: boolean = false;
