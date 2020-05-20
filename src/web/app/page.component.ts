@@ -118,6 +118,16 @@ export class PageComponent {
       this.isCollapsed = !this.isCollapsed;
     }
   }
+
+  /**
+   * Method that checks if current page has active modals and close them.
+   */
+  closeModal(): void {
+
+    if (this.modalService.hasOpenModals()) {
+      this.modalService.dismissAll();
+    }
+  }
 }
 
 /**

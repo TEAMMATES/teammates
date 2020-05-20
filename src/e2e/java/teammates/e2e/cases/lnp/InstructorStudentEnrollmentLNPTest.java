@@ -22,6 +22,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.e2e.util.JMeterElements;
+import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
 import teammates.ui.webapi.request.StudentsEnrollRequest;
 
@@ -39,6 +40,9 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     private static final String INSTRUCTOR_NAME = "LnPInstructor";
     private static final String INSTRUCTOR_EMAIL = "personalEmail";
     private static final String COURSE_NAME = "LnPCourse";
+
+    private static final double ERROR_RATE_LIMIT = 0.01;
+    private static final double MEAN_RESP_TIME_LIMIT = 80;
 
     @Override
     protected LNPTestData getTestData() {
@@ -169,14 +173,25 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         return testPlan;
     }
 
+    @Override
+    protected void setupSpecification() {
+        this.specification = LNPSpecification.builder()
+                .withErrorRateLimit(ERROR_RATE_LIMIT)
+                .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
+                .build();
+    }
+
     @BeforeClass
     public void classSetup() {
+        generateTimeStamp();
         createTestData();
+        setupSpecification();
     }
 
     @Test
     public void runLnpTest() throws IOException {
         runJmeter(false);
+        displayLnpResults();
     }
 
     /**
@@ -188,6 +203,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
         deleteTestData();
         deleteDataFiles();
+        cleanupResults();
     }
 
 }

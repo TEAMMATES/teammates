@@ -8,8 +8,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -68,7 +66,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
     protected void checkAccessControlForStudentFeedbackSubmission(
             StudentAttributes student, FeedbackSessionAttributes feedbackSession) {
         if (student == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist"));
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
         }
 
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
