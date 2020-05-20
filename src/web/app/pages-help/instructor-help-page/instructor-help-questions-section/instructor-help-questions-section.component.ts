@@ -5,7 +5,9 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackVisibilityType,
+  FeedbackQuestionType,
+  FeedbackRubricQuestionDetails,
+  FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
 import {
@@ -166,7 +168,20 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     questionBrief: '',
     questionDescription: '',
     questionType: FeedbackQuestionType.RUBRIC,
-    questionDetails: DEFAULT_RUBRIC_QUESTION_DETAILS(),
+    questionDetails: {
+      ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
+      numOfRubricChoices: 4,
+      rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
+      numOfRubricSubQuestions: 2,
+      rubricSubQuestions:
+        ['This student participates well in online discussions.', 'This student completes assigned tasks on time.'],
+      rubricDescriptions: [
+        ['Rarely or never responds.', 'Occasionally responds, but never initiates discussions.',
+          'Takes part in discussions and sometimes initiates discussions.',
+          'Initiates discussions frequently, and engages the team.'],
+        ['Rarely or never completes tasks.', 'Often misses deadlines.', 'Occasionally misses deadlines.',
+          'Tasks are always completed before the deadline.']],
+    } as FeedbackRubricQuestionDetails,
 
     isEditable: false,
     isSaving: false,
