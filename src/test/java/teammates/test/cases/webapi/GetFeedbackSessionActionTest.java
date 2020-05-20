@@ -105,7 +105,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCannotAccess(submissionParams);
 
-        ______TS("only instructors of the same course can access");
+        ______TS("only instructors of the same course can access full detail");
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -115,5 +115,28 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        ______TS("only students of the same course can access student result");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
+        };
+
+        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyInaccessibleForStudentsOfOtherCourse(submissionParams);
+
+        ______TS("only instructors of the same course can access instructor result");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+        };
+
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
     }
 }
