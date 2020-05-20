@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
+import {
+  SessionsRecycleBinTableModule,
+} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import {
@@ -15,7 +19,6 @@ import {
 import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
-import { SessionsRecycleBinTableModule } from "../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module";
 
 /**
  * Module for instructor sessions page.

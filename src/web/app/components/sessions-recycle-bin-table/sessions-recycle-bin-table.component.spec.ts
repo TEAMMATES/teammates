@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SessionsRecycleBinTableComponent } from './sessions-recycle-bin-table.component';
-import { SessionsRecycleBinTableModule } from "./sessions-recycle-bin-table.module";
+import { SessionsRecycleBinTableModule } from './sessions-recycle-bin-table.module';
 
 describe('SessionsRecycleBinTableComponent', () => {
   let component: SessionsRecycleBinTableComponent;
@@ -9,7 +9,7 @@ describe('SessionsRecycleBinTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ SessionsRecycleBinTableModule ]
+      imports: [SessionsRecycleBinTableModule],
     })
     .compileComponents();
   }));

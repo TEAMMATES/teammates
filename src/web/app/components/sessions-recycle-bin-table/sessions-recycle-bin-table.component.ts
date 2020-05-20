@@ -1,15 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FeedbackSession } from "../../../types/api-output";
-import { SortBy, SortOrder } from "../../../types/sort-properties";
+import { FeedbackSession } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 
 interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;
 }
 
+/**
+ * A table to display a list of deleted feedback sessions
+ */
 @Component({
   selector: 'tm-sessions-recycle-bin-table',
   templateUrl: './sessions-recycle-bin-table.component.html',
-  styleUrls: ['./sessions-recycle-bin-table.component.scss']
+  styleUrls: ['./sessions-recycle-bin-table.component.scss'],
 })
 export class SessionsRecycleBinTableComponent implements OnInit {
 
@@ -24,7 +27,7 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   recycleBinFeedbackSessionRowModels: RecycleBinFeedbackSessionRowModel[] = [];
 
   @Input()
-  recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE
+  recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
 
   @Input()
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
@@ -46,11 +49,14 @@ export class SessionsRecycleBinTableComponent implements OnInit {
 
   constructor() { }
 
+  /**
+   * Sorts the list of deleted feedback session row
+   */
   sortRecycleBinFeedbackSessionRows(by: SortBy): void {
     this.sortRecycleBinFeedbackSessionRowsEvent.emit(by);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }
