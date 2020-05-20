@@ -41,6 +41,7 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
+import { SessionsRecycleBinTableModule } from "../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module";
 
 /**
  * Module for instructor help page.
@@ -61,6 +62,7 @@ import {
     SessionEditFormModule,
     QuestionEditFormModule,
     QuestionSubmissionFormModule,
+    SessionsRecycleBinTableModule,
   ],
   declarations: [
     InstructorHelpPageComponent,

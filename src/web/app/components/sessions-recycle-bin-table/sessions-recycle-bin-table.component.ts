@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackSession } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 
-interface RecycleBinFeedbackSessionRowModel {
+export interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;
 }
 

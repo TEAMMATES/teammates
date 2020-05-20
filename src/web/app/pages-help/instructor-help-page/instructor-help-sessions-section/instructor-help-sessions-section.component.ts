@@ -4,7 +4,7 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
-  Course,
+  Course, FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus, Instructor, InstructorPermissionRole, JoinState,
   ResponseVisibleSetting,
@@ -14,6 +14,7 @@ import {
   SessionEditFormMode, SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { RecycleBinFeedbackSessionRowModel } from "../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component";
 
 /**
  * Sessions Section of the Instructor Help Page.
@@ -103,6 +104,20 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
       key: 'impicklerick',
       role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
       joinState: JoinState.JOINED,
+    },
+  ];
+
+  readonly exampleRecycleBinFeedbackSessions: RecycleBinFeedbackSessionRowModel[] = [
+    {
+      feedbackSession: <FeedbackSession> {
+        courseId: 'CS2103T',
+        timeZone: 'UTC',
+        feedbackSessionName: 'Project Feedback 1',
+        instructions: 'Enter your feedback for projects',
+        submissionStartTimestamp: 0,
+        submissionEndTimestamp: 0,
+        gracePeriod: 0,
+      },
     },
   ];
 
