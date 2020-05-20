@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { CourseService } from '../../../services/course.service';
 import {
   AdminSearchResult,
   InstructorAccountSearchResult,
@@ -32,7 +32,7 @@ export class AdminSearchPageComponent {
   constructor(
     private statusMessageService: StatusMessageService,
     private accountService: AccountService,
-    private httpRequestService: HttpRequestService,
+    private courseService: CourseService,
     private modalService: NgbModal,
     private searchService: SearchService,
   ) {}
@@ -136,13 +136,8 @@ export class AdminSearchPageComponent {
     modalRef.componentInstance.regenerateLinksCourseId = student.courseId;
 
     modalRef.result.then(() => {
-      const paramsMap: { [key: string]: string } = {
-        courseid: student.courseId,
-        studentemail: student.email,
-      };
-
-      this.httpRequestService.post('/student/courselinks/regeneration', paramsMap)
-          .subscribe((resp: RegenerateStudentCourseLinks) => {
+      this.courseService.regenerateStudentCourseLinks(student.courseId, student.email)
+        .subscribe((resp: RegenerateStudentCourseLinks) => {
             this.statusMessageService.showSuccessMessage(resp.message);
             this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
           }, (response: ErrorMessageOutput) => {
