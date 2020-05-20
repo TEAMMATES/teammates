@@ -307,6 +307,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickSaveInstructorButton(int instrNum) {
         click(getSaveInstructorButton(instrNum));
+        waitForPageToLoad();
     }
 
     private void clickAddSectionPrivilegeLink(int instrNum) {
