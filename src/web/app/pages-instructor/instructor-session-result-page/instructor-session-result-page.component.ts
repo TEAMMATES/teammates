@@ -463,8 +463,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
     if (this.viewType === InstructorSessionResultViewType.QUESTION) {
       for (const questionId of Object.keys(this.questionsModel)) {
-        this.questionsModel[questionId].isTabExpanded = true;
-        this.loadQuestionTab(questionId);
+        this.questionsModel[questionId].isTabExpanded = false;
       }
       return;
     }
