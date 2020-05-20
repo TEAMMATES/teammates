@@ -27,6 +27,7 @@
           <span *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
         </th>
         <th>Response</th>
+        <th *ngIf="canResponseHasComment">Comment for Response</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -38,6 +39,9 @@
         <td *ngIf="showRecipient">{{ response.recipient }}</td>
         <td>
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>
+        </td>
+        <td *ngIf="canResponseHasComment">
+          <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
         </td>
         <td>
           <tm-response-moderation-button [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="question.feedbackQuestionId"></tm-response-moderation-button>

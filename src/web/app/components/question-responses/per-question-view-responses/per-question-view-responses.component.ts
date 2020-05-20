@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -54,7 +55,9 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
 
   currResponseToAdd?: ResponseOutput;
 
-  constructor(private tableComparatorService: TableComparatorService, private modalService: NgbModal) {
+  constructor(private tableComparatorService: TableComparatorService,
+              private questionsService: FeedbackQuestionsService,
+              private modalService: NgbModal) {
     super();
   }
 
@@ -152,4 +155,10 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
     });
   }
 
+  /**
+   * Check whether the question can have participant comments.
+   */
+  get canResponseHasComment(): boolean {
+    return this.questionsService.isAllowedToHaveParticipantComment(this.question.questionType);
+  }
 }
