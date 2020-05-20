@@ -5,14 +5,20 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackVisibilityType,
+  FeedbackQuestionType,
+  FeedbackRubricQuestionDetails,
+  FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
 import {
+    DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
+    DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
+    DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
     DEFAULT_MCQ_QUESTION_DETAILS,
     DEFAULT_NUMSCALE_QUESTION_DETAILS,
     DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
     DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
+    DEFAULT_RUBRIC_QUESTION_DETAILS,
     DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
 import {
@@ -57,7 +63,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
-  readonly exampleNumericalScaleEditFormModel: QuestionEditFormModel = {
+  readonly exampleNumericalScaleQuestionModel: QuestionEditFormModel = {
     feedbackQuestionId: '',
     isQuestionHasResponses: false,
 
@@ -66,6 +72,116 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     questionDescription: '',
     questionType: FeedbackQuestionType.NUMSCALE,
     questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleDistributedPointOptionModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+    questionDetails: DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleDistributedPointRecipientModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
+    questionDetails: DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleTeamContributionQuestionModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.CONTRIB,
+    questionDetails: DEFAULT_CONTRIBUTION_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
+      FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleRubricQuestionModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.RUBRIC,
+    questionDetails: {
+      ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
+      numOfRubricChoices: 4,
+      rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
+      numOfRubricSubQuestions: 2,
+      rubricSubQuestions:
+        ['This student participates well in online discussions.', 'This student completes assigned tasks on time.'],
+      rubricDescriptions: [
+        ['Rarely or never responds.', 'Occasionally responds, but never initiates discussions.',
+          'Takes part in discussions and sometimes initiates discussions.',
+          'Initiates discussions frequently, and engages the team.'],
+        ['Rarely or never completes tasks.', 'Often misses deadlines.', 'Occasionally misses deadlines.',
+          'Tasks are always completed before the deadline.']],
+    } as FeedbackRubricQuestionDetails,
 
     isEditable: false,
     isSaving: false,

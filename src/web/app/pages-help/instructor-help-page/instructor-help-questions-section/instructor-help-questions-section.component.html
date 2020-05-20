@@ -164,7 +164,7 @@
           </ol>
           <tm-example-box>
               <tm-question-edit-form
-                  [formModel]="exampleNumericalScaleEditFormModel"
+                  [formModel]="exampleNumericalScaleQuestionModel"
                   [formMode]="QuestionEditFormMode.EDIT"
                   [isDisplayOnly]="true">
               </tm-question-edit-form>
@@ -212,7 +212,13 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleDistributedPointOptionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             In the results view, TEAMMATES provides statistics on the average number of points each option received.
           </p>
@@ -253,7 +259,13 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleDistributedPointRecipientModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
         </div>
       </div>
       <br/>
@@ -290,7 +302,13 @@
           <p>
             The feedback path for this question type is fixed: the feedback giver must be a student, and the student must give feedback about his/her team members and himself.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleTeamContributionQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             Contribution questions in TEAMMATES are unique because they are targeted at measuring team contributions. <br>
             Thus, TEAMMATES purposefully prevents students from influencing their own ‘perceived contribution’ value.
@@ -547,7 +565,13 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleRubricQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             Result statistics for rubric questions show how often a choice is selected for each sub-question.<br>
             If weights are assigned to the choices, the weights will be used to calculate an average score.
