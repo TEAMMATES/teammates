@@ -155,7 +155,7 @@ public abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttribute
     protected void saveEntity(E entityToSave) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToSave);
 
-        log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
+        log.info("Entity saved xx: " + JsonUtils.toJson(entityToSave));
 
         ofy().save().entity(entityToSave).now();
     }
