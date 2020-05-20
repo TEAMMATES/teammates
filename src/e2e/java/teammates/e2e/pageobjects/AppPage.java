@@ -532,7 +532,6 @@ public abstract class AppPage {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
-                    // wait for short period to ensure previous status message is replaced
                     WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
                     assertEquals(expectedMessage, statusMessage.getText());
                 }

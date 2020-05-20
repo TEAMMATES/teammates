@@ -81,7 +81,8 @@ public class InstructorCourseEditPage extends AppPage {
         assertEquals(course.getTimeZone().toString(), getTimeZone());
     }
 
-    public void verifyInstructorDetails(int instrNum, InstructorAttributes instructor) {
+    public void verifyInstructorDetails(InstructorAttributes instructor) {
+        int instrNum = getIntrNum(instructor.email);
         if (instructor.googleId != null) {
             assertEquals(instructor.googleId, getInstructorGoogleId(instrNum));
         }
@@ -190,7 +191,6 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void deleteCourse() {
         click(deleteCourseButton);
-        waitForPageToLoad();
     }
 
     public void addInstructor(InstructorAttributes newInstructor) {
@@ -209,14 +209,14 @@ public class InstructorCourseEditPage extends AppPage {
         clickSaveInstructorButton(instructorIndex);
     }
 
-    public void resendInstructorInvite(int instrNum) {
+    public void resendInstructorInvite(InstructorAttributes instructor) {
+        int instrNum = getIntrNum(instructor.email);
         clickAndConfirm(getInviteInstructorButton(instrNum));
-        waitForPageToLoad();
     }
 
-    public void deleteInstructor(int instrNum) {
+    public void deleteInstructor(InstructorAttributes instructor) {
+        int instrNum = getIntrNum(instructor.email);
         clickAndConfirm(getDeleteInstructorButton(instrNum));
-        waitForPageToLoad();
     }
 
     public void editInstructor(int instrNum, InstructorAttributes instructor) {
@@ -282,12 +282,10 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickEditCourseButton() {
         click(editCourseButton);
-        waitForPageToLoad();
     }
 
     private void clickSaveCourseButton() {
         click(saveCourseButton);
-        waitForPageToLoad();
     }
 
     private void selectNewTimeZone(String timeZone) {
@@ -297,32 +295,26 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickAddNewInstructorButton() {
         click(addInstructorButton);
-        waitForPageToLoad();
     }
 
     private void clickEditInstructorButton(int instrNum) {
         click(getEditInstructorButton(instrNum));
-        waitForPageToLoad();
     }
 
     private void clickCancelInstructorButton(int instrNum) {
         click(getCancelInstructorButton(instrNum));
-        waitForPageToLoad();
     }
 
     private void clickSaveInstructorButton(int instrNum) {
         click(getSaveInstructorButton(instrNum));
-        waitForPageToLoad();
     }
 
     private void clickAddSectionPrivilegeLink(int instrNum) {
         click(getAddSectionLevelPrivilegesLink(instrNum));
-        waitForPageToLoad();
     }
 
     private void clickAddSessionPrivilegeLink(int instrNum, int panelNum) {
         click(getAddSessionLevelPrivilegesLink(instrNum, panelNum));
-        waitForPageToLoad();
     }
 
     /* Methods that return WebElements of the page */
@@ -417,7 +409,6 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void selectRoleForInstructor(int instrNum, int roleIndex) {
         click(getAccessLevelsRadioButton(instrNum, roleIndex));
-        waitForPageToLoad();
     }
 
     private WebElement getCourseLevelPanel(int instrNum) {
@@ -565,6 +556,15 @@ public class InstructorCourseEditPage extends AppPage {
         default:
             return -1;
         }
+    }
+
+    private int getIntrNum(String email) {
+        for (int i = 1; i <= getNumInstructors(); i++) {
+            if (getInstructorEmail(i).equals(email)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private int getSectionIndex(int instrNum, String section) {
