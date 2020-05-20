@@ -159,27 +159,27 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleRubricQuestionModel: QuestionEditFormModel = {
-      feedbackQuestionId: '',
-      isQuestionHasResponses: false,
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
 
-      questionNumber: 1,
-      questionBrief: '',
-      questionDescription: '',
-      questionType: FeedbackQuestionType.RUBRIC,
-      questionDetails: DEFAULT_RUBRIC_QUESTION_DETAILS(),
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.RUBRIC,
+    questionDetails: DEFAULT_RUBRIC_QUESTION_DETAILS(),
 
-      isEditable: false,
-      isSaving: false,
+    isEditable: false,
+    isSaving: false,
 
-      giverType: FeedbackParticipantType.STUDENTS,
-      recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 
-      customNumberOfEntitiesToGiveFeedbackTo: 0,
-      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
-      showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-      showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
-      showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
   readonly exampleRankRecipientQuestionModel: QuestionEditFormModel = {
