@@ -19,6 +19,7 @@ import teammates.ui.webapi.output.ApiOutput;
  * Action: for student to get his/her own details in the course given.
  */
 public class StudentGetCourseDetailsAction extends Action {
+    // TODO: Write tests
 
     @Override
     protected AuthType getMinAuthLevel() {

@@ -33,7 +33,7 @@ export class AddCourseFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.isEnabled) {
-      this.timezones = ['UTC', 'Other options ommitted...'];
+      this.timezones = ['UTC', 'Other options omitted...'];
       this.timezone = 'UTC';
       return;
     }

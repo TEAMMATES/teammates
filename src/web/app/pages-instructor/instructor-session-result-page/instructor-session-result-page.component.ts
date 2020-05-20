@@ -11,10 +11,12 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  FeedbackSession,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmittedGiverSet,
-  SessionResults,
+  CourseSectionNames, FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackSession, FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus, FeedbackSessionSubmittedGiverSet, QuestionOutput, ResponseOutput,
+  ResponseVisibleSetting, SessionResults,
+  SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -26,12 +28,30 @@ import {
 import { ConfirmUnpublishingSessionModalComponent } from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
-import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
-import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
-import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
-import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
-import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
+
+/**
+ * Per section view tab model.
+ */
+export interface SectionTabModel {
+  questions: QuestionOutput[];
+
+  hasPopulated: boolean;
+  isTabExpanded: boolean;
+}
+
+/**
+ * Per question view tab model.
+ */
+export interface QuestionTabModel {
+  question: FeedbackQuestion;
+  responses: ResponseOutput[];
+  statistics: any; // TODO will define types later
+
+  hasPopulated: boolean;
+  isTabExpanded: boolean;
+}
 
 /**
  * Instructor feedback session result page.
@@ -45,36 +65,46 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
+  InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
-  session: any = {};
+  session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
-  viewType: string = 'QUESTION';
+  viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   groupByTeam: boolean = true;
   showStatistics: boolean = true;
   indicateMissingResponses: boolean = true;
 
-  sectionsModel: Record<string, any> = {};
+  // below are two models contain similar and duplicate data
+  // they are for different views
+  sectionsModel: Record<string, SectionTabModel> = {};
   isSectionsLoaded: boolean = false;
-  questionsModel: Record<string, any> = {};
+  questionsModel: Record<string, QuestionTabModel> = {};
   isQuestionsLoaded: boolean = false;
+
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
+
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
 
-  @ViewChild(InstructorSessionResultQuestionViewComponent, { static: false }) questionView?:
-    InstructorSessionResultQuestionViewComponent;
-  @ViewChild(InstructorSessionResultGrqViewComponent, { static: false }) grqView?:
-    InstructorSessionResultGrqViewComponent;
-  @ViewChild(InstructorSessionResultRgqViewComponent, { static: false }) rgqView?:
-    InstructorSessionResultRgqViewComponent;
-  @ViewChild(InstructorSessionResultGqrViewComponent, { static: false }) gprView?:
-    InstructorSessionResultGqrViewComponent;
-  @ViewChild(InstructorSessionResultRqgViewComponent, { static: false }) rpgView?:
-    InstructorSessionResultRqgViewComponent;
   @ViewChild(InstructorSessionNoResponsePanelComponent, { static: false }) noResponsePanel?:
     InstructorSessionNoResponsePanelComponent;
 
@@ -95,41 +125,50 @@ export class InstructorSessionResultPageComponent implements OnInit {
         courseId: queryParams.courseid,
         feedbackSessionName: queryParams.fsname,
         intent: Intent.INSTRUCTOR_RESULT,
-      }).subscribe((resp: FeedbackSession) => {
+      }).subscribe((feedbackSession: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
-        this.session = resp;
+        this.session = feedbackSession;
         this.formattedSessionOpeningTime =
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
             moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
 
-        this.courseService.getCourseSectionNames(queryParams.courseid).subscribe((resp2: any) => {
-          for (const sectionName of resp2.sectionNames) {
-            this.sectionsModel[sectionName] = {
-              responses: [],
-              hasPopulated: false,
-            };
-          }
-          this.isSectionsLoaded = true;
-        }, (resp2: any) => {
-          this.statusMessageService.showErrorMessage(resp2.error.message);
-        });
+        // load section tabs
+        this.courseService.getCourseSectionNames(queryParams.courseid)
+            .subscribe((courseSectionNames: CourseSectionNames) => {
+              for (const sectionName of courseSectionNames.sectionNames) {
+                this.sectionsModel[sectionName] = {
+                  questions: [],
+                  hasPopulated: false,
+                  isTabExpanded: false,
+                };
+              }
+              this.isSectionsLoaded = true;
+            }, (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorMessage(resp.error.message);
+            });
 
+        // load question tabs
         this.feedbackQuestionsService.getFeedbackQuestions({
           courseId: queryParams.courseid,
           feedbackSessionName: queryParams.fsname,
           intent: Intent.INSTRUCTOR_RESULT,
-        }).subscribe((resp2: any) => {
-          for (const question of resp2.questions) {
-            question.responses = [];
-            question.hasPopulated = false;
-            this.questionsModel[question.feedbackQuestionId] = question;
+        }).subscribe((feedbackQuestions: FeedbackQuestions) => {
+          for (const question of feedbackQuestions.questions) {
+            this.questionsModel[question.feedbackQuestionId] = {
+              question,
+              responses: [],
+              statistics: undefined,
+              hasPopulated: false,
+              isTabExpanded: false,
+            };
           }
           this.isQuestionsLoaded = true;
-        }, (resp2: any) => {
-          this.statusMessageService.showErrorMessage(resp2.error.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
         });
 
+        // load no response students
         this.studentService.getStudentsFromCourse({
           courseId: queryParams.courseid,
         }).subscribe((allStudents: Students) => {
@@ -140,15 +179,16 @@ export class InstructorSessionResultPageComponent implements OnInit {
             feedbackSessionName: queryParams.fsname,
           })
               .subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+                // TODO team is missing
                 this.noResponseStudents = students.filter((student: Student) =>
                                             !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
-              }, (resp4: any) => {
-                this.statusMessageService.showErrorMessage(resp4.error.message);
+              }, (resp: ErrorMessageOutput) => {
+                this.statusMessageService.showErrorMessage(resp.error.message);
               });
 
           this.isNoResponsePanelLoaded = true;
-        }, (resp3: any) => {
-          this.statusMessageService.showErrorMessage(resp3.error.message);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
         });
 
       }, (resp: ErrorMessageOutput) => {
@@ -157,10 +197,17 @@ export class InstructorSessionResultPageComponent implements OnInit {
     });
   }
 
+  toggleQuestionTab(questionId: string): void {
+    this.questionsModel[questionId].isTabExpanded = !this.questionsModel[questionId].isTabExpanded;
+    if (this.questionsModel[questionId].isTabExpanded) {
+      this.loadQuestionTab(questionId);
+    }
+  }
+
   /**
    * Loads all the responses and response statistics for the specified question.
    */
-  loadQuestion(questionId: string): void {
+  loadQuestionTab(questionId: string): void {
     if (this.questionsModel[questionId].hasPopulated) {
       // Do not re-fetch data
       return;
@@ -173,7 +220,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
     })
     .subscribe((resp: SessionResults) => {
       if (resp.questions.length) {
-        const responses: any = resp.questions[0];
+        const responses: QuestionOutput = resp.questions[0];
         this.questionsModel[questionId].responses = responses.allResponses;
         this.questionsModel[questionId].statistics = responses.questionStatistics;
         this.questionsModel[questionId].hasPopulated = true;
@@ -183,10 +230,17 @@ export class InstructorSessionResultPageComponent implements OnInit {
     });
   }
 
+  toggleSectionTab(sectionName: string): void {
+    this.sectionsModel[sectionName].isTabExpanded = !this.sectionsModel[sectionName].isTabExpanded;
+    if (this.sectionsModel[sectionName].isTabExpanded) {
+      this.loadSectionTab(sectionName);
+    }
+  }
+
   /**
    * Loads all the responses and response statistics for the specified section.
    */
-  loadSection(sectionName: string): void {
+  loadSectionTab(sectionName: string): void {
     if (this.sectionsModel[sectionName].hasPopulated) {
       // Do not re-fetch data
       return;
@@ -236,8 +290,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
    * Handle print view button event.
    */
   printViewHandler(): void {
-    this.expandAllHandler();
+    this.expandAllTabs();
     setTimeout(() => {
+      // TODO the timeout is brittle
       window.print();
     }, 1000);
   }
@@ -266,46 +321,71 @@ export class InstructorSessionResultPageComponent implements OnInit {
   /**
    * Handle expand all questions button event.
    */
-  expandAllHandler(): void {
+  toggleExpandAllHandler(): void {
     if (!this.isExpandAll) {
-      if (this.questionView !== undefined) {
-        this.questionView.expandAllQuestionTabs();
-      }
-      if (this.noResponsePanel !== undefined) {
-        this.noResponsePanel.expandTab();
-      }
-      if (this.gprView !== undefined) {
-        this.gprView.expandAllSectionTabs();
-      }
-      if (this.rpgView !== undefined) {
-        this.rpgView.expandAllSectionTabs();
-      }
-      if (this.grqView !== undefined) {
-        this.grqView.expandAllSectionTabs();
-      }
-      if (this.rgqView !== undefined) {
-        this.rgqView.expandAllSectionTabs();
-      }
+      this.expandAllTabs();
     } else {
-      if (this.questionView !== undefined) {
-        this.questionView.collapseAllQuestionTabs();
-      }
-      if (this.noResponsePanel !== undefined) {
-        this.noResponsePanel.collapseTab();
-      }
-      if (this.gprView !== undefined) {
-        this.gprView.collapseAllSectionTabs();
-      }
-      if (this.rpgView !== undefined) {
-        this.rpgView.collapseAllSectionTabs();
-      }
-      if (this.grqView !== undefined) {
-        this.grqView.collapseAllSectionTabs();
-      }
-      if (this.rgqView !== undefined) {
-        this.rgqView.collapseAllSectionTabs();
-      }
+      this.collapseAllTabs();
     }
-    this.isExpandAll = !this.isExpandAll;
+  }
+
+  /**
+   * Expands the tab of all sections.
+   */
+  expandAllTabs(): void {
+    this.isExpandAll = true;
+
+    if (this.noResponsePanel !== undefined) {
+      this.noResponsePanel.expandTab();
+    }
+
+    if (this.viewType === InstructorSessionResultViewType.QUESTION) {
+      for (const questionId of Object.keys(this.questionsModel)) {
+        this.questionsModel[questionId].isTabExpanded = true;
+        this.loadQuestionTab(questionId);
+      }
+      return;
+    }
+
+    for (const sectionName of Object.keys(this.sectionsModel)) {
+      this.sectionsModel[sectionName].isTabExpanded = true;
+      this.loadSectionTab(sectionName);
+    }
+  }
+
+  /**
+   * Collapses the tab of all sections.
+   */
+  collapseAllTabs(): void {
+    this.isExpandAll = false;
+
+    if (this.noResponsePanel !== undefined) {
+      this.noResponsePanel.collapseTab();
+    }
+
+    if (this.viewType === InstructorSessionResultViewType.QUESTION) {
+      for (const questionId of Object.keys(this.questionsModel)) {
+        this.questionsModel[questionId].isTabExpanded = true;
+        this.loadQuestionTab(questionId);
+      }
+      return;
+    }
+
+    for (const sectionName of Object.keys(this.sectionsModel)) {
+      this.sectionsModel[sectionName].isTabExpanded = false;
+    }
+  }
+
+  /**
+   * Handles view type changes.
+   */
+  handleViewTypeChange(newViewType: InstructorSessionResultViewType): void {
+    if (this.viewType === newViewType) {
+      // do nothing
+      return;
+    }
+    this.viewType = newViewType;
+    // the expand all will be reset if the view type changed
+    this.collapseAllTabs();
   }
 }
