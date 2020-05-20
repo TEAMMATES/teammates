@@ -41,6 +41,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId());
         loginAdminToPage(url, InstructorHomePage.class);
         InstructorCourseEditPage editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
+        editPage.waitForPageToLoad();
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -52,14 +53,15 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .withUserId(instructors[3].googleId)
                 .withCourseId(course.getId());
         editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
+        editPage.waitForPageToLoad();
 
         editPage.verifyCourseDetails(course);
 
-        editPage.verifyInstructorDetails(1, instructors[0]);
-        editPage.verifyInstructorDetails(2, instructors[1]);
-        editPage.verifyInstructorDetails(3, instructors[2]);
-        editPage.verifyInstructorDetails(4, instructors[3]);
-        editPage.verifyInstructorDetails(5, instructors[4]);
+        editPage.verifyInstructorDetails(instructors[0]);
+        editPage.verifyInstructorDetails(instructors[1]);
+        editPage.verifyInstructorDetails(instructors[2]);
+        editPage.verifyInstructorDetails(instructors[3]);
+        editPage.verifyInstructorDetails(instructors[4]);
 
         ______TS("add instructor");
         InstructorAttributes newInstructor = InstructorAttributes
@@ -71,14 +73,15 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .build();
 
         editPage.addInstructor(newInstructor);
-        editPage.verifyStatusMessage("\"The instructor Teammates Test has been added successfully. "
-                + "An email containing how to 'join' this course will be sent to InsCrsEdit.test@gmail.tmt"
+        editPage.verifyStatusMessage("\"The instructor " + newInstructor.name + " has been added successfully. "
+                + "An email containing how to 'join' this course will be sent to " + newInstructor.email
                 + " in a few minutes.\"");
-        editPage.verifyInstructorDetails(6, newInstructor);
+        editPage.verifyInstructorDetails(newInstructor);
+        assertEquals(getInstructor(newInstructor.courseId, newInstructor.email), newInstructor);
 
         ______TS("resend invite");
-        editPage.resendInstructorInvite(6);
-        editPage.verifyStatusMessage("An email has been sent to InsCrsEdit.test@gmail.tmt");
+        editPage.resendInstructorInvite(newInstructor);
+        editPage.verifyStatusMessage("An email has been sent to " + newInstructor.email);
 
         ______TS("edit instructor");
         instructors[0].name = "Edited Name";
@@ -97,12 +100,18 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
         editPage.toggleCustomSessionLevelPrivilege(1, 2, "Section 1", "First feedback session",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        editPage.verifyStatusMessage("The instructor Edited Name has been updated.");
-        editPage.verifyInstructorDetails(1, instructors[0]);
+        editPage.verifyStatusMessage("The instructor " + instructors[0].name + " has been updated.");
+        editPage.verifyInstructorDetails(instructors[0]);
+
+        // verify in datastore by reloading
+        editPage.reloadPage();
+        editPage.verifyInstructorDetails(instructors[0]);
 
         ______TS("delete instructor");
-        editPage.deleteInstructor(6);
+        editPage.deleteInstructor(newInstructor);
+        editPage.verifyStatusMessage("Instructor is successfully deleted.");
         editPage.verifyNumInstructorsEquals(5);
+        assertNull(getInstructor(newInstructor.courseId, newInstructor.email));
 
         ______TS("edit course");
         String newName = "New Course Name";
@@ -113,10 +122,12 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.editCourse(course);
         editPage.verifyStatusMessage("The course has been edited.");
         editPage.verifyCourseDetails(course);
+        assertEquals(course, getCourse(course));
 
         ______TS("delete course");
         editPage.deleteCourse();
-        editPage.verifyStatusMessage("The course InsCrsEdit.CS2104 has been deleted. "
+        editPage.verifyStatusMessage("The course " + course.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
+        assertTrue(isCourseInRecycleBin(course.getId()));
     }
 }
