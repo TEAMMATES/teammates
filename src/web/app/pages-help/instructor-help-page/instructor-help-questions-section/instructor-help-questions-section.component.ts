@@ -84,6 +84,30 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
+  readonly exampleDistributedPointOptionModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+    isQuestionHasResponses: false,
+
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+    questionDetails: DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(),
+
+    isEditable: false,
+    isSaving: false,
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
   readonly exampleTeamContributionQuestionModel: QuestionEditFormModel = {
     feedbackQuestionId: '',
     isQuestionHasResponses: false,

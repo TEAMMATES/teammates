@@ -212,7 +212,13 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleDistributedPointOptionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             In the results view, TEAMMATES provides statistics on the average number of points each option received.
           </p>
