@@ -16,6 +16,7 @@ import {
     DEFAULT_NUMSCALE_QUESTION_DETAILS,
     DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
     DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
+    DEFAULT_RUBRIC_QUESTION_DETAILS,
     DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
 import {
@@ -155,6 +156,30 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleRubricQuestionModel: QuestionEditFormModel = {
+      feedbackQuestionId: '',
+      isQuestionHasResponses: false,
+
+      questionNumber: 1,
+      questionBrief: '',
+      questionDescription: '',
+      questionType: FeedbackQuestionType.RUBRIC,
+      questionDetails: DEFAULT_RUBRIC_QUESTION_DETAILS(),
+
+      isEditable: false,
+      isSaving: false,
+
+      giverType: FeedbackParticipantType.STUDENTS,
+      recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+      customNumberOfEntitiesToGiveFeedbackTo: 0,
+      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+      showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+      showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+      showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
   readonly exampleRankRecipientQuestionModel: QuestionEditFormModel = {

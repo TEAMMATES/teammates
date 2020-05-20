@@ -565,7 +565,13 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleRubricQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             Result statistics for rubric questions show how often a choice is selected for each sub-question.<br>
             If weights are assigned to the choices, the weights will be used to calculate an average score.
