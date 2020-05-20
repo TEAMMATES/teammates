@@ -6,9 +6,9 @@ import { TemplateSession } from '../../../../services/feedback-sessions.service'
 import {
   Course,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
+  FeedbackSessionSubmissionStatus, Instructor, InstructorPermissionRole, JoinState,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
+  SessionVisibleSetting, Student,
 } from '../../../../types/api-output';
 import {
   SessionEditFormMode, SessionEditFormModel,
@@ -77,6 +77,32 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     {
       name: 'Example session',
       questions: [],
+    },
+  ];
+
+  readonly exampleStudents: Student[] = [
+    {
+      email: 'alice@email.com',
+      courseId: 'test.exa-demo',
+      name: 'Alice Betsy',
+      lastName: 'Betsy',
+      comments: 'Alice is a transfer student.',
+      teamName: 'Team A',
+      sectionName: 'Section A',
+      joinState: JoinState.JOINED,
+    },
+  ];
+  readonly exampleInstructors: Instructor[] = [
+    {
+      googleId: 'bob@email.com',
+      courseId: 'test.exa-demo',
+      email: 'bob@email.com',
+      isDisplayedToStudents: true,
+      displayedToStudentsAs: 'Instructor',
+      name: 'Bob Ruth',
+      key: 'impicklerick',
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      joinState: JoinState.JOINED,
     },
   ];
 
