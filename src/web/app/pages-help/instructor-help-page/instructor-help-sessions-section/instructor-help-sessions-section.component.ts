@@ -1,6 +1,18 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
+
+import { TemplateSession } from '../../../../services/feedback-sessions.service';
+import {
+  Course,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus, Instructor, InstructorPermissionRole, JoinState,
+  ResponseVisibleSetting,
+  SessionVisibleSetting, Student,
+} from '../../../../types/api-output';
+import {
+  SessionEditFormMode, SessionEditFormModel,
+} from '../../../components/session-edit-form/session-edit-form-model';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -12,6 +24,87 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
   styleUrls: ['./instructor-help-sessions-section.component.scss'],
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
+
+  // enum
+  SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
+
+  readonly exampleSessionEditFormModel: SessionEditFormModel = {
+    courseId: 'CS2103T',
+    timeZone: 'UTC',
+    courseName: 'Software Engineering',
+    feedbackSessionName: 'Feedback for Project',
+    instructions: 'This is where you type the instructions for the session',
+
+    submissionStartTime: { hour: 10, minute: 0 },
+    submissionStartDate: { year: 2020, month: 3, day: 13 },
+    submissionEndTime: { hour: 12, minute: 0 },
+    submissionEndDate: { year: 2020, month: 3, day: 13 },
+    gracePeriod: 0,
+
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    customSessionVisibleTime: { hour: 9, minute: 0 },
+    customSessionVisibleDate: { year: 2020, month: 3, day: 13 },
+
+    responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+    customResponseVisibleTime: { hour: 13, minute: 0 },
+    customResponseVisibleDate: { year: 2020, month: 3, day: 13 },
+
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+
+    templateSessionName: 'Example session',
+
+    isSaving: false,
+    isEditable: false,
+    hasVisibleSettingsPanelExpanded: true,
+    hasEmailSettingsPanelExpanded: true,
+  };
+
+  readonly exampleCourseCandidates: Course[] = [
+    {
+      courseId: 'CS2103T',
+      courseName: 'Software Engineering',
+      timeZone: 'UTC',
+      creationTimestamp: 0,
+      deletionTimestamp: 0,
+    },
+  ];
+
+  readonly exampleTemplateSessions: TemplateSession[] = [
+    {
+      name: 'Example session',
+      questions: [],
+    },
+  ];
+
+  readonly exampleStudents: Student[] = [
+    {
+      email: 'alice@email.com',
+      courseId: 'test.exa-demo',
+      name: 'Alice Betsy',
+      lastName: 'Betsy',
+      comments: 'Alice is a transfer student.',
+      teamName: 'Team A',
+      sectionName: 'Section A',
+      joinState: JoinState.JOINED,
+    },
+  ];
+  readonly exampleInstructors: Instructor[] = [
+    {
+      googleId: 'bob@email.com',
+      courseId: 'test.exa-demo',
+      email: 'bob@email.com',
+      isDisplayedToStudents: true,
+      displayedToStudentsAs: 'Instructor',
+      name: 'Bob Ruth',
+      key: 'impicklerick',
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      joinState: JoinState.JOINED,
+    },
+  ];
 
   @Input() isPeerEvalTipsCollapsed: boolean = false;
   isNewFeedbackSessionCollapsed: boolean = false;
@@ -44,5 +137,4 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     });
     return false;
   }
-
 }

@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+
+import { SessionEditFormModule } from '../../../components/session-edit-form/session-edit-form.module';
+import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
 
 describe('InstructorHelpSessionsSectionComponent', () => {
@@ -10,8 +16,9 @@ describe('InstructorHelpSessionsSectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpSessionsSectionComponent],
-      imports: [NgbModule, RouterTestingModule, NgxPageScrollCoreModule],
+      declarations: [InstructorHelpSessionsSectionComponent, ExampleBoxComponent],
+      imports: [FormsModule, NgbModule, RouterTestingModule, NgxPageScrollCoreModule,
+        SessionEditFormModule, MatSnackBarModule],
     })
     .compileComponents();
   }));
