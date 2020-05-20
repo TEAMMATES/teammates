@@ -5,6 +5,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
+import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 /**
  * A list of responses grouped in GRQ/RGQ mode.
@@ -14,7 +15,7 @@ import {
   templateUrl: './grouped-responses.component.html',
   styleUrls: ['./grouped-responses.component.scss'],
 })
-export class GroupedResponsesComponent implements OnInit {
+export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit {
 
   @Input() responses: QuestionOutput[] = [];
 
@@ -36,7 +37,9 @@ export class GroupedResponsesComponent implements OnInit {
     createdAtTimestamp: 0,
   };
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
   }

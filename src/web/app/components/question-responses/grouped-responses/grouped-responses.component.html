@@ -19,6 +19,14 @@
         </div>
         <div class="card-body">
           <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
+          <tm-comment-table [model]="instructorCommentTableModel[response.allResponses[0].responseId]"
+                            [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
+                            [response]="response.allResponses[0]"
+                            (modelChange)="triggerModelChangeForSingleResponse(response.allResponses[0].responseId, $event)"
+                            (updateCommentEvent)="triggerUpdateCommentEvent(response.allResponses[0].responseId, $event)"
+                            (deleteCommentEvent)="triggerDeleteCommentEvent(response.allResponses[0].responseId, $event)"
+                            (saveNewCommentEvent)="triggerSaveNewCommentEvent(response.allResponses[0].responseId)"
+          ></tm-comment-table>
         </div>
       </div>
     </div>

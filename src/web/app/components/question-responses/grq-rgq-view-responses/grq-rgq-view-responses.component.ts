@@ -9,6 +9,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 /**
  * Component to display list of responses in GRQ/RGQ view.
@@ -18,7 +19,7 @@ import {
   templateUrl: './grq-rgq-view-responses.component.html',
   styleUrls: ['./grq-rgq-view-responses.component.scss'],
 })
-export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
+export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
   @Input() section: string = '';
@@ -52,7 +53,9 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
 
   responsesToShow: Record<string, Record<string, QuestionOutput[]>> = {};
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
     this.filterResponses();
