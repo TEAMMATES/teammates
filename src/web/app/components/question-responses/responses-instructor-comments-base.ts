@@ -81,4 +81,11 @@ export abstract class ResponsesInstructorCommentsBase {
     this.instructorCommentTableModel[responseId] = model;
     this.instructorCommentTableModelChange.emit(this.instructorCommentTableModel);
   }
+
+  /**
+   * Triggers the change of the model.
+   */
+  triggerModelChange(instructorCommentTableModel: Record<string, CommentTableModel>): void {
+    this.instructorCommentTableModelChange.emit(instructorCommentTableModel);
+  }
 }
