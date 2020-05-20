@@ -11,11 +11,11 @@
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
           <div class="dropdown-menu" ngbDropdownMenu>
-            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="toggleCollapse()">{{ childItem.display}}</a>
+            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
           </div>
         </li>
         <li *ngIf="!navItem.children" class="nav-item">
-          <a class="nav-link" [routerLink]="navItem.url" (click)="toggleCollapse()">{{ navItem.display }}</a>
+          <a class="nav-link" [routerLink]="navItem.url" (click)="toggleCollapse();closeModal()">{{ navItem.display }}</a>
         </li>
       </ng-template>
     </ul>
@@ -31,9 +31,9 @@
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ user }}</a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
-          <a class="dropdown-item" routerLink="/web/student" *ngIf="isStudent">To student pages</a>
-          <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor">To instructor pages</a>
-          <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin">To admin pages</a>
+          <a class="dropdown-item" routerLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
+          <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor" (click)="closeModal()">To instructor pages</a>
+          <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin" (click)="closeModal()">To admin pages</a>
           <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
           <a class="dropdown-item" id="logout-btn" [href]="logoutUrl">Log Out</a>
         </div>
@@ -113,7 +113,7 @@
 </div>
 <div>
   <footer>
-    <div class="container footer text-nowrap">
+    <div class="container footer">
       <div class="row">
         <div class="col-sm-4 col-md-4 text-left">
           <i class="fas fa-bolt"></i><a routerLink="/web/front/home"> TEAMMATES</a> V{{ version }}

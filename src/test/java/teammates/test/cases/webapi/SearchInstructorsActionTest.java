@@ -82,6 +82,8 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
                 .filter(i -> i.getName().equals(acc.getName()))
                 .findAny()
                 .isPresent());
+        assertTrue(response.getInstructors().get(0).getKey() != null);
+        assertTrue(response.getInstructors().get(0).getInstitute() != null);
     }
 
     @Test
@@ -95,6 +97,8 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
                 .filter(i -> i.getName().equals(acc.getName()))
                 .findAny()
                 .isPresent());
+        assertTrue(response.getInstructors().get(0).getKey() != null);
+        assertTrue(response.getInstructors().get(0).getInstitute() != null);
     }
 
     @Test
@@ -108,6 +112,8 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
                 .filter(i -> i.getName().equals(acc.getName()))
                 .findAny()
                 .isPresent());
+        assertTrue(response.getInstructors().get(0).getKey() != null);
+        assertTrue(response.getInstructors().get(0).getInstitute() != null);
     }
 
     @Test

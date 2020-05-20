@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SearchResult } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import { MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
@@ -70,11 +69,25 @@ export class StudentService {
   }
 
   /**
+   * Deletes a student in a course by calling API.
+   */
+  deleteStudent(queryParams: {
+    googleId: string,
+    courseId: string,
+  }): Observable<any> {
+    const paramsMap: Record<string, string> = {
+      googleid: queryParams.googleId,
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
+  }
+
+  /**
    * Enroll a list of students to a course by calling API.
    * Students who are enrolled successfully will be returned.
    */
   enrollStudents(courseId: string, requestBody: StudentsEnrollRequest): Observable<Students> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: courseId,
     };
     return this.httpRequestService.put(ResourceEndpoints.STUDENTS, paramsMap, requestBody);
@@ -84,7 +97,7 @@ export class StudentService {
    * Gets all students in a course and team as a student by calling API.
    */
   getStudentsFromCourseAndTeam(courseId: string, teamName: string): Observable<Students> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: courseId,
       teamname: teamName,
     };
@@ -95,7 +108,7 @@ export class StudentService {
    * Deletes all students in a course by calling API.
    */
   deleteAllStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
@@ -105,23 +118,10 @@ export class StudentService {
    * Loads list of students from a course in CSV format by calling API.
    */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
-    const paramsMap: { [key: string]: string } = {
+    const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
     const responseType: string = 'text';
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
-  }
-
-  /**
-   * Search for students based on input parameters by calling API.
-   */
-  searchForStudents(queryParams: { searchKey: string, searchStudents: string, searchFeedbackSessionData: string}):
-      Observable<SearchResult> {
-    const paramsMap: { [key: string]: string } = {
-      searchkey: queryParams.searchKey,
-      searchstudents: queryParams.searchStudents,
-      searchfeedbacksessiondata: queryParams.searchFeedbackSessionData,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, paramsMap);
   }
 }

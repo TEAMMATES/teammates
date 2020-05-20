@@ -36,9 +36,15 @@
       </div> -->
     </div>
     <div class="col-sm-2 col-lg-2">
-      <button class="btn btn-primary " ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
+      <button class="btn btn-primary action-btn" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
          placement="top" (click)="publishResultHandler()">
         {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "Unpublish": "Publish"}} Results
+      </button>
+      <button class="btn btn-primary action-btn" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()">
+        Download Results
+      </button>
+      <button class="btn btn-primary action-btn" (click)="printViewHandler()">
+        Print View
       </button>
     </div>
   </div>
@@ -52,12 +58,12 @@
           View:
         </label>
         <div>
-          <select class="form-control" [(ngModel)]="viewType">
-            <option value="QUESTION">Group by - Question</option>
-            <option value="GRQ">Group by - Giver > Recipient > Question</option>
-            <option value="RGQ">Group by - Recipient > Giver > Question</option>
-            <option value="GQR">Group by - Giver > Question > Recipient</option>
-            <option value="RQG">Group by - Recipient > Question > Giver</option>
+          <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
+            <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
+            <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver > Recipient > Question</option>
+            <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient > Giver > Question</option>
+            <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver > Question > Recipient</option>
+            <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient > Question > Giver</option>
           </select>
         </div>
       </div>
@@ -112,29 +118,41 @@
   </div>
 </div>
 
-<div class="top-padded" *ngIf="isSectionsLoaded && isQuestionsLoaded">
-  <tm-instructor-session-result-question-view *ngIf="viewType === 'QUESTION'" [responses]="questionsModel"
-      [section]="section" [sectionType]="sectionType" [session] = "session"
-      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadQuestion)="loadQuestion($event)"></tm-instructor-session-result-question-view>
-  <tm-instructor-session-result-grq-view *ngIf="viewType === 'GRQ'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session] = "session"
-      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadSection)="loadSection($event)"></tm-instructor-session-result-grq-view>
-  <tm-instructor-session-result-rgq-view *ngIf="viewType === 'RGQ'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session] = "session"
-      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadSection)="loadSection($event)"></tm-instructor-session-result-rgq-view>
-  <tm-instructor-session-result-gqr-view *ngIf="viewType === 'GQR'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session] = "session"
-      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadSection)="loadSection($event)"></tm-instructor-session-result-gqr-view>
-  <tm-instructor-session-result-rqg-view *ngIf="viewType === 'RQG'" [responses]="sectionsModel"
-      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session] = "session"
-      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-      (loadSection)="loadSection($event)"></tm-instructor-session-result-rqg-view>
+<div class="top-padded col-md-2 offset-md-10">
+  <button class="btn expand-btn action-btn btn-light" (click)="toggleExpandAllHandler()">
+    {{this.isExpandAll ? "Collapse": "Expand"}} All
+  </button>
 </div>
 
-<div class="top-padded" *ngIf="isNoResponsePanelLoaded">
+<div *ngIf="isSectionsLoaded && isQuestionsLoaded">
+  <tm-instructor-session-result-question-view *ngIf="viewType === InstructorSessionResultViewType.QUESTION" [questions]="questionsModel"
+      [section]="section" [sectionType]="sectionType" [session] = "session"
+      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      (toggleAndLoadTab)="toggleQuestionTab($event)"></tm-instructor-session-result-question-view>
+  <tm-instructor-session-result-grq-view *ngIf="viewType === InstructorSessionResultViewType.GRQ" [responses]="sectionsModel"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
+      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      (toggleAndLoadTab)="toggleSectionTab($event)"></tm-instructor-session-result-grq-view>
+  <tm-instructor-session-result-rgq-view *ngIf="viewType === InstructorSessionResultViewType.RGQ" [responses]="sectionsModel"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
+      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      (toggleAndLoadTab)="toggleSectionTab($event)"></tm-instructor-session-result-rgq-view>
+  <tm-instructor-session-result-gqr-view *ngIf="viewType === InstructorSessionResultViewType.GQR" [responses]="sectionsModel"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
+      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      (toggleAndLoadTab)="toggleSectionTab($event)"></tm-instructor-session-result-gqr-view>
+  <tm-instructor-session-result-rqg-view *ngIf="viewType === InstructorSessionResultViewType.RQG" [responses]="sectionsModel"
+      [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
+      [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      (toggleAndLoadTab)="toggleSectionTab($event)"></tm-instructor-session-result-rqg-view>
+</div>
+
+<div class="card top-padded" *ngIf="isNoResponsePanelLoaded">
   <tm-instructor-session-no-response-panel [noResponseStudents]="noResponseStudents" [section]="section" [session]="session" ></tm-instructor-session-no-response-panel>
 </div>
+
+<ng-template #downloadTooltip>
+  Download session results<br/>
+  Show Statistics ({{ showStatistics ? "&#x2713;" : "&#x2717;" }})<br/>
+  Indicate Missing Responses ({{ indicateMissingResponses ? "&#x2713;" : "&#x2717;" }})
+</ng-template>

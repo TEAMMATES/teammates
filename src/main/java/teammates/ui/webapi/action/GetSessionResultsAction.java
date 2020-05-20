@@ -26,6 +26,10 @@ public class GetSessionResultsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        if (userInfo != null && userInfo.isAdmin) {
+            return;
+        }
+
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 

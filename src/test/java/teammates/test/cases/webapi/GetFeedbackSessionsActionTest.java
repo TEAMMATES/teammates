@@ -273,7 +273,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
 
-        verifyInaccessibleForAdmin(adminEntityParam);
+        verifyAccessibleForAdmin(adminEntityParam);
         verifyInaccessibleForUnregisteredUsers(studentEntityParam);
         verifyInaccessibleWithoutLogin();
     }

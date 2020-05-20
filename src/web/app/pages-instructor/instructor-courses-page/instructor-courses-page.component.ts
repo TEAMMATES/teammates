@@ -45,7 +45,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   activeCourses: CourseModel[] = [];
   archivedCourses: CourseModel[] = [];
   softDeletedCourses: CourseModel[] = [];
-  courseStats: { [key: string]: { [key: string]: number } } = {};
+  courseStats: Record<string, Record<string, number>> = {};
 
   tableSortOrder: SortOrder = SortOrder.ASC;
   tableSortBy: SortBy = SortBy.NONE;
@@ -277,7 +277,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
-        this.removeCourse(this.softDeletedCourses, courseId);
+        this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
         this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);

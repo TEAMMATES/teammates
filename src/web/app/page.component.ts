@@ -57,7 +57,7 @@ export class PageComponent {
    *
    * Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
    */
-  minimumVersions: { [key: string]: number } = {
+  minimumVersions: Record<string, number> = {
     Chrome: 45,
     IE: 10,
     Firefox: 40,
@@ -116,6 +116,16 @@ export class PageComponent {
     // Check if the device is a mobile device
     if (window.innerWidth < 992) {
       this.isCollapsed = !this.isCollapsed;
+    }
+  }
+
+  /**
+   * Method that checks if current page has active modals and close them.
+   */
+  closeModal(): void {
+
+    if (this.modalService.hasOpenModals()) {
+      this.modalService.dismissAll();
     }
   }
 }

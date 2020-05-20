@@ -32,12 +32,12 @@ public class ActionFactory {
         map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
         // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
         map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
+        map(ResourceURIs.DATABUNDLE_DOCUMENTS, PUT, PutDataBundleDocumentsAction.class);
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
-        map(ResourceURIs.ACCOUNTS_SEARCH, GET, SearchAccountsAction.class);
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
@@ -59,9 +59,11 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, PUT, UpdateInstructorPrivilegeAction.class);
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, POST, CreateFeedbackResponseCommentAction.class);
+        map(ResourceURIs.RESPONSE_COMMENT, GET, GetFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
+        map(ResourceURIs.RESULT_CSV, GET, GetSessionResultsAsCsvAction.class);
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);

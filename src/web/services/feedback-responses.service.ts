@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import {
+  FeedbackResponsesResponse,
+} from '../app/pages-session/session-submission-page/session-submission-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   FeedbackConstantSumResponseDetails,
@@ -14,7 +17,7 @@ import {
   FeedbackResponseDetails, FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
 } from '../types/api-output';
-import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest } from '../types/api-request';
+import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest, Intent } from '../types/api-request';
 import {
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
@@ -120,6 +123,24 @@ export class FeedbackResponsesService {
   }
 
   /**
+   * Retrieves a feedback response by calling API.
+   */
+  getFeedbackResponse(queryParams: {
+    questionId: string,
+    intent: Intent,
+    key: string,
+    moderatedPerson: string,
+  }): Observable<FeedbackResponsesResponse> {
+    const paramMap: Record<string, string> = {
+      questionid: queryParams.questionId,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.RESPONSES, paramMap);
+  }
+
+  /**
    * Creates a feedback response by calling API.
    */
   createFeedbackResponse(questionId: string, additionalParams: { [key: string]: string } = {},
@@ -141,4 +162,21 @@ export class FeedbackResponsesService {
     }, request);
   }
 
+  /**
+   * Deletes a feedback response by calling API.
+   */
+  deleteFeedbackResponse(queryParams: {
+    responseId: string,
+    intent: string,
+    key: string,
+    moderatedPerson: string,
+  }): Observable<FeedbackResponse> {
+    const paramMap: Record<string, string> = {
+      responseid: queryParams.responseId,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+    };
+    return this.httpRequestService.delete(ResourceEndpoints.RESPONSE, paramMap);
+  }
 }

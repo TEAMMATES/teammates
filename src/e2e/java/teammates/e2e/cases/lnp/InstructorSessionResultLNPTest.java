@@ -30,8 +30,8 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
-import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.JMeterElements;
+import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
 
 /**
@@ -49,6 +49,9 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
     private static final String COURSE_ID = "TestData.CS101";
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
+
+    private static final double ERROR_RATE_LIMIT = 0.01;
+    private static final double MEAN_RESP_TIME_LIMIT = 1;
 
     @Override
     protected LNPTestData getTestData() {
@@ -212,6 +215,10 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                     headers.add("sectionNumber_" + i);
                 }
 
+                for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
+                    headers.add("feedbackQuestion_" + i);
+                }
+
                 return headers;
             }
 
@@ -233,6 +240,11 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                     for (int i = 1; i <= NUMBER_OF_USER_ACCOUNTS / SIZE_OF_SECTION; i++) {
                         csvRow.add(Integer.toString(i));
                     }
+
+                    // For loading feedback question IDs
+                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
+                        csvRow.add(feedbackQuestion.getId());
+                    });
 
                     csvData.add(csvRow);
                 });
@@ -269,6 +281,14 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
         addLoadSectionPanelController(threadGroup, argumentsMap);
 
         return testPlan;
+    }
+
+    @Override
+    protected void setupSpecification() {
+        this.specification = LNPSpecification.builder()
+                .withErrorRateLimit(ERROR_RATE_LIMIT)
+                .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
+                .build();
     }
 
     private void addLoadPageController(HashTree threadGroup, Map<String, String> argumentsMap) {
@@ -309,8 +329,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
         loadQuestionPanelController.add(JMeterElements.defaultSampler(argumentsMap));
 
         for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
-            String getSessionResultPath = "webapi/result?questionid="
-                    + BackDoor.getFeedbackQuestionId(COURSE_ID, FEEDBACK_SESSION_NAME, i);
+            String getSessionResultPath = String.format("webapi/result?questionid=${feedbackQuestion_%d}", i);
             loadQuestionPanelController.add(JMeterElements.httpGetSampler(getSessionResultPath));
         }
     }
@@ -328,13 +347,15 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
     @BeforeClass
     public void classSetup() throws IOException, HttpRequestFailedException {
+        generateTimeStamp();
         createTestData();
-        persistTestData();
+        setupSpecification();
     }
 
     @Test
     public void runLnpTest() throws IOException {
         runJmeter(false);
+        displayLnpResults();
     }
 
     /**
@@ -346,5 +367,6 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
         // CourseStudent entities that were created are automatically deleted when the corresponding course is deleted.
         deleteTestData();
         deleteDataFiles();
+        cleanupResults();
     }
 }

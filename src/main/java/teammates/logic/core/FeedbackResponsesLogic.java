@@ -651,7 +651,7 @@ public final class FeedbackResponsesLogic {
                 frcLogic.updateFeedbackResponseCommentsEmails(courseId, oldEmail, newEmail);
             } catch (EntityAlreadyExistsException e) {
                 Assumption
-                        .fail("Feedback response failed to update successfully"
+                        .fail("Feedback response failed to update successfully "
                             + "as email was already in use.");
             }
         }
