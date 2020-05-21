@@ -4,7 +4,7 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
-  Course, FeedbackSession,
+  Course,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus, Instructor, InstructorPermissionRole, JoinState,
   ResponseVisibleSetting,
@@ -13,8 +13,10 @@ import {
 import {
   SessionEditFormMode, SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
+import {
+  RecycleBinFeedbackSessionRowModel,
+} from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
-import { RecycleBinFeedbackSessionRowModel } from "../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component";
 
 /**
  * Sessions Section of the Instructor Help Page.
@@ -109,7 +111,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
 
   readonly exampleRecycleBinFeedbackSessions: RecycleBinFeedbackSessionRowModel[] = [
     {
-      feedbackSession: <FeedbackSession> {
+      feedbackSession: {
         courseId: 'CS2103T',
         timeZone: 'UTC',
         feedbackSessionName: 'Project Feedback 1',
@@ -117,6 +119,13 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
         submissionStartTimestamp: 0,
         submissionEndTimestamp: 0,
         gracePeriod: 0,
+        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+        responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+        submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+        publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+        isClosingEmailEnabled: true,
+        isPublishedEmailEnabled: true,
+        createdAtTimestamp: 0,
       },
     },
   ];

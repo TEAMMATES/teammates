@@ -14,6 +14,9 @@ import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
 import {
+  SessionsRecycleBinTableModule,
+} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
+import {
   InstructorCourseStudentEditPageModule,
 } from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.module';
 import {
@@ -41,7 +44,6 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
-import { SessionsRecycleBinTableModule } from "../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module";
 
 /**
  * Module for instructor help page.
