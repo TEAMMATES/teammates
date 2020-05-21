@@ -46,7 +46,7 @@
 
 <div class="margin-top-30px">
       <tm-sessions-recycle-bin-table
-                     [isRecycleBinExpanded]="false"
+                     [isRecycleBinExpanded]="isRecycleBinExpanded"
                      [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
                      [recycleBinFeedbackSessionRowModelsSortBy]="recycleBinFeedbackSessionRowModelsSortBy"
                      [recycleBinFeedbackSessionRowModelsSortOrder]="recycleBinFeedbackSessionRowModelsSortOrder"
@@ -54,6 +54,7 @@
                      (restoreAllRecycleBinFeedbackSessionEvent)="restoreAllRecycleBinFeedbackSession()"
                      (permanentlyDeleteSessionEvent)="permanentDeleteSession($event)"
                      (permanentDeleteAllSessionsEvent)="permanentDeleteAllSessions()"
-                     (sortRecycleBinFeedbackSessionRowsEvent)="sortRecycleBinFeedbackSessionRowsEvent($event)">
+                     (sortRecycleBinFeedbackSessionRowsEvent)="sortRecycleBinFeedbackSessionRowsEvent($event)"
+                     (recycleBinExpandEvent)="isRecycleBinExpanded = !isRecycleBinExpanded;">
       </tm-sessions-recycle-bin-table>
 </div>

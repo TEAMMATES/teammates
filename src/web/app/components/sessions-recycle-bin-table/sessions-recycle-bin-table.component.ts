@@ -47,6 +47,9 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   @Output()
   sortRecycleBinFeedbackSessionRowsEvent: EventEmitter<SortBy> = new EventEmitter();
 
+  @Output()
+  recycleBinExpandEvent: EventEmitter<any> = new EventEmitter<any>();
+
   constructor() { }
 
   /**

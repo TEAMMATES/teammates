@@ -123,6 +123,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   sessionsTableRowModelsSortBy: SortBy = SortBy.NONE;
   sessionsTableRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
+  isRecycleBinExpanded: boolean = false;
   recycleBinFeedbackSessionRowModels: RecycleBinFeedbackSessionRowModel[] = [];
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
