@@ -7,6 +7,7 @@ import {
   FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackRubricQuestionDetails,
+  FeedbackRubricResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
@@ -25,6 +26,8 @@ import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
+import { QuestionSubmissionFormModel,
+} from '../../../components/question-submission-form/question-submission-form-model';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -306,6 +309,67 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleResponderRubricSubmissionFormModel: QuestionSubmissionFormModel = {
+    recipientList: [
+      {
+        recipientIdentifier: 'alice',
+        recipientName: 'Alice',
+      },
+      {
+        recipientIdentifier: 'bob',
+        recipientName: 'Bob',
+      },
+    ],
+    recipientSubmissionForms: [
+      {
+        responseId: 'response1',
+        recipientIdentifier: 'alice',
+        responseDetails: { questionType: FeedbackQuestionType.RUBRIC, answer: [0, 2] } as FeedbackRubricResponseDetails,
+      },
+      {
+        responseId: 'response2',
+        recipientIdentifier: 'bob',
+        responseDetails: { questionType: FeedbackQuestionType.RUBRIC, answer: [1, 3] } as FeedbackRubricResponseDetails,
+      },
+    ],
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    feedbackQuestionId: '',
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionType: FeedbackQuestionType.RUBRIC,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+    questionDetails: {
+      ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
+      numOfRubricChoices: 4,
+      rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
+      numOfRubricSubQuestions: 2,
+      rubricSubQuestions: [
+        'This student participates well in online discussions.',
+        'This student completes assigned tasks on time.',
+      ],
+      rubricDescriptions:
+      [
+        [
+          'Rarely or never responds.', 'Occasionally responds, but never initiates discussions.',
+          'Takes part in discussions and sometimes initiates discussions.',
+          'Initiates discussions frequently, and engages the team.',
+        ],
+        [
+          'Rarely or never completes tasks.',
+          'Often misses deadlines.',
+          'Occasionally misses deadlines.',
+          'Tasks are always completed before the deadline.',
+        ],
+      ],
+    } as FeedbackRubricQuestionDetails,
   };
 
   isEssayQuestionsCollapsed: boolean = false;
