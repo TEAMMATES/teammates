@@ -290,7 +290,6 @@ public class SessionResultsData extends ApiOutput {
             this.recipientTeam = recipientTeam;
             this.recipientSection = recipientSection;
             this.responseDetails = responseDetails;
-            this.participantComment = null;
             this.participantComment = participantComment;
             this.instructorComments = instructorComments;
         }
