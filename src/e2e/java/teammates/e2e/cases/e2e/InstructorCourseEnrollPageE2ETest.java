@@ -29,7 +29,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
                 AppPage.getNewPageInstance(browser, url, InstructorCourseEnrollPage.class);
 
         ______TS("Add rows to enroll spreadsheet");
-        int numRowsToAdd = 80;
+        int numRowsToAdd = 30;
         enrollPage.addEnrollSpreadsheetRows(numRowsToAdd);
         enrollPage.verifyNumAddedEnrollSpreadsheetRows(numRowsToAdd);
 
@@ -50,6 +50,11 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         // refresh page to confirm enrollment
         enrollPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEnrollPage.class);
         enrollPage.verifyExistingStudentsTableContains(studentsEnrollingToEmptyCourse);
+
+        // verify students in datastore
+        assertEquals(getStudent(student1), student1);
+        assertEquals(getStudent(student2), student2);
+        assertEquals(getStudent(student3), student3);
 
         ______TS("Enroll and modify students in existing course");
         // modify team details of existing student
@@ -81,6 +86,13 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
 
         enrollPage.verifyResultsPanelContains(newStudentsData, modifiedStudentsData, modifiedWithoutChangeStudentsData,
                 errorStudentsData, unmodifiedStudentsData);
+
+        // verify students in datastore
+        assertEquals(getStudent(student1), student1);
+        assertEquals(getStudent(student2), student2);
+        assertEquals(getStudent(student3), student3);
+        assertEquals(getStudent(student4), student4);
+        assertNull(getStudent(student5));
 
         // refresh page to confirm enrollment
         enrollPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEnrollPage.class);

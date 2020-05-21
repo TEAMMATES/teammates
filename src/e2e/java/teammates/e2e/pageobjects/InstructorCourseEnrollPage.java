@@ -46,7 +46,7 @@ public class InstructorCourseEnrollPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Enroll Students for");
+        return getPageTitle().contains("Enroll Students for");
     }
 
     public void clickToggleExistingStudentsHeader() {
