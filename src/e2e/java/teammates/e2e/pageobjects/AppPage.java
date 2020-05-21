@@ -80,8 +80,6 @@ public abstract class AppPage {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
 
-        waitForPageToLoad();
-
         boolean isCorrectPageType = containsExpectedPageContents();
 
         if (isCorrectPageType) {
@@ -252,7 +250,9 @@ public abstract class AppPage {
     }
 
     public String getPageTitle() {
-        return browser.driver.findElement(By.tagName("h1")).getText();
+        By headerTag = By.tagName("h1");
+        waitForElementPresence(headerTag);
+        return browser.driver.findElement(headerTag).getText();
     }
 
     public void click(By by) {
