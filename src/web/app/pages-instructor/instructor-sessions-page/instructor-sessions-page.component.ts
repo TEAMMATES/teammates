@@ -54,11 +54,9 @@ import {
 import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
-
 interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;
 }
-
 /**
  * Instructor feedback sessions list page.
  */
@@ -401,6 +399,17 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
 
   /**
+   * Sorts the list of feedback session rows in recycle bin table.
+   */
+  sortRecycleBinFeedbackSessionRowsEvent(by: SortBy): void {
+    this.recycleBinFeedbackSessionRowModelsSortBy = by;
+    // reverse the sort order
+    this.recycleBinFeedbackSessionRowModelsSortOrder =
+        this.recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.recycleBinFeedbackSessionRowModels.sort(
+        this.sortModelsBy(by, this.recycleBinFeedbackSessionRowModelsSortOrder));
+  }
+  /**
    * Loads response rate of a feedback session.
    */
   loadResponseRateEventHandler(rowIndex: number): void {
@@ -412,6 +421,29 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   editSessionEventHandler(rowIndex: number): void {
     this.editSession(this.sessionsTableRowModels[rowIndex]);
+  }
+
+  /**
+   * Restores a recycle bin feedback session.
+   */
+  restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
+    this.feedbackSessionsService.deleteSessionFromRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
+        .subscribe((feedbackSession: FeedbackSession) => {
+          this.recycleBinFeedbackSessionRowModels.splice(
+              this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
+          const m: SessionsTableRowModel = {
+            feedbackSession,
+            responseRate: '',
+            isLoadingResponseRate: false,
+            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+          };
+          this.sessionsTableRowModels.push(m);
+          this.updateInstructorPrivilege(m);
+          this.statusMessageService.showSuccessMessage('The feedback session has been restored.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
@@ -490,41 +522,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
-  }
-
-  /**
-   * Sorts the list of feedback session rows in recycle bin table.
-   */
-  sortRecycleBinFeedbackSessionRows(by: SortBy): void {
-    this.recycleBinFeedbackSessionRowModelsSortBy = by;
-    // reverse the sort order
-    this.recycleBinFeedbackSessionRowModelsSortOrder =
-        this.recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.recycleBinFeedbackSessionRowModels.sort(
-        this.sortModelsBy(by, this.recycleBinFeedbackSessionRowModelsSortOrder));
-  }
-
-  /**
-   * Restores a recycle bin feedback session.
-   */
-  restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
-    this.feedbackSessionsService.deleteSessionFromRecycleBin(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
-    )
-        .subscribe((feedbackSession: FeedbackSession) => {
-          this.recycleBinFeedbackSessionRowModels.splice(
-              this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
-          const m: SessionsTableRowModel = {
-            feedbackSession,
-            responseRate: '',
-            isLoadingResponseRate: false,
-            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
-          };
-          this.sessionsTableRowModels.push(m);
-          this.updateInstructorPrivilege(m);
-          this.statusMessageService.showSuccessMessage('The feedback session has been restored.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
