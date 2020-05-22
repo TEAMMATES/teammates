@@ -13,27 +13,10 @@ import { StatusMessage } from '../../components/status-message/status-message';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { EnrollStatus } from './enroll-status';
 
-interface StudentAttributes {
-  email: string;
-  course: string;
-  name: string;
-  lastName: string;
-  comments: string;
-  team: string;
-  section: string;
-}
-
 interface EnrollResultPanel {
   status: EnrollStatus;
   messageForEnrollmentStatus: string;
   studentList: Student[];
-}
-
-/**
- * List of enrolled students and their attributes.
- */
-export interface StudentListResults {
-  enrolledStudents: StudentAttributes[];
 }
 
 /**
@@ -277,16 +260,24 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   /**
    * Converts returned student list to a suitable format required by Handsontable.
    */
-  studentListDataToHandsontableData(studentsData: StudentAttributes[], handsontableColHeader: any[]): string[][] {
+  studentListDataToHandsontableData(studentsData: Student[], handsontableColHeader: any[]): string[][] {
     const headers: string[] = handsontableColHeader.map(this.unCapitalizeFirstLetter);
-    return studentsData.map((student: StudentAttributes) => (headers.map(
-        (header: string) => (student as any)[header])));
+    return studentsData.map((student: Student) => (headers.map(
+        (header: string) => {
+          if (header === 'team') {
+            return (student as any).teamName;
+          }  if (header === 'section') {
+            return (student as any).sectionName;
+          }
+          return (student as any)[header];
+        },
+    )));
   }
 
   /**
    * Loads existing student data into the spreadsheet interface.
    */
-  loadExistingStudentsData(existingStudentsHOTInstance: Handsontable, studentsData: StudentAttributes[]): void {
+  loadExistingStudentsData(existingStudentsHOTInstance: Handsontable, studentsData: Student[]): void {
     existingStudentsHOTInstance.loadData(this.studentListDataToHandsontableData(
         studentsData, (existingStudentsHOTInstance.getColHeader() as any[])));
   }
@@ -307,10 +298,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    this.studentService.getStudentsEnrolledInCourse({ courseId: this.courseid }).subscribe(
-        (resp: StudentListResults) => {
-          if (resp.enrolledStudents.length !== 0) {
-            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.enrolledStudents);
+    this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe(
+        (resp: Students) => {
+          if (resp.students.length !== 0) {
+            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
           } else {
             // Shows a message if there are no existing students. Panel would not be expanded.
             this.isExistingStudentsPresent = false;
