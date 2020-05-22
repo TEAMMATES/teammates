@@ -16,7 +16,7 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
-  teammateProfilesSortBy={[Function Number]}
+  teammateProfilesSortBy="0"
 >
   <h1
     class="page-title"
@@ -233,7 +233,6 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
       >
         <button
           class="btn btn-light"
-          disabled=""
         >
           Name
         </button>
@@ -279,7 +278,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
-  teammateProfilesSortBy={[Function Number]}
+  teammateProfilesSortBy="0"
 >
   <h1
     class="page-title"
@@ -553,7 +552,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       >
         <button
           class="btn btn-light"
-          disabled=""
         >
           Name
         </button>
