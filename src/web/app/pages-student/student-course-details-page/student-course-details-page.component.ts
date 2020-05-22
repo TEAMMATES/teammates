@@ -32,7 +32,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   // enum
   Gender: typeof Gender = Gender;
   SortBy: typeof SortBy = SortBy;
-  teammateProfilesSortBy: SortBy = SortBy.STUDENT_NAME;
+  teammateProfilesSortBy: SortBy = SortBy.NONE;
 
   // data
   student: Student = {
@@ -108,7 +108,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param teamName: team of current student
    */
   loadTeammates(courseId: string, teamName: string): void {
-    this.teammateProfiles = [];
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
       .subscribe((students: Students) => {
         students.students.forEach((student: Student) => {
@@ -135,7 +134,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                   this.teammateProfiles.push(newTeammateProfile);
                 });
         });
-        this.sortTeammatesBy(this.teammateProfilesSortBy);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
