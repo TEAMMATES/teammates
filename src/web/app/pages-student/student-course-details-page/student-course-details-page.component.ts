@@ -57,8 +57,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   instructorDetails: Instructor[] = [];
   teammateProfiles: StudentProfileWithPicture[] = [];
 
-  hasTeammateProfilesLoaded: boolean = false;
-
   constructor(private tableComparatorService: TableComparatorService,
               private route: ActivatedRoute,
               private instructorService: InstructorService,
