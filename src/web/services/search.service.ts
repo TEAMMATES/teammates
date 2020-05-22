@@ -128,6 +128,9 @@ export class SearchService {
   getPrivileges(
     coursesWithSections: SearchStudentsTable[],
   ): Observable<InstructorPrivilege[]> {
+    if (coursesWithSections.length === 0) {
+      return of([]);
+    }
     return forkJoin(
       coursesWithSections.map((course: SearchStudentsTable) => {
         return course.sections.map((section: StudentListSectionData) => {

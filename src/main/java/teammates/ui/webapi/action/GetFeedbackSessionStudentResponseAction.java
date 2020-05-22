@@ -13,6 +13,7 @@ import teammates.ui.webapi.output.FeedbackSessionStudentsResponseData;
  * Get students submission response status about the feedback session.
  */
 public class GetFeedbackSessionStudentResponseAction extends Action {
+    // TODO: Write tests
 
     @Override
     protected AuthType getMinAuthLevel() {

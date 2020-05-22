@@ -17,6 +17,8 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
+  isEditDetailsCollapsed: boolean = false;
+  isPeerEvalTipsCollapsed: boolean = false;
 
   @ViewChild('helpPage', { static: false }) bodyRef ?: ElementRef;
 
@@ -62,5 +64,21 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   clear(): void {
     this.searchTerm = '';
     this.key = '';
+  }
+
+  /**
+   * Collapses question card on student edit details in Students section.
+   */
+  collapseStudentEditDetails(event: boolean): void {
+    this.isEditDetailsCollapsed = event;
+    this.isEditDetailsCollapsed = Object.assign({}, this.isEditDetailsCollapsed);
+  }
+
+  /**
+   * Collapses question card on peer evaluation tips in Sessions section.
+   */
+  collapsePeerEvalTips(event: boolean): void {
+    this.isPeerEvalTipsCollapsed = event;
+    this.isPeerEvalTipsCollapsed = Object.assign({}, this.isPeerEvalTipsCollapsed);
   }
 }

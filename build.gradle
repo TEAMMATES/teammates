@@ -451,7 +451,6 @@ task lnpTests(type: Test) {
     afterSuite checkTestNgFailureClosure
     testLogging {
         events "passed", "failed", "skipped"
-        showStandardStreams = true
     }
     // Display the L&P test results in the build
     def outputCache = new LinkedList<String>()
@@ -462,7 +461,6 @@ task lnpTests(type: Test) {
     }
     afterTest { TestDescriptor td ->
         if (outputCache.size() > 0) {
-            println()
             println(" L&P results for ${td.className}:")
             outputCache.each { print(" > $it") }
         }

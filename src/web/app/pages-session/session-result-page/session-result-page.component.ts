@@ -4,7 +4,13 @@ import moment from 'moment-timezone';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { FeedbackSession, QuestionOutput, SessionResults } from '../../../types/api-output';
+import {
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  QuestionOutput,
+  ResponseVisibleSetting,
+  SessionResults,
+  SessionVisibleSetting,
+} from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -18,7 +24,22 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class SessionResultPageComponent implements OnInit {
 
-  session: any = {};
+  session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
   questions: QuestionOutput[] = [];
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
@@ -35,9 +56,9 @@ export class SessionResultPageComponent implements OnInit {
         courseId,
         feedbackSessionName,
         intent: Intent.STUDENT_RESULT,
-      }).subscribe((resp: FeedbackSession) => {
+      }).subscribe((feedbackSession: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
-        this.session = resp;
+        this.session = feedbackSession;
         this.formattedSessionOpeningTime =
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
@@ -46,11 +67,12 @@ export class SessionResultPageComponent implements OnInit {
           courseId,
           feedbackSessionName,
           intent: Intent.STUDENT_RESULT,
-        }).subscribe((resp2: SessionResults) => {
-          this.questions = resp2.questions.sort(
-              (a: QuestionOutput, b: QuestionOutput) => a.questionNumber - b.questionNumber);
-        }, (resp2: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp2.error.message);
+        }).subscribe((sessionResults: SessionResults) => {
+          this.questions = sessionResults.questions.sort(
+              (a: QuestionOutput, b: QuestionOutput) =>
+                  a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
         });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);

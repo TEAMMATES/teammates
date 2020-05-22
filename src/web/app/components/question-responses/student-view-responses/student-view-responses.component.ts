@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FeedbackQuestionDetails, FeedbackQuestionType, ResponseOutput } from '../../../../types/api-output';
 
 /**
  * Feedback response in student results page view.
@@ -10,8 +11,11 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class StudentViewResponsesComponent implements OnInit {
 
-  @Input() questionDetails: any = {};
-  @Input() responses: any[] = [];
+  @Input() questionDetails: FeedbackQuestionDetails = {
+    questionType: FeedbackQuestionType.TEXT,
+    questionText: '',
+  };
+  @Input() responses: ResponseOutput[] = [];
   @Input() isSelfResponses: boolean = false;
 
   recipient: string = '';

@@ -1,10 +1,16 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
-import { ResponseOutput } from '../../../../types/api-output';
+import {
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  ResponseOutput, ResponseVisibleSetting, SessionVisibleSetting,
+} from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 /**
  * Component to display list of responses for one question.
@@ -14,27 +20,46 @@ import {
   templateUrl: './per-question-view-responses.component.html',
   styleUrls: ['./per-question-view-responses.component.scss'],
 })
-export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
+export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit, OnChanges {
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
-  @Input() questionId: string = '';
-  @Input() questionDetails: any = {};
-  @Input() responses: any[] = [];
+  @Input() responses: ResponseOutput[] = [];
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
-  @Input() session: any = {};
+  @Input() session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
 
-  responsesToShow: any[] = [];
+  responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;
   sortOrder: SortOrder = SortOrder.ASC;
 
-  constructor(private tableComparatorService: TableComparatorService) { }
+  currResponseToAdd?: ResponseOutput;
+
+  constructor(private tableComparatorService: TableComparatorService,
+              private questionsService: FeedbackQuestionsService,
+              private modalService: NgbModal) {
+    super();
+  }
 
   ngOnInit(): void {
     this.filterResponses();
@@ -45,7 +70,7 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   }
 
   private filterResponses(): void {
-    const responsesToShow: any[] = [];
+    const responsesToShow: ResponseOutput[] = [];
     for (const response of this.responses) {
       if (this.section) {
         let shouldDisplayBasedOnSection: boolean = true;
@@ -115,4 +140,25 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Opens the comments table modal.
+   */
+  showCommentTableModel(selectedResponse: ResponseOutput, modal: any): void {
+    // open as ng-template rather than concrete class due to the
+    // lack of ability to bind @Input to the modal
+    // https://github.com/ng-bootstrap/ng-bootstrap/issues/2645
+
+    const commentModalRef: NgbModalRef = this.modalService.open(modal);
+    this.currResponseToAdd = selectedResponse;
+    commentModalRef.result.then(() => {}, () => {
+      this.currResponseToAdd = undefined;
+    });
+  }
+
+  /**
+   * Check whether the question can have participant comments.
+   */
+  get canResponseHasComment(): boolean {
+    return this.questionsService.isAllowedToHaveParticipantComment(this.question.questionType);
+  }
 }
