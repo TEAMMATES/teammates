@@ -63,3 +63,68 @@
 .table-responsive {
   overflow: visible;
 }
+.sortable-header {
+  cursor: pointer;
+}
+
+.course-section {
+  margin-top: 2em;
+}
+
+.bold-label {
+  font-weight: 700 !important;
+}
+
+.recycle-bin-body {
+  padding: 0;
+}
+
+.margin-left-10px {
+  margin-left: 10px;
+}
+
+.background-color-medium-gray {
+  background-color: #E5E5E6;
+}
+
+.text-color-black {
+  color: #000;
+}
+
+.text-color-gray {
+  color: gray;
+}
+
+.text-color-red {
+  color: red;
+}
+
+.link-disabled {
+  cursor: default;
+  color: #000;
+  pointer-events: none;
+}
+
+.recycle-bin-table {
+  margin-bottom: 0;
+}
+
+.margin-top-30px {
+  margin-top: 30px;
+}
+
+.bin-header-button button {
+  margin-right: .6em;
+}
+
+.actions-cell button {
+  margin: 2px;
+}
+
+.dropdown-menu {
+  min-width: .5rem;
+}
+
+.table-responsive {
+  overflow: visible;
+}
