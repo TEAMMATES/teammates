@@ -6,6 +6,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 
@@ -35,12 +36,52 @@ export abstract class InstructorSessionResultView implements OnInit {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
+  @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   @Output() toggleAndLoadTab: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output() instructorCommentTableModelChange: EventEmitter<Record<string, CommentTableModel>> = new EventEmitter();
+  @Output() saveNewCommentEvent: EventEmitter<string> = new EventEmitter();
+  @Output() deleteCommentEvent: EventEmitter<{
+    responseId: string,
+    index: number,
+  }> = new EventEmitter();
+  @Output() updateCommentEvent: EventEmitter<{
+    responseId: string,
+    index: number,
+  }> = new EventEmitter();
 
   constructor(protected viewType: InstructorSessionResultViewType) {}
 
   ngOnInit(): void {
+  }
+
+  /**
+   * Triggers the change of {@code instructorCommentTableModel}
+   */
+  triggerInstructorCommentTableModelChange(model: Record<string, CommentTableModel>): void {
+    this.instructorCommentTableModelChange.emit(model);
+  }
+
+  /**
+   * Triggers the delete comment event.
+   */
+  triggerDeleteCommentEvent($event: { responseId: string, index: number }): void {
+    this.deleteCommentEvent.emit($event);
+  }
+
+  /**
+   * Triggers the update comment event.
+   */
+  triggerUpdateCommentEvent($event: { responseId: string, index: number }): void {
+    this.updateCommentEvent.emit($event);
+  }
+
+  /**
+   * Triggers the add new comment event.
+   */
+  triggerSaveNewCommentEvent(responseId: string): void {
+    this.saveNewCommentEvent.emit(responseId);
   }
 
 }

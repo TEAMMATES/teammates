@@ -14,6 +14,9 @@ import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
 import {
+  SessionsRecycleBinTableModule,
+} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
+import {
   InstructorCourseStudentEditPageModule,
 } from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.module';
 import {
@@ -61,6 +64,7 @@ import {
     SessionEditFormModule,
     QuestionEditFormModule,
     QuestionSubmissionFormModule,
+    SessionsRecycleBinTableModule,
   ],
   declarations: [
     InstructorHelpPageComponent,

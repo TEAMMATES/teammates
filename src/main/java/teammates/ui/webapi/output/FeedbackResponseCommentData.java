@@ -18,10 +18,10 @@ public class FeedbackResponseCommentData extends ApiOutput {
     private long createdAt;
     private String lastEditorEmail;
     private long lastEditedAt;
+    private boolean isVisibilityFollowingFeedbackQuestion;
 
     private List<CommentVisibilityType> showGiverNameTo;
     private List<CommentVisibilityType> showCommentTo;
-    private boolean isVisibilityFollowingFeedbackQuestion;
 
     public FeedbackResponseCommentData(FeedbackResponseCommentAttributes frc) {
         this.feedbackResponseCommentId = frc.getId();
@@ -32,7 +32,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
         this.createdAt = frc.getCreatedAt().toEpochMilli();
         this.lastEditedAt = frc.getLastEditedAt().toEpochMilli();
         this.lastEditorEmail = frc.getLastEditorEmail();
-        this.isVisibilityFollowingFeedbackQuestion = frc.isVisibilityFollowingFeedbackQuestion;
+        this.isVisibilityFollowingFeedbackQuestion = frc.isVisibilityFollowingFeedbackQuestion();
     }
 
     /**

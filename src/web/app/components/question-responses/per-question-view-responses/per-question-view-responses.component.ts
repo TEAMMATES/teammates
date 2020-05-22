@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
-  FeedbackQuestionDetails,
-  FeedbackQuestionType,
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   ResponseOutput, ResponseVisibleSetting, SessionVisibleSetting,
 } from '../../../../types/api-output';
@@ -10,6 +10,7 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 /**
  * Component to display list of responses for one question.
@@ -19,16 +20,11 @@ import {
   templateUrl: './per-question-view-responses.component.html',
   styleUrls: ['./per-question-view-responses.component.scss'],
 })
-export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
+export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit, OnChanges {
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
-  @Input() questionId: string = '';
-  @Input() questionDetails: FeedbackQuestionDetails = {
-    questionType: FeedbackQuestionType.TEXT,
-    questionText: '',
-  };
   @Input() responses: ResponseOutput[] = [];
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -57,7 +53,13 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
   sortBy: SortBy = SortBy.NONE;
   sortOrder: SortOrder = SortOrder.ASC;
 
-  constructor(private tableComparatorService: TableComparatorService) { }
+  currResponseToAdd?: ResponseOutput;
+
+  constructor(private tableComparatorService: TableComparatorService,
+              private questionsService: FeedbackQuestionsService,
+              private modalService: NgbModal) {
+    super();
+  }
 
   ngOnInit(): void {
     this.filterResponses();
@@ -138,4 +140,25 @@ export class PerQuestionViewResponsesComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Opens the comments table modal.
+   */
+  showCommentTableModel(selectedResponse: ResponseOutput, modal: any): void {
+    // open as ng-template rather than concrete class due to the
+    // lack of ability to bind @Input to the modal
+    // https://github.com/ng-bootstrap/ng-bootstrap/issues/2645
+
+    const commentModalRef: NgbModalRef = this.modalService.open(modal);
+    this.currResponseToAdd = selectedResponse;
+    commentModalRef.result.then(() => {}, () => {
+      this.currResponseToAdd = undefined;
+    });
+  }
+
+  /**
+   * Check whether the question can have participant comments.
+   */
+  get canResponseHasComment(): boolean {
+    return this.questionsService.isAllowedToHaveParticipantComment(this.question.questionType);
+  }
 }

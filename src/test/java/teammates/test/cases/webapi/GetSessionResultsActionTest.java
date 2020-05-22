@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.action.GetSessionResultsAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.SessionResultsData;
@@ -187,9 +188,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     private boolean isQuestionOutputEqual(SessionResultsData.QuestionOutput self,
                                           SessionResultsData.QuestionOutput other) {
-        if (!self.getQuestionId().equals(other.getQuestionId())
-                || self.getQuestionNumber() != other.getQuestionNumber()
-                || !self.getQuestionDetails().equals(other.getQuestionDetails())
+        if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(self.getFeedbackQuestion()))
                 || !self.getQuestionStatistics().equals(other.getQuestionStatistics())) {
             return false;
         }

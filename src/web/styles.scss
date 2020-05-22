@@ -120,3 +120,8 @@ body {
     display: none;
   }
 }
+
+// make tinyMCE over the modal
+.tox-tinymce {
+  z-index: 1051;
+}

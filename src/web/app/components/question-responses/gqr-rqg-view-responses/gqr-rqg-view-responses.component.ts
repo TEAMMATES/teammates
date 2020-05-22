@@ -8,6 +8,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 interface QuestionTab {
   questionOutput: QuestionOutput;
@@ -23,7 +24,7 @@ interface QuestionTab {
   templateUrl: './gqr-rqg-view-responses.component.html',
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
 })
-export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
+export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
   @Input() section: string = '';
@@ -57,7 +58,9 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
 
   responsesToShow: Record<string, QuestionTab[]> = {};
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
     this.filterResponses();
