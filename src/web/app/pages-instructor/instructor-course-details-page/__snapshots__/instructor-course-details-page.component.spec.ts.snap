@@ -18,7 +18,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
 >
-  <div>
+  <div
+    class="text-center"
+  >
     <h1>
       Course Details
     </h1>
@@ -35,12 +37,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Course ID:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -53,12 +55,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Course name:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
               id="coursename"
             >
               <p
@@ -72,12 +74,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Sections:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -90,12 +92,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Teams:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -108,12 +110,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Total students:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -127,12 +129,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
           class="form-group row"
         >
           <label
-            class="col-sm-3 control-label text-right"
+            class="col-sm-3 text-sm-right control-label"
           >
             Instructors:
           </label>
           <div
-            class="col-sm-6"
+            class="col-sm-6 text-sm-left"
           >
             
             <div>
@@ -187,7 +189,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
 >
-  <div>
+  <div
+    class="text-center"
+  >
     <h1>
       Course Details
     </h1>
@@ -204,12 +208,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Course ID:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -222,12 +226,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Course name:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
               id="coursename"
             >
               <p
@@ -241,12 +245,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Sections:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -259,12 +263,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Teams:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -277,12 +281,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Total students:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -296,12 +300,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
           class="form-group row"
         >
           <label
-            class="col-sm-3 control-label text-right"
+            class="col-sm-3 text-sm-right control-label"
           >
             Instructors:
           </label>
           <div
-            class="col-sm-6"
+            class="col-sm-6 text-sm-left"
           >
             
             <div>
@@ -318,7 +322,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="text-center"
             >
               <button
-                class="btn btn-primary"
+                class="btn btn-primary mb-2"
                 type="button"
                 value="Remind Students to Join"
               >
@@ -328,7 +332,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                  Remind Students to Join 
               </button>
               <button
-                class="btn btn-primary"
+                class="btn btn-primary mb-2"
                 type="button"
               >
                 <i
@@ -337,7 +341,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                  Download Student List 
               </button>
               <button
-                class="btn btn-danger"
+                class="btn btn-danger mb-2"
                 type="button"
                 value="Delete All Students"
               >
@@ -407,7 +411,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
 >
-  <div>
+  <div
+    class="text-center"
+  >
     <h1>
       Course Details
     </h1>
@@ -424,12 +430,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Course ID:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -442,12 +448,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Course name:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
               id="coursename"
             >
               <p
@@ -461,12 +467,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Sections:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -479,12 +485,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Teams:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -497,12 +503,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right"
             >
               Total students:
             </label>
             <div
-              class="col-sm-6"
+              class="col-sm-6 text-sm-left"
             >
               <p
                 class="form-control-static"
@@ -516,12 +522,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
           class="form-group row"
         >
           <label
-            class="col-sm-3 control-label text-right"
+            class="col-sm-3 text-sm-right control-label"
           >
             Instructors:
           </label>
           <div
-            class="col-sm-6"
+            class="col-sm-6 text-sm-left"
           >
             
           </div>

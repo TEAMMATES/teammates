@@ -17,6 +17,7 @@ import teammates.ui.webapi.output.ApiOutput;
  * Action: for an instructor to get his/her list of courses.
  */
 public class InstructorGetCoursesAction extends Action {
+    // TODO: Write tests
 
     @Override
     protected AuthType getMinAuthLevel() {

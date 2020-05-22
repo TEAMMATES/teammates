@@ -27,6 +27,7 @@
           <span *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
         </th>
         <th>Response</th>
+        <th *ngIf="canResponseHasComment">Comment for Response</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -37,10 +38,17 @@
         <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
         <td *ngIf="showRecipient">{{ response.recipient }}</td>
         <td>
-          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails"></tm-single-response>
+          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>
+        </td>
+        <td *ngIf="canResponseHasComment">
+          <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
         </td>
         <td>
-          <tm-response-moderation-button [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="questionId"></tm-response-moderation-button>
+          <tm-response-moderation-button [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="question.feedbackQuestionId"></tm-response-moderation-button>
+          <button class="btn btn-light btn-sm" style="margin-left:5px; border: 1px solid #CCC;"
+                  (click)="showCommentTableModel(response, commentTableModal)">Add Comment <span class="badge badge-secondary">
+            {{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
+          </button>
         </td>
       </tr>
     </tbody>
@@ -49,3 +57,15 @@
 <div *ngIf="!responsesToShow.length">
   <i>There are no responses for this question or you may not have the permission to see the response.</i>
 </div>
+
+<ng-template #commentTableModal let-modal>
+  <tm-comment-table-modal *ngIf="currResponseToAdd" [questionShowResponsesTo]="question.showResponsesTo"
+                          [activeModal]="modal"
+                          [model]="instructorCommentTableModel[currResponseToAdd.responseId]"
+                          [response]="currResponseToAdd"
+                          (modelChange)="triggerModelChangeForSingleResponse(currResponseToAdd.responseId, $event)"
+                          (saveNewCommentEvent)="triggerSaveNewCommentEvent(currResponseToAdd.responseId)"
+                          (updateCommentEvent)="triggerUpdateCommentEvent(currResponseToAdd.responseId, $event)"
+                          (deleteCommentEvent)="triggerDeleteCommentEvent(currResponseToAdd.responseId, $event)"
+  ></tm-comment-table-modal>
+</ng-template>

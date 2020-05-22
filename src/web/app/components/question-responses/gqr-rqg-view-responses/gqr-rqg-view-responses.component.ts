@@ -1,7 +1,20 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  QuestionOutput, ResponseOutput,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../../types/api-output';
+import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
+
+interface QuestionTab {
+  questionOutput: QuestionOutput;
+
+  isTabExpanded: boolean;
+}
 
 /**
  * Component to display list of responses in GQR/RQG view.
@@ -11,24 +24,43 @@ import {
   templateUrl: './gqr-rqg-view-responses.component.html',
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
 })
-export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
+export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit, OnChanges {
 
-  @Input() responses: any[] = [];
+  @Input() responses: QuestionOutput[] = [];
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
-  @Input() session: any = {};
+  @Input() session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
 
   @Input() isGqr: boolean = true;
 
   teamsToUsers: Record<string, string[]> = {};
-  teamExpanded: Record<string, boolean> = {};
-  userToTeamName: Record<string, any> = {};
-  responsesToShow: Record<string, any[]> = {};
 
-  constructor() { }
+  teamExpanded: Record<string, boolean> = {};
+  userExpanded: Record<string, boolean> = {};
+
+  responsesToShow: Record<string, QuestionTab[]> = {};
+
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
     this.filterResponses();
@@ -42,7 +74,7 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
     this.responsesToShow = {};
     this.teamsToUsers = {};
     this.teamExpanded = {};
-    this.userToTeamName = {};
+    this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
         if (this.isGqr) {
@@ -51,10 +83,7 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = false;
           }
-          this.userToTeamName[response.giver] = {
-            teamName: response.giverTeam,
-            isExpanded: false,
-          };
+          this.userExpanded[response.giver] = false;
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
@@ -63,10 +92,7 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = false;
             }
-            this.userToTeamName[response.recipient] = {
-              teamName: response.recipient,
-              isExpanded: false,
-            };
+            this.userExpanded[response.recipient] = false;
             continue;
           }
           this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
@@ -74,18 +100,15 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
             this.teamExpanded[response.recipientTeam] = false;
           }
-          this.userToTeamName[response.recipient] = {
-            teamName: response.recipientTeam,
-            isExpanded: false,
-          };
+          this.userExpanded[response.recipient] = false;
         }
       }
     }
 
-    for (const user of Object.keys(this.userToTeamName)) {
+    for (const user of Object.keys(this.userExpanded)) {
       for (const question of this.responses) {
-        const questionCopy: any = JSON.parse(JSON.stringify(question));
-        questionCopy.allResponses = questionCopy.allResponses.filter((response: any) => {
+        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
           if (this.isGqr && user !== response.giver) {
             return false;
           }
@@ -121,16 +144,12 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
         });
         if (questionCopy.allResponses.length) {
           this.responsesToShow[user] = this.responsesToShow[user] || [];
-          this.responsesToShow[user].push(questionCopy);
+          this.responsesToShow[user].push({
+            questionOutput: questionCopy,
+            isTabExpanded: false,
+          });
         }
       }
     }
-  }
-
-  /**
-   * Get related giver email of specific user in GQR view.
-   */
-  getGQRRelatedGiverEmailForUser(userInfo: string): string {
-    return Object.values(this.responsesToShow[userInfo])[0].allResponses[0].relatedGiverEmail;
   }
 }
