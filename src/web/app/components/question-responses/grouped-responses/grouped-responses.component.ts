@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  CommentOutput,
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
+import { CommentRowMode, CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
+import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 /**
  * A list of responses grouped in GRQ/RGQ mode.
@@ -14,7 +17,10 @@ import {
   templateUrl: './grouped-responses.component.html',
   styleUrls: ['./grouped-responses.component.scss'],
 })
-export class GroupedResponsesComponent implements OnInit {
+export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit {
+
+  // enum
+  CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   @Input() responses: QuestionOutput[] = [];
 
@@ -36,9 +42,30 @@ export class GroupedResponsesComponent implements OnInit {
     createdAtTimestamp: 0,
   };
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * Transforms participant comment to comment row model.
+   */
+  transformParticipantCommentToCommandRowModel(participantComment: CommentOutput): CommentRowModel {
+    return {
+      originalComment: participantComment,
+      timezone: this.session.timeZone,
+      commentGiverName: participantComment.commentGiverName,
+      lastEditorName: participantComment.lastEditorName,
+      commentEditFormModel: {
+        commentText: participantComment.commentText,
+        isUsingCustomVisibilities: false,
+        showCommentTo: [],
+        showGiverNameTo: [],
+      },
+      isEditing: false,
+    };
   }
 
 }
