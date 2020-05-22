@@ -251,6 +251,6 @@ describe('CourseService', () => {
     service.getStudentsEnrolledInCourse({
       courseId: paramMap.courseid,
     });
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_ENROLL_STUDENTS, paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
   });
 });

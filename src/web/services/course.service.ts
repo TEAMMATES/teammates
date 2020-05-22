@@ -254,6 +254,6 @@ export class CourseService {
     const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
-    return this.httpRequestService.get(ResourceEndpoints.COURSE_ENROLL_STUDENTS, paramsMap);
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
   }
 }
