@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import {
+  StudentListResults,
+} from '../app/pages-instructor/instructor-course-enroll-page/instructor-course-enroll-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import { MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
@@ -123,5 +126,15 @@ export class StudentService {
     };
     const responseType: string = 'text';
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
+  }
+
+  /**
+   * Returns a list of students enrolled in a course.
+   */
+  getStudentsEnrolledInCourse(queryParams: { courseId: string }): Observable<StudentListResults> {
+    const paramsMap: Record<string, string> = {
+      courseid: queryParams.courseId,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
   }
 }

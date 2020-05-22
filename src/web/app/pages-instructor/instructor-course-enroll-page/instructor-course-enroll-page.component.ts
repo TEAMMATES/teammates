@@ -307,7 +307,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    this.courseService.getStudentsEnrolledInCourse({ courseId: this.courseid }).subscribe(
+    this.studentService.getStudentsEnrolledInCourse({ courseId: this.courseid }).subscribe(
         (resp: StudentListResults) => {
           if (resp.enrolledStudents.length !== 0) {
             this.loadExistingStudentsData(existingStudentsHOTInstance, resp.enrolledStudents);

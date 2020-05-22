@@ -246,14 +246,4 @@ export class CourseService {
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SECTIONS, paramsMap);
   }
-
-  /**
-   * Returns a list of students enrolled in a course.
-   */
-  getStudentsEnrolledInCourse(queryParams: { courseId: string }): Observable<StudentListResults> {
-    const paramsMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
-  }
 }

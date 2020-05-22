@@ -243,14 +243,4 @@ describe('CourseService', () => {
     service.getCourseSectionNames(paramMap.courseid);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SECTIONS, paramMap);
   });
-
-  it('should execute GET when getting students enrolled in course', () => {
-    const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-    };
-    service.getStudentsEnrolledInCourse({
-      courseId: paramMap.courseid,
-    });
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
-  });
 });
