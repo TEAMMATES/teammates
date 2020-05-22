@@ -8,9 +8,14 @@ import { StudentProfileModule } from '../../pages-instructor/student-profile/stu
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
+import { QuestionSubmissionFormModule,
+} from '../../components/question-submission-form/question-submission-form.module';
 import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
+import {
+  SessionsRecycleBinTableModule,
+} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
 import {
   InstructorCourseStudentEditPageModule,
 } from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.module';
@@ -58,6 +63,8 @@ import {
     InstructorSessionEditPageModule,
     SessionEditFormModule,
     QuestionEditFormModule,
+    QuestionSubmissionFormModule,
+    SessionsRecycleBinTableModule,
   ],
   declarations: [
     InstructorHelpPageComponent,

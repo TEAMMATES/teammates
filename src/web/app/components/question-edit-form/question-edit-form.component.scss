@@ -1,6 +1,6 @@
 .question-number-select {
-  height: 28px;
-  width: 50px;
+  height: 32px;
+  width: auto;
   display: inline;
   margin-left: 6px;
   margin-right: 5px;
@@ -56,4 +56,8 @@
 
 .background-color-warning {
   background-color: #FCF8E3;
+}
+
+.dropdown-item {
+  cursor: pointer;
 }

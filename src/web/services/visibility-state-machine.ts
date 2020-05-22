@@ -3,7 +3,7 @@ import { VisibilityControl } from '../types/visibility-control';
 
 /* tslint:disable: no-non-null-assertion */
 /**
- * The state machine for visibility settings.
+ * The state machine for visibility settings for responses.
  */
 export class VisibilityStateMachine {
 

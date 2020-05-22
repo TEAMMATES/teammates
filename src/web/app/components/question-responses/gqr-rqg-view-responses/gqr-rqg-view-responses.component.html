@@ -41,7 +41,9 @@
     <div class="card-body" *ngIf="userExpanded[userInfo]">
       <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo]">
         <div class="card-header bg-info text-white" (click)="question.isTabExpanded = !question.isTabExpanded">
-          <tm-question-text-with-info [questionNumber]="question.questionOutput.questionNumber" [questionDetails]="question.questionOutput.questionDetails" (click)="$event.stopPropagation()"></tm-question-text-with-info>
+          <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
+                                      [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
+                                      (click)="$event.stopPropagation()"></tm-question-text-with-info>
           <div class="float-right">
             <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
             <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
@@ -49,7 +51,13 @@
         </div>
         <div class="card-body" *ngIf="question.isTabExpanded">
           <tm-per-question-view-responses [responses]="question.questionOutput.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
-                                          [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [questionDetails]="question.questionOutput.questionDetails"></tm-per-question-view-responses>
+                                          [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [question]="question.questionOutput.feedbackQuestion"
+                                          [instructorCommentTableModel]="instructorCommentTableModel"
+                                          (instructorCommentTableModelChange)="triggerModelChange($event)"
+                                          (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+                                          (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
+                                          (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
+          ></tm-per-question-view-responses>
         </div>
       </div>
     </div>
