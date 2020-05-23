@@ -28,6 +28,21 @@ export enum SortBy {
     EMAIL,
 
     /**
+     * The gender of the student.
+     */
+    STUDENT_GENDER,
+
+    /**
+     * Institution.
+     */
+    INSTITUTION,
+
+    /**
+     * Nationality.
+     */
+    NATIONALITY,
+
+    /**
      * Join status
      */
      JOIN_STATUS,
