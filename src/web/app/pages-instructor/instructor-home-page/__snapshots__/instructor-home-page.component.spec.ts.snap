@@ -1094,7 +1094,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           ng-reflect-course-candidates="[object Object]"
           ng-reflect-header-color-scheme="1"
           ng-reflect-sessions-table-row-models="[object Object],[object Object"
-          ng-reflect-sessions-table-row-models-sort-by="8"
+          ng-reflect-sessions-table-row-models-sort-by="11"
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
