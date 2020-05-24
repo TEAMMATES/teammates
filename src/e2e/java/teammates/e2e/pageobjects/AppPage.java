@@ -27,6 +27,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTask;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
 
@@ -59,6 +62,9 @@ public abstract class AppPage {
     /** Browser instance the page is loaded into. */
     protected Browser browser;
 
+    /** Use for retrying due to transient UI issues. */
+    protected RetryManager uiRetryManager = new RetryManager((TestProperties.TEST_TIMEOUT + 1) / 2);
+
     /** Firefox change handler for handling when `change` events are not fired in Firefox. */
     private final FirefoxChangeHandler firefoxChangeHandler;
 
@@ -73,8 +79,6 @@ public abstract class AppPage {
     public AppPage(Browser browser) {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
-
-        waitForPageToLoad();
 
         boolean isCorrectPageType = containsExpectedPageContents();
 
@@ -246,7 +250,9 @@ public abstract class AppPage {
     }
 
     public String getPageTitle() {
-        return browser.driver.findElement(By.tagName("h1")).getText();
+        By headerTag = By.tagName("h1");
+        waitForElementPresence(headerTag);
+        return browser.driver.findElement(headerTag).getText();
     }
 
     public void click(By by) {
@@ -359,6 +365,17 @@ public abstract class AppPage {
     protected void markCheckBoxAsChecked(WebElement checkBox) {
         waitForElementVisibility(checkBox);
         if (!checkBox.isSelected()) {
+            click(checkBox);
+        }
+    }
+
+    /**
+     * 'uncheck' the check box, if it is not already 'unchecked'.
+     * No action taken if it is already 'unchecked'.
+     */
+    protected void markCheckBoxAsUnchecked(WebElement checkBox) {
+        waitForElementVisibility(checkBox);
+        if (checkBox.isSelected()) {
             click(checkBox);
         }
     }
@@ -511,10 +528,19 @@ public abstract class AppPage {
      * Asserts message in snackbar is equal to the expected message.
      */
     public void verifyStatusMessage(String expectedMessage) {
-        // wait for short period to ensure previous status message is replaced
-        ThreadHelper.waitFor(100);
-        WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
-        assertEquals(expectedMessage, statusMessage.getText());
+        try {
+            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
+                @Override
+                public void run() {
+                    WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
+                    assertEquals(expectedMessage, statusMessage.getText());
+                }
+            }, WebDriverException.class, AssertionError.class);
+        } catch (MaximumRetriesExceededException e) {
+            WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
+            assertEquals(expectedMessage, statusMessage.getText());
+        }
+
     }
 
     /**
