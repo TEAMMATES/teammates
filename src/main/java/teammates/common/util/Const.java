@@ -1086,9 +1086,6 @@ public final class Const {
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";
 
-        // POST parameter null message
-        public static final String NULL_POST_PARAMETER = "The %s POST parameter is null%n";
-
         // HTTP parameter null message
         public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
 

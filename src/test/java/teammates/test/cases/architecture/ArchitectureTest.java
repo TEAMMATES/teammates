@@ -15,8 +15,6 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
 public class ArchitectureTest {
 
     @Deprecated
-    private static final String LEGACY_UI_CONTROLLER_PACKAGE = "teammates.ui.controller";
-    @Deprecated
     private static final String LEGACY_PAGEOBJECT_PACKAGE = "teammates.test.pageobjects";
     @Deprecated
     private static final String LEGACY_BROWSERTESTS_PACKAGE = "teammates.test.cases.browsertests";
@@ -125,7 +123,6 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_UI_CONTROLLER_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_API_PACKAGE))
                 .check(forClasses(UI_PACKAGE, LOGIC_PACKAGE));
 
@@ -503,7 +500,6 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("MockPart")
                 .and().resideOutsideOfPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_UI_CONTROLLER_PACKAGE))
                 .should().accessClassesThat().haveFullyQualifiedName("javax.servlet..")
                 .check(ALL_CLASSES);
     }

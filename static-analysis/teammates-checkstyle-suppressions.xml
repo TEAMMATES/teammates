@@ -30,19 +30,4 @@
     <suppress checks="JavadocVariable" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
-
-    <!-- Remove all these when V7 migration is done -->
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
-    <suppress checks="MissingJavadocType" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]ui[/\\]controller[/\\].*\.java"/>
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="MissingJavadocType" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]ui[/\\]datatransfer[/\\].*\.java"/>
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
-    <suppress checks="MissingJavadocType" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]ui[/\\]pagedata[/\\].*\.java"/>
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
-    <suppress checks="MissingJavadocType" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]ui[/\\]template[/\\].*\.java"/>
-
 </suppressions>
