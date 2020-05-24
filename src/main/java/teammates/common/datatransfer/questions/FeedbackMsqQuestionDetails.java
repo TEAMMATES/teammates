@@ -504,16 +504,15 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             // If weights are negative, trigger this error.
             if (hasAssignedWeights && !msqWeights.isEmpty()) {
-                for (double weight : msqWeights) {
-                    if (weight < 0) {
-                        errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
-                    }
-                }
-                // If 'Other' option is enabled, and other weight has negative value,
-                // trigger this error.
-                if (otherEnabled && msqOtherWeight < 0) {
-                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
-                }
+                msqWeights.stream()
+                        .filter(weight -> weight < 0)
+                        .forEach(weight -> errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT));
+            }
+
+            // If 'Other' option is enabled, and other weight has negative value,
+            // trigger this error.
+            if (hasAssignedWeights && otherEnabled && msqOtherWeight < 0) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
             }
 
             //If there are duplicate mcq options trigger this error
