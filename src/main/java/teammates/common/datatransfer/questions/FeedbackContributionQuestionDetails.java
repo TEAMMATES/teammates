@@ -14,13 +14,9 @@ import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.Templates;
-import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
-import teammates.common.util.Templates.FeedbackQuestion.Slots;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
 
@@ -65,230 +61,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public boolean isIndividualResponsesShownToStudents() {
         return false;
-    }
-
-    @Override
-    public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, int totalNumRecipients, FeedbackResponseDetails existingResponseDetails,
-            StudentAttributes student) {
-
-        FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) existingResponseDetails;
-        int points = frd.getAnswer();
-        String optionSelectFragmentsHtml = getContributionOptionsHtml(points);
-
-        return Templates.populateTemplate(
-                FormTemplates.CONTRIB_SUBMISSION_FORM,
-                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectFragmentsHtml,
-                Slots.CONTRIB_EQUAL_SHARE_HELP, getEqualShareHelpLinkIfNeeded(responseIdx));
-    }
-
-    @Override
-    public String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
-            StudentAttributes student) {
-
-        String optionSelectHtml = getContributionOptionsHtml(Const.INT_UNINITIALIZED);
-
-        return Templates.populateTemplate(
-                FormTemplates.CONTRIB_SUBMISSION_FORM,
-                Slots.QUESTION_INDEX, Integer.toString(qnIdx),
-                Slots.RESPONSE_INDEX, Integer.toString(responseIdx),
-                Slots.FEEDBACK_RESPONSE_TEXT, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                Slots.DISABLED, sessionIsOpen ? "" : "disabled",
-                Slots.CONTRIB_SELECT_FRAGMENTS_HTML, optionSelectHtml,
-                Slots.CONTRIB_EQUAL_SHARE_HELP, getEqualShareHelpLinkIfNeeded(responseIdx));
-    }
-
-    @Override
-    public String getQuestionSpecificEditFormHtml(int questionNumber) {
-        return Templates.populateTemplate(
-                FormTemplates.CONTRIB_EDIT_FORM,
-                Slots.QUESTION_NUMBER, Integer.toString(questionNumber),
-                Slots.CONTRIB_IS_NOT_SURE_ALLOWED_CHECKED, isNotSureAllowed ? "checked" : "",
-                Slots.CONTRIB_PARAM_IS_NOT_SURE_ALLOWED_CHECKED,
-                        Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
-    }
-
-    @Override
-    public String getNewQuestionSpecificEditFormHtml() {
-        isNotSureAllowed = true;
-
-        return "<div id=\"contribForm\">"
-                  + getQuestionSpecificEditFormHtml(-1)
-             + "</div>";
-    }
-
-    /**
-     * Uses classes from evaluations to calculate statistics.
-     * Uses actualResponses from FeedbackSessionResultsBundle - need to hide data that should be hidden.
-     *      Hide name and teamName if recipient should not be visible.
-     */
-    @Override
-    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            String studentEmail,
-            FeedbackSessionResultsBundle bundle,
-            String view) {
-        if ("question".equals(view)) { //for instructor, only question view has stats.
-            return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
-        } else if ("student".equals(view)) { //Student view of stats.
-            return getQuestionResultStatisticsHtmlStudentView(responses, question, studentEmail, bundle);
-        } else {
-            return "";
-        }
-    }
-
-    private String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            String studentEmail,
-            FeedbackSessionResultsBundle bundle) {
-
-        if (responses.isEmpty()) {
-            return "";
-        }
-
-        String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
-
-        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
-
-        //List of teams with at least one response
-        List<String> teamNames = getTeamsWithAtLeastOneResponse(actualResponses, bundle);
-
-        //Each team's member(email) list
-        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
-
-        //Each team's responses
-        Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
-                actualResponses, bundle, teamNames);
-
-        //Get each team's submission array. -> int[teamSize][teamSize]
-        //Where int[0][1] refers points from student 0 to student 1
-        //Where student 0 is the 0th student in the list in teamMembersEmail
-        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
-                teamNames, teamMembersEmail, teamResponses);
-
-        //Each team's contribution question results.
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-
-        TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
-        if (currentUserTeamResults == null) {
-            return "";
-        }
-
-        int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(studentEmail);
-        int selfClaim = currentUserTeamResults.claimed[currentUserIndex][currentUserIndex];
-        int teamClaim = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex][currentUserIndex];
-
-        String contribAdditionalInfo = Templates.populateTemplate(
-                FormTemplates.CONTRIB_ADDITIONAL_INFO,
-                Slots.MORE, "[how to interpret, etc..]",
-                Slots.LESS, "[less]",
-                Slots.QUESTION_NUMBER, Integer.toString(question.questionNumber),
-                Slots.ADDITIONAL_INFO_ID, "contributionInfo",
-                Slots.QUESTION_ADDITIONAL_INFO, FormTemplates.CONTRIB_RESULT_STATS_STUDENT_INFO);
-
-        return Templates.populateTemplate(
-                FormTemplates.CONTRIB_RESULT_STATS_STUDENT,
-                Slots.CONTRIB_ADDITIONAL_INFO, contribAdditionalInfo,
-                Slots.CONTRIB_MY_VIEW_OF_ME, getPointsAsColorizedHtml(selfClaim),
-                Slots.CONTRIB_MY_VIEW_OF_OTHERS,
-                        getNormalizedPointsListColorizedDescending(currentUserTeamResults.claimed[currentUserIndex],
-                        currentUserIndex),
-                Slots.CONTRIB_TEAM_VIEW_OF_ME, getPointsAsColorizedHtml(teamClaim),
-                Slots.CONTRIB_TEAM_VIEW_OF_OTHERS,
-                getNormalizedPointsListColorizedDescending(
-                        currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex], currentUserIndex));
-    }
-
-    private String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-
-        if (responses.isEmpty()) {
-            return "";
-        }
-
-        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
-
-        //List of teams visible to the instructor and in the selected section
-        List<String> teamNames = getTeamNames(bundle);
-
-        //Each team's member(email) list
-        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
-
-        //Each team's responses
-        Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
-                actualResponses, bundle, teamNames);
-
-        //Get each team's submission array. -> int[teamSize][teamSize]
-        //Where int[0][1] refers points from student 0 to student 1
-        //Where student 0 is the 0th student in the list in teamMembersEmail
-        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
-                teamNames, teamMembersEmail, teamResponses);
-
-        //Each team's eval results.
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
-
-        //Each person's results summary
-        Map<String, StudentResultSummary> studentResults = getStudentResults(
-                teamMembersEmail, teamResults);
-
-        //Check visibility of recipient
-        boolean hideRecipient = false;
-        FeedbackParticipantType type = question.recipientType;
-        for (FeedbackResponseAttributes response : actualResponses) {
-            if (!bundle.visibilityTable.get(response.getId())[1]
-                    && type != FeedbackParticipantType.SELF
-                    && type != FeedbackParticipantType.NONE) {
-                hideRecipient = true;
-            }
-        }
-
-        StringBuilder contribFragments = new StringBuilder();
-
-        for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
-            StudentResultSummary summary = entry.getValue();
-            String email = entry.getKey();
-            String name = bundle.roster.getStudentForEmail(email).name;
-            String team = bundle.roster.getStudentForEmail(email).team;
-
-            List<String> teamEmails = teamMembersEmail.get(team);
-            TeamEvalResult teamResult = teamResults.get(team);
-            int studentIndx = teamEmails.indexOf(email);
-
-            String displayName = name;
-            String displayTeam = team;
-
-            if (hideRecipient) {
-                displayName = FeedbackSessionResultsBundle.getAnonName(type, name);
-                displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
-            }
-            int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
-            for (int i = 0; i < incomingPoints.length; i++) {
-                incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
-            }
-            contribFragments.append(Templates.populateTemplate(
-                    FormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
-                    Slots.CONTRIB_STUDENT_TEAM, SanitizationHelper.sanitizeForHtml(displayTeam),
-                    Slots.CONTRIB_STUDENT_NAME, SanitizationHelper.sanitizeForHtml(displayName),
-                    Slots.CONTRIB_CC, getPointsAsColorizedHtml(summary.claimedToInstructor),
-                    Slots.CONTRIB_PC, getPointsAsColorizedHtml(summary.perceivedToInstructor),
-                    Slots.CONTRIB_DIFF, getPointsDiffAsHtml(summary),
-                    Slots.CONTRIB_RR, getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
-                    Slots.CONTRIB_PARAM_STUDENT_NAME, Const.ParamsNames.STUDENT_NAME));
-        }
-
-        return Templates.populateTemplate(
-                FormTemplates.CONTRIB_RESULT_STATS,
-                Slots.CONTRIB_FRAGMENTS, contribFragments.toString(),
-                Slots.CONTRIB_TOOLTIPS_CLAIMED, SanitizationHelper.sanitizeForHtml(Const.Tooltips.CLAIMED),
-                Slots.CONTRIB_TOOLTIPS_PERCEIVED, Const.Tooltips.PERCEIVED,
-                Slots.CONTRIB_TOOLTIPS_POINTS_RECEIVED, Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
-                Slots.CONTRIB_TOOLTIPS_DIFF, Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
     }
 
     @Override
@@ -567,30 +339,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return teamNames;
     }
 
-    private static String getNormalizedPointsListColorizedDescending(int[] subs, int index) {
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < subs.length; i++) {
-            if (i == index) {
-                continue;
-            }
-            result.add(getPointsAsColorizedHtml(subs[i]));
-        }
-
-        if (result.isEmpty()) {
-            return getPointsAsColorizedHtml(Const.POINTS_NOT_SUBMITTED);
-        }
-        result.sort(Comparator.reverseOrder());
-
-        StringBuilder resultString = new StringBuilder();
-        for (String s : result) {
-            if (resultString.length() != 0) {
-                resultString.append(", ");
-            }
-            resultString.append(s);
-        }
-        return resultString.toString();
-    }
-
     private static String getNormalizedPointsListDescending(int[] subs, int index) {
         List<String> result = new ArrayList<>();
         for (int i = 0; i < subs.length; i++) {
@@ -614,67 +362,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return resultString.toString();
     }
 
-    /**
-     * Method to color the points by adding <code>span</code> tag with appropriate
-     * class (posDiff and negDiff).
-     * Positive points will be green, negative will be red, 0 will be black.
-     * This will also put N/A or Not Sure for respective points representation.
-     * The output will be E+x% for positive points, E-x% for negative points,
-     * and just E for equal share.
-     * Zero contribution will be printed as 0%
-     * @param points
-     *         In terms of full percentage, so equal share will be 100, 20% more
-     *         from equal share will be 120, etc.
-     */
-    private static String getPointsAsColorizedHtml(int points) {
-        if (points == Const.POINTS_NOT_SUBMITTED || points == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color-neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
-                   + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
-        } else if (points == Const.POINTS_NOT_SURE) {
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\""
-                   + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S</span>";
-        } else if (points == 0) {
-            return "<span class=\"color-negative\">0%</span>";
-        } else if (points > 100) {
-            return "<span class=\"color-positive\">E +" + (points - 100) + "%</span>";
-        } else if (points < 100) {
-            return "<span class=\"color-negative\">E -" + (100 - points) + "%</span>";
-        } else {
-            return "<span class=\"color-neutral\">E</span>";
-        }
-    }
-
-    private static String getPointsDiffAsHtml(StudentResultSummary summary) {
-        int claimed = summary.claimedToInstructor;
-        int perceived = summary.perceivedToInstructor;
-        int diff = perceived - claimed;
-        if (perceived == Const.POINTS_NOT_SUBMITTED || perceived == Const.INT_UNINITIALIZED
-                || claimed == Const.POINTS_NOT_SUBMITTED || claimed == Const.INT_UNINITIALIZED) {
-            return "<span class=\"color-neutral\" data-toggle=\"tooltip\" data-placement=\"top\" "
-                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE
-                   + "\">N/A</span>";
-        } else if (perceived == Const.POINTS_NOT_SURE || claimed == Const.POINTS_NOT_SURE) {
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" "
-                   + "data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S"
-                   + "</span>";
-        } else if (diff > 0) {
-            return "<span class=\"color-positive\"> + " + diff + "%</span>";
-        } else if (diff < 0) {
-            return "<span class=\"color-negative\">" + diff + "%</span>";
-        } else {
-            return "<span>" + diff + "</span>";
-        }
-    }
-
     @Override
     public String getCsvHeader() {
         return "Feedback";
-    }
-
-    @Override
-    public String getQuestionTypeChoiceOption() {
-        return "<li data-questiontype = \"CONTRIB\"><a href=\"javascript:;\">"
-               + Const.FeedbackQuestionTypeNames.CONTRIB + "</a></li>";
     }
 
     @Override
@@ -723,62 +413,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return errorMsg;
     }
 
-    /*
-     * The functions below are taken and modified from EvalSubmissionEditPageData.java
-     * -------------------------------------------------------------------------------
-     */
-
-    /**
-     * Returns the options for contribution share in a team.
-     */
-    private String getContributionOptionsHtml(int pointsParam) {
-        int points = pointsParam;
-        if (points == Const.INT_UNINITIALIZED) {
-            points = Const.POINTS_NOT_SUBMITTED;
-        }
-
-        StringBuilder result = new StringBuilder(200);
-        result.append("<option class=\""
-                     + getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED)
-                     + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
-                     + (points == Const.POINTS_NOT_SUBMITTED ? " selected" : "") + ">"
-                     + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>");
-        for (int i = 200; i >= 0; i -= 10) {
-            result.append("<option class=\""
-                        + getContributionOptionsColor(i)
-                        + "\" value=\"" + i + "\""
-                        + (i == points ? "selected" : "")
-                        + ">" + convertToEqualShareFormat(i)
-                        + "</option>\r\n");
-        }
-        if (isNotSureAllowed) {
-            result.append("<option class=\""
-                          + getContributionOptionsColor(Const.POINTS_NOT_SURE)
-                          + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
-                          + (points == Const.POINTS_NOT_SURE ? " selected" : "")
-                          + ">Not Sure</option>");
-        }
-        return result.toString();
-    }
-
-    /**
-     * Returns the CSS color of different point.
-     */
-    private String getContributionOptionsColor(int points) {
-        if (points == Const.POINTS_NOT_SURE
-                || points == Const.POINTS_EQUAL_SHARE
-                || points == Const.POINTS_NOT_SUBMITTED) {
-            // Not sure, Equal Share, Not Submitted
-            return "color-neutral";
-        } else if (points < Const.POINTS_EQUAL_SHARE) {
-            // Negative share
-            return "color-negative";
-        } else {
-            // Positive share
-            return "color-positive";
-        }
-    }
-
     /**
      * Converts points in integer to String.
      * @return points in text form "Equal Share..."
@@ -797,13 +431,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else {
             return "";
         }
-    }
-
-    private String getEqualShareHelpLinkIfNeeded(int responseIdx) {
-        return responseIdx == 0
-                ? "<span class=\"glyphicon glyphicon-info-sign\"></span>"
-                      + " More info about the <code>Equal Share</code> scale"
-                : "";
     }
 
     @Override

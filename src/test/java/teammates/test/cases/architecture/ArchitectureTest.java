@@ -116,8 +116,6 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_commonShouldNotTouchUi() {
         noClasses().that().resideInAPackage(includeSubpackages(COMMON_PACKAGE))
-                // TODO fix this violation
-                .and().haveSimpleNameNotEndingWith("QuestionDetails")
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
                 .check(forClasses(COMMON_PACKAGE, UI_PACKAGE));
     }
