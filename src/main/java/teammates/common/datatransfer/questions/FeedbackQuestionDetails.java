@@ -166,16 +166,6 @@ public abstract class FeedbackQuestionDetails {
     public abstract List<String> validateQuestionDetails(String courseId);
 
     /**
-     * Validates {@code List<FeedbackResponseAttributes>} for the question
-     * based on the current {@code Feedback*QuestionDetails}.
-     *
-     * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
-     *         empty list if question responses are valid.
-     */
-    public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
-
-    /**
      * Validates if giverType and recipientType are valid for the question type.
      * Validates visibility options as well.
      *

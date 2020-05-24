@@ -454,23 +454,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        List<String> errors = new ArrayList<>();
-
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
-
-            if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE
-                    && !mcqChoices.contains(frd.getAnswerString())) {
-                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
-            }
-        }
-        return errors;
-    }
-
-    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return true;
     }

@@ -589,29 +589,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        List<String> errors = new ArrayList<>();
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
-            if (!otherEnabled) {
-                List<String> validChoices = msqChoices;
-                validChoices.add("");
-                if (!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE) {
-                    errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
-                }
-            }
-
-            if (maxSelectableChoices != Integer.MIN_VALUE && frd.answers.size() > maxSelectableChoices) {
-                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL
-                        + maxSelectableChoices);
-            }
-        }
-        return errors;
-    }
-
-    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

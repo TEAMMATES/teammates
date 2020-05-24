@@ -2,10 +2,8 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -505,35 +503,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     @Override
     public List<String> validateQuestionDetails(String courseId) {
         return new ArrayList<>();
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        if (responses.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        if (isAreDuplicatesAllowed()) {
-            return new ArrayList<>();
-        }
-        List<String> errors = new ArrayList<>();
-
-        Set<Integer> responseRank = new HashSet<>();
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankRecipientsResponseDetails frd =
-                    (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
-
-            if (responseRank.contains(frd.answer)) {
-                errors.add("Duplicate rank " + frd.answer + " in question");
-            } else if (frd.answer > numRecipients) {
-                errors.add("Invalid rank " + frd.answer + " in question");
-            }
-            responseRank.add(frd.answer);
-        }
-
-        return errors;
     }
 
     @Override

@@ -891,13 +891,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        return new ArrayList<>();
-    }
-
-    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

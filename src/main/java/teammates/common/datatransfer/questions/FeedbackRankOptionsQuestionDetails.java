@@ -2,10 +2,8 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -410,34 +408,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         if (options.size() < MIN_NUM_OF_OPTIONS) {
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");
-        }
-
-        return errors;
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        if (responses.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        if (isAreDuplicatesAllowed()) {
-            return new ArrayList<>();
-        }
-        List<String> errors = new ArrayList<>();
-
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
-            Set<Integer> responseRank = new HashSet<>();
-
-            for (int answer : frd.getFilteredSortedAnswerList()) {
-                if (responseRank.contains(answer)) {
-                    errors.add("Duplicate rank " + answer);
-                }
-                responseRank.add(answer);
-            }
         }
 
         return errors;

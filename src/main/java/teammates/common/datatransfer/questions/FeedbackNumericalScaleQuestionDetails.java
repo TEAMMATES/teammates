@@ -677,23 +677,6 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
     }
 
     @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        List<String> errors = new ArrayList<>();
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackNumericalScaleResponseDetails frd =
-                    (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
-            if (frd.getAnswer() < minScale || frd.getAnswer() > maxScale) {
-                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE
-                           + "(min=" + minScale + ", max=" + maxScale + ")");
-            }
-            //TODO: strengthen check for step
-        }
-        return errors;
-    }
-
-    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }
