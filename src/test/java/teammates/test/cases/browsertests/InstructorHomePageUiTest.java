@@ -234,7 +234,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
 
         ______TS("Typical case: download report");
 
-        AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+        AppUrl reportUrl = createUrl(Const.ResourceURIs.RESULT_CSV)
                 .withUserId("CHomeUiT.instructor.tmms")
                 .withCourseId(feedbackSessionClosed.getCourseId())
                 .withSessionName(feedbackSessionClosed.getFeedbackSessionName());
@@ -243,7 +243,7 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
 
         ______TS("Typical case: download report unsuccessfully due to missing parameters");
 
-        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
+        reportUrl = createUrl(Const.ResourceURIs.RESULT_CSV)
                 .withUserId("CHomeUiT.instructor.tmms");
         browser.driver.get(reportUrl.toAbsoluteString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
