@@ -825,19 +825,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
     }
 
-    @Override
-    public boolean isQuestionSkipped(String[] answer) {
-        if (answer == null) {
-            return true;
-        }
-        for (String ans : answer) {
-            if (!ans.trim().isEmpty() && Integer.parseInt(ans) != Const.POINTS_NOT_SUBMITTED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private String getEqualShareHelpLinkIfNeeded(int responseIdx) {
         return responseIdx == 0
                 ? "<span class=\"glyphicon glyphicon-info-sign\"></span>"

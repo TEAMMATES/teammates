@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -224,14 +223,6 @@ public abstract class FeedbackQuestionDetails {
         Assumption.assertNotNull(questionType);
         String serializedDetails = getJsonString();
         return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
-    }
-
-    /** Checks if the question has been skipped. */
-    public boolean isQuestionSkipped(String[] answers) {
-        if (answers == null) {
-            return true;
-        }
-        return Arrays.stream(answers).noneMatch(answer -> answer != null && !answer.trim().isEmpty());
     }
 
     public FeedbackQuestionType getQuestionType() {

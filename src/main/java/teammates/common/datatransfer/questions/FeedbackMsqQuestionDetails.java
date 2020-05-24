@@ -611,15 +611,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return errors;
     }
 
-    /**
-     * Checks if the question has been skipped.
-     * MSQ allows a blank response, as that represents "None of the above"
-     */
-    @Override
-    public boolean isQuestionSkipped(String[] answer) {
-        return answer == null;
-    }
-
     @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
