@@ -33,18 +33,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         this.answer = answer;
     }
 
-    @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-                                       FeedbackQuestionDetails questionDetails, String[] answer) {
-        try {
-            int contribAnswer = Integer.parseInt(answer[0]);
-            setAnswer(contribAnswer);
-        } catch (NumberFormatException e) {
-            log.severe("Failed to parse contrib answer to integer - " + answer[0]);
-            throw e;
-        }
-    }
-
     /**
      * Gets answer in integer form.
      */
@@ -67,10 +55,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
                                FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getContributionQuestionResponseAnswerCsv(response, question, feedbackSessionResultsBundle);
-    }
-
-    private void setAnswer(int answer) {
-        this.answer = answer;
     }
 
     private String getContributionQuestionResponseAnswerCsv(
@@ -121,8 +105,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         return responseAnswerCsv;
     }
 
-    // TODO: check if this can be made non-static
-    public static Map<String, StudentResultSummary> getContribQnStudentResultSummary(FeedbackQuestionAttributes question,
+    private Map<String, StudentResultSummary> getContribQnStudentResultSummary(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
 
         return feedbackSessionResultsBundle.contributionQuestionStudentResultSummary.computeIfAbsent(
@@ -141,7 +124,7 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
 
     }
 
-    public Map<String, TeamEvalResult> getContribQnTeamEvalResult(FeedbackQuestionAttributes question,
+    private Map<String, TeamEvalResult> getContribQnTeamEvalResult(FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         Map<String, TeamEvalResult> contribQnStats =
                 feedbackSessionResultsBundle.contributionQuestionTeamEvalResults.get(question.getId());
