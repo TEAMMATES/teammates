@@ -34,7 +34,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(Collections.singletonList("Choice 1"));
 
-        List<String> errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES
                 + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
@@ -48,7 +48,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setMsqWeights(Collections.singletonList(1.22));
         msqDetails.setHasAssignedWeights(true);
 
-        List<String> errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
@@ -61,7 +61,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setMsqWeights(Arrays.asList(1.22, 1.55));
         msqDetails.setHasAssignedWeights(true);
 
-        List<String> errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(0, errors.size());
     }
 
@@ -73,7 +73,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setHasAssignedWeights(true);
         msqDetails.setMsqWeights(Arrays.asList(1.22, -1.55));
 
-        List<String> errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
@@ -88,7 +88,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setHasAssignedWeights(true);
         msqDetails.setMsqOtherWeight(-2);
 
-        List<String> errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
@@ -99,13 +99,13 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         msqDetails.setMsqChoices(Arrays.asList("choice 1", "choice 1"));
 
-        List<String> errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
 
         //duplicate cases that has trailing and leading spaces
         msqDetails.setMsqChoices(Arrays.asList("choice 1", " choice 1 "));
-        errors = msqDetails.validateQuestionDetails(dummySessionToken);
+        errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
 
@@ -125,7 +125,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setMaxSelectableChoices(3);
         msqDetails.setMinSelectableChoices(Integer.MIN_VALUE);
 
-        List<String> errors = msqDetails.validateQuestionDetails("dummyCourse");
+        List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         AssertHelper.assertContains(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL, errors.get(0));
     }
@@ -144,7 +144,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setMaxSelectableChoices(3);
         msqDetails.setMinSelectableChoices(Integer.MIN_VALUE);
 
-        List<String> errors = msqDetails.validateQuestionDetails("dummyCourse");
+        List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(0, errors.size());
     }
 }

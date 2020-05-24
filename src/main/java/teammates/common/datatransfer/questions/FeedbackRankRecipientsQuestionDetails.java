@@ -501,7 +501,7 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         return new ArrayList<>();
     }
 

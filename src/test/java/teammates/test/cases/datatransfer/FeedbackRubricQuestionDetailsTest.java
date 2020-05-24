@@ -36,7 +36,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricChoices(Arrays.asList("Choice-1", "Choice-2"));
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(1.5, 2.5), Collections.singletonList(1.0)));
 
-        List<String> errors = rubricDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = rubricDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, errors.get(0));
     }
@@ -52,7 +52,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricChoices(Arrays.asList("Choice-1", "Choice-2"));
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(1.5, 2.5), Arrays.asList(1.0, 2.0)));
 
-        List<String> errors = rubricDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = rubricDetails.validateQuestionDetails();
         assertEquals(0, errors.size());
     }
 }

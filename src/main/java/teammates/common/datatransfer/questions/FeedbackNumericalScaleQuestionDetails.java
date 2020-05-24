@@ -665,7 +665,7 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (minScale >= maxScale) {
             errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX);

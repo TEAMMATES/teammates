@@ -32,7 +32,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setNumOfMcqChoices(1);
         mcqDetails.setMcqChoices(Collections.singletonList("Choice 2"));
 
-        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
                 + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
@@ -46,7 +46,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqWeights(Collections.singletonList(1.22));
         mcqDetails.setHasAssignedWeights(true);
 
-        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
@@ -59,7 +59,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setHasAssignedWeights(true);
         mcqDetails.setMcqWeights(Arrays.asList(1.22, 1.55));
 
-        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(0, errors.size());
     }
 
@@ -70,7 +70,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
         mcqDetails.setMcqWeights(Arrays.asList(1.22, -1.55));
 
-        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
@@ -84,7 +84,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setHasAssignedWeights(true);
         mcqDetails.setMcqOtherWeight(-2);
 
-        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
@@ -96,13 +96,13 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setNumOfMcqChoices(2);
         mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 1"));
 
-        List<String> errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
 
         //duplicate cases that has trailing and leading spaces
         mcqDetails.setMcqChoices(Arrays.asList("choice 1", " choice 1 "));
-        errors = mcqDetails.validateQuestionDetails(dummySessionToken);
+        errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
     }

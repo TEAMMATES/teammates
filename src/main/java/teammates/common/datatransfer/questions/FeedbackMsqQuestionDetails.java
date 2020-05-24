@@ -8,23 +8,16 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails.MultipleOptionStatistics;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.StudentsLogic;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> msqChoices;
@@ -35,6 +28,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private FeedbackParticipantType generateOptionsFor;
     private int maxSelectableChoices;
     private int minSelectableChoices;
+    private transient int numOfGeneratedMsqChoices;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -259,35 +253,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1");
     }
 
-    private int getNumOfChoicesForMsq(String courseId, FeedbackParticipantType generateOptionsFor) {
-        if (generateOptionsFor == FeedbackParticipantType.NONE) {
-            return msqChoices.size() + (otherEnabled ? 1 : 0);
-        }
-
-        if (generateOptionsFor == FeedbackParticipantType.STUDENTS
-                || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
-            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
-            int sizeOfStudentlist = studentList.size();
-
-            return generateOptionsFor == FeedbackParticipantType.STUDENTS ? sizeOfStudentlist : sizeOfStudentlist - 1;
-        }
-
-        if (generateOptionsFor == FeedbackParticipantType.TEAMS
-                || generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
-            try {
-                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
-                int sizeOfTeamlist = teamList.size();
-
-                return generateOptionsFor == FeedbackParticipantType.TEAMS ? sizeOfTeamlist : sizeOfTeamlist - 1;
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Course disappeared");
-            }
-        }
-        List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(courseId);
-
-        return instructorList.size();
-    }
-
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
         StringBuilder optionListHtml = new StringBuilder();
@@ -502,7 +467,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
 
@@ -562,9 +527,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
 
-        int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);
+        int numOfMsqChoices = numOfGeneratedMsqChoices;
+        if (generateOptionsFor == FeedbackParticipantType.NONE) {
+            numOfMsqChoices = msqChoices.size() + (otherEnabled ? 1 : 0);
+        }
         if (isMaxSelectableChoicesEnabled) {
-            if (numOfMsqChoicesForGeneratedOptions < maxSelectableChoices) {
+            if (numOfMsqChoices < maxSelectableChoices) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
             } else if (maxSelectableChoices < 2) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
@@ -575,7 +543,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             if (minSelectableChoices < 1) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
             }
-            if (minSelectableChoices > numOfMsqChoicesForGeneratedOptions) {
+            if (minSelectableChoices > numOfMsqChoices) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES);
             }
         }
@@ -655,6 +623,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     public void setMinSelectableChoices(int minSelectableChoices) {
         this.minSelectableChoices = minSelectableChoices;
+    }
+
+    public void setNumOfGeneratedMsqChoices(int numOfGeneratedMsqChoices) {
+        this.numOfGeneratedMsqChoices = numOfGeneratedMsqChoices;
     }
 
     /**

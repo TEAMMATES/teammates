@@ -159,11 +159,10 @@ public abstract class FeedbackQuestionDetails {
 
     /**
      * Validates the question details.
-     * @param courseId courseId of the question
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      *         empty list if question details are valid.
      */
-    public abstract List<String> validateQuestionDetails(String courseId);
+    public abstract List<String> validateQuestionDetails();
 
     /**
      * Validates if giverType and recipientType are valid for the question type.
