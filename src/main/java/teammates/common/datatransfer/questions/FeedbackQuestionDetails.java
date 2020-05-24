@@ -2,7 +2,6 @@ package teammates.common.datatransfer.questions;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -185,14 +184,6 @@ public abstract class FeedbackQuestionDetails {
      * @return error message detailing the error, or an empty string if valid.
      */
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
-
-    /**
-     * Extract question details and sets details accordingly.
-     *
-     * @return true to indicate success in extracting the details, false otherwise.
-     */
-    public abstract boolean extractQuestionDetails(Map<String, String[]> requestParameters,
-                                                   FeedbackQuestionType questionType);
 
     // The following function handle the display of rows between possible givers
     // and recipients who did not respond to a question in feedback sessions

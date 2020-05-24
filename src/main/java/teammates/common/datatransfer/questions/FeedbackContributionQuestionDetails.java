@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
@@ -45,22 +44,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     public void setNotSureAllowed(boolean notSureAllowed) {
         isNotSureAllowed = notSureAllowed;
-    }
-
-    private void setContributionQuestionDetails(boolean isNotSureAllowed) {
-        this.isNotSureAllowed = isNotSureAllowed;
-    }
-
-    @Override
-    public boolean extractQuestionDetails(
-            Map<String, String[]> requestParameters,
-            FeedbackQuestionType questionType) {
-        String isNotSureAllowedString = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
-        boolean isNotSureAllowed = "on".equals(isNotSureAllowedString);
-        this.setContributionQuestionDetails(isNotSureAllowed);
-        return true;
     }
 
     @Override

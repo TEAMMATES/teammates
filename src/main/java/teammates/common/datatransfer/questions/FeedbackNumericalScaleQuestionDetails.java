@@ -13,9 +13,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
@@ -37,38 +35,6 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
     @Override
     public List<String> getInstructions() {
         return null;
-    }
-
-    @Override
-    public boolean extractQuestionDetails(Map<String, String[]> requestParameters, FeedbackQuestionType questionType) {
-
-        String minScaleString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
-        Assumption.assertNotNull("Null minimum scale", minScaleString);
-        int minScale = Integer.parseInt(minScaleString);
-
-        String maxScaleString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
-        Assumption.assertNotNull("Null maximum scale", maxScaleString);
-        int maxScale = Integer.parseInt(maxScaleString);
-
-        String stepString =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
-        Assumption.assertNotNull("Null step", stepString);
-        Double step = Double.parseDouble(stepString);
-
-        setNumericalScaleQuestionDetails(minScale, maxScale, step);
-
-        return true;
-    }
-
-    private void setNumericalScaleQuestionDetails(int minScale, int maxScale, double step) {
-        this.minScale = minScale;
-        this.maxScale = maxScale;
-        this.step = step;
     }
 
     @Override

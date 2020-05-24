@@ -8,7 +8,6 @@ import java.util.TreeMap;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
@@ -21,26 +20,6 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         super(questionType);
         minOptionsToBeRanked = NO_VALUE;
         maxOptionsToBeRanked = NO_VALUE;
-    }
-
-    public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
-        super(questionType, questionText);
-        minOptionsToBeRanked = NO_VALUE;
-        maxOptionsToBeRanked = NO_VALUE;
-    }
-
-    @Override
-    public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
-                                          FeedbackQuestionType questionType) {
-
-        String areDuplicatesAllowedString =
-                HttpRequestHelper.getValueFromParamMap(
-                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
-        boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
-
-        this.areDuplicatesAllowed = areDuplicatesAllowed;
-
-        return true;
     }
 
     @Override
@@ -100,7 +79,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         return pointsReceived.toString();
     }
 
-    protected double computeAverage(List<Integer> values) {
+    private double computeAverage(List<Integer> values) {
         double total = 0;
         for (double value : values) {
             total = total + value;
