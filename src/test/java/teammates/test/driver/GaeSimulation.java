@@ -1,8 +1,5 @@
 package teammates.test.driver;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -116,58 +113,6 @@ public class GaeSimulation {
     public void logoutUser() {
         helper.setEnvIsLoggedIn(false);
         helper.setEnvIsAdmin(false);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as an unregistered user
-     * (without any right).
-     */
-    @Deprecated
-    public void loginAsUnregistered(String userId) {
-        loginUser(userId);
-        UserInfo user = gateKeeper.getCurrentUser();
-        assertFalse(user.isStudent);
-        assertFalse(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as an instructor
-     * (without admin rights or student rights).
-     */
-    @Deprecated
-    public void loginAsInstructor(String userId) {
-        loginUser(userId);
-        UserInfo user = gateKeeper.getCurrentUser();
-        assertFalse(user.isStudent);
-        assertTrue(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as a student
-     * (without admin rights or instructor rights).
-     */
-    @Deprecated
-    public void loginAsStudent(String userId) {
-        loginUser(userId);
-        UserInfo user = gateKeeper.getCurrentUser();
-        assertTrue(user.isStudent);
-        assertFalse(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as a student-instructor
-     * (without admin rights).
-     */
-    @Deprecated
-    public void loginAsStudentInstructor(String userId) {
-        loginUser(userId);
-        UserInfo user = gateKeeper.getCurrentUser();
-        assertTrue(user.isStudent);
-        assertTrue(user.isInstructor);
-        assertFalse(user.isAdmin);
     }
 
     /**

@@ -512,8 +512,6 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("CsvChecker")
                 .and().doNotHaveSimpleName("EmailChecker")
                 .and().resideOutsideOfPackage(includeSubpackages(LEGACY_PAGEOBJECT_PACKAGE))
-                // TODO remove the next after migration
-                .and().doNotHaveSimpleName("GaeSimulation")
                 .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")
                 .check(ALL_CLASSES);
     }
