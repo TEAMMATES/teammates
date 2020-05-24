@@ -41,7 +41,6 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId());
         loginAdminToPage(url, InstructorHomePage.class);
         InstructorCourseEditPage editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
-        editPage.waitForPageToLoad();
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
