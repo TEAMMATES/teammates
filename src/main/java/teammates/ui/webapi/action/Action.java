@@ -14,6 +14,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
@@ -34,6 +35,7 @@ public abstract class Action {
     protected EmailGenerator emailGenerator = new EmailGenerator();
     protected TaskQueuer taskQueuer = new TaskQueuer();
     protected EmailSender emailSender = new EmailSender();
+    protected RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
 
     protected HttpServletRequest req;
     protected UserInfo userInfo;
@@ -64,6 +66,10 @@ public abstract class Action {
 
     public void setEmailSender(EmailSender emailSender) {
         this.emailSender = emailSender;
+    }
+
+    public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {
+        this.recaptchaVerifier = recaptchaVerifier;
     }
 
     public boolean isMasqueradeMode() {

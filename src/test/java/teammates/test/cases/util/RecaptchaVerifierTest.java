@@ -17,36 +17,37 @@ import teammates.test.cases.BaseTestCase;
 public class RecaptchaVerifierTest extends BaseTestCase {
 
     /**
-     * Tests the overloaded {@link RecaptchaVerifier#isVerificationSuccessful(String, String)} method.
+     * Tests the overloaded {@link RecaptchaVerifier#isVerificationSuccessful(String)} method.
      */
     @Test
     public void testIsVerificationSuccessful() {
         ______TS("null or empty CAPTCHA response");
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful(null, "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("", "testKey"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful(null));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful(""));
 
         ______TS("empty CAPTCHA secret key");
-        assertTrue(new RecaptchaVerifierStub().isVerificationSuccessful("empty secret key", null));
+        assertTrue(new RecaptchaVerifierStub(null).isVerificationSuccessful("empty secret key"));
+        assertTrue(new RecaptchaVerifierStub("").isVerificationSuccessful("empty secret key"));
 
         ______TS("Successful verification");
         // Use RecaptchaVerifierStub to mimic success response
-        assertTrue(new RecaptchaVerifierStub().isVerificationSuccessful("success", "testKey"));
+        assertTrue(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("success"));
 
         ______TS("reCAPTCHA error codes that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic error codes
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("missing recaptcha params", "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha secret key", "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha response", "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid recaptcha request", "testKey"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("missing recaptcha params"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("invalid recaptcha secret key"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("invalid recaptcha response"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("invalid recaptcha request"));
 
         ______TS("Exceptions that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic runtime exceptions
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("null response", "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("invalid uri", "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("http protocol error", "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("i/o exception", "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("timeout exception", "testKey"));
-        assertFalse(new RecaptchaVerifierStub().isVerificationSuccessful("non 2xx http response", "testKey"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("null response"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("invalid uri"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("http protocol error"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("i/o exception"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("timeout exception"));
+        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("non 2xx http response"));
     }
 
     /**
@@ -58,6 +59,10 @@ public class RecaptchaVerifierTest extends BaseTestCase {
      * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference">reCAPTCHA API error codes</a>
      */
     private static class RecaptchaVerifierStub extends RecaptchaVerifier {
+
+        private RecaptchaVerifierStub(String secretKey) {
+            super(secretKey);
+        }
 
         @Override
         @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
@@ -94,10 +99,10 @@ public class RecaptchaVerifierTest extends BaseTestCase {
                 throw new ConnectTimeoutException();
 
             case "non 2xx http response":
-                throw new HttpResponseException(101, "testing with http failure status code");
+                throw new HttpResponseException(500, "testing with http failure status code");
 
             default:
-                return "{ success: true }";
+                return "{ success: false }";
             }
         }
     }
