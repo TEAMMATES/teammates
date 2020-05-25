@@ -24,14 +24,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with populated 
 >
   <h1>
     firstName
-  </h1><tm-student-profile
-    ng-reflect-photo-url="http://localhost:8080/webapi/s"
-    ng-reflect-student-profile="[object Object]"
-  /><tm-course-related-info
-    ng-reflect-student="[object Object]"
-  /><tm-more-info
-    ng-reflect-more-info-text="I have more info here"
-    ng-reflect-student-name="firstName"
-  />
+  </h1><tm-student-profile /><tm-course-related-info /><tm-more-info />
 </tm-instructor-course-student-details-page>
 `;

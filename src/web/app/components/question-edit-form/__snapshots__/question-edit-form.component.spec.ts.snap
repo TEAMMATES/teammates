@@ -58,7 +58,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             
             <button
               class="btn btn-primary btn-sm"
-              ng-reflect-ngb-tooltip="Edit the existing question. Do"
               ngbtooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."
               type="button"
             >
@@ -84,8 +83,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             <button
               class="btn btn-primary btn-sm"
               container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Make a copy of the existing qu"
               ngbtooltip="Make a copy of the existing question and add to the current feedback session."
               type="button"
             >
@@ -129,9 +126,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 <textarea
                   class="form-control ng-untouched ng-pristine ng-valid"
                   disabled=""
-                  ng-reflect-is-disabled="true"
-                  ng-reflect-model=""
-                  ng-reflect-ngb-tooltip="Please enter the question for "
                   ngbtooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
                   placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
                 />
@@ -155,24 +149,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 class="col-md-10"
               >
                 <tm-rich-text-editor
-                  ng-reflect-is-disabled="true"
-                  ng-reflect-ngb-tooltip="Please enter the description o"
-                  ng-reflect-placeholder-text="More details about the questio"
-                  ng-reflect-rich-text=""
                   ngbtooltip="Please enter the description of the question."
                   placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                 >
                   <editor
-                    _nghost-a-c1=""
                     class="editor editor-disabled ng-untouched ng-pristine ng-valid"
-                    ng-reflect-disabled="true"
-                    ng-reflect-init="[object Object]"
-                    ng-reflect-inline="true"
-                    ng-reflect-is-disabled="true"
-                    ng-reflect-klass="editor"
-                    ng-reflect-model=""
-                    ng-reflect-ng-class="[object Object]"
-                    ng-reflect-ng-style="[object Object]"
                     placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                     style="min-height: 150px;"
                   >
@@ -188,10 +169,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               class="padding-15px"
             >
               
-              <tm-text-question-edit-details-form
-                ng-reflect-details="[object Object]"
-                ng-reflect-is-editable="false"
-              >
+              <tm-text-question-edit-details-form>
                 <div
                   class="row"
                 >
@@ -200,7 +178,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   >
                      [Optional] 
                     <span
-                      ng-reflect-ngb-tooltip="The recommended length is show"
                       ngbtooltip="The recommended length is shown to the respondent but not enforced"
                     >
                        Recommended length 
@@ -210,8 +187,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                       class="form-control ng-untouched ng-pristine ng-valid"
                       disabled=""
                       min="0"
-                      ng-reflect-is-disabled="true"
-                      ng-reflect-model="0"
                       type="number"
                     />
                      words 
@@ -309,10 +284,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <input
                     class="ng-untouched ng-pristine ng-valid"
                     disabled=""
-                    ng-reflect-is-disabled="true"
-                    ng-reflect-model="UNLIMITED"
-                    ng-reflect-name="numOfRecipients"
-                    ng-reflect-value="CUSTOM"
                     type="radio"
                   />
                 </div>
@@ -321,8 +292,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 class="form-control ng-untouched ng-pristine ng-valid"
                 disabled=""
                 min="1"
-                ng-reflect-is-disabled="true"
-                ng-reflect-model="1"
                 type="number"
               />
             </div>
@@ -339,10 +308,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 <input
                   class="form-check-input ng-untouched ng-pristine ng-valid"
                   disabled=""
-                  ng-reflect-is-disabled="true"
-                  ng-reflect-model="UNLIMITED"
-                  ng-reflect-name="numOfRecipients"
-                  ng-reflect-value="UNLIMITED"
                   type="radio"
                 />
                  Unlimited 
@@ -353,14 +318,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
       </div>
       <div
         class="margin-top-15px padding-15px background-color-light-green"
-        ng-reflect-klass="margin-top-15px padding-15px"
-        ng-reflect-ng-class="[object Object]"
       >
         <div>
           
           <b
             class="visibility-title"
-            ng-reflect-ng-class="[object Object]"
           >
             Visibility
           </b>
