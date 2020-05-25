@@ -1,8 +1,6 @@
 package teammates.common.datatransfer.questions;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
@@ -161,21 +159,10 @@ public abstract class FeedbackQuestionDetails {
 
     /**
      * Validates the question details.
-     * @param courseId courseId of the question
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
      *         empty list if question details are valid.
      */
-    public abstract List<String> validateQuestionDetails(String courseId);
-
-    /**
-     * Validates {@code List<FeedbackResponseAttributes>} for the question
-     * based on the current {@code Feedback*QuestionDetails}.
-     *
-     * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
-     *         empty list if question responses are valid.
-     */
-    public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
+    public abstract List<String> validateQuestionDetails();
 
     /**
      * Validates if giverType and recipientType are valid for the question type.
@@ -185,14 +172,6 @@ public abstract class FeedbackQuestionDetails {
      * @return error message detailing the error, or an empty string if valid.
      */
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
-
-    /**
-     * Extract question details and sets details accordingly.
-     *
-     * @return true to indicate success in extracting the details, false otherwise.
-     */
-    public abstract boolean extractQuestionDetails(Map<String, String[]> requestParameters,
-                                                   FeedbackQuestionType questionType);
 
     // The following function handle the display of rows between possible givers
     // and recipients who did not respond to a question in feedback sessions
@@ -233,14 +212,6 @@ public abstract class FeedbackQuestionDetails {
         Assumption.assertNotNull(questionType);
         String serializedDetails = getJsonString();
         return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
-    }
-
-    /** Checks if the question has been skipped. */
-    public boolean isQuestionSkipped(String[] answers) {
-        if (answers == null) {
-            return true;
-        }
-        return Arrays.stream(answers).noneMatch(answer -> answer != null && !answer.trim().isEmpty());
     }
 
     public FeedbackQuestionType getQuestionType() {

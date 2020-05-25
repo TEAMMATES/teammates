@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 public class FeedbackConstantSumResponseDetails extends
@@ -15,23 +14,6 @@ public class FeedbackConstantSumResponseDetails extends
 
     public FeedbackConstantSumResponseDetails() {
         super(FeedbackQuestionType.CONSTSUM);
-    }
-
-    @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-                                       FeedbackQuestionDetails questionDetails, String[] answer) {
-        List<Integer> constSumAnswer = new ArrayList<>();
-        for (String answerPart : answer) {
-            try {
-                constSumAnswer.add(Integer.parseInt(answerPart));
-            } catch (NumberFormatException e) {
-                constSumAnswer.add(0);
-            }
-        }
-        FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
-        this.setConstantSumResponseDetails(constSumAnswer,
-                                           constSumQd.getConstSumOptions(),
-                                           constSumQd.isDistributeToRecipients());
     }
 
     /**
@@ -141,16 +123,6 @@ public class FeedbackConstantSumResponseDetails extends
         }
 
         return errors;
-    }
-
-    private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions,
-                                               boolean distributeToRecipients) {
-        this.answers = answers;
-        if (!distributeToRecipients) {
-            Assumption.assertEquals("ConstSum num response does not match num of options. "
-                                            + answers.size() + "/" + constSumOptions.size(),
-                                    answers.size(), constSumOptions.size());
-        }
     }
 
     public void setAnswers(List<Integer> answers) {
