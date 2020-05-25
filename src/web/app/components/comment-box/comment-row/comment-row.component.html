@@ -21,12 +21,12 @@
         </span>
         <span class="text-secondary" *ngIf="!isFeedbackParticipantComment">
           <span>{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
-          <span class="underline-hover" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone">
-            {{ model.originalComment.createdAt | formatDateBrief: model.timezone }}</span>
+          <span class="underline-hover" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!">
+            {{ model.originalComment.createdAt | formatDateBrief: model.timezone! }}</span>
           <ng-container *ngIf="model.originalComment.lastEditedAt && model.originalComment.lastEditedAt !== model.originalComment.createdAt">
             <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
             <span class="underline-hover" style="margin-right: .25rem;"
-                  [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone">edited by {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span>
+                  [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!">edited by {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span>
           </ng-container>
         </span>
 

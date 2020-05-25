@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import {
   QuestionSubmissionFormModule,
@@ -34,7 +33,6 @@ import { SessionSubmissionPageComponent } from './session-submission-page.compon
     FormsModule,
     NgbModule,
     QuestionSubmissionFormModule,
-    NgxPageScrollCoreModule,
   ],
   declarations: [
     SavingCompleteModalComponent,

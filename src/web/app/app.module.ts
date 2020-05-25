@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import {
@@ -35,6 +36,7 @@ const routes: Routes = [
     NgbModule,
     RouterModule.forRoot(routes),
     StatusMesssageModalModule,
+    NgxPageScrollCoreModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerImmediately',

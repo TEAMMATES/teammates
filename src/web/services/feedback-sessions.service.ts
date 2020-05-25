@@ -43,7 +43,7 @@ export class FeedbackSessionsService {
    * Gets template sessions.
    */
   getTemplateSessions(): TemplateSession[] {
-    return templateSessions;
+    return templateSessions as any;
   }
 
   /**
