@@ -7,7 +7,6 @@ import com.google.api.client.http.HttpStatusCodes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.SessionLinksRecoveryResponseData;
 
@@ -36,7 +35,7 @@ public class SessionLinksRecoveryAction extends Action {
         }
 
         String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
-        if (!new RecaptchaVerifier().isVerificationSuccessful(userCaptchaResponse)) {
+        if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
             return new JsonResult(new SessionLinksRecoveryResponseData(false, "Something went wrong with "
                     + "the reCAPTCHA verification. Please try again."));
         }
