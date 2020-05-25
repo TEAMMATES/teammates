@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 
@@ -10,7 +11,10 @@ describe('InstructorSessionNoResponsePanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorSessionNoResponsePanelComponent],
-      imports: [RouterModule],
+      imports: [
+          RouterModule,
+          HttpClientTestingModule,
+      ],
     })
     .compileComponents();
   }));
