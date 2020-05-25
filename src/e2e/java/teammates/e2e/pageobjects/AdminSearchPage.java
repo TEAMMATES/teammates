@@ -1,7 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.Assert.assertTrue;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -53,9 +51,6 @@ public class AdminSearchPage extends AppPage {
     @FindBy(tagName = "tm-regenerate-links-confirm-modal")
     private WebElement regenerateLinksModal;
 
-    @FindBy(className = "snackbar")
-    private WebElement successStatusMessage;
-
     public AdminSearchPage(Browser browser) {
         super(browser);
     }
@@ -63,11 +58,6 @@ public class AdminSearchPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("Admin Search</h1>");
-    }
-
-    @Override
-    public void verifyStatusMessage(String message) {
-        assertTrue(successStatusMessage.getText().contains(message));
     }
 
     public void inputSearchContent(String content) {
