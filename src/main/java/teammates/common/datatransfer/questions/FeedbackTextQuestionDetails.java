@@ -2,14 +2,12 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
@@ -40,18 +38,6 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> getInstructions() {
         return null;
-    }
-
-    @Override
-    public boolean extractQuestionDetails(
-            Map<String, String[]> requestParameters,
-            FeedbackQuestionType questionType) {
-        String recommendedLengthString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_TEXT_RECOMMENDEDLENGTH);
-
-        recommendedLength = recommendedLengthString == null || recommendedLengthString.isEmpty() ? 0
-                : Integer.parseInt(recommendedLengthString);
-        return true;
     }
 
     @Override
@@ -178,19 +164,12 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (recommendedLength < 0) {
             errors.add(Const.FeedbackQuestion.TEXT_ERROR_INVALID_RECOMMENDED_LENGTH);
         }
         return errors;
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        return new ArrayList<>();
     }
 
     @Override

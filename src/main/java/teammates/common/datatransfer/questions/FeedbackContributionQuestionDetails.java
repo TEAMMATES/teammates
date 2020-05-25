@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
@@ -45,22 +44,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     public void setNotSureAllowed(boolean notSureAllowed) {
         isNotSureAllowed = notSureAllowed;
-    }
-
-    private void setContributionQuestionDetails(boolean isNotSureAllowed) {
-        this.isNotSureAllowed = isNotSureAllowed;
-    }
-
-    @Override
-    public boolean extractQuestionDetails(
-            Map<String, String[]> requestParameters,
-            FeedbackQuestionType questionType) {
-        String isNotSureAllowedString = HttpRequestHelper.getValueFromParamMap(
-                requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
-        boolean isNotSureAllowed = "on".equals(isNotSureAllowedString);
-        this.setContributionQuestionDetails(isNotSureAllowed);
-        return true;
     }
 
     @Override
@@ -695,34 +678,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         return new ArrayList<>();
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        List<String> errors = new ArrayList<>();
-        for (FeedbackResponseAttributes response : responses) {
-            boolean validAnswer = false;
-            FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) response.getResponseDetails();
-
-            // Valid answers: 0, 10, 20, .... 190, 200
-            boolean isValidRange = frd.getAnswer() >= 0 && frd.getAnswer() <= 200;
-            boolean isMultipleOf10 = frd.getAnswer() % 10 == 0;
-            if (isValidRange && isMultipleOf10) {
-                validAnswer = true;
-            }
-            if (frd.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed
-                    || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
-                validAnswer = true;
-            }
-            if (!validAnswer) {
-                errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
-            }
-        }
-        return errors;
     }
 
     @Override
@@ -840,19 +797,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         } else {
             return "";
         }
-    }
-
-    @Override
-    public boolean isQuestionSkipped(String[] answer) {
-        if (answer == null) {
-            return true;
-        }
-        for (String ans : answer) {
-            if (!ans.trim().isEmpty() && Integer.parseInt(ans) != Const.POINTS_NOT_SUBMITTED) {
-                return false;
-            }
-        }
-        return true;
     }
 
     private String getEqualShareHelpLinkIfNeeded(int responseIdx) {

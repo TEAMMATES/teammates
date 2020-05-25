@@ -11,10 +11,8 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
@@ -54,93 +52,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.points = points;
         this.forceUnevenDistribution = unevenDistribution;
         this.distributePointsFor = distributePointsFor;
-    }
-
-    @Override
-    public boolean extractQuestionDetails(
-            Map<String, String[]> requestParameters,
-            FeedbackQuestionType questionType) {
-
-        String distributeToRecipientsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
-        String pointsPerOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        String totalPointsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
-        String pointsForEachOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION);
-        String pointsForEachRecipientString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
-
-        String forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
-        String distributePointsOption = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS);
-
-        boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
-        boolean pointsPerOption = "true".equals(pointsPerOptionString);
-
-        int points = 0;
-        if (pointsPerOption) {
-            String pointsString = distributeToRecipients ? pointsForEachRecipientString : pointsForEachOptionString;
-            Assumption.assertNotNull("Null points for each recipient/option", pointsString);
-            points = Integer.parseInt(pointsString);
-        } else {
-            Assumption.assertNotNull("Null points in total", totalPointsString);
-            points = Integer.parseInt(totalPointsString);
-        }
-
-        boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
-
-        if (distributeToRecipients) {
-            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution,
-                    distributePointsOption);
-        } else {
-            String numConstSumOptionsCreatedString =
-                    HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
-            Assumption.assertNotNull("Null number of choice for ConstSum", numConstSumOptionsCreatedString);
-            int numConstSumOptionsCreated = Integer.parseInt(numConstSumOptionsCreatedString);
-
-            for (int i = 0; i < numConstSumOptionsCreated; i++) {
-                String constSumOption =
-                        HttpRequestHelper.getValueFromParamMap(
-                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
-                if (constSumOption != null && !constSumOption.trim().isEmpty()) {
-                    constSumOptions.add(constSumOption);
-                    numOfConstSumOptions++;
-                }
-            }
-            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution,
-                    distributePointsOption);
-        }
-        return true;
-    }
-
-    private void setConstantSumQuestionDetails(
-            List<String> constSumOptions, boolean pointsPerOption,
-            int points, boolean unevenDistribution, String distributePointsOption) {
-
-        this.numOfConstSumOptions = constSumOptions.size();
-        this.constSumOptions = constSumOptions;
-        this.distributeToRecipients = false;
-        this.pointsPerOption = pointsPerOption;
-        this.points = points;
-        this.forceUnevenDistribution = unevenDistribution;
-        this.distributePointsFor = distributePointsOption;
-
-    }
-
-    private void setConstantSumQuestionDetails(boolean pointsPerOption,
-            int points, boolean unevenDistribution, String distributePointsOption) {
-
-        this.numOfConstSumOptions = 0;
-        this.constSumOptions = new ArrayList<>();
-        this.distributeToRecipients = true;
-        this.pointsPerOption = pointsPerOption;
-        this.points = points;
-        this.forceUnevenDistribution = unevenDistribution;
-        this.distributePointsFor = distributePointsOption;
     }
 
     public void setNumOfConstSumOptions(int numOfConstSumOptions) {
@@ -701,7 +612,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
@@ -718,13 +629,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
 
         return errors;
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        return new ArrayList<>();
     }
 
     @Override

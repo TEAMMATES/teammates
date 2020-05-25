@@ -15,15 +15,12 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
 
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
-    private static final Logger log = Logger.getLogger();
 
     private boolean hasAssignedWeights;
     private List<Double> mcqWeights;
@@ -66,63 +63,24 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return hasAssignedWeights;
     }
 
+    public void setHasAssignedWeights(boolean hasAssignedWeights) {
+        this.hasAssignedWeights = hasAssignedWeights;
+    }
+
     public List<Double> getMcqWeights() {
         return new ArrayList<>(mcqWeights);
     }
 
-    private List<Double> getMcqWeights(Map<String, String[]> requestParameters,
-            int numMcqChoicesCreated, boolean hasAssignedWeights) {
-        List<Double> mcqWeights = new ArrayList<>();
-
-        if (!hasAssignedWeights) {
-            return mcqWeights;
-        }
-
-        for (int i = 0; i < numMcqChoicesCreated; i++) {
-            String choice = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i);
-            String weight = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_WEIGHT + "-" + i);
-
-            if (choice != null && !choice.trim().isEmpty() && weight != null) {
-                try {
-                    // Do not add weight to mcqWeights if the weight cannot be parsed
-                    mcqWeights.add(Double.parseDouble(weight));
-                } catch (NumberFormatException e) {
-                    log.severe("Failed to parse weight for MCQ question: " + weight);
-                }
-            }
-        }
-
-        return mcqWeights;
+    public void setMcqWeights(List<Double> mcqWeights) {
+        this.mcqWeights = mcqWeights;
     }
 
     public double getMcqOtherWeight() {
         return mcqOtherWeight;
     }
 
-    private double getMcqOtherWeight(Map<String, String[]> requestParameters,
-            boolean mcqOtherEnabled, boolean hasAssignedWeights) {
-
-        double mcqOtherWeight = 0;
-
-        if (!hasAssignedWeights || !mcqOtherEnabled) {
-            return mcqOtherWeight;
-        }
-
-        String weightOther = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_OTHER_WEIGHT);
-
-        Assumption.assertNotNull("Null 'other' weight of MCQ question", weightOther);
-        Assumption.assertNotEmpty("Empty 'other' weight of MCQ question", weightOther);
-
-        try {
-            // Do not assign value to mcqOtherWeight if the weight can not be parsed.
-            mcqOtherWeight = Double.parseDouble(weightOther);
-        } catch (NumberFormatException e) {
-            log.severe("Failed to parse \"other\" weight of MCQ question: " + weightOther);
-        }
-        return mcqOtherWeight;
+    public void setMcqOtherWeight(double mcqOtherWeight) {
+        this.mcqOtherWeight = mcqOtherWeight;
     }
 
     public FeedbackParticipantType getGenerateOptionsFor() {
@@ -138,85 +96,16 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public boolean extractQuestionDetails(
-            Map<String, String[]> requestParameters,
-            FeedbackQuestionType questionType) {
-
-        int numOfMcqChoices = 0;
-        List<String> mcqChoices = new LinkedList<>();
-        boolean mcqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
-
-        if ("on".equals(HttpRequestHelper.getValueFromParamMap(
-                                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG))) {
-            mcqOtherEnabled = true;
-        }
-
-        String generatedMcqOptions =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_MCQ_GENERATED_OPTIONS);
-
-        if (generatedMcqOptions.equals(FeedbackParticipantType.NONE.toString())) {
-            String numMcqChoicesCreatedString =
-                    HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
-            Assumption.assertNotNull("Null number of choice for MCQ", numMcqChoicesCreatedString);
-            int numMcqChoicesCreated = Integer.parseInt(numMcqChoicesCreatedString);
-
-            for (int i = 0; i < numMcqChoicesCreated; i++) {
-                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-" + i;
-                String mcqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
-                if (mcqChoice != null && !mcqChoice.trim().isEmpty()) {
-                    mcqChoices.add(mcqChoice);
-                    numOfMcqChoices++;
-                }
-            }
-
-            String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_HAS_WEIGHTS_ASSIGNED);
-            boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
-            List<Double> mcqWeights = getMcqWeights(
-                    requestParameters, numMcqChoicesCreated, hasAssignedWeights);
-            double mcqOtherWeight = getMcqOtherWeight(requestParameters, mcqOtherEnabled, hasAssignedWeights);
-            setMcqQuestionDetails(
-                    numOfMcqChoices, mcqChoices, mcqOtherEnabled, hasAssignedWeights, mcqWeights, mcqOtherWeight);
-        } else {
-            setMcqQuestionDetails(FeedbackParticipantType.valueOf(generatedMcqOptions));
-        }
-        return true;
-    }
-
-    private void setMcqQuestionDetails(int numOfMcqChoices, List<String> mcqChoices, boolean otherEnabled,
-            boolean hasAssignedWeights, List<Double> mcqWeights, double mcqOtherWeight) {
-        this.numOfMcqChoices = numOfMcqChoices;
-        this.mcqChoices = mcqChoices;
-        this.otherEnabled = otherEnabled;
-        this.hasAssignedWeights = hasAssignedWeights;
-        this.mcqWeights = mcqWeights;
-        this.mcqOtherWeight = mcqOtherWeight;
-        this.generateOptionsFor = FeedbackParticipantType.NONE;
-    }
-
-    private void setMcqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
-        this.numOfMcqChoices = 0;
-        this.mcqChoices = new ArrayList<>();
-        this.otherEnabled = false;
-        this.generateOptionsFor = generateOptionsFor;
-        Assumption.assertTrue(
-                "Can only generate students, students (excluding self), teams, teams (excluding self) or instructors",
-                generateOptionsFor == FeedbackParticipantType.STUDENTS
-                || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
-                || generateOptionsFor == FeedbackParticipantType.TEAMS
-                || generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF
-                || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
-    }
-
-    @Override
     public String getQuestionTypeDisplayName() {
         return Const.FeedbackQuestionTypeNames.MCQ;
     }
 
     public boolean getOtherEnabled() {
         return otherEnabled;
+    }
+
+    public void setOtherEnabled(boolean otherEnabled) {
+        this.otherEnabled = otherEnabled;
     }
 
     @Override
@@ -503,7 +392,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
 
@@ -541,16 +430,15 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // If weights are enabled, and any of the weights have negative value,
             // trigger this error.
             if (hasAssignedWeights && !mcqWeights.isEmpty()) {
-                for (double weight : mcqWeights) {
-                    if (weight < 0) {
-                        errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
-                    }
-                }
-                // If 'Other' option is enabled, and other weight has negative value,
-                // trigger this error.
-                if (otherEnabled && mcqOtherWeight < 0) {
-                    errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
-                }
+                mcqWeights.stream()
+                        .filter(weight -> weight < 0)
+                        .forEach(weight -> errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT));
+            }
+
+            // If 'Other' option is enabled, and other weight has negative value,
+            // trigger this error.
+            if (hasAssignedWeights && otherEnabled && mcqOtherWeight < 0) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT);
             }
 
             //If there are duplicate mcq options trigger this error
@@ -561,23 +449,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
 
-        return errors;
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        List<String> errors = new ArrayList<>();
-
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackMcqResponseDetails frd = (FeedbackMcqResponseDetails) response.getResponseDetails();
-
-            if (!otherEnabled && generateOptionsFor == FeedbackParticipantType.NONE
-                    && !mcqChoices.contains(frd.getAnswerString())) {
-                errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
-            }
-        }
         return errors;
     }
 
