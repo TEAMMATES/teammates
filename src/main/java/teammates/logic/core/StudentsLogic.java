@@ -220,25 +220,12 @@ public final class StudentsLogic {
     public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
             throws EntityDoesNotExistException, RegenerateStudentException {
 
-        try {
-            StudentAttributes originalStudent = studentsDb.getStudentForEmail(courseId, email);
-            if (originalStudent == null) {
-                throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
-            }
-
-            studentsDb.deleteStudent(courseId, email);
-
-            StudentAttributes updatedStudent = studentsDb.createEntity(originalStudent);
-            if (updatedStudent.getKey().equals(originalStudent.getKey())) {
-                throw new RegenerateStudentException("Regenerated student has same registration key as original student.");
-            }
-
-            return updatedStudent;
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            Assumption.fail("Regenerating registration key shall not cause: " + e.getMessage());
+        StudentAttributes originalStudent = studentsDb.getStudentForEmail(courseId, email);
+        if (originalStudent == null) {
+            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
         }
 
-        return null;
+        return studentsDb.regenerateEntityKey(originalStudent);
     }
 
     /**
