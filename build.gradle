@@ -12,9 +12,9 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
 def appengineVersion = "1.9.+"
-def checkstyleVersion = "8.28"
-def pmdVersion = "6.20.0"
-def spotbugsVersion = "3.1.12"
+def checkstyleVersion = "8.33"
+def pmdVersion = "6.24.0"
+def spotbugsVersion = "4.0.6"
 def jacocoVersion = "0.8.5"
 
 buildscript {
@@ -26,7 +26,7 @@ buildscript {
     }
     dependencies {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:2.3.0"
-        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:2.0.0"
+        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.4.3"
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
             exclude group: "org.gradle"
         }
@@ -305,11 +305,11 @@ spotbugs {
     includeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs.xml")
 }
 
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
     reports {
         xml.enabled = false
         html.enabled = false
-        emacs.enabled = true
+        text.enabled = true
     }
 }
 
@@ -319,10 +319,10 @@ spotbugsMain {
 
 task printSpotbugsMainViolations {
     onlyIf {
-        file("${buildDir}/reports/spotbugs/main.emacs").exists()
+        file("${buildDir}/reports/spotbugs/main.txt").exists()
     }
     doFirst {
-        print new File("${buildDir}/reports/spotbugs/main.emacs").getText("UTF-8")
+        print new File("${buildDir}/reports/spotbugs/main.txt").getText("UTF-8")
     }
 }
 
@@ -332,10 +332,10 @@ spotbugsTest {
 
 task printSpotbugsTestViolations {
     onlyIf {
-        file("${buildDir}/reports/spotbugs/test.emacs").exists()
+        file("${buildDir}/reports/spotbugs/test.txt").exists()
     }
     doFirst {
-        print new File("${buildDir}/reports/spotbugs/test.emacs").getText("UTF-8")
+        print new File("${buildDir}/reports/spotbugs/test.txt").getText("UTF-8")
     }
 }
 
