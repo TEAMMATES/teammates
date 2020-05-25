@@ -19,7 +19,7 @@ import {
   StudentListInfoTableRowModel,
 } from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
 import {
-    ErrorMessageOutput
+    ErrorMessageOutput,
 } from '../../error-message-output';
 
 /**
@@ -77,7 +77,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     }
   }
 
-  openSendReminderModal(event: any) {
+  openSendReminderModal(event: any): void {
     event.stopPropagation();
 
     const courseId: string = this.session.courseId;
@@ -96,27 +96,30 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
               const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
               modalRef.componentInstance.studentListInfoTableRowModels
                 = students.map((student: Student) => ({
-                    email: student.email,
-                    name: student.name,
-                    teamName: student.teamName,
-                    sectionName: student.sectionName,
+                  email: student.email,
+                  name: student.name,
+                  teamName: student.teamName,
+                  sectionName: student.sectionName,
 
-                    hasSubmittedSession: giverSet.has(student.email),
-                    isSelected: true,
-                  } as StudentListInfoTableRowModel));
+                  hasSubmittedSession: giverSet.has(student.email),
+                  isSelected: true,
+                } as StudentListInfoTableRowModel));
 
-                  modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-                    this.feedbackSessionsService.remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
+              modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
+                this.feedbackSessionsService
+                      .remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
                         usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
-                        }).subscribe(() => {
-                          this.statusMessageService.showSuccessMessage(
-                            'Reminder e-mails have been sent out to those students and instructors. '
-                             + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+                      }).subscribe(() => {
+                        this.statusMessageService.showSuccessMessage(
+                          'Reminder e-mails have been sent out to those students and instructors. '
+                          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
 
-                        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
-                    }, () => {});
+                      }, (resp: ErrorMessageOutput) => {
+                        this.statusMessageService.showErrorMessage(resp.error.message);
+                      });
+              }, () => {});
 
-              }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message);}
+            }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); },
         );
   }
 
