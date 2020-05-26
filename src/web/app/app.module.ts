@@ -6,6 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
+import {
+  StatusMesssageModalModule,
+} from './components/status-message/status-messsage-modal/status-messsage-modal.module';
 
 const routes: Routes = [
   {
@@ -31,6 +34,7 @@ const routes: Routes = [
     HttpClientModule,
     NgbModule,
     RouterModule.forRoot(routes),
+    StatusMesssageModalModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

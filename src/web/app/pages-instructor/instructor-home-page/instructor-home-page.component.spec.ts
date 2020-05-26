@@ -5,11 +5,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   Course, FeedbackSession, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
+  InstructorPrivilege,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { SortBy, SortOrder } from '../../components/sessions-table/sessions-table-model';
-import { InstructorPrivilege } from '../../instructor-privilege';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
 import { InstructorHomePageModule } from './instructor-home-page.module';
 
@@ -18,13 +18,17 @@ const instructorPrivilege: InstructorPrivilege = {
   canModifySession: true,
   canModifyStudent: true,
   canSubmitSessionInSections: true,
+  canModifyInstructor: false,
+  canViewStudentInSections: false,
+  canModifySessionCommentsInSections: false,
+  canViewSessionInSections: false,
 };
 
 const defaultCourse: Course = {
   courseId: 'CS3281',
   courseName: 'Thematic Systems',
-  creationDate: '26 Feb 23:59 PM',
-  deletionDate: '',
+  creationTimestamp: 4924740000,
+  deletionTimestamp: 0,
   timeZone: 'Asia/Singapore',
 };
 
@@ -78,13 +82,12 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should snap with one course without feedback session', () => {
-    const instructorName: string = '';
     const courseTabModels: any = {
       instructorPrivilege,
       course: {
         courseId: 'CS3243',
         courseName: 'Introduction to AI',
-        creationDate: '01 Feb 23:59 PM',
+        creationTimestamp: 1546198490630,
         timeZone: 'Asia/Singapore',
       },
       sessionsTableRowModels: [],
@@ -94,14 +97,12 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: true,
     };
-    component.user = instructorName;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with one course with unpopulated feedback sessions', () => {
-    const instructorName: string = '';
     const courseTabModels: any = {
       instructorPrivilege,
       course: defaultCourse,
@@ -112,14 +113,12 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: true,
     };
-    component.user = instructorName;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with one course with error loading feedback sessions', () => {
-    const instructorName: string = 'Jon Snow';
     const courseTabModels: any = {
       instructorPrivilege,
       course: defaultCourse,
@@ -130,14 +129,12 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: false,
       isTabExpanded: true,
     };
-    component.user = instructorName;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with one course with unexpanded course tab', () => {
-    const instructorName: string = 'Shaun';
     const courseTabModels: any = {
       instructorPrivilege,
       course: defaultCourse,
@@ -148,14 +145,12 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: false,
     };
-    component.user = instructorName;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with one course with one feedback session with instructor privilege', () => {
-    const instructorName: string = '';
     const sessionsTableRowModel: any = {
       feedbackSession,
       instructorPrivilege,
@@ -172,14 +167,12 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: true,
     };
-    component.user = instructorName;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with one course with two feedback sessions with tutor privilege', () => {
-    const instructorName: string = '';
     const feedbackSession1: any = {
       courseId: 'CS3281',
       timeZone: 'Asia/Singapore',
@@ -244,7 +237,6 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: true,
     };
-    component.user = instructorName;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

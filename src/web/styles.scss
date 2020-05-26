@@ -54,8 +54,24 @@ body {
   display: none;
 }
 
+.modal {
+  text-align: center;
+  padding: 0 !important;
+}
+
+.modal::before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
 .modal-dialog {
+  text-align: left;
+  display: inline-block;
   min-width: 800px;
+  vertical-align: middle;
 }
 
 .modal-content {
@@ -103,4 +119,9 @@ body {
   .no-print {
     display: none;
   }
+}
+
+// make tinyMCE over the modal
+.tox-tinymce {
+  z-index: 1051;
 }

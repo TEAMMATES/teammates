@@ -3,6 +3,7 @@ package teammates.common.datatransfer.attributes;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Assumption;
@@ -162,6 +163,33 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     @Override
     public String toString() {
         return JsonUtils.toJson(this, InstructorAttributes.class);
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email).append(this.name).append(this.courseId)
+                .append(this.googleId).append(this.displayedName).append(this.role);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            InstructorAttributes otherInstructor = (InstructorAttributes) other;
+            return Objects.equals(this.email, otherInstructor.email)
+                    && Objects.equals(this.name, otherInstructor.name)
+                    && Objects.equals(this.courseId, otherInstructor.courseId)
+                    && Objects.equals(this.googleId, otherInstructor.googleId)
+                    && Objects.equals(this.displayedName, otherInstructor.displayedName)
+                    && Objects.equals(this.role, otherInstructor.role);
+        } else {
+            return false;
+        }
     }
 
     @Override

@@ -11,7 +11,6 @@
 # Node.js
 node_modules/
 npm-debug.log
-package-lock.json
 coverage/*
 
 # Gradle
@@ -26,16 +25,14 @@ bin/
 .settings
 .launches
 test-output/*
-build-eclipse/
 .checkstyle
 .eclipse-pmd
 .tern-project
 
 # IntelliJ
-/.idea/
+.idea/
 *.iml
-/out/
-/.stylelintrc.yml
+out/
 
 # JMeter
 jmeter.log
@@ -54,6 +51,7 @@ geckodriver*
 chromedriver*
 api-output.ts
 api-request.ts
+api-endpoints.ts
 src/main/webapp/*
 !src/main/webapp/WEB-INF
 src/client/java/teammates/client/scripts/statistics/data/

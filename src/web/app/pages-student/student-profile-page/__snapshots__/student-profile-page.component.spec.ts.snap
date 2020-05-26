@@ -5,15 +5,14 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
   id=""
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   <div>
     <h1>
@@ -53,6 +52,13 @@ exports[`StudentProfilePageComponent should snap with a student field without in
                Upload/Edit Photo 
             </button>
             
+            <button
+              class="btn btn-danger"
+              id="profile-delete-photo"
+              ngbtooltip="Delete your profile picture"
+            >
+               Delete Photo 
+            </button>
           </div>
         </div>
         <form
@@ -228,13 +234,12 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
+  defaultPictureLink={[Function String]}
   id=""
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   
 </tm-student-profile-page>
@@ -245,18 +250,16 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
   id=""
   nationalities={[Function Array]}
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  pictureKey={[Function String]}
   profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   <div>
     <h1>

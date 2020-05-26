@@ -1,6 +1,6 @@
 <div *ngFor="let sectionInfo of responses | keyvalue">
   <div class="card margin-bottom-15px" *ngIf="!section || (sectionInfo.key == section)">
-    <div class="card-header bg-info text-white course-tab-header" (click)="expandSectionTab(sectionInfo.key, sectionInfo.value)">
+    <div class="card-header bg-info text-white course-tab-header" (click)="toggleAndLoadTab.emit(sectionInfo.key)">
       {{ sectionInfo.key }}
       <div class="float-right">
         <i class="fas fa-chevron-down" *ngIf="!sectionInfo.value.isTabExpanded"></i>
@@ -9,7 +9,12 @@
     </div>
     <div class="card-body" *ngIf="sectionInfo.value.isTabExpanded">
       <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="section" [sectionType]="sectionType"
-          [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="false"
+                                 [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="false" [session]="session"
+                                 [instructorCommentTableModel]="instructorCommentTableModel"
+                                 (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
+                                 (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                                 (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                                 (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
           style="margin-bottom: 20px;"></tm-gqr-rqg-view-responses>
     </div>
   </div>

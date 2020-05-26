@@ -380,7 +380,8 @@ public class TeamEvalResult {
         return replaceMagicNumbers(returnValue.toString());
     }
 
-    /** replaces 999 etc. with NA, NSB, NSU etc.
+    /**
+     * Replaces 999 etc. with NA, NSB, NSU etc.
      */
     public static String replaceMagicNumbers(String returnValue) {
         return returnValue.replace(NA + ".0", " NA")

@@ -4,7 +4,7 @@ import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
   DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
+import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
@@ -25,11 +25,7 @@ export class RankOptionsQuestionEditAnswerFormComponent
     super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS(), DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS());
   }
 
-  ngOnInit(): void {
-    if (this.responseDetails.answers.length !== this.questionDetails.options.length) {
-      this.responseDetails.answers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
-    }
-  }
+  ngOnInit(): void {}
 
   /**
    * Populates the possible Ranks that can be assigned.
@@ -55,7 +51,14 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Assigns a Rank to the option specified by index.
    */
   triggerResponse(index: number, event: any): void {
-    this.responseDetails.answers[index] = event;
+    let newAnswers: number[] = this.responseDetails.answers.slice();
+    if (newAnswers.length !== this.questionDetails.options.length) {
+      // initialize answers array on the fly
+      newAnswers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
+    }
+
+    newAnswers[index] = event;
+    this.triggerResponseDetailsChange('answers', newAnswers);
   }
 
   /**
@@ -75,14 +78,14 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Checks if a minimum number of options needs to be Ranked.
    */
   get isMinOptionsEnabled(): boolean {
-    return this.questionDetails.minOptionsToBeRanked !== -1;
+    return this.questionDetails.minOptionsToBeRanked !== NO_VALUE;
   }
 
   /**
    * Checks if a maximum number of options can be Ranked.
    */
   get isMaxOptionsEnabled(): boolean {
-    return this.questionDetails.maxOptionsToBeRanked !== -1;
+    return this.questionDetails.maxOptionsToBeRanked !== NO_VALUE;
   }
 
   /**

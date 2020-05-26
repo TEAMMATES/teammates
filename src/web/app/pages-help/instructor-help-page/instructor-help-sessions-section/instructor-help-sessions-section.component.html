@@ -1,16 +1,15 @@
-<!--TODO: Fix links-->
 <div>
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Sessions</h2>
   <!--Section-->
   <h3 *ngIf="displaySubsection(showQuestion, 0, 4)">Setting Up Sessions</h3>
   <!-- Question -->
-  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
+  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question id="tips-for-conducting-peer-eval">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="isPeerEvalTipsCollapsed = !isPeerEvalTipsCollapsed" [attr.aria-expanded]="!isPeerEvalTipsCollapsed">
         Tips for conducting team peer evaluation sessions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed">
+    <div [ngbCollapse]="!isPeerEvalTipsCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -60,11 +59,11 @@
   <!-- Question -->
   <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed1 = !isCollapsed1" [attr.aria-expanded]="!isCollapsed1">
+      <button type="button" class="btn btn-outline-primary" (click)="isNewFeedbackSessionCollapsed = !isNewFeedbackSessionCollapsed" [attr.aria-expanded]="!isNewFeedbackSessionCollapsed">
         How do I create and schedule a new feedback session?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed1">
+    <div [ngbCollapse]="!isNewFeedbackSessionCollapsed">
       <div class="card">
         <div class="card-body">
           To create a new feedback session, click the <b>Sessions</b> tab at the top of the page. Then,
@@ -136,20 +135,26 @@
           <p>
             This is the form used to set up sessions.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-session-edit-form [formMode]="SessionEditFormMode.ADD"
+                                  [model]="exampleSessionEditFormModel"
+                                  [courseCandidates]="exampleCourseCandidates"
+                                  [templateSessions]="exampleTemplateSessions">
+            </tm-session-edit-form>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
+  <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question id="session-questions">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2">
+      <button type="button" class="btn btn-outline-primary" (click)="isAddQuestionsCollapsed = !isAddQuestionsCollapsed" [attr.aria-expanded]="!isAddQuestionsCollapsed">
         How do I add questions to a session?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed2">
+    <div [ngbCollapse]="!isAddQuestionsCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -164,7 +169,7 @@
               Scroll to the bottom of the page.
             </li>
             <li>
-              Select between adding a question from our predefined <a href="#questions">question types</a> or
+              Select between adding a question from our predefined <a (click)="jumpTo('questions')" [routerLink]="">question types</a> or
               copying a question from an existing feedback session.
             </li>
             <li>
@@ -174,10 +179,24 @@
               When you are finished adding questions, click <button class="btn btn-primary">Done Editing</button>.
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <div class="card">
+              <div class="card-body background-color-light-blue text-center">
+                <div ngbDropdown class="d-inline-block">
+                  <button class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
+                  <div ngbDropdownMenu>
+                    <button class="dropdown-item">Choose from template questions</button>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-link"><i class="fas fa-info-circle"></i></button>
+                <button class="btn btn-primary">Copy Question</button>&nbsp;
+                <button class="btn btn-primary">Done Editing</button>
+              </div>
+            </div>
+          </tm-example-box>
           <p>
             TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
-            <a href="#questions">question types</a>,
+            <a (click)="jumpTo('questions')" [routerLink]="">question types</a>,
             you can also customize your desired:
           </p>
           <ul>
@@ -198,20 +217,45 @@
             The team member receiving feedback can see the feedback, but not who gave the feedback.
             Instructors can see who received what feedback, and who gave the feedback.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <div class="background-color-light-green margin-top-15px padding-15px">
+              <div>
+                <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
+              </div>
+              <div ngbDropdown class="margin-top-15px">
+                <button class="btn btn-light" ngbDropdownToggle [disabled]="true">
+                  <span>
+                    Students in this course will give feedback on <i class="fas fa-arrow-right"></i> Giver's team members
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="margin-top-15px padding-15px background-color-light-green">
+              <div>
+                <b>Visibility</b> (Who can see the responses?)
+              </div>
+              <div ngbDropdown class="margin-top-15px">
+                <button class="btn btn-light" ngbDropdownToggle [disabled]="true">
+                  <span>
+                    Shown anonymously to recipient and giver's team members, visible to instructor
+                  </span>
+                </button>
+              </div>
+            </div>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question id="session-preview">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3">
+      <button type="button" class="btn btn-outline-primary" (click)="isPreviewCollapsed = !isPreviewCollapsed" [attr.aria-expanded]="!isPreviewCollapsed">
         How do I preview a session?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed3">
+    <div [ngbCollapse]="!isPreviewCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -222,7 +266,29 @@
             To access the preview panel of a specific session, click the <button class="btn btn-sm btn-secondary">Edit</button> button for that session in the <b>Home</b> or <b>Sessions</b> page. The preview
             panel is located at the bottom of the Edit Feedback Session page.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <div class="card">
+              <div class="card-body background-color-light-blue text-center">
+                <div class="row align-items-center">
+                  <div class="col-2 text-right">
+                    <b>Preview Session:</b>
+                  </div>
+                  <div class="col-5" ngbTooltip="View how this session would look like to a student who is submitting feedback. Preview is unavailable if the course has yet to have any student enrolled.">
+                    <select class="form-control preview-select">
+                      <option *ngFor="let student of exampleStudents" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
+                    </select>
+                    <button class="btn btn-primary" [disabled]="true" >Preview as Student</button>
+                  </div>
+                  <div class="col-5" ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">
+                    <select class="form-control preview-select">
+                      <option *ngFor="let instructor of exampleInstructors" [ngValue]="instructor.email">{{ instructor.name }}</option>
+                    </select>
+                    <button class="btn btn-primary" [disabled]="true" >Preview as Instructor</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tm-example-box>
         </div>
       </div>
       <br/>
@@ -232,13 +298,13 @@
   <!--Section-->
   <h3 *ngIf="displaySubsection(showQuestion, 4, 7)">Managing Session Responses</h3>
   <!-- Question -->
-  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="session-cannot-submit">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4">
+      <button type="button" class="btn btn-outline-primary" (click)="isCannotSubmitCollapsed = !isCannotSubmitCollapsed" [attr.aria-expanded]="!isCannotSubmitCollapsed">
         What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed4">
+    <div [ngbCollapse]="!isCannotSubmitCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -249,7 +315,7 @@
               Ask the student to view the submission page and send you his/her answers to the session questions.
             </li>
             <li>
-              <a (click)="isCollapsed5 = !isCollapsed5" href="#">View the results</a> of the session.
+              <a (click)="jumpTo('session-view-results'); isViewResultsCollapsed = true" [routerLink]="">View the results</a> of the session.
             </li>
             <li>
               Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
@@ -267,13 +333,13 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
+  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="session-view-results">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5">
+      <button type="button" class="btn btn-outline-primary" (click)="isViewResultsCollapsed = !isViewResultsCollapsed" [attr.aria-expanded]="!isViewResultsCollapsed">
         How do I view the results of my session?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed5">
+    <div [ngbCollapse]="!isViewResultsCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -302,11 +368,11 @@
   <!--Question-->
   <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed6 = !isCollapsed6" [attr.aria-expanded]="!isCollapsed6">
+      <button type="button" class="btn btn-outline-primary" (click)="isViewAllResponsesCollapsed = !isViewAllResponsesCollapsed" [attr.aria-expanded]="!isViewAllResponsesCollapsed">
         How do I view all the responses a student has given and received?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed6">
+    <div [ngbCollapse]="!isViewAllResponsesCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -329,17 +395,17 @@
   <!--Section-->
   <h3 *ngIf="displaySubsection(showQuestion, 7, 10)">Adding Comments to Responses</h3>
   <!-- Question -->
-  <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
+  <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="session-add-comments">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed7 = !isCollapsed7" [attr.aria-expanded]="!isCollapsed7">
+      <button type="button" class="btn btn-outline-primary" (click)="isAddCommentCollapsed = !isAddCommentCollapsed" [attr.aria-expanded]="!isAddCommentCollapsed">
         How do I create a comment on a response?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed7">
+    <div [ngbCollapse]="!isAddCommentCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
-            While <a (click)="isCollapsed5 = !isCollapsed5" href="#">viewing the results</a> of a session, you can add comments to respondents' answers.
+            While <a (click)="jumpTo('session-view-results'); isViewResultsCollapsed = true" [routerLink]="">viewing the results</a> of a session, you can add comments to respondents' answers.
           </p>
           <p>
             To create comments on a response in a session:
@@ -367,11 +433,11 @@
   <!--Question-->
   <div class="instr-help-qn8" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed8 = !isCollapsed8" [attr.aria-expanded]="!isCollapsed8">
+      <button type="button" class="btn btn-outline-primary" (click)="isEditDelCommentCollapsed = !isEditDelCommentCollapsed" [attr.aria-expanded]="!isEditDelCommentCollapsed">
         How do I edit or delete a comment on a response?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed8">
+    <div [ngbCollapse]="!isEditDelCommentCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -379,7 +445,7 @@
           </p>
           <ol>
             <li>
-              Navigate to the page where you <a (click)="isCollapsed7 = !isCollapsed7" href="#">added the comment</a> that you want to edit or delete.
+              Navigate to the page where you <a (click)="jumpTo('session-add-comments'); isAddCommentCollapsed = true" [routerLink]="">added the comment</a> that you want to edit or delete.
             </li>
             <li>
               Hover over the comment which you want to edit or delete.
@@ -403,11 +469,11 @@
   <!--Question-->
   <div class="instr-help-qn9" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed9 = !isCollapsed9" [attr.aria-expanded]="!isCollapsed9">
+      <button type="button" class="btn btn-outline-primary" (click)="isSearchCollapsed = !isSearchCollapsed" [attr.aria-expanded]="!isSearchCollapsed">
         How do I search for a feedback session question, response or comment on a response?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed9">
+    <div [ngbCollapse]="!isSearchCollapsed">
       <div class="card">
         <div class="card-body">
           You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
@@ -438,23 +504,28 @@
   <!--Section-->
   <h3 *ngIf="displaySubsection(showQuestion, 10, 14)">Restoring Deleted Sessions</h3>
   <!-- Question -->
-  <div class="instr-help-qn10" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question>
+  <div class="instr-help-qn10" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question id="view-deleted-session">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed10 = !isCollapsed10" [attr.aria-expanded]="!isCollapsed10">
+      <button type="button" class="btn btn-outline-primary" (click)="isViewDeletedCollapsed = !isViewDeletedCollapsed" [attr.aria-expanded]="!isViewDeletedCollapsed">
         How do I view sessions I have deleted?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed10">
+    <div [ngbCollapse]="!isViewDeletedCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
             You can view all your deleted feedback sessions by navigating to the <b>Sessions</b> page.<br>
             Scroll to the <b>Deleted feedback sessions</b> heading, which looks similar to this:
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-sessions-recycle-bin-table
+                [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
+                [isRecycleBinExpanded]="false">
+            </tm-sessions-recycle-bin-table>
+          </tm-example-box>
           <p>
             The feedback sessions you have previously deleted are listed here.
-            In order to access information in a deleted session, <a (click)="isCollapsed11 = !isCollapsed11" href="#">restore the session</a>.
+            In order to access information in a deleted session, <a (click)="jumpTo('restore-session'); isRestoreSessionCollapsed = true" [routerLink]="">restore the session</a>.
           </p>
         </div>
       </div>
@@ -462,20 +533,25 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn11" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question>
+  <div class="instr-help-qn11" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question id="restore-session">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed11 = !isCollapsed11" [attr.aria-expanded]="!isCollapsed11">
+      <button type="button" class="btn btn-outline-primary" (click)="isRestoreSessionCollapsed = !isRestoreSessionCollapsed" [attr.aria-expanded]="!isRestoreSessionCollapsed">
         How do I restore a deleted session?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed11">
+    <div [ngbCollapse]="!isRestoreSessionCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
-            To restore a deleted feedback session, first <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
+            To restore a deleted feedback session, first <a (click)="jumpTo('view-deleted-session'); isViewDeletedCollapsed = true" [routerLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
             Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-sessions-recycle-bin-table
+                [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
+                [isRecycleBinExpanded]="true">
+            </tm-sessions-recycle-bin-table>
+          </tm-example-box>
           <p>
             After restoring the session, all the information relevant to the session (e.g. questions, responses, comments) will also be restored.
           </p>
@@ -487,18 +563,23 @@
   <!-- Question -->
   <div class="instr-help-qn12" *ngIf="showQuestion.length === 0 || showQuestion[12]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed12 = !isCollapsed12" [attr.aria-expanded]="!isCollapsed12">
+      <button type="button" class="btn btn-outline-primary" (click)="isDelSessionCollapsed = !isDelSessionCollapsed" [attr.aria-expanded]="!isDelSessionCollapsed">
         How do I permanently delete a session?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed12">
+    <div [ngbCollapse]="!isDelSessionCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
-            To permanently delete a feedback session, first <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
+            To permanently delete a feedback session, first <a (click)="jumpTo('view-deleted-session'); isViewDeletedCollapsed = true" [routerLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
             Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-sessions-recycle-bin-table
+                [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
+                [isRecycleBinExpanded]="true">
+            </tm-sessions-recycle-bin-table>
+          </tm-example-box>
           <p>
             After deleting the session, all the information relevant to the session (e.g. questions, responses, comments) will also be permanently deleted.
           </p>
@@ -510,19 +591,24 @@
   <!-- Question -->
   <div class="instr-help-qn13" *ngIf="showQuestion.length === 0 || showQuestion[13]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed13 = !isCollapsed13" [attr.aria-expanded]="!isCollapsed13">
+      <button type="button" class="btn btn-outline-primary" (click)="isRestoreDelAllCollapsed = !isRestoreDelAllCollapsed" [attr.aria-expanded]="!isRestoreDelAllCollapsed">
         How do I restore/delete all sessions from Recycle Bin?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed13">
+    <div [ngbCollapse]="!isRestoreDelAllCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
-            First <a (click)="isCollapsed10 = !isCollapsed10" href="#">view the session</a> and check for sessions in Recycle Bin.<br>
+            First <a (click)="jumpTo('view-deleted-session'); isViewDeletedCollapsed = true" [routerLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
             To restore all sessions, click on the <button href="#" class="btn btn-sm btn-secondary"><i class="fas fa-check"></i><strong> Restore All</strong></button> button in <b>Deleted feedback sessions</b> heading;
             to delete all sessions, click on the <button href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i><strong> Delete All</strong></button> button in <b>Deleted feedback sessions</b> heading.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-sessions-recycle-bin-table
+                [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
+                [isRecycleBinExpanded]="false">
+            </tm-sessions-recycle-bin-table>
+          </tm-example-box>
         </div>
       </div>
       <br/>

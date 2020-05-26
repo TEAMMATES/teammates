@@ -1357,10 +1357,6 @@ Default to alert color for visibility titles used within an alert context.
     padding: 14px 15px 15px;
 }
 
-.unanswered-exclamation-mark {
-    font-size: 200%;
-}
-
 .unanswered-message span {
     display: table-cell;
     vertical-align: middle;

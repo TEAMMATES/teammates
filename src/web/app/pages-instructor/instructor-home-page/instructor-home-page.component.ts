@@ -1,32 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseArchive,
   Courses,
   FeedbackSession,
   FeedbackSessions,
   InstructorPrivilege,
-  MessageOutput,
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   CopySessionResult,
   SessionsTableColumn,
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
-  SortBy,
-  SortOrder,
 } from '../../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
+import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
 interface CourseTabModel {
   course: Course;
@@ -48,7 +51,7 @@ interface CourseTabModel {
   templateUrl: './instructor-home-page.component.html',
   styleUrls: ['./instructor-home-page.component.scss'],
 })
-export class InstructorHomePageComponent extends InstructorSessionBasePageComponent implements OnInit {
+export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
 
   private static readonly coursesToLoad: number = 3;
   // enum
@@ -56,35 +59,35 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
   SortBy: typeof SortBy = SortBy;
 
-  user: string = '';
   studentSearchkey: string = '';
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // data
   courseTabModels: CourseTabModel[] = [];
 
+  hasCoursesLoaded: boolean = false;
+
   constructor(router: Router,
-              httpRequestService: HttpRequestService,
               statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
+              modalService: NgbModal,
+              studentService: StudentService,
+              instructorService: InstructorService,
+              tableComparatorService: TableComparatorService,
               private courseService: CourseService,
-              private route: ActivatedRoute,
               private ngbModal: NgbModal,
-              private timezoneService: TimezoneService) {
-    super(router, httpRequestService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService);
+              private timezoneService: TimezoneService,
+              private loadingBarService: LoadingBarService) {
+    super(router, instructorService, statusMessageService, navigationService,
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
     // need timezone data for moment()
     this.timezoneService.getTzVersion();
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-
-      this.loadCourses();
-    });
+    this.loadCourses();
   }
 
   /**
@@ -98,8 +101,8 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Handles click events on the course tab model.
    */
   handleClick(event: Event, courseTabModel: CourseTabModel): boolean {
-    if (event.srcElement &&
-        !event.srcElement.className.includes('dropdown-toggle')) {
+    if (event.target &&
+        !(event.target as HTMLElement).className.includes('dropdown-toggle')) {
       return !courseTabModel.isTabExpanded;
     }
     return courseTabModel.isTabExpanded;
@@ -125,13 +128,17 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    this.httpRequestService.put('/course', { courseid: courseId, archive: 'true' })
-      .subscribe((resp: MessageOutput) => {
-        this.loadCourses();
-        this.statusMessageService.showSuccessMessage(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+    this.courseService.changeArchiveStatus(courseId, {
+      archiveStatus: true,
+    }).subscribe((courseArchive: CourseArchive) => {
+      this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+        return model.course.courseId !== courseId;
       });
+      this.statusMessageService.showSuccessMessage(`The course ${courseArchive.courseId} has been archived.
+          You can retrieve it from the Courses page.`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 
   /**
@@ -139,9 +146,11 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   deleteCourse(courseId: string): void {
     this.courseService.binCourse(courseId).subscribe((course: Course) => {
-      this.loadCourses();
+      this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+        return model.course.courseId !== courseId;
+      });
       this.statusMessageService.showSuccessMessage(
-        `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -151,40 +160,41 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   loadCourses(): void {
     this.courseTabModels = [];
-    this.httpRequestService.get('/courses', {
-      entitytype: 'instructor',
-      coursestatus: 'active',
-    }).subscribe((courses: Courses) => {
-      courses.courses.forEach((course: Course) => {
-        const model: CourseTabModel = {
-          course,
-          instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
-          sessionsTableRowModels: [],
-          isTabExpanded: false,
-          isAjaxSuccess: true,
-          hasPopulated: false,
-          sessionsTableRowModelsSortBy: SortBy.NONE,
-          sessionsTableRowModelsSortOrder: SortOrder.ASC,
-        };
+    this.loadingBarService.showLoadingBar();
+    this.courseService.getInstructorCoursesThatAreActive()
+      .pipe(finalize(() => {
+        this.loadingBarService.hideLoadingBar();
+        this.hasCoursesLoaded = true;
+      })).subscribe((courses: Courses) => {
+        courses.courses.forEach((course: Course) => {
+          const model: CourseTabModel = {
+            course,
+            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            sessionsTableRowModels: [],
+            isTabExpanded: false,
+            isAjaxSuccess: true,
+            hasPopulated: false,
+            sessionsTableRowModelsSortBy: SortBy.NONE,
+            sessionsTableRowModelsSortOrder: SortOrder.ASC,
+          };
 
-        this.courseTabModels.push(model);
-        this.updateCourseInstructorPrivilege(model);
-      });
-      this.sortCoursesBy(this.instructorCoursesSortBy);
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.courseTabModels.push(model);
+          this.updateCourseInstructorPrivilege(model);
+        });
+        this.sortCoursesBy(this.instructorCoursesSortBy);
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
   /**
    * Updates the instructor privilege in {@code CourseTabModel}.
    */
   updateCourseInstructorPrivilege(model: CourseTabModel): void {
-    this.httpRequestService.get('/instructor/privilege', {
-      courseid: model.course.courseId,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      model.instructorPrivilege = instructorPrivilege;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    this.instructorService.loadInstructorPrivilege({ courseId: model.course.courseId })
+      .subscribe((instructorPrivilege: InstructorPrivilege) => {
+        model.instructorPrivilege = instructorPrivilege;
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**
@@ -265,14 +275,14 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
           strB = b.course.courseId;
           break;
         case SortBy.COURSE_CREATION_DATE:
-          strA = a.course.creationDate;
-          strB = b.course.creationDate;
+          strA = String(a.course.creationTimestamp);
+          strB = String(b.course.creationTimestamp);
           break;
         default:
           strA = '';
           strB = '';
       }
-      return strA.localeCompare(strB);
+      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
     });
   }
 
@@ -308,12 +318,11 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
    */
   moveSessionToRecycleBinEventHandler(tabIndex: number, rowIndex: number): void {
     const model: SessionsTableRowModel = this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex];
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
 
-    this.httpRequestService.put('/bin/session', paramMap)
+    this.feedbackSessionsService.moveSessionToRecycleBin(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
         .subscribe(() => {
           this.courseTabModels[tabIndex].sessionsTableRowModels.splice(
               this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model), 1);
@@ -358,18 +367,9 @@ export class InstructorHomePageComponent extends InstructorSessionBasePageCompon
   }
 
   /**
-   * Sends e-mails to remind students on the published results link.
+   * Downloads the result of a feedback session in csv.
    */
-  resendResultsLinkToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
-    this.resendResultsLinkToStudents(this.courseTabModels[tabIndex]
-        .sessionsTableRowModels[remindInfo.row], remindInfo.request);
-  }
-
-  /**
-   * Sends e-mails to remind students who have not submitted their feedback.
-   */
-  sendRemindersToStudentsEventHandler(tabIndex: number, remindInfo: any): void {
-    this.sendRemindersToStudents(this.courseTabModels[tabIndex]
-      .sessionsTableRowModels[remindInfo.row], remindInfo.request);
+  downloadSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
+    this.downloadSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
   }
 }

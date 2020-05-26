@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Sections } from './sections';
 
@@ -10,18 +11,26 @@ import { Sections } from './sections';
   templateUrl: './instructor-help-page.component.html',
   styleUrls: ['./instructor-help-page.component.scss'],
 })
-export class InstructorHelpPageComponent implements OnInit {
+export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
   searchTerm: String = '';
   key: String = '';
+  isEditDetailsCollapsed: boolean = false;
+  isPeerEvalTipsCollapsed: boolean = false;
 
-  @ViewChild('helpPage') bodyRef ?: ElementRef;
+  @ViewChild('helpPage', { static: false }) bodyRef ?: ElementRef;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.route.fragment.subscribe((f: string) => {
+      this.scroll(f);
+    });
   }
 
   /**
@@ -55,5 +64,21 @@ export class InstructorHelpPageComponent implements OnInit {
   clear(): void {
     this.searchTerm = '';
     this.key = '';
+  }
+
+  /**
+   * Collapses question card on student edit details in Students section.
+   */
+  collapseStudentEditDetails(event: boolean): void {
+    this.isEditDetailsCollapsed = event;
+    this.isEditDetailsCollapsed = Object.assign({}, this.isEditDetailsCollapsed);
+  }
+
+  /**
+   * Collapses question card on peer evaluation tips in Sessions section.
+   */
+  collapsePeerEvalTips(event: boolean): void {
+    this.isPeerEvalTipsCollapsed = event;
+    this.isPeerEvalTipsCollapsed = Object.assign({}, this.isPeerEvalTipsCollapsed);
   }
 }

@@ -3,10 +3,12 @@ package teammates.e2e.cases.lnp;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jorphan.collections.HashTree;
+import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,14 +17,12 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.e2e.util.JMeterElements;
+import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
 
 /**
@@ -30,19 +30,21 @@ import teammates.e2e.util.LNPTestData;
  */
 public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
-    private static final String JSON_DATA_PATH = "/studentProfileData.json";
-    private static final String CSV_CONFIG_PATH = "/studentProfileConfig.csv";
-
     private static final int NUMBER_OF_USER_ACCOUNTS = 500;
+    private static final int RAMP_UP_PERIOD = 2;
+
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
+
+    private static final double ERROR_RATE_LIMIT = 0.01;
+    private static final double MEAN_RESP_TIME_LIMIT = 1;
 
     @Override
     protected LNPTestData getTestData() {
         return new LNPTestData() {
             @Override
             protected Map<String, AccountAttributes> generateAccounts() {
-                Map<String, AccountAttributes> accounts = new HashMap<>();
+                Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
                     accounts.put(STUDENT_NAME + i, AccountAttributes.builder(STUDENT_NAME + i + ".tmms")
@@ -59,7 +61,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, CourseAttributes> generateCourses() {
-                Map<String, CourseAttributes> courses = new HashMap<>();
+                Map<String, CourseAttributes> courses = new LinkedHashMap<>();
 
                 courses.put("course", CourseAttributes.builder("TestData.CS101")
                         .withName("Intro To Programming")
@@ -72,7 +74,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, InstructorAttributes> generateInstructors() {
-                Map<String, InstructorAttributes> instructors = new HashMap<>();
+                Map<String, InstructorAttributes> instructors = new LinkedHashMap<>();
 
                 instructors.put("teammates.test.instructor",
                         InstructorAttributes.builder("TestData.CS101", "tmms.test@gmail.tmt")
@@ -91,7 +93,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, StudentAttributes> generateStudents() {
-                Map<String, StudentAttributes> students = new HashMap<>();
+                Map<String, StudentAttributes> students = new LinkedHashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
                     students.put(STUDENT_NAME + i,
@@ -109,28 +111,8 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
             }
 
             @Override
-            protected Map<String, FeedbackSessionAttributes> generateFeedbackSessions() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
-                return new HashMap<>();
-            }
-
-            @Override
-            protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
-                return new HashMap<>();
-            }
-
-            @Override
             protected Map<String, StudentProfileAttributes> generateProfiles() {
-                Map<String, StudentProfileAttributes> profiles = new HashMap<>();
+                Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
 
                 for (int i = 0; i < NUMBER_OF_USER_ACCOUNTS; i++) {
                     profiles.put(STUDENT_NAME + i, StudentProfileAttributes.builder(STUDENT_NAME + i + ".tmms")
@@ -152,22 +134,22 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
             public List<String> generateCsvHeaders() {
                 List<String> headers = new ArrayList<>();
 
-                headers.add("email");
+                headers.add("loginId");
                 headers.add("isAdmin");
-                headers.add("googleid");
+                headers.add("googleId");
 
                 return headers;
             }
 
             @Override
             public List<List<String>> generateCsvData() {
-                DataBundle dataBundle = loadDataBundle(JSON_DATA_PATH);
+                DataBundle dataBundle = loadDataBundle(getJsonDataPath());
                 List<List<String>> csvData = new ArrayList<>();
 
                 dataBundle.students.forEach((key, student) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(student.googleId); // "googleid" is used for logging in, not "email"
+                    csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
                     csvRow.add("no");
                     csvRow.add(student.googleId);
 
@@ -179,58 +161,54 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
         };
     }
 
-    @Override
-    protected String getCsvConfigPath() {
-        return CSV_CONFIG_PATH;
+    private String getTestEndpoint() {
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleId}";
     }
 
     @Override
-    protected String getJsonDataPath() {
-        return JSON_DATA_PATH;
+    protected ListedHashTree getLnpTestPlan() {
+        ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
+        HashTree threadGroup = testPlan.add(
+                JMeterElements.threadGroup(NUMBER_OF_USER_ACCOUNTS, RAMP_UP_PERIOD, 1));
+
+        threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
+        threadGroup.add(JMeterElements.cookieManager());
+        threadGroup.add(JMeterElements.defaultSampler());
+        threadGroup.add(JMeterElements.onceOnlyController())
+                .add(JMeterElements.loginSampler());
+
+        // Add HTTP sampler for test endpoint
+        threadGroup.add(JMeterElements.httpGetSampler(getTestEndpoint()));
+
+        return testPlan;
     }
 
     @Override
-    protected int getNumberOfThreads() {
-        return NUMBER_OF_USER_ACCOUNTS;
-    }
-
-    @Override
-    protected int getRampUpPeriod() {
-        return 2;
-    }
-
-    @Override
-    protected String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleid}";
-    }
-
-    @Override
-    protected String getTestMethod() {
-        return GET;
-    }
-
-    @Override
-    protected Map<String, String> getRequestParameters() {
-        Map<String, String> args = new HashMap<>();
-        args.put("googleid", "${googleid}");
-        return args;
+    protected void setupSpecification() {
+        this.specification = LNPSpecification.builder()
+                .withErrorRateLimit(ERROR_RATE_LIMIT)
+                .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
+                .build();
     }
 
     @BeforeClass
     public void classSetup() {
+        generateTimeStamp();
         createTestData();
-        persistTestData(JSON_DATA_PATH);
+        setupSpecification();
     }
 
     @Test
     public void runLnpTest() throws IOException {
         runJmeter(false);
+        displayLnpResults();
     }
 
     @AfterClass
     public void classTearDown() throws IOException {
-        deleteTestData(JSON_DATA_PATH);
+        deleteTestData();
         deleteDataFiles();
+        cleanupResults();
     }
 
 }

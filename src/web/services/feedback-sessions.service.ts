@@ -1,9 +1,23 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { FeedbackQuestion, FeedbackSession,
-  FeedbackSessions, HasResponses, OngoingSessions } from '../types/api-output';
-import { FeedbackSessionCreateRequest, FeedbackSessionUpdateRequest } from '../types/api-request';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import {
+  ConfirmationResponse,
+  FeedbackQuestion,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessions, FeedbackSessionStats, FeedbackSessionSubmittedGiverSet,
+  HasResponses,
+  MessageOutput,
+  OngoingSessions, SessionLinksRecoveryResponse, SessionResults,
+} from '../types/api-output';
+import {
+  FeedbackSessionCreateRequest,
+  FeedbackSessionStudentRemindRequest,
+  FeedbackSessionUpdateRequest, Intent,
+} from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -22,7 +36,8 @@ export interface TemplateSession {
 })
 export class FeedbackSessionsService {
 
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {
+  }
 
   /**
    * Gets template sessions.
@@ -32,11 +47,44 @@ export class FeedbackSessionsService {
   }
 
   /**
+   * Retrieves a feedback session by calling API.
+   */
+  getFeedbackSession(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    intent: Intent,
+    key?: string,
+    moderatedPerson?: string,
+    previewAs?: string,
+  }): Observable<FeedbackSession> {
+    // load feedback session
+    const paramMap: Record<string, string> = {
+      intent: queryParams.intent,
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+    };
+
+    if (queryParams.key) {
+      paramMap.key = queryParams.key;
+    }
+
+    if (queryParams.moderatedPerson) {
+      paramMap.moderatedperson = queryParams.moderatedPerson;
+    }
+
+    if (queryParams.previewAs) {
+      paramMap.previewas = queryParams.previewAs;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
+  }
+
+  /**
    * Creates a feedback session by calling API.
    */
   createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = { courseid: courseId };
-    return this.httpRequestService.post('/session', paramMap, request);
+    const paramMap: Record<string, string> = { courseid: courseId };
+    return this.httpRequestService.post(ResourceEndpoints.SESSION, paramMap, request);
   }
 
   /**
@@ -44,19 +92,27 @@ export class FeedbackSessionsService {
    */
   updateFeedbackSession(courseId: string, feedbackSessionName: string, request: FeedbackSessionUpdateRequest):
       Observable<FeedbackSession> {
-    const paramMap: { [key: string]: string } = { courseid: courseId, fsname: feedbackSessionName };
-    return this.httpRequestService.put('/session', paramMap, request);
+    const paramMap: Record<string, string> = { courseid: courseId, fsname: feedbackSessionName };
+    return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
+  }
+
+  /**
+   * Deletes a feedback session by calling API.
+   */
+  deleteFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+    const paramMap: Record<string, string> = { courseid: courseId, fsname: feedbackSessionName };
+    return this.httpRequestService.delete(ResourceEndpoints.SESSION, paramMap);
   }
 
   /**
    * Gets all ongoing session by calling API.
    */
   getOngoingSessions(startTime: number, endTime: number): Observable<OngoingSessions> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       starttime: String(startTime),
       endtime: String(endTime),
     };
-    return this.httpRequestService.get('/sessions/ongoing', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SESSIONS_ONGOING, paramMap);
   }
 
   /**
@@ -64,20 +120,20 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionsForInstructor(courseId?: string): Observable<FeedbackSessions> {
 
-    let paramMap: { [key: string]: string };
+    let paramMap: Record<string, string>;
     if (courseId != null) {
       paramMap = {
         entitytype: 'instructor',
         courseid: courseId,
       };
-    }  else {
+    } else {
       paramMap = {
         entitytype: 'instructor',
         isinrecyclebin: 'false',
       };
     }
 
-    return this.httpRequestService.get('/sessions', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
   }
 
   /**
@@ -85,12 +141,12 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionsInRecycleBinForInstructor(): Observable<FeedbackSessions> {
 
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
       entitytype: 'instructor',
       isinrecyclebin: 'true',
     };
 
-    return this.httpRequestService.get('/sessions', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
   }
 
   /**
@@ -98,7 +154,7 @@ export class FeedbackSessionsService {
    */
   getFeedbackSessionsForStudent(courseId?: string): Observable<FeedbackSessions> {
 
-    let paramMap: { [key: string]: string };
+    let paramMap: Record<string, string>;
     if (courseId != null) {
       paramMap = {
         entitytype: 'student',
@@ -110,17 +166,236 @@ export class FeedbackSessionsService {
       };
     }
 
-    return this.httpRequestService.get('/sessions', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
   }
 
   /**
-   * Checks if there are responses for a specific question in a feedback session.
+   * Checks if there are responses for a specific question in a feedback session (request sent by instructor).
    */
   hasResponsesForQuestion(questionId: string): Observable<HasResponses> {
-    const paramMap: { [key: string]: string } = {
+    const paramMap: Record<string, string> = {
+      entitytype: 'instructor',
       questionid: questionId,
     };
-    return this.httpRequestService.get('/hasResponses', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
   }
 
+  /**
+   * Checks if there is response of a student for a feedback session (request sent by student).
+   */
+  hasStudentResponseForFeedbackSession(courseId: string, feedbackSessionName: string): Observable<HasResponses> {
+    const paramMap: Record<string, string> = {
+      entitytype: 'student',
+      courseid: courseId,
+      fsname: feedbackSessionName,
+
+    };
+    return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
+  }
+
+  /**
+   * Sends e-mails to remind students who have not submitted their feedback.
+   */
+  remindFeedbackSessionSubmissionForStudent(
+      courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
+      : Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_REMIND_SUBMISSION, paramMap, request);
+  }
+
+  /**
+   * Saves and confirms a submission by posting it using API.
+   */
+  confirmSubmission(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    sendSubmissionEmail: string,
+    intent: string,
+    key: string,
+    moderatedPerson: string,
+  }): Observable<ConfirmationResponse> {
+    const paramMap: Record<string, string> = {
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+      sendsubmissionemail: queryParams.sendSubmissionEmail,
+      intent: queryParams.intent,
+      key: queryParams.key,
+      moderatedperson: queryParams.moderatedPerson,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.SUBMISSION_CONFIRMATION, paramMap);
+  }
+
+  /**
+   * Sends e-mails to remind students on the published results link.
+   */
+  remindResultsLinkToStudents(
+      courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
+      : Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_REMIND_RESULT, paramMap, request);
+  }
+
+  /**
+   * Gets a set of givers that has given at least one response in the feedback session.
+   */
+  getFeedbackSessionSubmittedGiverSet(queryParams: { courseId: string, feedbackSessionName: string }):
+      Observable<FeedbackSessionSubmittedGiverSet> {
+    const paramMap: Record<string, string> = {
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMITTED_GIVER_SET, paramMap);
+  }
+
+  /**
+   * publishes a feedback session.
+   */
+  publishFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_PUBLISH, paramMap);
+  }
+
+  /**
+   * Unpublishes a feedback session.
+   */
+  unpublishFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.delete(ResourceEndpoints.SESSION_PUBLISH, paramMap);
+  }
+
+  /**
+   * Load session statistics.
+   */
+  loadSessionStatistics(courseId: string, feedbackSessionName: string): Observable<FeedbackSessionStats> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_STATS, paramMap);
+  }
+
+  /**
+   * Download session results.
+   */
+  downloadSessionResults(courseId: string,
+                         feedbackSessionName: string,
+                         userIntent: string,
+                         indicateMissingResponses: boolean,
+                         showStatistics: boolean): Observable<any> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+      intent: userIntent,
+      frindicatemissingresponses: indicateMissingResponses ? 'true' : 'false',
+      frshowstats: showStatistics ? 'true' : 'false',
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.RESULT_CSV, paramMap, 'text');
+  }
+
+  /**
+   * Retrieves the results for a feedback session.
+   */
+  getFeedbackSessionsResult(queryParams: {
+    courseId: string,
+    feedbackSessionName: string,
+    intent: Intent
+    questionId?: string,
+    groupBySection?: string,
+  }): Observable<SessionResults> {
+    const paramMap: Record<string, string> = {
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+      intent: queryParams.intent,
+    };
+
+    if (queryParams.questionId) {
+      paramMap.questionid = queryParams.questionId;
+    }
+
+    if (queryParams.groupBySection) {
+      paramMap.frgroupbysection = queryParams.groupBySection;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.RESULT, paramMap);
+  }
+
+  /**
+   * Soft delete a session by moving it to the recycle bin.
+   */
+  moveSessionToRecycleBin(courseId: string, feedbackSessionName: string): Observable<any> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.put(ResourceEndpoints.BIN_SESSION, paramMap);
+  }
+
+  /**
+   * Removes a session from the recycle bin.
+   */
+  deleteSessionFromRecycleBin(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+
+    return this.httpRequestService.delete(ResourceEndpoints.BIN_SESSION, paramMap);
+  }
+
+  sendFeedbackSessionLinkToRecoveryEmail(queryParam: {
+    sessionLinksRecoveryEmail: string,
+    captchaResponse: string,
+  }): Observable<SessionLinksRecoveryResponse> {
+    const paramMap: Record<string, string> = {
+      sessionlinksrecoveryemail: queryParam.sessionLinksRecoveryEmail,
+      captcharesponse: queryParam.captchaResponse,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_LINKS_RECOVERY, paramMap);
+  }
+
+  /**
+   * Checks if a given feedback session is still open.
+   */
+  isFeedbackSessionOpen(feedbackSession: FeedbackSession): boolean {
+    const date: number = Date.now();
+    return date >= feedbackSession.submissionStartTimestamp && date < feedbackSession.submissionEndTimestamp;
+  }
+
+  /**
+   * Checks if a given feedback session is published.
+   */
+  isFeedbackSessionPublished(feedbackSession: FeedbackSession): boolean {
+    return feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+  }
+
+  /**
+   * Generates the name fragment of a feedbackSession for display on the frontend.
+   */
+  generateNameFragment(feedbackSession: FeedbackSession): string {
+    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM yyyy, hh:mm A Z';
+    const startTime: string = moment(feedbackSession.submissionStartTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO);
+    const endTime: string = moment(feedbackSession.submissionEndTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO);
+    return `${feedbackSession.feedbackSessionName} ${startTime}-${endTime}`;
+  }
 }

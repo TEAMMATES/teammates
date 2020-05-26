@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
-import { Intent } from '../Intent';
+import { Intent } from '../../types/api-request';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
 
@@ -82,7 +82,7 @@ const routes: Routes = [
       {
         path: '',
         data: {
-          pageTitle: 'Add New Course',
+          pageTitle: 'Courses',
         },
         component: InstructorCoursesPageComponent,
       },
@@ -126,7 +126,7 @@ const routes: Routes = [
         path: '',
         component: InstructorSessionsPageComponent,
         data: {
-          pageTitle: 'Add New Feedback Session',
+          pageTitle: 'Feedback Sessions',
         },
       },
       {

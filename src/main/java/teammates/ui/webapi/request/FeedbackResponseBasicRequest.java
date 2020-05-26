@@ -21,7 +21,15 @@ public class FeedbackResponseBasicRequest extends BasicRequest {
         return recipientIdentifier;
     }
 
+    /**
+     * Gets the question type of the response.
+     */
     public FeedbackQuestionType getQuestionType() {
+        // TODO remove this after migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
+        if (questionType == FeedbackQuestionType.CONSTSUM_OPTIONS
+                || questionType == FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+            return FeedbackQuestionType.CONSTSUM;
+        }
         return questionType;
     }
 
@@ -30,9 +38,21 @@ public class FeedbackResponseBasicRequest extends BasicRequest {
      */
     public FeedbackResponseDetails getResponseDetails() {
         FeedbackResponseDetails details =
-                JsonUtils.fromJson(JsonUtils.toJson(responseDetails), questionType.getResponseDetailsClass());
-        details.setQuestionType(questionType);
+                JsonUtils.fromJson(JsonUtils.toJson(responseDetails), getQuestionType().getResponseDetailsClass());
+        details.setQuestionType(getQuestionType());
         return details;
+    }
+
+    public void setRecipientIdentifier(String recipientIdentifier) {
+        this.recipientIdentifier = recipientIdentifier;
+    }
+
+    public void setQuestionType(FeedbackQuestionType feedbackQuestionType) {
+        this.questionType = feedbackQuestionType;
+    }
+
+    public void setResponseDetails(FeedbackResponseDetails feedbackResponseDetails) {
+        this.responseDetails = JsonUtils.fromJson(JsonUtils.toJson(feedbackResponseDetails), Map.class);
     }
 
     @Override

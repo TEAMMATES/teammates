@@ -3,26 +3,21 @@ package teammates.common.datatransfer.questions;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.logic.core.FeedbackQuestionsLogic;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
     private int numOfConstSumOptions;
@@ -59,91 +54,32 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributePointsFor = distributePointsFor;
     }
 
-    @Override
-    public boolean extractQuestionDetails(
-            Map<String, String[]> requestParameters,
-            FeedbackQuestionType questionType) {
-
-        String distributeToRecipientsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
-        String pointsPerOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
-        String totalPointsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
-        String pointsForEachOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION);
-        String pointsForEachRecipientString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT);
-
-        String forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
-        String distributePointsOption = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEPOINTSOPTIONS);
-
-        boolean distributeToRecipients = "true".equals(distributeToRecipientsString);
-        boolean pointsPerOption = "true".equals(pointsPerOptionString);
-
-        int points = 0;
-        if (pointsPerOption) {
-            String pointsString = distributeToRecipients ? pointsForEachRecipientString : pointsForEachOptionString;
-            Assumption.assertNotNull("Null points for each recipient/option", pointsString);
-            points = Integer.parseInt(pointsString);
-        } else {
-            Assumption.assertNotNull("Null points in total", totalPointsString);
-            points = Integer.parseInt(totalPointsString);
-        }
-
-        boolean forceUnevenDistribution = "on".equals(forceUnevenDistributionString);
-
-        if (distributeToRecipients) {
-            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution,
-                    distributePointsOption);
-        } else {
-            String numConstSumOptionsCreatedString =
-                    HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
-            Assumption.assertNotNull("Null number of choice for ConstSum", numConstSumOptionsCreatedString);
-            int numConstSumOptionsCreated = Integer.parseInt(numConstSumOptionsCreatedString);
-
-            for (int i = 0; i < numConstSumOptionsCreated; i++) {
-                String constSumOption =
-                        HttpRequestHelper.getValueFromParamMap(
-                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
-                if (constSumOption != null && !constSumOption.trim().isEmpty()) {
-                    constSumOptions.add(constSumOption);
-                    numOfConstSumOptions++;
-                }
-            }
-            this.setConstantSumQuestionDetails(constSumOptions, pointsPerOption, points, forceUnevenDistribution,
-                    distributePointsOption);
-        }
-        return true;
+    public void setNumOfConstSumOptions(int numOfConstSumOptions) {
+        this.numOfConstSumOptions = numOfConstSumOptions;
     }
 
-    private void setConstantSumQuestionDetails(
-            List<String> constSumOptions, boolean pointsPerOption,
-            int points, boolean unevenDistribution, String distributePointsOption) {
-
-        this.numOfConstSumOptions = constSumOptions.size();
+    public void setConstSumOptions(List<String> constSumOptions) {
         this.constSumOptions = constSumOptions;
-        this.distributeToRecipients = false;
-        this.pointsPerOption = pointsPerOption;
-        this.points = points;
-        this.forceUnevenDistribution = unevenDistribution;
-        this.distributePointsFor = distributePointsOption;
-
     }
 
-    private void setConstantSumQuestionDetails(boolean pointsPerOption,
-            int points, boolean unevenDistribution, String distributePointsOption) {
+    public void setDistributeToRecipients(boolean distributeToRecipients) {
+        this.distributeToRecipients = distributeToRecipients;
+    }
 
-        this.numOfConstSumOptions = 0;
-        this.constSumOptions = new ArrayList<>();
-        this.distributeToRecipients = true;
+    public void setPointsPerOption(boolean pointsPerOption) {
         this.pointsPerOption = pointsPerOption;
+    }
+
+    public void setForceUnevenDistribution(boolean forceUnevenDistribution) {
+        this.forceUnevenDistribution = forceUnevenDistribution;
+    }
+
+    public void setDistributePointsFor(String distributePointsFor) {
+        this.distributePointsFor = distributePointsFor;
+    }
+
+    public void setPoints(int points) {
         this.points = points;
-        this.forceUnevenDistribution = unevenDistribution;
-        this.distributePointsFor = distributePointsOption;
     }
 
     @Override
@@ -676,7 +612,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
@@ -690,40 +626,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         if (!FieldValidator.areElementsUnique(constSumOptions)) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
-        }
-
-        return errors;
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        List<String> errors = new ArrayList<>();
-
-        if (responses.isEmpty()) {
-            //No responses, no errors.
-            return errors;
-        }
-
-        String fqId = responses.get(0).feedbackQuestionId;
-        FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-        FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(fqId);
-
-        int numOfResponseSpecific = fqa.numberOfEntitiesToGiveFeedbackTo;
-        int maxResponsesPossible = numRecipients;
-        if (numOfResponseSpecific == Const.MAX_POSSIBLE_RECIPIENTS
-                || numOfResponseSpecific > maxResponsesPossible) {
-            numOfResponseSpecific = maxResponsesPossible;
-        }
-
-        int numOptions = distributeToRecipients ? numOfResponseSpecific : constSumOptions.size();
-        int totalPoints = pointsPerOption ? points * numOptions : points;
-
-        if (distributeToRecipients) {
-            errors = getErrorsForConstSumRecipients(responses, totalPoints);
-        } else {
-            errors = getErrorsForConstSumOptions(responses, totalPoints);
         }
 
         return errors;
@@ -747,6 +649,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return constSumOptions;
     }
 
+    public String getDistributePointsFor() {
+        return distributePointsFor;
+    }
+
+    public boolean isForceUnevenDistribution() {
+        return forceUnevenDistribution;
+    }
+
     public boolean isDistributeToRecipients() {
         return distributeToRecipients;
     }
@@ -757,85 +667,5 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     public int getPoints() {
         return points;
-    }
-
-    private List<String> getErrorsForConstSumOptions(List<FeedbackResponseAttributes> responses, int totalPoints) {
-        List<String> errors = new ArrayList<>();
-
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
-            List<Integer> givenPoints = frd.getAnswerList();
-
-            errors = getErrors(givenPoints, totalPoints);
-
-            //Return an error if any response is erroneous
-            if (!errors.isEmpty()) {
-                return errors;
-            }
-        }
-        return errors;
-    }
-
-    private List<String> getErrorsForConstSumRecipients(List<FeedbackResponseAttributes> responses, int totalPoints) {
-        List<Integer> givenPoints = new ArrayList<>();
-
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails) response.getResponseDetails();
-
-            int givenPoint = frd.getAnswerList().get(0);
-            givenPoints.add(givenPoint);
-        }
-
-        return getErrors(givenPoints, totalPoints);
-    }
-
-    private List<String> getErrors(List<Integer> givenPoints, int totalPoints) {
-        List<String> errors = new ArrayList<>();
-
-        //Check that all points are >= 0
-        int sum = 0;
-        for (int i : givenPoints) {
-            if (i < 0) {
-                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
-                return errors;
-            }
-
-            sum += i;
-        }
-
-        //Check that points sum up properly
-        if (sum != totalPoints) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH);
-            return errors;
-        }
-
-        //Check that points are given unevenly for all/at least some options as per the question settings
-        Set<Integer> answerSet = new HashSet<>();
-        if (givenPoints.size() > 1 && distributePointsFor.equals(
-                FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
-            boolean hasDifferentPoints = false;
-            for (int i : givenPoints) {
-                if (!answerSet.isEmpty() && !answerSet.contains(i)) {
-                    hasDifferentPoints = true;
-                    break;
-                }
-                answerSet.add(i);
-            }
-
-            if (!hasDifferentPoints) {
-                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
-                return errors;
-            }
-        } else if (givenPoints.size() > 1 && (forceUnevenDistribution || distributePointsFor.equals(
-                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption()))) {
-            for (int i : givenPoints) {
-                if (answerSet.contains(i)) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
-                    return errors;
-                }
-                answerSet.add(i);
-            }
-        }
-        return errors;
     }
 }

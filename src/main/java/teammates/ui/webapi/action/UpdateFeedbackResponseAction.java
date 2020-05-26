@@ -16,6 +16,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.request.FeedbackResponseUpdateRequest;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Updates a feedback response.
@@ -89,11 +90,15 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
                     feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
             giverSection = studentAttributes.getSection();
+            logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                    studentAttributes.getEmail(), studentAttributes.getTeam());
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructorAttributes.getEmail();
             giverSection = Const.DEFAULT_SECTION;
+            logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                    instructorAttributes.getEmail(), null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

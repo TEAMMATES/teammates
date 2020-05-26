@@ -5,115 +5,23 @@
       <small>(select the student(s) you want to remind)</small>
     </h5>
     <div class="form-check form-check-inline">
-      <input id="remindAll" class="form-check-input" type="checkbox" [(ngModel)]="checkAll" (change)="checkAllStudentsHandler()"/>
+      <input id="remindAll" class="form-check-input" type="checkbox" [ngModel]="isAllStudentsSelected" (ngModelChange)="changeSelectionStatusForAllStudentsHandler($event)"/>
       <label for="remindAll" class="remind-all form-check-label">Select all respondents</label>
-      <input id="remindNotSubmitted" class="form-check-input" type="checkbox" [(ngModel)]="checkAllYetSubmitted" (change)="checkAllYetSubmittedStudents(); bindSelectedCheckboxes()"/>
+      <input id="remindNotSubmitted" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitStudentsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedStudentsHandler($event)"/>
       <label for="remindNotSubmitted" class="form-check-label">Select all respondents not yet submitted</label>
     </div>
   </div>
   <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
 </div>
 <div class="modal-body">
-  <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
-  <div class="table-responsive" *ngIf="studentStatusTableRows.length > 0; else noStudentsToRemind">
-    <table class="table table-bordered">
-      <tr class="background-color-medium-gray">
-        <th></th>
-        <th (click)="sortStudentsTableRows(SortBy.SECTION_NAME)" class="clickable">
-          Section
-          <span *ngIf="studentsTableRowSortBy !== SortBy.SECTION_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.SECTION_NAME && studentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.SECTION_NAME && studentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-        </th>
-        <th (click)="sortStudentsTableRows(SortBy.TEAM_NAME)" class="clickable">
-          Team
-          <span *ngIf="studentsTableRowSortBy !== SortBy.TEAM_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.TEAM_NAME && studentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.TEAM_NAME && studentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-        </th>
-        <th (click)="sortStudentsTableRows(SortBy.STUDENT_NAME)" class="clickable">
-          Student Name
-          <span *ngIf="studentsTableRowSortBy !== SortBy.STUDENT_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.STUDENT_NAME && studentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.STUDENT_NAME && studentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-        </th>
-        <th (click)="sortStudentsTableRows(SortBy.STUDENT_EMAIL)" class="clickable">
-          Email
-          <span *ngIf="studentsTableRowSortBy !== SortBy.STUDENT_EMAIL"><i class="fas fa-sort"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.STUDENT_EMAIL && studentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.STUDENT_EMAIL && studentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-        </th>
-        <th (click)="sortStudentsTableRows(SortBy.SUBMIT_STATUS)" class="clickable">
-          Submitted?
-          <span *ngIf="studentsTableRowSortBy !== SortBy.SUBMIT_STATUS"><i class="fas fa-sort"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.SUBMIT_STATUS && studentsTableRowSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="studentsTableRowSortBy === SortBy.SUBMIT_STATUS && studentsTableRowSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-        </th>
-      </tr>
-      <ng-container *ngFor="let remindStudentRow of studentStatusTableRows">
-        <ng-container *ngIf="!remindStudentRow.feedbackSessionStudentResponse.responseStatus">
-          <tr class="bg-warning">
-            <td class="align-center">
-                <label>
-                  <input type="checkbox" (change)="bindSelectedCheckboxes()" [(ngModel)]="remindStudentRow.isChecked">
-                </label>
-            </td>
-            <td>
-              {{ remindStudentRow.feedbackSessionStudentResponse.sectionName }}
-            </td>
-            <td>
-              {{ remindStudentRow.feedbackSessionStudentResponse.teamName }}
-            </td>
-            <td>
-              {{ remindStudentRow.feedbackSessionStudentResponse.name }}
-            </td>
-            <td>
-              {{ remindStudentRow.feedbackSessionStudentResponse.email }}
-            </td>
-            <td>
-              No
-            </td>
-          </tr>
-        </ng-container>
-        <ng-container *ngIf="remindStudentRow.feedbackSessionStudentResponse.responseStatus">
-          <tr class="bg-light">
-            <td class="align-center">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" (change)="bindSelectedCheckboxes()" [(ngModel)]="remindStudentRow.isChecked">
-                </label>
-              </div>
-            </td>
-            <td>
-              {{ remindStudentRow.feedbackSessionStudentResponse.sectionName }}
-            </td>
-            <td>
-              {{ remindStudentRow.feedbackSessionStudentResponse.teamName }}
-            </td>
-            <td>
-              {{ remindStudentRow.feedbackSessionStudentResponse.name }}
-            </td>
-            <td>
-              {{ remindStudentRow.feedbackSessionStudentResponse.email }}
-            </td>
-            <td>
-              Yes
-            </td>
-          </tr>
-        </ng-container>
-      </ng-container>
-    </table>
+  <div class="table-responsive" *ngIf="studentListInfoTableRowModels.length > 0; else noStudentsToRemind">
+    <tm-student-list-info-table [(studentListInfoTableRowModels)]="studentListInfoTableRowModels" [shouldDisplayHasSubmittedSessionColumn]="true"></tm-student-list-info-table>
   </div>
   <ng-template #noStudentsToRemind>
     <h4 class="p-2 bg-info text-white">
       There are no students enrolled to remind.
     </h4>
   </ng-template>
-  <div *ngIf="!isAjaxSuccess">
-    Failed to load. Click
-    <span class="clickable" (click)="initializeStudentsStatusTable()">here</span>
-    to retry.
-  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>

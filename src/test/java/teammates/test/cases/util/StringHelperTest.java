@@ -6,13 +6,13 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.crypto.Cipher;
+import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.testng.annotations.Test;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -56,72 +56,6 @@ public class StringHelperTest extends BaseTestCase {
         assertTrue(StringHelper.isMatching("\u00E0", "à"));
         assertTrue(StringHelper.isMatching("\u0061\u0300", "à"));
         assertFalse(StringHelper.isMatching("Héllo", "Hello"));
-    }
-
-    @Test
-    public void testIsAnyMatching() {
-        //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
-        //so use this to test the various header field regex expressions here
-
-        List<String> regexList = FieldValidator.REGEX_COLUMN_NAME;
-        String[] stringsToMatch = {
-                "names", "name", " name ", " names ", "student name", "students names",
-                "student names", "students name", "full name", "full names", "full   names",
-                "student full names", "students full    names", "Names", "NAMES", "Full Names",
-                "FULL NAMES", "Full Name", "Student Full Name", "Name",
-        };
-        verifyRegexMatch(stringsToMatch, regexList, true);
-
-        stringsToMatch = new String[] {"namess", "nam", "student", "full"};
-        verifyRegexMatch(stringsToMatch, regexList, false);
-
-        regexList = FieldValidator.REGEX_COLUMN_SECTION;
-        stringsToMatch = new String[] {
-                "section", "sections", "sect", "sec", "course sections", "courses sections",
-                "course section", "course sections", "course sec", "courses sec", "Section",
-                "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections",
-        };
-        verifyRegexMatch(stringsToMatch, regexList, true);
-
-        stringsToMatch = new String[] {"secc", "Section 1", "Course 1"};
-        verifyRegexMatch(stringsToMatch, regexList, false);
-
-        regexList = FieldValidator.REGEX_COLUMN_TEAM;
-        stringsToMatch = new String[] {
-                "team", "teams", "Team", "TEAMS", "group", "Group",
-                "Groups", "GROUPS", "student teams", "students teams ", "student team",
-                "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
-                "Student Groups", "student   groups", "student   teams", "Course Teams",
-                "courses teams", "course   team", "courses team", "COURSE TEAM",
-        };
-        verifyRegexMatch(stringsToMatch, regexList, true);
-
-        stringsToMatch = new String[] {"tea", "Team 1", "Group 1"};
-        verifyRegexMatch(stringsToMatch, regexList, false);
-
-        regexList = FieldValidator.REGEX_COLUMN_EMAIL;
-        stringsToMatch = new String[] {
-                "email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
-                "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
-                "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
-                "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
-                "E-mail  addresses", "Contact", "CONTACT", "contacts",
-        };
-        verifyRegexMatch(stringsToMatch, regexList, true);
-
-        stringsToMatch = new String[] {"emai", "test@gmail.com", "address1"};
-        verifyRegexMatch(stringsToMatch, regexList, false);
-
-        regexList = FieldValidator.REGEX_COLUMN_COMMENT;
-        stringsToMatch = new String[] {
-                "comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
-                "note", "Note", "NOTE", "notes", "Notes", "  NOTES  ",
-        };
-        verifyRegexMatch(stringsToMatch, regexList, true);
-
-        stringsToMatch = new String[] {"this is a comment", "this is a note", "one comment, one note"};
-        verifyRegexMatch(stringsToMatch, regexList, false);
-
     }
 
     @Test
@@ -194,6 +128,15 @@ public class StringHelperTest extends BaseTestCase {
         cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
         byte[] encrypted = cipher.doFinal(plaintext.getBytes());
         return StringHelper.byteArrayToHexString(encrypted);
+    }
+
+    private static String generateSignature(String data) throws Exception {
+        SecretKeySpec signingKey =
+                new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
+        Mac mac = Mac.getInstance("HmacSHA1");
+        mac.init(signingKey);
+        byte[] value = mac.doFinal(data.getBytes());
+        return StringHelper.byteArrayToHexString(value);
     }
 
     @Test
@@ -362,12 +305,6 @@ public class StringHelperTest extends BaseTestCase {
         assertNull(StringHelper.removeEnclosingSquareBrackets(null));
     }
 
-    private void verifyRegexMatch(String[] stringsToMatch, List<String> regexList, boolean expectedResult) {
-        for (String str : stringsToMatch) {
-            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexList));
-        }
-    }
-
     @Test
     public void testCsvToHtmlTable() {
         String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + System.lineSeparator()
@@ -484,5 +421,29 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(StringHelper.extractContentFromQuotedString("data without quotes"), "data without quotes");
         assertEquals(StringHelper.extractContentFromQuotedString(null), null);
         assertEquals(StringHelper.extractContentFromQuotedString(""), "");
+    }
+
+    @Test
+    public void testSignatureGeneration() throws Exception {
+        String data1 = "National University of Singapore";
+        String data2 = "Nanyang Technological University";
+
+        assertEquals(generateSignature(data1), StringHelper.generateSignature(data1));
+
+        assertNotEquals(StringHelper.generateSignature(data1), StringHelper.generateSignature(data2));
+    }
+
+    @Test
+    public void testSignatureVerification() {
+        String valid = "National University of Singapore";
+        String invalid = "Nanyang Technological University";
+        String signature = StringHelper.generateSignature(valid);
+
+        assertTrue(StringHelper.isCorrectSignature(valid, signature));
+
+        assertFalse(StringHelper.isCorrectSignature(valid, invalid));
+        assertFalse(StringHelper.isCorrectSignature(valid, null));
+        assertFalse(StringHelper.isCorrectSignature(null, signature));
+        assertFalse(StringHelper.isCorrectSignature(invalid, signature));
     }
 }

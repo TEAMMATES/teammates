@@ -1,7 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="All Tests" type="CompoundRunConfigurationType" factoryName="Compound Run Configuration">
-    <toRun type="TestNG" name="Component Tests" />
-    <toRun type="TestNG" name="E2E Tests" />
-    <method />
-  </configuration>
-</component>

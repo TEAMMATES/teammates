@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
@@ -31,6 +32,7 @@ import com.meterware.servletunit.ServletUnitClient;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.Const;
+import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
@@ -206,9 +208,11 @@ public class GaeSimulation {
      * @param method The request method
      * @param body The request body
      * @param parts The request parts
+     * @param cookies The request's list of Cookies
      * @param params Parameters that appear in a HttpServletRequest received by the app
      */
-    public Action getActionObject(String uri, String method, String body, Map<String, Part> parts, String... params) {
+    public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
+                                  List<Cookie> cookies, String... params) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + uri);
             for (int i = 0; i < params.length; i = i + 2) {
@@ -226,10 +230,15 @@ public class GaeSimulation {
                     }
                 });
             }
-            MockHttpServletResponse resp = new MockHttpServletResponse();
-            Action action = new ActionFactory().getAction(req, method, resp);
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    req.addCookie(cookie);
+                }
+            }
+            Action action = new ActionFactory().getAction(req, method);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
+            action.setRecaptchaVerifier(new RecaptchaVerifier(null));
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);

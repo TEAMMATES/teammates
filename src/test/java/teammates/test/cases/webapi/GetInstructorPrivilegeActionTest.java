@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetInstructorPrivilegeAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.InstructorPermissionRole;
 import teammates.ui.webapi.output.InstructorPrivilegeData;
 import teammates.ui.webapi.output.MessageOutput;
 
@@ -96,6 +97,33 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
         assertEquals("Instructor does not exist.", output.getMessage());
+    }
+
+    @Test
+    protected void testExecute_fetchPrivilegeOfAnotherInstructorByEmail_shouldSucceed() {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor2ofCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+        ______TS("Request to fetch privilege of another instructor");
+        // course id is used for instructor identify verification here.
+        String[] anotherInstructorParams = {
+                Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor2ofCourse1.getEmail(),
+        };
+
+        GetInstructorPrivilegeAction a = getAction(anotherInstructorParams);
+        InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
+
+        assertFalse(response.isCanModifyCourse());
+        assertTrue(response.isCanModifyStudent());
+        assertTrue(response.isCanModifyInstructor());
+        assertTrue(response.isCanModifySession());
+
+        assertTrue(response.isCanViewStudentInSections());
+
+        assertTrue(response.isCanModifySessionCommentsInSections());
+        assertTrue(response.isCanViewSessionInSections());
+        assertTrue(response.isCanSubmitSessionInSections());
     }
 
     @Test
@@ -333,7 +361,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         String[] courseAndSessionParams = {
                 Const.ParamsNames.COURSE_ID, instructor1ofCourse1.getCourseId(),
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.toString(),
         };
 
         GetInstructorPrivilegeAction a = getAction(courseAndSessionParams);
@@ -382,8 +410,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
-        verifyInaccessibleForAdmin(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdmin(submissionParams);
     }
 
 }

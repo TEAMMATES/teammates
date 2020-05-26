@@ -3,33 +3,24 @@
 exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-student-course-details-page
   Gender={[Function Object]}
-  backendUrl={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
-  route={[Function ActivatedRoute]}
-  statusMessageService={[Function StatusMessageService]}
-  user="undefined"
->
-  
-</tm-student-course-details-page>
-`;
-
-exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`] = `
-<tm-student-course-details-page
-  Gender={[Function Object]}
-  backendUrl={[Function String]}
+  SortBy={[Function Object]}
   course={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
+  courseService={[Function CourseService]}
   instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
-  user="undefined"
+  teammateProfilesSortBy="0"
 >
   <h1
     class="page-title"
   >
-     Thematic Systems
+     
   </h1><div
     class="section"
   >
@@ -65,7 +56,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                Thematic Systems
+                
               </span>
             </div>
           </div>
@@ -83,7 +74,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                CS3281
+                
               </span>
             </div>
           </div>
@@ -101,7 +92,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                Asia/Singapore
+                UTC
               </span>
             </div>
           </div>
@@ -119,7 +110,268 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                2019-03-12T09:13:29.272Z
+                Thu, 01 Jan 1970, 00:00 AM UTC
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Self
+      </h4>
+    </div>
+    <div
+      class="card border-primary"
+    >
+      <div
+        class="card-body fill-plain"
+      >
+        <div
+          class="form form-horizontal"
+        >
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Name
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Section
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Team
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Email
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <h5
+        class="d-inline"
+      >
+        <strong>
+           Sort By: 
+        </strong>
+      </h5>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+        >
+          Name
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Email
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Gender
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Institution
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Nationality
+        </button>
+      </div>
+    </div>
+  </div>
+</tm-student-course-details-page>
+`;
+
+exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`] = `
+<tm-student-course-details-page
+  Gender={[Function Object]}
+  SortBy={[Function Object]}
+  course={[Function Object]}
+  courseService={[Function CourseService]}
+  instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  teammateProfiles={[Function Array]}
+  teammateProfilesSortBy="0"
+>
+  <h1
+    class="page-title"
+  >
+     Sample Course 101
+  </h1><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Course
+      </h4>
+    </div>
+    <div
+      class="card border-primary"
+    >
+      <div
+        class="card-body fill-plain"
+      >
+        <div
+          class="form form-horizontal"
+        >
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Name
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                Sample Course 101
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                ID
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                1.1.c-demo2
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Timezone
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                UTC
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Created at
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span>
+                Wed, 13 Mar 2019, 10:15 AM UTC
               </span>
             </div>
           </div>
@@ -171,18 +423,10 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                 
                 <tr>
                   <td>
-                    Ayush
+                    1
                   </td>
                   <td>
-                    ayush@ayush.com
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Byush
-                  </td>
-                  <td>
-                    byush@byush.com
+                    1@1.com
                   </td>
                 </tr>
               </tbody>
@@ -226,11 +470,10 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                Cyush
+                1
               </span>
             </div>
           </div>
-          
           <div
             class="form-group row"
           >
@@ -245,7 +488,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                Section 1
+                Tutorial Group 2
               </span>
             </div>
           </div>
@@ -263,7 +506,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                CSquad
+                Team 2
               </span>
             </div>
           </div>
@@ -281,29 +524,55 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
               class="col-8"
             >
               <span>
-                cyush@cyush.com
-              </span>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Google ID
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span>
-                cyush@gmail.com
+                1@1.com
               </span>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <h5
+        class="d-inline"
+      >
+        <strong>
+           Sort By: 
+        </strong>
+      </h5>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+        >
+          Name
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Email
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Gender
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Institution
+        </button>
+        <button
+          class="btn btn-light"
+        >
+          Nationality
+        </button>
       </div>
     </div>
   </div><div
@@ -315,7 +584,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       <h4
         class="font-weight-bold"
       >
-        Teammates
+        Team Profiles
       </h4>
     </div>
     
@@ -333,7 +602,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
           >
             <img
               class="profile-pic float-left"
-              src="http://localhost:8080/webapi/students/profilePic?blob-key=something.jpg"
+              src="/assets/images/profile_picture_default.png"
             />
           </div>
           <div
@@ -351,7 +620,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                   </td>
                   <td>
                     <span>
-                      ash
+                       I am 2 
                     </span>
                   </td>
                 </tr>
@@ -363,7 +632,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                   </td>
                   <td>
                     <span>
-                      ash@ash.com
+                      iam2@hello.com
                     </span>
                   </td>
                 </tr>
@@ -374,7 +643,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Gender
                   </td>
                   <td>
-                    
                     <span>
                       MALE
                     </span>
@@ -387,9 +655,8 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Institution
                   </td>
                   <td>
-                    
                     <span>
-                      NUS
+                      nus
                     </span>
                   </td>
                 </tr>
@@ -400,94 +667,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Nationality
                   </td>
                   <td>
-                    
                     <span>
-                      Indian
+                      Andorran
                     </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="row"
-    >
-      <div
-        class="col-12"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="col-md-2 col-3"
-          >
-            <img
-              class="profile-pic float-left"
-              src="http://localhost:8080/webapi/students/profilePic?blob-key=something2.jpg"
-            />
-          </div>
-          <div
-            class="col-md-10 col-sm-9 col-8"
-          >
-            <table
-              class="table table-striped"
-            >
-              <tbody>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Name
-                  </td>
-                  <td>
-                    <span>
-                      bsh
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Email
-                  </td>
-                  <td>
-                    <span>
-                      bsh@bsh.com
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Gender
-                  </td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Institution
-                  </td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Nationality
-                  </td>
-                  <td>
-                    
                   </td>
                 </tr>
               </tbody>

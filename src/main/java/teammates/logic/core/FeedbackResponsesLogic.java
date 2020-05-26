@@ -53,6 +53,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnswerFeedbackSession(String courseId, String feedbackSessionName) {
+        return frDb.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName);
+    }
+
+    /**
      * Creates a feedback response.
      *
      * @return created feedback response
@@ -644,7 +651,7 @@ public final class FeedbackResponsesLogic {
                 frcLogic.updateFeedbackResponseCommentsEmails(courseId, oldEmail, newEmail);
             } catch (EntityAlreadyExistsException e) {
                 Assumption
-                        .fail("Feedback response failed to update successfully"
+                        .fail("Feedback response failed to update successfully "
                             + "as email was already in use.");
             }
         }

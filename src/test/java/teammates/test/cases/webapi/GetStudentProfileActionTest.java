@@ -72,6 +72,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
+        expectedProfile.email = null;
+        expectedProfile.shortName = null;
         String expectedName = typicalBundle.accounts.get("student1InCourse1").name;
         loginAsStudent(student2InCourse1.googleId);
         String[] submissionParams = new String[] {
@@ -126,7 +128,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         assertEquals(expectedProfile.moreInfo, actualProfile.getMoreInfo());
         assertEquals(expectedProfile.nationality, actualProfile.getNationality());
         assertEquals(expectedProfile.gender, actualProfile.getGender());
-        assertEquals(expectedProfile.pictureKey, actualProfile.getPictureKey());
     }
 
     @Test

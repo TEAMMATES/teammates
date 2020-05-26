@@ -8,7 +8,8 @@
           <img
               src="{{ profilePicLink }}"
               class="profile-pic"
-              (click)="onUploadEdit()">
+              (click)="onUploadEdit()"
+              (error)="setDefaultPic()">
         </div>
       </div>
       <div class="row profile-pic-row">
@@ -19,7 +20,7 @@
               (click)="onUploadEdit()">
             Upload/Edit Photo
           </button>
-          <button *ngIf="this.pictureKey"
+          <button *ngIf="this.profilePicLink != this.defaultPictureLink"
               id="profile-delete-photo"
               class="btn btn-danger"
               ngbTooltip="Delete your profile picture"

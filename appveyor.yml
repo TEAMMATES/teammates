@@ -5,7 +5,7 @@ init:
   - git config --global core.autocrlf true
 
 install:
-  - ps: Install-Product node 10
+  - ps: Install-Product node 12
 
 branches:
   only:
@@ -21,7 +21,6 @@ skip_commits:
     - '**/*.gif'
     - LICENSE
     - docs/**/*
-    - .templates/**/*
 
 build_script:
   - gradlew.bat createConfigs testClasses

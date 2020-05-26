@@ -9,7 +9,9 @@ describe('AdminTimezonePageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AdminTimezonePageComponent],
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+      ],
     })
     .compileComponents();
   }));

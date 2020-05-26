@@ -55,7 +55,11 @@ footer a {
 
 .navbar {
   padding: 0;
-  z-index: 500;
+  z-index: 2000;
+}
+
+.nav-link {
+  cursor: pointer;
 }
 
 .pull-right {

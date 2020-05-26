@@ -13,13 +13,6 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     }
 
     @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-                                       FeedbackQuestionDetails questionDetails,
-                                       String[] answer) {
-        this.setRankResponseDetails(Integer.parseInt(answer[0]));
-    }
-
-    @Override
     public String getAnswerString() {
         return Integer.toString(answer);
     }
@@ -32,10 +25,6 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         return new ArrayList<>();
-    }
-
-    private void setRankResponseDetails(int answer) {
-        this.answer = answer;
     }
 
 }

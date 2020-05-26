@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpRequestService } from '../../../services/http-request.service';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../../../services/auth.service';
-import { AuthInfo, MessageOutput, Nationalities, StudentProfile } from '../../../types/api-output';
+import { AuthInfo, Gender, MessageOutput, Nationalities, StudentProfile } from '../../../types/api-output';
 
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
-import { Gender } from '../../../types/gender';
 import { ErrorMessageOutput } from '../../error-message-output';
 
+import { HttpErrorResponse } from '@angular/common/http';
+import { from, of, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
+import { NationalitiesService } from '../../../services/nationalities.service';
 import {
   UploadEditProfilePictureModalComponent,
 } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
@@ -30,22 +31,18 @@ import {
 export class StudentProfilePageComponent implements OnInit {
 
   Gender: typeof Gender = Gender; // enum
-  user: string = '';
   id: string = '';
   student!: StudentProfile;
   name?: string;
   editForm!: FormGroup;
   nationalities?: string[];
-
   profilePicLink!: string;
-  pictureKey!: string;
-  currentTime?: number;
+  defaultPictureLink: string = '/assets/images/profile_picture_default.png';
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private route: ActivatedRoute,
-              private ngbModal: NgbModal,
-              private httpRequestService: HttpRequestService,
+  constructor(private ngbModal: NgbModal,
+              private nationalitiesService: NationalitiesService,
               private authService: AuthService,
               private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService) {
@@ -54,29 +51,14 @@ export class StudentProfilePageComponent implements OnInit {
   ngOnInit(): void {
     // populate drop-down menu for nationality list
     this.initNationalities();
-
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-      this.loadStudentProfile();
-    });
-  }
-
-  /**
-   * Construct the url for the profile picture from the given key.
-   */
-  getProfilePictureUrl(pictureKey: string): string {
-    if (!pictureKey) {
-      return '/assets/images/profile_picture_default.png';
-    }
-    this.currentTime = (new Date()).getTime(); // forces image reload in HTML template
-    return `${this.backendUrl}/webapi/students/profilePic?blob-key=${pictureKey}&time=${this.currentTime}`;
+    this.loadStudentProfile();
   }
 
   /**
    * Fetches the list of nationalities needed for the drop down box.
    */
   initNationalities(): void {
-    this.httpRequestService.get('/nationalities').subscribe((response: Nationalities) => {
+    this.nationalitiesService.getNationalities().subscribe((response: Nationalities) => {
       this.nationalities = response.nationalities;
     });
   }
@@ -89,15 +71,13 @@ export class StudentProfilePageComponent implements OnInit {
       if (auth.user) {
         this.id = auth.user.id;
 
+        this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?user=${this.id}`;
+
         // retrieve profile once we have the student's googleId
         this.studentProfileService.getStudentProfile().subscribe((response: StudentProfile) => {
           if (response) {
             this.student = response;
             this.name = response.name;
-
-            this.pictureKey = this.student.pictureKey;
-            this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
-
             this.initStudentProfileForm(this.student);
           } else {
             this.statusMessageService.showErrorMessage('Error retrieving student profile');
@@ -135,23 +115,59 @@ export class StudentProfilePageComponent implements OnInit {
    * Opens a modal box to upload/edit profile picture.
    */
   onUploadEdit(): void {
-    const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
-    modalRef.componentInstance.profilePicLink = this.profilePicLink;
-    modalRef.componentInstance.pictureKey = this.pictureKey;
+    const NO_IMAGE_UPLOADED: number = 600;
+    const NO_IMAGE_FOUND: number = 404;
 
-    // When a new image is uploaded/edited in the modal box, update the profile pic link in the page too
-    modalRef.componentInstance.imageUpdated.subscribe((pictureKey: string) => {
-      this.pictureKey = pictureKey;
-      this.profilePicLink =
-          this.getProfilePictureUrl(this.pictureKey); // Retrieves the profile picture link again
-    });
+    this.studentProfileService.getProfilePicture()
+        .pipe(
+            // If no picture is found, return null
+            catchError((err: HttpErrorResponse) => {
+              if (err.status !== NO_IMAGE_FOUND) {
+                return throwError(status);
+              }
+              return of(null);
+            }),
+            // Open Modal and wait for user to upload picture
+            switchMap((image: Blob | null) => {
+              const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
+              modalRef.componentInstance.image = image;
+
+              return from(modalRef.result);
+            }),
+            // If no image is uploaded, throw an error
+            catchError(() => throwError({
+              error: {
+                message: 'No image uploaded',
+              },
+              status: NO_IMAGE_UPLOADED,
+            })),
+            // Post the form data
+            switchMap((formData: FormData) => {
+              return this.studentProfileService.postProfilePicture(formData);
+            }),
+        )
+        // Display message status
+        .subscribe(() => {
+          this.statusMessageService.showSuccessMessage('Your profile picture has been saved successfully');
+
+          // Force reload
+          const timestamp: number = (new Date()).getTime();
+          this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=${this.id}`;
+        }, (response: ErrorMessageOutput) => {
+          // If the error was due to not image uploaded, do nothing
+          if (response.status === NO_IMAGE_UPLOADED) {
+            return;
+          }
+
+          this.statusMessageService.showErrorMessage(response.error.message);
+        });
   }
 
   /**
    * Submits the form data to edit the student profile details.
    */
   submitEditForm(): void {
-    this.studentProfileService.updateStudentProfile(this.user, this.id, {
+    this.studentProfileService.updateStudentProfile(this.id, {
       shortName: this.editForm.controls.studentshortname.value,
       email: this.editForm.controls.studentprofileemail.value,
       institute: this.editForm.controls.studentprofileinstitute.value,
@@ -179,20 +195,25 @@ export class StudentProfilePageComponent implements OnInit {
    * Deletes the profile picture and the profile picture key
    */
   deleteProfilePicture(): void {
-    const paramMap: { [key: string]: string } = {
-      user: this.user,
+    const paramMap: Record<string, string> = {
       googleid: this.id,
     };
-    this.httpRequestService.delete('/students/profilePic', paramMap)
+    this.studentProfileService.deleteProfilePicture(paramMap)
         .subscribe((response: MessageOutput) => {
           if (response) {
             this.statusMessageService.showSuccessMessage(response.message);
-            this.pictureKey = '';
-            this.profilePicLink = this.getProfilePictureUrl(this.pictureKey);
+            this.profilePicLink = '/assets/images/profile_picture_default.png';
           }
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.
             showErrorMessage(`Could not delete your profile picture! ${response.error.message}`);
         });
+  }
+
+  /**
+   * Sets the profile picture of a student as the default image.
+   */
+  setDefaultPic(): void {
+    this.profilePicLink = this.defaultPictureLink;
   }
 }
