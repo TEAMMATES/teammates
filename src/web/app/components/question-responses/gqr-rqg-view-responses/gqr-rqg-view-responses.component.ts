@@ -52,6 +52,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
   @Input() isGqr: boolean = true;
 
   teamsToUsers: Record<string, string[]> = {};
+  userToEmail: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -74,6 +75,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.responsesToShow = {};
     this.teamsToUsers = {};
     this.teamExpanded = {};
+    this.userToEmail = {};
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
@@ -82,6 +84,10 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
+          }
+          this.userToEmail[response.giver] = this.userToEmail[response.giver] || '';
+          if (this.userToEmail[response.giver].indexOf(response.giver) === -1 && response.giverEmail !== undefined) {
+            this.userToEmail[response.giver] = response.giverEmail;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
         } else {
@@ -99,6 +105,10 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
           if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
             this.teamExpanded[response.recipientTeam] = this.isExpandAll;
+          }
+          this.userToEmail[response.recipient] = this.userToEmail[response.recipient] || '';
+          if (this.userToEmail[response.recipient].indexOf(response.recipient) === -1 && response.recipientEmail !== undefined) {
+            this.userToEmail[response.recipient] = response.recipientEmail;
           }
           this.userExpanded[response.recipient] = this.isExpandAll;
         }

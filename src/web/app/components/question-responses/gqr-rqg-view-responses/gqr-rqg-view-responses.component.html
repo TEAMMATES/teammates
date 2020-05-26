@@ -31,7 +31,7 @@
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded">
     <div class="card-header bg-primary text-white" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
-      {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
+      {{ isGqr ? 'From' : 'To' }}: {{ userInfo }} {{ userToEmail[userInfo] }}
       <div class="float-right">
         <tm-response-moderation-button *ngIf="isGqr" [session]="session" [relatedGiverEmail]="userInfo"></tm-response-moderation-button>
         <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
