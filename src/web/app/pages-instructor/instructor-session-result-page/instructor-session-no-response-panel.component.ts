@@ -1,13 +1,11 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin } from 'rxjs';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  FeedbackSessionSubmittedGiverSet,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student, Students,
@@ -87,40 +85,40 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     modalRef.componentInstance.courseId = courseId;
     modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
 
-    forkJoin(
-        this.studentService.getStudentsFromCourse({ courseId }),
-        this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }))
-        .subscribe(
-            (result: any[]) => {
-              const students: Student[] = (result[0] as Students).students;
-              const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
-              modalRef.componentInstance.studentListInfoTableRowModels
-                = students.map((student: Student) => ({
-                  email: student.email,
-                  name: student.name,
-                  teamName: student.teamName,
-                  sectionName: student.sectionName,
+    this.studentService.getStudentsFromCourse({ courseId })
+    .subscribe(
+        (allStudents: Students) => {
+          const students: Student[] = allStudents.students;
+          const giverEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
+          const giverSet: Set<string> = new Set(giverEmails);
 
-                  hasSubmittedSession: giverSet.has(student.email),
-                  isSelected: true,
-                } as StudentListInfoTableRowModel));
+          modalRef.componentInstance.studentListInfoTableRowModels
+            = students.map((student: Student) => ({
+              email: student.email,
+              name: student.name,
+              teamName: student.teamName,
+              sectionName: student.sectionName,
 
-              modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-                this.feedbackSessionsService
-                      .remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
-                        usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
-                      }).subscribe(() => {
-                        this.statusMessageService.showSuccessMessage(
-                          'Reminder e-mails have been sent out to those students and instructors. '
-                          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+              hasSubmittedSession: !giverSet.has(student.email),
+              isSelected: true,
+            } as StudentListInfoTableRowModel));
 
-                      }, (resp: ErrorMessageOutput) => {
-                        this.statusMessageService.showErrorMessage(resp.error.message);
-                      });
-              }, () => {});
+          modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
+            this.feedbackSessionsService
+                  .remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
+                    usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
+                  }).subscribe(() => {
+                    this.statusMessageService.showSuccessMessage(
+                      'Reminder e-mails have been sent out to those students and instructors. '
+                      + 'Please allow up to 1 hour for all the notification emails to be sent out.');
 
-            }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); },
-        );
+                  }, (resp: ErrorMessageOutput) => {
+                    this.statusMessageService.showErrorMessage(resp.error.message);
+                  });
+          }, () => {});
+
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); },
+    );
   }
 
   /**
