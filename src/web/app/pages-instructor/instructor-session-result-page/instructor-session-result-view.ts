@@ -38,6 +38,8 @@ export abstract class InstructorSessionResultView implements OnInit {
   };
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
+  @Input() isExpandAll: boolean = false;
+
   @Output() toggleAndLoadTab: EventEmitter<string> = new EventEmitter<string>();
 
   @Output() instructorCommentTableModelChange: EventEmitter<Record<string, CommentTableModel>> = new EventEmitter();
