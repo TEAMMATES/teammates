@@ -138,8 +138,9 @@ public class SessionResultsData extends ApiOutput {
                 Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
                 // Student does not need to know the teams for giver and/or recipient
-                output.add(new ResponseOutput(response.getId(), displayedGiverName, null, null, response.giverSection,
-                        recipientName, null, response.recipientSection,
+                output.add(new ResponseOutput(response.getId(), displayedGiverName, null, null,
+                        null, response.giverSection,
+                        recipientName, null, null, response.recipientSection,
                         response.responseDetails, comments.poll(), new ArrayList<>(comments)));
             }
 
@@ -163,6 +164,8 @@ public class SessionResultsData extends ApiOutput {
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
                 String giverName = removeAnonymousHash(bundle.getGiverNameForResponse(response));
+                String giverEmail = bundle.getDisplayableEmailGiver(response);
+                String recipientEmail = bundle.getDisplayableEmailRecipient(response);
                 Map<String, Set<String>> teamNameToMembersEmailTable = bundle.rosterTeamNameMembersTable;
                 String relatedGiverEmail = teamNameToMembersEmailTable.containsKey(response.giver)
                         ? teamNameToMembersEmailTable.get(response.giver).iterator().next() : response.giver;
@@ -174,8 +177,8 @@ public class SessionResultsData extends ApiOutput {
                         bundle.getResponseComments().getOrDefault(response.getId(), Collections.emptyList());
                 Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
-                output.add(new ResponseOutput(response.getId(), giverName, giverTeam, relatedGiverEmail,
-                        response.giverSection, recipientName, recipientTeam, response.recipientSection,
+                output.add(new ResponseOutput(response.getId(), giverName, giverTeam, giverEmail, relatedGiverEmail,
+                        response.giverSection, recipientName, recipientTeam, recipientEmail, response.recipientSection,
                         response.responseDetails, comments.poll(), new ArrayList<>(comments)));
             }
 
@@ -266,9 +269,13 @@ public class SessionResultsData extends ApiOutput {
          */
         private final String relatedGiverEmail; // TODO: security risk: relatedGiverEmail can expose giver email
         private final String giverTeam;
+        @Nullable
+        private final String giverEmail;
         private final String giverSection;
         private String recipient;
         private final String recipientTeam;
+        @Nullable
+        private final String recipientEmail;
         private final String recipientSection;
         private final FeedbackResponseDetails responseDetails;
 
@@ -277,17 +284,19 @@ public class SessionResultsData extends ApiOutput {
         private CommentOutput participantComment;
         private final List<CommentOutput> instructorComments;
 
-        ResponseOutput(String responseId, String giver, String giverTeam, String relatedGiverEmail,
-                       String giverSection, String recipient, String recipientTeam, String recipientSection,
-                       FeedbackResponseDetails responseDetails,
+        ResponseOutput(String responseId, String giver, String giverTeam, String giverEmail, String relatedGiverEmail,
+                       String giverSection, String recipient, String recipientTeam, String recipientEmail,
+                       String recipientSection, FeedbackResponseDetails responseDetails,
                        CommentOutput participantComment, List<CommentOutput> instructorComments) {
             this.responseId = responseId;
             this.giver = giver;
             this.relatedGiverEmail = relatedGiverEmail;
+            this.giverEmail = giverEmail;
             this.giverTeam = giverTeam;
             this.giverSection = giverSection;
             this.recipient = recipient;
             this.recipientTeam = recipientTeam;
+            this.recipientEmail = recipientEmail;
             this.recipientSection = recipientSection;
             this.responseDetails = responseDetails;
             this.participantComment = participantComment;
@@ -300,6 +309,10 @@ public class SessionResultsData extends ApiOutput {
 
         public String getGiver() {
             return giver;
+        }
+
+        public String getGiverEmail() {
+            return giverEmail;
         }
 
         public String getRelatedGiverEmail() {
@@ -320,6 +333,10 @@ public class SessionResultsData extends ApiOutput {
 
         public String getRecipientTeam() {
             return recipientTeam;
+        }
+
+        public String getRecipientEmail() {
+            return recipientEmail;
         }
 
         public String getRecipientSection() {
