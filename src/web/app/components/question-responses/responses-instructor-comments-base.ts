@@ -31,7 +31,7 @@ export abstract class ResponsesInstructorCommentsBase {
   };
 
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
-  @Input() expandAll: boolean = false;
+  @Input() isExpandAll: boolean = false;
 
   @Output() instructorCommentTableModelChange: EventEmitter<Record<string, CommentTableModel>> = new EventEmitter();
   @Output() saveNewCommentEvent: EventEmitter<string> = new EventEmitter();

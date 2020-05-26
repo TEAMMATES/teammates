@@ -9,13 +9,13 @@
     </div>
     <div class="card-body" *ngIf="sectionInfo.value.isTabExpanded">
       <tm-grq-rgq-view-responses [responses]="sectionInfo.value.questions || []" [section]="section" [sectionType]="sectionType"
-                                 [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGrq]="true" [session]="session" [expandAll]="isExpandAll"
-                                 [instructorCommentTableModel]="instructorCommentTableModel"
+                                 [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGrq]="true" [session]="session"
+                                 [isExpandAll]="isExpandAll" [instructorCommentTableModel]="instructorCommentTableModel"
                                  (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
                                  (updateCommentEvent)="triggerUpdateCommentEvent($event)"
                                  (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
                                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-          style="margin-bottom: 20px;"></tm-grq-rgq-view-responses>
+                                 style="margin-bottom: 20px;"></tm-grq-rgq-view-responses>
     </div>
   </div>
 </div>
