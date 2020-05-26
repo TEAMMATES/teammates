@@ -10,6 +10,7 @@ import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
+
 /**
  * Component to display list of responses in GRQ/RGQ view.
  */
@@ -46,6 +47,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
   @Input() isGrq: boolean = true;
 
   teamsToUsers: Record<string, string[]> = {};
+  usersToTeams: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -67,18 +69,23 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
   private filterResponses(): void {
     this.responsesToShow = {};
     this.teamsToUsers = {};
+    this.usersToTeams = {};
     this.teamExpanded = {};
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
         if (this.isGrq) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
+          this.usersToTeams[response.giver] = this.usersToTeams[response.giver] || '';
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
+            this.usersToTeams[response.giver] = response.giverTeam;
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
         } else {
+          this.usersToTeams[response.recipient] = this.usersToTeams[response.recipient] || '';
+          this.userExpanded[response.recipient] = this.isExpandAll;
           if (!response.recipientTeam) {
             // Recipient is team
             this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
@@ -86,15 +93,14 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = this.isExpandAll;
             }
-            this.userExpanded[response.recipient] = this.isExpandAll;
-            continue;
+          } else {
+            this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
+            if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
+              this.teamsToUsers[response.recipientTeam].push(response.recipient);
+              this.usersToTeams[response.recipient] = response.recipientTeam;
+              this.teamExpanded[response.recipientTeam] = this.isExpandAll;
+            }
           }
-          this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
-          if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
-            this.teamsToUsers[response.recipientTeam].push(response.recipient);
-            this.teamExpanded[response.recipientTeam] = this.isExpandAll;
-          }
-          this.userExpanded[response.recipient] = this.isExpandAll;
         }
       }
     }

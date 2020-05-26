@@ -49,6 +49,14 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
   ngOnInit(): void {
   }
 
+  get teamInfo(): Record<string, string> {
+    const team: Record<string, string> = {};
+    team.recipient =  this.responses[0].allResponses[0].recipientTeam !== '' ?
+        `(${this.responses[0].allResponses[0].recipientTeam})` : '';
+    team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
+    return team;
+  }
+
   /**
    * Transforms participant comment to comment row model.
    */
