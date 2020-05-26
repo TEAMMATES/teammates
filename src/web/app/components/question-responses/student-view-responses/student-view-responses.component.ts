@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackQuestionType, ResponseOutput } from '../../../../types/api-output';
+import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
 
 /**
  * Feedback response in student results page view.
@@ -10,6 +11,7 @@ import { FeedbackQuestionDetails, FeedbackQuestionType, ResponseOutput } from '.
   styleUrls: ['./student-view-responses.component.scss'],
 })
 export class StudentViewResponsesComponent implements OnInit {
+  CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   @Input() questionDetails: FeedbackQuestionDetails = {
     questionType: FeedbackQuestionType.TEXT,

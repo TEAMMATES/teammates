@@ -16,6 +16,35 @@
               <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails" [isStudentPage]="true"></tm-single-response>
             </td>
           </tr>
+          <tr *ngIf="response.participantComment">
+            <td>
+              <tm-comment-row
+                              [mode]="CommentRowMode.EDIT"
+                              [isVisibilityOptionEnabled]="false"
+                              [isDisabled]="true"
+                              [shouldHideSavingButton]="true"
+                              [shouldHideClosingButton]="true"
+                              [shouldHideEditButton]="true"
+                              [shouldHideDeleteButton]="true"
+                              [isFeedbackParticipantComment]="true"
+                              [response]="response"
+                              [questionShowResponsesTo]="[]"
+                              [model]="
+                                {
+                                  commentEditFormModel: {
+                                    commentText: response.participantComment.commentText,
+                                    isUsingCustomVisibilities: false,
+                                    showCommentTo: response.participantComment.showCommentTo,
+                                    showGiverNameTo: response.participantComment.showGiverNameTo
+                                  },
+                                  originalComment: response.participantComment,
+                                  isEditing: false,
+                                  commentGiverName: response.participantComment.commentGiverName,
+                                  lastEditorName: response.participantComment.lastEditorName
+                                }"
+            ></tm-comment-row>
+            </td>
+          </tr>
         </ng-container>
       </tbody>
     </table>
