@@ -352,7 +352,10 @@ public class SessionResultsData extends ApiOutput {
 
         public CommentOutput(FeedbackResponseCommentAttributes frc, String commentGiverName, String lastEditorName) {
             super(frc);
-            this.commentGiverName = commentGiverName;
+
+            // If response is anonymous to everyone, then comment giver's name is also hidden.
+            this.commentGiverName = (frc.showGiverNameTo.isEmpty()) ? null : commentGiverName;
+
             this.lastEditorName = lastEditorName;
         }
     }
