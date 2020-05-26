@@ -79,7 +79,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
           this.usersToTeams[response.giver] = this.usersToTeams[response.giver] || [];
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
-            this.usersToTeams[response.giver].push(response.giverTeam);
+            this.usersToTeams[response.giver].push('(' + response.giverTeam + ')');
             this.teamExpanded[response.giverTeam] = false;
           }
           this.userExpanded[response.giver] = false;
@@ -89,7 +89,6 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
           this.usersToTeams[response.recipient] = this.usersToTeams[response.recipient] || [];
           if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
             this.teamsToUsers[response.recipient].push(response.recipient);
-            this.usersToTeams[response.recipient].push(response.recipient);
             this.teamExpanded[response.recipient] = false;
           }
           this.userExpanded[response.recipient] = false;
@@ -98,7 +97,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
           this.usersToTeams[response.recipient] = this.usersToTeams[response.recipient] || [];
           if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
-            this.usersToTeams[response.recipient].push(response.recipientTeam);
+            this.usersToTeams[response.recipient].push('(' + response.recipientTeam + ')');
             this.teamExpanded[response.recipientTeam] = false;
           }
           this.userExpanded[response.recipient] = false;
