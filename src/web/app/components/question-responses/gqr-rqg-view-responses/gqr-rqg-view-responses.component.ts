@@ -81,26 +81,26 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
-            this.teamExpanded[response.giverTeam] = false;
+            this.teamExpanded[response.giverTeam] = this.expandAll;
           }
-          this.userExpanded[response.giver] = false;
+          this.userExpanded[response.giver] = this.expandAll;
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
             this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
-              this.teamExpanded[response.recipient] = false;
+              this.teamExpanded[response.recipient] = this.expandAll;
             }
-            this.userExpanded[response.recipient] = false;
+            this.userExpanded[response.recipient] = this.expandAll;
             continue;
           }
           this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
           if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
-            this.teamExpanded[response.recipientTeam] = false;
+            this.teamExpanded[response.recipientTeam] = this.expandAll;
           }
-          this.userExpanded[response.recipient] = false;
+          this.userExpanded[response.recipient] = this.expandAll;
         }
       }
     }
@@ -146,7 +146,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
           this.responsesToShow[user] = this.responsesToShow[user] || [];
           this.responsesToShow[user].push({
             questionOutput: questionCopy,
-            isTabExpanded: false,
+            isTabExpanded: this.expandAll,
           });
         }
       }

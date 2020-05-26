@@ -296,7 +296,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    },);
   }
 
   /**
