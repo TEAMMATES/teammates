@@ -50,10 +50,10 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
   }
 
   get teamInfo(): Record<string, string> {
-    let team: Record<string, string> = {};
-    team['recipient'] =  this.responses[0].allResponses[0].recipientTeam !== '' ?
+    const team: Record<string, string> = {};
+    team.recipient =  this.responses[0].allResponses[0].recipientTeam !== '' ?
         `(${this.responses[0].allResponses[0].recipientTeam})` : '';
-    team['giver'] = `(${this.responses[0].allResponses[0].giverTeam})`;
+    team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;
   }
 
