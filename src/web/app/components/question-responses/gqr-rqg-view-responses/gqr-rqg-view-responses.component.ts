@@ -107,7 +107,8 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
             this.teamExpanded[response.recipientTeam] = this.isExpandAll;
           }
           this.userToEmail[response.recipient] = this.userToEmail[response.recipient] || '';
-          if (this.userToEmail[response.recipient].indexOf(response.recipient) === -1 && response.recipientEmail !== undefined) {
+          if (this.userToEmail[response.recipient].indexOf(response.recipient) === -1
+              && response.recipientEmail !== undefined) {
             this.userToEmail[response.recipient] = response.recipientEmail;
           }
           this.userExpanded[response.recipient] = this.isExpandAll;
