@@ -46,6 +46,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
   @Input() isGrq: boolean = true;
 
   teamsToUsers: Record<string, string[]> = {};
+  userToEmail: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -67,6 +68,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
   private filterResponses(): void {
     this.responsesToShow = {};
     this.teamsToUsers = {};
+    this.userToEmail = {};
     this.teamExpanded = {};
     this.userExpanded = {};
     for (const question of this.responses) {
@@ -76,6 +78,10 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
+          }
+          this.userToEmail[response.giver] = this.userToEmail[response.giver] || '';
+          if (this.userToEmail[response.giver].indexOf(response.giver) === -1 && response.giverEmail !== undefined) {
+            this.userToEmail[response.giver] = response.giverEmail;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
         } else {
@@ -94,7 +100,10 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
             this.teamExpanded[response.recipientTeam] = this.isExpandAll;
           }
-          this.userExpanded[response.recipient] = this.isExpandAll;
+          this.userToEmail[response.recipient] = this.userToEmail[response.recipient] || '';
+          if (this.userToEmail[response.recipient].indexOf(response.recipient) === -1 && response.recipientEmail !== undefined) {
+            this.userToEmail[response.recipient] = response.recipientEmail;
+          }
         }
       }
     }
