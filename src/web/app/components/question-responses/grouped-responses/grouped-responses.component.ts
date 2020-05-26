@@ -49,23 +49,12 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
   ngOnInit(): void {
   }
 
-  get fromToTop(): string {
-    if (this.isGrq) {
-      const team: string = this.responses[0].allResponses[0].recipientTeam !== '' ?
-          `(${this.responses[0].allResponses[0].recipientTeam})` : '';
-      return `To: ${this.responses[0].allResponses[0].recipient} ${team}`;
-    }
-    return `From: ${this.responses[0].allResponses[0].giver} (${this.responses[0].allResponses[0].giverTeam})`;
-  }
-
-  get fromToBot(): string {
-    if (this.isGrq) {
-      return `From: ${this.responses[0].allResponses[0].giver} (${this.responses[0].allResponses[0].giverTeam})`;
-    }  {
-      const team: string = this.responses[0].allResponses[0].recipientTeam !== '' ?
-          `(${this.responses[0].allResponses[0].recipientTeam})` : '';
-      return `To: ${this.responses[0].allResponses[0].recipient} ${team}`;
-    }
+  get teamInfo(): Record<string, string> {
+    let team: Record<string, string> = {};
+    team['recipient'] =  this.responses[0].allResponses[0].recipientTeam !== '' ?
+        `(${this.responses[0].allResponses[0].recipientTeam})` : '';
+    team['giver'] = `(${this.responses[0].allResponses[0].giverTeam})`;
+    return team;
   }
 
   /**
