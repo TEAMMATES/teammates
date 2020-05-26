@@ -8,7 +8,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -18,22 +17,6 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
 
     public FeedbackRankOptionsResponseDetails() {
         super(FeedbackQuestionType.RANK_OPTIONS);
-    }
-
-    @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-                                       FeedbackQuestionDetails questionDetails,
-                                       String[] answer) {
-        List<Integer> rankAnswer = new ArrayList<>();
-        for (String answerPart : answer) {
-            try {
-                rankAnswer.add(Integer.parseInt(answerPart));
-            } catch (NumberFormatException e) {
-                rankAnswer.add(Const.POINTS_NOT_SUBMITTED);
-            }
-        }
-        FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
-        this.setRankResponseDetails(rankAnswer, rankQuestion.options);
     }
 
     /**
@@ -134,15 +117,6 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
                           .add(option);
         }
         return orderedOptions;
-    }
-
-    private void setRankResponseDetails(List<Integer> answers, List<String> options) {
-        this.answers = answers;
-
-        Assumption.assertEquals("Rank question: number of responses does not match number of options. "
-                                        + answers.size() + "/" + options.size(),
-                                answers.size(), options.size());
-
     }
 
 }

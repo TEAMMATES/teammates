@@ -24,12 +24,6 @@ public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-                                       FeedbackQuestionDetails questionDetails, String[] answer) {
-        this.answer = SanitizationHelper.sanitizeForRichText(answer[0]);
-    }
-
-    @Override
     public String getAnswerString() {
         return SanitizationHelper.sanitizeForRichText(answer);
     }

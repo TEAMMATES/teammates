@@ -17,7 +17,7 @@ export class RichTextEditorComponent implements OnInit {
   isInlineMode: boolean = true;
 
   @Input()
-  minHeightInPx: number = 120;
+  minHeightInPx: number = 150;
 
   @Input()
   placeholderText: string = '';

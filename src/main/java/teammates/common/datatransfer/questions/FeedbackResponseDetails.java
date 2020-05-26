@@ -27,14 +27,6 @@ public abstract class FeedbackResponseDetails {
         this.questionType = questionType;
     }
 
-    /**
-     * Extract response details and sets details accordingly.
-     */
-    public abstract void extractResponseDetails(
-            FeedbackQuestionType questionType,
-            FeedbackQuestionDetails questionDetails,
-            String[] answer);
-
     public abstract String getAnswerString();
 
     public String getJsonString() {

@@ -32,6 +32,7 @@ import com.meterware.servletunit.ServletUnitClient;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.Const;
+import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
@@ -237,6 +238,7 @@ public class GaeSimulation {
             Action action = new ActionFactory().getAction(req, method);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
+            action.setRecaptchaVerifier(new RecaptchaVerifier(null));
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
