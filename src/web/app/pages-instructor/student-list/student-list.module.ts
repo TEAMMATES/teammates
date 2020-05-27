@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JoinStatePipe } from './join-state.pipe';
 import { StudentListComponent } from './student-list.component';
+import { ViewPhotoPopoverModule } from "../view-photo-popover/view-photo-popover.module";
 
 /**
  * Module for student list table component.
@@ -20,6 +21,7 @@ import { StudentListComponent } from './student-list.component';
     CommonModule,
     NgbModule,
     RouterModule,
+    ViewPhotoPopoverModule,
   ],
 })
 export class StudentListModule { }

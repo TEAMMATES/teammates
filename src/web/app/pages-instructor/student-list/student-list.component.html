@@ -42,15 +42,8 @@
     <tbody>
     <tr *ngFor="let student of students; trackBy: trackByFn" [hidden]="isStudentToHide(student.email)"s>
       <td class="align-center">
-        <ng-template #popContent><img class="profile-pic" src="{{student.photoUrl}}"></ng-template>
-        <img *ngIf="student.photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{student.photoUrl}}"
-             [ngbPopover]="popContent" triggers="mouseenter:mouseleave" (error)="setDefaultPic(student)">
-        <ng-template #viewPhotoBtn>
-          <a [routerLink]="" role="button" (click)="loadPhoto(student); $event.preventDefault();"
-             queryParamsHandling="preserve">
-            View Photo
-          </a>
-        </ng-template>
+        <tm-view-photo-popover [photoUrl]="student.photoUrl" (loadPhotoEvent)="loadPhoto(student)">
+        </tm-view-photo-popover>
       </td>
       <td *ngIf="hasSection()">{{student.sectionName}}</td>
       <td>{{student.team}}</td>

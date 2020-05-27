@@ -1,0 +1,9 @@
+<ng-template #popContent><img class="profile-pic" src="{{photoUrl}}"></ng-template>
+<img *ngIf="photoUrl; else viewPhotoBtn" class="profile-pic-icon" src="{{photoUrl}}"
+     [ngbPopover]="popContent" triggers="mouseenter:mouseleave" (error)="missingPhotoEventHandler()">
+<ng-template #viewPhotoBtn>
+  <a [routerLink]="" role="button" (click)="loadPhotoEvent.emit(); $event.preventDefault();"
+     queryParamsHandling="preserve">
+    View Photo
+  </a>
+</ng-template>

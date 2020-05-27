@@ -133,13 +133,6 @@ export class StudentListComponent implements OnInit, DoCheck {
   }
 
   /**
-   * Sets the profile picture of a student as the default image
-   */
-  setDefaultPic(student: FlatStudentListData): void {
-    student.photoUrl = '/assets/images/profile_picture_default.png';
-  }
-
-  /**
    * Open the student delete confirmation modal.
    */
   openModal(content: any): void {
