@@ -39,7 +39,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final int MAX_KEY_REGENERATION_TRIES = 3;
+    private static final int MAX_KEY_REGENERATION_TRIES = 5;
 
     /**
      * Creates or updates search document for the given student.
