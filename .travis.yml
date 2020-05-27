@@ -108,6 +108,7 @@ jobs:
       if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       script:
         - ./gradlew createConfigs testClasses generateTypes
+        - npm ci
         - npm run build -- --progress=false
         - rm -rf angular-build
         - mkdir angular-build
