@@ -161,7 +161,7 @@
   <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
                                            [noResponseStudents]="noResponseStudents"
                                            [section]="section" [session]="session"
-                                           (studentsToRemindData)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
+                                           (studentsToRemindEvent)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
 </div>
 
 <ng-template #downloadTooltip>

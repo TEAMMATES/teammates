@@ -47,7 +47,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
   noResponseStudentsInSection: Student[] = [];
 
-  @Output() studentsToRemindData: EventEmitter<StudentListInfoTableRowModel[]> = new EventEmitter();
+  @Output() studentsToRemindEvent: EventEmitter<StudentListInfoTableRowModel[]> = new EventEmitter();
 
   constructor(
     private modalService: NgbModal) { }
@@ -75,8 +75,8 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     const courseId: string = this.session.courseId;
     const feedbackSessionName: string = this.session.feedbackSessionName;
 
-    const giverEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
-    const giverSet: Set<string> = new Set(giverEmails);
+    const nonResponseStudentEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
+    const nonResponseStudentEmailSet: Set<string> = new Set(nonResponseStudentEmails);
 
     const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
     modalRef.componentInstance.courseId = courseId;
@@ -88,12 +88,12 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
         teamName: student.teamName,
         sectionName: student.sectionName,
 
-        hasSubmittedSession: !giverSet.has(student.email),
-        isSelected: true,
+        hasSubmittedSession: !nonResponseStudentEmailSet.has(student.email),
+        isSelected: nonResponseStudentEmailSet.has(student.email),
       } as StudentListInfoTableRowModel));
 
     modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-      this.studentsToRemindData.emit(studentsToRemind);
+      this.studentsToRemindEvent.emit(studentsToRemind);
     }, () => {});
   }
 
