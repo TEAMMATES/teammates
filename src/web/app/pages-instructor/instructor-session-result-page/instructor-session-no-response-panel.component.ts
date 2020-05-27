@@ -1,7 +1,5 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { StatusMessageService } from '../../../services/status-message.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -15,9 +13,6 @@ import {
 import {
   StudentListInfoTableRowModel,
 } from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
-import {
-    ErrorMessageOutput,
-} from '../../error-message-output';
 
 /**
  * Instructor sessions results page No Response Panel.
@@ -52,10 +47,10 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
   noResponseStudentsInSection: Student[] = [];
 
+  @Output() studentsToRemindData: EventEmitter<StudentListInfoTableRowModel[]> = new EventEmitter();
+
   constructor(
-    private modalService: NgbModal,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private statusMessageService: StatusMessageService) { }
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.filterStudentsBySection();
@@ -98,17 +93,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
       } as StudentListInfoTableRowModel));
 
     modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-      this.feedbackSessionsService
-            .remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
-              usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
-            }).subscribe(() => {
-              this.statusMessageService.showSuccessMessage(
-                'Reminder e-mails have been sent out to those students and instructors. '
-                + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-
-            }, (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorMessage(resp.error.message);
-            });
+      this.studentsToRemindData.emit(studentsToRemind);
     }, () => {});
   }
 

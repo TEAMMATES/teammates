@@ -37,8 +37,13 @@ import { CommentTableModel } from '../../components/comment-box/comment-table/co
 import {
   ConfirmPublishingSessionModalComponent,
 } from '../../components/sessions-table/confirm-publishing-session-modal/confirm-publishing-session-modal.component';
+import {
+    ConfirmUnpublishingSessionModalComponent,
 // tslint:disable-next-line:max-line-length
-import { ConfirmUnpublishingSessionModalComponent } from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
+} from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
+import {
+  StudentListInfoTableRowModel,
+} from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
@@ -474,6 +479,23 @@ export class InstructorSessionResultPageComponent implements OnInit {
     for (const sectionName of Object.keys(this.sectionsModel)) {
       this.sectionsModel[sectionName].isTabExpanded = false;
     }
+  }
+
+  /**
+   * Handles the sending of reminders to students.
+   */
+  sendReminderToStudents(studentsToRemindData: StudentListInfoTableRowModel[]): void {
+    this.feedbackSessionsService
+      .remindFeedbackSessionSubmissionForStudent(this.session.courseId, this.session.feedbackSessionName, {
+        usersToRemind: studentsToRemindData.map((m: StudentListInfoTableRowModel) => m.email),
+      }).subscribe(() => {
+        this.statusMessageService.showSuccessMessage(
+          'Reminder e-mails have been sent out to those students and instructors. '
+          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**
