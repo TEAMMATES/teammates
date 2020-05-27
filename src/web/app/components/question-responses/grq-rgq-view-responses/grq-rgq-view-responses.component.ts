@@ -84,7 +84,6 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
             this.usersToTeams[response.giver] = response.giverTeam;
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
-          this.userToEmail[response.giver] = this.userToEmail[response.giver] || '';
           if (response.giverEmail) {
             this.userToEmail[response.giver] = response.giverEmail;
           }
@@ -107,7 +106,6 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
               this.teamExpanded[response.recipientTeam] = this.isExpandAll;
             }
           }
-          this.userToEmail[response.recipient] = this.userToEmail[response.recipient] || '';
           if (response.recipientEmail) {
             this.userToEmail[response.recipient] = response.recipientEmail;
           }

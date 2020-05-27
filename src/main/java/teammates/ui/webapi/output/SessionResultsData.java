@@ -164,8 +164,12 @@ public class SessionResultsData extends ApiOutput {
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
                 String giverName = removeAnonymousHash(bundle.getGiverNameForResponse(response));
-                String giverEmail = bundle.isGiverVisible(response) ? response.giver : null;
-                String recipientEmail = bundle.isRecipientVisible(response) ? response.recipient : null;
+                String giverEmail = bundle.isGiverVisible(response)
+                        ? (bundle.rosterTeamNameMembersTable.containsKey(response.giver) ? null : response.giver)
+                        : null;
+                String recipientEmail = bundle.isRecipientVisible(response)
+                        ? (bundle.rosterTeamNameMembersTable.containsKey(response.recipient) ? null : response.recipient)
+                        : null;
                 Map<String, Set<String>> teamNameToMembersEmailTable = bundle.rosterTeamNameMembersTable;
                 String relatedGiverEmail = teamNameToMembersEmailTable.containsKey(response.giver)
                         ? teamNameToMembersEmailTable.get(response.giver).iterator().next() : response.giver;
