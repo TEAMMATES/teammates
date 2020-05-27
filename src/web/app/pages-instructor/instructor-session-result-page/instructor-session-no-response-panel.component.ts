@@ -2,13 +2,12 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentService } from '../../../services/student.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
-  Student, Students,
+  Student,
 } from '../../../types/api-output';
 import {
   SendRemindersToStudentModalComponent,
@@ -30,6 +29,7 @@ import {
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
 
+  @Input() allStudents: Student[] = [];
   @Input() noResponseStudents: Student[] = [];
   @Input() section: string = '';
   @Input() session: FeedbackSession = {
@@ -55,8 +55,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   constructor(
     private modalService: NgbModal,
     private feedbackSessionsService: FeedbackSessionsService,
-    private statusMessageService: StatusMessageService,
-    private studentService: StudentService) { }
+    private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     this.filterStudentsBySection();
@@ -81,44 +80,36 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     const courseId: string = this.session.courseId;
     const feedbackSessionName: string = this.session.feedbackSessionName;
 
+    const giverEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
+    const giverSet: Set<string> = new Set(giverEmails);
+
     const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
+    modalRef.componentInstance.studentListInfoTableRowModels
+      = this.allStudents.map((student: Student) => ({
+        email: student.email,
+        name: student.name,
+        teamName: student.teamName,
+        sectionName: student.sectionName,
 
-    this.studentService.getStudentsFromCourse({ courseId })
-    .subscribe(
-        (allStudents: Students) => {
-          const students: Student[] = allStudents.students;
-          const giverEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
-          const giverSet: Set<string> = new Set(giverEmails);
+        hasSubmittedSession: !giverSet.has(student.email),
+        isSelected: true,
+      } as StudentListInfoTableRowModel));
 
-          modalRef.componentInstance.studentListInfoTableRowModels
-            = students.map((student: Student) => ({
-              email: student.email,
-              name: student.name,
-              teamName: student.teamName,
-              sectionName: student.sectionName,
+    modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
+      this.feedbackSessionsService
+            .remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
+              usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
+            }).subscribe(() => {
+              this.statusMessageService.showSuccessMessage(
+                'Reminder e-mails have been sent out to those students and instructors. '
+                + 'Please allow up to 1 hour for all the notification emails to be sent out.');
 
-              hasSubmittedSession: !giverSet.has(student.email),
-              isSelected: true,
-            } as StudentListInfoTableRowModel));
-
-          modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-            this.feedbackSessionsService
-                  .remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
-                    usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
-                  }).subscribe(() => {
-                    this.statusMessageService.showSuccessMessage(
-                      'Reminder e-mails have been sent out to those students and instructors. '
-                      + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-
-                  }, (resp: ErrorMessageOutput) => {
-                    this.statusMessageService.showErrorMessage(resp.error.message);
-                  });
-          }, () => {});
-
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); },
-    );
+            }, (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorMessage(resp.error.message);
+            });
+    }, () => {});
   }
 
   /**

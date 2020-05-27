@@ -121,6 +121,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
 
+  allStudentsInCourse: Student[] = [];
+
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
 
@@ -189,25 +191,26 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
 
-        // load no response students
+        // load all students in course
         this.studentService.getStudentsFromCourse({
           courseId: queryParams.courseid,
         }).subscribe((allStudents: Students) => {
-          const students: Student[] = allStudents.students;
+          this.allStudentsInCourse = allStudents.students;
 
+          // load no response students
           this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
             courseId: queryParams.courseid,
             feedbackSessionName: queryParams.fsname,
-          })
-              .subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
-                // TODO team is missing
-                this.noResponseStudents = students.filter((student: Student) =>
-                                            !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
-              }, (resp: ErrorMessageOutput) => {
-                this.statusMessageService.showErrorMessage(resp.error.message);
-              });
+          }).subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+            // TODO team is missing
+            this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
+                                        !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(resp.error.message);
+          });
 
           this.isNoResponsePanelLoaded = true;
+
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
