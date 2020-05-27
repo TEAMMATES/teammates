@@ -256,15 +256,4 @@ export class CourseService {
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSE_ENROLL_STUDENTS, paramsMap);
   }
-
-  /**
-   * Regenerates the links for a student in a course.
-   */
-  regenerateStudentCourseLinks(courseId: string, studentEmail: string): Observable<any> {
-    const paramsMap: Record<string, string> = {
-      courseid: courseId,
-      studentemail: studentEmail,
-    };
-    return this.httpRequestService.post(ResourceEndpoints.STUDENT_COURSE_LINKS_REGENERATION, paramsMap);
-  }
 }

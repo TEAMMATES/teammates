@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
-import { CourseService } from '../../../services/course.service';
 import {
   AdminSearchResult,
   InstructorAccountSearchResult,
@@ -9,6 +8,7 @@ import {
   StudentAccountSearchResult,
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { RegenerateStudentCourseLinks } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
@@ -32,7 +32,7 @@ export class AdminSearchPageComponent {
   constructor(
     private statusMessageService: StatusMessageService,
     private accountService: AccountService,
-    private courseService: CourseService,
+    private studentService: StudentService,
     private modalService: NgbModal,
     private searchService: SearchService,
   ) {}
@@ -136,7 +136,7 @@ export class AdminSearchPageComponent {
     modalRef.componentInstance.regenerateLinksCourseId = student.courseId;
 
     modalRef.result.then(() => {
-      this.courseService.regenerateStudentCourseLinks(student.courseId, student.email)
+      this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)
         .subscribe((resp: RegenerateStudentCourseLinks) => {
           this.statusMessageService.showSuccessMessage(resp.message);
           this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
