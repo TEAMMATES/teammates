@@ -32,9 +32,9 @@
   <div class="card top-padded">
     <div class="card-header bg-primary text-white" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
-      <span *ngIf="userToEmail[userInfo]">
+      <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
         [{{ userToEmail[userInfo] }}]
-      </span>
+      </a>
       <div class="float-right">
         <tm-response-moderation-button class="mr-md-3" *ngIf="isGqr" [session]="session" [relatedGiverEmail]="userInfo"></tm-response-moderation-button>
         <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
