@@ -76,22 +76,22 @@
     <div class="background-color-light-blue">
       <div class="row">
         <div class="col-12">
-          <div class="row padding-15px align-items-center">
-            <div class="col-2">
+          <div class="row padding-15px text-left">
+            <div class="col-md-2">
               <div class="question-basic-info">Question</div>
             </div>
-            <div class="col-10">
+            <div class="col-md-10">
               <textarea class="form-control" [ngModel]="model.questionBrief" (ngModelChange)="triggerModelChange('questionBrief', $event)" [disabled]="!model.isEditable"
                         placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;"
                         ngbTooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
               ></textarea>
             </div>
           </div>
-          <div class="row padding-15px">
-            <div class="col-2">
+          <div class="row padding-15px text-left">
+            <div class="col-md-2">
               <div class="question-basic-info">[Optional]<br/>Description</div>
             </div>
-            <div class="col-10">
+            <div class="col-md-10">
               <tm-rich-text-editor [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable"
                                    placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
                                    ngbTooltip="Please enter the description of the question."></tm-rich-text-editor>

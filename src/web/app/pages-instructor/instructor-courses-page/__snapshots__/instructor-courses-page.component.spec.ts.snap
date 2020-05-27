@@ -168,46 +168,64 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </button>
               
               
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Edit Course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </button>
+                  
+                  
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
@@ -262,43 +280,61 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               >
                  Enroll 
               </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Edit Course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item disabled"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -649,46 +685,64 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </button>
               
               
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Edit Course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </button>
+                  
+                  
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
@@ -743,43 +797,61 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               >
                  Enroll 
               </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Edit Course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item disabled"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -1283,46 +1355,64 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               </button>
               
               
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Edit Course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </button>
+                  
+                  
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
@@ -1393,43 +1483,61 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               >
                  Enroll 
               </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="View, edit and send invitation"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/detail"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Edit Course information and in"
+                    ng-reflect-query-params="[object Object]"
+                    ng-reflect-router-link="/web/instructor/courses/edit"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item disabled"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>

@@ -9,6 +9,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 /**
  * Component to display list of responses in GRQ/RGQ view.
@@ -18,7 +19,7 @@ import {
   templateUrl: './grq-rgq-view-responses.component.html',
   styleUrls: ['./grq-rgq-view-responses.component.scss'],
 })
-export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
+export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
   @Input() section: string = '';
@@ -46,13 +47,17 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
   @Input() isGrq: boolean = true;
 
   teamsToUsers: Record<string, string[]> = {};
+  usersToTeams: Record<string, string> = {};
+  userToEmail: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
 
   responsesToShow: Record<string, Record<string, QuestionOutput[]>> = {};
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
     this.filterResponses();
@@ -65,34 +70,45 @@ export class GrqRgqViewResponsesComponent implements OnInit, OnChanges {
   private filterResponses(): void {
     this.responsesToShow = {};
     this.teamsToUsers = {};
+    this.usersToTeams = {};
+    this.userToEmail = {};
     this.teamExpanded = {};
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
         if (this.isGrq) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
+          this.usersToTeams[response.giver] = this.usersToTeams[response.giver] || '';
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
-            this.teamExpanded[response.giverTeam] = false;
+            this.usersToTeams[response.giver] = response.giverTeam;
+            this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
-          this.userExpanded[response.giver] = false;
+          if (response.giverEmail) {
+            this.userToEmail[response.giver] = response.giverEmail;
+          }
+          this.userExpanded[response.giver] = this.isExpandAll;
         } else {
+          this.usersToTeams[response.recipient] = this.usersToTeams[response.recipient] || '';
+          this.userExpanded[response.recipient] = this.isExpandAll;
           if (!response.recipientTeam) {
             // Recipient is team
             this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
-              this.teamExpanded[response.recipient] = false;
+              this.teamExpanded[response.recipient] = this.isExpandAll;
             }
-            this.userExpanded[response.recipient] = false;
-            continue;
+          } else {
+            this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
+            if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
+              this.teamsToUsers[response.recipientTeam].push(response.recipient);
+              this.usersToTeams[response.recipient] = response.recipientTeam;
+              this.teamExpanded[response.recipientTeam] = this.isExpandAll;
+            }
           }
-          this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
-          if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
-            this.teamsToUsers[response.recipientTeam].push(response.recipient);
-            this.teamExpanded[response.recipientTeam] = false;
+          if (response.recipientEmail) {
+            this.userToEmail[response.recipient] = response.recipientEmail;
           }
-          this.userExpanded[response.recipient] = false;
         }
       }
     }

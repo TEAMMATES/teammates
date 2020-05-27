@@ -69,7 +69,8 @@ export class SessionResultPageComponent implements OnInit {
           intent: Intent.STUDENT_RESULT,
         }).subscribe((sessionResults: SessionResults) => {
           this.questions = sessionResults.questions.sort(
-              (a: QuestionOutput, b: QuestionOutput) => a.questionNumber - b.questionNumber);
+              (a: QuestionOutput, b: QuestionOutput) =>
+                  a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });

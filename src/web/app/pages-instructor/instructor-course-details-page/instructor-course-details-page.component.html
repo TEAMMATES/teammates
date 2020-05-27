@@ -4,39 +4,39 @@
     <div class="card-body fill-plain">
       <div class="form">
         <div class="form-group row">
-          <label class="col-sm-3">Course ID:</label>
-          <div class="col-sm-6">
+          <label class="col-sm-3 text-sm-right">Course ID:</label>
+          <div class="col-sm-6 text-sm-left">
             <p class="form-control-static">{{courseDetails.course.courseId}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3">Course name:</label>
-          <div class="col-sm-6" id="coursename">
+          <label class="col-sm-3 text-sm-right">Course name:</label>
+          <div class="col-sm-6 text-sm-left" id="coursename">
             <p class="form-control-static">{{courseDetails.course.courseName}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3">Sections:</label>
-          <div class="col-sm-6">
+          <label class="col-sm-3 text-sm-right">Sections:</label>
+          <div class="col-sm-6 text-sm-left">
             <p class="form-control-static">{{courseDetails.stats.sectionsTotal}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3">Teams:</label>
-          <div class="col-sm-6">
+          <label class="col-sm-3 text-sm-right">Teams:</label>
+          <div class="col-sm-6 text-sm-left">
             <p class="form-control-static">{{courseDetails.stats.teamsTotal}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3">Total students:</label>
-          <div class="col-sm-6">
+          <label class="col-sm-3 text-sm-right">Total students:</label>
+          <div class="col-sm-6 text-sm-left">
             <p class="form-control-static">{{courseDetails.stats.studentsTotal}}</p>
           </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-sm-3 control-label">Instructors:</label>
-        <div class="col-sm-6">
+        <label class="col-sm-3 text-sm-right control-label">Instructors:</label>
+        <div class="col-sm-6 text-sm-left">
           <div *ngFor="let instructor of instructors">
             {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
           </div>

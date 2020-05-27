@@ -6,13 +6,16 @@ import { TemplateSession } from '../../../../services/feedback-sessions.service'
 import {
   Course,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
+  FeedbackSessionSubmissionStatus, Instructor, InstructorPermissionRole, JoinState,
   ResponseVisibleSetting,
-  SessionVisibleSetting,
+  SessionVisibleSetting, Student,
 } from '../../../../types/api-output';
 import {
   SessionEditFormMode, SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
+import {
+  RecycleBinFeedbackSessionRowModel,
+} from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -77,6 +80,53 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     {
       name: 'Example session',
       questions: [],
+    },
+  ];
+
+  readonly exampleStudents: Student[] = [
+    {
+      email: 'alice@email.com',
+      courseId: 'test.exa-demo',
+      name: 'Alice Betsy',
+      lastName: 'Betsy',
+      comments: 'Alice is a transfer student.',
+      teamName: 'Team A',
+      sectionName: 'Section A',
+      joinState: JoinState.JOINED,
+    },
+  ];
+  readonly exampleInstructors: Instructor[] = [
+    {
+      googleId: 'bob@email.com',
+      courseId: 'test.exa-demo',
+      email: 'bob@email.com',
+      isDisplayedToStudents: true,
+      displayedToStudentsAs: 'Instructor',
+      name: 'Bob Ruth',
+      key: 'impicklerick',
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      joinState: JoinState.JOINED,
+    },
+  ];
+
+  readonly exampleRecycleBinFeedbackSessions: RecycleBinFeedbackSessionRowModel[] = [
+    {
+      feedbackSession: {
+        courseId: 'CS2103T',
+        timeZone: 'UTC',
+        feedbackSessionName: 'Project Feedback 1',
+        instructions: 'Enter your feedback for projects',
+        submissionStartTimestamp: 0,
+        submissionEndTimestamp: 0,
+        gracePeriod: 0,
+        sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+        responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+        submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+        publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+        isClosingEmailEnabled: true,
+        isPublishedEmailEnabled: true,
+        createdAtTimestamp: 0,
+      },
     },
   ];
 

@@ -7,6 +7,12 @@ import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.modul
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { CommentEditFormComponent } from './comment-edit-form/comment-edit-form.component';
 import { CommentRowComponent } from './comment-row/comment-row.component';
+import { CommentTableModalComponent } from './comment-table-modal/comment-table-modal.component';
+import { CommentTableComponent } from './comment-table/comment-table.component';
+import {
+  CommentVisibilityControlNamePipe,
+  CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
+} from './comment-visibility-setting.pipe';
 import {
   ConfirmDeleteCommentModalComponent,
 } from './confirm-delete-comment-modal/confirm-delete-comment-modal.component';
@@ -19,6 +25,12 @@ import {
     CommentEditFormComponent,
     CommentRowComponent,
     ConfirmDeleteCommentModalComponent,
+    CommentTableModalComponent,
+    CommentTableComponent,
+    CommentVisibilityControlNamePipe,
+    CommentVisibilityTypeDescriptionPipe,
+    CommentVisibilityTypeNamePipe,
+    CommentVisibilityTypesJointNamePipe,
   ],
   imports: [
     TeammatesCommonModule,
@@ -30,6 +42,8 @@ import {
   ],
   exports: [
     CommentRowComponent,
+    CommentTableComponent,
+    CommentTableModalComponent,
   ],
   entryComponents: [
     ConfirmDeleteCommentModalComponent,

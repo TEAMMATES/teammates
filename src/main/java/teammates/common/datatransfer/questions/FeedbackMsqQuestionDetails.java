@@ -3,34 +3,23 @@ package teammates.common.datatransfer.questions;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails.MultipleOptionStatistics;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.FeedbackQuestion.FormTemplates;
 import teammates.common.util.Templates.FeedbackQuestion.Slots;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.StudentsLogic;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
-    private static final Logger log = Logger.getLogger();
     private List<String> msqChoices;
     private boolean otherEnabled;
     private boolean hasAssignedWeights;
@@ -39,6 +28,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private FeedbackParticipantType generateOptionsFor;
     private int maxSelectableChoices;
     private int minSelectableChoices;
+    private transient int numOfGeneratedMsqChoices;
 
     public FeedbackMsqQuestionDetails() {
         super(FeedbackQuestionType.MSQ);
@@ -53,149 +43,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqOtherWeight = 0;
     }
 
-    @Override
-    public boolean extractQuestionDetails(
-            Map<String, String[]> requestParameters,
-            FeedbackQuestionType questionType) {
-        List<String> msqChoices = new LinkedList<>();
-        boolean msqOtherEnabled = false;
-
-        String otherOptionFlag =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
-
-        if ("on".equals(otherOptionFlag)) {
-            msqOtherEnabled = true;
-        }
-
-        int msqMaxSelectableChoices = Integer.MIN_VALUE;
-        int msqMinSelectableChoices = Integer.MIN_VALUE;
-        String maxSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MAX_SELECTABLE_CHOICES);
-        String minSelectableChoicesParam = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                Const.ParamsNames.FEEDBACK_QUESTION_MSQ_MIN_SELECTABLE_CHOICES);
-
-        if (maxSelectableChoicesParam != null) {
-            msqMaxSelectableChoices = Integer.parseInt(maxSelectableChoicesParam);
-        }
-
-        if (minSelectableChoicesParam != null) {
-            msqMinSelectableChoices = Integer.parseInt(minSelectableChoicesParam);
-        }
-
-        this.maxSelectableChoices = msqMaxSelectableChoices;
-        this.minSelectableChoices = msqMinSelectableChoices;
-        String generatedMsqOptions =
-                HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_MSQ_GENERATED_OPTIONS);
-        if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
-            String numMsqChoicesCreatedString =
-                    HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                           Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
-            Assumption.assertNotNull("Null number of choice for MSQ", numMsqChoicesCreatedString);
-            int numMsqChoicesCreated = Integer.parseInt(numMsqChoicesCreatedString);
-
-            for (int i = 0; i < numMsqChoicesCreated; i++) {
-                String msqChoice =
-                        HttpRequestHelper.getValueFromParamMap(
-                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
-                if (msqChoice != null && !msqChoice.trim().isEmpty()) {
-                    msqChoices.add(msqChoice);
-                }
-            }
-            String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_HAS_WEIGHTS_ASSIGNED);
-            boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
-            List<Double> msqWeights = getMsqWeights(
-                    requestParameters, numMsqChoicesCreated, hasAssignedWeights);
-            double msqOtherWeight = getMsqOtherWeight(requestParameters, msqOtherEnabled, hasAssignedWeights);
-
-            setMsqQuestionDetails(msqChoices, msqOtherEnabled, hasAssignedWeights, msqWeights, msqOtherWeight);
-        } else {
-            setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
-        }
-        return true;
-    }
-
     public List<Double> getMsqWeights() {
-        return msqWeights;
-    }
-
-    private List<Double> getMsqWeights(Map<String, String[]> requestParameters,
-            int numMsqChoicesCreated, boolean hasAssignedWeights) {
-        List<Double> msqWeights = new ArrayList<>();
-
-        if (!hasAssignedWeights) {
-            return msqWeights;
-        }
-
-        for (int i = 0; i < numMsqChoicesCreated; i++) {
-            String choice = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
-            String weight = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_WEIGHT + "-" + i);
-
-            if (choice != null && !choice.trim().isEmpty() && weight != null) {
-                try {
-                    // Do not add weight to msqWeights if the weight cannot be parsed
-                    msqWeights.add(Double.parseDouble(weight));
-                } catch (NumberFormatException e) {
-                    log.severe("Failed to parse weight for MSQ question: " + weight);
-                }
-            }
-        }
-
         return msqWeights;
     }
 
     public double getMsqOtherWeight() {
         return msqOtherWeight;
-    }
-
-    private double getMsqOtherWeight(Map<String, String[]> requestParameters,
-            boolean msqOtherEnabled, boolean hasAssignedWeights) {
-        double msqOtherWeight = 0;
-
-        if (!hasAssignedWeights || !msqOtherEnabled) {
-            return msqOtherWeight;
-        }
-
-        String otherWeight = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_OTHER_WEIGHT);
-
-        Assumption.assertNotNull("Null 'other' weight of MSQ question", otherWeight);
-        Assumption.assertNotEmpty("Empty 'other' weight of MSQ question", otherWeight);
-
-        try {
-            // Do not assign value to msqOtherWeight if the weight can not be parsed.
-            msqOtherWeight = Double.parseDouble(otherWeight);
-        } catch (NumberFormatException e) {
-            log.severe("Failed to parse \"other\" weight of MSQ question: " + otherWeight);
-        }
-        return msqOtherWeight;
-    }
-
-    private void setMsqQuestionDetails(List<String> msqChoices, boolean otherEnabled,
-            boolean hasAssignedWeights, List<Double> msqWeights, double msqOtherWeight) {
-        this.msqChoices = msqChoices;
-        this.otherEnabled = otherEnabled;
-        this.generateOptionsFor = FeedbackParticipantType.NONE;
-        this.hasAssignedWeights = hasAssignedWeights;
-        this.msqWeights = msqWeights;
-        this.msqOtherWeight = msqOtherWeight;
-    }
-
-    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
-        this.msqChoices = new ArrayList<>();
-        this.otherEnabled = false;
-        this.generateOptionsFor = generateOptionsFor;
-        Assumption.assertTrue(
-                "Can only generate students, students (excluding self), teams, teams (excluding self) or instructors",
-                generateOptionsFor == FeedbackParticipantType.STUDENTS
-                || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
-                || generateOptionsFor == FeedbackParticipantType.TEAMS
-                || generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF
-                || generateOptionsFor == FeedbackParticipantType.INSTRUCTORS);
     }
 
     @Override
@@ -398,35 +251,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         isMaxSelectableChoicesEnabled ? Integer.toString(maxSelectableChoices) : "-1",
                 Slots.MSQ_MIN_SELECTABLE_CHOICES,
                         isMinSelectableChoicesEnabled ? Integer.toString(minSelectableChoices) : "-1");
-    }
-
-    public int getNumOfChoicesForMsq(String courseId, FeedbackParticipantType generateOptionsFor) {
-        if (generateOptionsFor == FeedbackParticipantType.NONE) {
-            return msqChoices.size() + (otherEnabled ? 1 : 0);
-        }
-
-        if (generateOptionsFor == FeedbackParticipantType.STUDENTS
-                || generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
-            List<StudentAttributes> studentList = StudentsLogic.inst().getStudentsForCourse(courseId);
-            int sizeOfStudentlist = studentList.size();
-
-            return generateOptionsFor == FeedbackParticipantType.STUDENTS ? sizeOfStudentlist : sizeOfStudentlist - 1;
-        }
-
-        if (generateOptionsFor == FeedbackParticipantType.TEAMS
-                || generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
-            try {
-                List<TeamDetailsBundle> teamList = CoursesLogic.inst().getTeamsForCourse(courseId);
-                int sizeOfTeamlist = teamList.size();
-
-                return generateOptionsFor == FeedbackParticipantType.TEAMS ? sizeOfTeamlist : sizeOfTeamlist - 1;
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Course disappeared");
-            }
-        }
-        List<InstructorAttributes> instructorList = InstructorsLogic.inst().getInstructorsForCourse(courseId);
-
-        return instructorList.size();
     }
 
     @Override
@@ -643,7 +467,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
 
@@ -680,16 +504,15 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             // If weights are negative, trigger this error.
             if (hasAssignedWeights && !msqWeights.isEmpty()) {
-                for (double weight : msqWeights) {
-                    if (weight < 0) {
-                        errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
-                    }
-                }
-                // If 'Other' option is enabled, and other weight has negative value,
-                // trigger this error.
-                if (otherEnabled && msqOtherWeight < 0) {
-                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
-                }
+                msqWeights.stream()
+                        .filter(weight -> weight < 0)
+                        .forEach(weight -> errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT));
+            }
+
+            // If 'Other' option is enabled, and other weight has negative value,
+            // trigger this error.
+            if (hasAssignedWeights && otherEnabled && msqOtherWeight < 0) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT);
             }
 
             //If there are duplicate mcq options trigger this error
@@ -703,9 +526,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
 
-        int numOfMsqChoicesForGeneratedOptions = getNumOfChoicesForMsq(courseId, generateOptionsFor);
+        int numOfMsqChoices = numOfGeneratedMsqChoices;
+        if (generateOptionsFor == FeedbackParticipantType.NONE) {
+            numOfMsqChoices = msqChoices.size() + (otherEnabled ? 1 : 0);
+        }
         if (isMaxSelectableChoicesEnabled) {
-            if (numOfMsqChoicesForGeneratedOptions < maxSelectableChoices) {
+            if (numOfMsqChoices < maxSelectableChoices) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
             } else if (maxSelectableChoices < 2) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
@@ -716,7 +542,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             if (minSelectableChoices < 1) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
             }
-            if (minSelectableChoices > numOfMsqChoicesForGeneratedOptions) {
+            if (minSelectableChoices > numOfMsqChoices) {
                 errors.add(Const.FeedbackQuestion.MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES);
             }
         }
@@ -727,38 +553,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return errors;
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        List<String> errors = new ArrayList<>();
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
-            if (!otherEnabled) {
-                List<String> validChoices = msqChoices;
-                validChoices.add("");
-                if (!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE) {
-                    errors.add(frd.getAnswerString() + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
-                }
-            }
-
-            if (maxSelectableChoices != Integer.MIN_VALUE && frd.answers.size() > maxSelectableChoices) {
-                errors.add(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL
-                        + maxSelectableChoices);
-            }
-        }
-        return errors;
-    }
-
-    /**
-     * Checks if the question has been skipped.
-     * MSQ allows a blank response, as that represents "None of the above"
-     */
-    @Override
-    public boolean isQuestionSkipped(String[] answer) {
-        return answer == null;
     }
 
     @Override
@@ -828,6 +622,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     public void setMinSelectableChoices(int minSelectableChoices) {
         this.minSelectableChoices = minSelectableChoices;
+    }
+
+    public void setNumOfGeneratedMsqChoices(int numOfGeneratedMsqChoices) {
+        this.numOfGeneratedMsqChoices = numOfGeneratedMsqChoices;
     }
 
     /**

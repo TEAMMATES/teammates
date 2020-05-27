@@ -757,4 +757,32 @@ public final class FeedbackQuestionsLogic {
         }
     }
 
+    /**
+     * Gets the number of generated options for MCQ-type and MSQ-type question.
+     */
+    public int getNumOfGeneratedChoicesForParticipantType(String courseId, FeedbackParticipantType participantType) {
+        if (participantType == FeedbackParticipantType.STUDENTS
+                || participantType == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+            List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
+            return studentList.size() - (participantType == FeedbackParticipantType.STUDENTS ? 0 : 1);
+        }
+
+        if (participantType == FeedbackParticipantType.TEAMS
+                || participantType == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
+            try {
+                List<TeamDetailsBundle> teamList = coursesLogic.getTeamsForCourse(courseId);
+                return teamList.size() - (participantType == FeedbackParticipantType.TEAMS ? 0 : 1);
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail("Course disappeared");
+            }
+        }
+
+        if (participantType == FeedbackParticipantType.INSTRUCTORS) {
+            List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(courseId);
+            return instructorList.size();
+        }
+
+        return 0;
+    }
+
 }

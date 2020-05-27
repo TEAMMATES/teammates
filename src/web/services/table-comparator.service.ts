@@ -48,6 +48,9 @@ export class TableComparatorService {
         return this.compareNaturally(strA, strB, order);
       case SortBy.STUDENT_NAME:
       case SortBy.EMAIL:
+      case SortBy.STUDENT_GENDER:
+      case SortBy.INSTITUTION:
+      case SortBy.NATIONALITY:
       case SortBy.JOIN_STATUS:
       case SortBy.COURSE_ID:
       case SortBy.COURSE_NAME:
