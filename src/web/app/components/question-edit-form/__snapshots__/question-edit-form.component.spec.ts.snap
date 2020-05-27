@@ -112,10 +112,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             class="col-12"
           >
             <div
-              class="row padding-15px align-items-center"
+              class="row padding-15px text-left"
             >
               <div
-                class="col-2"
+                class="col-md-2"
               >
                 <div
                   class="question-basic-info"
@@ -124,7 +124,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 </div>
               </div>
               <div
-                class="col-10"
+                class="col-md-10"
               >
                 <textarea
                   class="form-control ng-untouched ng-pristine ng-valid"
@@ -138,10 +138,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               </div>
             </div>
             <div
-              class="row padding-15px"
+              class="row padding-15px text-left"
             >
               <div
-                class="col-2"
+                class="col-md-2"
               >
                 <div
                   class="question-basic-info"
@@ -152,7 +152,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 </div>
               </div>
               <div
-                class="col-10"
+                class="col-md-10"
               >
                 <tm-rich-text-editor
                   ng-reflect-is-disabled="true"
@@ -174,7 +174,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     ng-reflect-ng-class="[object Object]"
                     ng-reflect-ng-style="[object Object]"
                     placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
-                    style="min-height: 120px;"
+                    style="min-height: 150px;"
                   >
                     
                     <div
