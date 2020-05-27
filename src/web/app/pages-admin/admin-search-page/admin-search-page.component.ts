@@ -31,9 +31,9 @@ export class AdminSearchPageComponent {
 
   constructor(
     private statusMessageService: StatusMessageService,
+    private modalService: NgbModal,
     private accountService: AccountService,
     private studentService: StudentService,
-    private modalService: NgbModal,
     private searchService: SearchService,
   ) {}
 
