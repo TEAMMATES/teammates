@@ -29,19 +29,7 @@
                               [isFeedbackParticipantComment]="true"
                               [response]="response"
                               [questionShowResponsesTo]="[]"
-                              [model]="
-                                {
-                                  commentEditFormModel: {
-                                    commentText: response.participantComment.commentText,
-                                    isUsingCustomVisibilities: false,
-                                    showCommentTo: response.participantComment.showCommentTo,
-                                    showGiverNameTo: response.participantComment.showGiverNameTo
-                                  },
-                                  originalComment: response.participantComment,
-                                  isEditing: false,
-                                  commentGiverName: response.participantComment.commentGiverName,
-                                  lastEditorName: response.participantComment.lastEditorName
-                                }"
+                              [model]="response.participantComment | participantCommentToCommandRowModelPipe"
             ></tm-comment-row>
             </td>
           </tr>
