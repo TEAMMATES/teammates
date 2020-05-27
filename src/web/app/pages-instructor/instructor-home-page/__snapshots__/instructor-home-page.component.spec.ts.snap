@@ -72,7 +72,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       </a>
     </div>
     
-  </div>
+  </div><br />
 </tm-instructor-home-page>
 `;
 
@@ -184,7 +184,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         </div>
       </div>
     </div>
-  </div><div>
+  </div><br /><div>
     
     <div
       class="card margin-bottom-15px"
@@ -347,7 +347,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         </div>
       </div>
     </div>
-  </div><div>
+  </div><br /><div>
     
     <div
       class="card margin-bottom-15px"
@@ -919,7 +919,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         </div>
       </div>
     </div>
-  </div><div>
+  </div><br /><div>
     
     <div
       class="card margin-bottom-15px"
@@ -1094,7 +1094,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           ng-reflect-course-candidates="[object Object]"
           ng-reflect-header-color-scheme="1"
           ng-reflect-sessions-table-row-models="[object Object],[object Object"
-          ng-reflect-sessions-table-row-models-sort-by="8"
+          ng-reflect-sessions-table-row-models-sort-by="11"
           ng-reflect-sessions-table-row-models-sort-order="1"
         >
           
@@ -1638,7 +1638,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         </div>
       </div>
     </div>
-  </div><div>
+  </div><br /><div>
     
     <div
       class="card margin-bottom-15px"
@@ -1940,7 +1940,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         </div>
       </div>
     </div>
-  </div><div>
+  </div><br /><div>
     
     <div
       class="card margin-bottom-15px"
@@ -2262,7 +2262,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         </div>
       </div>
     </div>
-  </div><div>
+  </div><br /><div>
     
     <div
       class="card margin-bottom-15px"

@@ -16,8 +16,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
@@ -26,7 +24,6 @@ import teammates.common.util.Templates.FeedbackQuestion.Slots;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
-    private static final Logger log = Logger.getLogger();
     private static final String STATISTICS_NO_VALUE_STRING = "-";
 
     private boolean hasAssignedWeights;
@@ -66,138 +63,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return null;
     }
 
-    @Override
-    public boolean extractQuestionDetails(
-            Map<String, String[]> requestParameters,
-            FeedbackQuestionType questionType) {
-        String numOfRubricChoicesString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS);
-        String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                                     Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS);
-
-        if (numOfRubricChoicesString == null || numOfRubricSubQuestionsString == null) {
-            return false;
-        }
-
-        String hasAssignedWeightsString = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHTS_ASSIGNED);
-
-        boolean hasAssignedWeights = "on".equals(hasAssignedWeightsString);
-        int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
-        int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
-        List<List<Double>> rubricWeightsForEachCell = getRubricWeightsForEachCell(
-                requestParameters, numOfRubricChoices, numOfRubricSubQuestions, hasAssignedWeights);
-        List<String> rubricChoices = getRubricChoices(requestParameters, numOfRubricChoices);
-        List<String> rubricSubQuestions = getSubQuestions(requestParameters, numOfRubricSubQuestions);
-        List<List<String>> rubricDescriptions = getRubricQuestionDescriptions(requestParameters,
-                                                                              numOfRubricChoices,
-                                                                              numOfRubricSubQuestions);
-
-        // Set details
-        setRubricQuestionDetails(hasAssignedWeights, rubricWeightsForEachCell,
-                rubricChoices, rubricSubQuestions, rubricDescriptions);
-
-        if (!isValidDescriptionSize()) {
-            // If description sizes are invalid, default to empty descriptions.
-            initializeRubricDescriptions();
-        }
-
-        return true;
-    }
-
-    /**
-     * Extracts Rubric weight values from request parameters map.
-     * @return Returns the list of rubric weights.
-     */
-    private List<List<Double>> getRubricWeightsForEachCell(Map<String, String[]> requestParameters,
-            int numOfRubricChoices, int numOfRubricSubQuestions, boolean hasAssignedWeights) {
-        List<List<Double>> rubricWeightsForEachCell = new ArrayList<>();
-
-        if (!hasAssignedWeights) {
-            return rubricWeightsForEachCell;
-        }
-
-        int weightRows = -1;
-        for (int i = 0; i < numOfRubricSubQuestions; i++) {
-            String subQn = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
-            if (subQn == null || subQn.trim().isEmpty()) {
-                // No weights should be parsed for a null or empty sub question.
-                continue;
-            }
-            boolean rowAdded = false;
-
-            for (int j = 0; j < numOfRubricChoices; j++) {
-                String choice = HttpRequestHelper.getValueFromParamMap(
-                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + j);
-                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_WEIGHT + "-" + i + "-" + j;
-                String weight = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
-                if (weight != null && choice != null) {
-                    if (!rowAdded) {
-                        weightRows++;
-                        rubricWeightsForEachCell.add(new ArrayList<>());
-                        rowAdded = true;
-                    }
-                    try {
-                        rubricWeightsForEachCell.get(weightRows).add(Double.parseDouble(weight));
-                    } catch (NumberFormatException e) {
-                        log.severe("Failed to parse weight for rubric question " + weight);
-                    }
-                }
-            }
-        }
-
-        return rubricWeightsForEachCell;
-    }
-
-    private List<String> getRubricChoices(Map<String, String[]> requestParameters, int numOfRubricChoices) {
-        List<String> rubricChoices = new ArrayList<>();
-        for (int i = 0; i < numOfRubricChoices; i++) {
-            String choice = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                  Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
-            if (choice != null) {
-                rubricChoices.add(choice);
-            }
-        }
-        return rubricChoices;
-    }
-
     public List<String> getRubricChoices() {
         return rubricChoices;
-    }
-
-    private List<String> getSubQuestions(Map<String, String[]> requestParameters, int numOfRubricSubQuestions) {
-        List<String> rubricSubQuestions = new ArrayList<>();
-        for (int i = 0; i < numOfRubricSubQuestions; i++) {
-            String subQuestion = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                       Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
-            if (subQuestion != null) {
-                rubricSubQuestions.add(subQuestion);
-            }
-        }
-        return rubricSubQuestions;
-    }
-
-    private List<List<String>> getRubricQuestionDescriptions(Map<String, String[]> requestParameters,
-                                                             int numOfRubricChoices, int numOfRubricSubQuestions) {
-        List<List<String>> rubricDescriptions = new ArrayList<>();
-        int descRows = -1;
-        for (int i = 0; i < numOfRubricSubQuestions; i++) {
-            boolean rowAdded = false;
-            for (int j = 0; j < numOfRubricChoices; j++) {
-                String paramName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j;
-                String description = HttpRequestHelper.getValueFromParamMap(requestParameters, paramName);
-                if (description != null) {
-                    if (!rowAdded) {
-                        descRows++;
-                        rubricDescriptions.add(new ArrayList<>());
-                        rowAdded = true;
-                    }
-                    rubricDescriptions.get(descRows).add(description);
-                }
-            }
-        }
-        return rubricDescriptions;
     }
 
     /**
@@ -225,20 +92,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             return false;
         }
         return rubricWeightsForEachCell.stream().allMatch(x -> x.size() == numOfRubricChoices);
-    }
-
-    private void setRubricQuestionDetails(boolean hasAssignedWeights,
-                                          List<List<Double>> rubricWeightsForEachCell,
-                                          List<String> rubricChoices,
-                                          List<String> rubricSubQuestions,
-                                          List<List<String>> rubricDescriptions) {
-        this.hasAssignedWeights = hasAssignedWeights;
-        this.rubricWeightsForEachCell = rubricWeightsForEachCell;
-        this.numOfRubricChoices = rubricChoices.size();
-        this.rubricChoices = rubricChoices;
-        this.numOfRubricSubQuestions = rubricSubQuestions.size();
-        this.rubricSubQuestions = rubricSubQuestions;
-        this.rubricDescriptions = rubricDescriptions;
     }
 
     @Override
@@ -843,7 +696,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return csv.toString();
     }
 
-    public List<Map.Entry<String, RubricRecipientStatistics>> getPerRecipientStatisticsSorted(
+    private List<Map.Entry<String, RubricRecipientStatistics>> getPerRecipientStatisticsSorted(
             List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
         Map<String, RubricRecipientStatistics> recipientToRecipientStats = new HashMap<>();
@@ -865,7 +718,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return recipientStatsList;
     }
 
-    public String getPerRecipientStatisticsCsv(List<FeedbackResponseAttributes> responses,
+    private String getPerRecipientStatisticsCsv(List<FeedbackResponseAttributes> responses,
             FeedbackSessionResultsBundle bundle) {
         StringBuilder csv = new StringBuilder(100);
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =
@@ -891,18 +744,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "Choice Value";
     }
 
-    public String getPerRecipientStatisticsHeader() {
+    private String getPerRecipientStatisticsHeader() {
         StringBuilder header = new StringBuilder(100);
         String headerFragment = "Team,Recipient Name,Recipient's Email,Sub Question,";
 
         header.append(headerFragment);
 
         for (int i = 0; i < numOfRubricChoices; i++) {
-            StringBuilder rubricChoiceBuilder = new StringBuilder();
-
-            rubricChoiceBuilder.append(rubricChoices.get(i));
-
-            header.append(SanitizationHelper.sanitizeForCsv(rubricChoiceBuilder.toString())).append(',');
+            header.append(SanitizationHelper.sanitizeForCsv(rubricChoices.get(i))).append(',');
         }
 
         header.append("Total,Average").append(System.lineSeparator());
@@ -990,7 +839,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         // For rubric questions,
         // 1) Description size should be valid
         // 2) At least 2 choices
@@ -1039,13 +888,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return errors;
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        return new ArrayList<>();
     }
 
     @Override

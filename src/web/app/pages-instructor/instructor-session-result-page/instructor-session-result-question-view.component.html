@@ -8,6 +8,11 @@
   </div>
   <div class="card-body" *ngIf="question.isTabExpanded">
     <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
-                                    [indicateMissingResponses]="true" [questionDetails]="question.question.questionDetails" [questionId]='question.question.feedbackQuestionId'></tm-per-question-view-responses>
+                                    [indicateMissingResponses]="true" [question]="question.question"
+                                    [instructorCommentTableModel]="instructorCommentTableModel"
+                                    (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
+                                    (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                                    (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                                    (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"></tm-per-question-view-responses>
   </div>
 </div>

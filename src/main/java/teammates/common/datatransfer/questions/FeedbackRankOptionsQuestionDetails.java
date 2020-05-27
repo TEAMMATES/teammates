@@ -2,14 +2,8 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-import com.google.common.primitives.Ints;
 
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -17,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
@@ -63,42 +56,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         }
 
         return instructions;
-    }
-
-    @Override
-    public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
-                                          FeedbackQuestionType questionType) {
-        super.extractQuestionDetails(requestParameters, questionType);
-        List<String> options = new ArrayList<>();
-
-        String numOptionsCreatedString =
-                HttpRequestHelper.getValueFromParamMap(
-                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
-        Assumption.assertNotNull("Null number of choice for Rank", numOptionsCreatedString);
-        int numOptionsCreated = Integer.parseInt(numOptionsCreatedString);
-
-        for (int i = 0; i < numOptionsCreated; i++) {
-            String rankOption = HttpRequestHelper.getValueFromParamMap(
-                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKOPTION + "-" + i);
-            if (rankOption != null && !rankOption.trim().isEmpty()) {
-                options.add(rankOption);
-            }
-        }
-
-        this.initialiseQuestionDetails(options);
-        String minOptionsToBeRankedParameter = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MIN_OPTIONS_TO_BE_RANKED));
-        String maxOptionsToBeRankedParameter = Strings.nullToEmpty(HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANK_MAX_OPTIONS_TO_BE_RANKED));
-
-        minOptionsToBeRanked = MoreObjects.firstNonNull(Ints.tryParse(minOptionsToBeRankedParameter), NO_VALUE);
-        maxOptionsToBeRanked = MoreObjects.firstNonNull(Ints.tryParse(maxOptionsToBeRankedParameter), NO_VALUE);
-
-        return true;
-    }
-
-    private void initialiseQuestionDetails(List<String> options) {
-        this.options = options;
     }
 
     @Override
@@ -415,7 +372,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public List<String> validateQuestionDetails(String courseId) {
+    public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
 
         boolean isEmptyRankOptionEntered = options.stream().anyMatch(optionText -> optionText.trim().equals(""));
@@ -451,34 +408,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         if (options.size() < MIN_NUM_OF_OPTIONS) {
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");
-        }
-
-        return errors;
-    }
-
-    @Override
-    public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses,
-            int numRecipients) {
-        if (responses.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        if (isAreDuplicatesAllowed()) {
-            return new ArrayList<>();
-        }
-        List<String> errors = new ArrayList<>();
-
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
-            Set<Integer> responseRank = new HashSet<>();
-
-            for (int answer : frd.getFilteredSortedAnswerList()) {
-                if (responseRank.contains(answer)) {
-                    errors.add("Duplicate rank " + answer);
-                }
-                responseRank.add(answer);
-            }
         }
 
         return errors;

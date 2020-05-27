@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  StudentListResults,
-} from '../app/pages-instructor/instructor-course-enroll-page/instructor-course-enroll-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import { Course, CourseArchive, Courses,  HasResponses, JoinStatus, MessageOutput } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
@@ -245,15 +242,5 @@ export class CourseService {
       courseid: courseId,
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SECTIONS, paramsMap);
-  }
-
-  /**
-   * Returns a list of students enrolled in a course.
-   */
-  getStudentsEnrolledInCourse(queryParams: { courseId: string }): Observable<StudentListResults> {
-    const paramsMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.COURSE_ENROLL_STUDENTS, paramsMap);
   }
 }
