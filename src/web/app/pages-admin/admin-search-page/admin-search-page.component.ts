@@ -152,7 +152,7 @@ export class AdminSearchPageComponent {
   private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
     const updateSessions: Function = (sessions: { [index: string]: string }): void => {
       Object.keys(sessions).forEach((key: string): void => {
-        student.openSessions[key] = this.getUpdatedUrl(student.openSessions[key], newKey);
+        sessions[key] = this.getUpdatedUrl(sessions[key], newKey);
       });
     };
 
