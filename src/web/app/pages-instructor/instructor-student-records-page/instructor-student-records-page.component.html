@@ -10,14 +10,25 @@
   </div>
   <div class="card-body" [ngbCollapse]="session.isCollapsed">
     <tm-grq-rgq-view-responses
-            *ngIf="session.questions.length > 0; else noRelatedFeedback"
+            *ngIf="session.questions.length > 0; else noRelatedFor"
+            [responses]="session.questions" [groupByTeam]="false"
+            [isGrq]="false"
+    ></tm-grq-rgq-view-responses>
+    <br/>
+    <tm-grq-rgq-view-responses
+            *ngIf="session.questions.length > 0; else noRelatedBy"
             [responses]="session.questions" [groupByTeam]="false"
             [isGrq]="true"
     ></tm-grq-rgq-view-responses>
   </div>
-  <ng-template #noRelatedFeedback>
+  <ng-template #noRelatedFor>
     <div class="card-body">
-      No feedback responses related to {{studentProfile.name}} ({{studentSection}}) in {{session.name}} found.
+      No feedback responses for {{studentProfile.name}} ({{studentSection}}) in {{session.name}} found.
+    </div>
+  </ng-template>
+  <ng-template #noRelatedBy>
+    <div class="card-body">
+      No feedback responses by {{studentProfile.name}} ({{studentSection}}) in {{session.name}} found.
     </div>
   </ng-template>
 </div>
