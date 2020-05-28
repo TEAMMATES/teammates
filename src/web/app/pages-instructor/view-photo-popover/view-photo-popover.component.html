@@ -7,7 +7,7 @@
 </span>
 
 <ng-template #viewPhotoBtn>
-  <a *ngIf="!photoUrl" [routerLink]="" role="button" (click)="loadPhotoEvent.emit(); $event.stopPropagation();"
+  <a *ngIf="!photoUrl" [routerLink]="" role="button" (click)="loadPhotoEvent.emit(); $event.preventDefault();"
      queryParamsHandling="preserve">
     View Photo
   </a>
