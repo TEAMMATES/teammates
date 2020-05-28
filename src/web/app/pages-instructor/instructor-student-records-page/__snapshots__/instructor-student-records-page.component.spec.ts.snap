@@ -3,6 +3,7 @@
 exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
 <tm-instructor-student-records-page
   courseId={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   photoUrl={[Function String]}
   route={[Function Object]}
   sessions={[Function Array]}
@@ -10,6 +11,8 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   studentEmail={[Function String]}
   studentProfile={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
+  studentSection=""
+  studentService={[Function StudentService]}
 >
   <h1>
     's Records
@@ -24,13 +27,16 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   /><tm-more-info
     ng-reflect-more-info-text=""
     ng-reflect-student-name=""
-  />
+  /><h2>
+    Records in feedback sessions
+  </h2>
 </tm-instructor-student-records-page>
 `;
 
 exports[`InstructorStudentRecordsPageComponent should snap with populated fields 1`] = `
 <tm-instructor-student-records-page
   courseId={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   photoUrl={[Function String]}
   route={[Function Object]}
   sessions={[Function Array]}
@@ -38,6 +44,8 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   studentEmail={[Function String]}
   studentProfile={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
+  studentSection=""
+  studentService={[Function StudentService]}
 >
   <h1>
     John Doe's Records
@@ -52,6 +60,8 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   /><tm-more-info
     ng-reflect-more-info-text=""
     ng-reflect-student-name="John Doe"
-  />
+  /><h2>
+    Records in feedback sessions
+  </h2>
 </tm-instructor-student-records-page>
 `;

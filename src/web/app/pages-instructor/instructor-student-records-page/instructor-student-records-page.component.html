@@ -1,6 +1,7 @@
 <h1>{{studentProfile.name}}'s Records<small class="text-muted"> - {{courseId}}</small></h1>
 <tm-student-profile [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
 <tm-more-info [studentName]="studentProfile.name" [moreInfoText]="studentProfile.moreInfo"></tm-more-info>
+<h2>Records in feedback sessions</h2>
 <div *ngFor="let session of sessions" class="card card-default mb-4">
   <div class="card-header font-weight-bold cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
     Feedback Session : {{session.name}}
@@ -8,6 +9,15 @@
       [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
   </div>
   <div class="card-body" [ngbCollapse]="session.isCollapsed">
-    TODO
+    <tm-grq-rgq-view-responses
+            *ngIf="session.questions.length > 0; else noRelatedFeedback"
+            [responses]="session.questions" [groupByTeam]="false"
+            [isGrq]="true"
+    ></tm-grq-rgq-view-responses>
   </div>
+  <ng-template #noRelatedFeedback>
+    <div class="card-body">
+      No feedback responses related to {{studentProfile.name}} ({{studentSection}}) in {{session.name}} found.
+    </div>
+  </ng-template>
 </div>
