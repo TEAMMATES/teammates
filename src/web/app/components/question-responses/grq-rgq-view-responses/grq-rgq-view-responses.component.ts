@@ -49,6 +49,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
   teamsToUsers: Record<string, string[]> = {};
   usersToTeams: Record<string, string> = {};
   userToEmail: Record<string, string> = {};
+  userToRelatedEmail: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -72,6 +73,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.teamsToUsers = {};
     this.usersToTeams = {};
     this.userToEmail = {};
+    this.userToRelatedEmail = {};
     this.teamExpanded = {};
     this.userExpanded = {};
     for (const question of this.responses) {
@@ -86,6 +88,9 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
           }
           if (response.giverEmail) {
             this.userToEmail[response.giver] = response.giverEmail;
+          }
+          if (response.relatedGiverEmail) {
+            this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
         } else {

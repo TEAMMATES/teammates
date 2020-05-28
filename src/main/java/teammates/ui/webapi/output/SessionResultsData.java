@@ -170,9 +170,13 @@ public class SessionResultsData extends ApiOutput {
                 String recipientEmail = bundle.isRecipientVisible(response)
                         ? (bundle.rosterTeamNameMembersTable.containsKey(response.recipient) ? null : response.recipient)
                         : null;
+
                 Map<String, Set<String>> teamNameToMembersEmailTable = bundle.rosterTeamNameMembersTable;
-                String relatedGiverEmail = teamNameToMembersEmailTable.containsKey(response.giver)
-                        ? teamNameToMembersEmailTable.get(response.giver).iterator().next() : response.giver;
+                String relatedGiverEmail = bundle.isGiverVisible(response)
+                        ? (teamNameToMembersEmailTable.containsKey(response.giver)
+                            ? teamNameToMembersEmailTable.get(response.giver).iterator().next()
+                            : response.giver)
+                        : null;
 
                 String giverTeam = bundle.getTeamNameForEmail(response.giver);
 
@@ -271,6 +275,7 @@ public class SessionResultsData extends ApiOutput {
          * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
          * email or "anonymous".
          */
+        @Nullable
         private final String relatedGiverEmail; // TODO: security risk: relatedGiverEmail can expose giver email
         private final String giverTeam;
         @Nullable
