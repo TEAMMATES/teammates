@@ -432,7 +432,6 @@ public abstract class AppPage {
     public AppPage clickAndConfirm(WebElement elementToClick) {
         click(elementToClick);
         waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
         return this;
     }
 
