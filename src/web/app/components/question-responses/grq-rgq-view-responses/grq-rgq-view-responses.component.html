@@ -33,7 +33,10 @@
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded">
     <div class="card-header bg-primary text-white" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
-      {{ isGrq ? 'From' : 'To' }}: {{ userInfo }}
+      {{ isGrq ? 'From' : 'To' }}: {{ userInfo }} {{ usersToTeams[userInfo] !== '' ? '(' + usersToTeams[userInfo] + ')' : ''}}
+      <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
+        [{{ userToEmail[userInfo] }}]
+      </a>
       <div class="float-right">
         <tm-response-moderation-button *ngIf="isGrq" [relatedGiverEmail]="userInfo"></tm-response-moderation-button>
         <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>

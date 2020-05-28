@@ -52,6 +52,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
   @Input() isGqr: boolean = true;
 
   teamsToUsers: Record<string, string[]> = {};
+  userToEmail: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -74,6 +75,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.responsesToShow = {};
     this.teamsToUsers = {};
     this.teamExpanded = {};
+    this.userToEmail = {};
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
@@ -81,26 +83,32 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
-            this.teamExpanded[response.giverTeam] = false;
+            this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
-          this.userExpanded[response.giver] = false;
+          if (response.giverEmail) {
+            this.userToEmail[response.giver] = response.giverEmail;
+          }
+          this.userExpanded[response.giver] = this.isExpandAll;
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
             this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
-              this.teamExpanded[response.recipient] = false;
+              this.teamExpanded[response.recipient] = this.isExpandAll;
             }
-            this.userExpanded[response.recipient] = false;
+            this.userExpanded[response.recipient] = this.isExpandAll;
             continue;
           }
           this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
           if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
-            this.teamExpanded[response.recipientTeam] = false;
+            this.teamExpanded[response.recipientTeam] = this.isExpandAll;
           }
-          this.userExpanded[response.recipient] = false;
+          if (response.recipientEmail) {
+            this.userToEmail[response.recipient] = response.recipientEmail;
+          }
+          this.userExpanded[response.recipient] = this.isExpandAll;
         }
       }
     }
@@ -146,7 +154,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
           this.responsesToShow[user] = this.responsesToShow[user] || [];
           this.responsesToShow[user].push({
             questionOutput: questionCopy,
-            isTabExpanded: false,
+            isTabExpanded: this.isExpandAll,
           });
         }
       }
