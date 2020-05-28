@@ -6,9 +6,9 @@ import { CommentRowModel } from './comment-row/comment-row.component';
  * Transforms participant comment to comment row model.
  */
 @Pipe({
-  name: 'participantCommentToCommandRowModelPipe',
+  name: 'participantCommentToCommentRowModel',
 })
-export class ParticipantCommentToCommandRowModelPipePipe implements PipeTransform {
+export class ParticipantCommentToCommentRowModelPipe implements PipeTransform {
 
   transform(participantComment: CommentOutput, timezone?: string): CommentRowModel {
     return {
