@@ -38,6 +38,7 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
+import teammates.ui.webapi.output.CoursesData;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorsData;
 import teammates.ui.webapi.output.StudentData;
@@ -282,6 +283,47 @@ public final class BackDoor {
      */
     public static CourseAttributes getCourse(String courseId) {
         CourseData courseData = getCourseData(courseId);
+        if (courseData == null) {
+            return null;
+        }
+        return CourseAttributes.builder(courseData.getCourseId())
+                .withName(courseData.getCourseName())
+                .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .build();
+    }
+
+    /**
+     * Gets archived course data from the datastore.
+     */
+    public static CourseData getArchivedCourseData(String instructorId, String courseId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.USER_ID, new String[] { instructorId });
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.ENTITY_TYPE, new String[] { Const.EntityType.INSTRUCTOR });
+        params.put(Const.ParamsNames.COURSE_STATUS, new String[] { Const.CourseStatus.ARCHIVED });
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSES, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        CoursesData coursesData = JsonUtils.fromJson(response.responseBody, CoursesData.class);
+        List<CourseData> courseDataList = coursesData.getCourses();
+        for (CourseData courseData : courseDataList) {
+            if (courseData.getCourseId().equals(courseId)) {
+                return courseData;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets a archived course from the datastore.
+     */
+    public static CourseAttributes getArchivedCourse(String instructorId, String courseId) {
+        CourseData courseData = getArchivedCourseData(instructorId, courseId);
+        if (courseData == null) {
+            return null;
+        }
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
                 .withTimezone(ZoneId.of(courseData.getTimeZone()))
