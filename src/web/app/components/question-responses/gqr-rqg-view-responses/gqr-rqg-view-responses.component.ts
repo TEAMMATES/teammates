@@ -74,6 +74,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
   }
 
   loadPhotoHandler(user: string): void {
+    console.log(user);
       this.userToPhotoUrl[user] = new FormatPhotoUrlPipe().transform(this.session.courseId, this.userToEmail[user]);
   }
 
@@ -85,14 +86,17 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
+        if (response.giverEmail) {
+          this.userToEmail[response.giver] = response.giverEmail;
+        }
+        if (response.recipientEmail) {
+          this.userToEmail[response.recipient] = response.recipientEmail;
+        }
         if (this.isGqr) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
-          }
-          if (response.giverEmail) {
-            this.userToEmail[response.giver] = response.giverEmail;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
         } else {
@@ -110,9 +114,6 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
           if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
             this.teamExpanded[response.recipientTeam] = this.isExpandAll;
-          }
-          if (response.recipientEmail) {
-            this.userToEmail[response.recipient] = response.recipientEmail;
           }
           this.userExpanded[response.recipient] = this.isExpandAll;
         }
