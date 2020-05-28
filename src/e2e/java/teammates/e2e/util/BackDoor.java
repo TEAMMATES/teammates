@@ -40,8 +40,8 @@ import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorsData;
-import teammates.ui.webapi.request.Intent;
 import teammates.ui.webapi.output.StudentData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
