@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FeedbackQuestionDetails, FeedbackQuestionType, ResponseOutput } from '../../../../types/api-output';
+import { FeedbackQuestion, ResponseOutput } from '../../../../types/api-output';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
 
 /**
@@ -13,10 +13,7 @@ import { CommentRowMode } from '../../comment-box/comment-row/comment-row.compon
 export class StudentViewResponsesComponent implements OnInit {
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
-  @Input() questionDetails: FeedbackQuestionDetails = {
-    questionType: FeedbackQuestionType.TEXT,
-    questionText: '',
-  };
+  @Input() feedbackQuestion!: FeedbackQuestion;
   @Input() responses: ResponseOutput[] = [];
   @Input() isSelfResponses: boolean = false;
 

@@ -13,7 +13,7 @@
           </tr>
           <tr>
             <td>
-              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails" [isStudentPage]="true"></tm-single-response>
+              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="feedbackQuestion.questionDetails" [isStudentPage]="true"></tm-single-response>
             </td>
           </tr>
           <tr *ngIf="response.participantComment">
@@ -21,14 +21,14 @@
               <tm-comment-row
                               [mode]="CommentRowMode.EDIT"
                               [isVisibilityOptionEnabled]="false"
-                              [isDisabled]="true"
+                              [isDisabled]="false"
                               [shouldHideSavingButton]="true"
                               [shouldHideClosingButton]="true"
                               [shouldHideEditButton]="true"
                               [shouldHideDeleteButton]="true"
                               [isFeedbackParticipantComment]="true"
                               [response]="response"
-                              [questionShowResponsesTo]="[]"
+                              [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
                               [model]="response.participantComment | participantCommentToCommandRowModelPipe"
             ></tm-comment-row>
             </td>
