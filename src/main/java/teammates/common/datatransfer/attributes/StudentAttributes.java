@@ -380,7 +380,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     /**
-     * Helper class to specific the fields to update in {@link StudentAttributes}.
+     * Helper class to specify the fields to update in {@link StudentAttributes}.
      */
     public static class UpdateOptions {
         private String courseId;

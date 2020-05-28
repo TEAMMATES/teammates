@@ -784,6 +784,7 @@ public final class Const {
 
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
+        public static final String STUDENT_COURSE_LINKS_REGENERATION = "/student/courselinks/regeneration";
         public static final String STUDENTS_CSV = "/students/csv";
         public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
     }
