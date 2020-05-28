@@ -10,6 +10,9 @@ export class ViewPhotoPopoverComponent implements OnInit {
   @Input()
   photoUrl: string = '';
 
+  @Input()
+  isContentAvailable: boolean = true;
+
   @Output()
   loadPhotoEvent: EventEmitter<any> = new EventEmitter();
 
