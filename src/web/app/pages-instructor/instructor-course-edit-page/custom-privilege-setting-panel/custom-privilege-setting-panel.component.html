@@ -5,7 +5,7 @@
         In general, this instructor can
       </strong>
     </div>
-    <div class="card-body">
+    <div id="custom-course" class="card-body">
       <div class="row">
         <div class="col-6">
 
@@ -77,7 +77,7 @@
             </strong>
           </p>
         </div>
-        <div class="col-sm-9">
+        <div id="custom-sections" class="col-sm-9">
           <div *ngFor="let section of this.allSections">
             <input type="checkbox" [ngModel]="sectionLevel.sectionNames.includes(section)"
                    (ngModelChange)="editSectionToSectionLevelPermission(i, section, $event)"
@@ -86,7 +86,7 @@
           </div>
         </div>
         <div class="col-sm-1">
-          <button type="button" class="btn btn-danger" (click)="removeSectionLevelPermission(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          <button id="btn-custom-sections-cancel" type="button" class="btn btn-danger" (click)="removeSectionLevelPermission(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>
         </div>
       </div>
       <br>
@@ -98,7 +98,7 @@
         </div>
       </div>
     </div>
-    <div class="card-body">
+    <div id="custom-sections-access-levels"  class="card-body">
       <div class="row">
         <div class="col-6">
           <input type="checkbox"
@@ -126,12 +126,12 @@
         </div>
       </div>
 
-      <button *ngIf="sectionLevel.sessionLevel.length == 0" [disabled]="allSessions.length == 0"
+      <button id="btn-add-session-level" *ngIf="sectionLevel.sessionLevel.length == 0" [disabled]="allSessions.length == 0"
               class="btn btn-link" (click)="addSessionLevelPermission(i)">Give different permissions for sessions in this section</button>
       <button *ngIf="sectionLevel.sessionLevel.length != 0"
               class="btn btn-link" (click)="deleteSessionLevelPermission(i)">Delete session-level permissions</button>
 
-      <table class="table table-striped" *ngIf="sectionLevel.sessionLevel.length != 0">
+      <table id="custom-sessions" class="table table-striped" *ngIf="sectionLevel.sessionLevel.length != 0">
         <thead>
         <tr>
           <th scope="col">Session Name</th>
@@ -165,7 +165,7 @@
     </div>
   </div>
 
-  <button class="btn btn-link" (click)="addSectionLevelPermission()"
+  <button id="btn-add-section-level" class="btn btn-link" (click)="addSectionLevelPermission()"
           [disabled]="hasSectionLevelPermissionForAllSections">Give different permissions for a specific section</button>
 
 </div>

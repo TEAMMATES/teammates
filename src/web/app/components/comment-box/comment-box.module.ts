@@ -16,6 +16,7 @@ import {
 import {
   ConfirmDeleteCommentModalComponent,
 } from './confirm-delete-comment-modal/confirm-delete-comment-modal.component';
+import { ParticipantCommentToCommandRowModelPipePipe } from './participant-comment-to-command-row-model-pipe.pipe';
 
 /**
  * Module for comments table
@@ -31,6 +32,7 @@ import {
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
     CommentVisibilityTypesJointNamePipe,
+    ParticipantCommentToCommandRowModelPipePipe,
   ],
   imports: [
     TeammatesCommonModule,
@@ -44,6 +46,7 @@ import {
     CommentRowComponent,
     CommentTableComponent,
     CommentTableModalComponent,
+    ParticipantCommentToCommandRowModelPipePipe,
   ],
   entryComponents: [
     ConfirmDeleteCommentModalComponent,

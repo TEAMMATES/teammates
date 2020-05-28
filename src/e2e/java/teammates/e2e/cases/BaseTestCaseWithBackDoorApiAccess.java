@@ -18,6 +18,7 @@ import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
+import teammates.ui.webapi.output.CourseData;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
@@ -95,6 +96,14 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         });
     }
 
+    protected boolean isCourseInRecycleBin(String courseId) {
+        CourseData courseData = BackDoor.getCourseData(courseId);
+        if (courseData == null) {
+            return false;
+        }
+        return courseData.getDeletionTimestamp() != 0;
+    }
+
     protected FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
         return null; // BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
     }
@@ -147,7 +156,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {
-        return null; // BackDoor.getInstructorByEmail(instructorEmail, courseId);
+        return BackDoor.getInstructor(courseId, instructorEmail);
     }
 
     @Override
