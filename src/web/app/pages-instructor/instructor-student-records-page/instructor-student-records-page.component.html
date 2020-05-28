@@ -9,22 +9,12 @@
       [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
   </div>
   <div class="card-body" [ngbCollapse]="session.isCollapsed">
-    <b>Feedback Responses For {{studentProfile.name}}</b>
-    <tm-grq-rgq-view-responses
-            [session]="session.feedbackSession" [responses]="session.recipientQuestions" [groupByTeam]="false"
-            [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
+    <tm-grq-rgq-view-responses *ngIf="session.questions.length > 0"
+                               [responses]="session.questions" [groupByTeam]="false" [section]="" [sectionType]=""
+                               [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
     ></tm-grq-rgq-view-responses>
-    <div *ngIf="session.recipientQuestions.length <= 0">
-      No feedback responses for {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
-    </div>
-    <br/>
-    <b>Feedback Responses From {{studentProfile.name}}</b>
-    <tm-grq-rgq-view-responses
-            [session]="session.feedbackSession" [responses]="session.giverQuestions" [groupByTeam]="false"
-            [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
-    ></tm-grq-rgq-view-responses>
-    <div *ngIf="session.recipientQuestions.length <= 0">
-      No feedback responses from {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
+    <div *ngIf="session.questions.length <= 0">
+      No feedback responses related to {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
     </div>
   </div>
 </div>

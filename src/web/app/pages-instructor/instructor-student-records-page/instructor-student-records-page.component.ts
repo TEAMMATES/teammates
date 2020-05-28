@@ -21,9 +21,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
 
 interface Session {
   isCollapsed: boolean;
+  questions: QuestionOutput[];
   feedbackSession: FeedbackSession;
-  giverQuestions: QuestionOutput[];
-  recipientQuestions: QuestionOutput[];
 }
 
 /**
@@ -98,18 +97,19 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
           groupBySection: this.studentSection,
           intent: Intent.INSTRUCTOR_RESULT,
         }).subscribe((results: SessionResults) => {
-          results.questions.filter((qn: QuestionOutput) => qn.allResponses.length > 0);
-          results.questions.forEach((qn: QuestionOutput) => this.preprocessComments(qn.allResponses));
-          this.sessions.push({
-            feedbackSession,
-            isCollapsed: true,
-            giverQuestions: results.questions.filter((qn: QuestionOutput) =>
-                qn.allResponses.filter((response: ResponseOutput) =>
-                    response.giverEmail === this.studentProfile.email)),
-            recipientQuestions: results.questions.filter((qn: QuestionOutput) =>
-                qn.allResponses.filter((response: ResponseOutput) =>
-                    response.recipientEmail === this.studentProfile.email)),
+          results.questions.forEach((q: QuestionOutput) => {
+            q.allResponses = q.allResponses.filter((response: ResponseOutput) =>
+                response.recipient === this.studentProfile.name ||
+                response.giver === this.studentProfile.name);
           });
+          const questions: QuestionOutput[] =
+              results.questions.filter((q: QuestionOutput) => q.allResponses.length > 0);
+          this.sessions.push({
+            questions,
+            feedbackSession,
+            isCollapsed: questions.length === 0,
+          });
+          results.questions.forEach((qn: QuestionOutput) => this.preprocessComments(qn.allResponses));
         });
       });
     }, (errorMessageOutput: ErrorMessageOutput) => {
@@ -159,7 +159,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   getCommentRowModel(comment: CommentOutput): CommentRowModel {
     return {
       originalComment: comment,
-      timezone: this.sessions[0].feedbackSession.timeZone,
+      timezone: this.sessions[0] != null ? this.sessions[0].feedbackSession.timeZone : '',
 
       commentGiverName: comment.commentGiverName,
       lastEditorName: comment.lastEditorName,
