@@ -373,8 +373,16 @@ public class SessionResultsData extends ApiOutput {
 
         public CommentOutput(FeedbackResponseCommentAttributes frc, String commentGiverName, String lastEditorName) {
             super(frc);
-            this.commentGiverName = commentGiverName;
-            this.lastEditorName = lastEditorName;
+
+            if (frc.isCommentFromFeedbackParticipant()) {
+                this.commentGiver = null;
+                this.lastEditorEmail = null;
+                this.commentGiverName = null;
+                this.lastEditorName = null;
+            } else {
+                this.commentGiverName = commentGiverName;
+                this.lastEditorName = lastEditorName;
+            }
         }
     }
 
