@@ -1,5 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FeedbackQuestion, ResponseOutput } from '../../../../types/api-output';
+import {
+  FeedbackParticipantType,
+  FeedbackQuestion,
+  FeedbackQuestionDetails,
+  FeedbackQuestionType, FeedbackVisibilityType, NumberOfEntitiesToGiveFeedbackToSetting,
+  ResponseOutput
+} from '../../../../types/api-output';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
 
 /**
@@ -11,9 +17,27 @@ import { CommentRowMode } from '../../comment-box/comment-row/comment-row.compon
   styleUrls: ['./student-view-responses.component.scss'],
 })
 export class StudentViewResponsesComponent implements OnInit {
+  // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
-  @Input() feedbackQuestion!: FeedbackQuestion;
+  @Input() feedbackQuestion: FeedbackQuestion = {
+    feedbackQuestionId: '',
+    questionNumber: 1,
+    questionBrief: '',
+    questionDescription: '',
+    questionDetails: {
+      questionType: FeedbackQuestionType.MCQ,
+      questionText: '',
+    },
+    questionType: FeedbackQuestionType.MCQ,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+    showResponsesTo: [],
+    showGiverNameTo: [],
+    showRecipientNameTo: [],
+  };
   @Input() responses: ResponseOutput[] = [];
   @Input() isSelfResponses: boolean = false;
 
