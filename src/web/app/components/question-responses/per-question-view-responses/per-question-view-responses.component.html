@@ -34,11 +34,11 @@
     <tbody>
       <tr *ngFor="let response of responsesToShow">
         <td *ngIf="showGiver">{{ response.giverTeam }}</td>
-        <tm-view-photo-popover [photoUrl]="userToPhotoUrl[response.giver]" (loadPhotoEvent)="loadPhotoHandler(response.giver)">
+        <tm-view-photo-popover [photoUrl]="userToPhotoUrl[response.giver]" (loadPhotoEvent)="loadPhotoEvent.emit(response.giver)">
           <td *ngIf="showGiver">{{ response.giver }}</td>
         </tm-view-photo-popover>
         <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
-        <tm-view-photo-popover [photoUrl]="userToPhotoUrl[response.recipient]" (loadPhotoEvent)="loadPhotoHandler(response.recipient)">
+        <tm-view-photo-popover [photoUrl]="userToPhotoUrl[response.recipient]" (loadPhotoEvent)="loadPhotoEvent.emit(response.recipient)">
           <td *ngIf="showRecipient">{{ response.recipient }}</td>
         </tm-view-photo-popover>
         <td>

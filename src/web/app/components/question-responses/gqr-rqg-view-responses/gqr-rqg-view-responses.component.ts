@@ -74,8 +74,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
   }
 
   loadPhotoHandler(user: string): void {
-    console.log(user);
-      this.userToPhotoUrl[user] = new FormatPhotoUrlPipe().transform(this.session.courseId, this.userToEmail[user]);
+    this.userToPhotoUrl[user] = new FormatPhotoUrlPipe().transform(this.session.courseId, this.userToEmail[user]);
   }
 
   private filterResponses(): void {

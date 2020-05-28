@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
@@ -11,7 +11,6 @@ import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
-import { FormatPhotoUrlPipe } from "../../teammates-common/format-photo-url.pipe";
 
 /**
  * Component to display list of responses for one question.
@@ -49,10 +48,13 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
+  @Input()
+  userToPhotoUrl: Record<string, string> = {};
+
+  @Output()
+  loadPhotoEvent: EventEmitter<string> = new EventEmitter();
 
   responsesToShow: ResponseOutput[] = [];
-  userToEmail: Record<string, string> = {};
-  userToPhotoUrl: Record<string, string> = {};
   sortBy: SortBy = SortBy.NONE;
   sortOrder: SortOrder = SortOrder.ASC;
 
@@ -72,21 +74,10 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
     this.filterResponses();
   }
 
-  loadPhotoHandler(user: string): void {
-    this.userToPhotoUrl[user] = new FormatPhotoUrlPipe().transform(this.session.courseId, this.userToEmail[user]);
-  }
-
   private filterResponses(): void {
     const responsesToShow: ResponseOutput[] = [];
-    this.userToEmail = {};
     for (const response of this.responses) {
       if (this.section) {
-        if (response.giverEmail) {
-          this.userToEmail[response.giver] = response.giverEmail;
-        }
-        if (response.recipientEmail) {
-          this.userToEmail[response.recipient] = response.recipientEmail;
-        }
         let shouldDisplayBasedOnSection: boolean = true;
         switch (this.sectionType) {
           case InstructorSessionResultSectionType.EITHER:
