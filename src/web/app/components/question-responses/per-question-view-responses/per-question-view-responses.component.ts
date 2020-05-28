@@ -11,6 +11,7 @@ import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
+import { FormatPhotoUrlPipe } from "../../teammates-common/format-photo-url.pipe";
 
 /**
  * Component to display list of responses for one question.
@@ -50,6 +51,8 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
   };
 
   responsesToShow: ResponseOutput[] = [];
+  userToEmail: Record<string, string> = {};
+  userToPhotoUrl: Record<string, string> = {};
   sortBy: SortBy = SortBy.NONE;
   sortOrder: SortOrder = SortOrder.ASC;
 
@@ -69,10 +72,21 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
     this.filterResponses();
   }
 
+  loadPhotoHandler(user: string): void {
+    this.userToPhotoUrl[user] = new FormatPhotoUrlPipe().transform(this.session.courseId, this.userToEmail[user]);
+  }
+
   private filterResponses(): void {
     const responsesToShow: ResponseOutput[] = [];
+    this.userToEmail = {};
     for (const response of this.responses) {
       if (this.section) {
+        if (response.giverEmail) {
+          this.userToEmail[response.giver] = response.giverEmail;
+        }
+        if (response.recipientEmail) {
+          this.userToEmail[response.recipient] = response.recipientEmail;
+        }
         let shouldDisplayBasedOnSection: boolean = true;
         switch (this.sectionType) {
           case InstructorSessionResultSectionType.EITHER:
