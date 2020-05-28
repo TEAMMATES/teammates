@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestion,
-  FeedbackQuestionDetails,
-  FeedbackQuestionType, FeedbackVisibilityType, NumberOfEntitiesToGiveFeedbackToSetting,
-  ResponseOutput
+  FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting,
+  ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
 
