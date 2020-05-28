@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+
+import { FormatPhotoUrlPipe } from '../../components/teammates-common/format-photo-url.pipe';
 import { QuestionTabModel } from './instructor-session-result-page.component';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
-import { FormatPhotoUrlPipe } from "../../components/teammates-common/format-photo-url.pipe";
 
 /**
  * Instructor sessions results page question view.
@@ -38,7 +39,7 @@ export class InstructorSessionResultQuestionViewComponent
 
   loadPhotoHandler(user: string): void {
     if (!this.userToEmail[user]) {
-      let continueFinding = true;
+      let continueFinding: boolean = true;
       for (const question of this.questionsOrder) {
         for (const response of question.responses) {
           if (response.giver === user && response.giverEmail) {

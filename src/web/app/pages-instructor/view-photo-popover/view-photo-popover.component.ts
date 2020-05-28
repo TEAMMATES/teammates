@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+/**
+ * Component to display a popover for photos
+ */
 @Component({
   selector: 'tm-view-photo-popover',
   templateUrl: './view-photo-popover.component.html',
-  styleUrls: ['./view-photo-popover.component.scss']
+  styleUrls: ['./view-photo-popover.component.scss'],
 })
 export class ViewPhotoPopoverComponent implements OnInit {
 
@@ -18,7 +21,7 @@ export class ViewPhotoPopoverComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   missingPhotoEventHandler(): void {

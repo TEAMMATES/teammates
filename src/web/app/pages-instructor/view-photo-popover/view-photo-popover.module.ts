@@ -1,16 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ViewPhotoPopoverComponent } from "./view-photo-popover.component";
-import { RouterModule } from "@angular/router";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { ViewPhotoPopoverComponent } from './view-photo-popover.component';
+
+/**
+ * Module for component to display a photo popover
+ */
 @NgModule({
   declarations: [ViewPhotoPopoverComponent],
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
   ],
-  exports: [ViewPhotoPopoverComponent]
+  exports: [ViewPhotoPopoverComponent],
 })
 export class ViewPhotoPopoverModule { }

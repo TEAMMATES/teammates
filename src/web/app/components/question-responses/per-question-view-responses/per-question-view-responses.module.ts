@@ -5,11 +5,11 @@ import { RouterModule } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 // tslint:disable-next-line:max-line-length
 import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
+import { ViewPhotoPopoverModule } from '../../../pages-instructor/view-photo-popover/view-photo-popover.module';
 import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
-import { ViewPhotoPopoverModule } from "../../../pages-instructor/view-photo-popover/view-photo-popover.module";
 
 /**
  * Module for component to display list of responses for one question.

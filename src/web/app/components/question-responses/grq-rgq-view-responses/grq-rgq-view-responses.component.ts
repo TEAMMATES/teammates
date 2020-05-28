@@ -9,8 +9,8 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { FormatPhotoUrlPipe } from '../../teammates-common/format-photo-url.pipe';
 import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
-import { FormatPhotoUrlPipe } from "../../teammates-common/format-photo-url.pipe";
 
 /**
  * Component to display list of responses in GRQ/RGQ view.
@@ -69,7 +69,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.filterResponses();
   }
 
-  loadPhotoHandler(user: string) {
+  loadPhotoHandler(user: string): void {
     this.userToPhotoUrl[user] = new FormatPhotoUrlPipe().transform(this.session.courseId, this.userToEmail[user]);
   }
 

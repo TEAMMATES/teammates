@@ -9,13 +9,13 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { FormatPhotoUrlPipe } from '../../components/teammates-common/format-photo-url.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
 import {
   StudentListSectionData,
   StudentListStudentData,
 } from './student-list-section-data';
-import { FormatPhotoUrlPipe } from "../../components/teammates-common/format-photo-url.pipe";
 
 /**
  * Flattened data which contains details about a student and their section.
