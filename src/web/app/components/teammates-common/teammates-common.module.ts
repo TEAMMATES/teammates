@@ -9,6 +9,7 @@ import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
+import { FormatPhotoUrlPipe } from './format-photo-url.pipe';
 
 /**
  * Common module in the project.
@@ -27,6 +28,7 @@ import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
     QuestionTypeNamePipe,
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
+    FormatPhotoUrlPipe,
   ],
   exports: [
     EnumToArrayPipe,
@@ -38,6 +40,7 @@ import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
     QuestionTypeNamePipe,
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
+    FormatPhotoUrlPipe,
   ],
 })
 export class TeammatesCommonModule { }

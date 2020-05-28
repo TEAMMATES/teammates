@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   CommentOutput,
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -23,6 +23,7 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   @Input() responses: QuestionOutput[] = [];
+  @Input() userToPhotoUrl: Record<string, string> = {};
 
   @Input() isGrq: boolean = true;
   @Input() session: FeedbackSession = {
@@ -42,6 +43,9 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
     createdAtTimestamp: 0,
   };
 
+  @Output()
+  loadPhotoEvent: EventEmitter<string> = new EventEmitter();
+
   constructor() {
     super();
   }
@@ -55,6 +59,14 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
         `(${this.responses[0].allResponses[0].recipientTeam})` : '';
     team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;
+  }
+
+  get topName(): string {
+    return this.responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver'];
+  }
+
+  get bottomName(): string {
+    return this.responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient'];
   }
 
   /**

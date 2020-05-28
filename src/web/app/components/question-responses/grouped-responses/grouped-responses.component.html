@@ -2,10 +2,14 @@
     *ngIf="responses.length && responses[0].allResponses.length">
   <div class="col-md-3">
     <div>
-      {{ isGrq ? 'To' : 'From' }}: {{ responses[0].allResponses[0][isGrq ? 'recipient' : 'giver']}} {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
+      <tm-view-photo-popover [photoUrl]="userToPhotoUrl[topName]" (loadPhotoEvent)="loadPhotoEvent.emit(topName)">
+        {{ isGrq ? 'To' : 'From' }}: {{ topName }} {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
+      </tm-view-photo-popover>
     </div>
     <div class="top-padded">
-      {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][isGrq ? 'giver' : 'recipient']}} {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
+      <tm-view-photo-popover [photoUrl]="userToPhotoUrl[bottomName]" (loadPhotoEvent)="loadPhotoEvent.emit(bottomName)">
+        {{ isGrq ? 'From' : 'To' }}: {{ bottomName }} {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
+      </tm-view-photo-popover>
     </div>
     <div class="top-padded">
       <tm-response-moderation-button *ngIf="!isGrq" [session]="session" [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"></tm-response-moderation-button>

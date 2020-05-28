@@ -42,8 +42,7 @@
     <tbody>
     <tr *ngFor="let student of students; trackBy: trackByFn" [hidden]="isStudentToHide(student.email)"s>
       <td class="align-center">
-        <tm-view-photo-popover [photoUrl]="student.photoUrl" (loadPhotoEvent)="loadPhoto(student)">
-        </tm-view-photo-popover>
+        <tm-view-photo-popover [photoUrl]="student.photoUrl" (loadPhotoEvent)="loadPhoto(student)"></tm-view-photo-popover>
       </td>
       <td *ngIf="hasSection()">{{student.sectionName}}</td>
       <td>{{student.team}}</td>

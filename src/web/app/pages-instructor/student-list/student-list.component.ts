@@ -3,7 +3,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -16,6 +15,7 @@ import {
   StudentListSectionData,
   StudentListStudentData,
 } from './student-list-section-data';
+import { FormatPhotoUrlPipe } from "../../components/teammates-common/format-photo-url.pipe";
 
 /**
  * Flattened data which contains details about a student and their section.
@@ -128,8 +128,7 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Load the profile picture of a student
    */
   loadPhoto(student: FlatStudentListData): void {
-    student.photoUrl =
-        `${environment.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${student.email}`;
+    student.photoUrl = new FormatPhotoUrlPipe().transform(this.courseId, student.email);
   }
 
   /**

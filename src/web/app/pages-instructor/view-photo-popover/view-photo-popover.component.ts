@@ -13,9 +13,6 @@ export class ViewPhotoPopoverComponent implements OnInit {
   @Output()
   loadPhotoEvent: EventEmitter<any> = new EventEmitter();
 
-  @Output()
-  missingPhotoEvent: EventEmitter<any> = new EventEmitter();
-
   constructor() { }
 
   ngOnInit() {
