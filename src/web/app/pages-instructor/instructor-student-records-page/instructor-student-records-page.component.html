@@ -4,31 +4,27 @@
 <h2>Records in feedback sessions</h2>
 <div *ngFor="let session of sessions" class="card card-default mb-4">
   <div class="card-header font-weight-bold cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
-    Feedback Session : {{session.name}}
+    Feedback Session : {{session.feedbackSession.feedbackSessionName}}
     <span class="float-right fas"
       [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
   </div>
   <div class="card-body" [ngbCollapse]="session.isCollapsed">
+    <b>Feedback Responses For {{studentProfile.name}}</b>
     <tm-grq-rgq-view-responses
-            *ngIf="session.questions.length > 0; else noRelatedFor"
-            [responses]="session.questions" [groupByTeam]="false"
-            [isGrq]="false"
+            [session]="session.feedbackSession" [responses]="session.recipientQuestions" [groupByTeam]="false"
+            [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
     ></tm-grq-rgq-view-responses>
+    <div *ngIf="session.recipientQuestions.length <= 0">
+      No feedback responses for {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
+    </div>
     <br/>
+    <b>Feedback Responses From {{studentProfile.name}}</b>
     <tm-grq-rgq-view-responses
-            *ngIf="session.questions.length > 0; else noRelatedBy"
-            [responses]="session.questions" [groupByTeam]="false"
-            [isGrq]="true"
+            [session]="session.feedbackSession" [responses]="session.giverQuestions" [groupByTeam]="false"
+            [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
     ></tm-grq-rgq-view-responses>
+    <div *ngIf="session.recipientQuestions.length <= 0">
+      No feedback responses from {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
+    </div>
   </div>
-  <ng-template #noRelatedFor>
-    <div class="card-body">
-      No feedback responses for {{studentProfile.name}} ({{studentSection}}) in {{session.name}} found.
-    </div>
-  </ng-template>
-  <ng-template #noRelatedBy>
-    <div class="card-body">
-      No feedback responses by {{studentProfile.name}} ({{studentSection}}) in {{session.name}} found.
-    </div>
-  </ng-template>
 </div>

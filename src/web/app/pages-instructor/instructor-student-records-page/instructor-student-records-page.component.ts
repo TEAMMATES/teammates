@@ -6,6 +6,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import {
+  CommentOutput, FeedbackResponseComment,
   FeedbackSession,
   FeedbackSessions,
   Gender,
@@ -14,12 +15,15 @@ import {
   StudentProfile,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface Session {
-  name: string;
   isCollapsed: boolean;
-  questions: QuestionOutput[];
+  feedbackSession: FeedbackSession;
+  giverQuestions: QuestionOutput[];
+  recipientQuestions: QuestionOutput[];
 }
 
 /**
@@ -35,6 +39,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   courseId: string = '';
   studentEmail: string = '';
   studentSection: string = '';
+  instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   studentProfile: StudentProfile = {
     name: '',
@@ -92,21 +97,81 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
           feedbackSessionName: feedbackSession.feedbackSessionName,
           groupBySection: this.studentSection,
           intent: Intent.INSTRUCTOR_RESULT,
-        }).subscribe((res: SessionResults) => {
-          res.questions.forEach((q: QuestionOutput) => {
-            q.allResponses = q.allResponses.filter((response: ResponseOutput) =>
-                response.giverEmail === this.studentProfile.email ||
-                response.recipientEmail === this.studentProfile.email);
-          });
+        }).subscribe((results: SessionResults) => {
+          results.questions.filter((qn: QuestionOutput) => qn.allResponses.length > 0);
+          results.questions.forEach((qn: QuestionOutput) => this.preprocessComments(qn.allResponses));
           this.sessions.push({
-            name: feedbackSession.feedbackSessionName,
+            feedbackSession,
             isCollapsed: true,
-            questions: res.questions.filter((q: QuestionOutput) => q.allResponses.length > 0),
+            giverQuestions: results.questions.filter((qn: QuestionOutput) =>
+                qn.allResponses.filter((response: ResponseOutput) =>
+                    response.giverEmail === this.studentProfile.email)),
+            recipientQuestions: results.questions.filter((qn: QuestionOutput) =>
+                qn.allResponses.filter((response: ResponseOutput) =>
+                    response.recipientEmail === this.studentProfile.email)),
           });
         });
       });
     }, (errorMessageOutput: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(errorMessageOutput.error.message);
     });
+  }
+
+  /**
+   * Preprocesses the comments from instructor.
+   *
+   * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
+   * instructor comments associated with the response will be deleted.
+   */
+  preprocessComments(responses: ResponseOutput[]): void {
+    responses.forEach((response: ResponseOutput) => {
+      this.instructorCommentTableModel[response.responseId] =
+          this.getCommentTableModel(response.instructorComments);
+
+      // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
+      response.instructorComments = [];
+    });
+  }
+
+  /**
+   * Transforms instructor comments to a comment table model.
+   */
+  getCommentTableModel(comments: CommentOutput[]): CommentTableModel {
+    return {
+      commentRows: comments.map((comment: FeedbackResponseComment) => this.getCommentRowModel(comment)),
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+
+        isEditing: false,
+      },
+      isAddingNewComment: false,
+    };
+  }
+
+  /**
+   * Transforms a comment to a comment row model.
+   */
+  getCommentRowModel(comment: CommentOutput): CommentRowModel {
+    return {
+      originalComment: comment,
+      timezone: this.sessions[0].feedbackSession.timeZone,
+
+      commentGiverName: comment.commentGiverName,
+      lastEditorName: comment.lastEditorName,
+
+      commentEditFormModel: {
+        commentText: comment.commentText,
+        isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
+        showCommentTo: comment.showCommentTo,
+        showGiverNameTo: comment.showGiverNameTo,
+      },
+
+      isEditing: false,
+    };
   }
 }
