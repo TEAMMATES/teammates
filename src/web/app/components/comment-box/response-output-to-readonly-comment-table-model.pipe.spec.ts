@@ -1,4 +1,4 @@
-/*import { ResponseOutputToReadonlyCommentTableModelPipe } from './response-output-to-readonly-comment-table-model.pipe';
+import { ResponseOutputToReadonlyCommentTableModelPipe } from './response-output-to-readonly-comment-table-model.pipe';
 
 describe('ResponseOutputToReadonlyCommentTableModelPipe', () => {
   it('create an instance', () => {
@@ -6,4 +6,3 @@ describe('ResponseOutputToReadonlyCommentTableModelPipe', () => {
     expect(pipe).toBeTruthy();
   });
 });
-*/
