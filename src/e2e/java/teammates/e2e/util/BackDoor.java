@@ -32,6 +32,7 @@ import org.apache.http.message.BasicNameValuePair;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
@@ -40,6 +41,7 @@ import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorsData;
 import teammates.ui.webapi.request.Intent;
+import teammates.ui.webapi.output.StudentData;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -334,6 +336,51 @@ public final class BackDoor {
             instructor.withDisplayedName(instructorData.getDisplayedToStudentsAs());
         }
         return instructor.build();
+    }
+
+    /**
+     * Gets student data from the datastore.
+     */
+    public static StudentData getStudentData(String courseId, String studentEmail) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.STUDENT_EMAIL, new String[] { studentEmail });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        return JsonUtils.fromJson(response.responseBody, StudentData.class);
+    }
+
+    /**
+     * Get student from datastore.
+     */
+    public static StudentAttributes getStudent(String courseId, String studentEmail) {
+        StudentData studentData = getStudentData(courseId, studentEmail);
+        if (studentData == null) {
+            return null;
+        }
+        StudentAttributes.Builder student = StudentAttributes.builder(studentData.getCourseId(),
+                studentData.getEmail());
+        if (studentData.getGoogleId() != null) {
+            student.withGoogleId(studentData.getGoogleId());
+        }
+        if (studentData.getName() != null) {
+            student.withName(studentData.getName());
+        }
+        if (studentData.getSectionName() != null) {
+            student.withSectionName(studentData.getSectionName());
+        }
+        if (studentData.getTeamName() != null) {
+            student.withTeamName(studentData.getTeamName());
+        }
+        if (studentData.getComments() != null) {
+            student.withComment(studentData.getComments());
+        }
+        if (studentData.getLastName() != null) {
+            student.withLastName(studentData.getLastName());
+        }
+        return student.build();
     }
 
     /**

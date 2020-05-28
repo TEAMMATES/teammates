@@ -113,8 +113,10 @@ public class EmailGenerator {
      * email for the given {@code courseId} for {@code student}.
      * @param courseId - ID of the course
      * @param studentEmail - Email of student to send feedback session summary to
+     * @param resendLinksTemplate - The email template including the reason behind why the links are being resent
      */
-    public EmailWrapper generateFeedbackSessionSummaryOfCourse(String courseId, String studentEmail) {
+    public EmailWrapper generateFeedbackSessionSummaryOfCourse(
+            String courseId, String studentEmail, String resendLinksTemplate) {
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEmail);
@@ -170,8 +172,14 @@ public class EmailGenerator {
                     "${submitUrl}", submitUrlHtml,
                     "${reportUrl}", reportUrlHtml));
         }
+
+        if (linksFragmentValue.length() == 0) {
+            linksFragmentValue.append("No links found.");
+        }
+
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
-        String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
+
+        String emailBody = Templates.populateTemplate(resendLinksTemplate,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${userEmail}", student.email,
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
@@ -181,8 +189,15 @@ public class EmailGenerator {
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
-        email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId()));
         email.setContent(emailBody);
+
+        // Set appropriate email subject, depending on the email template
+        if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS)) {
+            email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId()));
+        } else if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS)) {
+            email.setSubject(String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(),
+                                                                                    course.getName(), course.getId()));
+        }
 
         return email;
     }

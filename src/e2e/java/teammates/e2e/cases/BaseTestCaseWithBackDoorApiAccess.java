@@ -195,7 +195,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return null; // BackDoor.getStudent(student.course, student.email);
+        return BackDoor.getStudent(student.course, student.email);
     }
 
     @Override
