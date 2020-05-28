@@ -76,7 +76,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 + "An email containing how to 'join' this course will be sent to " + newInstructor.email
                 + " in a few minutes.\"");
         editPage.verifyInstructorDetails(newInstructor);
-        assertEquals(getInstructor(newInstructor.courseId, newInstructor.email), newInstructor);
+        verifyPresentInDatastore(newInstructor);
 
         ______TS("resend invite");
         editPage.resendInstructorInvite(newInstructor);
@@ -110,7 +110,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.deleteInstructor(newInstructor);
         editPage.verifyStatusMessage("Instructor is successfully deleted.");
         editPage.verifyNumInstructorsEquals(5);
-        assertNull(getInstructor(newInstructor.courseId, newInstructor.email));
+        verifyAbsentInDatastore(newInstructor);
 
         ______TS("edit course");
         String newName = "New Course Name";
@@ -121,7 +121,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.editCourse(course);
         editPage.verifyStatusMessage("The course has been edited.");
         editPage.verifyCourseDetails(course);
-        assertEquals(course, getCourse(course));
+        verifyPresentInDatastore(course);
 
         ______TS("delete course");
         editPage.deleteCourse();
