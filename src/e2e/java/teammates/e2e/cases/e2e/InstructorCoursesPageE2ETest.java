@@ -50,7 +50,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         loginAdminToPage(url, InstructorHomePage.class);
         InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
 
-        ______TS("Verify loaded data");
+        ______TS("verify loaded data");
         CourseAttributes[] activeCourses = { courses[0] };
         CourseAttributes[] archivedCourses = { courses[1] };
         CourseAttributes[] deletedCourses = { courses[2] };
@@ -59,13 +59,13 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyArchivedCoursesDetails(archivedCourses);
         coursesPage.verifyDeletedCoursesDetails(deletedCourses);
 
-        ______TS("Verify statistics");
+        ______TS("verify statistics");
         coursesPage.verifyActiveCourseStatistics(courses[0], "1", "3", "3", "1");
 
-        ______TS("Verify cannot modify without permissions");
+        ______TS("verify cannot modify without permissions");
         coursesPage.verifyNotModifiable(courses[0].getId());
 
-        ______TS("Add new course");
+        ______TS("add new course");
         CourseAttributes[] activeCoursesWithNewCourse = { newCourse, courses[0] };
         String[] expectedLinks = { "/web/instructor/courses/enroll?courseid=" + newCourse.getId(),
                 "/web/instructor/courses/edit?courseid=" + newCourse.getId() };
@@ -79,7 +79,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
         verifyPresentInDatastore(newCourse);
 
-        ______TS("Archive course");
+        ______TS("archive course");
         CourseAttributes[] archivedCoursesWithNewCourse = { newCourse, courses[1] };
         coursesPage.archiveCourse(newCourse.getId());
 
@@ -89,7 +89,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
         verifyCourseArchivedInDatastore(instructorId, newCourse);
 
-        ______TS("Unarchive course");
+        ______TS("unarchive course");
         coursesPage.unarchiveCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course has been unarchived.");
