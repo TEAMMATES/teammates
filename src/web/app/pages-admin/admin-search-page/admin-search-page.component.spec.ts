@@ -2,8 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { NgbModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { InstructorAccountSearchResult,
@@ -11,9 +10,6 @@ import { InstructorAccountSearchResult,
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { AdminSearchPageComponent } from './admin-search-page.component';
-import {
-  RegenerateLinksConfirmModalComponent,
-} from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
 
 describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
@@ -26,16 +22,14 @@ describe('AdminSearchPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AdminSearchPageComponent, RegenerateLinksConfirmModalComponent],
+      declarations: [AdminSearchPageComponent],
       imports: [
         FormsModule,
         HttpClientTestingModule,
         MatSnackBarModule,
-        NgbModule,
       ],
       providers: [AccountService, SearchService, StatusMessageService, NgbModal],
     })
-    .overrideModule(BrowserDynamicTestingModule, { set: { entryComponents: [RegenerateLinksConfirmModalComponent] } })
     .compileComponents();
   }));
 
@@ -400,8 +394,14 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    const modalRef: NgbModalRef = modalService.open(RegenerateLinksConfirmModalComponent);
-    spyOn(modalService, 'open').and.callFake(() => modalRef);
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
 
     spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(of({
       message: 'success',
@@ -415,16 +415,13 @@ describe('AdminSearchPageComponent', () => {
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
-    modalRef.close();
 
-    return modalRef.result.then(() => {
-      expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toBeCalled();
 
-      expect(studentResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
-      expect(studentResult.openSessions.index).toEqual('openSession?key=newKey');
-      expect(studentResult.notOpenSessions.index).toEqual('notOpenSession?key=newKey');
-      expect(studentResult.publishedSessions.index).toEqual('publishedSession?key=newKey');
-    });
+    expect(studentResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
+    expect(studentResult.openSessions.index).toEqual('openSession?key=newKey');
+    expect(studentResult.notOpenSessions.index).toEqual('notOpenSession?key=newKey');
+    expect(studentResult.publishedSessions.index).toEqual('publishedSession?key=newKey');
   });
 
   it('should show error message if fail to regenerate registration key for student in a course', () => {
@@ -451,8 +448,14 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    const modalRef: NgbModalRef = modalService.open(RegenerateLinksConfirmModalComponent);
-    spyOn(modalService, 'open').and.callFake(() => modalRef);
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
 
     spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(throwError({
       error: {
@@ -467,11 +470,8 @@ describe('AdminSearchPageComponent', () => {
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
-    modalRef.close();
 
-    return modalRef.result.then(() => {
-      expect(spyStatusMessageService).toBeCalled();
-    });
+    expect(spyStatusMessageService).toBeCalled();
   });
 
 });
