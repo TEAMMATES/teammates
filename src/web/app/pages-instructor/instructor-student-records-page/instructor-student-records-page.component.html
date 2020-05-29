@@ -13,7 +13,7 @@
                                [responses]="session.responsesReceivedByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
                                [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
     ></tm-grq-rgq-view-responses>
-    <div *ngIf="session.responsesReceivedByStudent.length <= 0">
+    <div *ngIf="session.responsesReceivedByStudent.length === 0">
       No feedback responses for {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
     </div>
     <br/>
@@ -21,7 +21,7 @@
                                [responses]="session.responsesGivenByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
                                [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
     ></tm-grq-rgq-view-responses>
-    <div *ngIf="session.responsesGivenByStudent.length <= 0">
+    <div *ngIf="session.responsesGivenByStudent.length === 0">
       No feedback responses from {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
     </div>
   </div>

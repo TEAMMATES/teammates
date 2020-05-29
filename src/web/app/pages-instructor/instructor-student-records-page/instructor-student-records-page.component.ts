@@ -99,7 +99,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
           intent: Intent.INSTRUCTOR_RESULT,
         }).subscribe((results: SessionResults) => {
 
-          // Rather than subscribe to the Observable, we simply grab the input so that we can filter
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
           giverQuestions.forEach((questions: QuestionOutput) => {
             questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
