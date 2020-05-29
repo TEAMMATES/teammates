@@ -1,4 +1,4 @@
-<a routerLink="/web/student/sessions/submission" *ngIf="!isAnonymousEmail(relatedGiverEmail)"
+<a routerLink="/web/student/sessions/submission"
    [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: relatedGiverEmail, moderatedquestionId: moderatedQuestionId}"
    class="btn btn-light btn-sm button">
   Moderate response

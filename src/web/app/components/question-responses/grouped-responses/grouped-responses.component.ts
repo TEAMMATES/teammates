@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
-  CommentOutput,
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
-import { CommentRowMode, CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
 import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 /**
@@ -23,6 +22,7 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   @Input() responses: QuestionOutput[] = [];
+  @Input() userToEmail: Record<string, string> = {};
 
   @Input() isGrq: boolean = true;
   @Input() session: FeedbackSession = {
@@ -56,24 +56,4 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
     team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;
   }
-
-  /**
-   * Transforms participant comment to comment row model.
-   */
-  transformParticipantCommentToCommandRowModel(participantComment: CommentOutput): CommentRowModel {
-    return {
-      originalComment: participantComment,
-      timezone: this.session.timeZone,
-      commentGiverName: participantComment.commentGiverName,
-      lastEditorName: participantComment.lastEditorName,
-      commentEditFormModel: {
-        commentText: participantComment.commentText,
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      isEditing: false,
-    };
-  }
-
 }

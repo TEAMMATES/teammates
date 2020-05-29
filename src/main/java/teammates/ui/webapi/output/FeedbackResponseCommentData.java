@@ -12,11 +12,12 @@ import teammates.common.util.Assumption;
  */
 public class FeedbackResponseCommentData extends ApiOutput {
 
+    protected String commentGiver;
+    protected String lastEditorEmail;
+
     private long feedbackResponseCommentId;
     private String commentText;
-    private String commentGiver;
     private long createdAt;
-    private String lastEditorEmail;
     private long lastEditedAt;
     private boolean isVisibilityFollowingFeedbackQuestion;
 

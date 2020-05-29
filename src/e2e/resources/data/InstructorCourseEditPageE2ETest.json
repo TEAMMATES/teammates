@@ -1,39 +1,18 @@
 {
   "accounts": {
-    "InsCrsEdit.test": {
-      "googleId": "InsCrsEdit.test",
+    "InsCrsEdit.coowner": {
+      "googleId": "InsCrsEdit.coowner",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "InsCrsEdit.test@gmail.tmt",
+      "email": "InsCrsEdit.coowner@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "InsCrsEdit.coord": {
-      "googleId": "InsCrsEdit.coord",
-      "name": "Teammates Coord",
-      "isInstructor": true,
-      "email": "InsCrsEdit.coord@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
-    },
-    "InsCrsEdit.instructor": {
-      "googleId": "InsCrsEdit.instructor",
+     "InsCrsEdit.observer": {
+      "googleId": "InsCrsEdit.observer",
       "name": "Teammates Instructor",
       "isInstructor": true,
-      "email": "InsCrsEdit.instructor@gmail.tmt",
+      "email": "InsCrsEdit.observer@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
-    },
-    "InsCrsEdit.Helper": {
-      "googleId": "InsCrsEdit.Helper",
-      "name": "Teammates Instructor",
-      "isInstructor": true,
-      "email": "InsCrsEdit.Helper@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
-    },
-    "InsCrsEdit.instructor1OfTestingSanitizationCourse": {
-      "googleId": "InsCrsEdit.idOfInstructor1OfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
-      "isInstructor": true,
-      "email": "InsCrsEdit.instructor1@sanitization.tmt",
-      "institute": "inst<script> alert('hi!'); </script>"
     }
   },
   "courses": {
@@ -41,20 +20,14 @@
       "id": "InsCrsEdit.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
-    },
-    "InsCrsEdit.testingSanitizationCourse": {
-      "createdAt": "2012-04-01T23:58:00Z",
-      "id": "InsCrsEdit.idOfTestingSanitizationCourse",
-      "name": "Testing<script> alert('hi!'); </script>",
-      "timeZone": "UTC"
     }
   },
   "instructors": {
-    "InsCrsEdit.test": {
-      "googleId": "InsCrsEdit.test",
+    "InsCrsEdit.coowner": {
+      "googleId": "InsCrsEdit.coowner",
       "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates Test",
-      "email": "InsCrsEdit.test@gmail.tmt",
+      "email": "InsCrsEdit.coowner@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -125,7 +98,7 @@
       "name": "Teammates Tutor",
       "email": "InsCrsEdit.tutor@gmail.tmt",
       "role": "Tutor",
-      "isDisplayedToStudents": true,
+      "isDisplayedToStudents": false,
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
@@ -142,34 +115,12 @@
         "sessionLevel": {}
       }
     },
-    "InsCrsEdit.coord": {
-      "googleId": "InsCrsEdit.coord",
+    "InsCrsEdit.helper": {
+      "googleId": "InsCrsEdit.helper",
       "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates Coord",
-      "email": "InsCrsEdit.coord@gmail.tmt",
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
-    "InsCrsEdit.newInstructor": {
-      "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates New Instructor",
-      "email": "InsCrsEdit.newInstr@gmail.tmt",
-      "key": "InsCrsEdit.newInstr@gmail.tmt%InsCrsEdit.CS2104",
+      "name": "Teammates Helper",
+      "email": "InsCrsEdit.helper@gmail.tmt",
+      "key": "InsCrsEdit.helper@gmail.tmt%InsCrsEdit.CS2104",
       "role": "Custom",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -181,57 +132,6 @@
           "canmodifycourse": false,
           "canviewsessioninsection": false,
           "canmodifysession": false,
-          "canmodifystudent": false,
-          "canmodifyinstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
-    "InsCrsEdit.Helper": {
-      "googleId": "InsCrsEdit.Helper",
-      "courseId": "InsCrsEdit.CS2104",
-      "name": "Teammates New Instructor",
-      "email": "InsCrsEdit.Helper@gmail.tmt",
-      "key": "InsCrsEdit.Helper@gmail.tmt%InsCrsEdit.CS2104",
-      "role": "Custom",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": false,
-          "cansubmitsessioninsection": false,
-          "canmodifysessioncommentinsection": false,
-          "canmodifycourse": false,
-          "canviewsessioninsection": false,
-          "canmodifysession": false,
-          "canmodifystudent": false,
-          "canmodifyinstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
-    "InsCrsEdit.instructor1OfTestingSanitizationCourse": {
-      "googleId": "InsCrsEdit.idOfInstructor1OfTestingSanitizationCourse",
-      "courseId": "InsCrsEdit.idOfTestingSanitizationCourse",
-      "name": "Instructor<script> alert('hi!'); </script>",
-      "email": "InsCrsEdit.instructor1@sanitization.tmt",
-      "isArchived": false,
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "inst'\"/><script>alert('hi!');</script>",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cangivecommentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canviewcommentinsection": true,
           "canmodifystudent": true,
           "canmodifyinstructor": true
         },
@@ -248,15 +148,6 @@
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
-      "section": "Section 1"
-    },
-    "benny.tmms@InsCrsEdit.CS2104": {
-      "googleId": "",
-      "email": "benny.c.tmms@gmail.tmt",
-      "course": "InsCrsEdit.CS2104",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
-      "team": "Team 2",
       "section": "Section 1"
     },
     "charlie.tmms@InsCrsEdit.CS2104": {
@@ -282,7 +173,7 @@
     "session1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "InsCrsEdit.CS2104",
-      "creatorEmail": "InsCrsEdit.test@gmail.tmt",
+      "creatorEmail": "InsCrsEdit.coowner@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",

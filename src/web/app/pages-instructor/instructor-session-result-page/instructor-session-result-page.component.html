@@ -158,7 +158,10 @@
 </div>
 
 <div class="card top-padded" *ngIf="isNoResponsePanelLoaded">
-  <tm-instructor-session-no-response-panel [noResponseStudents]="noResponseStudents" [section]="section" [session]="session" ></tm-instructor-session-no-response-panel>
+  <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
+                                           [noResponseStudents]="noResponseStudents"
+                                           [section]="section" [session]="session"
+                                           (studentsToRemindEvent)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
 </div>
 
 <ng-template #downloadTooltip>

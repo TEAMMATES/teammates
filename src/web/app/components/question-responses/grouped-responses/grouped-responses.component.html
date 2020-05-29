@@ -2,13 +2,17 @@
     *ngIf="responses.length && responses[0].allResponses.length">
   <div class="col-md-3">
     <div>
-      {{ isGrq ? 'To' : 'From' }}: {{ responses[0].allResponses[0][isGrq ? 'recipient' : 'giver']}} {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
+      <tm-view-photo-popover [photoUrl]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']] | formatPhotoUrl: session.courseId">
+        {{ isGrq ? 'To' : 'From' }}: {{ responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver'] }} {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
+      </tm-view-photo-popover>
     </div>
     <div class="top-padded">
-      {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][isGrq ? 'giver' : 'recipient']}} {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
+      <tm-view-photo-popover [photoUrl]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']] | formatPhotoUrl: session.courseId">
+        {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient'] }} {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
+      </tm-view-photo-popover>
     </div>
     <div class="top-padded">
-      <tm-response-moderation-button *ngIf="!isGrq" [session]="session" [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"></tm-response-moderation-button>
+      <tm-response-moderation-button *ngIf="!isGrq && responses[0].allResponses[0].relatedGiverEmail" [session]="session" [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"></tm-response-moderation-button>
     </div>
   </div>
   <div class="col-md-9">
@@ -20,7 +24,7 @@
         <div class="card-body">
           <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
           <tm-comment-row *ngIf="response.allResponses[0].participantComment"
-                          [model]="transformParticipantCommentToCommandRowModel(response.allResponses[0].participantComment)"
+                          [model]="response.allResponses[0].participantComment | participantCommentToCommandRowModelPipe: session.timeZone"
                           [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
                           [isDisabled]="true" [isVisibilityOptionEnabled]="false"
                           [mode]="CommentRowMode.EDIT"
