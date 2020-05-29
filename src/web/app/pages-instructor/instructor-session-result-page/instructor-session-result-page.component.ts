@@ -511,7 +511,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
             commentGiverName: commentRowToUpdate.commentGiverName,
             // the current instructor will become the last editor
             lastEditorName: this.currInstructorName,
-          });
+          }, this.session.timeZone);
           this.instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
@@ -537,7 +537,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         // the giver and editor name will be the current login instructor
         commentGiverName: this.currInstructorName,
         lastEditorName: this.currInstructorName,
-      }));
+      }, this.session.timeZone));
       this.instructorCommentTableModel[responseId] = {
         ...commentTableModel,
         newCommentRow: {
