@@ -24,6 +24,7 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   @Input() recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
   @Input() isStudent: boolean = false;
   @Input() statistics: string = '';
+  @Input() displayContributionStats: boolean = true;
 
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;

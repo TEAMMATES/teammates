@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 
@@ -67,8 +69,93 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionResultStatisticsJson(
             List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
             String studentEmail, FeedbackSessionResultsBundle bundle) {
-        // TODO
-        return "";
+        if (responses.isEmpty()) {
+            return "";
+        }
+
+        boolean isStudent = studentEmail != null;
+
+        List<FeedbackResponseAttributes> actualResponses = bundle.getActualResponsesSortedByGqr(question);
+        List<String> teamNames = isStudent ? getTeamsWithAtLeastOneResponse(actualResponses, bundle)
+                : getTeamNames(bundle);
+
+        // Each team's member (email) list
+        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
+
+        // Each team's responses
+        Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
+                actualResponses, bundle, teamNames);
+
+        // Get each team's submission array. -> int[teamSize][teamSize]
+        // Where int[0][1] refers points from student 0 to student 1
+        // Where student 0 is the 0th student in the list in teamMembersEmail
+        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
+                teamNames, teamMembersEmail, teamResponses);
+
+        // Each team's contribution question results.
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
+        ContributionStatistics output = new ContributionStatistics();
+
+        if (isStudent) {
+            String currentUserTeam = bundle.emailTeamNameTable.get(studentEmail);
+            TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
+            if (currentUserTeamResults != null) {
+                int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(studentEmail);
+                int[] claimedNumbers = currentUserTeamResults.claimed[currentUserIndex];
+                int[] perceivedNumbers = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex];
+
+                int claimed = 0;
+                int perceived = 0;
+                List<Integer> claimedOthers = new ArrayList<>();
+                List<Integer> perceivedOthers = new ArrayList<>();
+
+                for (int i = 0; i < claimedNumbers.length; i++) {
+                    if (i == currentUserIndex) {
+                        claimed = claimedNumbers[i];
+                    } else {
+                        claimedOthers.add(claimedNumbers[i]);
+                    }
+                }
+                claimedOthers.sort(Comparator.reverseOrder());
+
+                for (int i = 0; i < perceivedNumbers.length; i++) {
+                    if (i == currentUserIndex) {
+                        perceived = perceivedNumbers[i];
+                    } else {
+                        perceivedOthers.add(perceivedNumbers[i]);
+                    }
+                }
+                perceivedOthers.sort(Comparator.reverseOrder());
+
+                output.results.put(studentEmail, new ContributionStatisticsEntry(claimed, perceived,
+                        claimedOthers.stream().mapToInt(i -> i).toArray(),
+                        perceivedOthers.stream().mapToInt(i -> i).toArray()));
+            }
+        } else {
+            Map<String, StudentResultSummary> studentResults = getStudentResults(teamMembersEmail, teamResults);
+
+            for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
+                StudentResultSummary summary = entry.getValue();
+                String email = entry.getKey();
+                String team = bundle.roster.getStudentForEmail(email).team;
+                List<String> teamEmails = teamMembersEmail.get(team);
+                TeamEvalResult teamResult = teamResults.get(team);
+                int studentIndex = teamEmails.indexOf(email);
+                List<Integer> perceivedOthers = new ArrayList<>();
+                for (int i = 0; i < teamResult.normalizedPeerContributionRatio.length; i++) {
+                    if (i != studentIndex) {
+                        perceivedOthers.add(teamResult.normalizedPeerContributionRatio[i][studentIndex]);
+                    }
+                }
+                perceivedOthers.sort(Comparator.reverseOrder());
+
+                output.results.put(email, new ContributionStatisticsEntry(summary.claimedToInstructor,
+                        summary.perceivedToInstructor,
+                        new int[] {}, perceivedOthers.stream().mapToInt(i -> i).toArray()));
+            }
+        }
+
+        return JsonUtils.toJson(output);
     }
 
     @Override
@@ -442,4 +529,27 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }
+
+    public static class ContributionStatistics {
+        public final Map<String, ContributionStatisticsEntry> results = new HashMap<>();
+
+        public Map<String, ContributionStatisticsEntry> getResults() {
+            return results;
+        }
+    }
+
+    public static class ContributionStatisticsEntry {
+        public final int claimed;
+        public final int perceived;
+        public final int[] claimedOthers;
+        public final int[] perceivedOthers;
+
+        public ContributionStatisticsEntry(int claimed, int perceived, int[] claimedOthers, int[] perceivedOthers) {
+            this.claimed = claimed;
+            this.perceived = perceived;
+            this.claimedOthers = claimedOthers;
+            this.perceivedOthers = perceivedOthers;
+        }
+    }
+
 }

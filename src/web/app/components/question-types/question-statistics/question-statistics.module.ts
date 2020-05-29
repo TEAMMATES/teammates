@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from './constsum-recipients-question-statistics.component';
 import { ContributionQuestionStatisticsComponent } from './contribution-question-statistics.component';
+import { ContributionComponent } from './contribution.component';
 import { McqQuestionStatisticsComponent } from './mcq-question-statistics.component';
 import { MsqQuestionStatisticsComponent } from './msq-question-statistics.component';
 import { NumScaleQuestionStatisticsComponent } from './num-scale-question-statistics.component';
@@ -28,6 +29,7 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     RankRecipientsQuestionStatisticsComponent,
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
+    ContributionComponent,
   ],
   exports: [
     ContributionQuestionStatisticsComponent,
