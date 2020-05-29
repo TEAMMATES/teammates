@@ -7,6 +7,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { Gender, StudentProfile } from '../../../types/api-output';
+import {
+  GrqRgqViewResponsesModule,
+} from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
 import { InstructorStudentRecordsPageComponent } from './instructor-student-records-page.component';
 
 @Component({ selector: 'tm-student-profile', template: '' })
@@ -38,6 +41,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
         RouterTestingModule,
         NgbModule,
         MatSnackBarModule,
+        GrqRgqViewResponsesModule,
       ],
       providers: [
         {
