@@ -24,7 +24,7 @@
         <div class="card-body">
           <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
           <tm-comment-row *ngIf="response.allResponses[0].participantComment"
-                          [model]="response.allResponses[0].participantComment | participantCommentToCommentRowModel: session.timeZone"
+                          [model]="response.allResponses[0].participantComment | commentToCommentRowModel: session.timeZone"
                           [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
                           [isDisabled]="true" [isVisibilityOptionEnabled]="false"
                           [mode]="CommentRowMode.EDIT"

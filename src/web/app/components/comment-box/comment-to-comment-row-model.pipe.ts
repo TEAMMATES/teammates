@@ -6,18 +6,18 @@ import { CommentRowModel } from './comment-row/comment-row.component';
  * Transforms participant comment to comment row model.
  */
 @Pipe({
-  name: 'participantCommentToCommentRowModel',
+  name: 'commentToCommentRowModel',
 })
-export class ParticipantCommentToCommentRowModelPipe implements PipeTransform {
+export class CommentToCommentRowModelPipe implements PipeTransform {
 
-  transform(participantComment: CommentOutput, timezone?: string): CommentRowModel {
+  transform(comment: CommentOutput, timezone?: string): CommentRowModel {
     return {
       timezone,
-      originalComment: participantComment,
-      commentGiverName: participantComment.commentGiverName,
-      lastEditorName: participantComment.lastEditorName,
+      originalComment: comment,
+      commentGiverName: comment.commentGiverName,
+      lastEditorName: comment.lastEditorName,
       commentEditFormModel: {
-        commentText: participantComment.commentText,
+        commentText: comment.commentText,
         isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],

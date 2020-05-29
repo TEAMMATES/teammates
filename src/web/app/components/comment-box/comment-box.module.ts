@@ -9,6 +9,7 @@ import { CommentEditFormComponent } from './comment-edit-form/comment-edit-form.
 import { CommentRowComponent } from './comment-row/comment-row.component';
 import { CommentTableModalComponent } from './comment-table-modal/comment-table-modal.component';
 import { CommentTableComponent } from './comment-table/comment-table.component';
+import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
@@ -16,8 +17,7 @@ import {
 import {
   ConfirmDeleteCommentModalComponent,
 } from './confirm-delete-comment-modal/confirm-delete-comment-modal.component';
-import { ParticipantCommentToCommentRowModelPipe } from './participant-comment-to-comment-row-model.pipe';
-import { ResponseOutputToReadonlyCommentTableModelPipe } from './response-output-to-readonly-comment-table-model.pipe';
+import { ResponseToReadonlyCommentTableModelPipe } from './response-to-readonly-comment-table-model.pipe';
 
 /**
  * Module for comments table
@@ -33,8 +33,8 @@ import { ResponseOutputToReadonlyCommentTableModelPipe } from './response-output
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
     CommentVisibilityTypesJointNamePipe,
-    ParticipantCommentToCommentRowModelPipe,
-    ResponseOutputToReadonlyCommentTableModelPipe,
+    CommentToCommentRowModelPipe,
+    ResponseToReadonlyCommentTableModelPipe,
   ],
   imports: [
     TeammatesCommonModule,
@@ -48,14 +48,14 @@ import { ResponseOutputToReadonlyCommentTableModelPipe } from './response-output
     CommentRowComponent,
     CommentTableComponent,
     CommentTableModalComponent,
-    ParticipantCommentToCommentRowModelPipe,
-    ResponseOutputToReadonlyCommentTableModelPipe,
+    CommentToCommentRowModelPipe,
+    ResponseToReadonlyCommentTableModelPipe,
   ],
   entryComponents: [
     ConfirmDeleteCommentModalComponent,
   ],
   providers: [
-    ParticipantCommentToCommentRowModelPipe,
+    CommentToCommentRowModelPipe,
   ],
 })
 export class CommentBoxModule { }

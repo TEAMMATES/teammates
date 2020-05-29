@@ -29,7 +29,7 @@
                               [isFeedbackParticipantComment]="true"
                               [response]="response"
                               [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                              [model]="response.participantComment | participantCommentToCommentRowModel"
+                              [model]="response.participantComment | commentToCommentRowModel"
             ></tm-comment-row>
             </td>
           </tr>
@@ -38,7 +38,7 @@
               <tm-comment-table
                   [response]="response"
                   [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                  [model]="response | responseOutputToReadonlyCommentTableModel: timezone"
+                  [model]="response | responseToReadonlyCommentTableModel: timezone"
                   [shouldHideClosingButtonForNewComment]="true"
               ></tm-comment-table>
             </td>
