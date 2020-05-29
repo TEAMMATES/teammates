@@ -98,7 +98,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
           groupBySection: this.studentSection,
           intent: Intent.INSTRUCTOR_RESULT,
         }).subscribe((results: SessionResults) => {
-          results.questions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
 
           // Rather than subscribe to the Observable, we simply grab the input so that we can filter
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
