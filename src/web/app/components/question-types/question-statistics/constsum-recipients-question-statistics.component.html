@@ -1,3 +1,33 @@
-<p>
-  constsum-recipients-question-statistics works!
-</p>
+<div *ngIf="responses.length && !isStudent">
+  <div class="row">
+    <div class="col-sm-4 text-color-gray">
+      <strong>
+        Response Summary
+      </strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 table-responsive">
+      <table class="table table-bordered table-striped margin-0">
+        <thead>
+        <tr>
+          <td>Team</td>
+          <td>Recipient</td>
+          <td>Points Received</td>
+          <td>Total Points</td>
+          <td>Average Points</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let option of pointsPerOption | keyvalue">
+          <td>{{ emailToTeamName[option.key] }}</td>
+          <td>{{ emailToName[option.key] }}</td>
+          <td>{{ option.value.join(', ') }}</td>
+          <td>{{ totalPointsPerOption[option.key] }}</td>
+          <td>{{ averagePointsPerOption[option.key] }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
