@@ -49,6 +49,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 .withUserId(instructorId);
         loginAdminToPage(url, InstructorHomePage.class);
         InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
+        coursesPage.waitForPageToLoad();
 
         ______TS("verify loaded data");
         CourseAttributes[] activeCourses = { courses[0] };

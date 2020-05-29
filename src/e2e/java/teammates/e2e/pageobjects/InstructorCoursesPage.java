@@ -4,6 +4,9 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -136,6 +139,7 @@ public class InstructorCoursesPage extends AppPage {
         fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
         selectNewTimeZone(newCourse.getTimeZone().toString());
+        waitForPageToLoad();
 
         click(submitButton);
         waitForElementPresence(By.className("mat-snack-bar-container"));
@@ -248,10 +252,17 @@ public class InstructorCoursesPage extends AppPage {
         String[][] courseDetails = new String[courses.length][3];
         for (int i = 0; i < courses.length; i++) {
             String[] courseDetail = { courses[i].getId(), courses[i].getName(),
-                    courses[i].getCreatedAtDateString() };
+                    getDateString(courses[i].getCreatedAt()) };
             courseDetails[i] = courseDetail;
         }
         return courseDetails;
+    }
+
+    private String getDateString(Instant instant) {
+        return DateTimeFormatter
+                .ofPattern("d MMM yyyy")
+                .withZone(ZoneId.systemDefault())
+                .format(instant);
     }
 
     private String[][] getDeletedCourseDetails(CourseAttributes[] courses) {
