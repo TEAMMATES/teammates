@@ -27,7 +27,8 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId("SCDetailsUiT.CS2104")
                 .withUserId(testData.students.get("SCDetailsUiT.alice").googleId);
         loginAdminToPage(url, StudentHomePage.class);
-        AppPage.getNewPageInstance(browser, url, StudentCourseDetailsPage.class);
+        AppPage.getNewPageInstance(browser, url, StudentCourseDetailsPage.class)
+                .waitForPageToLoad();
 
         verifyContent();
 
