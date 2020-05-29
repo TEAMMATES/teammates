@@ -53,6 +53,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
 
   teamsToUsers: Record<string, string[]> = {};
   userToEmail: Record<string, string> = {};
+  userToRelatedEmail: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -76,6 +77,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.teamsToUsers = {};
     this.teamExpanded = {};
     this.userToEmail = {};
+    this.userToRelatedEmail = {};
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
@@ -90,6 +92,9 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
+          }
+          if (response.relatedGiverEmail) {
+            this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
         } else {

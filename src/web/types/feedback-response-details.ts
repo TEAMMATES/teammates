@@ -37,8 +37,3 @@ export const RUBRIC_ANSWER_NOT_CHOSEN: number = -1;
  * Special value to indicate whether a value is present or not.
  */
 export const NO_VALUE: number = -2147483648;
-
-/**
- * Special value to indicate an anonymous identifier
- */
-export const ANONYMOUS_PREFIX: string = 'Anonymous';

@@ -52,7 +52,7 @@
           <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
         </td>
         <td>
-          <tm-response-moderation-button [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="question.feedbackQuestionId"></tm-response-moderation-button>
+          <tm-response-moderation-button *ngIf="response.relatedGiverEmail" [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="question.feedbackQuestionId"></tm-response-moderation-button>
           <button class="btn btn-light btn-sm" style="margin-left:5px; border: 1px solid #CCC;"
                   (click)="showCommentTableModel(response, commentTableModal)">Add Comment <span class="badge badge-secondary">
             {{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>

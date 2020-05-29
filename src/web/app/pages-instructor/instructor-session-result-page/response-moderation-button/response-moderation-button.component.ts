@@ -5,7 +5,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
-import { ANONYMOUS_PREFIX } from '../../../../types/feedback-response-details';
 
 /**
  * Button for instructor moderating responses.
@@ -45,10 +44,4 @@ export class ResponseModerationButtonComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  /**
-   * Check if email starts with anonymous.
-   */
-  isAnonymousEmail(email: string): boolean {
-    return email.startsWith(ANONYMOUS_PREFIX);
-  }
 }
