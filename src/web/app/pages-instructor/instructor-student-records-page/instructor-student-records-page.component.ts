@@ -19,10 +19,11 @@ import { CommentRowModel } from '../../components/comment-box/comment-row/commen
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface Session {
+interface SessionTab {
   isCollapsed: boolean;
-  questions: QuestionOutput[];
   feedbackSession: FeedbackSession;
+  responsesGivenByStudent: QuestionOutput[];
+  responsesReceivedByStudent: QuestionOutput[];
 }
 
 /**
@@ -49,7 +50,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     gender: Gender.OTHER,
     moreInfo: '',
   };
-  sessions: Session[] = [];
+  sessionTabs: SessionTab[] = [];
   photoUrl: string = '';
 
   constructor(private route: ActivatedRoute,
@@ -97,19 +98,32 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
           groupBySection: this.studentSection,
           intent: Intent.INSTRUCTOR_RESULT,
         }).subscribe((results: SessionResults) => {
-          results.questions.forEach((q: QuestionOutput) => {
-            q.allResponses = q.allResponses.filter((response: ResponseOutput) =>
-                response.recipient === this.studentProfile.name ||
-                response.giver === this.studentProfile.name);
+          results.questions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+
+          // Rather than subscribe to the Observable, we simply grab the input so that we can filter
+          const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+          giverQuestions.forEach((questions: QuestionOutput) => {
+            questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
+                responses.giver === this.studentProfile.name && responses.giverEmail === this.studentEmail);
           });
-          const questions: QuestionOutput[] =
-              results.questions.filter((q: QuestionOutput) => q.allResponses.length > 0);
-          this.sessions.push({
-            questions,
+          const responsesGivenByStudent: QuestionOutput[] =
+              giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+
+          const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+          recipientQuestions.forEach((questions: QuestionOutput) => {
+            questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
+                responses.recipient === this.studentProfile.name && responses.recipientEmail === this.studentEmail);
+          });
+          const responsesReceivedByStudent: QuestionOutput[] =
+              recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+
+          this.sessionTabs.push({
             feedbackSession,
-            isCollapsed: questions.length === 0,
+            responsesGivenByStudent,
+            responsesReceivedByStudent,
+            isCollapsed: responsesGivenByStudent.length === 0 && responsesReceivedByStudent.length === 0,
           });
-          results.questions.forEach((qn: QuestionOutput) => this.preprocessComments(qn.allResponses));
+          results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
         });
       });
     }, (errorMessageOutput: ErrorMessageOutput) => {
@@ -159,7 +173,9 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   getCommentRowModel(comment: CommentOutput): CommentRowModel {
     return {
       originalComment: comment,
-      timezone: this.sessions[0] != null ? this.sessions[0].feedbackSession.timeZone : '',
+
+      // Sessions in the same course will always have the same timezone
+      timezone: this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '',
 
       commentGiverName: comment.commentGiverName,
       lastEditorName: comment.lastEditorName,

@@ -2,19 +2,27 @@
 <tm-student-profile [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
 <tm-more-info [studentName]="studentProfile.name" [moreInfoText]="studentProfile.moreInfo"></tm-more-info>
 <h2>Records in feedback sessions</h2>
-<div *ngFor="let session of sessions" class="card card-default mb-4">
+<div *ngFor="let session of sessionTabs" class="card card-default mb-4">
   <div class="card-header font-weight-bold cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
     Feedback Session : {{session.feedbackSession.feedbackSessionName}}
     <span class="float-right fas"
       [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
   </div>
   <div class="card-body" [ngbCollapse]="session.isCollapsed">
-    <tm-grq-rgq-view-responses *ngIf="session.questions.length > 0"
-                               [responses]="session.questions" [groupByTeam]="false" [section]="" [sectionType]=""
+    <tm-grq-rgq-view-responses *ngIf="session.responsesReceivedByStudent.length > 0"
+                               [responses]="session.responsesReceivedByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
+                               [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
+    ></tm-grq-rgq-view-responses>
+    <div *ngIf="session.responsesReceivedByStudent.length <= 0">
+      No feedback responses for {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
+    </div>
+    <br/>
+    <tm-grq-rgq-view-responses *ngIf="session.responsesGivenByStudent.length > 0"
+                               [responses]="session.responsesGivenByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
                                [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
     ></tm-grq-rgq-view-responses>
-    <div *ngIf="session.questions.length <= 0">
-      No feedback responses related to {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
+    <div *ngIf="session.responsesGivenByStudent.length <= 0">
+      No feedback responses from {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
     </div>
   </div>
 </div>

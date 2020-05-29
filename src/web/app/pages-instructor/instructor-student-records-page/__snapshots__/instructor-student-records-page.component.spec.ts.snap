@@ -7,7 +7,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   instructorCommentTableModel={[Function Object]}
   photoUrl={[Function String]}
   route={[Function Object]}
-  sessions={[Function Array]}
+  sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
   studentProfile={[Function Object]}
@@ -41,7 +41,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   instructorCommentTableModel={[Function Object]}
   photoUrl={[Function String]}
   route={[Function Object]}
-  sessions={[Function Array]}
+  sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
   studentProfile={[Function Object]}
