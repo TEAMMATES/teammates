@@ -25,9 +25,9 @@ export class CommentsToCommentTableModelPipe implements PipeTransform {
           showCommentTo: [],
           showGiverNameTo: [],
         },
-        isEditing: !isReadonly,
+        isEditing: false,
       },
-      isAddingNewComment: !isReadonly,
+      isAddingNewComment: false,
     };
   }
 

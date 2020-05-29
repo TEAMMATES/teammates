@@ -6,7 +6,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import {
-  CommentOutput, FeedbackResponseComment,
   FeedbackSession,
   FeedbackSessions,
   Gender,
@@ -15,8 +14,8 @@ import {
   StudentProfile,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
-import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
+import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface SessionTab {
@@ -57,7 +56,8 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
-              private studentService: StudentService) { }
+              private studentService: StudentService,
+              private commentsToCommentTableModel: CommentsToCommentTableModelPipe) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -136,56 +136,14 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    * instructor comments associated with the response will be deleted.
    */
   preprocessComments(responses: ResponseOutput[]): void {
+    const timezone: string = this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '';
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
-          this.getCommentTableModel(response.instructorComments);
+          this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
 
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });
   }
 
-  /**
-   * Transforms instructor comments to a comment table model.
-   */
-  getCommentTableModel(comments: CommentOutput[]): CommentTableModel {
-    return {
-      commentRows: comments.map((comment: FeedbackResponseComment) => this.getCommentRowModel(comment)),
-      newCommentRow: {
-        commentEditFormModel: {
-          commentText: '',
-          isUsingCustomVisibilities: false,
-          showCommentTo: [],
-          showGiverNameTo: [],
-        },
-        isEditing: false,
-      },
-      isAddingNewComment: false,
-      isReadonly: false,
-    };
-  }
-
-  /**
-   * Transforms a comment to a comment row model.
-   */
-  getCommentRowModel(comment: CommentOutput): CommentRowModel {
-    return {
-      originalComment: comment,
-
-      // Sessions in the same course will always have the same timezone
-      timezone: this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '',
-
-      commentGiverName: comment.commentGiverName,
-      lastEditorName: comment.lastEditorName,
-
-      commentEditFormModel: {
-        commentText: comment.commentText,
-        isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
-        showCommentTo: comment.showCommentTo,
-        showGiverNameTo: comment.showGiverNameTo,
-      },
-
-      isEditing: false,
-    };
-  }
 }

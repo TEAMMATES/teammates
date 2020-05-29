@@ -18,9 +18,9 @@ export class CommentToCommentRowModelPipe implements PipeTransform {
       lastEditorName: comment.lastEditorName,
       commentEditFormModel: {
         commentText: comment.commentText,
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
+        isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
+        showCommentTo: comment.showCommentTo,
+        showGiverNameTo: comment.showGiverNameTo,
       },
       isEditing: false,
     };
