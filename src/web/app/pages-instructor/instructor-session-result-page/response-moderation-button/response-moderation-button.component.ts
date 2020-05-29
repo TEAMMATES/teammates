@@ -35,6 +35,9 @@ export class ResponseModerationButtonComponent implements OnInit {
   };
 
   @Input()
+  relatedGiverEmail: string = '';
+
+  @Input()
   moderatedQuestionId: string = '';
 
   constructor() { }
