@@ -38,7 +38,7 @@
               <tm-comment-table
                   [response]="response"
                   [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                  [model]="response | responseToReadonlyCommentTableModel: timezone"
+                  [model]="response.instructorComments | commentsToCommentTableModel: true : timezone"
                   [shouldHideClosingButtonForNewComment]="true"
               ></tm-comment-table>
             </td>

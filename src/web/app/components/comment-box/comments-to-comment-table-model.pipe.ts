@@ -1,20 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CommentOutput, ResponseOutput } from '../../../types/api-output';
+import { CommentOutput } from '../../../types/api-output';
 import { CommentTableModel } from './comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 
 /**
- * Transforms response to readonly comment table model.
+ * Transforms comments to readonly comment table model.
  */
 @Pipe({
-  name: 'responseToReadonlyCommentTableModel',
+  name: 'commentsToCommentTableModel',
 })
-export class ResponseToReadonlyCommentTableModelPipe implements PipeTransform {
+export class CommentsToCommentTableModelPipe implements PipeTransform {
   constructor(private commentToCommentRowModel: CommentToCommentRowModelPipe) {
   }
-  transform(response: ResponseOutput, timezone?: string): CommentTableModel {
+  transform(comments: CommentOutput[], isReadonly: boolean, timezone?: string): CommentTableModel {
     return {
-      commentRows: response.instructorComments.map((comment: CommentOutput) => {
+      isReadonly,
+      commentRows: comments.map((comment: CommentOutput) => {
         return this.commentToCommentRowModel.transform(comment, timezone);
       }),
       newCommentRow: {
@@ -24,10 +25,9 @@ export class ResponseToReadonlyCommentTableModelPipe implements PipeTransform {
           showCommentTo: [],
           showGiverNameTo: [],
         },
-        isEditing: false,
+        isEditing: !isReadonly,
       },
-      isAddingNewComment: false,
-      isReadonly: true,
+      isAddingNewComment: !isReadonly,
     };
   }
 
