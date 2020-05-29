@@ -3,6 +3,9 @@ import { CommentOutput, ResponseOutput } from '../../../types/api-output';
 import { CommentTableModel } from './comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 
+/**
+ * Transforms response to readonly comment table model.
+ */
 @Pipe({
   name: 'responseToReadonlyCommentTableModel',
 })

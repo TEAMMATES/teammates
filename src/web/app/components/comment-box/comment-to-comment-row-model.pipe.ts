@@ -3,7 +3,7 @@ import { CommentOutput } from '../../../types/api-output';
 import { CommentRowModel } from './comment-row/comment-row.component';
 
 /**
- * Transforms participant comment to comment row model.
+ * Transforms comment to comment row model.
  */
 @Pipe({
   name: 'commentToCommentRowModel',
