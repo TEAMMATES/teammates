@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
-import { FormatPhotoUrlPipe } from '../../components/teammates-common/format-photo-url.pipe';
 import { QuestionTabModel } from './instructor-session-result-page.component';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
@@ -22,8 +21,6 @@ export class InstructorSessionResultQuestionViewComponent
   @Input() questions: Record<string, QuestionTabModel> = {};
 
   questionsOrder: QuestionTabModel[] = [];
-  userToPhotoUrl: Record<string, string> = {};
-  userToEmail: Record<string, string> = {};
 
   constructor() {
     super(InstructorSessionResultViewType.QUESTION);
@@ -35,32 +32,6 @@ export class InstructorSessionResultQuestionViewComponent
 
   ngOnChanges(): void {
     this.sortQuestion();
-  }
-
-  loadPhotoHandler(user: string): void {
-    if (!this.userToEmail[user]) {
-      let continueFinding: boolean = true;
-      for (const question of this.questionsOrder) {
-        for (const response of question.responses) {
-          if (response.giver === user && response.giverEmail) {
-            this.userToEmail[user] = response.giverEmail;
-            continueFinding = false;
-            break;
-          }
-          if (response.recipient === user && response.recipientEmail) {
-            this.userToEmail[user] = response.recipientEmail;
-            continueFinding = false;
-            break;
-          }
-        }
-
-        if (!continueFinding) {
-          break;
-        }
-      }
-    }
-
-    this.userToPhotoUrl[user] = new FormatPhotoUrlPipe().transform(this.session.courseId, this.userToEmail[user]);
   }
 
   sortQuestion(): void {

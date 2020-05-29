@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 /**
  * Component to display a popover for photos
@@ -16,8 +16,7 @@ export class ViewPhotoPopoverComponent implements OnInit {
   @Input()
   isViewPhotoLinkInPopover: boolean = true;
 
-  @Output()
-  loadPhotoEvent: EventEmitter<any> = new EventEmitter();
+  isPhotoShown: boolean = false;
 
   constructor() { }
 

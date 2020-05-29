@@ -31,7 +31,7 @@
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded">
     <div class="card-header bg-primary text-white" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
-      <tm-view-photo-popover [photoUrl]="userToPhotoUrl[userInfo]" (loadPhotoEvent)="loadPhotoHandler(userInfo)">
+      <tm-view-photo-popover [photoUrl]="session.courseId | formatPhotoUrl: userToEmail[userInfo]">
         {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
       </tm-view-photo-popover>
       <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
@@ -57,8 +57,7 @@
         <div class="card-body" *ngIf="question.isTabExpanded">
           <tm-per-question-view-responses [responses]="question.questionOutput.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
                                           [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [question]="question.questionOutput.feedbackQuestion"
-                                          [instructorCommentTableModel]="instructorCommentTableModel" [userToPhotoUrl]="userToPhotoUrl"
-                                          (loadPhotoEvent)="loadPhotoHandler($event)"
+                                          [instructorCommentTableModel]="instructorCommentTableModel"
                                           (instructorCommentTableModelChange)="triggerModelChange($event)"
                                           (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
                                           (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"

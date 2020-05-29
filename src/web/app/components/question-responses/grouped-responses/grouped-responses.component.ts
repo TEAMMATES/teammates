@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput,
@@ -22,7 +22,7 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   @Input() responses: QuestionOutput[] = [];
-  @Input() userToPhotoUrl: Record<string, string> = {};
+  @Input() userToEmail: Record<string, string> = {};
 
   @Input() isGrq: boolean = true;
   @Input() session: FeedbackSession = {
@@ -41,9 +41,6 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-
-  @Output()
-  loadPhotoEvent: EventEmitter<string> = new EventEmitter();
 
   constructor() {
     super();

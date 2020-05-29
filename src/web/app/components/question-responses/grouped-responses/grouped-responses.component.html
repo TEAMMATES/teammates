@@ -2,14 +2,12 @@
     *ngIf="responses.length && responses[0].allResponses.length">
   <div class="col-md-3">
     <div>
-      <tm-view-photo-popover [photoUrl]="userToPhotoUrl[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']]"
-                             (loadPhotoEvent)="loadPhotoEvent.emit(responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver'])">
+      <tm-view-photo-popover [photoUrl]="session.courseId | formatPhotoUrl: userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']]">
         {{ isGrq ? 'To' : 'From' }}: {{ responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver'] }} {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
       </tm-view-photo-popover>
     </div>
     <div class="top-padded">
-      <tm-view-photo-popover [photoUrl]="userToPhotoUrl[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']]"
-                             (loadPhotoEvent)="loadPhotoEvent.emit(responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient'])">
+      <tm-view-photo-popover [photoUrl]="session.courseId | formatPhotoUrl: userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']]">
         {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient'] }} {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
       </tm-view-photo-popover>
     </div>

@@ -8,7 +8,6 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { FormatPhotoUrlPipe } from '../../teammates-common/format-photo-url.pipe';
 import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
 
 interface QuestionTab {
@@ -54,7 +53,6 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
 
   teamsToUsers: Record<string, string[]> = {};
   userToEmail: Record<string, string> = {};
-  userToPhotoUrl: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -71,10 +69,6 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
 
   ngOnChanges(): void {
     this.filterResponses();
-  }
-
-  loadPhotoHandler(user: string): void {
-    this.userToPhotoUrl[user] = new FormatPhotoUrlPipe().transform(this.session.courseId, this.userToEmail[user]);
   }
 
   private filterResponses(): void {

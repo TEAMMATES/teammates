@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
@@ -48,11 +48,8 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-  @Input()
-  userToPhotoUrl: Record<string, string> = {};
 
-  @Output()
-  loadPhotoEvent: EventEmitter<string> = new EventEmitter();
+  userToEmail: Record<string, string> = {};
 
   responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;
@@ -77,6 +74,12 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
   private filterResponses(): void {
     const responsesToShow: ResponseOutput[] = [];
     for (const response of this.responses) {
+      if (response.recipientEmail) {
+        this.userToEmail[response.recipient] = response.recipientEmail;
+      }
+      if (response.giverEmail) {
+        this.userToEmail[response.giver] = response.giverEmail;
+      }
       if (this.section) {
         let shouldDisplayBasedOnSection: boolean = true;
         switch (this.sectionType) {

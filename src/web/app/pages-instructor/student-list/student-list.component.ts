@@ -9,7 +9,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { JoinState, MessageOutput } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { FormatPhotoUrlPipe } from '../../components/teammates-common/format-photo-url.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
 import {
@@ -122,13 +121,6 @@ export class StudentListComponent implements OnInit, DoCheck {
    */
   trackByFn(_index: number, item: FlatStudentListData): any {
     return item.email;
-  }
-
-  /**
-   * Load the profile picture of a student
-   */
-  loadPhoto(student: FlatStudentListData): void {
-    student.photoUrl = new FormatPhotoUrlPipe().transform(this.courseId, student.email);
   }
 
   /**
