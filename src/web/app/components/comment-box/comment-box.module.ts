@@ -14,10 +14,10 @@ import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
 } from './comment-visibility-setting.pipe';
+import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
 import {
   ConfirmDeleteCommentModalComponent,
 } from './confirm-delete-comment-modal/confirm-delete-comment-modal.component';
-import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
 
 /**
  * Module for comments table
