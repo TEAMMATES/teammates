@@ -54,7 +54,7 @@ describe('CommentsToCommentTableModelPipe', () => {
         lastEditorName: 'lastEditorName',
         commentEditFormModel: {
           commentText: 'commentText',
-          isUsingCustomVisibilities: false,
+          isUsingCustomVisibilities: true,
           showCommentTo: [],
           showGiverNameTo: [],
         },
