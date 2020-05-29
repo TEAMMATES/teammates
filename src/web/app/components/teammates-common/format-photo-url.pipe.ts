@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 })
 export class FormatPhotoUrlPipe implements PipeTransform {
 
-  transform(courseId: string, email: string): string {
+  transform(email: string, courseId: string): string {
     return `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${email}`;
   }
 }
