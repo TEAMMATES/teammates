@@ -30,6 +30,10 @@
 <div class="card bg-light top-padded" *ngFor="let question of questions">
   <div class="card-body" style="padding: 20px;">
     <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" style="font-size: 20px;"></tm-question-text-with-info>
+    <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
+                          [responses]="question.responsesToSelf"
+                          [statistics]="question.questionStatistics"
+                          [isStudent]="true"></tm-single-statistics>
     <tm-student-view-responses *ngIf="question.responsesToSelf.length" [responses]="question.responsesToSelf" [feedbackQuestion]="question.feedbackQuestion"></tm-student-view-responses>
     <div *ngFor="let responsesForOtherRecipient of question.otherResponses">
       <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient" [feedbackQuestion]="question.feedbackQuestion"></tm-student-view-responses>

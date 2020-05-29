@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
 import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
@@ -14,6 +15,7 @@ import { SessionResultPageComponent } from './session-result-page.component';
     CommonModule,
     QuestionTextWithInfoModule,
     StudentViewResponsesModule,
+    SingleStatisticsModule,
   ],
   declarations: [
     SessionResultPageComponent,

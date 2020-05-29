@@ -65,8 +65,7 @@ export interface SectionTabModel {
 export interface QuestionTabModel {
   question: FeedbackQuestion;
   responses: ResponseOutput[];
-  statistics: any; // TODO will define types later
-
+  statistics: string; // TODO will define types later
   hasPopulated: boolean;
   isTabExpanded: boolean;
 }
@@ -186,7 +185,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
             this.questionsModel[question.feedbackQuestionId] = {
               question,
               responses: [],
-              statistics: undefined,
+              statistics: '',
               hasPopulated: false,
               isTabExpanded: false,
             };
