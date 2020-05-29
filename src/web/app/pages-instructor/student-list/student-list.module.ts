@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { ViewPhotoPopoverModule } from '../view-photo-popover/view-photo-popover.module';
 import { JoinStatePipe } from './join-state.pipe';
 import { StudentListComponent } from './student-list.component';
+import { TeammatesCommonModule } from "../../components/teammates-common/teammates-common.module";
 
 /**
  * Module for student list table component.
@@ -22,7 +22,7 @@ import { StudentListComponent } from './student-list.component';
     CommonModule,
     NgbModule,
     RouterModule,
-    ViewPhotoPopoverModule,
+    TeammatesCommonModule,
   ],
 })
 export class StudentListModule { }

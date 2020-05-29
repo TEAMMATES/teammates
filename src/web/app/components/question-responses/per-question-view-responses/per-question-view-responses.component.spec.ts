@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 // tslint:disable-next-line:max-line-length
 import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
-import { ViewPhotoPopoverModule } from '../../../pages-instructor/view-photo-popover/view-photo-popover.module';
 import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
@@ -26,7 +25,6 @@ describe('PerQuestionViewResponsesComponent', () => {
         RichTextEditorModule,
         RouterModule,
         ResponseModerationButtonModule,
-        ViewPhotoPopoverModule,
       ],
     })
     .compileComponents();

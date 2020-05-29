@@ -14,7 +14,7 @@ export class ViewPhotoPopoverComponent implements OnInit {
   photoUrl: string = '';
 
   @Input()
-  isContentAvailable: boolean = true;
+  isViewPhotoLinkInPopover: boolean = true;
 
   @Output()
   loadPhotoEvent: EventEmitter<any> = new EventEmitter();

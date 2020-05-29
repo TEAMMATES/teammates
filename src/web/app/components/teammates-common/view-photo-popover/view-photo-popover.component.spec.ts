@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewPhotoPopoverComponent } from './view-photo-popover.component';
-import { ViewPhotoPopoverModule } from './view-photo-popover.module';
+import { TeammatesCommonModule } from "../teammates-common.module";
 
 describe('ViewPhotoPopoverComponent', () => {
   let component: ViewPhotoPopoverComponent;
@@ -9,7 +9,7 @@ describe('ViewPhotoPopoverComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ViewPhotoPopoverModule],
+      imports: [TeammatesCommonModule],
     })
     .compileComponents();
   }));

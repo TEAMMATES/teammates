@@ -10,6 +10,9 @@ import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
+import { RouterModule } from "@angular/router";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ViewPhotoPopoverComponent } from "./view-photo-popover/view-photo-popover.component";
 
 /**
  * Common module in the project.
@@ -17,6 +20,8 @@ import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
+    NgbModule,
   ],
   declarations: [
     EnumToArrayPipe,
@@ -29,6 +34,7 @@ import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
     FormatPhotoUrlPipe,
+    ViewPhotoPopoverComponent,
   ],
   exports: [
     EnumToArrayPipe,
@@ -41,6 +47,7 @@ import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
     FormatPhotoUrlPipe,
+    ViewPhotoPopoverComponent,
   ],
 })
 export class TeammatesCommonModule { }
