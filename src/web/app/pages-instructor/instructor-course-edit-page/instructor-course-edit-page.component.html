@@ -2,19 +2,19 @@
   <div class="card-header bg-primary text-white text-center">
     <strong>Course:</strong><br/>
     <span>
-      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Edit course name" placement="top-right"
+      <button id="btn-edit-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Edit course name" placement="top-right"
               [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
               *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
         <i class="fa fa-pen" aria-hidden="true"></i>
         Edit
       </button>
-      <button *ngIf="isEditingCourse" class="btn btn-light btn-sm"
+      <button id="btn-cancel-course" *ngIf="isEditingCourse" class="btn btn-light btn-sm"
               ngbTooltip="Cancel editing course details" placement="top-right"
               (click)="cancelEditingCourse()">
               <i class="fa fa-times" aria-hidden="true"></i>
         Cancel
       </button>&nbsp;
-      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
+      <button id="btn-delete-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
               [disabled]="!currInstructorCoursePrivilege.canModifyCourse" (click)="deleteCourse()">
         <i class="fa fa-trash" aria-hidden="true"></i>
         Delete
@@ -26,7 +26,7 @@
       <div class="form-row form-group">
         <label class="col-sm-3">Course ID:</label>
         <div class="col-sm-9">
-          <input class="col-xs-12 form-control" type="text" tabindex="1"
+          <input id="course-id" class="col-xs-12 form-control" type="text" tabindex="1"
                  #courseId="ngModel" [(ngModel)]="course.courseId" name="courseId"
                  [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH" required disabled>
         </div>
@@ -34,7 +34,7 @@
       <div class="form-row form-group">
         <label class="col-sm-3">Course Name:</label>
         <div class="col-sm-9">
-          <input class="form-control" ngbTooltip="Enter the name of the course, e.g. Software Engineering."
+          <input id = "course-name" class="form-control" ngbTooltip="Enter the name of the course, e.g. Software Engineering."
                  type="text" tabindex="2" [disabled]="!isEditingCourse" name="courseName"
                  [(ngModel)]="course.courseName" #courseName="ngModel"
                  [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
@@ -49,7 +49,7 @@
         <label class="col-xs-12 col-sm-3">Time Zone:</label>
         <div class="col-xs-12 col-sm-9">
           <div class="input-group">
-            <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
+            <select id="time-zone" class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
               device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
               [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
@@ -64,7 +64,7 @@
       </div>
       <div class="form-group">
         <div class=" col-sm-12 text-center">
-          <button class="btn btn-primary" type="submit" [disabled]="form.invalid" *ngIf="isEditingCourse">
+          <button id="btn-save-course" class="btn btn-primary" type="submit" [disabled]="form.invalid" *ngIf="isEditingCourse">
             Save Changes
           </button>
         </div>
@@ -93,7 +93,7 @@
   <br/>
 </ng-container>
 <div class="text-center" *ngIf="!isAddingNewInstructor">
-  <button class="btn btn-primary" tabindex="6" type="button" (click)="isAddingNewInstructor = true">
+  <button id="btn-add-instructor" class="btn btn-primary" tabindex="6" type="button" (click)="isAddingNewInstructor = true">
     Add New Instructor
   </button>
 </div>
