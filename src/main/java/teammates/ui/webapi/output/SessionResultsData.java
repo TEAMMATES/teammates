@@ -159,11 +159,11 @@ public class SessionResultsData extends ApiOutput {
         List<ResponseOutput> output = new ArrayList<>();
 
         responsesMap.forEach((recipient, responsesForRecipient) -> {
-            String recipientName = removeAnonymousHash(bundle.getNameForEmail(recipient));
+            String recipientName = bundle.getNameForEmail(recipient);
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
-                String giverName = removeAnonymousHash(bundle.getGiverNameForResponse(response));
+                String giverName = bundle.getGiverNameForResponse(response);
                 String giverEmail = bundle.isGiverVisible(response)
                         ? (bundle.rosterTeamNameMembersTable.containsKey(response.giver) ? null : response.giver)
                         : null;
