@@ -159,20 +159,24 @@ public class SessionResultsData extends ApiOutput {
         List<ResponseOutput> output = new ArrayList<>();
 
         responsesMap.forEach((recipient, responsesForRecipient) -> {
-            String recipientName = removeAnonymousHash(bundle.getNameForEmail(recipient));
+            String recipientName = bundle.getNameForEmail(recipient);
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
-                String giverName = removeAnonymousHash(bundle.getGiverNameForResponse(response));
+                String giverName = bundle.getGiverNameForResponse(response);
                 String giverEmail = bundle.isGiverVisible(response)
                         ? (bundle.rosterTeamNameMembersTable.containsKey(response.giver) ? null : response.giver)
                         : null;
                 String recipientEmail = bundle.isRecipientVisible(response)
                         ? (bundle.rosterTeamNameMembersTable.containsKey(response.recipient) ? null : response.recipient)
                         : null;
+
                 Map<String, Set<String>> teamNameToMembersEmailTable = bundle.rosterTeamNameMembersTable;
-                String relatedGiverEmail = teamNameToMembersEmailTable.containsKey(response.giver)
-                        ? teamNameToMembersEmailTable.get(response.giver).iterator().next() : response.giver;
+                String relatedGiverEmail = bundle.isGiverVisible(response)
+                        ? (teamNameToMembersEmailTable.containsKey(response.giver)
+                            ? teamNameToMembersEmailTable.get(response.giver).iterator().next()
+                            : response.giver)
+                        : null;
 
                 String giverTeam = bundle.getTeamNameForEmail(response.giver);
 
@@ -269,8 +273,9 @@ public class SessionResultsData extends ApiOutput {
         private final String giver;
         /**
          * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
-         * email or "anonymous".
+         * email or null.
          */
+        @Nullable
         private final String relatedGiverEmail; // TODO: security risk: relatedGiverEmail can expose giver email
         private final String giverTeam;
         @Nullable

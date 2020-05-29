@@ -22,6 +22,7 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   @Input() responses: QuestionOutput[] = [];
+  @Input() userToEmail: Record<string, string> = {};
 
   @Input() isGrq: boolean = true;
   @Input() session: FeedbackSession = {
@@ -55,5 +56,4 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
     team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;
   }
-
 }
