@@ -273,7 +273,7 @@ public class SessionResultsData extends ApiOutput {
         private final String giver;
         /**
          * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
-         * email or "anonymous".
+         * email or null.
          */
         @Nullable
         private final String relatedGiverEmail; // TODO: security risk: relatedGiverEmail can expose giver email
