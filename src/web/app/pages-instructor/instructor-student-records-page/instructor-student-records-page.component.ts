@@ -158,10 +158,10 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
           showCommentTo: [],
           showGiverNameTo: [],
         },
-
         isEditing: false,
       },
       isAddingNewComment: false,
+      isReadonly: false,
     };
   }
 

@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header comment-table-header" *ngIf="!model.isAddingNewComment">
+  <div class="card-header comment-table-header" *ngIf="!model.isReadonly && !model.isAddingNewComment">
     <button (click)="handleAddingNewCommentEvent()" type="button" class="btn btn-secondary btn-sm float-right">
       <i class="fas fa-comment"></i>&nbsp;<i class="fas fa-plus"></i>
     </button>
@@ -7,10 +7,17 @@
 
   <ul class="list-group list-group-flush" >
     <li class="list-group-item" *ngFor="let comment of model.commentRows; let i = index; trackBy: trackByIndex">
-      <tm-comment-row *ngIf="comment.originalComment" [model]="comment" [isVisibilityOptionEnabled]="true"
-                      [isDisabled]="false" [mode]="CommentRowMode.EDIT"
+      <tm-comment-row *ngIf="comment.originalComment"
+                      [model]="comment"
+                      [isVisibilityOptionEnabled]="model.isReadonly"
+                      [isDisabled]="model.isReadonly"
+                      [mode]="CommentRowMode.EDIT"
                       [questionShowResponsesTo]="questionShowResponsesTo"
                       [response]="response"
+                      [shouldHideSavingButton]="model.isReadonly"
+                      [shouldHideClosingButton]="model.isReadonly"
+                      [shouldHideEditButton]="model.isReadonly"
+                      [shouldHideDeleteButton]="model.isReadonly"
                       (modelChange)="triggerCommentRowChange(i, $event)"
                       (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
                       (saveCommentEvent)="triggerUpdateCommentEvent(i)"
@@ -18,7 +25,7 @@
       ></tm-comment-row>
     </li>
     <!-- "Add new comment" row -->
-    <li class="list-group-item" *ngIf="model.isAddingNewComment">
+    <li class="list-group-item" *ngIf="!model.isReadonly && model.isAddingNewComment">
       <tm-comment-row [model]="model.newCommentRow" [isDisabled]="false" [isVisibilityOptionEnabled]="true"
                       [mode]="CommentRowMode.ADD"
                       [questionShowResponsesTo]="questionShowResponsesTo"

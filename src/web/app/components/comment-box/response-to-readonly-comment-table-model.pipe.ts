@@ -26,7 +26,8 @@ export class ResponseToReadonlyCommentTableModelPipe implements PipeTransform {
         },
         isEditing: false,
       },
-      isAddingNewComment: true, // What is this field doing?
+      isAddingNewComment: false,
+      isReadonly: true,
     };
   }
 
