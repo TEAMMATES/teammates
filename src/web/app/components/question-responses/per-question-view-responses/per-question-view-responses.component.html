@@ -34,9 +34,17 @@
     <tbody>
       <tr *ngFor="let response of responsesToShow">
         <td *ngIf="showGiver">{{ response.giverTeam }}</td>
-        <td *ngIf="showGiver">{{ response.giver }}</td>
+        <td *ngIf="showGiver">
+          <tm-view-photo-popover [photoUrl]="userToEmail[response.giver] | formatPhotoUrl: session.courseId">
+            {{ response.giver }}
+          </tm-view-photo-popover>
+        </td>
         <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
-        <td *ngIf="showRecipient">{{ response.recipient }}</td>
+        <td *ngIf="showRecipient">
+          <tm-view-photo-popover [photoUrl]="userToEmail[response.recipient] | formatPhotoUrl: session.courseId">
+            {{ response.recipient }}
+          </tm-view-photo-popover>
+        </td>
         <td>
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>
         </td>

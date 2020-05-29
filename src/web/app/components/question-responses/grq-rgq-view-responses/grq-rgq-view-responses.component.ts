@@ -78,6 +78,12 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
+        if (response.giverEmail) {
+          this.userToEmail[response.giver] = response.giverEmail;
+        }
+        if (response.recipientEmail) {
+          this.userToEmail[response.recipient] = response.recipientEmail;
+        }
         if (this.isGrq) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           this.usersToTeams[response.giver] = this.usersToTeams[response.giver] || '';
@@ -85,9 +91,6 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.usersToTeams[response.giver] = response.giverTeam;
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
-          }
-          if (response.giverEmail) {
-            this.userToEmail[response.giver] = response.giverEmail;
           }
           if (response.relatedGiverEmail) {
             this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
@@ -110,9 +113,6 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
               this.usersToTeams[response.recipient] = response.recipientTeam;
               this.teamExpanded[response.recipientTeam] = this.isExpandAll;
             }
-          }
-          if (response.recipientEmail) {
-            this.userToEmail[response.recipient] = response.recipientEmail;
           }
         }
       }

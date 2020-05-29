@@ -4,6 +4,7 @@ import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JoinState } from '../../../types/api-output';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { JoinStatePipe } from './join-state.pipe';
 import { StudentListComponent } from './student-list.component';
 
@@ -19,6 +20,7 @@ describe('StudentListComponent', () => {
         RouterTestingModule,
         NgbModule,
         MatSnackBarModule,
+        TeammatesCommonModule,
       ],
     })
     .compileComponents();
