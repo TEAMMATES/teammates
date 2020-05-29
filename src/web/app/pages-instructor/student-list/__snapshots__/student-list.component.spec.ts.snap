@@ -222,7 +222,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -335,7 +336,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -437,7 +439,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -539,7 +542,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -641,7 +645,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -871,7 +876,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -984,7 +990,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -1086,7 +1093,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -1188,7 +1196,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -1290,7 +1299,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -1521,7 +1531,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -1620,7 +1631,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -1719,7 +1731,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -1818,7 +1831,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -1917,7 +1931,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -2134,7 +2149,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -2234,7 +2250,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -2333,7 +2350,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -2432,7 +2450,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -2531,7 +2550,8 @@ exports[`StudentListComponent should snap with some student list data and some s
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -2747,7 +2767,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -2846,7 +2867,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -2945,7 +2967,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -3044,7 +3067,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -3143,7 +3167,8 @@ exports[`StudentListComponent should snap with some student list data when not a
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
@@ -3346,7 +3371,8 @@ exports[`StudentListComponent should snap with some student list data with no se
             class="align-center"
           >
             <tm-view-photo-popover
-              ng-reflect-is-content-available="false"
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
               
               
