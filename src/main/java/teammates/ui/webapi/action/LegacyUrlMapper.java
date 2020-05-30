@@ -25,6 +25,8 @@ public class LegacyUrlMapper extends HttpServlet {
         }
         String redirectUrl;
         String key;
+        String courseId;
+        String fsName;
 
         switch (uri) {
         case Const.LegacyURIs.INSTRUCTOR_COURSE_JOIN:
@@ -43,11 +45,40 @@ public class LegacyUrlMapper extends HttpServlet {
                     .toString();
             break;
         case Const.LegacyURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE:
+            key = req.getParameter(Const.ParamsNames.REGKEY);
+            courseId = req.getParameter(Const.ParamsNames.COURSE_ID);
+            fsName = req.getParameter(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+            redirectUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                    .withRegistrationKey(key)
+                    .withCourseId(courseId)
+                    .withSessionName(fsName)
+                    .toString();
+            break;
         case Const.LegacyURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE:
+            courseId = req.getParameter(Const.ParamsNames.COURSE_ID);
+            fsName = req.getParameter(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+            redirectUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
+                    .withCourseId(courseId)
+                    .withSessionName(fsName)
+                    .toString();
+            break;
         case Const.LegacyURIs.STUDENT_FEEDBACK_RESULTS_PAGE:
+            key = req.getParameter(Const.ParamsNames.REGKEY);
+            courseId = req.getParameter(Const.ParamsNames.COURSE_ID);
+            fsName = req.getParameter(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+            redirectUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+                    .withRegistrationKey(key)
+                    .withCourseId(courseId)
+                    .withSessionName(fsName)
+                    .toString();
+            break;
         case Const.LegacyURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE:
-            // TODO
-            redirectUrl = "/";
+            courseId = req.getParameter(Const.ParamsNames.COURSE_ID);
+            fsName = req.getParameter(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+            redirectUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
+                    .withCourseId(courseId)
+                    .withSessionName(fsName)
+                    .toString();
             break;
         default:
             redirectUrl = "/";
