@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
@@ -9,7 +11,7 @@ import {
   CommentOutput, FeedbackResponseComment,
   FeedbackSession,
   FeedbackSessions,
-  Gender,
+  Gender, Instructor,
   QuestionOutput, ResponseOutput,
   SessionResults, Student,
   StudentProfile,
@@ -52,12 +54,15 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   };
   sessionTabs: SessionTab[] = [];
   photoUrl: string = '';
+  currInstructorName?: string;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
-              private studentService: StudentService) { }
+              private studentService: StudentService,
+              private instructorService: InstructorService,
+              private commentService: FeedbackResponseCommentService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -69,6 +74,14 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       this.photoUrl
           = `${environment.backendUrl}/webapi/student/profilePic?`
             + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
+      this.instructorService.getInstructor({
+        courseId: queryParams.courseid,
+        intent: Intent.FULL_DETAIL,
+      }).subscribe((instructor: Instructor) => {
+        this.currInstructorName = instructor.name;
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
@@ -187,5 +200,90 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
 
       isEditing: false,
     };
+  }
+
+  /**
+   * Deletes an instructor comment.
+   */
+  deleteComment(data: { responseId: string, index: number}): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
+    const commentToDelete: FeedbackResponseComment =
+        // tslint:disable-next-line:no-non-null-assertion
+        this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
+
+    this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
+        .subscribe(() => {
+          commentTableModel.commentRows.splice(data.index, 1);
+          this.instructorCommentTableModel[data.responseId] = {
+            ...commentTableModel,
+          };
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Updates an instructor comment.
+   */
+  updateComment(data: { responseId: string, index: number}): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
+    const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
+    // tslint:disable-next-line:no-non-null-assertion
+    const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
+
+    this.commentService.updateComment({
+      commentText: commentRowToUpdate.commentEditFormModel.commentText,
+      showCommentTo: commentRowToUpdate.commentEditFormModel.showCommentTo,
+      showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
+    }, commentToUpdate.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
+        .subscribe((commentResponse: FeedbackResponseComment) => {
+          commentTableModel.commentRows[data.index] = this.getCommentRowModel({
+            ...commentResponse,
+            commentGiverName: commentRowToUpdate.commentGiverName,
+            // the current instructor will become the last editor
+            lastEditorName: this.currInstructorName,
+          });
+          this.instructorCommentTableModel[data.responseId] = {
+            ...commentTableModel,
+          };
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(resp.error.message);
+        });
+  }
+
+  /**
+   * Saves an instructor comment.
+   */
+  saveNewComment(responseId: string): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
+    const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
+
+    this.commentService.createComment({
+      commentText: commentRowToAdd.commentEditFormModel.commentText,
+      showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
+      showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
+    }, responseId, Intent.INSTRUCTOR_RESULT).subscribe((commentResponse: FeedbackResponseComment) => {
+      commentTableModel.commentRows.push(this.getCommentRowModel({
+        ...commentResponse,
+        // the giver and editor name will be the current login instructor
+        commentGiverName: this.currInstructorName,
+        lastEditorName: this.currInstructorName,
+      }));
+      this.instructorCommentTableModel[responseId] = {
+        ...commentTableModel,
+        newCommentRow: {
+          commentEditFormModel: {
+            commentText: '',
+            isUsingCustomVisibilities: false,
+            showCommentTo: [],
+            showGiverNameTo: [],
+          },
+          isEditing: false,
+        },
+        isAddingNewComment: false,
+      };
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
+    });
   }
 }
