@@ -902,9 +902,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
 
-        String studentEmail = student == null ? null : student.email;
-        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, studentEmail,
-                                                                                 bundle, viewType.toString());
+        // String studentEmail = student == null ? null : student.email;
+        String statisticsTable = "";
+        // questionDetails.getQuestionResultStatisticsHtml(responses, question, studentEmail,bundle, viewType.toString());
 
         String questionText = questionDetails.getQuestionText();
         String additionalInfoText = "";
