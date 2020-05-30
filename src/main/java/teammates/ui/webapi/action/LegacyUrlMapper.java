@@ -44,6 +44,14 @@ public class LegacyUrlMapper extends HttpServlet {
                     .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
                     .toString();
             break;
+        case Const.LegacyURIs.STUDENT_HOME_PAGE:
+            redirectUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
+                    .toString();
+            break;
+        case Const.LegacyURIs.INSTRUCTOR_HOME_PAGE:
+            redirectUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
+                    .toString();
+            break;
         case Const.LegacyURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE:
             key = req.getParameter(Const.ParamsNames.REGKEY);
             courseId = req.getParameter(Const.ParamsNames.COURSE_ID);
