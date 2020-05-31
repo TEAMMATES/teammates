@@ -17,8 +17,10 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
+import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { InstructorCommentsComponent } from '../instructor-comments.component';
 
 interface SessionTab {
   isCollapsed: boolean;
@@ -35,7 +37,7 @@ interface SessionTab {
   templateUrl: './instructor-student-records-page.component.html',
   styleUrls: ['./instructor-student-records-page.component.scss'],
 })
-export class InstructorStudentRecordsPageComponent implements OnInit {
+export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 
   courseId: string = '';
   studentEmail: string = '';
@@ -53,17 +55,18 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   };
   sessionTabs: SessionTab[] = [];
   photoUrl: string = '';
-  currInstructorName?: string;
 
   constructor(private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
               private studentService: StudentService,
-              private commentsToCommentTableModel: CommentsToCommentTableModelPipe) { }
-              private studentService: StudentService,
               private instructorService: InstructorService,
-              private commentService: FeedbackResponseCommentService) { }
+              private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              protected statusMessageService: StatusMessageService,
+              protected commentService: FeedbackResponseCommentService,
+              protected commentToCommentRowModel: CommentToCommentRowModelPipe) {
+    super(commentToCommentRowModel, commentService, statusMessageService);
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -153,54 +156,10 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     const timezone: string = this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '';
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
-          this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
+          this.commentsToCommentTableModel.transform(response.instructorComments, true, timezone);
 
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });
-  }
-
-  /**
-   * Transforms instructor comments to a comment table model.
-   */
-  getCommentTableModel(comments: CommentOutput[]): CommentTableModel {
-    return {
-      commentRows: comments.map((comment: FeedbackResponseComment) => this.getCommentRowModel(comment)),
-      newCommentRow: {
-        commentEditFormModel: {
-          commentText: '',
-          isUsingCustomVisibilities: false,
-          showCommentTo: [],
-          showGiverNameTo: [],
-        },
-
-        isEditing: false,
-      },
-      isAddingNewComment: false,
-    };
-  }
-
-  /**
-   * Transforms a comment to a comment row model.
-   */
-  getCommentRowModel(comment: CommentOutput): CommentRowModel {
-    return {
-      originalComment: comment,
-
-      // Sessions in the same course will always have the same timezone
-      timezone: this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '',
-
-      commentGiverName: comment.commentGiverName,
-      lastEditorName: comment.lastEditorName,
-
-      commentEditFormModel: {
-        commentText: comment.commentText,
-        isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
-        showCommentTo: comment.showCommentTo,
-        showGiverNameTo: comment.showGiverNameTo,
-      },
-
-      isEditing: false,
-    };
   }
 }
