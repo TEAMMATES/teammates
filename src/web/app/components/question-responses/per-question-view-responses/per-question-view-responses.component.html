@@ -34,9 +34,17 @@
     <tbody>
       <tr *ngFor="let response of responsesToShow">
         <td *ngIf="showGiver">{{ response.giverTeam }}</td>
-        <td *ngIf="showGiver">{{ response.giver }}</td>
+        <td *ngIf="showGiver">
+          <tm-view-photo-popover [photoUrl]="userToEmail[response.giver] | formatPhotoUrl: session.courseId">
+            {{ response.giver }}
+          </tm-view-photo-popover>
+        </td>
         <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
-        <td *ngIf="showRecipient">{{ response.recipient }}</td>
+        <td *ngIf="showRecipient">
+          <tm-view-photo-popover [photoUrl]="userToEmail[response.recipient] | formatPhotoUrl: session.courseId">
+            {{ response.recipient }}
+          </tm-view-photo-popover>
+        </td>
         <td>
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>
         </td>
@@ -44,7 +52,7 @@
           <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
         </td>
         <td>
-          <tm-response-moderation-button [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="question.feedbackQuestionId"></tm-response-moderation-button>
+          <tm-response-moderation-button *ngIf="response.relatedGiverEmail" [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="question.feedbackQuestionId"></tm-response-moderation-button>
           <button class="btn btn-light btn-sm" style="margin-left:5px; border: 1px solid #CCC;"
                   (click)="showCommentTableModel(response, commentTableModal)">Add Comment <span class="badge badge-secondary">
             {{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>

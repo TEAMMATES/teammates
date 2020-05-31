@@ -9,10 +9,12 @@ import { CommentEditFormComponent } from './comment-edit-form/comment-edit-form.
 import { CommentRowComponent } from './comment-row/comment-row.component';
 import { CommentTableModalComponent } from './comment-table-modal/comment-table-modal.component';
 import { CommentTableComponent } from './comment-table/comment-table.component';
+import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
 } from './comment-visibility-setting.pipe';
+import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
 import {
   ConfirmDeleteCommentModalComponent,
 } from './confirm-delete-comment-modal/confirm-delete-comment-modal.component';
@@ -31,6 +33,8 @@ import {
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
     CommentVisibilityTypesJointNamePipe,
+    CommentToCommentRowModelPipe,
+    CommentsToCommentTableModelPipe,
   ],
   imports: [
     TeammatesCommonModule,
@@ -44,9 +48,14 @@ import {
     CommentRowComponent,
     CommentTableComponent,
     CommentTableModalComponent,
+    CommentToCommentRowModelPipe,
+    CommentsToCommentTableModelPipe,
   ],
   entryComponents: [
     ConfirmDeleteCommentModalComponent,
+  ],
+  providers: [
+    CommentToCommentRowModelPipe,
   ],
 })
 export class CommentBoxModule { }

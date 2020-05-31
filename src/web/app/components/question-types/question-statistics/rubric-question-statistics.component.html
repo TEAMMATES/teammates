@@ -1,0 +1,38 @@
+<div>
+  <div class="row">
+    <div class="col-sm-4 text-color-gray">
+      <strong>
+        Response Summary
+      </strong>
+      <span ngbTooltip="Format: Response percentage (Response count) [Weight of option], e.g. 50% (2) [1.0]" class="fa fa-info-circle"></span>
+    </div>
+    <div class="col-sm-8" style="text-align: right;">
+      <input type="checkbox" [(ngModel)]="excludeSelf"> <span ngbTooltip="Excludes giver's responses to himself/herself from statistics">Exclude self evaluation</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 table-responsive">
+      <table class="table table-bordered table-striped margin-0">
+        <thead>
+        <tr>
+          <td></td>
+          <td *ngFor="let choice of choices">{{ choice }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let subQuestion of subQuestions; let i = index;">
+          <td>{{ subQuestion }}</td>
+          <td *ngFor="let _ of choices; let j = index;">
+            <span *ngIf="excludeSelf">
+              {{ percentagesExcludeSelf[i][j] }}% ({{ answersExcludeSelf[i][j] }}) <span *ngIf="hasWeights">[{{ weights[i][j] }}]</span>
+            </span>
+            <span *ngIf="!excludeSelf">
+              {{ percentages[i][j] }}% ({{ answers[i][j] }}) <span *ngIf="hasWeights">[{{ weights[i][j] }}]</span>
+            </span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

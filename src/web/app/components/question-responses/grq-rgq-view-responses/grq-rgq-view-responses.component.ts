@@ -49,6 +49,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
   teamsToUsers: Record<string, string[]> = {};
   usersToTeams: Record<string, string> = {};
   userToEmail: Record<string, string> = {};
+  userToRelatedEmail: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -72,10 +73,17 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.teamsToUsers = {};
     this.usersToTeams = {};
     this.userToEmail = {};
+    this.userToRelatedEmail = {};
     this.teamExpanded = {};
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
+        if (response.giverEmail) {
+          this.userToEmail[response.giver] = response.giverEmail;
+        }
+        if (response.recipientEmail) {
+          this.userToEmail[response.recipient] = response.recipientEmail;
+        }
         if (this.isGrq) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           this.usersToTeams[response.giver] = this.usersToTeams[response.giver] || '';
@@ -84,8 +92,8 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
             this.usersToTeams[response.giver] = response.giverTeam;
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
-          if (response.giverEmail) {
-            this.userToEmail[response.giver] = response.giverEmail;
+          if (response.relatedGiverEmail) {
+            this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
         } else {
@@ -105,9 +113,6 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
               this.usersToTeams[response.recipient] = response.recipientTeam;
               this.teamExpanded[response.recipientTeam] = this.isExpandAll;
             }
-          }
-          if (response.recipientEmail) {
-            this.userToEmail[response.recipient] = response.recipientEmail;
           }
         }
       }

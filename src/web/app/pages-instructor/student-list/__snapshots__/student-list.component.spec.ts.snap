@@ -221,17 +221,25 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -327,17 +335,25 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -422,17 +438,25 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -517,17 +541,25 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -612,17 +644,25 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -835,17 +875,25 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -941,17 +989,25 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -1036,17 +1092,25 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -1131,17 +1195,25 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -1226,17 +1298,25 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -1450,17 +1530,25 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -1542,17 +1630,25 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -1634,17 +1730,25 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -1726,17 +1830,25 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -1818,17 +1930,25 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2028,17 +2148,25 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2121,17 +2249,25 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2213,17 +2349,25 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2305,17 +2449,25 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2397,17 +2549,25 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2606,17 +2766,25 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2698,17 +2866,25 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2790,17 +2966,25 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2882,17 +3066,25 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -2974,17 +3166,25 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>
@@ -3170,17 +3370,25 @@ exports[`StudentListComponent should snap with some student list data with no se
           <td
             class="align-center"
           >
-            
-            
-            <a
-              href="/"
-              ng-reflect-query-params-handling="preserve"
-              queryparamshandling="preserve"
-              role="button"
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
             >
-               View Photo 
-            </a>
-            
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
           </td>
           
           <td>

@@ -60,7 +60,7 @@ export class SendRemindersToStudentModalComponent implements OnInit {
   }
 
   /**
-   * Checks whether all students are slected.
+   * Checks whether all students are selected.
    */
   get isAllYetToSubmitStudentsSelected(): boolean {
     return this.studentListInfoTableRowModels
