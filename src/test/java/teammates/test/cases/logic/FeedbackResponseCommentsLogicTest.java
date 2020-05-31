@@ -287,6 +287,67 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertEquals(0, frcList.size());
     }
 
+    @Test
+    public void testGetFeedbackResponseCommentForSessionInSection_noSectionName_shouldReturnCommentsInSession() {
+        List<FeedbackResponseCommentAttributes> comments =
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        "idOfTypicalCourse1", "First feedback session", null);
+        assertEquals(3, comments.size());
+
+        comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        "not_exist", "First feedback session", null);
+        assertEquals(0, comments.size());
+
+        comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
+                "idOfTypicalCourse1", "not_exist", null);
+        assertEquals(0, comments.size());
+
+        comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
+                "not_exist", "not_exist", null);
+        assertEquals(0, comments.size());
+    }
+
+    @Test
+    public void testGetFeedbackResponseCommentForSessionInSection_withSectionName_shouldReturnCommentsInSection() {
+        List<FeedbackResponseCommentAttributes> comments =
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        "idOfTypicalCourse1", "First feedback session", "Section 1");
+        assertEquals(2, comments.size());
+
+        comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
+                "idOfTypicalCourse1", "First feedback session", "Section 2");
+        assertEquals(1, comments.size());
+
+        comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
+                "idOfTypicalCourse1", "First feedback session", "not_exist");
+        assertEquals(0, comments.size());
+    }
+
+    @Test
+    public void testGetFeedbackResponseCommentsForQuestionInSection_noSectionName_shouldReturnCommentsForQuestion() {
+        String questionId = getQuestionIdInDataBundle("qn1InSession1InCourse1");
+        List<FeedbackResponseCommentAttributes> comments =
+                frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, null);
+        assertEquals(1, comments.size());
+
+        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection("not_exist", null);
+        assertEquals(0, comments.size());
+    }
+
+    @Test
+    public void testGetFeedbackResponseCommentsForQuestionInSection_withSectionName_shouldReturnCommentsForQuestion() {
+        String questionId = getQuestionIdInDataBundle("qn2InSession1InCourse1");
+        List<FeedbackResponseCommentAttributes> comments =
+                frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "Section 1");
+        assertEquals(1, comments.size());
+
+        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "Section 2");
+        assertEquals(1, comments.size());
+
+        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "not_exist");
+        assertEquals(0, comments.size());
+    }
+
     private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
         List<FeedbackResponseCommentAttributes> frCommentsGot =
                 frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
