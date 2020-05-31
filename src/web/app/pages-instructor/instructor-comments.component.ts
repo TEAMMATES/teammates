@@ -44,9 +44,9 @@ export abstract class InstructorCommentsComponent {
         protected commentService: FeedbackResponseCommentService,
         protected statusMessageService: StatusMessageService) { }
 
-    /**
-     * Deletes an instructor comment.
-     */
+  /**
+   * Deletes an instructor comment.
+   */
   deleteComment(data: { responseId: string, index: number}): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentToDelete: FeedbackResponseComment =
@@ -64,9 +64,9 @@ export abstract class InstructorCommentsComponent {
         });
   }
 
-    /**
-     * Updates an instructor comment.
-     */
+  /**
+   * Updates an instructor comment.
+   */
   updateComment(data: { responseId: string, index: number}): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
@@ -93,9 +93,9 @@ export abstract class InstructorCommentsComponent {
         });
   }
 
-    /**
-     * Saves an instructor comment.
-     */
+  /**
+   * Saves an instructor comment.
+   */
   saveNewComment(responseId: string): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
     const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
