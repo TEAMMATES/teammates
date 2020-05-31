@@ -29,8 +29,18 @@
                               [isFeedbackParticipantComment]="true"
                               [response]="response"
                               [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                              [model]="response.participantComment | participantCommentToCommandRowModelPipe"
+                              [model]="response.participantComment | commentToCommentRowModel"
             ></tm-comment-row>
+            </td>
+          </tr>
+          <tr *ngIf="response.instructorComments.length > 0">
+            <td>
+              <tm-comment-table
+                  [response]="response"
+                  [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
+                  [model]="response.instructorComments | commentsToCommentTableModel: true : timezone"
+                  [shouldHideClosingButtonForNewComment]="true"
+              ></tm-comment-table>
             </td>
           </tr>
         </ng-container>

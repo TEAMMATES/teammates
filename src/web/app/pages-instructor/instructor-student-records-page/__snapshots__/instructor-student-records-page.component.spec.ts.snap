@@ -2,6 +2,7 @@
 
 exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
 <tm-instructor-student-records-page
+  commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   instructorCommentTableModel={[Function Object]}
@@ -36,6 +37,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
 
 exports[`InstructorStudentRecordsPageComponent should snap with populated fields 1`] = `
 <tm-instructor-student-records-page
+  commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   instructorCommentTableModel={[Function Object]}
