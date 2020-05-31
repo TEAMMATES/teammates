@@ -156,7 +156,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     const timezone: string = this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '';
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
-          this.commentsToCommentTableModel.transform(response.instructorComments, true, timezone);
+          this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
 
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
