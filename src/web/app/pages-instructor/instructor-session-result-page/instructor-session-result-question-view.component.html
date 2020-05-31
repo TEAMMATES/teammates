@@ -7,6 +7,12 @@
     </div>
   </div>
   <div class="card-body" *ngIf="question.isTabExpanded">
+    <tm-single-statistics *ngIf="showStatistics"
+                          [question]="question.question.questionDetails"
+                          [statistics]="question.statistics"
+                          [responses]="question.responses"
+                          [recipientType]="question.question.recipientType"
+    ></tm-single-statistics>
     <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
                                     [indicateMissingResponses]="true" [question]="question.question"
                                     [instructorCommentTableModel]="instructorCommentTableModel"

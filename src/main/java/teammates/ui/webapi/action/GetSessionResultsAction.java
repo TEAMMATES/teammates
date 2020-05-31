@@ -110,7 +110,7 @@ public class GetSessionResultsAction extends Action {
                 throw new EntityNotFoundException(e);
             }
 
-            return new JsonResult(new SessionResultsData(bundle, instructor));
+            return new JsonResult(new SessionResultsData(bundle));
         case STUDENT_RESULT:
             // Question number and section name filters are not applied here
             StudentAttributes student = getStudent(courseId);

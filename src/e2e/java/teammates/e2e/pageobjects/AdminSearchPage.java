@@ -48,6 +48,9 @@ public class AdminSearchPage extends AppPage {
     @FindBy(id = "hide-instructor-links")
     private WebElement collapseInstructorLinksButton;
 
+    @FindBy(tagName = "tm-regenerate-links-confirm-modal")
+    private WebElement regenerateLinksModal;
+
     public AdminSearchPage(Browser browser) {
         super(browser);
     }
@@ -67,6 +70,15 @@ public class AdminSearchPage extends AppPage {
 
     public void clickSearchButton() {
         click(searchButton);
+        waitForPageToLoad();
+    }
+
+    public void regenerateLinksForStudent(StudentAttributes student) {
+        WebElement studentRow = getStudentRow(student);
+        studentRow.findElement(By.xpath("//button[text()='Regenerate links']")).click();
+        waitForPageToLoad();
+
+        regenerateLinksModal.findElement(By.className("btn-warning")).click();
         waitForPageToLoad();
     }
 
@@ -205,13 +217,10 @@ public class AdminSearchPage extends AppPage {
 
     private String getExpandedRowInputValue(WebElement row, String rowHeader) {
         try {
-            String xpath = String.format("following-sibling::tr[1]/td/ul/li[//text()[contains(., '%s')]]/input",
-                    rowHeader);
+            String xpath = String.format("following-sibling::tr[1]/td/ul/li[contains(., '%s')]/input", rowHeader);
             return row.findElement(By.xpath(xpath)).getAttribute("value");
         } catch (NoSuchElementException e) {
             return "";
         }
     }
 }
-
-

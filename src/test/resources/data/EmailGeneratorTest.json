@@ -35,6 +35,13 @@
       "email": "instr1@course2.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
+    "instructor1OfTestingNoEmailsSentCourse": {
+      "googleId": "idOfInstructor1OfTestingNoEmailsSentCourse",
+      "name": "Instructor 1 of No Emails Sent Course",
+      "isInstructor": true,
+      "email": "instructor1@noemailssent.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "idOfInstructor1OfTestingSanitizationCourse",
       "name": "Instructor<script> alert('hi!'); </script>",
@@ -54,6 +61,13 @@
       "name": "Student in two courses",
       "isInstructor": false,
       "email": "student2InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1InTestingNoEmailsSentCourse": {
+      "googleId": "student1InTestingNoEmailsSentCourse",
+      "name": "Student in course with no session emails sent",
+      "isInstructor": false,
+      "email": "student1@noemailssent.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
     "student1InTestingSanitizationCourse": {
@@ -88,6 +102,12 @@
       "createdAt": "2012-04-02T23:58:00Z",
       "id": "idOfTypicalCourse4",
       "name": "Typical Course 4 with 1 Evals",
+      "timeZone": "UTC"
+    },
+    "testingNoEmailsSentCourse": {
+      "createdAt": "2012-04-01T23:58:00Z",
+      "id": "idOfTestingNoEmailsSentCourse",
+      "name": "Course with sessions with no emails sent",
       "timeZone": "UTC"
     },
     "testingSanitizationCourse": {
@@ -242,6 +262,30 @@
         "sessionLevel": {}
       }
     },
+    "instructor1OfTestingNoEmailsSentCourse": {
+      "googleId": "idOfInstructor1OfTestingNoEmailsSentCourse",
+      "courseId": "idOfTestingNoEmailsSentCourse",
+      "name": "Instructor1 No Emails Sent Course",
+      "email": "instructor1@noemailssent.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
     "instructor1OfTestingSanitizationCourse": {
       "googleId": "idOfInstructor1OfTestingSanitizationCourse",
       "courseId": "idOfTestingSanitizationCourse",
@@ -340,6 +384,15 @@
       "team": "Team 1.2",
       "section": "Section 2",
       "key": "regKeyForStuNotYetJoinCourse"
+    },
+    "student1InTestingNoEmailsSentCourse": {
+      "googleId": "student1InTestingNoEmailsSentCourse",
+      "email": "student1@noemailssent.tmt",
+      "course": "idOfTestingNoEmailsSentCourse",
+      "name": "Student 1 in No Emails Sent Course",
+      "comments": "",
+      "team": "Team 1.1",
+      "section": "Section 1"
     },
     "student1InTestingSanitizationCourse": {
       "googleId": "student1InTestingSanitizationCourse",
@@ -566,6 +619,26 @@
       "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session1InTestingNoEmailsSentCourse": {
+      "feedbackSessionName": "Feedback session with no emails sent",
+      "courseId": "idOfTestingNoEmailsSentCourse",
+      "creatorEmail": "instructor1@noemailcourse.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2027-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": false,
       "sentClosingEmail": false,
       "sentClosedEmail": false,
       "sentPublishedEmail": false,
@@ -866,6 +939,27 @@
       ],
       "showRecipientNameTo": [
         "RECEIVER"
+      ]
+    },
+    "qn1InSession1InTestingNoEmailsSentCourse": {
+      "feedbackSessionName": "Normal feedback session name",
+      "courseId": "idOfTestingNoEmailsSentCourse",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 4 other students"
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
       ]
     },
     "qn1InSession1InTestingSanitizationCourse": {

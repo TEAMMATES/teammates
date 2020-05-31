@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,11 +31,17 @@ import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
+import teammates.ui.webapi.output.InstructorData;
+import teammates.ui.webapi.output.InstructorsData;
+import teammates.ui.webapi.output.StudentData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -257,9 +264,9 @@ public final class BackDoor {
     }
 
     /**
-     * Gets a course from the datastore.
+     * Gets course data from the datastore.
      */
-    public static CourseAttributes getCourse(String courseId) {
+    public static CourseData getCourseData(String courseId) {
         Map<String, String[]> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSE, params);
@@ -267,8 +274,113 @@ public final class BackDoor {
             return null;
         }
 
-        CourseData courseData = JsonUtils.fromJson(response.responseBody, CourseData.class);
-        return CourseAttributes.builder(courseData.getCourseId()).build();
+        return JsonUtils.fromJson(response.responseBody, CourseData.class);
+    }
+
+    /**
+     * Gets a course from the datastore.
+     */
+    public static CourseAttributes getCourse(String courseId) {
+        CourseData courseData = getCourseData(courseId);
+        return CourseAttributes.builder(courseData.getCourseId())
+                .withName(courseData.getCourseName())
+                .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .build();
+    }
+
+    /**
+     * Gets instructor data from the datastore.
+     */
+    public static InstructorData getInstructorData(String courseId, String email) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.INTENT, new String[] { Intent.FULL_DETAIL.toString() });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.INSTRUCTORS, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        InstructorsData instructorsData = JsonUtils.fromJson(response.responseBody, InstructorsData.class);
+        List<InstructorData> instructorsDataList = instructorsData.getInstructors();
+        for (InstructorData instructor : instructorsDataList) {
+            if (instructor.getEmail().equals(email)) {
+                return instructor;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get instructor from datastore. Does not include certain fields like InstructorPrivileges.
+     */
+    public static InstructorAttributes getInstructor(String courseId, String instructorEmail) {
+        InstructorData instructorData = getInstructorData(courseId, instructorEmail);
+        if (instructorData == null) {
+            return null;
+        }
+        InstructorAttributes.Builder instructor = InstructorAttributes.builder(instructorData.getCourseId(),
+                instructorData.getEmail());
+        if (instructorData.getGoogleId() != null) {
+            instructor.withGoogleId(instructorData.getGoogleId());
+        }
+        if (instructorData.getName() != null) {
+            instructor.withName(instructorData.getName());
+        }
+        if (instructorData.getRole() != null) {
+            instructor.withRole(instructorData.getRole().getRoleName());
+        }
+        if (instructorData.getIsDisplayedToStudents() != null) {
+            instructor.withIsDisplayedToStudents(instructorData.getIsDisplayedToStudents());
+        }
+        if (instructorData.getDisplayedToStudentsAs() != null) {
+            instructor.withDisplayedName(instructorData.getDisplayedToStudentsAs());
+        }
+        return instructor.build();
+    }
+
+    /**
+     * Gets student data from the datastore.
+     */
+    public static StudentData getStudentData(String courseId, String studentEmail) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.STUDENT_EMAIL, new String[] { studentEmail });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        return JsonUtils.fromJson(response.responseBody, StudentData.class);
+    }
+
+    /**
+     * Get student from datastore.
+     */
+    public static StudentAttributes getStudent(String courseId, String studentEmail) {
+        StudentData studentData = getStudentData(courseId, studentEmail);
+        if (studentData == null) {
+            return null;
+        }
+        StudentAttributes.Builder student = StudentAttributes.builder(studentData.getCourseId(),
+                studentData.getEmail());
+        if (studentData.getGoogleId() != null) {
+            student.withGoogleId(studentData.getGoogleId());
+        }
+        if (studentData.getName() != null) {
+            student.withName(studentData.getName());
+        }
+        if (studentData.getSectionName() != null) {
+            student.withSectionName(studentData.getSectionName());
+        }
+        if (studentData.getTeamName() != null) {
+            student.withTeamName(studentData.getTeamName());
+        }
+        if (studentData.getComments() != null) {
+            student.withComment(studentData.getComments());
+        }
+        if (studentData.getLastName() != null) {
+            student.withLastName(studentData.getLastName());
+        }
+        return student.build();
     }
 
     /**
@@ -310,5 +422,4 @@ public final class BackDoor {
         }
 
     }
-
 }

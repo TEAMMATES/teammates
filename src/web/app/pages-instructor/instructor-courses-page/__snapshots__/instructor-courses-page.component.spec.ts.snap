@@ -329,7 +329,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   
                   
                   <button
-                    class="btn btn-primary btn-sm disabled"
+                    class="btn btn-primary btn-sm dropdown-item disabled"
                   >
                      Delete 
                   </button>
@@ -846,7 +846,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   
                   
                   <button
-                    class="btn btn-primary btn-sm disabled"
+                    class="btn btn-primary btn-sm dropdown-item disabled"
                   >
                      Delete 
                   </button>
@@ -1532,7 +1532,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   
                   
                   <button
-                    class="btn btn-primary btn-sm disabled"
+                    class="btn btn-primary btn-sm dropdown-item disabled"
                   >
                      Delete 
                   </button>

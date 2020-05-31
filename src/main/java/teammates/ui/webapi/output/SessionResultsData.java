@@ -16,7 +16,6 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -31,14 +30,14 @@ public class SessionResultsData extends ApiOutput {
 
     private final List<QuestionOutput> questions = new ArrayList<>();
 
-    public SessionResultsData(FeedbackSessionResultsBundle bundle, InstructorAttributes instructor) {
+    public SessionResultsData(FeedbackSessionResultsBundle bundle) {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMapSortedByRecipient();
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(responses, question, instructor.email, bundle, false));
+                    questionDetails.getQuestionResultStatisticsJson(responses, question, null, bundle));
 
             List<ResponseOutput> allResponses = buildResponses(responses, bundle);
             for (ResponseOutput respOutput : allResponses) {
@@ -56,7 +55,7 @@ public class SessionResultsData extends ApiOutput {
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle, true));
+                    questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle));
 
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
             if (questionDetails.isIndividualResponsesShownToStudents()) {
@@ -138,8 +137,9 @@ public class SessionResultsData extends ApiOutput {
                 Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
                 // Student does not need to know the teams for giver and/or recipient
-                output.add(new ResponseOutput(response.getId(), displayedGiverName, null, null, response.giverSection,
-                        recipientName, null, response.recipientSection,
+                output.add(new ResponseOutput(response.getId(), displayedGiverName, null, null,
+                        null, response.giverSection,
+                        recipientName, null, null, response.recipientSection,
                         response.responseDetails, comments.poll(), new ArrayList<>(comments)));
             }
 
@@ -158,14 +158,24 @@ public class SessionResultsData extends ApiOutput {
         List<ResponseOutput> output = new ArrayList<>();
 
         responsesMap.forEach((recipient, responsesForRecipient) -> {
-            String recipientName = removeAnonymousHash(bundle.getNameForEmail(recipient));
+            String recipientName = bundle.getNameForEmail(recipient);
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
 
             for (FeedbackResponseAttributes response : responsesForRecipient) {
-                String giverName = removeAnonymousHash(bundle.getGiverNameForResponse(response));
+                String giverName = bundle.getGiverNameForResponse(response);
+                String giverEmail = bundle.isGiverVisible(response)
+                        ? (bundle.rosterTeamNameMembersTable.containsKey(response.giver) ? null : response.giver)
+                        : null;
+                String recipientEmail = bundle.isRecipientVisible(response)
+                        ? (bundle.rosterTeamNameMembersTable.containsKey(response.recipient) ? null : response.recipient)
+                        : null;
+
                 Map<String, Set<String>> teamNameToMembersEmailTable = bundle.rosterTeamNameMembersTable;
-                String relatedGiverEmail = teamNameToMembersEmailTable.containsKey(response.giver)
-                        ? teamNameToMembersEmailTable.get(response.giver).iterator().next() : response.giver;
+                String relatedGiverEmail = bundle.isGiverVisible(response)
+                        ? (teamNameToMembersEmailTable.containsKey(response.giver)
+                            ? teamNameToMembersEmailTable.get(response.giver).iterator().next()
+                            : response.giver)
+                        : null;
 
                 String giverTeam = bundle.getTeamNameForEmail(response.giver);
 
@@ -174,8 +184,8 @@ public class SessionResultsData extends ApiOutput {
                         bundle.getResponseComments().getOrDefault(response.getId(), Collections.emptyList());
                 Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
-                output.add(new ResponseOutput(response.getId(), giverName, giverTeam, relatedGiverEmail,
-                        response.giverSection, recipientName, recipientTeam, response.recipientSection,
+                output.add(new ResponseOutput(response.getId(), giverName, giverTeam, giverEmail, relatedGiverEmail,
+                        response.giverSection, recipientName, recipientTeam, recipientEmail, response.recipientSection,
                         response.responseDetails, comments.poll(), new ArrayList<>(comments)));
             }
 
@@ -262,13 +272,18 @@ public class SessionResultsData extends ApiOutput {
         private final String giver;
         /**
          * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
-         * email or "anonymous".
+         * email or null.
          */
+        @Nullable
         private final String relatedGiverEmail; // TODO: security risk: relatedGiverEmail can expose giver email
         private final String giverTeam;
+        @Nullable
+        private final String giverEmail;
         private final String giverSection;
         private String recipient;
         private final String recipientTeam;
+        @Nullable
+        private final String recipientEmail;
         private final String recipientSection;
         private final FeedbackResponseDetails responseDetails;
 
@@ -277,17 +292,19 @@ public class SessionResultsData extends ApiOutput {
         private CommentOutput participantComment;
         private final List<CommentOutput> instructorComments;
 
-        ResponseOutput(String responseId, String giver, String giverTeam, String relatedGiverEmail,
-                       String giverSection, String recipient, String recipientTeam, String recipientSection,
-                       FeedbackResponseDetails responseDetails,
+        ResponseOutput(String responseId, String giver, String giverTeam, String giverEmail, String relatedGiverEmail,
+                       String giverSection, String recipient, String recipientTeam, String recipientEmail,
+                       String recipientSection, FeedbackResponseDetails responseDetails,
                        CommentOutput participantComment, List<CommentOutput> instructorComments) {
             this.responseId = responseId;
             this.giver = giver;
             this.relatedGiverEmail = relatedGiverEmail;
+            this.giverEmail = giverEmail;
             this.giverTeam = giverTeam;
             this.giverSection = giverSection;
             this.recipient = recipient;
             this.recipientTeam = recipientTeam;
+            this.recipientEmail = recipientEmail;
             this.recipientSection = recipientSection;
             this.responseDetails = responseDetails;
             this.participantComment = participantComment;
@@ -300,6 +317,10 @@ public class SessionResultsData extends ApiOutput {
 
         public String getGiver() {
             return giver;
+        }
+
+        public String getGiverEmail() {
+            return giverEmail;
         }
 
         public String getRelatedGiverEmail() {
@@ -320,6 +341,10 @@ public class SessionResultsData extends ApiOutput {
 
         public String getRecipientTeam() {
             return recipientTeam;
+        }
+
+        public String getRecipientEmail() {
+            return recipientEmail;
         }
 
         public String getRecipientSection() {
@@ -352,8 +377,16 @@ public class SessionResultsData extends ApiOutput {
 
         public CommentOutput(FeedbackResponseCommentAttributes frc, String commentGiverName, String lastEditorName) {
             super(frc);
-            this.commentGiverName = commentGiverName;
-            this.lastEditorName = lastEditorName;
+
+            if (frc.isCommentFromFeedbackParticipant()) {
+                this.commentGiver = null;
+                this.lastEditorEmail = null;
+                this.commentGiverName = null;
+                this.lastEditorName = null;
+            } else {
+                this.commentGiverName = commentGiverName;
+                this.lastEditorName = lastEditorName;
+            }
         }
     }
 

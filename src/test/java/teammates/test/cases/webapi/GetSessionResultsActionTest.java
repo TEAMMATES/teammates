@@ -60,7 +60,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 instructorAttributes.getEmail(),
                 1,
                 Const.FeedbackSessionResults.QUESTION_SORT_TYPE
-        ), instructorAttributes);
+        ));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
