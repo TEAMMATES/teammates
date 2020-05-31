@@ -16,7 +16,6 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -31,14 +30,14 @@ public class SessionResultsData extends ApiOutput {
 
     private final List<QuestionOutput> questions = new ArrayList<>();
 
-    public SessionResultsData(FeedbackSessionResultsBundle bundle, InstructorAttributes instructor) {
+    public SessionResultsData(FeedbackSessionResultsBundle bundle) {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMapSortedByRecipient();
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(responses, question, instructor.email, bundle, false));
+                    questionDetails.getQuestionResultStatisticsJson(responses, question, null, bundle));
 
             List<ResponseOutput> allResponses = buildResponses(responses, bundle);
             for (ResponseOutput respOutput : allResponses) {
@@ -56,7 +55,7 @@ public class SessionResultsData extends ApiOutput {
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle, true));
+                    questionDetails.getQuestionResultStatisticsJson(responses, question, student.email, bundle));
 
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
             if (questionDetails.isIndividualResponsesShownToStudents()) {

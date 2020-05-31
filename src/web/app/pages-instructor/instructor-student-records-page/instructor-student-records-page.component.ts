@@ -8,7 +8,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import {
-  CommentOutput, FeedbackResponseComment,
   FeedbackSession,
   FeedbackSessions,
   Gender, Instructor,
@@ -17,8 +16,8 @@ import {
   StudentProfile,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
-import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
+import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface SessionTab {
@@ -60,6 +59,8 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
+              private studentService: StudentService,
+              private commentsToCommentTableModel: CommentsToCommentTableModelPipe) { }
               private studentService: StudentService,
               private instructorService: InstructorService,
               private commentService: FeedbackResponseCommentService) { }
@@ -149,9 +150,10 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    * instructor comments associated with the response will be deleted.
    */
   preprocessComments(responses: ResponseOutput[]): void {
+    const timezone: string = this.sessionTabs[0] != null ? this.sessionTabs[0].feedbackSession.timeZone : '';
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
-          this.getCommentTableModel(response.instructorComments);
+          this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
 
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
@@ -200,90 +202,5 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
 
       isEditing: false,
     };
-  }
-
-  /**
-   * Deletes an instructor comment.
-   */
-  deleteComment(data: { responseId: string, index: number}): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
-    const commentToDelete: FeedbackResponseComment =
-        // tslint:disable-next-line:no-non-null-assertion
-        this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
-
-    this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
-        .subscribe(() => {
-          commentTableModel.commentRows.splice(data.index, 1);
-          this.instructorCommentTableModel[data.responseId] = {
-            ...commentTableModel,
-          };
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
-  }
-
-  /**
-   * Updates an instructor comment.
-   */
-  updateComment(data: { responseId: string, index: number}): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
-    const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
-    // tslint:disable-next-line:no-non-null-assertion
-    const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
-
-    this.commentService.updateComment({
-      commentText: commentRowToUpdate.commentEditFormModel.commentText,
-      showCommentTo: commentRowToUpdate.commentEditFormModel.showCommentTo,
-      showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
-    }, commentToUpdate.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
-        .subscribe((commentResponse: FeedbackResponseComment) => {
-          commentTableModel.commentRows[data.index] = this.getCommentRowModel({
-            ...commentResponse,
-            commentGiverName: commentRowToUpdate.commentGiverName,
-            // the current instructor will become the last editor
-            lastEditorName: this.currInstructorName,
-          });
-          this.instructorCommentTableModel[data.responseId] = {
-            ...commentTableModel,
-          };
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
-  }
-
-  /**
-   * Saves an instructor comment.
-   */
-  saveNewComment(responseId: string): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
-    const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
-
-    this.commentService.createComment({
-      commentText: commentRowToAdd.commentEditFormModel.commentText,
-      showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
-      showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
-    }, responseId, Intent.INSTRUCTOR_RESULT).subscribe((commentResponse: FeedbackResponseComment) => {
-      commentTableModel.commentRows.push(this.getCommentRowModel({
-        ...commentResponse,
-        // the giver and editor name will be the current login instructor
-        commentGiverName: this.currInstructorName,
-        lastEditorName: this.currInstructorName,
-      }));
-      this.instructorCommentTableModel[responseId] = {
-        ...commentTableModel,
-        newCommentRow: {
-          commentEditFormModel: {
-            commentText: '',
-            isUsingCustomVisibilities: false,
-            showCommentTo: [],
-            showGiverNameTo: [],
-          },
-          isEditing: false,
-        },
-        isAddingNewComment: false,
-      };
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
   }
 }

@@ -13,7 +13,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  CommentOutput,
   CourseSectionNames,
   FeedbackQuestion,
   FeedbackQuestions,
@@ -34,6 +33,8 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
+import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
+import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import {
   ConfirmPublishingSessionModalComponent,
 } from '../../components/sessions-table/confirm-publishing-session-modal/confirm-publishing-session-modal.component';
@@ -65,8 +66,7 @@ export interface SectionTabModel {
 export interface QuestionTabModel {
   question: FeedbackQuestion;
   responses: ResponseOutput[];
-  statistics: any; // TODO will define types later
-
+  statistics: string; // TODO will define types later
   hasPopulated: boolean;
   isTabExpanded: boolean;
 }
@@ -142,7 +142,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
               private commentService: FeedbackResponseCommentService,
               private route: ActivatedRoute,
       private timezoneService: TimezoneService, private statusMessageService: StatusMessageService,
-      private modalService: NgbModal, private router: Router) {
+      private modalService: NgbModal, private router: Router,
+      private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+      private commentToCommentRowModel: CommentToCommentRowModelPipe) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -186,7 +188,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
             this.questionsModel[question.feedbackQuestionId] = {
               question,
               responses: [],
-              statistics: undefined,
+              statistics: '',
               hasPopulated: false,
               isTabExpanded: false,
             };
@@ -316,53 +318,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
   preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
-          this.getCommentTableModel(response.instructorComments);
+          this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
 
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });
-  }
-
-  /**
-   * Transforms instructor comments to a comment table model.
-   */
-  getCommentTableModel(comments: CommentOutput[]): CommentTableModel {
-    return {
-      commentRows: comments.map((comment: FeedbackResponseComment) => this.getCommentRowModel(comment)),
-      newCommentRow: {
-        commentEditFormModel: {
-          commentText: '',
-          isUsingCustomVisibilities: false,
-          showCommentTo: [],
-          showGiverNameTo: [],
-        },
-
-        isEditing: false,
-      },
-      isAddingNewComment: false,
-    };
-  }
-
-  /**
-   * Transforms a comment to a comment row model.
-   */
-  getCommentRowModel(comment: CommentOutput): CommentRowModel {
-    return {
-      originalComment: comment,
-      timezone: this.session.timeZone,
-
-      commentGiverName: comment.commentGiverName,
-      lastEditorName: comment.lastEditorName,
-
-      commentEditFormModel: {
-        commentText: comment.commentText,
-        isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
-        showCommentTo: comment.showCommentTo,
-        showGiverNameTo: comment.showGiverNameTo,
-      },
-
-      isEditing: false,
-    };
   }
 
   /**
@@ -546,12 +506,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
       showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
     }, commentToUpdate.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
         .subscribe((commentResponse: FeedbackResponseComment) => {
-          commentTableModel.commentRows[data.index] = this.getCommentRowModel({
+          commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform({
             ...commentResponse,
             commentGiverName: commentRowToUpdate.commentGiverName,
             // the current instructor will become the last editor
             lastEditorName: this.currInstructorName,
-          });
+          }, this.session.timeZone);
           this.instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
@@ -572,12 +532,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
       showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
       showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
     }, responseId, Intent.INSTRUCTOR_RESULT).subscribe((commentResponse: FeedbackResponseComment) => {
-      commentTableModel.commentRows.push(this.getCommentRowModel({
+      commentTableModel.commentRows.push(this.commentToCommentRowModel.transform({
         ...commentResponse,
         // the giver and editor name will be the current login instructor
         commentGiverName: this.currInstructorName,
         lastEditorName: this.currInstructorName,
-      }));
+      }, this.session.timeZone));
       this.instructorCommentTableModel[responseId] = {
         ...commentTableModel,
         newCommentRow: {

@@ -27,16 +27,14 @@ export class CommentTableModalComponent implements OnInit, OnChanges {
     newCommentRow: {
       commentEditFormModel: {
         commentText: '',
-
         isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
-
       isEditing: true,
     },
-
     isAddingNewComment: true,
+    isReadOnly: false,
   };
 
   @Input()
