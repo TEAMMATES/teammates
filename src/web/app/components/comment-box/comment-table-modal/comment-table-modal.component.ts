@@ -34,7 +34,7 @@ export class CommentTableModalComponent implements OnInit, OnChanges {
       isEditing: true,
     },
     isAddingNewComment: true,
-    isReadonly: false,
+    isReadOnly: false,
   };
 
   @Input()

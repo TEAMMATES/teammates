@@ -12,9 +12,9 @@ import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pip
 export class CommentsToCommentTableModelPipe implements PipeTransform {
   constructor(private commentToCommentRowModel: CommentToCommentRowModelPipe) {
   }
-  transform(comments: CommentOutput[], isReadonly: boolean, timezone?: string): CommentTableModel {
+  transform(comments: CommentOutput[], isReadOnly: boolean, timezone?: string): CommentTableModel {
     return {
-      isReadonly,
+      isReadOnly,
       commentRows: comments.map((comment: CommentOutput) => {
         return this.commentToCommentRowModel.transform(comment, timezone);
       }),

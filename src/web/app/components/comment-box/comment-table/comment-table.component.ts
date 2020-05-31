@@ -12,7 +12,7 @@ export interface CommentTableModel {
   newCommentRow: CommentRowModel;
 
   isAddingNewComment: boolean;
-  isReadonly: boolean;
+  isReadOnly: boolean;
 }
 
 /**
@@ -47,7 +47,7 @@ export class CommentTableComponent implements OnInit {
       isEditing: true,
     },
     isAddingNewComment: true,
-    isReadonly: false,
+    isReadOnly: false,
   };
 
   @Input()

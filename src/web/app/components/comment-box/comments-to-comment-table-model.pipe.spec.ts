@@ -95,7 +95,7 @@ describe('CommentsToCommentTableModelPipe', () => {
         isEditing: false,
       },
       isAddingNewComment: false,
-      isReadonly: true,
+      isReadOnly: true,
     });
   });
 });
