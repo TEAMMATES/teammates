@@ -3,7 +3,7 @@ import {
   FeedbackParticipantType,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
-  FeedbackResponseDetails,
+  ResponseOutput,
 } from '../../../../types/api-output';
 
 /**
@@ -16,7 +16,7 @@ import {
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {
 
-  @Input() responses: FeedbackResponseDetails[] = [];
+  @Input() responses: ResponseOutput[] = [];
   @Input() question: FeedbackQuestionDetails = {
     questionType: FeedbackQuestionType.TEXT,
     questionText: '',
