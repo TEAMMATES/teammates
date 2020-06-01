@@ -31,9 +31,12 @@
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded">
     <div class="card-header bg-primary text-white" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
-      <tm-view-photo-popover [photoUrl]="userToEmail[userInfo] | formatPhotoUrl: session.courseId">
+      <tm-view-photo-popover *ngIf="userToEmail[userInfo]" [photoUrl]="userToEmail[userInfo] | formatPhotoUrl: session.courseId">
         {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
       </tm-view-photo-popover>
+      <ng-container *ngIf="!userToEmail[userInfo]">
+        {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
+      </ng-container>
       <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
         [{{ userToEmail[userInfo] }}]
       </a>
