@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -29,6 +30,8 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
 
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
@@ -39,6 +42,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -151,6 +156,124 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.get(email), Const.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
 
+    }
+
+    @Test
+    public void testGetRecipientsOfQuestion() throws Exception {
+        FeedbackQuestionAttributes question;
+        StudentAttributes studentGiver;
+        InstructorAttributes instructorGiver;
+        CourseRoster courseRoster;
+        Map<String, String> recipients;
+
+        ______TS("response to students, total 5");
+
+        question = getQuestionFromDatastore("qn2InSession1InCourse1");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 4); // 5 students minus giver himself
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 4); // should produce the same answer
+
+        instructorGiver = dataBundle.instructors.get("instructor1OfCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(instructorGiver.courseId),
+                instructorsLogic.getInstructorsForCourse(instructorGiver.courseId));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
+        assertEquals(recipients.size(), 5); // instructor is not student so he can respond to all 5.
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, courseRoster);
+        assertEquals(recipients.size(), 5); // should produce the same answer
+
+        ______TS("response to instructors, total 3");
+
+        question = getQuestionFromDatastore("qn2InSession1InCourse2");
+        instructorGiver = dataBundle.instructors.get("instructor1OfCourse2");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(instructorGiver.courseId),
+                instructorsLogic.getInstructorsForCourse(instructorGiver.courseId));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
+        assertEquals(recipients.size(), 2); // 3 - giver = 2
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, courseRoster);
+        assertEquals(recipients.size(), 2); // should produce the same answer
+
+        ______TS("empty case: response to team members, but alone");
+
+        question = getQuestionFromDatastore("team.members.feedback");
+        studentGiver = dataBundle.students.get("student5InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 0);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 0); // should produce the same answer
+
+        ______TS("response from team to itself");
+
+        question = getQuestionFromDatastore("graceperiod.session.feedbackFromTeamToSelf");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 1);
+        assertTrue(recipients.containsKey(studentGiver.getTeam()));
+        assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 1);
+        assertTrue(recipients.containsKey(studentGiver.getTeam()));
+        assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
+
+        ______TS("special case: response to other team, instructor is also student");
+        question = getQuestionFromDatastore("team.feedback");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 1);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 1);
+
+        ______TS("to nobody (general feedback)");
+        question = getQuestionFromDatastore("qn3InSession1InCourse1");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        assertEquals(recipients.size(), 1);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        assertEquals(recipients.size(), 1);
+
+        ______TS("to self");
+        question = getQuestionFromDatastore("qn1InSession1InCourse1");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.get(studentGiver.getEmail()), Const.USER_NAME_FOR_SELF);
+        assertEquals(recipients.size(), 1);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.get(studentGiver.getEmail()), Const.USER_NAME_FOR_SELF);
+        assertEquals(recipients.size(), 1);
     }
 
     @Test

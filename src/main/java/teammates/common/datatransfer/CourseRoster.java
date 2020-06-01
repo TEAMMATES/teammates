@@ -18,12 +18,12 @@ public class CourseRoster {
 
     private final Map<String, StudentAttributes> studentListByEmail = new HashMap<>();
     private final Map<String, InstructorAttributes> instructorListByEmail = new HashMap<>();
-    private final Map<String, List<StudentAttributes>> teamToMembersTable = new HashMap<>();
+    private final Map<String, List<StudentAttributes>> teamToMembersTable;
 
     public CourseRoster(List<StudentAttributes> students, List<InstructorAttributes> instructors) {
         populateStudentListByEmail(students);
         populateInstructorListByEmail(instructors);
-        buildTeamToMembersTable();
+        teamToMembersTable = buildTeamToMembersTable(getStudents());
     }
 
     public List<StudentAttributes> getStudents() {
@@ -119,12 +119,17 @@ public class CourseRoster {
         }
     }
 
-    private void buildTeamToMembersTable() {
+    /**
+     * Builds a Map from team name to team members.
+     */
+    public static Map<String, List<StudentAttributes>> buildTeamToMembersTable(List<StudentAttributes> students) {
+        Map<String, List<StudentAttributes>> teamToMembersTable = new HashMap<>();
         // group students by team
-        for (StudentAttributes studentAttributes : getStudents()) {
+        for (StudentAttributes studentAttributes : students) {
             teamToMembersTable.computeIfAbsent(studentAttributes.getTeam(), key -> new ArrayList<>())
                     .add(studentAttributes);
         }
+        return teamToMembersTable;
     }
 
     /**
