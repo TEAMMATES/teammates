@@ -1,6 +1,6 @@
 import {
   FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails,
+  FeedbackRankOptionsQuestionDetails, QuestionOutput,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
@@ -31,4 +31,10 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
     const optionsHeader: string[] = this.options.map((_: string, index: number) => `Rank ${index + 1}`);
     return ['Feedback', ...optionsHeader];
   }
+
+  getQuestionCsvStats(_: QuestionOutput): string[][] {
+    // TODO
+    return [];
+  }
+
 }

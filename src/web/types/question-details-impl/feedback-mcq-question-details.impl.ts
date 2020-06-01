@@ -1,7 +1,7 @@
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType,
+  FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
@@ -32,4 +32,10 @@ export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackQuestionDeta
     this.generateOptionsFor = apiOutput.generateOptionsFor;
     this.questionText = apiOutput.questionText;
   }
+
+  getQuestionCsvStats(_: QuestionOutput): string[][] {
+    // TODO
+    return [];
+  }
+
 }

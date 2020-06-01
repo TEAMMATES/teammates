@@ -1,6 +1,6 @@
 import {
   FeedbackQuestionType,
-  FeedbackRubricQuestionDetails,
+  FeedbackRubricQuestionDetails, QuestionOutput,
 } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
@@ -38,5 +38,10 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
 
   getMissingResponseCsvAnswers(): string[][] {
     return [['All Sub-Questions', 'No Response']];
+  }
+
+  getQuestionCsvStats(_: QuestionOutput): string[][] {
+    // TODO
+    return [];
   }
 }

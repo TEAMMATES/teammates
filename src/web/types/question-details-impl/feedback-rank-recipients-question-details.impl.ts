@@ -1,6 +1,6 @@
 import {
   FeedbackQuestionType,
-  FeedbackRankRecipientsQuestionDetails,
+  FeedbackRankRecipientsQuestionDetails, QuestionOutput,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
@@ -24,4 +24,10 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
     this.areDuplicatesAllowed = apiOutput.areDuplicatesAllowed;
     this.questionText = apiOutput.questionText;
   }
+
+  getQuestionCsvStats(_: QuestionOutput): string[][] {
+    // TODO
+    return [];
+  }
+
 }

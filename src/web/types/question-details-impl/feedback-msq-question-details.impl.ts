@@ -1,7 +1,7 @@
 import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType,
+  FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
@@ -37,6 +37,11 @@ export class FeedbackMsqQuestionDetailsImpl extends AbstractFeedbackQuestionDeta
 
   getQuestionCsvHeaders(): string[] {
     return ['Feedback', ...this.msqChoices];
+  }
+
+  getQuestionCsvStats(_: QuestionOutput): string[][] {
+    // TODO
+    return [];
   }
 
 }

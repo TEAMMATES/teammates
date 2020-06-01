@@ -1,6 +1,6 @@
 import {
   FeedbackQuestionType,
-  FeedbackTextQuestionDetails,
+  FeedbackTextQuestionDetails, QuestionOutput,
 } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
@@ -19,4 +19,10 @@ export class FeedbackTextQuestionDetailsImpl extends AbstractFeedbackQuestionDet
     this.recommendedLength = apiOutput.recommendedLength;
     this.questionText = apiOutput.questionText;
   }
+
+  getQuestionCsvStats(_: QuestionOutput): string[][] {
+    // no stats for text question
+    return [];
+  }
+
 }

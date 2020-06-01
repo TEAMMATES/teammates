@@ -80,7 +80,7 @@ export class SessionResultCsvService {
 
     // TODO add stats
     if (isShownStats) {
-      const statsRows: string[][] = this.getQuestionStats();
+      const statsRows: string[][] = this.getQuestionStats(question);
       if (statsRows.length > 0) {
         csvRows.push(['Summary Statistics']);
         csvRows.push(...statsRows);
@@ -147,9 +147,10 @@ export class SessionResultCsvService {
   /**
    * Gets question stats for a question.
    */
-  private getQuestionStats(): string[][] {
-    // TODO add stats
-    return [];
+  private getQuestionStats(question: QuestionOutput): string[][] {
+    return FeedbackQuestionDetailsFactory
+        .fromApiOutput(question.feedbackQuestion.questionDetails)
+        .getQuestionCsvStats(question);
   }
 
   /**

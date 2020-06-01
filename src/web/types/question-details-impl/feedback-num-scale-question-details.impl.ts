@@ -1,6 +1,6 @@
 import {
   FeedbackNumericalScaleQuestionDetails,
-  FeedbackQuestionType,
+  FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
@@ -23,4 +23,10 @@ export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQ
     this.step = apiOutput.step;
     this.questionText = apiOutput.questionText;
   }
+
+  getQuestionCsvStats(_: QuestionOutput): string[][] {
+    // TODO
+    return [];
+  }
+
 }

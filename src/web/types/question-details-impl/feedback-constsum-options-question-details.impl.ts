@@ -1,7 +1,7 @@
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
-  FeedbackQuestionType,
+  FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
@@ -34,6 +34,11 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
 
   getQuestionCsvHeaders(): string[] {
     return ['Feedback', ...this.constSumOptions];
+  }
+
+  getQuestionCsvStats(_: QuestionOutput): string[][] {
+    // TODO
+    return [];
   }
 
 }
