@@ -34,7 +34,7 @@
     },
     {
       "name": "Abikaran",
-      "username": "abikaran96"
+      "username": "kedikala"
     },
     {
       "name": "Adam Drennan",
@@ -109,13 +109,14 @@
     },
     {
       "name": "Akshay Vijayvergia",
-      "username": "slidego"
+      "username": "avijayvergia"
     },
     {
       "name": "Akshit Ostwal",
       "username": "AkshitOstwal"
     },
     {
+      "name": "Alessandra Rossaro",
       "username": "Alessandra-Rossaro"
     },
     {
@@ -162,7 +163,7 @@
     },
     {
       "name": "Andrea Castellanos",
-      "username": "drecaste"
+      "username": "andreacastellanos"
     },
     {
       "name": "Andrew Hunter",
@@ -277,7 +278,7 @@
     },
     {
       "name": "Bhargav Thanki",
-      "username": "bmthanki"
+      "username": "bthanki"
     },
     {
       "name": "Bhumi Saxena",
@@ -383,7 +384,7 @@
     {
       "multiple": true,
       "name": "Connor Bottum",
-      "username": "cbb692"
+      "username": "c4llmeco4ch"
     },
     {
       "name": "Connor Kendrick",
@@ -547,7 +548,7 @@
     },
     {
       "name": "Garrett Pement",
-      "username": "GarrettCarrott"
+      "username": "GarrettPT"
     },
     {
       "name": "Gaurav Khandelwal",
@@ -655,7 +656,7 @@
     },
     {
       "name": "Jaikirat Singh Sandhu",
-      "username": "SandhuJai"
+      "username": "jaikiratsingh"
     },
     {
       "name": "Jake Akers",
@@ -727,7 +728,7 @@
     },
     {
       "name": "Jon Vanderlaan",
-      "username": "vandy56"
+      "username": "vandytx"
     },
     {
       "name": "Jonathan Croskell",
@@ -818,7 +819,7 @@
     },
     {
       "name": "Kevin Thich",
-      "username": "k-thich"
+      "username": "kthich"
     },
     {
       "name": "Khan Zishan",
@@ -1015,9 +1016,6 @@
       "image": "assets/images/teammembers/mayank.png"
     },
     {
-      "username": "mbi90"
-    },
-    {
       "name": "Megan Belle",
       "username": "onealml"
     },
@@ -1050,9 +1048,13 @@
       "username": "misaunde"
     },
     {
+      "name": "Moaz Baghdadi",
+      "username": "moazbaghdadi"
+    },
+    {
       "multiple": true,
       "name": "Mohamed Moanis",
-      "username": "mohamed-moanis"
+      "username": "mmoanis"
     },
     {
       "multiple": true,
@@ -1084,6 +1086,7 @@
       "username": "nassimbg"
     },
     {
+      "name": "Natasha Gandhi",
       "username": "natashagandhi"
     },
     {
@@ -1107,7 +1110,7 @@
     {
       "multiple": true,
       "name": "Nguyen Quang Phuc",
-      "username": "quangphuc789"
+      "username": "timnqp"
     },
     {
       "multiple": true,
@@ -1215,6 +1218,9 @@
       "username": "quynhtrang"
     },
     {
+      "username": "plucht"
+    },
+    {
       "multiple": true,
       "name": "Pon Heng Wai",
       "username": "freddusya"
@@ -1271,9 +1277,6 @@
       "username": "ZiXian92"
     },
     {
-      "username": "quantenparallaxum"
-    },
-    {
       "name": "Raghav Batra",
       "username": "RaghavBatra"
     },
@@ -1287,7 +1290,7 @@
     },
     {
       "name": "Rajiv Jha",
-      "username": "rajivjhaimin"
+      "username": "rjrajivjha"
     },
     {
       "name": "Raju Jha",
@@ -1331,7 +1334,8 @@
       "username": "ruchirsharma1993"
     },
     {
-      "username": "ryanrowse"
+      "name": "Ryan Rowse",
+      "username": "RozzaysRed"
     },
     {
       "multiple": true,
@@ -1346,6 +1350,10 @@
     {
       "name": "Sai Teja",
       "username": "saitj99"
+    },
+    {
+      "name": "Sajna Kadalikat",
+      "username": "sjkadali"
     },
     {
       "multiple": true,
@@ -1388,7 +1396,7 @@
     },
     {
       "name": "Sharthak Mishra",
-      "username": "SharUzumaki"
+      "username": "SharMish"
     },
     {
       "name": "Shashwat Garg",
@@ -1474,9 +1482,6 @@
     {
       "multiple": true,
       "name": "Sim Shengming, Eugene"
-    },
-    {
-      "username": "sjkadali"
     },
     {
       "multiple": true,
@@ -1632,9 +1637,6 @@
       "name": "Teo Yock Swee Terence"
     },
     {
-      "username": "theaverageguy"
-    },
-    {
       "multiple": true,
       "name": "Thng Kai Yuan",
       "username": "thngkaiyuan"
@@ -1760,11 +1762,15 @@
     },
     {
       "name": "Yaroslav Gnatyuk",
-      "username": "YaroslavGnatyuk"
+      "username": "yaroslav-hnatiuk"
     },
     {
       "name": "Yash Patel",
-      "username": "yash2o1o"
+      "username": "yashpatel20"
+    },
+    {
+      "name": "Yash Sherry",
+      "username": "theaverageguy"
     },
     {
       "multiple": true,
