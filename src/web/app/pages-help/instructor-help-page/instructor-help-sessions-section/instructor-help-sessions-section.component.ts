@@ -5,8 +5,10 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   Course,
+  FeedbackQuestionType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus, Instructor, InstructorPermissionRole, JoinState,
+  ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting, Student,
 } from '../../../../types/api-output';
@@ -64,6 +66,18 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     isEditable: false,
     hasVisibleSettingsPanelExpanded: true,
     hasEmailSettingsPanelExpanded: true,
+  };
+
+  readonly exampleResponse: ResponseOutput = {
+    responseId: '',
+    giver: 'Alice',
+    giverTeam: 'team 1',
+    giverSection: '',
+    recipient: 'Bob',
+    recipientTeam: 'team 2',
+    recipientSection: '',
+    responseDetails: { questionType: FeedbackQuestionType.TEXT },
+    instructorComments: [],
   };
 
   readonly exampleCourseCandidates: Course[] = [
