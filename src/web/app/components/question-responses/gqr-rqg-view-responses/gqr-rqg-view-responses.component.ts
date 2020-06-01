@@ -130,9 +130,8 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
             return false;
           }
 
-          const shouldDisplayBasedOnSection: boolean
-            = this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(this.section,
-                this.sectionType, response);
+          const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(this.section, this.sectionType, response);
 
           if (!shouldDisplayBasedOnSection) {
             return false;

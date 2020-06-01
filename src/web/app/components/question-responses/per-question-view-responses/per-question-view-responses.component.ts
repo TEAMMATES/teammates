@@ -83,9 +83,8 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
         this.userToEmail[response.giver] = response.giverEmail;
       }
 
-      const shouldDisplayBasedOnSection: boolean
-        = this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(this.section,
-            this.sectionType, response);
+      const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+        .isFeedbackResponsesDisplayedOnSection(this.section, this.sectionType, response);
 
       if (!shouldDisplayBasedOnSection) {
         continue;
