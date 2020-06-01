@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { map, mergeMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -107,15 +108,18 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads the student's feedback session results based on the given course ID and student name.
    */
   loadStudentResults(): void {
-    this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).subscribe((resp: FeedbackSessions) => {
-      resp.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
-        this.feedbackSessionsService.getFeedbackSessionsResult({
-          courseId: this.courseId,
-          feedbackSessionName: feedbackSession.feedbackSessionName,
-          groupBySection: this.studentSection,
-          intent: Intent.INSTRUCTOR_RESULT,
-        }).subscribe((results: SessionResults) => {
-
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
+        mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
+        mergeMap((feedbackSession: FeedbackSession) => {
+          return this.feedbackSessionsService.getFeedbackSessionsResult({
+            courseId: this.courseId,
+            feedbackSessionName: feedbackSession.feedbackSessionName,
+            groupBySection: this.studentSection,
+            intent: Intent.INSTRUCTOR_RESULT,
+          }).pipe(map((results: SessionResults) => ({ results, feedbackSession })));
+        }),
+    ).subscribe(
+        ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
           giverQuestions.forEach((questions: QuestionOutput) => {
             questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
@@ -139,11 +143,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             isCollapsed: responsesGivenByStudent.length === 0 && responsesReceivedByStudent.length === 0,
           });
           results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
+        }, (errorMessageOutput: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(errorMessageOutput.error.message);
         });
-      });
-    }, (errorMessageOutput: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(errorMessageOutput.error.message);
-    });
   }
 
   /**
