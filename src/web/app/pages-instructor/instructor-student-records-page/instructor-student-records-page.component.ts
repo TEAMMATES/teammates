@@ -1,22 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import {
   FeedbackSession,
   FeedbackSessions,
-  Gender,
+  Gender, Instructor,
   QuestionOutput, ResponseOutput,
   SessionResults, Student,
   StudentProfile,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
+import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { InstructorCommentsComponent } from '../instructor-comments.component';
 
 interface SessionTab {
   isCollapsed: boolean;
@@ -33,7 +37,7 @@ interface SessionTab {
   templateUrl: './instructor-student-records-page.component.html',
   styleUrls: ['./instructor-student-records-page.component.scss'],
 })
-export class InstructorStudentRecordsPageComponent implements OnInit {
+export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 
   courseId: string = '';
   studentEmail: string = '';
@@ -53,11 +57,16 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   photoUrl: string = '';
 
   constructor(private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
               private studentService: StudentService,
-              private commentsToCommentTableModel: CommentsToCommentTableModelPipe) { }
+              private instructorService: InstructorService,
+              private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              statusMessageService: StatusMessageService,
+              commentService: FeedbackResponseCommentService,
+              commentToCommentRowModel: CommentToCommentRowModelPipe) {
+    super(commentToCommentRowModel, commentService, statusMessageService);
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -69,6 +78,14 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       this.photoUrl
           = `${environment.backendUrl}/webapi/student/profilePic?`
             + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
+      this.instructorService.getInstructor({
+        courseId: queryParams.courseid,
+        intent: Intent.FULL_DETAIL,
+      }).subscribe((instructor: Instructor) => {
+        this.currInstructorName = instructor.name;
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
@@ -145,5 +162,4 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       response.instructorComments = [];
     });
   }
-
 }
