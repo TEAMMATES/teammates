@@ -29,6 +29,7 @@ public class SessionResultsData extends ApiOutput {
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
     protected final List<QuestionOutput> questions = new ArrayList<>();
+    protected FeedbackSessionData feedbackSession;
 
     protected SessionResultsData() {
         // use factory method instead
@@ -39,6 +40,7 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForInstructor(SessionResultsBundle bundle) {
         SessionResultsData sessionResultsData = new SessionResultsData();
+        sessionResultsData.feedbackSession = new FeedbackSessionData(bundle.getFeedbackSession());
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
@@ -67,6 +69,8 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForStudent(SessionResultsBundle bundle, StudentAttributes student) {
         SessionResultsData sessionResultsData = new SessionResultsData();
+        sessionResultsData.feedbackSession = new FeedbackSessionData(bundle.getFeedbackSession());
+        sessionResultsData.feedbackSession.hideInformationForStudent();
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
