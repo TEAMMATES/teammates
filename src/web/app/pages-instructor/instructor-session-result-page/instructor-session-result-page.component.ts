@@ -118,9 +118,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private modalService: NgbModal,
               private router: Router,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-              protected statusMessageService: StatusMessageService,
-              protected commentService: FeedbackResponseCommentService,
-              protected commentToCommentRowModel: CommentToCommentRowModelPipe) {
+              statusMessageService: StatusMessageService,
+              commentService: FeedbackResponseCommentService,
+              commentToCommentRowModel: CommentToCommentRowModelPipe) {
     super(commentToCommentRowModel, commentService, statusMessageService);
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }

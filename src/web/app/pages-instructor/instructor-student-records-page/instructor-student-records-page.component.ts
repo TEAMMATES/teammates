@@ -62,9 +62,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
               private studentService: StudentService,
               private instructorService: InstructorService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-              protected statusMessageService: StatusMessageService,
-              protected commentService: FeedbackResponseCommentService,
-              protected commentToCommentRowModel: CommentToCommentRowModelPipe) {
+              statusMessageService: StatusMessageService,
+              commentService: FeedbackResponseCommentService,
+              commentToCommentRowModel: CommentToCommentRowModelPipe) {
     super(commentToCommentRowModel, commentService, statusMessageService);
   }
 
