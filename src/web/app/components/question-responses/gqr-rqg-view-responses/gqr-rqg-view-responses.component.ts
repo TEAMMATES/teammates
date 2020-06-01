@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput, ResponseOutput,
@@ -60,7 +61,7 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
 
   responsesToShow: Record<string, QuestionTab[]> = {};
 
-  constructor() {
+  constructor(private feedbackResponsesService: FeedbackResponsesService) {
     super();
   }
 
@@ -129,32 +130,17 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
             return false;
           }
 
-          let shouldDisplayBasedOnSection: boolean = true;
-          if (this.section) {
-            switch (this.sectionType) {
-              case InstructorSessionResultSectionType.EITHER:
-                shouldDisplayBasedOnSection =
-                    response.giverSection === this.section || response.recipientSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.GIVER:
-                shouldDisplayBasedOnSection = response.giverSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.EVALUEE:
-                shouldDisplayBasedOnSection = response.recipientSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.BOTH:
-                shouldDisplayBasedOnSection =
-                    response.giverSection === this.section && response.recipientSection === this.section;
-                break;
-              default:
-            }
-          }
+          const shouldDisplayBasedOnSection: boolean
+            = this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(this.section,
+                this.sectionType, response);
+
           if (!shouldDisplayBasedOnSection) {
             return false;
           }
 
           return true;
         });
+
         if (questionCopy.allResponses.length) {
           this.responsesToShow[user] = this.responsesToShow[user] || [];
           this.responsesToShow[user].push({

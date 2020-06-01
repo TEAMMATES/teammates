@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -56,7 +57,7 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
 
   responsesToShow: Record<string, Record<string, QuestionOutput[]>> = {};
 
-  constructor() {
+  constructor(private feedbackResponsesService: FeedbackResponsesService) {
     super();
   }
 
@@ -129,32 +130,17 @@ export class GrqRgqViewResponsesComponent extends ResponsesInstructorCommentsBas
             return false;
           }
 
-          let shouldDisplayBasedOnSection: boolean = true;
-          if (this.section) {
-            switch (this.sectionType) {
-              case InstructorSessionResultSectionType.EITHER:
-                shouldDisplayBasedOnSection =
-                    response.giverSection === this.section || response.recipientSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.GIVER:
-                shouldDisplayBasedOnSection = response.giverSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.EVALUEE:
-                shouldDisplayBasedOnSection = response.recipientSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.BOTH:
-                shouldDisplayBasedOnSection =
-                    response.giverSection === this.section && response.recipientSection === this.section;
-                break;
-              default:
-            }
-          }
+          const shouldDisplayBasedOnSection: boolean
+            = this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(this.section,
+                this.sectionType, response);
+
           if (!shouldDisplayBasedOnSection) {
             return false;
           }
 
           return true;
         });
+
         if (questionCopy.allResponses.length) {
           const others: string[] = questionCopy.allResponses.map((response: ResponseOutput) => {
             return this.isGrq ? response.recipient : response.giver;
