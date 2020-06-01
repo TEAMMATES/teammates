@@ -314,7 +314,7 @@ export class FeedbackSessionsService {
   /**
    * Retrieves the results for a feedback session.
    */
-  getFeedbackSessionsResult(queryParams: {
+  getFeedbackSessionResults(queryParams: {
     courseId: string,
     feedbackSessionName: string,
     intent: Intent

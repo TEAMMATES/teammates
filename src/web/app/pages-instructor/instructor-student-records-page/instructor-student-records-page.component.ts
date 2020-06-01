@@ -111,7 +111,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
         mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
         mergeMap((feedbackSession: FeedbackSession) => {
-          return this.feedbackSessionsService.getFeedbackSessionsResult({
+          return this.feedbackSessionsService.getFeedbackSessionResults({
             courseId: this.courseId,
             feedbackSessionName: feedbackSession.feedbackSessionName,
             groupBySection: this.studentSection,
