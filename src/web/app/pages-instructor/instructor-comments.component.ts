@@ -70,7 +70,7 @@ export abstract class InstructorCommentsComponent {
   updateComment(data: { responseId: string, index: number}): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
-        // tslint:disable-next-line:no-non-null-assertion
+    // tslint:disable-next-line:no-non-null-assertion
     const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
 
     this.commentService.updateComment({
@@ -82,7 +82,7 @@ export abstract class InstructorCommentsComponent {
           commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform({
             ...commentResponse,
             commentGiverName: commentRowToUpdate.commentGiverName,
-                    // the current instructor will become the last editor
+            // the current instructor will become the last editor
             lastEditorName: this.currInstructorName,
           }, this.session.timeZone);
           this.instructorCommentTableModel[data.responseId] = {
@@ -108,7 +108,7 @@ export abstract class InstructorCommentsComponent {
         .subscribe((commentResponse: FeedbackResponseComment) => {
           commentTableModel.commentRows.push(this.commentToCommentRowModel.transform({
             ...commentResponse,
-                // the giver and editor name will be the current login instructor
+            // the giver and editor name will be the current login instructor
             commentGiverName: this.currInstructorName,
             lastEditorName: this.currInstructorName,
           }, this.session.timeZone));
