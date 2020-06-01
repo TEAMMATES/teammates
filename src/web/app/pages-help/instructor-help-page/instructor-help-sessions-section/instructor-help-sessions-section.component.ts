@@ -71,11 +71,11 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   readonly exampleResponse: ResponseOutput = {
     responseId: '',
     giver: 'Alice',
-    giverTeam: 'team 1',
-    giverSection: '',
+    giverTeam: 'Team A',
+    giverSection: 'Section A',
     recipient: 'Bob',
-    recipientTeam: 'team 2',
-    recipientSection: '',
+    recipientTeam: 'Team B',
+    recipientSection: 'Section B',
     responseDetails: { questionType: FeedbackQuestionType.TEXT },
     instructorComments: [],
   };
