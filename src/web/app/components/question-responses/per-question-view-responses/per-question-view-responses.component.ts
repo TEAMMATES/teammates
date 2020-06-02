@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
+import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -59,6 +60,7 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
 
   constructor(private tableComparatorService: TableComparatorService,
               private questionsService: FeedbackQuestionsService,
+              private feedbackResponsesService: FeedbackResponsesService,
               private modalService: NgbModal) {
     super();
   }
@@ -80,29 +82,14 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
       if (response.giverEmail) {
         this.userToEmail[response.giver] = response.giverEmail;
       }
-      if (this.section) {
-        let shouldDisplayBasedOnSection: boolean = true;
-        switch (this.sectionType) {
-          case InstructorSessionResultSectionType.EITHER:
-            shouldDisplayBasedOnSection =
-                response.giverSection === this.section || response.recipientSection === this.section;
-            break;
-          case InstructorSessionResultSectionType.GIVER:
-            shouldDisplayBasedOnSection = response.giverSection === this.section;
-            break;
-          case InstructorSessionResultSectionType.EVALUEE:
-            shouldDisplayBasedOnSection = response.recipientSection === this.section;
-            break;
-          case InstructorSessionResultSectionType.BOTH:
-            shouldDisplayBasedOnSection =
-                response.giverSection === this.section && response.recipientSection === this.section;
-            break;
-          default:
-        }
-        if (!shouldDisplayBasedOnSection) {
-          continue;
-        }
+
+      const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+        .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+
+      if (!shouldDisplayBasedOnSection) {
+        continue;
       }
+
       responsesToShow.push(response);
     }
     this.responsesToShow = responsesToShow;
