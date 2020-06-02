@@ -63,7 +63,7 @@ export class SessionResultPageComponent implements OnInit {
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
               moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
-        this.feedbackSessionsService.getFeedbackSessionsResult({
+        this.feedbackSessionsService.getFeedbackSessionResults({
           courseId,
           feedbackSessionName,
           intent: Intent.STUDENT_RESULT,
