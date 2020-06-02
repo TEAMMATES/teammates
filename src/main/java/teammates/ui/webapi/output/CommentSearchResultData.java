@@ -1,15 +1,12 @@
 package teammates.ui.webapi.output;
 
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-
 /**
  * API output format for a comment search result.
  */
+//TODO: Remove warning suppression
+@SuppressWarnings("PMD")
 public class CommentSearchResultData extends SessionResultsData {
-    private final FeedbackSessionData feedbackSession;
+    private FeedbackSessionData feedbackSession;
 
-    public CommentSearchResultData(FeedbackSessionResultsBundle bundle) {
-        super(bundle);
-        feedbackSession = new FeedbackSessionData(bundle.feedbackSession);
-    }
+    //TODO: Build data from CommentSearchResultsData input
 }

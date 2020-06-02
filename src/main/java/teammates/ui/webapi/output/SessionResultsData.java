@@ -78,6 +78,10 @@ public class SessionResultsData extends ApiOutput {
         });
     }
 
+    protected SessionResultsData() {
+        //TODO: Implement for searching
+    }
+
     public List<QuestionOutput> getQuestions() {
         return questions;
     }
