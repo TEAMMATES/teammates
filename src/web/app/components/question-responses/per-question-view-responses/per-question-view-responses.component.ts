@@ -84,7 +84,7 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
       }
 
       const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-        .isFeedbackResponsesDisplayedOnSection(this.section, this.sectionType, response);
+        .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
 
       if (!shouldDisplayBasedOnSection) {
         continue;

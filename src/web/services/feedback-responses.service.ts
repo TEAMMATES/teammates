@@ -129,8 +129,8 @@ export class FeedbackResponsesService {
   /**
    * Determines whether responses should be displayed based on the selected section.
    */
-  isFeedbackResponsesDisplayedOnSection(section: string, sectionType: InstructorSessionResultSectionType,
-      response: ResponseOutput): boolean {
+  isFeedbackResponsesDisplayedOnSection(response: ResponseOutput, section: string,
+      sectionType: InstructorSessionResultSectionType): boolean {
 
     let isDisplayed: boolean = true;
 
