@@ -90,6 +90,10 @@ export class SearchService {
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   }
 
+  /**
+   * Searches sessions, responses, and comments for any matches against the {@code searchKey}.
+   * Only responses with comments will be searched.
+   */
   searchComments(searchKey: string): Observable<CommentSearchResults> {
     const paramMap: { [key: string]: string } = {
       searchkey: searchKey,
