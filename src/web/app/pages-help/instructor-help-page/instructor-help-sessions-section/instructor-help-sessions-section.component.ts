@@ -7,9 +7,13 @@ import {
   Course,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus, Instructor, InstructorPermissionRole, JoinState,
+  ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting, Student,
 } from '../../../../types/api-output';
+import { DEFAULT_CONTRIBUTION_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { CommentEditFormModel } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
+import { CommentRowMode } from '../../../components/comment-box/comment-row/comment-row.component';
 import {
   SessionEditFormMode, SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
@@ -29,6 +33,7 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
   // enum
+  CommentRowMode: typeof CommentRowMode = CommentRowMode;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
 
   readonly exampleSessionEditFormModel: SessionEditFormModel = {
@@ -64,6 +69,26 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     isEditable: false,
     hasVisibleSettingsPanelExpanded: true,
     hasEmailSettingsPanelExpanded: true,
+  };
+
+  exampleCommentEditFormModel: CommentEditFormModel = {
+    commentText: '',
+
+    isUsingCustomVisibilities: false,
+    showCommentTo: [],
+    showGiverNameTo: [],
+  };
+
+  readonly exampleResponse: ResponseOutput = {
+    responseId: '',
+    giver: 'Alice',
+    giverTeam: 'Team A',
+    giverSection: 'Section A',
+    recipient: 'Bob',
+    recipientTeam: 'Team B',
+    recipientSection: 'Section B',
+    responseDetails: DEFAULT_CONTRIBUTION_RESPONSE_DETAILS(),
+    instructorComments: [],
   };
 
   readonly exampleCourseCandidates: Course[] = [

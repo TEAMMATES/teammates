@@ -45,6 +45,7 @@ import {
     FormsModule,
   ],
   exports: [
+    CommentEditFormComponent,
     CommentRowComponent,
     CommentTableComponent,
     CommentTableModalComponent,

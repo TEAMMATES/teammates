@@ -8,7 +8,11 @@ import { StudentProfileModule } from '../../pages-instructor/student-profile/stu
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
-import { QuestionSubmissionFormModule,
+import {
+    CommentBoxModule,
+} from '../../components/comment-box/comment-box.module';
+import {
+    QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
 import {
   SessionEditFormModule,
@@ -50,6 +54,7 @@ import {
  */
 @NgModule({
   imports: [
+    CommentBoxModule,
     CommonModule,
     FormsModule,
     NgbModule,
