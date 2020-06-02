@@ -121,7 +121,7 @@ public class CourseRoster {
 
     private void buildTeamToMembersTable() {
         // group students by team
-        for (StudentAttributes studentAttributes : this.getStudents()) {
+        for (StudentAttributes studentAttributes : getStudents()) {
             teamToMembersTable.computeIfAbsent(studentAttributes.getTeam(), key -> new ArrayList<>())
                     .add(studentAttributes);
         }
@@ -137,23 +137,23 @@ public class CourseRoster {
         String teamName = Const.USER_NOBODY_TEXT;
         String sectionName = Const.DEFAULT_SECTION;
 
-        boolean isStudent = this.getStudentForEmail(identifier) != null;
-        boolean isInstructor = this.getInstructorForEmail(identifier) != null;
-        boolean isTeam = this.getTeamToMembersTable().containsKey(identifier);
+        boolean isStudent = getStudentForEmail(identifier) != null;
+        boolean isInstructor = getInstructorForEmail(identifier) != null;
+        boolean isTeam = getTeamToMembersTable().containsKey(identifier);
         if (isStudent) {
-            StudentAttributes student = this.getStudentForEmail(identifier);
+            StudentAttributes student = getStudentForEmail(identifier);
 
             name = student.getName();
             teamName = student.getTeam();
             sectionName = student.getSection();
         } else if (isInstructor) {
-            InstructorAttributes instructor = this.getInstructorForEmail(identifier);
+            InstructorAttributes instructor = getInstructorForEmail(identifier);
 
             name = instructor.getName();
             teamName = Const.USER_TEAM_FOR_INSTRUCTOR;
             sectionName = Const.DEFAULT_SECTION;
         } else if (isTeam) {
-            StudentAttributes teamMember = this.getTeamToMembersTable().get(identifier).iterator().next();
+            StudentAttributes teamMember = getTeamToMembersTable().get(identifier).iterator().next();
 
             name = identifier;
             teamName = identifier;
