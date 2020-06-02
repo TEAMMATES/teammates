@@ -5,13 +5,15 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   Course,
-  FeedbackQuestionType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus, Instructor, InstructorPermissionRole, JoinState,
   ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting, Student,
 } from '../../../../types/api-output';
+import { DEFAULT_CONTRIBUTION_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { CommentEditFormModel } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
+import { CommentRowMode } from '../../../components/comment-box/comment-row/comment-row.component';
 import {
   SessionEditFormMode, SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
@@ -31,6 +33,7 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
   // enum
+  CommentRowMode: typeof CommentRowMode = CommentRowMode;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
 
   readonly exampleSessionEditFormModel: SessionEditFormModel = {
@@ -68,6 +71,14 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     hasEmailSettingsPanelExpanded: true,
   };
 
+  readonly exampleModel: CommentEditFormModel = {
+    commentText: '',
+
+    isUsingCustomVisibilities: false,
+    showCommentTo: [],
+    showGiverNameTo: [],
+  };
+
   readonly exampleResponse: ResponseOutput = {
     responseId: '',
     giver: 'Alice',
@@ -76,7 +87,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     recipient: 'Bob',
     recipientTeam: 'Team B',
     recipientSection: 'Section B',
-    responseDetails: { questionType: FeedbackQuestionType.TEXT },
+    responseDetails: DEFAULT_CONTRIBUTION_RESPONSE_DETAILS(),
     instructorComments: [],
   };
 

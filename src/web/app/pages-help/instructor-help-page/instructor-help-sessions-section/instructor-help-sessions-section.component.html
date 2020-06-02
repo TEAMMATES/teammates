@@ -425,7 +425,19 @@
             </li>
           </ol>
           <tm-example-box>
-            <tm-comment-edit-form [response]="exampleResponse"></tm-comment-edit-form>
+            <div class="card-body">
+              <tm-comment-edit-form
+                [mode]="CommentRowMode.ADD"
+                [model]="exampleModel"
+                [isFeedbackParticipantComment]="false"
+                [response]="exampleResponse"
+                [questionShowResponsesTo]="[]"
+                [isDisabled]="false"
+                [shouldHideSavingButton]="false"
+                [shouldHideClosingButton]="false"
+                [isVisibilityOptionEnabled]="true">
+              </tm-comment-edit-form>
+            </div>
           </tm-example-box>
         </div>
       </div>
