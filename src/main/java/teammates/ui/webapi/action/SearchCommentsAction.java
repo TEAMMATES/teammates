@@ -15,7 +15,7 @@ import teammates.ui.webapi.output.ApiOutput;
 /**
  * Action: Showing the InstructorSearchPage for an instructor.
  */
-public class SearchStudentsAndFeedbackSessionDataAction extends Action {
+public class SearchCommentsAction extends Action {
     // TODO: Write tests
 
     @Override
@@ -101,7 +101,7 @@ public class SearchStudentsAndFeedbackSessionDataAction extends Action {
     }
 
     /**
-     * Output format for {@link SearchStudentsAndFeedbackSessionDataAction}.
+     * Output format for {@link SearchCommentsAction}.
      */
     private static class SearchResult extends ApiOutput {
         /* Tables containing search results */
