@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
   FeedbackMcqQuestionDetails,
+  FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackRubricQuestionDetails,
@@ -28,6 +29,7 @@ import {
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { QuestionSubmissionFormModel,
 } from '../../../components/question-submission-form/question-submission-form-model';
+import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -89,6 +91,23 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
+
+  readonly numericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[] = [
+    {
+      giver: 'Alice',
+      giverEmail: 'alice@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 50,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+  ];
 
   readonly exampleDistributedPointOptionModel: QuestionEditFormModel = {
     feedbackQuestionId: '',

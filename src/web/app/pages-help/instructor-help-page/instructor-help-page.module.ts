@@ -15,6 +15,9 @@ import {
     QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
 import {
+    QuestionStatisticsModule,
+} from '../../components/question-types/question-statistics/question-statistics.module';
+import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
 import {
@@ -61,6 +64,7 @@ import {
     RouterModule,
     StudentProfileModule,
     QuestionEditFormModule,
+    QuestionStatisticsModule,
     ReactiveFormsModule,
     InstructorSearchPageModule,
     InstructorCourseStudentEditPageModule,

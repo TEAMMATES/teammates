@@ -12,7 +12,7 @@ import {
  * is required as the said API output format does not support precise typing
  * for the subclass of FeedbackResponseDetails.
  */
-interface Response<R extends FeedbackResponseDetails> {
+export interface Response<R extends FeedbackResponseDetails> {
   giver: string;
   giverEmail?: string;
   giverTeam: string;
