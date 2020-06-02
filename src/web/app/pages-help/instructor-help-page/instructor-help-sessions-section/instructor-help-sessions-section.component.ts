@@ -71,7 +71,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     hasEmailSettingsPanelExpanded: true,
   };
 
-  exampleModel: CommentEditFormModel = {
+  exampleCommentEditFormModel: CommentEditFormModel = {
     commentText: '',
 
     isUsingCustomVisibilities: false,
