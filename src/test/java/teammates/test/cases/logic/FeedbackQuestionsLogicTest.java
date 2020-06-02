@@ -2,9 +2,11 @@ package teammates.test.cases.logic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -826,6 +828,113 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
                 ((FeedbackMsqQuestionDetails) fqa.getQuestionDetails()).getMsqChoices());
+    }
+
+    @Test
+    public void testBuildCompleteGiverRecipientMap_studentQuestion_shouldBuildMapCorrectly() {
+        CourseRoster courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
+                instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
+        FeedbackQuestionAttributes qn1InSession1InCourse1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
+                qn1InSession1InCourse1.getFeedbackSessionName(), qn1InSession1InCourse1.getCourseId());
+
+        Map<String, Map<String, Set<String>>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(
+                        session1, Collections.singletonList(qn1InSession1InCourse1), courseRoster);
+
+        assertEquals(1, completeGiverRecipientMap.size());
+        assertTrue(completeGiverRecipientMap.containsKey(qn1InSession1InCourse1.getId()));
+        Map<String, Set<String>> questionGiverRecipientMap =
+                completeGiverRecipientMap.get(qn1InSession1InCourse1.getId());
+        assertEquals(5, questionGiverRecipientMap.size());
+        assertEquals(1, questionGiverRecipientMap.get("student1InCourse1@gmail.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("student1InCourse1@gmail.tmt").contains("student1InCourse1@gmail.tmt"));
+        assertEquals(1, questionGiverRecipientMap.get("student2InCourse1@gmail.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("student2InCourse1@gmail.tmt").contains("student2InCourse1@gmail.tmt"));
+        assertEquals(1, questionGiverRecipientMap.get("student3InCourse1@gmail.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("student3InCourse1@gmail.tmt").contains("student3InCourse1@gmail.tmt"));
+        assertEquals(1, questionGiverRecipientMap.get("student4InCourse1@gmail.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("student4InCourse1@gmail.tmt").contains("student4InCourse1@gmail.tmt"));
+        assertEquals(1, questionGiverRecipientMap.get("student5InCourse1@gmail.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("student5InCourse1@gmail.tmt").contains("student5InCourse1@gmail.tmt"));
+    }
+
+    @Test
+    public void testBuildCompleteGiverRecipientMap_instructorQuestion_shouldBuildMapCorrectly() {
+        CourseRoster courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
+                instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
+        FeedbackQuestionAttributes qn4InSession1InCourse1 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
+                qn4InSession1InCourse1.getFeedbackSessionName(), qn4InSession1InCourse1.getCourseId());
+
+        Map<String, Map<String, Set<String>>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(
+                        session1, Collections.singletonList(qn4InSession1InCourse1), courseRoster);
+
+        assertEquals(1, completeGiverRecipientMap.size());
+        assertTrue(completeGiverRecipientMap.containsKey(qn4InSession1InCourse1.getId()));
+        Map<String, Set<String>> questionGiverRecipientMap =
+                completeGiverRecipientMap.get(qn4InSession1InCourse1.getId());
+        assertEquals(5, questionGiverRecipientMap.size());
+        assertEquals(1, questionGiverRecipientMap.get("instructor1@course1.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("instructor1@course1.tmt").contains(Const.GENERAL_QUESTION));
+        assertEquals(1, questionGiverRecipientMap.get("instructor2@course1.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("instructor2@course1.tmt").contains(Const.GENERAL_QUESTION));
+        assertEquals(1, questionGiverRecipientMap.get("instructor3@course1.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("instructor3@course1.tmt").contains(Const.GENERAL_QUESTION));
+        assertEquals(1, questionGiverRecipientMap.get("helper@course1.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("helper@course1.tmt").contains(Const.GENERAL_QUESTION));
+        assertEquals(1, questionGiverRecipientMap.get("instructorNotYetJoinedCourse1@email.tmt").size());
+        assertTrue(questionGiverRecipientMap.get("instructorNotYetJoinedCourse1@email.tmt")
+                .contains(Const.GENERAL_QUESTION));
+    }
+
+    @Test
+    public void testBuildCompleteGiverRecipientMap_selfQuestion_shouldBuildMapCorrectly() {
+        CourseRoster courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
+                instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
+        FeedbackQuestionAttributes qn3InSession1InCourse1 = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
+                qn3InSession1InCourse1.getFeedbackSessionName(), qn3InSession1InCourse1.getCourseId());
+
+        Map<String, Map<String, Set<String>>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(
+                        session1, Collections.singletonList(qn3InSession1InCourse1), courseRoster);
+
+        assertEquals(1, completeGiverRecipientMap.size());
+        assertTrue(completeGiverRecipientMap.containsKey(qn3InSession1InCourse1.getId()));
+        Map<String, Set<String>> questionGiverRecipientMap =
+                completeGiverRecipientMap.get(qn3InSession1InCourse1.getId());
+        assertEquals(1, questionGiverRecipientMap.size());
+        assertEquals(1, questionGiverRecipientMap.get(session1.getCreatorEmail()).size());
+        assertTrue(questionGiverRecipientMap.get(session1.getCreatorEmail()).contains(Const.GENERAL_QUESTION));
+    }
+
+    @Test
+    public void testBuildCompleteGiverRecipientMap_teamQuestion_shouldBuildMapCorrectly() {
+        CourseRoster courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
+                instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
+        FeedbackQuestionAttributes teamFeedbackQuestion = getQuestionFromDatastore("team.feedback");
+        FeedbackSessionAttributes session2 = fsLogic.getFeedbackSession(
+                teamFeedbackQuestion.getFeedbackSessionName(), teamFeedbackQuestion.getCourseId());
+
+        Map<String, Map<String, Set<String>>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(
+                        session2, Collections.singletonList(teamFeedbackQuestion), courseRoster);
+
+        assertEquals(1, completeGiverRecipientMap.size());
+        assertTrue(completeGiverRecipientMap.containsKey(teamFeedbackQuestion.getId()));
+        Map<String, Set<String>> questionGiverRecipientMap =
+                completeGiverRecipientMap.get(teamFeedbackQuestion.getId());
+        assertEquals(2, questionGiverRecipientMap.size());
+        assertEquals(1, questionGiverRecipientMap.get("Team 1.1</td></div>'\"").size());
+        assertTrue(questionGiverRecipientMap.get("Team 1.1</td></div>'\"").contains("Team 1.2"));
+        assertEquals(1, questionGiverRecipientMap.get("Team 1.2").size());
+        assertTrue(questionGiverRecipientMap.get("Team 1.2").contains("Team 1.1</td></div>'\""));
     }
 
     private void testGetFeedbackQuestionsForInstructor() throws Exception {

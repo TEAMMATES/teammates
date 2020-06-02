@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -502,6 +504,99 @@ public final class FeedbackQuestionsLogic {
             break;
         }
         return recipients;
+    }
+
+    /**
+     * Builds a complete giver to recipient map for all {@code relatedQuestions}.
+     *
+     * @param feedbackSession The feedback session that contains the questions
+     * @param relatedQuestions The questions to be considered
+     * @param courseRoster the roster in the course
+     * @return a map from the question ID to the giver to recipient map for the question.
+     */
+    public Map<String, Map<String, Set<String>>> buildCompleteGiverRecipientMap(
+            FeedbackSessionAttributes feedbackSession,
+            Collection<FeedbackQuestionAttributes> relatedQuestions, CourseRoster courseRoster) {
+        Map<String, Map<String, Set<String>>> completeGiverRecipientMap = new HashMap<>();
+
+        for (FeedbackQuestionAttributes feedbackQuestion : relatedQuestions) {
+            Map<String, Set<String>> questionGiverRecipientMap = new HashMap<>();
+            completeGiverRecipientMap.put(feedbackQuestion.getId(), questionGiverRecipientMap);
+
+            List<String> possibleGivers = getPossibleGivers(feedbackSession, feedbackQuestion, courseRoster);
+            for (String possibleGiver : possibleGivers) {
+                switch (feedbackQuestion.getGiverType()) {
+                case STUDENTS:
+                    StudentAttributes studentGiver = courseRoster.getStudentForEmail(possibleGiver);
+                    questionGiverRecipientMap
+                            .computeIfAbsent(possibleGiver, key -> new HashSet<>())
+                            .addAll(getRecipientsOfQuestion(
+                                    feedbackQuestion, null, studentGiver, courseRoster).keySet());
+                    break;
+                case TEAMS:
+                    StudentAttributes oneTeamMember =
+                            courseRoster.getTeamToMembersTable().get(possibleGiver).iterator().next();
+                    questionGiverRecipientMap
+                            .computeIfAbsent(possibleGiver, key -> new HashSet<>())
+                            .addAll(getRecipientsOfQuestion(
+                                    feedbackQuestion, null, oneTeamMember, courseRoster).keySet());
+                    break;
+                case INSTRUCTORS:
+                case SELF:
+                    InstructorAttributes instructorGiver = courseRoster.getInstructorForEmail(possibleGiver);
+                    questionGiverRecipientMap
+                            .computeIfAbsent(possibleGiver, key -> new HashSet<>())
+                            .addAll(getRecipientsOfQuestion(
+                                    feedbackQuestion, instructorGiver, null, courseRoster).keySet());
+                    break;
+                default:
+                    log.severe("Invalid giver type specified");
+                    break;
+                }
+            }
+        }
+
+        return completeGiverRecipientMap;
+    }
+
+    /**
+     * Gets possible giver identifiers for a feedback question.
+     *
+     * @param fqa the feedback question
+     * @param courseRoster roster of all students and instructors
+     * @return a list of giver identifier
+     */
+    private List<String> getPossibleGivers(
+            FeedbackSessionAttributes feedbackSession,
+            FeedbackQuestionAttributes fqa, CourseRoster courseRoster) {
+        FeedbackParticipantType giverType = fqa.giverType;
+        List<String> possibleGivers = new ArrayList<>();
+
+        switch (giverType) {
+        case STUDENTS:
+            possibleGivers = courseRoster.getStudents()
+                    .stream()
+                    .map(StudentAttributes::getEmail)
+                    .collect(Collectors.toList());
+            break;
+        case INSTRUCTORS:
+            possibleGivers = courseRoster.getInstructors()
+                    .stream()
+                    .map(InstructorAttributes::getEmail)
+                    .collect(Collectors.toList());
+            break;
+        case TEAMS:
+            possibleGivers = new ArrayList<>(courseRoster.getTeamToMembersTable().keySet());
+            break;
+        case SELF:
+            possibleGivers = Collections.singletonList(feedbackSession.getCreatorEmail());
+            break;
+        default:
+            log.severe("Invalid giver type specified");
+            break;
+        }
+
+        return possibleGivers;
     }
 
     /**

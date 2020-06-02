@@ -95,7 +95,8 @@ public class JsonUtilsTest extends BaseTestCase {
                     + "    \"questionType\": \"TEXT\"\n"
                     + "  },\n"
                     + "  \"giverSection\": \"giverSection\",\n"
-                    + "  \"recipientSection\": \"recipientSection\"\n"
+                    + "  \"recipientSection\": \"recipientSection\",\n"
+                    + "  \"feedbackResponseId\": \"questionId%giver@email.com%recipient@email.com\"\n"
                     + "}", serializeString);
         } catch (JsonParseException e) {
             fail("error detected during serializing");
