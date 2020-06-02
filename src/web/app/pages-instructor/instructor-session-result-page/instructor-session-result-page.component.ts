@@ -230,7 +230,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionsResult({
+    this.feedbackSessionsService.getFeedbackSessionResults({
       questionId,
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
@@ -268,7 +268,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionsResult({
+    this.feedbackSessionsService.getFeedbackSessionResults({
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
