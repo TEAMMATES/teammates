@@ -1,9 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
+/**
+ * Display student name with photo popover
+ */
 @Component({
   selector: 'tm-student-name',
   templateUrl: './student-name.component.html',
-  styleUrls: ['./student-name.component.scss']
+  styleUrls: ['./student-name.component.scss'],
 })
 export class StudentNameComponent implements OnInit {
 
@@ -18,7 +21,7 @@ export class StudentNameComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }
