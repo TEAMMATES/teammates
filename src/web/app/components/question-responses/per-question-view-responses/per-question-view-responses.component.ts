@@ -75,6 +75,11 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   private filterResponses(): void {
     const responsesToShow: ResponseOutput[] = [];
     for (const response of this.responses) {
+      if (!this.indicateMissingResponses && response.isMissingResponse) {
+        // filter out missing responses
+        continue;
+      }
+
       const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
         .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
 

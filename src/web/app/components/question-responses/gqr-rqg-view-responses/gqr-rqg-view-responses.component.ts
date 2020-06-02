@@ -82,6 +82,10 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
+        if (!this.indicateMissingResponses && response.isMissingResponse) {
+          // filter out missing responses
+          continue;
+        }
         if (response.giverEmail) {
           this.userToEmail[response.giver] = response.giverEmail;
         }
@@ -123,6 +127,10 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
       for (const question of this.responses) {
         const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
+          if (!this.indicateMissingResponses && response.isMissingResponse) {
+            // filter out missing responses
+            return false;
+          }
           if (this.isGqr && user !== response.giver) {
             return false;
           }

@@ -28,7 +28,10 @@
           <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
-          <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
+          <tm-single-response
+              [class.color-neutral]="response.allResponses[0].isMissingResponse"
+              [responseDetails]="response.allResponses[0].responseDetails"
+              [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
           <tm-comment-row *ngIf="response.allResponses[0].participantComment"
                           [model]="response.allResponses[0].participantComment | commentToCommentRowModel: session.timeZone"
                           [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
@@ -39,7 +42,8 @@
                           [shouldHideEditButton]="true"
           ></tm-comment-row>
           <br/>
-          <tm-comment-table [model]="instructorCommentTableModel[response.allResponses[0].responseId]"
+          <tm-comment-table *ngIf="!response.allResponses[0].isMissingResponse"
+                            [model]="instructorCommentTableModel[response.allResponses[0].responseId]"
                             [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
                             [response]="response.allResponses[0]"
                             (modelChange)="triggerModelChangeForSingleResponse(response.allResponses[0].responseId, $event)"
