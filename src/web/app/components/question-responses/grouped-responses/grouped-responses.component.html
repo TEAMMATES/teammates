@@ -2,20 +2,20 @@
     *ngIf="responses.length && responses[0].allResponses.length">
   <div class="col-md-3">
     <div>
-      <tm-view-photo-popover *ngIf="userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']]" [photoUrl]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']] | formatPhotoUrl: session.courseId">
-        {{ isGrq ? 'To' : 'From' }}: {{ responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver'] }} {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
-      </tm-view-photo-popover>
-      <ng-container *ngIf="!userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']]">
-        {{ isGrq ? 'To' : 'From' }}: {{ responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver'] }} {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
-      </ng-container>
+      {{ isGrq ? 'To' : 'From' }}:
+      <tm-student-name [name]="responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']"
+                       [email]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']]"
+                       [courseId]="session.courseId"
+      ></tm-student-name>
+      {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
     </div>
     <div class="top-padded">
-      <tm-view-photo-popover *ngIf="userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']]" [photoUrl]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']] | formatPhotoUrl: session.courseId">
-        {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient'] }} {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
-      </tm-view-photo-popover>
-      <ng-container *ngIf="!userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']]">
-        {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient'] }} {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
-      </ng-container>
+      {{ isGrq ? 'From' : 'To' }}:
+      <tm-student-name [name]="this.responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']"
+                       [email]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']]"
+                       [courseId]="session.courseId"
+      ></tm-student-name>
+      {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
     </div>
     <div class="top-padded">
       <tm-response-moderation-button *ngIf="!isGrq && responses[0].allResponses[0].relatedGiverEmail" [session]="session" [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"></tm-response-moderation-button>

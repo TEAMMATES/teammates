@@ -14,6 +14,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popover.component';
+import { StudentNameComponent } from './student-name/student-name.component';
 
 /**
  * Common module in the project.
@@ -36,6 +37,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     FormatDateBriefPipe,
     FormatPhotoUrlPipe,
     ViewPhotoPopoverComponent,
+    StudentNameComponent,
   ],
   exports: [
     EnumToArrayPipe,
@@ -49,6 +51,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     FormatDateBriefPipe,
     FormatPhotoUrlPipe,
     ViewPhotoPopoverComponent,
+    StudentNameComponent,
   ],
 })
 export class TeammatesCommonModule { }
