@@ -278,6 +278,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       this.sectionsModel[sectionName].questions = resp.questions;
       this.sectionsModel[sectionName].hasPopulated = true;
 
+      // sort questions by question number
+      resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+          a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
       resp.questions.forEach((question: QuestionOutput) => {
         this.preprocessComments(question.allResponses);
       });

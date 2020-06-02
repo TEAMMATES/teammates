@@ -4,6 +4,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Assumption;
@@ -36,8 +37,7 @@ public abstract class FeedbackQuestionDetails {
 
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public String getQuestionResultStatisticsJson(
-            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
-            String userEmail, FeedbackSessionResultsBundle bundle) {
+            FeedbackQuestionAttributes question, String studentEmail, SessionResultsBundle bundle) {
         // Statistics are calculated in the front-end as it is dependent on the responses being filtered.
         // The only exception is contribution question, where there is only one statistics for the entire question.
         // It is also necessary to calculate contribution question statistics here
