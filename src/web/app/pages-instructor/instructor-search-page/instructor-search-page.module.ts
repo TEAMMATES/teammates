@@ -7,6 +7,7 @@ import { StudentListModule } from '../student-list/student-list.module';
 import { InstructorSearchBarComponent } from './instructor-search-bar/instructor-search-bar.component';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { StudentResultTableComponent } from './student-result-table/student-result-table.component';
+import { CommentResultTableComponent } from "./comment-result-table/comment-result-table.component";
 
 /**
  * Module for instructor search page.
@@ -16,11 +17,13 @@ import { StudentResultTableComponent } from './student-result-table/student-resu
     InstructorSearchPageComponent,
     InstructorSearchBarComponent,
     StudentResultTableComponent,
+    CommentResultTableComponent,
   ],
   exports: [
     InstructorSearchPageComponent,
     InstructorSearchBarComponent,
     StudentResultTableComponent,
+    CommentResultTableComponent,
   ],
   imports: [
     CommonModule,

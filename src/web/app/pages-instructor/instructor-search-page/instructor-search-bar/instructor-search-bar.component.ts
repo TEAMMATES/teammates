@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SearchParams } from "../instructor-search-page.component";
 
 /**
  * Search bar on instructor search page
@@ -9,8 +10,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./instructor-search-bar.component.scss'],
 })
 export class InstructorSearchBarComponent implements OnInit {
-  @Input() searchKey: string = '';
-  @Output() searched: EventEmitter<string> = new EventEmitter<string>();
+
+  @Input() searchParams: SearchParams = {
+    searchKey: '',
+    isSearchForStudents: true,
+    isSearchForComments: false
+  }
+
+  @Output() searched: EventEmitter<SearchParams> = new EventEmitter<SearchParams>();
 
   constructor() {}
 
@@ -20,6 +27,6 @@ export class InstructorSearchBarComponent implements OnInit {
    * send the search data to parent for processing
    */
   search(): void {
-    this.searched.emit(this.searchKey);
+    this.searched.emit(this.searchParams);
   }
 }

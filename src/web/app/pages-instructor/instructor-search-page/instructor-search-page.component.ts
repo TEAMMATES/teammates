@@ -18,6 +18,19 @@ export interface SearchStudentsTable {
   sections: StudentListSectionData[];
 }
 
+export interface SearchCommentsTable {
+
+}
+
+/**
+ * Parameters inputted by user to be used in search
+ */
+export interface SearchParams {
+  searchKey: string;
+  isSearchForStudents: boolean;
+  isSearchForComments: boolean;
+}
+
 /**
  * Instructor search page.
  */
@@ -27,8 +40,14 @@ export interface SearchStudentsTable {
   styleUrls: ['./instructor-search-page.component.scss'],
 })
 export class InstructorSearchPageComponent implements OnInit {
-  searchKey: string = '';
+
+  searchParams: SearchParams = {
+    searchKey: '',
+    isSearchForStudents: true,
+    isSearchForComments: false,
+  }
   studentTables: SearchStudentsTable[] = [];
+  commentTables: SearchCommentsTable[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -40,10 +59,10 @@ export class InstructorSearchPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams.studentSearchkey) {
-        this.searchKey = queryParams.studentSearchkey;
+        this.searchParams.searchKey = queryParams.studentSearchkey;
       }
-      if (this.searchKey) {
-        this.search(this.searchKey);
+      if (this.searchParams.searchKey) {
+        this.search(this.searchParams);
       }
     });
   }
@@ -51,18 +70,22 @@ export class InstructorSearchPageComponent implements OnInit {
   /**
    * Searches for students and questions/responses/comments matching the search query.
    */
-  search(searchKey: string): void {
+  search(searchParams: SearchParams): void {
     this.loadingBarService.showLoadingBar();
     this.searchService
-      .searchInstructor(searchKey)
+      .searchInstructor(searchParams.searchKey)
       .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
       .subscribe(
         (resp: InstructorSearchResult) => {
+          this.commentTables = resp.searchCommentsTables;
           this.studentTables = resp.searchStudentsTables;
           const hasStudents: boolean = !!(
             this.studentTables && this.studentTables.length
           );
-          if (!hasStudents) {
+          const hasComments: boolean = !!(
+            this.commentTables && this.commentTables.length
+          );
+          if (!hasStudents && !hasComments) {
             this.statusMessageService.showWarningMessage('No results found.');
           }
         },
