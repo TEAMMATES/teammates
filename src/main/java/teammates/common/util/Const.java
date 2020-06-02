@@ -631,9 +631,6 @@ public final class Const {
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 
-        public static final String SEARCH_STUDENTS = "searchstudents";
-        public static final String SEARCH_FEEDBACK_SESSION_DATA = "searchfeedbacksessiondata";
-
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
