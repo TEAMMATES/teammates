@@ -10,6 +10,11 @@ body {
   font-size: 15px;
 }
 
+// make snackbar over the modal
+.cdk-overlay-container {
+  z-index: 1100;
+}
+
 .snackbar {
   max-width: 100% !important;
   margin-top: 60px !important;
