@@ -222,7 +222,14 @@
           <p>
             In the results view, TEAMMATES provides statistics on the average number of points each option received.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-constsum-options-question-statistics
+                [responses]="responses"
+                [question]="question"
+                [recipientType]="recipientType"
+                [isStudent]="isStudent">
+              </tm-constsum-options-question-statistics>
+          </tm-example-box>
         </div>
       </div>
       <br/>

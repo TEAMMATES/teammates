@@ -114,6 +114,14 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
+  readonly exampleDistributePointOptionResponses: Response<FeedbackConstantSumResponseDetails>[] = [
+      {}
+  ];
+
+  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails = {
+      //
+  };
+
   readonly exampleDistributedPointRecipientModel: QuestionEditFormModel = {
     feedbackQuestionId: '',
     isQuestionHasResponses: false,
