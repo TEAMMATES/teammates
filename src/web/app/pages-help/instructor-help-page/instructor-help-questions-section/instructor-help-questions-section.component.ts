@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
   FeedbackMcqQuestionDetails,
+  FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -92,7 +93,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
-  readonly numericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[] = [
+  readonly exampleNumericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[] = [
     {
       giver: 'Alice',
       giverEmail: 'alice@gmail.com',
@@ -103,11 +104,117 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientTeam: 'Team 2',
       recipientSection: '',
       responseDetails: {
-        answer: 50,
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Charles',
+      giverEmail: 'charles@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'David',
+      giverEmail: 'david@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 2,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Bob',
+      giverEmail: 'bob@gmail.com',
+      giverTeam: 'Team 2',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Alice',
+      giverEmail: 'alice@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientEmail: 'emma@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 4,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Charles',
+      giverEmail: 'charles@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientEmail: 'emma@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 3,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'David',
+      giverEmail: 'david@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientEmail: 'emma@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 4,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Emma',
+      giverEmail: 'emma@gmail.com',
+      giverTeam: 'Team 2',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientEmail: 'emma@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
         questionType: FeedbackQuestionType.NUMSCALE,
       },
     },
   ];
+
+  readonly exampleNumericalScaleReponseDetail: FeedbackNumericalScaleQuestionDetails = {
+    minScale: 1,
+    maxScale: 5,
+    step: 0.1,
+    questionType: FeedbackQuestionType.NUMSCALE,
+    questionText: '',
+  };
 
   readonly exampleDistributedPointOptionModel: QuestionEditFormModel = {
     feedbackQuestionId: '',
