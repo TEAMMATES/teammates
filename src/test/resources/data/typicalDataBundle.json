@@ -1593,8 +1593,8 @@
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "1",
       "commentGiver": "instructor1@course1.tmt",
-      "giverSection": "None",
-      "receiverSection": "None",
+      "giverSection": "Section 1",
+      "receiverSection": "Section 1",
       "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
@@ -1611,8 +1611,8 @@
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "2",
       "commentGiver": "instructor1@course1.tmt",
-      "giverSection": "None",
-      "receiverSection": "None",
+      "giverSection": "Section 1",
+      "receiverSection": "Section 2",
       "commentGiverType": "INSTRUCTORS",
       "feedbackResponseId": "2%student2InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
       "showCommentTo": [],
@@ -1620,7 +1620,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-02-01T23:59:00Z",
-      "commentText": "Instructor 1 comment to student 2 self feedback Question 2"
+      "commentText": "Instructor 1 comment to response from student 2 to student 5 in feedback Question 2"
     },
     "comment1FromT1C1ToR1Q3S1C1": {
       "courseId": "idOfTypicalCourse1",
