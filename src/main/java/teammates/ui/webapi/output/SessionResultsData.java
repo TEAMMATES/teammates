@@ -225,7 +225,7 @@ public class SessionResultsData extends ApiOutput {
         private final String questionStatistics;
 
         // For instructor view
-        protected List<ResponseOutput> allResponses = new ArrayList<>();
+        private List<ResponseOutput> allResponses = new ArrayList<>();
 
         // For student view
         private List<ResponseOutput> responsesToSelf = new ArrayList<>();
@@ -235,6 +235,13 @@ public class SessionResultsData extends ApiOutput {
         QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.questionStatistics = questionStatistics;
+        }
+
+        QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
+                       String questionStatistics, List<ResponseOutput> responses) {
+            this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
+            this.questionStatistics = questionStatistics;
+            this.allResponses = responses;
         }
 
         public FeedbackQuestionData getFeedbackQuestion() {
