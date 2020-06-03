@@ -48,6 +48,7 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
+import {InstructorSessionResultPageModule} from "../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module";
 
 /**
  * Module for instructor help page.
@@ -70,6 +71,7 @@ import {
     QuestionEditFormModule,
     QuestionSubmissionFormModule,
     SessionsRecycleBinTableModule,
+    InstructorSessionResultPageModule,
   ],
   declarations: [
     InstructorHelpPageComponent,

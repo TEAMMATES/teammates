@@ -418,7 +418,23 @@
             In the example below, results are sorted by <b>Giver > Recipient > Question</b>. Additionally, missing responses
             have been recorded.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-instructor-session-result-grq-view [session]="this.exampleFeedbackSession"
+                                                   [section]="'Section A'"
+                                                   [sectionType]="InstructorSessionResultSectionType.EITHER"
+                                                   [groupByTeam]="true"
+                                                   [showStatistics]="true"
+                                                   [indicateMissingResponses]="true"
+                                                   [isExpandAll]="true"
+                                                   [instructorCommentTableModel]="exampleInstructorCommentTableModel"
+                                                   [responses]="exampleGrqResponses"
+            ></tm-instructor-session-result-grq-view>
+            <tm-instructor-session-no-response-panel [session]="exampleFeedbackSession"
+                                                     [allStudents]="exampleStudents"
+                                                     [noResponseStudents]="exampleStudents"
+                                                     [section]="'Section A'"
+            ></tm-instructor-session-no-response-panel>
+          </tm-example-box>
           <p>If you choose to publish the results of the session, students will receive an email with a link to access the
             session's results. What they can see is governed by the visibility levels you set when setting up the session.
             Here is an example of what a student might see:

@@ -39,6 +39,8 @@ import { InstructorSessionResultRqgViewComponent } from './instructor-session-re
   ],
   exports: [
     InstructorSessionResultPageComponent,
+    InstructorSessionResultGrqViewComponent,
+    InstructorSessionNoResponsePanelComponent,
   ],
   imports: [
     CommonModule,
