@@ -14,10 +14,10 @@ export class StudentNameWithPhotoComponent implements OnInit {
   name: string = '';
 
   @Input()
-  courseId?: string = '';
+  courseId: string = '';
 
   @Input()
-  email?: string = '';
+  email: string = '';
 
   constructor() { }
 
