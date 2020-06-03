@@ -55,15 +55,15 @@ export class NumScaleQuestionStatisticsComponent
     this.calculateStatistics();
   }
 
-  sortTeamToRecipientToScores(by: SortBy): void {
+  sortNumericalScaleStatsRowModel(by: SortBy): void {
     this.teamToRecipientToScoresSortBy = by;
     this.teamToRecipientToScoresSortOrder =
       (this.teamToRecipientToScoresSortOrder === SortOrder.DESC) ? SortOrder.ASC : SortOrder.DESC;
 
-    this.numericalScaleStatsRowModel.sort(this.sortReponsesBy(by, this.teamToRecipientToScoresSortOrder));
+    this.numericalScaleStatsRowModel.sort(this.sortStatsRowBy(by, this.teamToRecipientToScoresSortOrder));
   }
 
-  sortReponsesBy(by: SortBy, order: SortOrder):
+  sortStatsRowBy(by: SortBy, order: SortOrder):
       ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel) => number) {
 
     return ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel): number => {
@@ -130,7 +130,7 @@ export class NumScaleQuestionStatisticsComponent
         } else {
           stats.averageExcludingSelf = 0;
         }
-
+        // copy the data to a sortable structure
         this.numericalScaleStatsRowModel.push({
           teamName: team, recipientName: recipient,
           average: stats.average,
