@@ -35,17 +35,17 @@
       <tr *ngFor="let response of responsesToShow">
         <td *ngIf="showGiver">{{ response.giverTeam }}</td>
         <td *ngIf="showGiver">
-          <tm-student-name [name]="response.giver"
+          <tm-student-name-with-photo [name]="response.giver"
                            [email]="response.giverEmail"
                            [courseId]="session.courseId"
-          ></tm-student-name>
+          ></tm-student-name-with-photo>
         </td>
         <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
         <td *ngIf="showRecipient">
-          <tm-student-name [name]="response.recipient"
+          <tm-student-name-with-photo [name]="response.recipient"
                            [email]="response.recipientEmail"
                            [courseId]="session.courseId"
-          ></tm-student-name>
+          ></tm-student-name-with-photo>
         </td>
         <td>
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>

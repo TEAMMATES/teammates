@@ -4,11 +4,11 @@ import { Component, Input, OnInit } from '@angular/core';
  * Display student name with photo popover
  */
 @Component({
-  selector: 'tm-student-name',
-  templateUrl: './student-name.component.html',
-  styleUrls: ['./student-name.component.scss'],
+  selector: 'tm-student-name-with-photo',
+  templateUrl: './student-name-with-photo.component.html',
+  styleUrls: ['./student-name-with-photo.component.scss'],
 })
-export class StudentNameComponent implements OnInit {
+export class StudentNameWithPhotoComponent implements OnInit {
 
   @Input()
   name: string = '';

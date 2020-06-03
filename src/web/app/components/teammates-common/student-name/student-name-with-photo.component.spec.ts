@@ -4,22 +4,22 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormatPhotoUrlPipe } from '../format-photo-url.pipe';
 import { ViewPhotoPopoverComponent } from '../view-photo-popover/view-photo-popover.component';
-import { StudentNameComponent } from './student-name.component';
+import { StudentNameWithPhotoComponent } from './student-name-with-photo.component';
 
-describe('StudentNameComponent', () => {
-  let component: StudentNameComponent;
-  let fixture: ComponentFixture<StudentNameComponent>;
+describe('StudentNameWithPhotoComponent', () => {
+  let component: StudentNameWithPhotoComponent;
+  let fixture: ComponentFixture<StudentNameWithPhotoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentNameComponent, FormatPhotoUrlPipe, ViewPhotoPopoverComponent],
+      declarations: [StudentNameWithPhotoComponent, FormatPhotoUrlPipe, ViewPhotoPopoverComponent],
       imports: [NgbModule, RouterTestingModule],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StudentNameComponent);
+    fixture = TestBed.createComponent(StudentNameWithPhotoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

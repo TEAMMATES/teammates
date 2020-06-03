@@ -3,18 +3,18 @@
   <div class="col-md-3">
     <div>
       {{ isGrq ? 'To' : 'From' }}:
-      <tm-student-name [name]="responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']"
+      <tm-student-name-with-photo [name]="responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']"
                        [email]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']]"
                        [courseId]="session.courseId"
-      ></tm-student-name>
+      ></tm-student-name-with-photo>
       {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
     </div>
     <div class="top-padded">
       {{ isGrq ? 'From' : 'To' }}:
-      <tm-student-name [name]="this.responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']"
+      <tm-student-name-with-photo [name]="this.responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']"
                        [email]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']]"
                        [courseId]="session.courseId"
-      ></tm-student-name>
+      ></tm-student-name-with-photo>
       {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
     </div>
     <div class="top-padded">

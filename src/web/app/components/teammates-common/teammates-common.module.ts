@@ -12,7 +12,7 @@ import { PublishStatusNamePipe } from './publish-status-name.pipe';
 import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
-import { StudentNameComponent } from './student-name/student-name.component';
+import { StudentNameWithPhotoComponent } from './student-name/student-name-with-photo.component';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popover.component';
 
@@ -37,7 +37,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     FormatDateBriefPipe,
     FormatPhotoUrlPipe,
     ViewPhotoPopoverComponent,
-    StudentNameComponent,
+    StudentNameWithPhotoComponent,
   ],
   exports: [
     EnumToArrayPipe,
@@ -51,7 +51,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     FormatDateBriefPipe,
     FormatPhotoUrlPipe,
     ViewPhotoPopoverComponent,
-    StudentNameComponent,
+    StudentNameWithPhotoComponent,
   ],
 })
 export class TeammatesCommonModule { }
