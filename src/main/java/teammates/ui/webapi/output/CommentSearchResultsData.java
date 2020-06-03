@@ -1,5 +1,6 @@
 package teammates.ui.webapi.output;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
@@ -7,12 +8,14 @@ import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 /**
  * API output format for comment search results.
  */
-//TODO: Remove warning suppression
-@SuppressWarnings("PMD")
 public class CommentSearchResultsData extends ApiOutput {
-    private List<CommentSearchResultData> searchResult;
+    private final List<CommentSearchResultData> searchResults = new ArrayList<>();
 
     public CommentSearchResultsData(FeedbackResponseCommentSearchResultBundle bundle) {
-        //TODO: Transform bundle into list of CommentSearchResultData
+        bundle.sessions.forEach((key, value) -> searchResults.add(new CommentSearchResultData(value, bundle)));
+    }
+
+    public List<CommentSearchResultData> getSearchResults() {
+        return searchResults;
     }
 }

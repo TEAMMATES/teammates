@@ -28,7 +28,7 @@ public class SessionResultsData extends ApiOutput {
 
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
-    private final List<QuestionOutput> questions = new ArrayList<>();
+    protected final List<QuestionOutput> questions = new ArrayList<>();
 
     public SessionResultsData(FeedbackSessionResultsBundle bundle) {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
@@ -40,9 +40,7 @@ public class SessionResultsData extends ApiOutput {
                     questionDetails.getQuestionResultStatisticsJson(responses, question, null, bundle));
 
             List<ResponseOutput> allResponses = buildResponses(responses, bundle);
-            for (ResponseOutput respOutput : allResponses) {
-                qnOutput.allResponses.add(respOutput);
-            }
+            qnOutput.allResponses.addAll(allResponses);
 
             questions.add(qnOutput);
         });
@@ -79,7 +77,7 @@ public class SessionResultsData extends ApiOutput {
     }
 
     protected SessionResultsData() {
-        //TODO: Implement for searching
+        // Empty constructor called by CommentSearchResultData
     }
 
     public List<QuestionOutput> getQuestions() {
@@ -227,7 +225,7 @@ public class SessionResultsData extends ApiOutput {
         private final String questionStatistics;
 
         // For instructor view
-        private List<ResponseOutput> allResponses = new ArrayList<>();
+        protected List<ResponseOutput> allResponses = new ArrayList<>();
 
         // For student view
         private List<ResponseOutput> responsesToSelf = new ArrayList<>();
