@@ -20,6 +20,10 @@ import {
 import {
   RecycleBinFeedbackSessionRowModel,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { InstructorSessionResultSectionType,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -35,6 +39,8 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
+  InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
+  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
 
   readonly exampleSessionEditFormModel: SessionEditFormModel = {
     courseId: 'CS2103T',
