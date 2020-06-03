@@ -208,7 +208,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     },
   ];
 
-  readonly exampleNumericalScaleReponseDetail: FeedbackNumericalScaleQuestionDetails = {
+  readonly exampleNumericalScaleQuestionDetails: FeedbackNumericalScaleQuestionDetails = {
     minScale: 1,
     maxScale: 5,
     step: 0.1,
