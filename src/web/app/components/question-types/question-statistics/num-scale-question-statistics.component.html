@@ -50,6 +50,17 @@
         </tr>
         </thead>
         <tbody>
+        <ng-container>
+          <tr *ngFor="let statsRow of numericalScaleStatsRowModel">
+            <td>{{ statsRow.teamName }}</td>
+            <td>{{ statsRow.recipientName }}</td>
+            <td>{{ statsRow.average }}</td>
+            <td>{{ statsRow.max }}</td>
+            <td>{{ statsRow.min }}</td>
+            <td>{{ statsRow.averageExceptSelf }}</td>
+          </tr>
+        </ng-container>
+        <!--
         <ng-container *ngFor="let team of teamToRecipientToScores | keyvalue">
           <tr *ngFor="let recipient of team.value | keyvalue">
             <td>{{ team.key }}</td>
@@ -60,6 +71,7 @@
             <td>{{ recipient.value.averageExcludingSelf }}</td>
           </tr>
         </ng-container>
+        -->
         </tbody>
       </table>
     </div>

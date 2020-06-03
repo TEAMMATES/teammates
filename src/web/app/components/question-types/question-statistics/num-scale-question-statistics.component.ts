@@ -3,9 +3,18 @@ import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
 } from '../../../../types/api-output';
-import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { QuestionStatistics } from './question-statistics';
+
+interface NumericalScaleStatsRowModel {
+  teamName: string;
+  recipientName: string;
+  average: number;
+  max: number;
+  min: number;
+  averageExceptSelf: number;
+}
 
 /**
  * Statistics for numerical scale questions.
@@ -29,7 +38,10 @@ export class NumScaleQuestionStatisticsComponent
   @Input()
   teamToRecipientToScoresSortOrder: SortOrder = SortOrder.ASC;
 
+  // data
   teamToRecipientToScores: Record<string, Record<string, any>> = {};
+
+  numericalScaleStatsRowModel: NumericalScaleStatsRowModel[] = [];
 
   constructor() {
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
@@ -44,7 +56,46 @@ export class NumScaleQuestionStatisticsComponent
   }
 
   sortTeamToRecipientToScores(by: SortBy): void {
-    // TODO
+    this.teamToRecipientToScoresSortBy = by;
+    this.teamToRecipientToScoresSortOrder =
+      (this.teamToRecipientToScoresSortOrder === SortOrder.DESC) ? SortOrder.ASC : SortOrder.DESC;
+
+    this.numericalScaleStatsRowModel.sort(this.sortReponsesBy(by, this.teamToRecipientToScoresSortOrder));
+  }
+
+  sortReponsesBy(by: SortBy, order: SortOrder):
+      ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel) => number) {
+
+    return ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel): number => {
+      let result: number = 0;
+
+      switch (by) {
+        case SortBy.TEAM_NAME:
+          result = a.teamName.localeCompare(b.teamName);
+          break;
+        case SortBy.RECIPIENT_NAME:
+          result = a.recipientName.localeCompare(b.recipientName);
+          break;
+        case SortBy.AVERAGE:
+          result = a.average - b.average;
+          break;
+        case SortBy.MAX:
+          result = a.max - b.max;
+          break;
+        case SortBy.MIN:
+          result = a.min - b.min;
+          break;
+        case SortBy.AVERAGE_EXCLUDE_SELF:
+          result = a.averageExceptSelf - b.averageExceptSelf;
+          break;
+        default:
+      }
+
+      if (order === SortOrder.DESC) {
+        result = -result;
+      }
+      return result;
+    });
   }
 
   private calculateStatistics(): void {
@@ -79,6 +130,14 @@ export class NumScaleQuestionStatisticsComponent
         } else {
           stats.averageExcludingSelf = 0;
         }
+
+        this.numericalScaleStatsRowModel.push({
+          teamName: team, recipientName: recipient,
+          average: stats.average,
+          max: stats.max,
+          min: stats.min,
+          averageExceptSelf: stats.averageExcludingSelf,
+        });
       }
     }
   }
