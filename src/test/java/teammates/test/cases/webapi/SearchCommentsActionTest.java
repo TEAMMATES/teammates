@@ -1,6 +1,7 @@
 package teammates.test.cases.webapi;
 
 import org.junit.Test;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.SearchCommentsAction;

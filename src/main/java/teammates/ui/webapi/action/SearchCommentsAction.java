@@ -31,7 +31,8 @@ public class SearchCommentsAction extends Action {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
 
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
-        FeedbackResponseCommentSearchResultBundle commentSearchResults = logic.searchFeedbackResponseComments(searchKey, instructors);
+        FeedbackResponseCommentSearchResultBundle commentSearchResults =
+                logic.searchFeedbackResponseComments(searchKey, instructors);
         CommentSearchResultsData output = new CommentSearchResultsData(commentSearchResults);
 
         return new JsonResult(output);
