@@ -1,5 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SearchParams } from "../instructor-search-page.component";
+
+/**
+ * Parameters inputted by user to be used in search
+ */
+export interface SearchParams {
+  searchKey: string;
+  isSearchForStudents: boolean;
+  isSearchForComments: boolean;
+}
 
 /**
  * Search bar on instructor search page
@@ -17,7 +25,9 @@ export class InstructorSearchBarComponent implements OnInit {
     isSearchForComments: false
   }
 
-  @Output() searched: EventEmitter<SearchParams> = new EventEmitter<SearchParams>();
+  @Output() searched: EventEmitter<SearchParams> = new EventEmitter();
+
+  @Output() searchParamsChange: EventEmitter<SearchParams> = new EventEmitter();
 
   constructor() {}
 

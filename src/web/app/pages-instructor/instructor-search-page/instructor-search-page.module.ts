@@ -9,6 +9,7 @@ import { InstructorSearchPageComponent } from './instructor-search-page.componen
 import { StudentResultTableComponent } from './student-result-table/student-result-table.component';
 import { CommentResultTableComponent } from "./comment-result-table/comment-result-table.component";
 import { CommentBoxModule } from "../../components/comment-box/comment-box.module";
+import { SingleResponseModule } from "../../components/question-responses/single-response/single-response.module";
 
 /**
  * Module for instructor search page.
@@ -33,6 +34,7 @@ import { CommentBoxModule } from "../../components/comment-box/comment-box.modul
     RouterModule,
     NgbModule,
     CommentBoxModule,
+    SingleResponseModule,
   ],
 })
 export class InstructorSearchPageModule { }

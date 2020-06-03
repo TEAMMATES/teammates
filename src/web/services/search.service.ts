@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { flatMap, map, mergeMap } from 'rxjs/operators';
 import {
-  SearchCommentsTable,
   SearchStudentsTable
 } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
-  CommentOutput,
   CommentSearchResult,
   CommentSearchResults,
   Course,
@@ -16,7 +14,7 @@ import {
   Instructor,
   InstructorPermissionRole,
   InstructorPrivilege,
-  Instructors, QuestionOutput, ResponseOutput,
+  Instructors,
   Student,
   Students,
 } from '../types/api-output';
@@ -26,7 +24,7 @@ import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
-import { CommentRowModel } from "../app/components/comment-box/comment-row/comment-row.component";
+import { SearchCommentsTable } from "../app/pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component";
 
 /**
  * Handles the logic for search.
@@ -44,24 +42,22 @@ export class SearchService {
     private linkService: LinkService,
   ) {}
 
-  searchInstructor(searchKey: string, isSearchForStudents: boolean, isSearchForComments: boolean): Observable<InstructorSearchResult> {
-    return forkJoin(
-        isSearchForStudents ? this.searchStudents(searchKey) : of([]),
-        isSearchForComments ?  this.searchComments(searchKey) : of([])
-    ).pipe(
-        map((value: [Students, CommentSearchResults]): [SearchStudentsTable[], SearchCommentsTable[]] =>
-            [this.getCoursesWithSections(value[0]), this.getComments(value[1])]
-        ),
-        mergeMap((value: [SearchStudentsTable[], SearchCommentsTable[]]) => {
-          const [students, comments]: [SearchStudentsTable[], SearchCommentsTable[]] = value;
-          return forkJoin(of(students), this.getPrivileges(students), of(comments));
-        }),
-        map((res: [SearchStudentsTable[], InstructorPrivilege[],SearchCommentsTable[]]): InstructorSearchResult => {
-          return {
-            searchStudentsTables: this.combinePrivileges([res[0], res[1]]).searchStudentsTables,
-            searchCommentsTables: res[2]
-          }
-        }),
+  searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
+    return this.searchStudents(searchKey).pipe(
+      map((studentsRes: Students) => this.getCoursesWithSections(studentsRes)),
+      mergeMap((coursesWithSections: SearchStudentsTable[]) =>
+        forkJoin([
+          of(coursesWithSections),
+          this.getPrivileges(coursesWithSections),
+        ]),
+      ),
+      map((res: [SearchStudentsTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
+    );
+  }
+
+  searchComment(searchKey: string): Observable<InstructorSearchResult> {
+    return this.searchComments(searchKey).pipe(
+      map((commentsRes: CommentSearchResults) => this.getSearchCommentsTable(commentsRes))
     );
   }
 
@@ -152,45 +148,15 @@ export class SearchService {
     return coursesWithSections;
   }
 
-  private getComments(commentsRes: CommentSearchResults): SearchCommentsTable[] {
-    const emptyCommentRow: CommentRowModel = {
-      commentEditFormModel: {
-        commentText: '',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      isEditing: false
-    }
-    const commentSearchRes: CommentSearchResult[] = commentsRes.searchResult;
-    const commentsTable: SearchCommentsTable[] = commentSearchRes.map((searchRes: CommentSearchResult) => ({
-        courseId: searchRes.feedbackSession.courseId,
-        sessionName: searchRes.feedbackSession.feedbackSessionName,
-        sections: searchRes.questions.map((question: QuestionOutput) => ({
-            questionNumber: question.feedbackQuestion.questionNumber,
-            questionText: question.feedbackQuestion.questionDetails.questionText,
-            responseComments: question.allResponses.map((response: ResponseOutput) => ({
-              response: response,
-              commentTableModel: {
-                isAddingNewComment: false,
-                isReadOnly: true,
-                newCommentRow: emptyCommentRow,
-                commentRows: response.instructorComments.map((comment: CommentOutput) => ({
-                  originalComment: comment,
-                  commentGiverName: comment.commentGiverName,
-                  lastEditorName: comment.lastEditorName,
-                  isEditing: false,
-                  commentEditFormModel: {
-                    commentText: '', isUsingCustomVisibilities: false, showCommentTo: [], showGiverNameTo: []
-                  },
-                  timezone: searchRes.feedbackSession.timeZone
-                })),
-              }
-            })),
-        }))
-    }));
-
-    return commentsTable;
+  private getSearchCommentsTable(searchResults: CommentSearchResults): InstructorSearchResult {
+    const searchResult: CommentSearchResult[] = searchResults.searchResult;
+    return {
+      searchStudentsTables: [],
+      searchCommentsTables: searchResult.map((res: CommentSearchResult) => ({
+        feedbackSession: res.feedbackSession,
+        questions: res.questions,
+      })),
+    };
   }
 
   getPrivileges(
