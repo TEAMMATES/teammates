@@ -3,6 +3,9 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
+  FeedbackConstantSumDistributePointsType,
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -115,11 +118,32 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleDistributePointOptionResponses: Response<FeedbackConstantSumResponseDetails>[] = [
-      {}
+      {
+       giver: 'Alice',
+       giverEmail: 'alice@gmail.com',
+       giverTeam: 'Team 1',
+       giverSection: '',
+       recipient: 'Bob',
+       recipientEmail: 'bob@gmail.com',
+       recipientTeam: 'Team 2',
+       recipientSection: '',
+       responseDetails: {
+         answers: ['Option A'],
+         questionType: FeedbackQuestionType.CONSTSUM,
+       },
+      }
   ];
 
   readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails = {
-      //
+    numOfConstSumOptions: 2,
+    constSumOptions: ['Option A', 'Option B'],
+    distributeToRecipients: false,
+    pointsPerOption: false,
+    forceUnevenDistribution: false,
+    distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
+    points: 100,
+    questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+    questionText: '',
   };
 
   readonly exampleDistributedPointRecipientModel: QuestionEditFormModel = {
