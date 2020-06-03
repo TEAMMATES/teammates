@@ -8,6 +8,7 @@ import { InstructorSearchBarComponent } from './instructor-search-bar/instructor
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { StudentResultTableComponent } from './student-result-table/student-result-table.component';
 import { CommentResultTableComponent } from "./comment-result-table/comment-result-table.component";
+import { CommentBoxModule } from "../../components/comment-box/comment-box.module";
 
 /**
  * Module for instructor search page.
@@ -31,6 +32,7 @@ import { CommentResultTableComponent } from "./comment-result-table/comment-resu
     FormsModule,
     RouterModule,
     NgbModule,
+    CommentBoxModule,
   ],
 })
 export class InstructorSearchPageModule { }

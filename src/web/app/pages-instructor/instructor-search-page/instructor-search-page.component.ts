@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { LoadingBarService } from '../../../services/loading-bar.service';
-import {
-  InstructorSearchResult,
-  SearchService,
-} from '../../../services/search.service';
+import { InstructorSearchResult, SearchService, } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData } from '../student-list/student-list-section-data';
+import { CommentListSectionData } from "./comment-result-table/comment-result-table.component";
 
 /**
  * Data object for communication with the child student result component
@@ -18,8 +16,13 @@ export interface SearchStudentsTable {
   sections: StudentListSectionData[];
 }
 
+/**
+ * Data object for communication with child comment result component
+ */
 export interface SearchCommentsTable {
-
+  courseId: string;
+  sessionName: string;
+  sections: CommentListSectionData[];
 }
 
 /**
@@ -73,7 +76,7 @@ export class InstructorSearchPageComponent implements OnInit {
   search(searchParams: SearchParams): void {
     this.loadingBarService.showLoadingBar();
     this.searchService
-      .searchInstructor(searchParams.searchKey)
+      .searchInstructor(searchParams.searchKey, searchParams.isSearchForStudents, searchParams.isSearchForComments)
       .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
       .subscribe(
         (resp: InstructorSearchResult) => {
