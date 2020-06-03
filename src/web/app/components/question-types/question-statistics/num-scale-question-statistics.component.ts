@@ -1,8 +1,9 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
 } from '../../../../types/api-output';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionStatistics } from './question-statistics';
 
@@ -18,6 +19,16 @@ export class NumScaleQuestionStatisticsComponent
     extends QuestionStatistics<FeedbackNumericalScaleQuestionDetails, FeedbackNumericalScaleResponseDetails>
     implements OnInit, OnChanges {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
+
+  @Input()
+  teamToRecipientToScoresSortBy: SortBy = SortBy.NONE;
+
+  @Input()
+  teamToRecipientToScoresSortOrder: SortOrder = SortOrder.ASC;
+
   teamToRecipientToScores: Record<string, Record<string, any>> = {};
 
   constructor() {
@@ -30,6 +41,10 @@ export class NumScaleQuestionStatisticsComponent
 
   ngOnChanges(): void {
     this.calculateStatistics();
+  }
+
+  sortTeamToRecipientToScores(by: SortBy): void {
+    // TODO
   }
 
   private calculateStatistics(): void {

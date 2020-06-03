@@ -11,12 +11,42 @@
       <table class="table table-bordered striped margin-0">
         <thead>
         <tr>
-          <td>Team</td>
-          <td>Recipient</td>
-          <td><span ngbTooltip="Average of the visible responses">Average</span></td>
-          <td><span ngbTooltip="Maximum of the visible responses">Max</span></td>
-          <td><span ngbTooltip="Minimum of the visible responses">Min</span></td>
-          <td><span ngbTooltip="Average of the visible responses excluding recipient's own response to himself/herself">Average excluding self response</span></td>
+          <th class="sortable-header" (click)="sortTeamToRecipientToScores(SortBy.TEAM_NAME)">
+              Team
+              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.TEAM_NAME"><i class="fas fa-sort"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.TEAM_NAME && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.TEAM_NAME && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
+          <th class="sortable-header" (click)="sortTeamToRecipientToScores(SortBy.RECIPIENT_NAME)">
+              Recipient
+              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.RECIPIENT_NAME"><i class="fas fa-sort"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.RECIPIENT_NAME && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.RECIPIENT_NAME && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
+          <th class="sortable-header" (click)="sortTeamToRecipientToScores(SortBy.AVERAGE)">
+              <span ngbTooltip="Average of the visible responses">Average </span>
+              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.AVERAGE"><i class="fas fa-sort"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.AVERAGE && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.AVERAGE && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
+          <th class="sortable-header" (click)="sortTeamToRecipientToScores(SortBy.MAX)">
+              <span ngbTooltip="Maximum of the visible responses">Max </span>
+              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.MAX"><i class="fas fa-sort"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.MAX && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.MAX && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
+          <th class="sortable-header" (click)="sortTeamToRecipientToScores(SortBy.MIN)">
+              <span ngbTooltip="Minimum of the visible responses">Min </span>
+              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.MIN"><i class="fas fa-sort"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.MIN && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.MIN && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
+          <th class="sortable-header" (click)="sortTeamToRecipientToScores(SortBy.AVERAGE_EXCLUDE_SELF)">
+              <span ngbTooltip="Average of the visible responses excluding recipient's own response to himself/herself">Average excluding self response </span>
+              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.AVERAGE_EXCLUDE_SELF"><i class="fas fa-sort"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.AVERAGE_EXCLUDE_SELF && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.AVERAGE_EXCLUDE_SELF && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          </th>
         </tr>
         </thead>
         <tbody>
