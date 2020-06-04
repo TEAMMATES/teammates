@@ -52,7 +52,7 @@ export class RankRecipientsQuestionStatisticsComponent
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
 
     for (const response of this.responses) {
-      const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail;
+      const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail || response.recipient);
 
       this.ranksReceivedPerOption[identifier] = this.ranksReceivedPerOption[identifier] || [];
       this.ranksReceivedPerOption[identifier].push(response.responseDetails.answer);

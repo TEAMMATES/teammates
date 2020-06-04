@@ -2,7 +2,6 @@ package teammates.ui.webapi.output;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -39,34 +38,39 @@ public class CommentSearchResultData extends SessionResultsData {
                                                 FeedbackResponseCommentSearchResultBundle bundle) {
         List<ResponseOutput> output = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
-            output.add(new ResponseOutput(response.getId(), response.giver, null, null, null,
-                    response.giverSection, response.recipient, null, null, response.recipientSection,
-                    response.responseDetails, getStudentComment(bundle.comments.get(response.getId()), bundle),
-                    buildComments(bundle.comments.get(response.getId()), bundle)));
+            output.add(ResponseOutput.builder().withResponseId(response.getId())
+                    .withGiver(response.giver).withGiverSection(response.giverSection)
+                    .withRecipient(response.recipient).withRecipientSection(response.recipientSection)
+                    .withParticipantComment(getParticipantComment(bundle.comments.get(response.getId()), bundle))
+                    .withInstructorComments(getInstructorComments(bundle.comments.get(response.getId()), bundle))
+                    .build());
         }
         return output;
     }
 
-    private List<CommentOutput> buildComments(List<FeedbackResponseCommentAttributes> comments,
-                                              FeedbackResponseCommentSearchResultBundle bundle) {
+    private List<CommentOutput> getInstructorComments(List<FeedbackResponseCommentAttributes> comments,
+                                                      FeedbackResponseCommentSearchResultBundle bundle) {
         List<CommentOutput> output = new ArrayList<>();
         for (FeedbackResponseCommentAttributes comment : comments) {
-            output.add(new CommentOutput(comment, comment.commentGiver,
-                    bundle.commentGiverEmailToNameTable.get(comment.lastEditorEmail)));
+            output.add(CommentOutput.builder(comment)
+                    .withCommentGiver(comment.commentGiver)
+                    .withLastEditorName(bundle.commentGiverEmailToNameTable.get(comment.lastEditorEmail))
+                    .build());
         }
         return output;
     }
 
-    private CommentOutput getStudentComment(List<FeedbackResponseCommentAttributes> comments,
-                                     FeedbackResponseCommentSearchResultBundle bundle) {
-        for (String email : bundle.instructorEmails) {
-            bundle.commentGiverEmailToNameTable.remove(email);
+    private CommentOutput getParticipantComment(List<FeedbackResponseCommentAttributes> comments,
+                                                FeedbackResponseCommentSearchResultBundle bundle) {
+        for (FeedbackResponseCommentAttributes comment : comments) {
+            if (comment.isCommentFromFeedbackParticipant()) {
+                return CommentOutput.builder(comment)
+                        .withCommentGiver(comment.commentGiver)
+                        .withLastEditorName(bundle.commentGiverEmailToNameTable.get(comment.lastEditorEmail))
+                        .build();
+            }
         }
-        Optional<FeedbackResponseCommentAttributes> optComment = comments.stream().filter(c ->
-                bundle.commentGiverEmailToNameTable.containsValue(c.commentGiver)).reduce((c1, c2) -> c1);
-
-        return optComment.map(comment -> new CommentOutput(comment, comment.commentGiver,
-                bundle.commentGiverEmailToNameTable.get(comment.lastEditorEmail))).orElse(null);
+        return null;
     }
 
     public FeedbackSessionData getFeedbackSession() {
