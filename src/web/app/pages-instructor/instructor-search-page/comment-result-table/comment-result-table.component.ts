@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FeedbackSession, QuestionOutput } from "../../../../types/api-output";
 
 /**
- * Data object for communication with child comment result component
+ * Search result for a question, response, comment on response instructor search
  */
 export interface SearchCommentsTable {
   feedbackSession: FeedbackSession,

@@ -25,7 +25,7 @@ export class InstructorSearchBarComponent implements OnInit {
     isSearchForComments: false
   }
 
-  @Output() searched: EventEmitter<SearchParams> = new EventEmitter();
+  @Output() searched: EventEmitter<any> = new EventEmitter();
 
   @Output() searchParamsChange: EventEmitter<SearchParams> = new EventEmitter();
 
@@ -37,6 +37,10 @@ export class InstructorSearchBarComponent implements OnInit {
    * send the search data to parent for processing
    */
   search(): void {
-    this.searched.emit(this.searchParams);
+    this.searched.emit();
+  }
+
+  triggerSearchParamsChangeEvent(newSearchParams: SearchParams): void {
+    this.searchParamsChange.emit(newSearchParams);
   }
 }
