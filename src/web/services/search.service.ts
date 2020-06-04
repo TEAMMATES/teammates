@@ -151,7 +151,7 @@ export class SearchService {
   }
 
   private getSearchCommentsTable(searchResults: CommentSearchResults): InstructorSearchResult {
-    const searchResult: CommentSearchResult[] = searchResults.searchResult;
+    const searchResult: CommentSearchResult[] = searchResults.searchResults;
     return {
       searchStudentsTables: [],
       searchCommentsTables: searchResult.map((res: CommentSearchResult) => ({
