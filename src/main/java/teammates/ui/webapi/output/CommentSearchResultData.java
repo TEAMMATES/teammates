@@ -45,6 +45,7 @@ public class CommentSearchResultData extends SessionResultsData {
                     .withGiverSection(response.giverSection)
                     .withRecipient(response.recipient)
                     .withRecipientSection(response.recipientSection)
+                    .withResponseDetails(response.responseDetails)
                     .withParticipantComment(getParticipantComment(bundle.comments.get(response.getId()), bundle))
                     .withInstructorComments(getInstructorComments(bundle.comments.get(response.getId()), bundle))
                     .build());
