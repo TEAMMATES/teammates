@@ -22,8 +22,8 @@ export class InstructorSearchBarComponent implements OnInit {
   @Input() searchParams: SearchParams = {
     searchKey: '',
     isSearchForStudents: true,
-    isSearchForComments: false
-  }
+    isSearchForComments: false,
+  };
 
   @Output() searched: EventEmitter<any> = new EventEmitter();
 

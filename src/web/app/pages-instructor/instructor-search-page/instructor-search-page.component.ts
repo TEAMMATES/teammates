@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+
 import { LoadingBarService } from '../../../services/loading-bar.service';
-import { InstructorSearchResult, SearchService, } from '../../../services/search.service';
+import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData } from '../student-list/student-list-section-data';
-import { SearchParams } from "./instructor-search-bar/instructor-search-bar.component";
-import { SearchCommentsTable } from "./comment-result-table/comment-result-table.component";
-import { forkJoin, of } from "rxjs";
+import { SearchCommentsTable } from './comment-result-table/comment-result-table.component';
+import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
 
 /**
  * Data object for communication with the child student result component
@@ -32,7 +33,7 @@ export class InstructorSearchPageComponent implements OnInit {
     searchKey: '',
     isSearchForStudents: true,
     isSearchForComments: false,
-  }
+  };
   studentTables: SearchStudentsTable[] = [];
   commentTables: SearchCommentsTable[] = [];
 
@@ -60,8 +61,12 @@ export class InstructorSearchPageComponent implements OnInit {
   search(): void {
     this.loadingBarService.showLoadingBar();
     forkJoin(
-        this.searchParams.isSearchForComments ? this.searchService.searchComment(this.searchParams.searchKey) : of([]),
-        this.searchParams.isSearchForStudents ? this.searchService.searchInstructor(this.searchParams.searchKey) : of([]))
+        this.searchParams.isSearchForComments
+            ? this.searchService.searchComment(this.searchParams.searchKey)
+            : of([]),
+        this.searchParams.isSearchForStudents
+            ? this.searchService.searchInstructor(this.searchParams.searchKey)
+            : of([]))
         .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
         .subscribe((resp: [InstructorSearchResult, InstructorSearchResult]) => {
           this.commentTables = resp[0].searchCommentsTables;

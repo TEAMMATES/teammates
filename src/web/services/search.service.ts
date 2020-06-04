@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { flatMap, map, mergeMap } from 'rxjs/operators';
 import {
-  SearchStudentsTable
+  SearchCommentsTable,
+} from '../app/pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component';
+import {
+  SearchStudentsTable,
 } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
@@ -24,7 +27,6 @@ import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
-import { SearchCommentsTable } from "../app/pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component";
 
 /**
  * Handles the logic for search.
@@ -57,7 +59,7 @@ export class SearchService {
 
   searchComment(searchKey: string): Observable<InstructorSearchResult> {
     return this.searchComments(searchKey).pipe(
-      map((commentsRes: CommentSearchResults) => this.getSearchCommentsTable(commentsRes))
+      map((commentsRes: CommentSearchResults) => this.getSearchCommentsTable(commentsRes)),
     );
   }
 
@@ -112,7 +114,7 @@ export class SearchService {
   }
 
   getCoursesWithSections(studentsRes: Students): SearchStudentsTable[] {
-    const { students } : { students: Student[] } = studentsRes;
+    const { students }: { students: Student[] } = studentsRes;
 
     const distinctCourses: string[] = Array.from(
       new Set(students.map((s: Student) => s.courseId)),
@@ -201,7 +203,7 @@ export class SearchService {
 
     return {
       searchStudentsTables: coursesWithSections,
-      searchCommentsTables: []
+      searchCommentsTables: [],
     };
   }
 
