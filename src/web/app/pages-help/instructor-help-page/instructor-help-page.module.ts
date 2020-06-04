@@ -15,9 +15,6 @@ import {
     QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
 import {
-    QuestionStatisticsModule,
-} from '../../components/question-types/question-statistics/question-statistics.module';
-import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
 import {
@@ -35,6 +32,9 @@ import {
 import {
   InstructorSessionEditPageModule,
 } from '../../pages-instructor/instructor-session-edit-page/instructor-session-edit-page.module';
+import {
+    InstructorSessionResultPageModule,
+} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
 import { ExampleBoxComponent } from './example-box/example-box.component';
 import {
   InstructorHelpCoursesSectionComponent,
@@ -64,12 +64,12 @@ import {
     RouterModule,
     StudentProfileModule,
     QuestionEditFormModule,
-    QuestionStatisticsModule,
     ReactiveFormsModule,
     InstructorSearchPageModule,
     InstructorCourseStudentEditPageModule,
     InstructorCoursesPageModule,
     InstructorSessionEditPageModule,
+    InstructorSessionResultPageModule,
     SessionEditFormModule,
     QuestionEditFormModule,
     QuestionSubmissionFormModule,

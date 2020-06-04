@@ -174,12 +174,12 @@
             TEAMMATES calculates the mean, minimum and maximum values based on all responses given.
           </p>
           <tm-example-box>
-              <tm-num-scale-question-statistics
-                [responses]="exampleNumericalScaleResponses"
-                [question]="exampleNumericalScaleQuestionDetails"
-                [recipientType]="exampleNumericalScaleQuestionModel.recipientType"
-                [isStudent]="false">
-              </tm-num-scale-question-statistics>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleNuericalScaleQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [(instructorCommentTableModel)]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
           </tm-example-box>
         </div>
       </div>
