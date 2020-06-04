@@ -429,11 +429,41 @@
                                                    [instructorCommentTableModel]="exampleInstructorCommentTableModel"
                                                    [responses]="exampleGrqResponses"
             ></tm-instructor-session-result-grq-view>
-            <tm-instructor-session-no-response-panel [session]="exampleFeedbackSession"
-                                                     [allStudents]="exampleStudents"
-                                                     [noResponseStudents]="exampleStudents"
-                                                     [section]="'Section A'"
-            ></tm-instructor-session-no-response-panel>
+            <div class="card-header bg-info text-dark course-tab-header">
+              Participants who have not responded to any question
+              <div class="float-right">
+                <i class="fas fa-chevron-up"></i>
+              </div>
+              <div class="float-right" style='padding-right:15px; margin:-5px;'>
+                <button class="btn btn-light btn-sm button" type="button">
+                  Remind All
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div>
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th>Team</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let noResponseStudent of exampleStudents">
+                    <td>{{ noResponseStudent.teamName }}</td>
+                    <td>{{ noResponseStudent.name }}</td>
+                    <td>
+                      <a class="btn btn-light btn-sm button disabled">
+                        Submit response
+                      </a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </tm-example-box>
           <p>If you choose to publish the results of the session, students will receive an email with a link to access the
             session's results. What they can see is governed by the visibility levels you set when setting up the session.
