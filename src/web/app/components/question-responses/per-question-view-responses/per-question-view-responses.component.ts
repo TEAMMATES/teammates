@@ -49,6 +49,7 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
+  @Input() isDisplayOnly: boolean = false;
 
   responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;

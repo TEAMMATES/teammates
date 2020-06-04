@@ -32,6 +32,9 @@ import {
 import {
   InstructorSessionEditPageModule,
 } from '../../pages-instructor/instructor-session-edit-page/instructor-session-edit-page.module';
+import {
+    InstructorSessionResultPageModule,
+} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
 import { ExampleBoxComponent } from './example-box/example-box.component';
 import {
   InstructorHelpCoursesSectionComponent,
@@ -66,6 +69,7 @@ import {
     InstructorCourseStudentEditPageModule,
     InstructorCoursesPageModule,
     InstructorSessionEditPageModule,
+    InstructorSessionResultPageModule,
     SessionEditFormModule,
     QuestionEditFormModule,
     QuestionSubmissionFormModule,
