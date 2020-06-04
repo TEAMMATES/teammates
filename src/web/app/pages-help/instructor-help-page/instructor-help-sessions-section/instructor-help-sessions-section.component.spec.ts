@@ -10,10 +10,17 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import {
     CommentBoxModule,
 } from '../../../components/comment-box/comment-box.module';
+import { SingleStatisticsModule,
+} from '../../../components/question-responses/single-statistics/single-statistics.module';
+import { StudentViewResponsesModule,
+} from '../../../components/question-responses/student-view-responses/student-view-responses.module';
+import { QuestionTextWithInfoModule } from '../../../components/question-text-with-info/question-text-with-info.module';
 import { SessionEditFormModule } from '../../../components/session-edit-form/session-edit-form.module';
 import {
   SessionsRecycleBinTableModule,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
+import { InstructorSessionResultPageModule,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
 
@@ -27,7 +34,9 @@ describe('InstructorHelpSessionsSectionComponent', () => {
       imports: [
         CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule,
         RouterTestingModule, NgxPageScrollCoreModule,
-        SessionEditFormModule, MatSnackBarModule, SessionsRecycleBinTableModule],
+        SessionEditFormModule, MatSnackBarModule, SessionsRecycleBinTableModule,
+        InstructorSessionResultPageModule, QuestionTextWithInfoModule,
+        SingleStatisticsModule, StudentViewResponsesModule],
     })
     .compileComponents();
   }));

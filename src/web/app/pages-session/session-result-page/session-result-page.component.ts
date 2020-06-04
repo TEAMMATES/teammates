@@ -71,7 +71,6 @@ export class SessionResultPageComponent implements OnInit {
           this.questions = sessionResults.questions.sort(
               (a: QuestionOutput, b: QuestionOutput) =>
                   a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-          console.log("this.questions", this.questions);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });

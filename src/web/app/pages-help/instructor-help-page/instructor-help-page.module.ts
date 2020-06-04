@@ -11,9 +11,13 @@ import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import {
     CommentBoxModule,
 } from '../../components/comment-box/comment-box.module';
+import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
+import { StudentViewResponsesModule,
+} from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import {
     QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
+import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
@@ -32,6 +36,8 @@ import {
 import {
   InstructorSessionEditPageModule,
 } from '../../pages-instructor/instructor-session-edit-page/instructor-session-edit-page.module';
+import { InstructorSessionResultPageModule,
+} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
 import { ExampleBoxComponent } from './example-box/example-box.component';
 import {
   InstructorHelpCoursesSectionComponent,
@@ -48,10 +54,6 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
-import {InstructorSessionResultPageModule} from "../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module";
-import {QuestionTextWithInfoModule} from "../../components/question-text-with-info/question-text-with-info.module";
-import {SingleStatisticsModule} from "../../components/question-responses/single-statistics/single-statistics.module";
-import {StudentViewResponsesModule} from "../../components/question-responses/student-view-responses/student-view-responses.module";
 
 /**
  * Module for instructor help page.

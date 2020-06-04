@@ -6,7 +6,7 @@ import { TemplateSession } from '../../../../services/feedback-sessions.service'
 import {
   Course, FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackResponseDetails, FeedbackSession,
+  FeedbackQuestionType, FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   Instructor,
@@ -351,7 +351,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
       },
       {
         responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
-            '%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
+            '     %alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
         giver: 'You',
         giverTeam: 'Team A',
         giverSection: 'Section A',
