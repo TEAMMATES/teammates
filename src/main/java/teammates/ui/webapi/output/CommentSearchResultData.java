@@ -28,7 +28,9 @@ public class CommentSearchResultData extends SessionResultsData {
                                                 FeedbackResponseCommentSearchResultBundle bundle) {
         List<QuestionOutput> output = new ArrayList<>();
         for (FeedbackQuestionAttributes question : questions) {
-            output.add(new QuestionOutput(question, buildResponses(bundle.responses.get(question.getId()), bundle)));
+            output.add(new QuestionOutput(
+                    question, buildResponses(bundle.responses.get(question.getId()), bundle)
+            ));
         }
         return output;
     }
@@ -65,6 +67,10 @@ public class CommentSearchResultData extends SessionResultsData {
         return output;
     }
 
+    /**
+     * Method attempts to retrieve the comment from feedback participant.
+     * @return null if the comment does not exist
+     */
     private CommentOutput getParticipantComment(List<FeedbackResponseCommentAttributes> comments,
                                                 FeedbackResponseCommentSearchResultBundle bundle) {
         for (FeedbackResponseCommentAttributes comment : comments) {
